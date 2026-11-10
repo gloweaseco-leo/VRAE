@@ -15,8 +15,9 @@
 6. [诊断规则与证据标准 V1.1](02-domain/AUDIT_METHODOLOGY_AND_RULES_V1.1.md) — 五个买家任务、16 条规则、UNKNOWN 与 AI。
 7. [客户与运营旅程 V1.1](02-domain/PRODUCT_AND_OPERATOR_JOURNEYS_V1.1.md) — 客户体验、人审与商务转化。
 8. [代码复用与仓库治理 V1.1](03-engineering/CODE_REUSE_AND_REPOSITORY_STRATEGY_V1.1.md) — L2M 最小提取与 Vey2GE 契约复用。
-9. [开发路线与验收 V1.1](03-engineering/ROADMAP_AND_ACCEPTANCE_V1.1.md) — RA-0 至 RA-6 退出门禁。
-10. [已决策与待定问题 V1.1](03-engineering/DECISIONS_AND_OPEN_QUESTIONS_V1.1.md) — 不得误认为已批准的选项。
+9. [开发总计划 V1.1](03-engineering/DEVELOPMENT_MASTER_PLAN_V1.1.md) — RA-0 至 RA-6 各工作包、文件、依赖、测试矩阵和 Codex 任务模板。
+10. [开发路线与验收 V1.1](03-engineering/ROADMAP_AND_ACCEPTANCE_V1.1.md) — 各阶段退出门禁及 GO/NO-GO。
+11. [已决策与待定问题 V1.1](03-engineering/DECISIONS_AND_OPEN_QUESTIONS_V1.1.md) — 不得误认为已批准的选项。
 
 ## 二、架构决策记录（ADR）
 
