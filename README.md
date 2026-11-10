@@ -21,6 +21,7 @@ VRAE 的首个商业用户是 VEYFRONT。它负责将安全、合法获取的现
 | [诊断规则](docs/02-domain/AUDIT_METHODOLOGY_AND_RULES_V1.1.md) | Buyer Journey、16 条候选规则、证据/推断分离 |
 | [客户与审核旅程](docs/02-domain/PRODUCT_AND_OPERATOR_JOURNEYS_V1.1.md) | 官网申请、内部人审、报告、商务交接 |
 | [代码复用决策](docs/03-engineering/CODE_REUSE_AND_REPOSITORY_STRATEGY_V1.1.md) | L2M 最小提取、Vey2GE 契约复用、拟建目录 |
+| [开发总计划](docs/03-engineering/DEVELOPMENT_MASTER_PLAN_V1.1.md) | RA-0 至 RA-6 工作包、测试矩阵、Codex 任务单 |
 | [开发与验收路线](docs/03-engineering/ROADMAP_AND_ACCEPTANCE_V1.1.md) | RA-0 至 RA-6 与质量门禁 |
 | [决策清单](docs/03-engineering/DECISIONS_AND_OPEN_QUESTIONS_V1.1.md) | 已认可与仍需单独批准的事项 |
 
