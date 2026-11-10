@@ -50,3 +50,17 @@ No Mock PASS substitutes for real collection/database/browser/API validation.
 ## Documentation observation
 The planning documents describe future/past phase statuses as of 2026-11-10. This file and
 the Draft PR are the execution record. These plans must not be interpreted as deployed capability.
+
+## Current validation status / infrastructure blocker
+
+- GitHub Draft PR: https://github.com/gloweaseco-leo/VRAE/pull/1
+- GitHub Actions run 42830253941 and later run 42830780239: **FAILURE BEFORE RUNNER START**.
+  Jobs have runner_id=0 and no executed steps; job-log endpoint returned BlobNotFound.
+  This is an infrastructure block, not passing or failing pytest assertions.
+- Separate schema shape/enum/pattern fixture inspection on the exact GitHub
+  branch returned **37/37 expected** (16 legal, 21 illegal) using an independent
+  in-memory validator, which is **NOT official jsonschema / Python pytest**.
+- No local Python test process on the exact branch has yet produced a verified
+  exit code. RA-0 final engineering acceptance remains **BLOCKED**, not PASS.
+- Never infer full correctness from structurally valid fixtures or a draft PR.
+

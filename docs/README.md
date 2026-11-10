@@ -1,7 +1,7 @@
 # VRAE 文档总索引
 
 > **文档基线 V1.1 · 2026-11-10**  
-> VRAE 当前是架构与开发指导文档仓库；**尚未启动 RA-0、没有上线 API、Worker 或生产数据库**。
+> V1.1 是原始架构基线。**RA-0 已在独立 Draft PR #1 开发中（未合并 main，CI 尚未完成验收）；无运行中的 API、Worker 或生产数据库**。
 >
 > **阅读规则**：V1.1 是当前目标架构；V1.0 保存为历史资料，不得以旧文件中的“嵌入 VEYFRONT 源码”方案指导开发。
 
@@ -53,4 +53,4 @@
 
 完成架构确认并获得另行开发授权后，先按 **[开发总计划](03-engineering/DEVELOPMENT_MASTER_PLAN_V1.1.md)** 拆分执行包，再按照 [验收路线](03-engineering/ROADMAP_AND_ACCEPTANCE_V1.1.md) 的门禁执行 RA-0 和后续阶段；任何跨系统实现必须满足 [接口契约](01-architecture/INTEGRATION_CONTRACTS_V1.1.md)。代码不应直接复制本仓库文档里拟建目录的示例名称当现成实现。
 
-**当前状态：仅文档迁移和信息架构建设。下一步开发需要单独批准。**
+**工程进展（独立 Draft 分支）：RA-0 已获得用户授权并提交 PR #1；实现记录见 [RA-0 实施与验收记录](03-engineering/RA0_IMPLEMENTATION_AND_ACCEPTANCE.md)。不代表 RA-0 验收通过、服务上线或进入 RA-1。**
