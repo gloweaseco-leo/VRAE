@@ -595,5 +595,42 @@
         }
       ]
     }
+  },
+  {
+    "schema": "PageSnapshot",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "snapshot_id": "snap-unknown",
+      "run_id": "run-001",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "url": "https://example.org",
+      "final_url": null,
+      "captured_at": "2026-11-10T00:00:00Z",
+      "capture_mode": "SYNTHETIC",
+      "sha256": null,
+      "private_object_ref": null,
+      "status": "ACCESS_BLOCKED"
+    },
+    "reason": "Access blocked: no fetched body/hash or final URL"
+  },
+  {
+    "schema": "Evidence",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "evidence_id": "ev-unknown",
+      "run_id": "run-001",
+      "snapshot_id": "snap-unknown",
+      "locator": "/unknown",
+      "excerpt": null,
+      "certainty": "UNKNOWN",
+      "checksum": null,
+      "observed_at": "2026-11-10T00:00:00Z"
+    },
+    "reason": "Unknown observation without claimed evidence hash"
   }
 ]

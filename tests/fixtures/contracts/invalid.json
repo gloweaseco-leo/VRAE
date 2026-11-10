@@ -942,5 +942,42 @@
       "approved_by": "reviewer-001",
       "approved_at": "2026-11-10T01:00:00Z"
     }
+  },
+  {
+    "schema": "PageSnapshot",
+    "expected": "INVALID",
+    "reason": "fetched page missing checksum",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "snapshot_id": "snap-001",
+      "run_id": "run-001",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "url": "https://example.org",
+      "final_url": "https://example.org/products",
+      "captured_at": "2026-11-10T00:00:00Z",
+      "capture_mode": "SYNTHETIC",
+      "sha256": null,
+      "private_object_ref": null,
+      "status": "FETCHED"
+    }
+  },
+  {
+    "schema": "Evidence",
+    "expected": "INVALID",
+    "reason": "observed evidence missing checksum",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "evidence_id": "ev-001",
+      "run_id": "run-001",
+      "snapshot_id": "snap-001",
+      "locator": "a[href='/contact']",
+      "excerpt": "Contact sales",
+      "certainty": "OBSERVED",
+      "checksum": null,
+      "observed_at": "2026-11-10T00:00:00Z"
+    }
   }
 ]
