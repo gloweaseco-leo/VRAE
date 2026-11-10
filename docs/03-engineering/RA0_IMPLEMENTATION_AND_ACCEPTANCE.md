@@ -58,9 +58,28 @@ the Draft PR are the execution record. These plans must not be interpreted as de
   Jobs have runner_id=0 and no executed steps; job-log endpoint returned BlobNotFound.
   This is an infrastructure block, not passing or failing pytest assertions.
 - Separate schema shape/enum/pattern fixture inspection on the exact GitHub
-  branch returned **37/37 expected** (16 legal, 21 illegal) using an independent
+  branch returned **41/41 expected** (16 legal, 25 illegal) using an independent
   in-memory validator, which is **NOT official jsonschema / Python pytest**.
 - No local Python test process on the exact branch has yet produced a verified
   exit code. RA-0 final engineering acceptance remains **BLOCKED**, not PASS.
 - Never infer full correctness from structurally valid fixtures or a draft PR.
 
+
+## Latest independent source audit (RA-0, branch only)
+
+- 12 Python production/domain source files inspected for imports and calls indicating
+  external HTTP/Playwright, database clients, LLM, shell execution and email.
+  **0 flagged patterns**. This is static pattern analysis, not a network isolation proof.
+- 38 pytest test functions declared across two test modules; these include parametrized
+  URL, role, policy, state, evidence, approval, share and cost cases.
+- 25 synthetic URL syntax cases; 16 legal contract JSON cases; 25 illegal contract
+  JSON cases = 66 structured fixture cases. Contract-only independent checker
+  yielded **41/41 expected outcomes**, not the pytest/CI result.
+- Added conditional schema constraints for deep policy consent, AI NOT_RUN, human
+  ReportVersion approval and SalesHandoff receipt/evidence.
+- Explicitly reject L0 report distribution. External E2/E3 receipt/confirmation in RA-0
+  are caller-supplied preconditions; authentic VF receipt verification is RA-4.
+- Actual Python pytest, mypy, Ruff and compileall results on this exact branch remain
+  **unverified** due absence of a runnable GitHub-hosted runner and inaccessible
+  private repo from the local execution container.
+- **Acceptance: BLOCKED / NO-GO for RA-1 until real Python test execution and review.**
