@@ -384,3 +384,13 @@ def test_no_network_or_unauthorized_framework_code() -> None:
     for source in domain_path.rglob("*.py"):
         data = source.read_text()
         assert all(word not in data for word in banned), source
+
+@pytest.mark.parametrize(
+    "case",
+    json.loads((FX / "rules" / "gold_contract_cases.json").read_text()),
+    ids=lambda c: c["rule_id"] + ":" + c["expected"],
+)
+def test_rule_candidate_generic_contract(case: dict) -> None:
+    # This is NOT a RA-2 domain-specific rule implementation.
+    assert classify_rule(case["observed"], case["evidence_ids"]) == case["expected"]
+

@@ -82,3 +82,18 @@ def test_no_execution_state_means_business_conversion() -> None:
     assert "APPROVED" not in run_enum
     assert "SHARE_GRANTED" not in run_enum
     assert "E2" not in run_enum and "E3" not in run_enum
+
+def test_16_candidate_rules_have_metadata_and_generic_fixture_contract() -> None:
+    root = ROOT.parents[1]
+    catalog = json.loads((root / "industry-packs" / "rule_catalog.v1.json").read_text())
+    validate_contract("RuleCatalog", catalog)
+    ids = [item["rule_id"] for item in catalog["rules"]]
+    assert len(ids) == len(set(ids)) == 16
+    for rule in catalog["rules"]:
+        assert rule["method"]
+        assert rule["applicability"]
+        assert rule["evidence_requirements"]
+        assert rule["false_positive_risks"]
+    pack = json.loads((root / "industry-packs" / "industrial_parts.v1.json").read_text())
+    assert set(pack["applicable_rule_ids"]) <= set(ids)
+
