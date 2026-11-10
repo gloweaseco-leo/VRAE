@@ -1,7 +1,7 @@
 """Pure-domain unit tests, including explicit refusal and flow separation."""
 
 from copy import deepcopy
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 import json
 
@@ -211,7 +211,7 @@ def test_ai_valid_ids_and_fake_evidence_refused() -> None:
 
 def test_approve_then_issue_share_exact_version() -> None:
     report, decision, grant = (doc(x) for x in ("ReportVersion", "ReviewDecision", "ShareGrant"))
-    approved = approve_version(report, decision, REVIEWER, 1)
+    approved = approve_version(report, decision, REVIEWER, 1, {"find-001"})
     assert approved["status"] == "APPROVED"
     assert report["status"] == "REVIEW_REQUIRED"
     check_share(approved, decision, grant, OWNER, 1, NOW)
@@ -234,7 +234,7 @@ def test_review_invalid(problem: str, code: str) -> None:
         d["content_hash"] = "b" * 64
     elif problem == "cross_tenant":
         d["tenant_id"] = "another-tenant"
-    assert_error(code, approve_version, r, d, actor, version)
+    assert_error(code, approve_version, r, d, actor, version, {"find-001"})
 
 
 @pytest.mark.parametrize("problem,code", [
@@ -284,11 +284,21 @@ def test_revoked_existing_link_no_longer_works() -> None:
     ("L2", 2., 0., float("nan"), "MODEL_COST_UNKNOWN"),
 ])
 def test_cost_blocking(level, limit, spent, amount, code) -> None:
-    assert_error(code, authorize_charge, level, limit, spent, amount)
+    assert_error(code, authorize_charge, level, limit, spent, amount, "ESTIMATED")
+
+
+def test_unknown_usage_status_hard_blocks_paid_calls() -> None:
+    assert_error("MODEL_COST_UNKNOWN", authorize_charge,
+                 "L1", 2.0, 0.0, 0.3, "UNKNOWN")
+
+
+def test_approval_requires_verified_finding_ids() -> None:
+    assert_error("EVIDENCE_INSUFFICIENT", approve_version,
+                 doc("ReportVersion"), doc("ReviewDecision"), REVIEWER, 1, set())
 
 
 def test_paid_budget_within_explicit_limit() -> None:
-    authorize_charge("L1", 2.0, 1.0, 1.0)
+    authorize_charge("L1", 2.0, 1.0, 1.0, "ESTIMATED")
 
 
 def test_idempotent_same_request_and_conflict() -> None:

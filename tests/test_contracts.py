@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 import yaml
-from jsonschema import Draft202012Validator, FormatChecker, ValidationError
+from jsonschema import Draft202012Validator, ValidationError
 
 from vrae.domain.contracts import ROOT, load_schema, validate_contract
 

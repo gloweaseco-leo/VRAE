@@ -8,9 +8,13 @@ from .policy import parse_time
 
 
 def approve_version(
-    report: dict, decision: dict, actor: dict, current_version: int
+    report: dict, decision: dict, actor: dict, current_version: int,
+    verified_finding_ids: set[str],
 ) -> dict:
     require_access(actor, report["tenant_id"], "review")
+    if (not report["finding_ids"]
+            or not set(report["finding_ids"]) <= verified_finding_ids):
+        raise DomainError("EVIDENCE_INSUFFICIENT", "No verified findings for approval")
     if decision["tenant_id"] != report["tenant_id"]:
         raise DomainError("FORBIDDEN_TENANT", "Decision tenant mismatch")
     if (report["status"] not in {"DRAFT", "REVIEW_REQUIRED"}
