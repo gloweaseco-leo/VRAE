@@ -11,7 +11,7 @@ from vrae.domain.access import require_access
 from vrae.domain.budget import authorize_charge
 from vrae.domain.business import advance_handoff
 from vrae.domain.evidence import (
-    classify_rule, validate_ai_references, validate_evidence_graph,
+    classify_rule, validate_ai_references, validate_ai_scoped_references, validate_evidence_graph,
 )
 from vrae.domain.errors import DomainError
 from vrae.domain.idempotency import accept_once
@@ -209,6 +209,18 @@ def test_ai_valid_ids_and_fake_evidence_refused() -> None:
                  validate_ai_references, ai, {"obs-001"}, {"ev-001"})
 
 
+def test_ai_cross_tenant_and_cross_run_blocked() -> None:
+    ai, obs, evidence = (doc(x) for x in ("AIInterpretation", "Observation", "Evidence"))
+    validate_ai_scoped_references(ai, [obs], [evidence])
+    obs["tenant_id"] = "other-tenant"
+    assert_error("FORBIDDEN_TENANT", validate_ai_scoped_references,
+                 ai, [obs], [evidence])
+    obs["tenant_id"] = ai["tenant_id"]
+    evidence["run_id"] = "other-run"
+    assert_error("EVIDENCE_REFERENCE_INVALID", validate_ai_scoped_references,
+                 ai, [obs], [evidence])
+
+
 def test_approve_then_issue_share_exact_version() -> None:
     report, decision, grant = (doc(x) for x in ("ReportVersion", "ReviewDecision", "ShareGrant"))
     approved = approve_version(report, decision, REVIEWER, 1, {"find-001"})
@@ -314,15 +326,28 @@ def test_idempotent_same_request_and_conflict() -> None:
 def test_requested_handoff_is_not_e2_or_e3() -> None:
     h = doc("SalesHandoff")
     assert h["stage"] == "HANDOFF_REQUESTED"
-    assert_error("BUSINESS_EVIDENCE_REQUIRED", advance_handoff, h, "VF_INQUIRY_RECORDED")
-    assert_error("INVALID_TRANSITION", advance_handoff, h, "QUALIFIED_BY_HUMAN")
+    assert_error("BUSINESS_EVIDENCE_REQUIRED",
+                 advance_handoff, h, "VF_INQUIRY_RECORDED", OWNER)
+    assert_error("INVALID_TRANSITION", advance_handoff, h, "QUALIFIED_BY_HUMAN", OWNER)
     h["vf_receipt_ref"] = "vf-receipt-001"
-    h2 = advance_handoff(h, "VF_INQUIRY_RECORDED")
+    assert_error("BUSINESS_EVIDENCE_REQUIRED",
+                 advance_handoff, h, "VF_INQUIRY_RECORDED", OWNER)
+    h2 = advance_handoff(h, "VF_INQUIRY_RECORDED", OWNER, receipt_verified=True)
     assert h2["stage"] == "VF_INQUIRY_RECORDED"
-    assert_error("BUSINESS_EVIDENCE_REQUIRED", advance_handoff, h2, "QUALIFIED_BY_HUMAN")
+    assert_error("BUSINESS_EVIDENCE_REQUIRED", advance_handoff, h2, "QUALIFIED_BY_HUMAN", OWNER)
     h2["inquiry_evidence_ref"] = "vf-inquiry-evidence-001"
     h2["verified_by"] = "sales-owner-001"
-    assert advance_handoff(h2, "QUALIFIED_BY_HUMAN")["stage"] == "QUALIFIED_BY_HUMAN"
+    assert_error("BUSINESS_EVIDENCE_REQUIRED",
+                 advance_handoff, h2, "QUALIFIED_BY_HUMAN", OWNER)
+    assert advance_handoff(
+        h2, "QUALIFIED_BY_HUMAN", OWNER, qualification_confirmed=True
+    )["stage"] == "QUALIFIED_BY_HUMAN"
+    bad_actor = {**OWNER, "tenant_id": "another-tenant"}
+    assert_error("FORBIDDEN_TENANT", advance_handoff,
+                 h2, "QUALIFIED_BY_HUMAN", bad_actor)
+    bad_role = {**OWNER, "role": "SERVICE"}
+    assert_error("BUSINESS_EVIDENCE_REQUIRED", advance_handoff,
+                 h2, "QUALIFIED_BY_HUMAN", bad_role)
 
 
 def test_domain_error_codes_are_all_in_schema() -> None:

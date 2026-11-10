@@ -71,3 +71,21 @@ def validate_ai_references(
     if interpretation["status"] == "VALIDATED" and not interpretation["observation_ids"]:
         raise DomainError("EVIDENCE_INSUFFICIENT", "No observations to interpret")
     # Semantics of natural-language claims remain RA-3 human/semantic validation.
+
+
+def validate_ai_scoped_references(
+    interpretation: dict, observations: list[dict], evidence: list[dict]
+) -> None:
+    """Disallow cross-tenant/run aliasing even if an evidence ID happens to match."""
+    tenant = interpretation["tenant_id"]
+    run = interpretation["run_id"]
+    for item in observations + evidence:
+        if item["tenant_id"] != tenant:
+            raise DomainError("FORBIDDEN_TENANT", "Cross-tenant AI evidence")
+        if item["run_id"] != run:
+            raise DomainError("EVIDENCE_REFERENCE_INVALID", "Cross-run AI evidence")
+    validate_ai_references(
+        interpretation,
+        {item["observation_id"] for item in observations},
+        {item["evidence_id"] for item in evidence},
+    )
