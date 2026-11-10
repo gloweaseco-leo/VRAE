@@ -35,9 +35,9 @@ def doc(name: str) -> dict:
     return deepcopy(VALID[name])
 
 
-def assert_error(code: str, fn, *args) -> None:
+def assert_error(code: str, fn, *args, **kwargs) -> None:
     with pytest.raises(DomainError) as exc:
-        fn(*args)
+        fn(*args, **kwargs)
     assert exc.value.code == code
 
 
@@ -310,12 +310,14 @@ def test_revoked_existing_link_no_longer_works() -> None:
     ("L2", 2., 0., float("nan"), "MODEL_COST_UNKNOWN"),
 ])
 def test_cost_blocking(level, limit, spent, amount, code) -> None:
-    assert_error(code, authorize_charge, level, limit, spent, amount, "ESTIMATED")
+    assert_error(code, authorize_charge, level, limit, spent, amount, "ESTIMATED",
+                 limit_currency="CNY", spent_currency="CNY", next_currency="CNY")
 
 
 def test_unknown_usage_status_hard_blocks_paid_calls() -> None:
     assert_error("MODEL_COST_UNKNOWN", authorize_charge,
-                 "L1", 2.0, 0.0, 0.3, "UNKNOWN")
+                 "L1", 2.0, 0.0, 0.3, "UNKNOWN",
+                 limit_currency="CNY", spent_currency="CNY", next_currency="CNY")
 
 
 def test_approval_requires_verified_finding_ids() -> None:
@@ -324,7 +326,8 @@ def test_approval_requires_verified_finding_ids() -> None:
 
 
 def test_paid_budget_within_explicit_limit() -> None:
-    authorize_charge("L1", 2.0, 1.0, 1.0, "ESTIMATED")
+    authorize_charge("L1", 2.0, 1.0, 1.0, "ESTIMATED",
+                     limit_currency="CNY", spent_currency="CNY", next_currency="CNY")
 
 
 def test_idempotent_same_request_and_conflict() -> None:
@@ -394,3 +397,23 @@ def test_rule_candidate_generic_contract(case: dict) -> None:
     # This is NOT a RA-2 domain-specific rule implementation.
     assert classify_rule(case["observed"], case["evidence_ids"]) == case["expected"]
 
+
+def test_decimal_boundary_equality_does_not_false_block() -> None:
+    authorize_charge("L1", 0.3, 0.1, 0.2, "ESTIMATED",
+                     limit_currency="CNY", spent_currency="CNY", next_currency="CNY")
+
+
+@pytest.mark.parametrize("reason,kwargs", [
+    ("unknown", {"limit_currency": "CNY", "spent_currency": None, "next_currency": "CNY"}),
+    ("mixed", {"limit_currency": "CNY", "spent_currency": "USD", "next_currency": "CNY"}),
+    ("invalid", {"limit_currency": "CNY", "spent_currency": "CNY", "next_currency": "invalid"}),
+])
+def test_currency_mismatch_and_unknown_refused(reason: str, kwargs: dict) -> None:
+    assert_error("MODEL_COST_UNKNOWN", authorize_charge,
+                 "L1", 2.0, 0.1, 0.2, "ESTIMATED", **kwargs)
+
+
+def test_boolean_cost_is_not_money() -> None:
+    assert_error("MODEL_COST_UNKNOWN", authorize_charge,
+                 "L1", 2.0, 0.1, True, "ESTIMATED",
+                 limit_currency="CNY", spent_currency="CNY", next_currency="CNY")
