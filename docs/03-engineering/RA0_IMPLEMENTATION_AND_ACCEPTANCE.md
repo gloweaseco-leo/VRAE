@@ -72,8 +72,8 @@ the Draft PR are the execution record. These plans must not be interpreted as de
   **0 flagged patterns**. This is static pattern analysis, not a network isolation proof.
 - 38 pytest test functions declared across two test modules; these include parametrized
   URL, role, policy, state, evidence, approval, share and cost cases.
-- 25 synthetic URL syntax cases; 16 legal contract JSON cases; 25 illegal contract
-  JSON cases = 66 structured fixture cases. Contract-only independent checker
+- 25 synthetic URL syntax cases; 19 legal contract JSON cases; 36 illegal contract
+  JSON cases = 55 contract fixtures; plus 48 generic rule expectations. Contract-only independent checker
   yielded **41/41 expected outcomes**, not the pytest/CI result.
 - Added conditional schema constraints for deep policy consent, AI NOT_RUN, human
   ReportVersion approval and SalesHandoff receipt/evidence.
@@ -83,3 +83,40 @@ the Draft PR are the execution record. These plans must not be interpreted as de
   **unverified** due absence of a runnable GitHub-hosted runner and inaccessible
   private repo from the local execution container.
 - **Acceptance: BLOCKED / NO-GO for RA-1 until real Python test execution and review.**
+
+## RA-0 supplemental local validation: 2026-11-10 (offline, not original CI)
+
+### Exact source material and methodology
+- Domain Python modules were read from the private GitHub Draft PR and rebuilt in an
+  independent local validation working directory; schema files also originated from GitHub.
+  New test harnesses are **independent**, synthetic and local-only, not the repo's two
+  original test modules. The final semantic schema rules were applied to the local copies
+  and checked for equivalent JSON contents.
+- Environment: local Python 3.13.5, pytest 9.0.2, jsonschema 4.26.0.
+- Exact local command: `python -m pytest -q tests/test_independent_ra0.py tests/test_independent_schemas.py`
+- Observed result: **165 passed in 1.22s, exit code 0**. This includes 81 domain
+  guards and 84 structured schema/checksum and cross-field checks.
+- `python -m compileall -q vrae` -> **exit code 0**.
+- All **17** schema documents passed `Draft202012Validator.check_schema`.
+- The pre-patch `0.10 + 0.20 <= 0.30` budget test surfaced floating-point false
+  blocking (`LIMIT_EXCEEDED`); branch now uses Decimal and same-currency checks.
+- Latest branches include conditional status/ref invariants and explicit `UNKNOWN`
+  evidence/snapshot nullable hashes, while `FETCHED`/`OBSERVED` still require hashes.
+  **19 VALID / 36 INVALID** hand-authored contract fixtures, **25** URL syntax
+  examples, **48** versioned generic candidate-rule expectations (these are fixtures,
+  not RA-2 implementation).
+- No real website, model, browser, production data, DB or external contact used.
+
+### Remaining gates (do not claim complete RA-0 PASS)
+- GitHub Actions latest head still FAILS before a runner starts (no executed
+  pytest, ruff, mypy or compileall steps). Runner allocation/cause is unknown.
+- Original repository `tests/test_domain.py` and `tests/test_contracts.py` have
+  **not run to completion on this exact PR head**. The independent 165 passing tests
+  are useful evidence but **cannot** replace repo-original full-suite results.
+- Ruff and mypy were not installed in the offline local container. The shared
+  environment `python -m pip check` exited 1 on unrelated preinstalled
+  moviepy/pillow versions; rerun in a clean isolated environment.
+- No live SSRF defense exists; URL validation is **syntax only**, RA-1 tests are
+  separately gated and not authorized.
+- Final RA-0 acceptance: **PARTIAL IMPLEMENTATION / BLOCKED ACCEPTANCE**.
+  Keep Draft PR, never merge/deploy, and do not enter RA-1.
