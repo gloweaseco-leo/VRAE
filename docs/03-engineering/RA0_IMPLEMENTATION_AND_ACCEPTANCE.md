@@ -120,3 +120,34 @@ the Draft PR are the execution record. These plans must not be interpreted as de
   separately gated and not authorized.
 - Final RA-0 acceptance: **PARTIAL IMPLEMENTATION / BLOCKED ACCEPTANCE**.
   Keep Draft PR, never merge/deploy, and do not enter RA-1.
+
+## Final independent QA supplement (same RA-0 scope, 2026-11-10)
+
+- GitHub implementation head before this record: `13d6160584d771effa852908b08d4c8a5fa285a1`.
+- Exact source equivalence was verified against GitHub for **all 12 domain Python
+  modules** (byte-level FNV-1a) and **all 17 JSON Schemas** (canonical JSON
+  FNV-1a). This shows the independent offline tests inspected actual PR content.
+- Python 3.13.5 / pytest 9.0.2 / jsonschema 4.26.0 / PyYAML 6.0.3.
+- Local independent command:
+  `python -m pytest -q tests/test_independent_ra0.py tests/test_independent_schemas.py`
+  -> **168 passed, 0 failed, 0 skipped, exit code 0**.
+- `python -m compileall -q vrae` -> **exit code 0**.
+- All 17 schemas checked with `Draft202012Validator.check_schema`.
+- Hand-authored repository contract fixtures now contain **19 valid and 36
+  invalid** cases. Other checked-in input fixtures: **25** syntax-risk URL cases,
+  **48** generic rule expectations across the versioned catalog of 16 rules.
+- Defects fixed in this RA-0 branch: float rounding false budget block
+  (Decimal and currency equivalence); impossible UNKNOWN snapshot/evidence hashes;
+  observed facts wrongly permitted from ACCESS_BLOCKED/unhashed snapshot.
+- Enforced valid `ACCESS_BLOCKED -> UNKNOWN` but refusal for
+  `ACCESS_BLOCKED -> OBJECTIVE`; an OBSERVED fact requires a hashed fetched page
+  and hashed evidence.
+- GitHub Actions latest head still failed before runner execution (e.g. run
+  `42839994182`); runner steps did not start. The precise provider-side cause is
+  **unconfirmed**, do not claim it is a source-code test failure.
+- **Original repo test suite has not completed on the exact PR head**;
+  Ruff/mypy not installed in the isolated offline environment. `pip check`
+  on a shared environment failed for an unrelated preexisting
+  moviepy 2.2.1 / pillow 12.3.0 incompatibility; this is not proof of
+  a VRAE dependency conflict.
+- **Gate remains BLOCKED**, PR stays Draft, no merge, no deployment, no RA-1.
