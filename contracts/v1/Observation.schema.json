@@ -79,5 +79,58 @@
     "statement",
     "coverage_note"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "enum": [
+              "PASS",
+              "FAIL_WITH_EVIDENCE"
+            ]
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "OBJECTIVE"
+          },
+          "evidence_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "enum": [
+              "UNKNOWN",
+              "ACCESS_BLOCKED",
+              "NOT_APPLICABLE"
+            ]
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "UNKNOWN"
+          },
+          "evidence_ids": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
 }

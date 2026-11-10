@@ -123,6 +123,25 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "APPROVED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "finding_ids": {
+            "minItems": 1
+          }
+        }
+      }
     }
   ]
 }

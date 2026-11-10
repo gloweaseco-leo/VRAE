@@ -157,6 +157,25 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "VALIDATED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "observation_ids": {
+            "minItems": 1
+          }
+        }
+      }
     }
   ]
 }

@@ -786,5 +786,161 @@
         }
       ]
     }
+  },
+  {
+    "schema": "SourcePolicy",
+    "expected": "INVALID",
+    "reason": "missing allowed hosts",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "mode": "PUBLIC_READONLY_RESEARCH",
+      "permitted_hosts": [],
+      "scope_paths": [
+        "/"
+      ],
+      "authorization_reference": null,
+      "expires_at": null,
+      "revoked_at": null,
+      "created_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "SourcePolicy",
+    "expected": "INVALID",
+    "reason": "empty path scope",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "mode": "PUBLIC_READONLY_RESEARCH",
+      "permitted_hosts": [
+        "example.org"
+      ],
+      "scope_paths": [],
+      "authorization_reference": null,
+      "expires_at": null,
+      "revoked_at": null,
+      "created_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "UsageRecord",
+    "expected": "INVALID",
+    "reason": "unknown cost but non-null amount",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "usage_id": "usage-001",
+      "run_id": "run-001",
+      "cost_type": "MODEL",
+      "provider": null,
+      "model_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "amount": 1.5,
+      "currency": null,
+      "cost_status": "UNKNOWN",
+      "recorded_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "ShareGrant",
+    "expected": "INVALID",
+    "reason": "active link with revoked_at",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "grant_id": "grant-001",
+      "report_version_id": "rv-001",
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "subject_ref": "buyer-001",
+      "token_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "status": "ACTIVE",
+      "issued_at": "2026-11-10T00:00:00Z",
+      "expires_at": "2026-11-12T00:00:00Z",
+      "revoked_at": "2026-11-10T01:00:00Z"
+    }
+  },
+  {
+    "schema": "Observation",
+    "expected": "INVALID",
+    "reason": "objective PASS lacks evidence",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "observation_id": "obs-001",
+      "run_id": "run-001",
+      "rule_id": "CTA-01",
+      "rule_version": "1.0.0",
+      "evidence_ids": [],
+      "result": "PASS",
+      "kind": "OBJECTIVE",
+      "statement": "Contact link observed in synthetic page.",
+      "coverage_note": "Synthetic contact section"
+    }
+  },
+  {
+    "schema": "Finding",
+    "expected": "INVALID",
+    "reason": "objective finding lacks evidence",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "finding_id": "find-001",
+      "run_id": "run-001",
+      "observation_id": "obs-001",
+      "kind": "OBSERVATION",
+      "evidence_ids": [],
+      "statement": "Synthetic contact link is visible.",
+      "buyer_task": "INQUIRE",
+      "severity": null,
+      "rule_version": "1.0.0"
+    }
+  },
+  {
+    "schema": "AIInterpretation",
+    "expected": "INVALID",
+    "reason": "validated model output lacks observation",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "interpretation_id": "interp-001",
+      "run_id": "run-001",
+      "observation_ids": [],
+      "evidence_ids": [
+        "ev-001"
+      ],
+      "hypotheses": [],
+      "recommendations": [],
+      "missing_information": [],
+      "model_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "status": "VALIDATED"
+    }
+  },
+  {
+    "schema": "ReportVersion",
+    "expected": "INVALID",
+    "reason": "approved report lacks finding",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "report_id": "report-001",
+      "report_version_id": "rv-001",
+      "run_id": "run-001",
+      "version": 1,
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "status": "APPROVED",
+      "finding_ids": [],
+      "created_by": "operator-001",
+      "created_at": "2026-11-10T00:00:00Z",
+      "approved_by": "reviewer-001",
+      "approved_at": "2026-11-10T01:00:00Z"
+    }
   }
 ]

@@ -125,5 +125,53 @@
     "cost_status",
     "recorded_at"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "cost_status": {
+            "const": "UNKNOWN"
+          }
+        },
+        "required": [
+          "cost_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "amount": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cost_status": {
+            "enum": [
+              "ESTIMATED",
+              "RECONCILED"
+            ]
+          }
+        },
+        "required": [
+          "cost_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "amount": {
+            "type": "number",
+            "minimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          }
+        }
+      }
+    }
+  ]
 }
