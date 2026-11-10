@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/IndustryPack.schema.json",
+  "title": "IndustryPack",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{2,63}$"
+    },
+    "industry_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "methodology_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "buyer_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "DISCOVER",
+          "UNDERSTAND",
+          "TRUST",
+          "INQUIRE",
+          "SEARCH_TECHNICAL"
+        ]
+      },
+      "uniqueItems": true,
+      "maxItems": 256
+    },
+    "applicable_rule_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "uniqueItems": true,
+      "maxItems": 256
+    },
+    "critical_attributes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "uniqueItems": true,
+      "maxItems": 256
+    },
+    "false_positive_risks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "uniqueItems": true,
+      "maxItems": 256
+    }
+  },
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "industry_id",
+    "version",
+    "methodology_version",
+    "buyer_tasks",
+    "applicable_rule_ids",
+    "critical_attributes",
+    "false_positive_risks"
+  ],
+  "additionalProperties": false
+}

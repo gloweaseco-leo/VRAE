@@ -1,0 +1,403 @@
+[
+  {
+    "schema": "AuditRequest",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "request_id": "req-001",
+      "audit_id": "aud-001",
+      "site_url": "https://example.org",
+      "audit_mode": "L1",
+      "source_policy_ref": "pol-001",
+      "source_policy_version": 1,
+      "source_system": "veyfront",
+      "source_reference": "vf-001",
+      "idempotency_key": "synthetic-key-001",
+      "requested_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "SourcePolicy",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "mode": "PUBLIC_READONLY_RESEARCH",
+      "permitted_hosts": [
+        "example.org"
+      ],
+      "scope_paths": [
+        "/"
+      ],
+      "authorization_reference": null,
+      "expires_at": null,
+      "revoked_at": null,
+      "created_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "AuditRun",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "run_id": "run-001",
+      "audit_id": "aud-001",
+      "request_id": "req-001",
+      "status": "REVIEW_REQUIRED",
+      "attempt": 1,
+      "input_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "rule_version": "1.0.0",
+      "started_at": "2026-11-10T00:00:00Z",
+      "finished_at": "2026-11-10T00:00:00Z",
+      "error_code": null
+    }
+  },
+  {
+    "schema": "PageSnapshot",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "snapshot_id": "snap-001",
+      "run_id": "run-001",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "url": "https://example.org",
+      "final_url": "https://example.org/products",
+      "captured_at": "2026-11-10T00:00:00Z",
+      "capture_mode": "SYNTHETIC",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "private_object_ref": null,
+      "status": "FETCHED"
+    }
+  },
+  {
+    "schema": "Evidence",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "evidence_id": "ev-001",
+      "run_id": "run-001",
+      "snapshot_id": "snap-001",
+      "locator": "a[href='/contact']",
+      "excerpt": "Contact sales",
+      "certainty": "OBSERVED",
+      "checksum": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "Observation",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "observation_id": "obs-001",
+      "run_id": "run-001",
+      "rule_id": "CTA-01",
+      "rule_version": "1.0.0",
+      "evidence_ids": [
+        "ev-001"
+      ],
+      "result": "PASS",
+      "kind": "OBJECTIVE",
+      "statement": "Contact link observed in synthetic page.",
+      "coverage_note": "Synthetic contact section"
+    }
+  },
+  {
+    "schema": "Finding",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "finding_id": "find-001",
+      "run_id": "run-001",
+      "observation_id": "obs-001",
+      "kind": "OBSERVATION",
+      "evidence_ids": [
+        "ev-001"
+      ],
+      "statement": "Synthetic contact link is visible.",
+      "buyer_task": "INQUIRE",
+      "severity": null,
+      "rule_version": "1.0.0"
+    }
+  },
+  {
+    "schema": "AIInterpretation",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "interpretation_id": "interp-001",
+      "run_id": "run-001",
+      "observation_ids": [
+        "obs-001"
+      ],
+      "evidence_ids": [
+        "ev-001"
+      ],
+      "hypotheses": [
+        "A buyer may find contact options easier."
+      ],
+      "recommendations": [
+        "Place a clear RFQ entry on product pages."
+      ],
+      "missing_information": [],
+      "model_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "status": "NOT_RUN"
+    }
+  },
+  {
+    "schema": "ReportVersion",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "report_id": "report-001",
+      "report_version_id": "rv-001",
+      "run_id": "run-001",
+      "version": 1,
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "status": "REVIEW_REQUIRED",
+      "finding_ids": [
+        "find-001"
+      ],
+      "created_by": "operator-001",
+      "created_at": "2026-11-10T00:00:00Z",
+      "approved_by": null,
+      "approved_at": null
+    }
+  },
+  {
+    "schema": "ReviewDecision",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "decision_id": "dec-001",
+      "report_version_id": "rv-001",
+      "version": 1,
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "reviewer_id": "reviewer-001",
+      "action": "APPROVE",
+      "reason": null,
+      "decided_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "ShareGrant",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "grant_id": "grant-001",
+      "report_version_id": "rv-001",
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "subject_ref": "buyer-001",
+      "token_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "status": "ACTIVE",
+      "issued_at": "2026-11-10T00:00:00Z",
+      "expires_at": "2026-11-12T00:00:00Z",
+      "revoked_at": null
+    }
+  },
+  {
+    "schema": "SalesHandoff",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "handoff_id": "hand-001",
+      "audit_id": "aud-001",
+      "report_version_id": "rv-001",
+      "source_system": "vrae",
+      "stage": "HANDOFF_REQUESTED",
+      "vf_receipt_ref": null,
+      "inquiry_evidence_ref": null,
+      "verified_by": null,
+      "created_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "UsageRecord",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "usage_id": "usage-001",
+      "run_id": "run-001",
+      "cost_type": "MODEL",
+      "provider": null,
+      "model_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "amount": null,
+      "currency": null,
+      "cost_status": "UNKNOWN",
+      "recorded_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "EventEnvelope",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "event_id": "evt-001",
+      "source_system": "vrae",
+      "event_type": "audit.report_approved",
+      "occurred_at": "2026-11-10T00:00:00Z",
+      "audit_id": "aud-001",
+      "report_version": 1,
+      "evidence_reference": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authorization_reference": "dec-001",
+      "idempotency_key": "synthetic-event-001"
+    }
+  },
+  {
+    "schema": "IndustryPack",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "tenant_id": "tenant-example",
+      "industry_id": "industrial_parts",
+      "version": "1.0.0",
+      "methodology_version": "1.1",
+      "buyer_tasks": [
+        "DISCOVER",
+        "UNDERSTAND",
+        "TRUST",
+        "INQUIRE",
+        "SEARCH_TECHNICAL"
+      ],
+      "applicable_rule_ids": [
+        "CTA-01",
+        "INFO-01"
+      ],
+      "critical_attributes": [
+        "material"
+      ],
+      "false_positive_risks": [
+        "Not observed does not mean absent"
+      ]
+    }
+  },
+  {
+    "schema": "ErrorCode",
+    "expected": "INVALID",
+    "reason": "missing version",
+    "data": {
+      "code": "POLICY_REQUIRED",
+      "safe_message": "A source policy is required.",
+      "request_id": "req-001",
+      "retryable": false
+    }
+  },
+  {
+    "schema": "AuditRequest",
+    "expected": "INVALID",
+    "reason": "invalid mode",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "request_id": "req-001",
+      "audit_id": "aud-001",
+      "site_url": "https://example.org",
+      "audit_mode": "L3",
+      "source_policy_ref": "pol-001",
+      "source_policy_version": 1,
+      "source_system": "veyfront",
+      "source_reference": "vf-001",
+      "idempotency_key": "synthetic-key-001",
+      "requested_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "UsageRecord",
+    "expected": "INVALID",
+    "reason": "negative cost",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "usage_id": "usage-001",
+      "run_id": "run-001",
+      "cost_type": "MODEL",
+      "provider": null,
+      "model_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "amount": -1,
+      "currency": null,
+      "cost_status": "UNKNOWN",
+      "recorded_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "EventEnvelope",
+    "expected": "INVALID",
+    "reason": "unapproved event",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "event_id": "evt-001",
+      "source_system": "vrae",
+      "event_type": "lead.qualified",
+      "occurred_at": "2026-11-10T00:00:00Z",
+      "audit_id": "aud-001",
+      "report_version": 1,
+      "evidence_reference": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authorization_reference": "dec-001",
+      "idempotency_key": "synthetic-event-001"
+    }
+  },
+  {
+    "schema": "AuditRun",
+    "expected": "INVALID",
+    "reason": "invalid business status",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "run_id": "run-001",
+      "audit_id": "aud-001",
+      "request_id": "req-001",
+      "status": "E3",
+      "attempt": 1,
+      "input_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "rule_version": "1.0.0",
+      "started_at": "2026-11-10T00:00:00Z",
+      "finished_at": "2026-11-10T00:00:00Z",
+      "error_code": null
+    }
+  },
+  {
+    "schema": "ReportVersion",
+    "expected": "INVALID",
+    "reason": "invalid version",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "report_id": "report-001",
+      "report_version_id": "rv-001",
+      "run_id": "run-001",
+      "version": 0,
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "status": "REVIEW_REQUIRED",
+      "finding_ids": [
+        "find-001"
+      ],
+      "created_by": "operator-001",
+      "created_at": "2026-11-10T00:00:00Z",
+      "approved_by": null,
+      "approved_at": null
+    }
+  }
+]

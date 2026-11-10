@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/AuditRun.schema.json",
+  "title": "AuditRun",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{2,63}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "audit_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "CREATED",
+        "POLICY_CHECK",
+        "QUEUED",
+        "FETCHING",
+        "EVIDENCE_READY",
+        "RULED",
+        "DRAFT_READY",
+        "REVIEW_REQUIRED",
+        "POLICY_BLOCKED",
+        "ACCESS_BLOCKED",
+        "INSUFFICIENT_EVIDENCE",
+        "MODEL_INVALID",
+        "FAILED",
+        "CANCELLED"
+      ]
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "input_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "rule_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "started_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finished_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "run_id",
+    "audit_id",
+    "request_id",
+    "status",
+    "attempt",
+    "input_hash",
+    "rule_version",
+    "started_at",
+    "finished_at",
+    "error_code"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/EventEnvelope.schema.json",
+  "title": "EventEnvelope",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{2,63}$"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "source_system": {
+      "type": "string",
+      "enum": [
+        "vrae",
+        "veyfront"
+      ]
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "audit.requested",
+        "audit.policy_checked",
+        "audit.run_completed",
+        "audit.run_failed",
+        "audit.report_drafted",
+        "audit.report_approved",
+        "audit.report_rejected",
+        "audit.share_granted",
+        "audit.share_revoked",
+        "audit.sales_handoff_requested",
+        "audit.feedback_recorded"
+      ]
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "audit_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "report_version": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "evidence_reference": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "authorization_reference": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128
+    }
+  },
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "event_id",
+    "source_system",
+    "event_type",
+    "occurred_at",
+    "audit_id",
+    "report_version",
+    "evidence_reference",
+    "authorization_reference",
+    "idempotency_key"
+  ],
+  "additionalProperties": false
+}
