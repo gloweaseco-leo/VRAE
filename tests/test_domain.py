@@ -417,3 +417,42 @@ def test_boolean_cost_is_not_money() -> None:
     assert_error("MODEL_COST_UNKNOWN", authorize_charge,
                  "L1", 2.0, 0.1, True, "ESTIMATED",
                  limit_currency="CNY", spent_currency="CNY", next_currency="CNY")
+
+def test_access_blocked_can_only_produce_unknown() -> None:
+    snapshot, evidence, observation, finding = (
+        doc(x) for x in ("PageSnapshot", "Evidence", "Observation", "Finding")
+    )
+    snapshot["status"] = "ACCESS_BLOCKED"
+    snapshot["sha256"] = None
+    snapshot["final_url"] = None
+    evidence["certainty"] = "UNKNOWN"
+    evidence["checksum"] = None
+    observation["kind"] = "UNKNOWN"
+    observation["result"] = "ACCESS_BLOCKED"
+    observation["evidence_ids"] = []
+    finding["kind"] = "UNKNOWN"
+    finding["evidence_ids"] = []
+    validate_evidence_graph(snapshot, evidence, observation, finding)
+
+
+def test_access_blocked_cannot_synthesize_objective_finding() -> None:
+    snapshot, evidence, observation, finding = (
+        doc(x) for x in ("PageSnapshot", "Evidence", "Observation", "Finding")
+    )
+    snapshot["status"] = "ACCESS_BLOCKED"
+    snapshot["sha256"] = None
+    assert_error(
+        "EVIDENCE_INSUFFICIENT",
+        validate_evidence_graph, snapshot, evidence, observation, finding
+    )
+
+
+def test_observed_finding_requires_evidence_checksum() -> None:
+    snapshot, evidence, observation, finding = (
+        doc(x) for x in ("PageSnapshot", "Evidence", "Observation", "Finding")
+    )
+    evidence["checksum"] = None
+    assert_error(
+        "EVIDENCE_INSUFFICIENT",
+        validate_evidence_graph, snapshot, evidence, observation, finding
+    )

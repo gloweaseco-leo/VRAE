@@ -20,6 +20,14 @@ def validate_evidence_graph(
             raise DomainError("EVIDENCE_REFERENCE_INVALID", "Mixed-run evidence")
     if evidence["snapshot_id"] != snapshot["snapshot_id"]:
         raise DomainError("EVIDENCE_REFERENCE_INVALID", "Evidence snapshot not found")
+    if evidence["certainty"] == "OBSERVED" and (
+        snapshot["status"] != "FETCHED"
+        or not snapshot.get("sha256")
+        or not evidence.get("checksum")
+    ):
+        raise DomainError(
+            "EVIDENCE_INSUFFICIENT", "Observed facts require a fetched, hashed snapshot"
+        )
     evidence_ids = {evidence["evidence_id"]} if evidence["certainty"] == "OBSERVED" else set()
     result = observation["result"]
     if result not in VALID_RESULTS:
