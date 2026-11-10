@@ -70,6 +70,13 @@ def validate_ai_references(
         raise DomainError("EVIDENCE_REFERENCE_INVALID", "AI invented an evidence ID")
     if interpretation["status"] == "VALIDATED" and not interpretation["observation_ids"]:
         raise DomainError("EVIDENCE_INSUFFICIENT", "No observations to interpret")
+    if interpretation["status"] == "NOT_RUN" and any((
+        interpretation["hypotheses"], interpretation["recommendations"],
+        interpretation["model_id"] is not None,
+        interpretation["input_tokens"] is not None,
+        interpretation["output_tokens"] is not None,
+    )):
+        raise DomainError("MODEL_SCHEMA_INVALID", "Unrun model cannot emit interpretations")
     # Semantics of natural-language claims remain RA-3 human/semantic validation.
 
 

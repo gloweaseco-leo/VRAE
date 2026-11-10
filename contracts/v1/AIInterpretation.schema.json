@@ -125,5 +125,38 @@
     "output_tokens",
     "status"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "NOT_RUN"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "hypotheses": {
+            "maxItems": 0
+          },
+          "recommendations": {
+            "maxItems": 0
+          },
+          "model_id": {
+            "type": "null"
+          },
+          "input_tokens": {
+            "type": "null"
+          },
+          "output_tokens": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
 }

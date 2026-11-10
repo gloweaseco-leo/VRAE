@@ -226,7 +226,7 @@ def test_approve_then_issue_share_exact_version() -> None:
     approved = approve_version(report, decision, REVIEWER, 1, {"find-001"})
     assert approved["status"] == "APPROVED"
     assert report["status"] == "REVIEW_REQUIRED"
-    check_share(approved, decision, grant, OWNER, 1, NOW)
+    check_share(approved, decision, grant, OWNER, 1, NOW, "L1")
 
 
 @pytest.mark.parametrize("problem,code", [
@@ -276,7 +276,21 @@ def test_share_invalid(problem: str, code: str) -> None:
         g["tenant_id"] = "another-tenant"
     elif problem == "reviewer_shares":
         actor = REVIEWER
-    assert_error(code, check_share, r, d, g, actor, latest, NOW)
+    assert_error(code, check_share, r, d, g, actor, latest, NOW, "L1")
+
+
+def test_l0_approved_report_is_still_internal_only() -> None:
+    r, d, g = (doc(x) for x in ("ReportVersion", "ReviewDecision", "ShareGrant"))
+    r["status"] = "APPROVED"
+    assert_error("SOURCE_NOT_ALLOWED", check_share, r, d, g, OWNER, 1, NOW, "L0")
+
+
+def test_unrun_model_cannot_emit_interpretations() -> None:
+    ai = doc("AIInterpretation")
+    validate_ai_references(ai, {"obs-001"}, {"ev-001"})
+    ai["hypotheses"] = ["Fabricated business impact"]
+    assert_error("MODEL_SCHEMA_INVALID",
+                 validate_ai_references, ai, {"obs-001"}, {"ev-001"})
 
 
 def test_revoked_existing_link_no_longer_works() -> None:

@@ -35,8 +35,10 @@ def approve_version(
 
 def check_share(
     report: dict, decision: dict, grant: dict, actor: dict,
-    latest_version: int, now: datetime,
+    latest_version: int, now: datetime, audit_mode: str,
 ) -> None:
+    if audit_mode not in ("L1", "L2"):
+        raise DomainError("SOURCE_NOT_ALLOWED", "L0 and unknown tiers cannot be shared")
     require_access(actor, report["tenant_id"], "share")
     if any(x["tenant_id"] != report["tenant_id"] for x in (decision, grant)):
         raise DomainError("FORBIDDEN_TENANT", "Share is cross-tenant")
