@@ -51,6 +51,6 @@
 
 ## 六、后续工程如何消费文档
 
-完成架构确认后，以 [验收路线](03-engineering/ROADMAP_AND_ACCEPTANCE_V1.1.md) 中的 RA-0 开始编写具体 contracts/v1/；任何跨系统实现必须满足 [接口契约](01-architecture/INTEGRATION_CONTRACTS_V1.1.md)。代码不应直接复制本仓库文档里拟建目录的示例名称当现成实现。
+完成架构确认并获得另行开发授权后，先按 **[开发总计划](03-engineering/DEVELOPMENT_MASTER_PLAN_V1.1.md)** 拆分执行包，再按照 [验收路线](03-engineering/ROADMAP_AND_ACCEPTANCE_V1.1.md) 的门禁执行 RA-0 和后续阶段；任何跨系统实现必须满足 [接口契约](01-architecture/INTEGRATION_CONTRACTS_V1.1.md)。代码不应直接复制本仓库文档里拟建目录的示例名称当现成实现。
 
 **当前状态：仅文档迁移和信息架构建设。下一步开发需要单独批准。**
