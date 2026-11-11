@@ -1,0 +1,38 @@
+.......FF...................                                             [100%]
+================================== FAILURES ===================================
+__________________ test_capture_gaps[kwargs2-ACCESS_BLOCKED] __________________
+
+kwargs = {'blocked': 'waf'}, status = 'ACCESS_BLOCKED'
+
+    @pytest.mark.parametrize('kwargs,status', [({'retained': False}, 'UNKNOWN'),
+        ({'max_pages': 2}, None), ({'blocked': 'waf'}, 'ACCESS_BLOCKED'),
+        ({'blocked': 'robots'}, 'ACCESS_BLOCKED')])
+    def test_capture_gaps(kwargs, status):
+        result = run(product_pack(**kwargs))
+>       assert (result['pages'][0]['status'] if result['pages'] else None) == status
+E       AssertionError: assert 'EXTRACTED' == 'ACCESS_BLOCKED'
+E         
+E         - ACCESS_BLOCKED
+E         + EXTRACTED
+
+tests\rules\test_product_facts.py:63: AssertionError
+__________________ test_capture_gaps[kwargs3-ACCESS_BLOCKED] __________________
+
+kwargs = {'blocked': 'robots'}, status = 'ACCESS_BLOCKED'
+
+    @pytest.mark.parametrize('kwargs,status', [({'retained': False}, 'UNKNOWN'),
+        ({'max_pages': 2}, None), ({'blocked': 'waf'}, 'ACCESS_BLOCKED'),
+        ({'blocked': 'robots'}, 'ACCESS_BLOCKED')])
+    def test_capture_gaps(kwargs, status):
+        result = run(product_pack(**kwargs))
+>       assert (result['pages'][0]['status'] if result['pages'] else None) == status
+E       AssertionError: assert 'EXTRACTED' == 'ACCESS_BLOCKED'
+E         
+E         - ACCESS_BLOCKED
+E         + EXTRACTED
+
+tests\rules\test_product_facts.py:63: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/rules/test_product_facts.py::test_capture_gaps[kwargs2-ACCESS_BLOCKED]
+FAILED tests/rules/test_product_facts.py::test_capture_gaps[kwargs3-ACCESS_BLOCKED]
+2 failed, 26 passed in 7.23s
