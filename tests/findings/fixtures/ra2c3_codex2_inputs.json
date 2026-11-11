@@ -1,0 +1,23 @@
+{
+  "synthetic_only": true,
+  "contract_source": "Issues #34/#35 and accepted ra2b6-1.0.0; authored independently before candidate inspection",
+  "name": "Cedar Motion & Valve Works",
+  "introduction": "We describe ourselves as a supplier of industrial motion assemblies and modular valves.",
+  "routes": {
+    "https://example.org/robots.txt": [200, {"content-type": "text/plain"}, "User-agent: *\nDisallow:\n"],
+    "https://example.org/": [200, {"content-type": "text/html"}, "<html>\n<head><title>Cedar industrial valves &amp; motion</title><link rel=\"canonical\" href=\"/\"></head>\n<body><nav><a href=\"/category/motion\">Industrial components</a><a href=\"/about\">About our company</a><a href=\"/contact\">Public contact</a></nav></body>\n</html>"],
+    "https://example.org/category/motion": [200, {"content-type": "text/html"}, "<html><a href=\"/products/cv-25\">CV-25 valve</a></html>"],
+    "https://example.org/products/cv-25": [200, {"content-type": "text/html"}, "<html>\n<main><h1>CV-25 modular valve</h1>\n<table><tr><th>Nominal pressure</th><td>PN 25</td></tr></table>\n<a href=\"/contact\">Contact about this valve</a></main>\n</html>"],
+    "https://example.org/about": [200, {"content-type": "text/html"}, "<html>\n<main itemscope itemtype=\"https://schema.org/Organization\">\n<h1 itemprop=\"name\">Cedar Motion &amp; Valve Works</h1>\n<section><h2>Company profile</h2>\n<p>We describe ourselves as a supplier of industrial motion assemblies and modular valves.</p></section>\n<a href=\"/contact\">Our public contact entry</a>\n</main></html>"],
+    "https://example.org/contact": [200, {"content-type": "text/html"}, "<html>\n<main><table><tr><th>Company name</th><td>Cedar Motion &amp; Valve Works</td></tr></table>\n<address>Fictional sales office: 27 Tooling Lane; sales@cedar.example.</address>\n<a href=\"mailto:sales@cedar.example\">Email sales</a><a href=\"tel:+86-555-0127\">Telephone sales</a></main>\n</html>"]
+  },
+  "trust_expected": {
+    "positive": "PASS", "brand_only": "UNKNOWN", "conflicting_name": "UNKNOWN",
+    "missing_introduction": "UNKNOWN", "missing_href": "UNKNOWN", "unvisited": "UNKNOWN",
+    "raw_absent": "UNKNOWN", "js_only": "UNKNOWN", "about_403": "ACCESS_BLOCKED",
+    "waf": "ACCESS_BLOCKED", "robots": "ACCESS_BLOCKED", "contact_403": "ACCESS_BLOCKED",
+    "contact_404": "UNKNOWN", "contact_410": "UNKNOWN", "contact_500": "UNKNOWN",
+    "name_omitted": "UNKNOWN", "same_brand_different_legal_names": "UNKNOWN",
+    "qualification_claim_is_quote_only": "PASS"
+  }
+}

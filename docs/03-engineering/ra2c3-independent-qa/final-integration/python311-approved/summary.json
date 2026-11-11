@@ -1,0 +1,281 @@
+{
+  "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+  "source_root": "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2c3-qa",
+  "tested_head": "bb4e007a501efd10cbfbf6eba17f55b5638ce827",
+  "base": "91d408bcdbe0a6667c1e356723e3385465cdd6ae",
+  "frozen_original_files_verified": 29,
+  "counts": {
+    "tests": 1472,
+    "failures": 5,
+    "errors": 0,
+    "skipped": 25
+  },
+  "frozen_qa_count": 139,
+  "frozen_qa_all_passed": true,
+  "test_sha256": "2c35973cd9e811961a8e68109e37a1db2d00908fabdaeb565f5c2331118fb110",
+  "results": [
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "vrae"
+      ],
+      "started_utc": "2026-11-11T15:17:12.989316+00:00",
+      "finished_utc": "2026-11-11T15:17:13.604000+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "started_utc": "2026-11-11T15:17:13.605026+00:00",
+      "finished_utc": "2026-11-11T15:17:14.148485+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "started_utc": "2026-11-11T15:17:14.148485+00:00",
+      "finished_utc": "2026-11-11T15:17:16.304196+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "--tb=short",
+        "--junitxml=D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2c3-qa\\docs\\03-engineering\\ra2c3-independent-qa\\final-integration\\python311-approved\\junit.xml"
+      ],
+      "started_utc": "2026-11-11T15:17:16.304196+00:00",
+      "finished_utc": "2026-11-11T15:23:05.559963+00:00",
+      "exit_code": 1,
+      "expected_exit_code": 0,
+      "matches": false
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "started_utc": "2026-11-11T15:23:05.559963+00:00",
+      "finished_utc": "2026-11-11T15:23:08.412237+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2a.py"
+      ],
+      "started_utc": "2026-11-11T15:23:08.412237+00:00",
+      "finished_utc": "2026-11-11T15:23:11.389526+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2b0.py"
+      ],
+      "started_utc": "2026-11-11T15:23:11.389526+00:00",
+      "finished_utc": "2026-11-11T15:23:13.872551+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2b1.py"
+      ],
+      "started_utc": "2026-11-11T15:23:13.872551+00:00",
+      "finished_utc": "2026-11-11T15:23:16.368940+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2b2.py"
+      ],
+      "started_utc": "2026-11-11T15:23:16.368940+00:00",
+      "finished_utc": "2026-11-11T15:23:17.905573+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2b3.py"
+      ],
+      "started_utc": "2026-11-11T15:23:17.905573+00:00",
+      "finished_utc": "2026-11-11T15:23:19.638584+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2b4.py"
+      ],
+      "started_utc": "2026-11-11T15:23:19.638584+00:00",
+      "finished_utc": "2026-11-11T15:23:22.764682+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2b5.py"
+      ],
+      "started_utc": "2026-11-11T15:23:22.764682+00:00",
+      "finished_utc": "2026-11-11T15:23:26.177577+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2b6.py"
+      ],
+      "started_utc": "2026-11-11T15:23:26.177577+00:00",
+      "finished_utc": "2026-11-11T15:23:31.874847+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2b6_execution.py"
+      ],
+      "started_utc": "2026-11-11T15:23:31.874847+00:00",
+      "finished_utc": "2026-11-11T15:23:41.446908+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2c0.py"
+      ],
+      "started_utc": "2026-11-11T15:23:41.446908+00:00",
+      "finished_utc": "2026-11-11T15:23:44.283208+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2c1.py"
+      ],
+      "started_utc": "2026-11-11T15:23:44.283208+00:00",
+      "finished_utc": "2026-11-11T15:23:47.516122+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2c2.py"
+      ],
+      "started_utc": "2026-11-11T15:23:47.516122+00:00",
+      "finished_utc": "2026-11-11T15:23:50.730581+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2c3.py"
+      ],
+      "started_utc": "2026-11-11T15:23:50.730581+00:00",
+      "finished_utc": "2026-11-11T15:23:57.889123+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2d0.py"
+      ],
+      "started_utc": "2026-11-11T15:23:57.889123+00:00",
+      "finished_utc": "2026-11-11T15:24:02.026692+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2d1.py"
+      ],
+      "started_utc": "2026-11-11T15:24:02.026692+00:00",
+      "finished_utc": "2026-11-11T15:24:05.113730+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2d1.py",
+        "--reviews",
+        "docs/03-engineering/ra2d1-review/SIMULATED_NOT_HUMAN_GOLD.json"
+      ],
+      "started_utc": "2026-11-11T15:24:05.113730+00:00",
+      "finished_utc": "2026-11-11T15:24:08.366559+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\Scripts\\python.exe",
+        "scripts/verify_ra2d1.py",
+        "--reviews",
+        "docs/03-engineering/ra2d1-review/negative-forged-gold.json"
+      ],
+      "started_utc": "2026-11-11T15:24:08.366559+00:00",
+      "finished_utc": "2026-11-11T15:24:12.633061+00:00",
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "matches": true
+    }
+  ]
+}
