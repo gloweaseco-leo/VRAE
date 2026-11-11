@@ -1,0 +1,637 @@
+[
+  {
+    "schema": "AuditRequest",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "request_id": "req-001",
+      "audit_id": "aud-001",
+      "site_url": "https://example.org",
+      "audit_mode": "L1",
+      "source_policy_ref": "pol-001",
+      "source_policy_version": 1,
+      "source_system": "veyfront",
+      "source_reference": "vf-001",
+      "idempotency_key": "synthetic-key-001",
+      "requested_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "SourcePolicy",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "mode": "PUBLIC_READONLY_RESEARCH",
+      "permitted_hosts": [
+        "example.org"
+      ],
+      "scope_paths": [
+        "/"
+      ],
+      "authorization_reference": null,
+      "expires_at": null,
+      "revoked_at": null,
+      "created_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "AuditRun",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "run_id": "run-001",
+      "audit_id": "aud-001",
+      "request_id": "req-001",
+      "status": "REVIEW_REQUIRED",
+      "attempt": 1,
+      "input_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "rule_version": "1.0.0",
+      "started_at": "2026-11-10T00:00:00Z",
+      "finished_at": "2026-11-10T00:00:00Z",
+      "error_code": null
+    }
+  },
+  {
+    "schema": "PageSnapshot",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "snapshot_id": "snap-001",
+      "run_id": "run-001",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "url": "https://example.org",
+      "final_url": "https://example.org/products",
+      "captured_at": "2026-11-10T00:00:00Z",
+      "capture_mode": "SYNTHETIC",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "private_object_ref": null,
+      "status": "FETCHED"
+    }
+  },
+  {
+    "schema": "Evidence",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "evidence_id": "ev-001",
+      "run_id": "run-001",
+      "snapshot_id": "snap-001",
+      "locator": "a[href='/contact']",
+      "excerpt": "Contact sales",
+      "certainty": "OBSERVED",
+      "checksum": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "Observation",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "observation_id": "obs-001",
+      "run_id": "run-001",
+      "rule_id": "CTA-01",
+      "rule_version": "1.0.0",
+      "evidence_ids": [
+        "ev-001"
+      ],
+      "result": "PASS",
+      "kind": "OBJECTIVE",
+      "statement": "Contact link observed in synthetic page.",
+      "coverage_note": "Synthetic contact section"
+    }
+  },
+  {
+    "schema": "Finding",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "finding_id": "find-001",
+      "run_id": "run-001",
+      "observation_id": "obs-001",
+      "kind": "OBSERVATION",
+      "evidence_ids": [
+        "ev-001"
+      ],
+      "statement": "Synthetic contact link is visible.",
+      "buyer_task": "INQUIRE",
+      "severity": null,
+      "rule_version": "1.0.0"
+    }
+  },
+  {
+    "schema": "AIInterpretation",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "interpretation_id": "interp-001",
+      "run_id": "run-001",
+      "observation_ids": [
+        "obs-001"
+      ],
+      "evidence_ids": [
+        "ev-001"
+      ],
+      "hypotheses": [],
+      "recommendations": [],
+      "missing_information": [],
+      "model_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "status": "NOT_RUN"
+    }
+  },
+  {
+    "schema": "ReportVersion",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "report_id": "report-001",
+      "report_version_id": "rv-001",
+      "run_id": "run-001",
+      "version": 1,
+      "content_hash": "1fb2ed3adc92b2eb4cf650eabefe981dc18cae16624006709207ba508d548efa",
+      "status": "REVIEW_REQUIRED",
+      "finding_ids": [
+        "find-001"
+      ],
+      "created_by": "operator-001",
+      "created_at": "2026-11-10T00:00:00Z",
+      "approved_by": null,
+      "approved_at": null,
+      "audit_mode": "L1"
+    }
+  },
+  {
+    "schema": "ReviewDecision",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "decision_id": "dec-001",
+      "report_version_id": "rv-001",
+      "version": 1,
+      "content_hash": "1fb2ed3adc92b2eb4cf650eabefe981dc18cae16624006709207ba508d548efa",
+      "reviewer_id": "reviewer-001",
+      "action": "APPROVE",
+      "reason": null,
+      "decided_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "ShareGrant",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "grant_id": "grant-001",
+      "report_version_id": "rv-001",
+      "content_hash": "1fb2ed3adc92b2eb4cf650eabefe981dc18cae16624006709207ba508d548efa",
+      "subject_ref": "buyer-001",
+      "token_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "status": "ACTIVE",
+      "issued_at": "2026-11-10T00:00:00Z",
+      "expires_at": "2026-11-12T00:00:00Z",
+      "revoked_at": null
+    }
+  },
+  {
+    "schema": "SalesHandoff",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "handoff_id": "hand-001",
+      "audit_id": "aud-001",
+      "report_version_id": "rv-001",
+      "source_system": "vrae",
+      "stage": "HANDOFF_REQUESTED",
+      "vf_receipt_ref": null,
+      "inquiry_evidence_ref": null,
+      "verified_by": null,
+      "created_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "UsageRecord",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "usage_id": "usage-001",
+      "run_id": "run-001",
+      "cost_type": "MODEL",
+      "provider": null,
+      "model_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "amount": null,
+      "currency": null,
+      "cost_status": "UNKNOWN",
+      "recorded_at": "2026-11-10T00:00:00Z"
+    }
+  },
+  {
+    "schema": "EventEnvelope",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "event_id": "evt-001",
+      "source_system": "vrae",
+      "event_type": "audit.report_approved",
+      "occurred_at": "2026-11-10T00:00:00Z",
+      "audit_id": "aud-001",
+      "report_version": 1,
+      "evidence_reference": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authorization_reference": "dec-001",
+      "idempotency_key": "synthetic-event-001"
+    }
+  },
+  {
+    "schema": "IndustryPack",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "industry_id": "industrial_parts",
+      "version": "1.0.0",
+      "methodology_version": "1.1",
+      "buyer_tasks": [
+        "DISCOVER",
+        "UNDERSTAND",
+        "TRUST",
+        "INQUIRE",
+        "SEARCH_TECHNICAL"
+      ],
+      "applicable_rule_ids": [
+        "CTA-01",
+        "INFO-01"
+      ],
+      "critical_attributes": [
+        "material"
+      ],
+      "false_positive_risks": [
+        "Not observed does not mean absent"
+      ]
+    }
+  },
+  {
+    "schema": "ErrorCode",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "code": "POLICY_REQUIRED",
+      "safe_message": "A source policy is required.",
+      "request_id": "req-001",
+      "retryable": false
+    }
+  },
+  {
+    "schema": "RuleCatalog",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "catalog_version": "1.0.0",
+      "rules": [
+        {
+          "rule_id": "DISC-01",
+          "rule_version": "1.0.0",
+          "buyer_task": "DISCOVER",
+          "method": "Homepage navigation/category links",
+          "applicability": "Homepage navigation observed",
+          "evidence_requirements": [
+            "Reachable category link href"
+          ],
+          "false_positive_risks": [
+            "Missing fetch is not absence"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "DISC-02",
+          "rule_version": "1.0.0",
+          "buyer_task": "DISCOVER",
+          "method": "Category-to-product path",
+          "applicability": "Category and product pages in scope",
+          "evidence_requirements": [
+            "Actual category/product href sequence"
+          ],
+          "false_positive_risks": [
+            "Do not submit forms"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "DISC-03",
+          "rule_version": "1.0.0",
+          "buyer_task": "DISCOVER",
+          "method": "Applications/solutions entry",
+          "applicability": "Relevant industrial site",
+          "evidence_requirements": [
+            "Application/solution link and context"
+          ],
+          "false_positive_risks": [
+            "Industry applicability varies"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "INFO-01",
+          "rule_version": "1.0.0",
+          "buyer_task": "UNDERSTAND",
+          "method": "Product name/basic specifications",
+          "applicability": "Product detail captured",
+          "evidence_requirements": [
+            "Specifications and source URL"
+          ],
+          "false_positive_risks": [
+            "Displayed specs are not independently certified"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "INFO-02",
+          "rule_version": "1.0.0",
+          "buyer_task": "UNDERSTAND",
+          "method": "Industry-critical attributes",
+          "applicability": "Applicable industry pack configured",
+          "evidence_requirements": [
+            "Pack requirement and observed attribute"
+          ],
+          "false_positive_risks": [
+            "No configured pack means UNKNOWN"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "INFO-03",
+          "rule_version": "1.0.0",
+          "buyer_task": "UNDERSTAND",
+          "method": "English-language clarity candidate",
+          "applicability": "Buyer-facing English content in scope",
+          "evidence_requirements": [
+            "Visible text excerpt and context"
+          ],
+          "false_positive_risks": [
+            "Human verification required for language judgments"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "TRUST-01",
+          "rule_version": "1.0.0",
+          "buyer_task": "TRUST",
+          "method": "Company identity presentation",
+          "applicability": "About/company page in scope",
+          "evidence_requirements": [
+            "Observed company profile/contact link"
+          ],
+          "false_positive_risks": [
+            "Missing certificate is not missing qualification"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "TRUST-02",
+          "rule_version": "1.0.0",
+          "buyer_task": "TRUST",
+          "method": "Proof/case/certificate context",
+          "applicability": "Public proof materials in scope",
+          "evidence_requirements": [
+            "Displayed proof with context"
+          ],
+          "false_positive_risks": [
+            "Displaying a certificate does not verify authenticity"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "TRUST-03",
+          "rule_version": "1.0.0",
+          "buyer_task": "TRUST",
+          "method": "Public identity/contact consistency",
+          "applicability": "Multiple public pages in scope",
+          "evidence_requirements": [
+            "Observed conflicting contact/company passages"
+          ],
+          "false_positive_risks": [
+            "Do not merge same-name legal entities"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "CTA-01",
+          "rule_version": "1.0.0",
+          "buyer_task": "INQUIRE",
+          "method": "Contact/RFQ CTA visible href",
+          "applicability": "Buyer page captured",
+          "evidence_requirements": [
+            "Visible CTA with actual href"
+          ],
+          "false_positive_risks": [
+            "Presence does not prove inbox delivery"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "CTA-02",
+          "rule_version": "1.0.0",
+          "buyer_task": "INQUIRE",
+          "method": "Product-to-inquiry path",
+          "applicability": "Product/contact paths in scope",
+          "evidence_requirements": [
+            "Read-only navigation links"
+          ],
+          "false_positive_risks": [
+            "Never submit real forms"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "CTA-03",
+          "rule_version": "1.0.0",
+          "buyer_task": "INQUIRE",
+          "method": "Mobile UI basic overflow/navigation",
+          "applicability": "Approved mobile viewport observation",
+          "evidence_requirements": [
+            "Scoped visual/layout observation"
+          ],
+          "false_positive_risks": [
+            "Not full accessibility assessment"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "SEO-01",
+          "rule_version": "1.0.0",
+          "buyer_task": "SEARCH_TECHNICAL",
+          "method": "robots/sitemap/canonical/title",
+          "applicability": "Permitted metadata endpoints",
+          "evidence_requirements": [
+            "Actual responses and HTML tags"
+          ],
+          "false_positive_risks": [
+            "Not proof of Google indexing"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "SEO-02",
+          "rule_version": "1.0.0",
+          "buyer_task": "SEARCH_TECHNICAL",
+          "method": "Crawlable product information",
+          "applicability": "Relevant product HTML/DOM",
+          "evidence_requirements": [
+            "Product text and anchor evidence"
+          ],
+          "false_positive_risks": [
+            "JS content does not imply SEO failure"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "TECH-01",
+          "rule_version": "1.0.0",
+          "buyer_task": "SEARCH_TECHNICAL",
+          "method": "HTTP status and redirects",
+          "applicability": "Bounded access explicitly permitted",
+          "evidence_requirements": [
+            "HTTP response and redirect trace"
+          ],
+          "false_positive_risks": [
+            "WAF 403 is access block, not site defect"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        },
+        {
+          "rule_id": "TECH-02",
+          "rule_version": "1.0.0",
+          "buyer_task": "SEARCH_TECHNICAL",
+          "method": "Images/heading structure",
+          "applicability": "Resources allowed and observed",
+          "evidence_requirements": [
+            "Image and heading context"
+          ],
+          "false_positive_risks": [
+            "Not WCAG compliance/performance certification"
+          ],
+          "synthetic_expectations": {
+            "positive": "PASS",
+            "counterexample": "FAIL_WITH_EVIDENCE",
+            "no_evidence": "UNKNOWN"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "schema": "PageSnapshot",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "snapshot_id": "snap-unknown",
+      "run_id": "run-001",
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "url": "https://example.org",
+      "final_url": null,
+      "captured_at": "2026-11-10T00:00:00Z",
+      "capture_mode": "SYNTHETIC",
+      "sha256": null,
+      "private_object_ref": null,
+      "status": "ACCESS_BLOCKED"
+    },
+    "reason": "Access blocked: no fetched body/hash or final URL"
+  },
+  {
+    "schema": "Evidence",
+    "expected": "VALID",
+    "data": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example",
+      "evidence_id": "ev-unknown",
+      "run_id": "run-001",
+      "snapshot_id": "snap-unknown",
+      "locator": "/unknown",
+      "excerpt": null,
+      "certainty": "UNKNOWN",
+      "checksum": null,
+      "observed_at": "2026-11-10T00:00:00Z"
+    },
+    "reason": "Unknown observation without claimed evidence hash"
+  }
+]

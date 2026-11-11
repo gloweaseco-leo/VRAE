@@ -1,0 +1,127 @@
+[
+  {
+    "name": "loopback",
+    "url": "http://127.0.0.1/private",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "local-name",
+    "url": "http://localhost/admin",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "local-subdomain",
+    "url": "https://app.localhost/",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "private-ten",
+    "url": "http://10.1.2.3/",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "private-192",
+    "url": "http://192.168.1.1/",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "private-172",
+    "url": "http://172.16.0.1/",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "link-local",
+    "url": "http://169.254.169.254/latest/meta-data",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "metadata-domain",
+    "url": "https://metadata.google.internal/",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "ipv6-loopback",
+    "url": "https://[::1]/",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "numeric-host",
+    "url": "http://2130706433/",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "octal-host",
+    "url": "http://0177.0.0.1/",
+    "expected": "SSRF_BLOCKED"
+  },
+  {
+    "name": "file-scheme",
+    "url": "file:///etc/passwd",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "javascript-scheme",
+    "url": "javascript:alert(1)",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "userinfo",
+    "url": "https://user:pass@example.org/",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "encoded-host",
+    "url": "https://example%2eorg/",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "bad-port",
+    "url": "https://example.org:8443/",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "encoded-traversal",
+    "url": "https://example.org/%2e%2e/secret",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "encoded-slash",
+    "url": "https://example.org/a%2fb",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "backslash",
+    "url": "https://example.org\\@evil.org/",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "fragment",
+    "url": "https://example.org/#admin",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "no-authority",
+    "url": "https:///path",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "embedded-space",
+    "url": "https://example.org/hello world",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "bad-host-label",
+    "url": "https://-evil.example.org/",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "ftp-scheme",
+    "url": "ftp://example.org/",
+    "expected": "INVALID_URL"
+  },
+  {
+    "name": "valid",
+    "url": "https://example.org/products",
+    "expected": "ACCEPT"
+  }
+]

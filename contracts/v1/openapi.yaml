@@ -1,0 +1,126 @@
+openapi: 3.1.0
+info:
+  title: VRAE Audit API
+  version: 1.0.0
+  description: Contract only; no service is running in RA-0.
+servers: []
+security:
+  - serviceAuth: []
+paths:
+  /v1/audit-requests:
+    post:
+      operationId: submitAudit
+      parameters:
+        - {$ref: '#/components/parameters/IdempotencyKey'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: './AuditRequest.schema.json'}
+      responses:
+        '202':
+          description: Only durable acceptance; never completion
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Accepted'}
+        '400': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+        '429': {$ref: '#/components/responses/Error'}
+  /v1/audits/{audit_id}:
+    get:
+      operationId: getAudit
+      parameters:
+        - {$ref: '#/components/parameters/AuditId'}
+      responses:
+        '200':
+          description: Tenant-scoped audit run status
+          content:
+            application/json:
+              schema: {$ref: './AuditRun.schema.json'}
+        '403': {$ref: '#/components/responses/Error'}
+  /v1/audits/{audit_id}/report:
+    get:
+      operationId: getApprovedReport
+      parameters:
+        - {$ref: '#/components/parameters/AuditId'}
+      responses:
+        '200':
+          description: Authorized exact approved report version only
+          content:
+            application/json:
+              schema: {$ref: './ReportVersion.schema.json'}
+        '403': {$ref: '#/components/responses/Error'}
+  /v1/audits/{audit_id}/review-decisions:
+    post:
+      operationId: reviewReport
+      parameters:
+        - {$ref: '#/components/parameters/AuditId'}
+        - {$ref: '#/components/parameters/IdempotencyKey'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: './ReviewDecision.schema.json'}
+      responses:
+        '200': {description: Version/hash-bound manual review}
+        '403': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+  /v1/reports/{report_id}/share-grants:
+    post:
+      operationId: issueShareGrant
+      parameters:
+        - {name: report_id, in: path, required: true, schema: {type: string}}
+        - {$ref: '#/components/parameters/IdempotencyKey'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: './ShareGrant.schema.json'}
+      responses:
+        '201': {description: Time-limited revocable approved grant}
+        '403': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+  /v1/audits/{audit_id}/sales-handoffs:
+    post:
+      operationId: requestSalesHandoff
+      parameters:
+        - {$ref: '#/components/parameters/AuditId'}
+        - {$ref: '#/components/parameters/IdempotencyKey'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: './SalesHandoff.schema.json'}
+      responses:
+        '202': {description: Requested handoff is not E2 or E3}
+        '403': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+  /v1/health:
+    get:
+      operationId: health
+      responses:
+        '200': {description: Internal health only}
+components:
+  securitySchemes:
+    serviceAuth: {type: http, scheme: bearer, bearerFormat: JWT}
+  parameters:
+    AuditId: {name: audit_id, in: path, required: true, schema: {type: string}}
+    IdempotencyKey: {name: Idempotency-Key, in: header, required: true, schema: {type: string, minLength: 8, maxLength: 128}}
+  schemas:
+    Accepted:
+      type: object
+      additionalProperties: false
+      required: [schema_version, tenant_id, request_id, audit_id, status]
+      properties:
+        schema_version: {const: '1.0'}
+        tenant_id: {type: string}
+        request_id: {type: string}
+        audit_id: {type: string}
+        status: {const: CREATED}
+  responses:
+    Error:
+      description: Safe structured error
+      content:
+        application/json:
+          schema: {$ref: './ErrorCode.schema.json'}

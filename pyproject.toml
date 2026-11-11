@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68,<82"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vrae"
+version = "0.1.0"
+description = "VRAE RA-0 synthetic-only domain and contract foundation"
+requires-python = ">=3.11,<3.14"
+dependencies = ["jsonschema>=4.23,<5"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "PyYAML>=6,<7", "ruff>=0.9,<1", "mypy>=1.14,<2"]
+
+[tool.setuptools.packages.find]
+include = ["vrae*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+ignore_missing_imports = true

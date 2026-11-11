@@ -1,0 +1,23 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_____________ test_all_contract_writes_require_idempotency_header _____________
+
+    def test_all_contract_writes_require_idempotency_header():
+        spec = yaml.safe_load((ROOT / "openapi.yaml").read_text())
+        for path, operations in spec["paths"].items():
+            if "post" not in operations:
+                continue
+            params = operations["post"].get("parameters", [])
+            resolved = [spec["components"]["parameters"][p["$ref"].split("/")[-1]]
+                        if "$ref" in p else p for p in params]
+>           assert any(p.get("name") == "Idempotency-Key" and p.get("required")
+                       and p.get("in") == "header" for p in resolved), path
+E           AssertionError: /v1/audits/{audit_id}/review-decisions
+E           assert False
+E            +  where False = any(<generator object test_all_contract_writes_require_idempotency_header.<locals>.<genexpr> at 0x00000235A8539700>)
+
+tests\test_ra0f_regressions.py:204: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_ra0f_regressions.py::test_all_contract_writes_require_idempotency_header
+1 failed, 31 deselected in 0.55s
+EXIT_CODE=1

@@ -1,0 +1,96 @@
+......................FFFF.....                                          [100%]
+================================== FAILURES ===================================
+_____________ test_qualification_cannot_impersonate_another_owner _____________
+
+    def test_qualification_cannot_impersonate_another_owner():
+        from vrae.domain.business import advance_handoff
+        h = doc("SalesHandoff")
+        h.update(stage="VF_INQUIRY_RECORDED", vf_receipt_ref="receipt-001",
+                 inquiry_evidence_ref="inquiry-001", verified_by="another-owner")
+>       with pytest.raises(DomainError):
+E       Failed: DID NOT RAISE DomainError
+
+tests\test_ra0f_regressions.py:156: Failed
+_ test_share_rejects_non_hex_token_hash[zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz] _
+
+token = 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'
+
+    @pytest.mark.parametrize("token", ["z" * 64, "A" * 64])
+    def test_share_rejects_non_hex_token_hash(token):
+        r, d, g, f = bundle()
+        r = approve_version(r, d, REVIEWER, 1, [f])
+        g["token_hash"] = token
+>       with pytest.raises(DomainError):
+E       Failed: DID NOT RAISE DomainError
+
+tests\test_ra0f_regressions.py:165: Failed
+_ test_share_rejects_non_hex_token_hash[AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA] _
+
+token = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+
+    @pytest.mark.parametrize("token", ["z" * 64, "A" * 64])
+    def test_share_rejects_non_hex_token_hash(token):
+        r, d, g, f = bundle()
+        r = approve_version(r, d, REVIEWER, 1, [f])
+        g["token_hash"] = token
+>       with pytest.raises(DomainError):
+E       Failed: DID NOT RAISE DomainError
+
+tests\test_ra0f_regressions.py:165: Failed
+__________________ test_naive_share_clock_is_domain_refusal ___________________
+
+    def test_naive_share_clock_is_domain_refusal():
+        r, d, g, f = bundle()
+        r = approve_version(r, d, REVIEWER, 1, [f])
+        with pytest.raises(DomainError):
+>           check_share(r, d, g, OWNER, 1, NOW.replace(tzinfo=None), "L1", findings=[f])
+
+tests\test_ra0f_regressions.py:173:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+report = {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'report_id': 'report-001', 'report_version_id': 'rv-001', ...}
+decision = {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'decision_id': 'dec-001', 'report_version_id': 'rv-001', ...}
+grant = {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'grant_id': 'grant-001', 'report_version_id': 'rv-001', ...}
+actor = {'tenant_id': 'tenant-example', 'role': 'OWNER', 'actor_id': 'owner-001'}
+latest_version = 1, now = datetime.datetime(2026, 11, 10, 12, 0)
+audit_mode = 'L1'
+findings = [{'schema_version': '1.0', 'tenant_id': 'tenant-example', 'finding_id': 'find-001', 'run_id': 'run-001', ...}]
+
+    def check_share(
+        report: dict, decision: dict, grant: dict, actor: dict,
+        latest_version: int, now: datetime, audit_mode: str, *, findings: list[dict],
+    ) -> None:
+        if audit_mode not in ("L1", "L2") or report["audit_mode"] != audit_mode:
+            raise DomainError("SOURCE_NOT_ALLOWED", "L0 and unknown tiers cannot be shared")
+        require_access(actor, report["tenant_id"], "share")
+        if any(x["tenant_id"] != report["tenant_id"] for x in (decision, grant)):
+            raise DomainError("FORBIDDEN_TENANT", "Share is cross-tenant")
+        if report["status"] != "APPROVED" or decision["action"] != "APPROVE":
+            raise DomainError("REPORT_NOT_APPROVED", "Report has not been approved")
+        if (report["approved_by"] != decision["reviewer_id"]
+                or report["approved_at"] != decision["decided_at"]):
+            raise DomainError("REPORT_NOT_APPROVED", "Approval attribution mismatch")
+        if report["content_hash"] != report_content_hash(report, findings):
+            raise DomainError("REPORT_VERSION_STALE", "Report content has changed")
+        if (report["version"] != latest_version
+                or decision["version"] != latest_version):
+            raise DomainError("REPORT_VERSION_STALE", "Share references older version")
+        if any(x["report_version_id"] != report["report_version_id"] for x in (decision, grant)):
+            raise DomainError("REPORT_VERSION_STALE", "Share report version mismatch")
+        if (decision["content_hash"] != report["content_hash"]
+                or grant["content_hash"] != report["content_hash"]):
+            raise DomainError("REPORT_VERSION_STALE", "Share content hash mismatch")
+        if (grant["status"] != "ACTIVE" or grant["revoked_at"] is not None
+>               or parse_time(grant["expires_at"]) <= now
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                or parse_time(grant["issued_at"]) > now):
+E               TypeError: can't compare offset-naive and offset-aware datetimes
+
+vrae\domain\reviews.py:90: TypeError
+=========================== short test summary info ===========================
+FAILED tests/test_ra0f_regressions.py::test_qualification_cannot_impersonate_another_owner
+FAILED tests/test_ra0f_regressions.py::test_share_rejects_non_hex_token_hash[zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz]
+FAILED tests/test_ra0f_regressions.py::test_share_rejects_non_hex_token_hash[AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA]
+FAILED tests/test_ra0f_regressions.py::test_naive_share_clock_is_domain_refusal
+4 failed, 27 passed in 0.63s
+EXIT_CODE=1

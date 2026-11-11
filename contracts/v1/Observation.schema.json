@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/Observation.schema.json",
+  "title": "Observation",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{2,63}$"
+    },
+    "observation_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "rule_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "rule_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+      },
+      "uniqueItems": true,
+      "maxItems": 256
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN",
+        "NOT_APPLICABLE",
+        "ACCESS_BLOCKED"
+      ]
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "OBJECTIVE",
+        "UNKNOWN"
+      ]
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "coverage_note": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "observation_id",
+    "run_id",
+    "rule_id",
+    "rule_version",
+    "evidence_ids",
+    "result",
+    "kind",
+    "statement",
+    "coverage_note"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "enum": [
+              "PASS",
+              "FAIL_WITH_EVIDENCE"
+            ]
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "OBJECTIVE"
+          },
+          "evidence_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "enum": [
+              "UNKNOWN",
+              "ACCESS_BLOCKED",
+              "NOT_APPLICABLE"
+            ]
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "UNKNOWN"
+          },
+          "evidence_ids": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

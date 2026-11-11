@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/ErrorCode.schema.json",
+  "title": "ErrorCode",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "code": {
+      "type": "string",
+      "enum": [
+        "INVALID_URL",
+        "POLICY_REQUIRED",
+        "POLICY_REVOKED",
+        "POLICY_EXPIRED",
+        "SOURCE_NOT_ALLOWED",
+        "SSRF_BLOCKED",
+        "ACCESS_BLOCKED",
+        "ROBOTS_DISALLOWED",
+        "LIMIT_EXCEEDED",
+        "QUOTA_EXCEEDED",
+        "WORKER_TIMEOUT",
+        "EVIDENCE_INSUFFICIENT",
+        "EVIDENCE_REFERENCE_INVALID",
+        "MODEL_SCHEMA_INVALID",
+        "MODEL_COST_UNKNOWN",
+        "REVIEW_REQUIRED",
+        "REPORT_NOT_APPROVED",
+        "REPORT_VERSION_STALE",
+        "SHARE_EXPIRED",
+        "FORBIDDEN_TENANT",
+        "FORBIDDEN_ROLE",
+        "INVALID_TRANSITION",
+        "IDEMPOTENCY_CONFLICT",
+        "BUSINESS_EVIDENCE_REQUIRED"
+      ]
+    },
+    "safe_message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "retryable": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "code",
+    "safe_message",
+    "request_id",
+    "retryable"
+  ],
+  "additionalProperties": false
+}

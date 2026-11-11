@@ -1,0 +1,81 @@
+{
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\Projects\\VRAE\\.venv-ra0f-313\\Scripts\\python.exe",
+  "prefix": "D:\\Projects\\VRAE\\.venv-ra0f-313",
+  "base_prefix": "C:\\Users\\liu\\AppData\\Roaming\\uv\\python\\cpython-3.13-windows-x86_64-none",
+  "versions": {
+    "pytest": "9.2.0",
+    "jsonschema": "4.26.0",
+    "ruff": "0.17.4",
+    "mypy": "1.20.2",
+    "PyYAML": "6.0.3"
+  },
+  "head": "791be66d09b4d35d029fe7fb825adb53cfec42cf",
+  "results": [
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-313\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-11T02:05:48.133724+00:00",
+      "ended": "2026-11-11T02:05:48.533469+00:00",
+      "log": "full-313-1-compileall.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-313\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-11T02:05:48.533532+00:00",
+      "ended": "2026-11-11T02:05:49.975590+00:00",
+      "log": "full-313-2-ruff.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-313\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-11T02:05:49.975655+00:00",
+      "ended": "2026-11-11T02:05:52.176314+00:00",
+      "log": "full-313-3-mypy.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-11T02:05:52.176423+00:00",
+      "ended": "2026-11-11T02:05:55.187233+00:00",
+      "log": "full-313-4-pytest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-313\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-11T02:05:55.187357+00:00",
+      "ended": "2026-11-11T02:05:57.835758+00:00",
+      "log": "full-313-5-pip.log"
+    }
+  ]
+}
