@@ -1,5 +1,163 @@
 # RA-0 implementation and acceptance record
 
+## RA-0F current verdict — 2026-11-10 America/New_York
+
+**LOCAL_ENGINEERING_VERIFIED / PASS. GitHub CI: CI_INFRA_BLOCKED. Overall: PARTIAL
+(local acceptance complete, hosted CI and Owner sign-off outstanding). RA-1 execution:
+NO-GO in this authorization.** No merge, deployment or RA-1 implementation performed.
+
+Remote branch checked and fetched at start: `feat/ra0-contracts-domain-foundation`,
+HEAD `791be66d09b4d35d029fe7fb825adb53cfec42cf`, identical to supplied baseline.
+Main remains `43817d1cd0badf2c2223f98bc8fe322e4f1419c7`.
+All work stays in [Draft PR #1](https://github.com/gloweaseco-leo/VRAE/pull/1).
+Source manifests in the acceptance summaries identify the tested working tree byte-for-byte;
+their `head` is the original checkout parent, not a claim that repairs existed in that parent.
+The containing RA-0F Git commit identifies the delivered tree. Timestamps in logs are UTC;
+2026-11-11 UTC is still 2026-11-10 in the requested America/New_York reporting day.
+
+| Work package | Current status | Evidence / limits |
+| --- | --- | --- |
+| RA-0A | PASS locally; contract freeze awaits Owner | 17 JSON Schemas, 19 valid/36 invalid fixtures, OpenAPI 3.1; strengthened draft report/HTTP contracts |
+| RA-0B | PASS for pure domain | Policy, scope, role, state, evidence, approval, sharing, currency/budget and business guards; no real identity adapter |
+| RA-0C | PASS for synthetic contract baseline | 25 URL syntax cases, 48 generic expectations across 16 rule candidates, additional adversarial tests; not a RA-2 rule engine or real-site accuracy benchmark |
+| RA-0D | PARTIAL | Both clean local Python environments pass; hosted matrix blocked before runner; runtime Docker/Worker isolation is not built or claimed |
+
+### F1 — actual checkout, clean complete verification
+
+Both venvs were newly created with `include-system-site-packages=false`, then installed using
+`python -m pip install -e '.[dev]'`. No reconstructed source or host-environment dependencies.
+Python 3.11.15 was already available; 3.13.13 was installed separately using uv.
+Both run the original `tests/test_domain.py` and `tests/test_contracts.py`, plus new regressions.
+
+| Check | Python 3.11.15 | Python 3.13.13 |
+| --- | --- | --- |
+| Editable dev install | exit 0 | exit 0 |
+| `python -m compileall -q vrae` | exit 0 | exit 0 |
+| `ruff check vrae tests --select E4,E7,E9,F` | exit 0 | exit 0 |
+| `mypy vrae` | exit 0; 12 source files | exit 0; 12 source files |
+| `python -m pytest -q` | **272 passed, 0 failed, 0 skipped**, exit 0 | **272 passed, 0 failed, 0 skipped**, exit 0 |
+| `python -m pip check` | exit 0; no broken requirements | exit 0; no broken requirements |
+
+Versions in both environments: pytest **9.2.0**, jsonschema **4.26.0**, Ruff **0.17.4**,
+mypy **1.20.2**, PyYAML **6.0.3**. No Linux runner execution is claimed.
+
+Evidence index:
+
+- [3.11 complete commands, timestamps, exits and source SHA-256](ra0f-evidence/acceptance-311-summary.json)
+- [3.13 complete commands, timestamps, exits and source SHA-256](ra0f-evidence/acceptance-313-summary.json)
+- [3.11 pytest log](ra0f-evidence/acceptance-311-4-pytest.log), [3.13 pytest log](ra0f-evidence/acceptance-313-4-pytest.log)
+- [3.11 install](ra0f-evidence/311-install.log), [3.13 install](ra0f-evidence/313-install.log)
+- Adjacent `acceptance-*-{1..5}-*.log` files retain complete output and exits for every gate.
+- `acceptance-*-freeze.txt` captures resolved dependencies; the editable line names the Git parent,
+  so use the source manifest/containing commit for repairs, not that line as the repaired revision.
+- [runtime/dev constraints](ra0f-evidence/constraints.txt) permit version-pinned repetition;
+  they are not a wheel-hash lock or an OS/build-tool reproducibility guarantee.
+- [runner script](ra0f-evidence/verify.py) uses the checkout root, records every gate even after failure,
+  and exits nonzero if any gate fails. Run `python docs/03-engineering/ra0f-evidence/verify.py <label>`.
+
+Reproduce in a new venv on each Python version:
+
+```sh
+python -m venv .venv
+# activate .venv (Windows: .venv/Scripts/Activate.ps1; Unix: . .venv/bin/activate)
+python -m pip install -e '.[dev]'
+python -m compileall -q vrae
+ruff check vrae tests --select E4,E7,E9,F
+mypy vrae
+python -m pytest -q
+python -m pip check
+```
+
+To reproduce resolved runtime/dev versions, add
+`-c docs/03-engineering/ra0f-evidence/constraints.txt` to the install command.
+No dependency conflict from the earlier shared moviepy/pillow environment is attributed to VRAE.
+
+### F2/F4 — failures first, minimal fixes, full regression
+
+Original exact baseline result: **236 passed / 4 failed**, pytest exit 1; other four gates exit 0.
+See [baseline summary](ra0f-evidence/baseline-311-summary.json) and
+[full failure traces](ra0f-evidence/baseline-311-4-pytest.log).
+The fixture loader overwrote OBSERVED/FETCHED examples with later UNKNOWN examples sharing the
+schema name. Select the first canonical example; all 55 original contract fixtures remain tested.
+No test was removed, safety constraint relaxed or exception suppressed.
+
+New red evidence: [18 failures / 1 pass](ra0f-evidence/red-regressions.log),
+[4 additional failures / 27 passes](ra0f-evidence/red-second.log),
+[OpenAPI write-header failure](ra0f-evidence/red-openapi.log).
+The first scoped-finding probes exposed the old set-only interface with TypeError, not a domain refusal;
+the repaired interface now consumes actual scoped records and raises DomainError. During repair an
+incorrect sibling-test import caused one harness failure; it was corrected to `tests.test_domain`.
+All intermediate output is retained; only `acceptance-*` is the final local verdict.
+
+| Finding / invariant | Repair and test evidence |
+| --- | --- |
+| UNKNOWN/ACCESS_BLOCKED cannot become objective failure | Original graph tests now use correct correlated fixtures; explicit new blocked/unknown negative tests and `classify_rule(None, evidence)==UNKNOWN` |
+| Nonexistent, cross-tenant or cross-run evidence is refused | Original graph/AI tests plus unresolved nested observation evidence, UNKNOWN AI citations and scoped report finding tests |
+| Schema does not prove natural-language truth | Documented structural-first/domain-second contract; RA-3 semantic support remains unimplemented |
+| Content changed but old hash retained | Recompute hash over immutable report manifest and exact finding contents during approval/share; tests mutate IDs, statements, run and approval attribution |
+| L0 report mislabeled by caller | Required `ReportVersion.audit_mode` participates in hash; share caller must match approved mode; L0 always refused |
+| Future share grant/policy | Reject future issued_at/created_at; revoked/expired cases retained; naive share clock raises domain refusal |
+| Token format and approvals | Reject nonhex token hashes; approved_by/approved_at must match review decision; unauthorized roles still refused |
+| Business confirmation | Qualified verifier must match confirming Owner; service cannot confirm E3; unauthorized roles cannot override via booleans |
+| Policy host entries containing paths/query | Require bare host entries before syntax checks; does not implement DNS/SSRF protection |
+| Non-JSON financial values | Reject NaN/Infinity before JSON Schema validation; Decimal boundary and same-currency/unknown-cost tests retained |
+| Idempotency scope delimiter | Encode a structured tenant/key pair; defensive even outside valid tenant grammar |
+| OpenAPI V1.1 mismatch | Restore authenticated health; require Idempotency-Key on all writes with conflict responses |
+
+Compatibility: this unpublished draft adds required `ReportVersion.audit_mode` and changes review/share
+function inputs from trusted bare IDs to scoped records. Fixtures and tests are updated together;
+no live consumers exist. Full manifest format and adapter prerequisites are in
+[contract notes](../../contracts/v1/README.md).
+
+Trust boundary: domain actors, repository records, `receipt_verified` and `qualification_confirmed`
+remain caller-supplied preconditions. Hash equality is integrity binding, not identity authentication,
+source ownership, persisted revocation, actual VF receipt verification or AI semantic validation.
+`validate_existing_grant` alone is not report access authorization. URL checks are syntax/policy
+only; RA-1 must implement DNS binding, redirect and network-layer protection. RA-4 must supply
+authenticated identities, atomic storage/queues/budgets and authoritative business receipts.
+
+### F3 — CI evidence and precise blocker
+
+Workflow `413356026`, run **42840530620**; branch/head match the baseline. Jobs:
+
+| Job | Matrix | started_at / completed_at (UTC) | steps | runner_id |
+| --- | --- | --- | --- | --- |
+| 129914229311 | 3.11 | 2026-11-10T15:04:18Z / 15:04:20Z | 0 | 0 |
+| 129914229937 | 3.13 | 2026-11-10T15:04:18Z / 15:04:20Z | 0 | 0 |
+
+Check-run failure annotation explicitly states:
+> The job was not started because recent account payments have failed or your spending limit
+> needs to be increased. Please check the 'Billing & plans' section in your settings
+
+Evidence: [raw jobs](ra0f-evidence/baseline-ci-jobs.json),
+[raw annotations](ra0f-evidence/baseline-ci-annotations.json),
+[job-log fetch failure](ra0f-evidence/baseline-ci-log-fetch.txt).
+An Ubuntu-label migration annotation is only a notice, not the failure cause.
+The provider identifies a billing/spending-limit category, but does not identify which account
+condition or amount; do not claim a precise unpaid balance or outage.
+
+Workflow review: push to this feature branch + pull_request events; ubuntu-latest;
+3.11/3.13 matrix; contents:read; 12-minute timeout; same six commands as local; no secrets or
+production dependencies. Both push and PR may create runs for a commit. YAML/trigger/installation
+steps did not cause this pre-runner rejection. No retries, dummy commits, disabled tests or gates.
+Owner must inspect Billing & plans, resolve payment or explicitly authorize an appropriate limit;
+then run the existing workflow on the accepted SHA. No account change or spend is authorized here.
+
+### F5 — admission recommendation
+
+See [RA-1 work packages and security matrix](RA1_ADMISSION_AND_WORK_PACKAGES.md).
+L2M source candidate/actual dependencies are recorded; license/usage right remains unconfirmed.
+The complete clean local suite is sufficient substitute engineering evidence for Owner to review
+RA-0 independently of CI, not authority to waive CI, merge or start RA-1 automatically.
+
+Unresolved: hosted CI/account blocker; Owner contract/security sign-off; L2M use rights and future
+RA-1 authorization. RA-0C generic fixtures are not domain-specific rule accuracy measurements;
+real browser/network/DB/identity/model/commerce verification remains explicitly later-stage work.
+No HTTP crawler, browser collection, LLM, Supabase, API/Worker service, VF modification, customer
+message, production data, merge or release was introduced. Changes stay in the RA-0F allowlist.
+
+## Historical records below (superseded by RA-0F verdict above)
+
 ## Scope / authority
 Baselined from `main` SHA `43817d1cd0badf2c2223f98bc8fe322e4f1419c7`.
 Authority: Product Charter V1.1 > accepted ADR-0001/0002 > current architecture V1.1 > master plan.

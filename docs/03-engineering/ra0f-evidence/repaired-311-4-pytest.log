@@ -1,0 +1,18 @@
+COMMAND=['D:\\Projects\\VRAE\\.venv-ra0f-311\\Scripts\\python.exe', '-m', 'pytest', '-q']
+........................................................................ [ 27%]
+........................................................................ [ 55%]
+........................................................................ [ 83%]
+........................F..................                              [100%]
+================================== FAILURES ===================================
+__________________ test_fixture_default_evidence_is_observed __________________
+
+    def test_fixture_default_evidence_is_observed():
+>       from test_domain import doc as original_doc
+E       ModuleNotFoundError: No module named 'test_domain'
+
+tests\test_ra0f_regressions.py:42: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/test_ra0f_regressions.py::test_fixture_default_evidence_is_observed
+1 failed, 258 passed in 3.59s
+
+EXIT_CODE=1

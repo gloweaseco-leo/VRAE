@@ -15,7 +15,7 @@ def accept_once(
     fingerprint = hashlib.sha256(
         json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
-    scoped_key = tenant_id + ":" + key
+    scoped_key = json.dumps([tenant_id, key], separators=(",", ":"))
     existing = records.get(scoped_key)
     if existing is not None:
         if existing[0] != fingerprint:

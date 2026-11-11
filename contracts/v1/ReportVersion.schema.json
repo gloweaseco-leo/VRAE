@@ -29,7 +29,8 @@
     },
     "content_hash": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of canonical RA-0 report manifest plus resolved finding records; see report_content_hash. Not a proof of factual truth."
     },
     "status": {
       "type": "string",
@@ -79,6 +80,14 @@
           "type": "null"
         }
       ]
+    },
+    "audit_mode": {
+      "type": "string",
+      "enum": [
+        "L0",
+        "L1",
+        "L2"
+      ]
     }
   },
   "required": [
@@ -94,7 +103,8 @@
     "created_by",
     "created_at",
     "approved_by",
-    "approved_at"
+    "approved_at",
+    "audit_mode"
   ],
   "additionalProperties": false,
   "allOf": [

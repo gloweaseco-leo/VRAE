@@ -16,4 +16,6 @@ def load_schema(name: str) -> dict[str, Any]:
 
 
 def validate_contract(name: str, payload: dict[str, Any]) -> None:
+    # Python float NaN/Infinity are not JSON numbers; jsonschema alone accepts them.
+    json.dumps(payload, allow_nan=False)
     Draft202012Validator(load_schema(name), format_checker=FormatChecker()).validate(payload)

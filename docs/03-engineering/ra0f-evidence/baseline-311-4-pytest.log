@@ -1,0 +1,146 @@
+COMMAND=['D:\\Projects\\VRAE\\.venv-ra0f-311\\Scripts\\python.exe', '-m', 'pytest', '-q']
+........................................................................ [ 30%]
+.......................................................................F [ 60%]
+..........F............................................................. [ 90%]
+......................FF                                                 [100%]
+================================== FAILURES ===================================
+_________________ test_valid_evidence_to_observation_finding __________________
+
+    def test_valid_evidence_to_observation_finding() -> None:
+>       validate_evidence_graph(doc("PageSnapshot"), doc("Evidence"),
+                                doc("Observation"), doc("Finding"))
+
+tests\test_domain.py:162:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+snapshot = {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'snapshot_id': 'snap-unknown', 'run_id': 'run-001', ...}
+evidence = {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'evidence_id': 'ev-unknown', 'run_id': 'run-001', ...}
+observation = {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'observation_id': 'obs-001', 'run_id': 'run-001', ...}
+finding = {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'finding_id': 'find-001', 'run_id': 'run-001', ...}
+
+    def validate_evidence_graph(
+        snapshot: dict, evidence: dict, observation: dict, finding: dict
+    ) -> None:
+        tenant = snapshot["tenant_id"]
+        run = snapshot["run_id"]
+        for item in (evidence, observation, finding):
+            if item["tenant_id"] != tenant:
+                raise DomainError("FORBIDDEN_TENANT", "Mixed-tenant evidence")
+            if item["run_id"] != run:
+                raise DomainError("EVIDENCE_REFERENCE_INVALID", "Mixed-run evidence")
+        if evidence["snapshot_id"] != snapshot["snapshot_id"]:
+            raise DomainError("EVIDENCE_REFERENCE_INVALID", "Evidence snapshot not found")
+        if evidence["certainty"] == "OBSERVED" and (
+            snapshot["status"] != "FETCHED"
+            or not snapshot.get("sha256")
+            or not evidence.get("checksum")
+        ):
+            raise DomainError(
+                "EVIDENCE_INSUFFICIENT", "Observed facts require a fetched, hashed snapshot"
+            )
+        evidence_ids = {evidence["evidence_id"]} if evidence["certainty"] == "OBSERVED" else set()
+        result = observation["result"]
+        if result not in VALID_RESULTS:
+            raise DomainError("EVIDENCE_REFERENCE_INVALID", "Unknown rule result")
+        if result in ("PASS", "FAIL_WITH_EVIDENCE"):
+            if observation["kind"] != "OBJECTIVE" or not observation["evidence_ids"]:
+                raise DomainError("EVIDENCE_INSUFFICIENT", "Objective rule needs evidence")
+            if not set(observation["evidence_ids"]) <= evidence_ids:
+>               raise DomainError("EVIDENCE_REFERENCE_INVALID", "Fabricated evidence ID")
+E               vrae.domain.errors.DomainError: Fabricated evidence ID
+
+vrae\domain\evidence.py:39: DomainError
+_________________ test_ai_cross_tenant_and_cross_run_blocked __________________
+
+    def test_ai_cross_tenant_and_cross_run_blocked() -> None:
+        ai, obs, evidence = (doc(x) for x in ("AIInterpretation", "Observation", "Evidence"))
+>       validate_ai_scoped_references(ai, [obs], [evidence])
+
+tests\test_domain.py:214:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\domain\evidence.py:102: in validate_ai_scoped_references
+    validate_ai_references(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+interpretation = {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'interpretation_id': 'interp-001', 'run_id': 'run-001', ...}
+known_observation_ids = {'obs-001'}, known_evidence_ids = {'ev-unknown'}
+
+    def validate_ai_references(
+        interpretation: dict, known_observation_ids: set[str], known_evidence_ids: set[str]
+    ) -> None:
+        if not set(interpretation["observation_ids"]) <= known_observation_ids:
+            raise DomainError("EVIDENCE_REFERENCE_INVALID", "AI invented an observation ID")
+        if not set(interpretation["evidence_ids"]) <= known_evidence_ids:
+>           raise DomainError("EVIDENCE_REFERENCE_INVALID", "AI invented an evidence ID")
+E           vrae.domain.errors.DomainError: AI invented an evidence ID
+
+vrae\domain\evidence.py:78: DomainError
+___________ test_access_blocked_cannot_synthesize_objective_finding ___________
+
+    def test_access_blocked_cannot_synthesize_objective_finding() -> None:
+        snapshot, evidence, observation, finding = (
+            doc(x) for x in ("PageSnapshot", "Evidence", "Observation", "Finding")
+        )
+        snapshot["status"] = "ACCESS_BLOCKED"
+        snapshot["sha256"] = None
+>       assert_error(
+            "EVIDENCE_INSUFFICIENT",
+            validate_evidence_graph, snapshot, evidence, observation, finding
+        )
+
+tests\test_domain.py:444:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+code = 'EVIDENCE_INSUFFICIENT'
+fn = <function validate_evidence_graph at 0x000001C9EE33AD40>
+args = ({'schema_version': '1.0', 'tenant_id': 'tenant-example', 'snapshot_id': 'snap-unknown', 'run_id': 'run-001', ...}, {'...1', ...}, {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'finding_id': 'find-001', 'run_id': 'run-001', ...})
+kwargs = {}
+
+    def assert_error(code: str, fn, *args, **kwargs) -> None:
+        with pytest.raises(DomainError) as exc:
+            fn(*args, **kwargs)
+>       assert exc.value.code == code
+E       AssertionError: assert 'EVIDENCE_REFERENCE_INVALID' == 'EVIDENCE_INSUFFICIENT'
+E
+E         - EVIDENCE_INSUFFICIENT
+E         + EVIDENCE_REFERENCE_INVALID
+
+tests\test_domain.py:41: AssertionError
+______________ test_observed_finding_requires_evidence_checksum _______________
+
+    def test_observed_finding_requires_evidence_checksum() -> None:
+        snapshot, evidence, observation, finding = (
+            doc(x) for x in ("PageSnapshot", "Evidence", "Observation", "Finding")
+        )
+        evidence["checksum"] = None
+>       assert_error(
+            "EVIDENCE_INSUFFICIENT",
+            validate_evidence_graph, snapshot, evidence, observation, finding
+        )
+
+tests\test_domain.py:455:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+code = 'EVIDENCE_INSUFFICIENT'
+fn = <function validate_evidence_graph at 0x000001C9EE33AD40>
+args = ({'schema_version': '1.0', 'tenant_id': 'tenant-example', 'snapshot_id': 'snap-unknown', 'run_id': 'run-001', ...}, {'...1', ...}, {'schema_version': '1.0', 'tenant_id': 'tenant-example', 'finding_id': 'find-001', 'run_id': 'run-001', ...})
+kwargs = {}
+
+    def assert_error(code: str, fn, *args, **kwargs) -> None:
+        with pytest.raises(DomainError) as exc:
+            fn(*args, **kwargs)
+>       assert exc.value.code == code
+E       AssertionError: assert 'EVIDENCE_REFERENCE_INVALID' == 'EVIDENCE_INSUFFICIENT'
+E
+E         - EVIDENCE_INSUFFICIENT
+E         + EVIDENCE_REFERENCE_INVALID
+
+tests\test_domain.py:41: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_domain.py::test_valid_evidence_to_observation_finding - vra...
+FAILED tests/test_domain.py::test_ai_cross_tenant_and_cross_run_blocked - vra...
+FAILED tests/test_domain.py::test_access_blocked_cannot_synthesize_objective_finding
+FAILED tests/test_domain.py::test_observed_finding_requires_evidence_checksum
+4 failed, 236 passed in 5.88s
+
+EXIT_CODE=1

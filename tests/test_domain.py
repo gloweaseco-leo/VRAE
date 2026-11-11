@@ -24,7 +24,7 @@ FX = Path(__file__).parent / "fixtures"
 CASES = json.loads((FX / "security" / "url_cases.json").read_text())
 VALID = {
     c["schema"]: c["data"]
-    for c in json.loads((FX / "contracts" / "valid.json").read_text())
+    for c in reversed(json.loads((FX / "contracts" / "valid.json").read_text()))
 }
 NOW = datetime(2026, 11, 10, 12, tzinfo=timezone.utc)
 OWNER = {"tenant_id": "tenant-example", "role": "OWNER", "actor_id": "owner-001"}
@@ -223,10 +223,10 @@ def test_ai_cross_tenant_and_cross_run_blocked() -> None:
 
 def test_approve_then_issue_share_exact_version() -> None:
     report, decision, grant = (doc(x) for x in ("ReportVersion", "ReviewDecision", "ShareGrant"))
-    approved = approve_version(report, decision, REVIEWER, 1, {"find-001"})
+    approved = approve_version(report, decision, REVIEWER, 1, [doc("Finding")])
     assert approved["status"] == "APPROVED"
     assert report["status"] == "REVIEW_REQUIRED"
-    check_share(approved, decision, grant, OWNER, 1, NOW, "L1")
+    check_share(approved, decision, grant, OWNER, 1, NOW, "L1", findings=[doc("Finding")])
 
 
 @pytest.mark.parametrize("problem,code", [
@@ -246,7 +246,7 @@ def test_review_invalid(problem: str, code: str) -> None:
         d["content_hash"] = "b" * 64
     elif problem == "cross_tenant":
         d["tenant_id"] = "another-tenant"
-    assert_error(code, approve_version, r, d, actor, version, {"find-001"})
+    assert_error(code, approve_version, r, d, actor, version, [doc("Finding")])
 
 
 @pytest.mark.parametrize("problem,code", [
@@ -260,7 +260,7 @@ def test_review_invalid(problem: str, code: str) -> None:
 ])
 def test_share_invalid(problem: str, code: str) -> None:
     r, d, g = (doc(x) for x in ("ReportVersion", "ReviewDecision", "ShareGrant"))
-    r["status"] = "APPROVED"
+    r = approve_version(r, d, REVIEWER, 1, [doc("Finding")])
     actor, latest = OWNER, 1
     if problem == "unapproved":
         r["status"] = "REVIEW_REQUIRED"
@@ -276,13 +276,13 @@ def test_share_invalid(problem: str, code: str) -> None:
         g["tenant_id"] = "another-tenant"
     elif problem == "reviewer_shares":
         actor = REVIEWER
-    assert_error(code, check_share, r, d, g, actor, latest, NOW, "L1")
+    assert_error(code, check_share, r, d, g, actor, latest, NOW, "L1", findings=[doc("Finding")])
 
 
 def test_l0_approved_report_is_still_internal_only() -> None:
     r, d, g = (doc(x) for x in ("ReportVersion", "ReviewDecision", "ShareGrant"))
-    r["status"] = "APPROVED"
-    assert_error("SOURCE_NOT_ALLOWED", check_share, r, d, g, OWNER, 1, NOW, "L0")
+    r = approve_version(r, d, REVIEWER, 1, [doc("Finding")])
+    assert_error("SOURCE_NOT_ALLOWED", check_share, r, d, g, OWNER, 1, NOW, "L0", findings=[doc("Finding")])
 
 
 def test_unrun_model_cannot_emit_interpretations() -> None:
@@ -322,7 +322,7 @@ def test_unknown_usage_status_hard_blocks_paid_calls() -> None:
 
 def test_approval_requires_verified_finding_ids() -> None:
     assert_error("EVIDENCE_INSUFFICIENT", approve_version,
-                 doc("ReportVersion"), doc("ReviewDecision"), REVIEWER, 1, set())
+                 doc("ReportVersion"), doc("ReviewDecision"), REVIEWER, 1, [])
 
 
 def test_paid_budget_within_explicit_limit() -> None:
@@ -353,7 +353,7 @@ def test_requested_handoff_is_not_e2_or_e3() -> None:
     assert h2["stage"] == "VF_INQUIRY_RECORDED"
     assert_error("BUSINESS_EVIDENCE_REQUIRED", advance_handoff, h2, "QUALIFIED_BY_HUMAN", OWNER)
     h2["inquiry_evidence_ref"] = "vf-inquiry-evidence-001"
-    h2["verified_by"] = "sales-owner-001"
+    h2["verified_by"] = OWNER["actor_id"]
     assert_error("BUSINESS_EVIDENCE_REQUIRED",
                  advance_handoff, h2, "QUALIFIED_BY_HUMAN", OWNER)
     assert advance_handoff(

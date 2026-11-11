@@ -99,8 +99,17 @@ def validate_ai_scoped_references(
             raise DomainError("FORBIDDEN_TENANT", "Cross-tenant AI evidence")
         if item["run_id"] != run:
             raise DomainError("EVIDENCE_REFERENCE_INVALID", "Cross-run AI evidence")
+    observed_ids = {item["evidence_id"] for item in evidence
+                    if item["certainty"] == "OBSERVED" and item.get("checksum")}
+    if len({item["evidence_id"] for item in evidence}) != len(evidence):
+        raise DomainError("EVIDENCE_REFERENCE_INVALID", "Ambiguous evidence IDs")
+    if len({item["observation_id"] for item in observations}) != len(observations):
+        raise DomainError("EVIDENCE_REFERENCE_INVALID", "Ambiguous observation IDs")
+    for observation in observations:
+        if not set(observation["evidence_ids"]) <= observed_ids:
+            raise DomainError("EVIDENCE_REFERENCE_INVALID", "Unresolved observation evidence")
     validate_ai_references(
         interpretation,
         {item["observation_id"] for item in observations},
-        {item["evidence_id"] for item in evidence},
+        observed_ids,
     )

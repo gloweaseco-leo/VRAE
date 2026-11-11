@@ -1,0 +1,81 @@
+{
+  "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\Projects\\VRAE\\.venv-ra0f-311\\Scripts\\python.exe",
+  "prefix": "D:\\Projects\\VRAE\\.venv-ra0f-311",
+  "base_prefix": "C:\\Users\\liu\\AppData\\Roaming\\uv\\python\\cpython-3.11.15-windows-x86_64-none",
+  "versions": {
+    "pytest": "9.2.0",
+    "jsonschema": "4.26.0",
+    "ruff": "0.17.4",
+    "mypy": "1.20.2",
+    "PyYAML": "6.0.3"
+  },
+  "head": "791be66d09b4d35d029fe7fb825adb53cfec42cf",
+  "results": [
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-311\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-10T23:13:28.208037+00:00",
+      "ended": "2026-11-10T23:13:28.776047+00:00",
+      "log": "baseline-311-1-compileall.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-311\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-10T23:13:28.776047+00:00",
+      "ended": "2026-11-10T23:13:30.264789+00:00",
+      "log": "baseline-311-2-ruff.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-311\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-10T23:13:30.264789+00:00",
+      "ended": "2026-11-10T23:13:42.396325+00:00",
+      "log": "baseline-311-3-mypy.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-311\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 1,
+      "started": "2026-11-10T23:13:42.396325+00:00",
+      "ended": "2026-11-10T23:13:52.111499+00:00",
+      "log": "baseline-311-4-pytest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv-ra0f-311\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "started": "2026-11-10T23:13:52.111499+00:00",
+      "ended": "2026-11-10T23:13:55.184613+00:00",
+      "log": "baseline-311-5-pip.log"
+    }
+  ]
+}

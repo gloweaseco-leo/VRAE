@@ -21,7 +21,8 @@ def advance_handoff(
     ):
         raise DomainError("BUSINESS_EVIDENCE_REQUIRED", "No saved VF inquiry receipt")
     if to_stage == "QUALIFIED_BY_HUMAN" and (
-        actor["role"] != "OWNER" or not qualification_confirmed or not all((
+        actor["role"] != "OWNER" or not qualification_confirmed
+        or handoff["verified_by"] != actor.get("actor_id") or not all((
         handoff["vf_receipt_ref"],
         handoff["inquiry_evidence_ref"],
         handoff["verified_by"],

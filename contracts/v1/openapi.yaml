@@ -11,7 +11,7 @@ paths:
     post:
       operationId: submitAudit
       parameters:
-        - {name: Idempotency-Key, in: header, required: true, schema: {type: string, minLength: 8, maxLength: 128}}
+        - {$ref: '#/components/parameters/IdempotencyKey'}
       requestBody:
         required: true
         content:
@@ -56,6 +56,7 @@ paths:
       operationId: reviewReport
       parameters:
         - {$ref: '#/components/parameters/AuditId'}
+        - {$ref: '#/components/parameters/IdempotencyKey'}
       requestBody:
         required: true
         content:
@@ -70,6 +71,7 @@ paths:
       operationId: issueShareGrant
       parameters:
         - {name: report_id, in: path, required: true, schema: {type: string}}
+        - {$ref: '#/components/parameters/IdempotencyKey'}
       requestBody:
         required: true
         content:
@@ -78,11 +80,13 @@ paths:
       responses:
         '201': {description: Time-limited revocable approved grant}
         '403': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
   /v1/audits/{audit_id}/sales-handoffs:
     post:
       operationId: requestSalesHandoff
       parameters:
         - {$ref: '#/components/parameters/AuditId'}
+        - {$ref: '#/components/parameters/IdempotencyKey'}
       requestBody:
         required: true
         content:
@@ -91,10 +95,10 @@ paths:
       responses:
         '202': {description: Requested handoff is not E2 or E3}
         '403': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
   /v1/health:
     get:
       operationId: health
-      security: []
       responses:
         '200': {description: Internal health only}
 components:
@@ -102,6 +106,7 @@ components:
     serviceAuth: {type: http, scheme: bearer, bearerFormat: JWT}
   parameters:
     AuditId: {name: audit_id, in: path, required: true, schema: {type: string}}
+    IdempotencyKey: {name: Idempotency-Key, in: header, required: true, schema: {type: string, minLength: 8, maxLength: 128}}
   schemas:
     Accepted:
       type: object

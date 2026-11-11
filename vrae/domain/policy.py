@@ -82,6 +82,8 @@ def authorize_source(
         raise DomainError("POLICY_REQUIRED", "Source policy is mandatory")
     if now.tzinfo is None:
         raise DomainError("SOURCE_NOT_ALLOWED", "Aware UTC clock is required")
+    if parse_time(policy["created_at"]) > now:
+        raise DomainError("SOURCE_NOT_ALLOWED", "Policy is not yet effective")
     if request["tenant_id"] != policy["tenant_id"]:
         raise DomainError("FORBIDDEN_TENANT", "Tenant mismatch")
     if (request["source_policy_ref"] != policy["policy_id"]
@@ -103,7 +105,11 @@ def authorize_source(
     elif policy_mode not in ("PUBLIC_READONLY_RESEARCH", "OWNER_AUTHORIZED_DEEP"):
         raise DomainError("SOURCE_NOT_ALLOWED", "Unknown policy mode")
     target = syntax_host(request["site_url"])
-    hosts = {syntax_host("https://" + host) for host in policy["permitted_hosts"]}
+    hosts = set()
+    for host in policy["permitted_hosts"]:
+        if any(char in host for char in "/?#@:"):
+            raise DomainError("SOURCE_NOT_ALLOWED", "Policy requires bare hostnames")
+        hosts.add(syntax_host("https://" + host))
     if target not in hosts:
         raise DomainError("SOURCE_NOT_ALLOWED", "Host not explicitly permitted")
     path = urlsplit(request["site_url"]).path or "/"
