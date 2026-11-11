@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from types import MappingProxyType
 from typing import Mapping, Sequence
+from urllib.parse import urlsplit
 
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -62,6 +63,17 @@ def _project(sources: list[dict], blobs: Mapping[str, bytes]) -> dict:
     original_ids: set[tuple] = set()
     used_blobs: set[str] = set()
     scope = None
+    site_hosts: set[str | None] = set()
+
+    def check_page(url):
+        # SourceAccess bounds an audited site by exact canonical hostname, not
+        # registrable domain or a shared policy ID. This is not authorization.
+        if canonical_url(url) != url:
+            _fail()
+        site_hosts.add(urlsplit(url).hostname)
+        if len(site_hosts) != 1:
+            _fail()
+
     for source in sources:
         doc = source['document']
         objects = {k: blobs[v] for k, v in source['object_refs'].items()}
@@ -82,6 +94,26 @@ def _project(sources: list[dict], blobs: Mapping[str, bytes]) -> dict:
         if scope is not None and current != scope:
             _fail()
         scope = current
+        if source['kind'] == 'CaptureManifest':
+            for page in doc['pages']:
+                check_page(page['snapshot']['url'])
+                if page['snapshot']['final_url'] is not None:
+                    check_page(page['snapshot']['final_url'])
+            for item in doc['inventory']:
+                check_page(item['url'])
+                check_page(item['discovered_from'])
+        else:
+            for url in doc['approved_urls']:
+                check_page(url)
+            for item in doc['observations']:
+                check_page(item['url'])
+                # Page documents belong to the site; CDN subresources do not
+                # establish the audited site's identity.
+                for resource in item['resources']:
+                    if resource['resource_type'] == 'Document':
+                        check_page(resource['url'])
+                        for hop in resource['redirect_trace']:
+                            check_page(hop['url'])
 
         def add_snapshot(pointer, url, observed_at, status, mode, original_id=None,
                          final_url=None,
