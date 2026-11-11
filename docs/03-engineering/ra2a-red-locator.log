@@ -1,18 +1,18 @@
-....F.........................                                           [100%]
-================================== FAILURES ===================================
-______ test_source_locator_gap_closed_without_changing_capture_verifier _______
-
-    def test_source_locator_gap_closed_without_changing_capture_verifier():
-        source = http()
-        source.manifest['pages'][0]['evidence']['locator'] = 'different-page#fabrication'
-        source.manifest['manifest_sha256'] = document_hash({
-            k: v for k, v in source.manifest.items() if k != 'manifest_sha256'})
-        source.verify()  # Existing contract accepts free-text locators; adapter must narrow them.
->       with pytest.raises(EvidenceError):
-E       Failed: DID NOT RAISE EvidenceError
-
-tests\evidence\test_pack.py:45: Failed
-=========================== short test summary info ===========================
-FAILED tests/evidence/test_pack.py::test_source_locator_gap_closed_without_changing_capture_verifier
-1 failed, 29 passed in 2.94s
-EXIT_CODE=1
+....F.........................                                           [100%]
+================================== FAILURES ===================================
+______ test_source_locator_gap_closed_without_changing_capture_verifier _______
+
+    def test_source_locator_gap_closed_without_changing_capture_verifier():
+        source = http()
+        source.manifest['pages'][0]['evidence']['locator'] = 'different-page#fabrication'
+        source.manifest['manifest_sha256'] = document_hash({
+            k: v for k, v in source.manifest.items() if k != 'manifest_sha256'})
+        source.verify()  # Existing contract accepts free-text locators; adapter must narrow them.
+>       with pytest.raises(EvidenceError):
+E       Failed: DID NOT RAISE EvidenceError
+
+tests\evidence\test_pack.py:45: Failed
+=========================== short test summary info ===========================
+FAILED tests/evidence/test_pack.py::test_source_locator_gap_closed_without_changing_capture_verifier
+1 failed, 29 passed in 2.94s
+EXIT_CODE=1
