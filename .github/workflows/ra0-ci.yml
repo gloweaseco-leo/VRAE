@@ -40,3 +40,22 @@ jobs:
           docker run --rm --network none --cap-add NET_ADMIN --read-only
           --tmpfs /tmp:rw,nosuid,nodev,size=128m --memory 512m --cpus 1 --pids-limit 128
           --security-opt no-new-privileges vrae-ra1a-lab:ci
+
+  isolated-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+      - run: docker build -f infra/ra1b/Dockerfile -t vrae-ra1b-browser:local .
+      - run: docker build -f infra/ra1b/Worker.Dockerfile -t vrae-ra1b-worker:local .
+      - name: Real sandbox, broker and adversarial container lifecycle
+        run: python scripts/verify_ra1b.py /tmp/ra1b-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ra1b-synthetic-security-evidence
+          path: /tmp/ra1b-evidence

@@ -1,0 +1,354 @@
+docker : #0 building with "desktop-linux" instance using docker driver
+所在位置 行:3 字符: 1
++ docker build -f infra/ra1b/Dockerfile -t vrae-ra1b-browser:local . *> ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (#0 building wit...g docker driver:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 438B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d08
+9c903ca5fd283f501e3a805f5f89
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 134B 0.0s done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e
+3a805f5f89
+#4 resolve docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a8
+05f5f89 0.0s done
+#4 CACHED
+
+#5 [2/2] RUN apt-get update && apt-get install -y --no-install-recommends chromium chromium-sandbox iproute2 iptables u
+til-linux     && rm -rf /var/lib/apt/lists/*     && groupadd -g 10003 vrae-ipc && useradd -u 10001 -g 10003 -M browser
+#5 2.025 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#5 2.763 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#5 4.428 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#5 16.35 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+#5 17.22 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+#5 18.41 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [367 kB]
+#5 18.61 Fetched 9405 kB in 18s (533 kB/s)
+#5 18.61 Reading package lists...
+#5 19.60 Reading package lists...
+#5 20.49 Building dependency tree...
+#5 20.67 Reading state information...
+#5 20.97 util-linux is already the newest version (2.38.1-5+deb12u3).
+#5 20.97 util-linux set to manually installed.
+#5 20.97 The following additional packages will be installed:
+#5 20.97   adwaita-icon-theme at-spi2-common chromium-common dbus dbus-bin dbus-daemon
+#5 20.97   dbus-session-bus-common dbus-system-bus-common dbus-user-session
+#5 20.97   dconf-gsettings-backend dconf-service dmsetup fontconfig fontconfig-config
+#5 20.97   fonts-dejavu-core gtk-update-icon-cache hicolor-icon-theme libapparmor1
+#5 20.97   libargon2-1 libasound2 libasound2-data libasyncns0 libatk-bridge2.0-0
+#5 20.97   libatk1.0-0 libatspi2.0-0 libavahi-client3 libavahi-common-data
+#5 20.97   libavahi-common3 libbpf1 libbrotli1 libbsd0 libcairo-gobject2 libcairo2
+#5 20.97   libcap2-bin libcolord2 libcryptsetup12 libcups2 libdatrie1 libdav1d6
+#5 20.97   libdbus-1-3 libdconf1 libdeflate0 libdevmapper1.02.1 libdouble-conversion3
+#5 20.97   libdrm-amdgpu1 libdrm-common libdrm-intel1 libdrm-nouveau2 libdrm-radeon1
+#5 20.97   libdrm2 libedit2 libelf1 libepoxy0 libexpat1 libfdisk1 libflac12
+#5 20.97   libfontconfig1 libfontenc1 libfreetype6 libfribidi0 libgbm1
+#5 20.97   libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgl1 libgl1-mesa-dri
+#5 20.97   libglapi-mesa libglib2.0-0 libglvnd0 libglx-mesa0 libglx0 libgraphite2-3
+#5 20.98   libgtk-3-0 libgtk-3-common libharfbuzz-subset0 libharfbuzz0b libice6
+#5 20.98   libicu72 libip4tc2 libip6tc2 libjbig0 libjpeg62-turbo libjson-c5 libkmod2
+#5 20.98   liblcms2-2 liblerc4 libllvm15 libminizip1 libmnl0 libmp3lame0 libmpg123-0
+#5 20.98   libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnspr4 libnss3 libogg0
+#5 20.98   libopenh264-7 libopenjp2-7 libopus0 libpam-systemd libpango-1.0-0
+#5 20.98   libpangocairo-1.0-0 libpangoft2-1.0-0 libpciaccess0 libpixman-1-0
+#5 20.98   libpng16-16 libproc2-0 libpulse0 libsensors-config libsensors5 libsm6
+#5 20.98   libsndfile1 libsystemd-shared libthai-data libthai0 libtiff6 libvorbis0a
+#5 20.98   libvorbisenc2 libwayland-client0 libwayland-cursor0 libwayland-egl1
+#5 20.98   libwayland-server0 libwebp7 libx11-6 libx11-data libx11-xcb1 libxau6 libxaw7
+#5 20.98   libxcb-dri2-0 libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb-randr0
+#5 20.98   libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb1
+#5 20.98   libxcomposite1 libxcursor1 libxdamage1 libxdmcp6 libxext6 libxfixes3 libxft2
+#5 20.98   libxi6 libxinerama1 libxkbcommon0 libxkbfile1 libxml2 libxmu6 libxmuu1
+#5 20.98   libxnvctrl0 libxpm4 libxrandr2 libxrender1 libxshmfence1 libxt6 libxtables12
+#5 20.98   libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libz3-4 procps shared-mime-info
+#5 20.98   systemd systemd-sysv x11-common x11-utils xdg-utils xkb-data
+#5 20.98 Suggested packages:
+#5 20.98   chromium-l10n chromium-shell chromium-driver iproute2-doc python3:any
+#5 20.98   firewalld kmod libasound2-plugins alsa-utils colord cups-common
+#5 20.98   low-memory-monitor gvfs liblcms2-utils opus-tools pciutils pulseaudio
+#5 20.98   lm-sensors systemd-container systemd-homed systemd-userdbd systemd-boot
+#5 20.98   systemd-resolved libfido2-1 libqrencode4 libtss2-esys-3.0.2-0 libtss2-mu0
+#5 20.98   libtss2-rc0 polkitd | policykit-1 mesa-utils
+#5 20.98 Recommended packages:
+#5 20.98   librsvg2-common upower udev fonts-liberation notification-daemon
+#5 20.98   system-config-printer libatm1 nftables alsa-ucm-conf alsa-topology-conf
+#5 20.98   at-spi2-core libpam-cap libgdk-pixbuf2.0-bin libglib2.0-data xdg-user-dirs
+#5 20.98   libgtk-3-bin psmisc systemd-timesyncd | time-daemon libnss-systemd
+#5 20.98   libfile-mimeinfo-perl libnet-dbus-perl libx11-protocol-perl
+#5 20.98   x11-xserver-utils
+#5 22.95 The following NEW packages will be installed:
+#5 22.95   adwaita-icon-theme at-spi2-common chromium chromium-common chromium-sandbox
+#5 22.95   dbus dbus-bin dbus-daemon dbus-session-bus-common dbus-system-bus-common
+#5 22.95   dbus-user-session dconf-gsettings-backend dconf-service dmsetup fontconfig
+#5 22.95   fontconfig-config fonts-dejavu-core gtk-update-icon-cache hicolor-icon-theme
+#5 22.95   iproute2 iptables libapparmor1 libargon2-1 libasound2 libasound2-data
+#5 22.95   libasyncns0 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libavahi-client3
+#5 22.95   libavahi-common-data libavahi-common3 libbpf1 libbrotli1 libbsd0
+#5 22.95   libcairo-gobject2 libcairo2 libcap2-bin libcolord2 libcryptsetup12 libcups2
+#5 22.95   libdatrie1 libdav1d6 libdbus-1-3 libdconf1 libdeflate0 libdevmapper1.02.1
+#5 22.95   libdouble-conversion3 libdrm-amdgpu1 libdrm-common libdrm-intel1
+#5 22.95   libdrm-nouveau2 libdrm-radeon1 libdrm2 libedit2 libelf1 libepoxy0 libexpat1
+#5 22.95   libfdisk1 libflac12 libfontconfig1 libfontenc1 libfreetype6 libfribidi0
+#5 22.95   libgbm1 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgl1 libgl1-mesa-dri
+#5 22.95   libglapi-mesa libglib2.0-0 libglvnd0 libglx-mesa0 libglx0 libgraphite2-3
+#5 22.95   libgtk-3-0 libgtk-3-common libharfbuzz-subset0 libharfbuzz0b libice6
+#5 22.95   libicu72 libip4tc2 libip6tc2 libjbig0 libjpeg62-turbo libjson-c5 libkmod2
+#5 22.95   liblcms2-2 liblerc4 libllvm15 libminizip1 libmnl0 libmp3lame0 libmpg123-0
+#5 22.95   libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnspr4 libnss3 libogg0
+#5 22.95   libopenh264-7 libopenjp2-7 libopus0 libpam-systemd libpango-1.0-0
+#5 22.95   libpangocairo-1.0-0 libpangoft2-1.0-0 libpciaccess0 libpixman-1-0
+#5 22.95   libpng16-16 libproc2-0 libpulse0 libsensors-config libsensors5 libsm6
+#5 22.95   libsndfile1 libsystemd-shared libthai-data libthai0 libtiff6 libvorbis0a
+#5 22.95   libvorbisenc2 libwayland-client0 libwayland-cursor0 libwayland-egl1
+#5 22.95   libwayland-server0 libwebp7 libx11-6 libx11-data libx11-xcb1 libxau6 libxaw7
+#5 22.95   libxcb-dri2-0 libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb-randr0
+#5 22.95   libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb1
+#5 22.95   libxcomposite1 libxcursor1 libxdamage1 libxdmcp6 libxext6 libxfixes3 libxft2
+#5 22.95   libxi6 libxinerama1 libxkbcommon0 libxkbfile1 libxml2 libxmu6 libxmuu1
+#5 22.95   libxnvctrl0 libxpm4 libxrandr2 libxrender1 libxshmfence1 libxt6 libxtables12
+#5 22.95   libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libz3-4 procps shared-mime-info
+#5 22.95   systemd systemd-sysv x11-common x11-utils xdg-utils xkb-data
+#5 23.67 0 upgraded, 177 newly installed, 0 to remove and 6 not upgraded.
+#5 23.67 Need to get 207 MB of archives.
+#5 23.67 After this operation, 736 MB of additional disk space will be used.
+#5 23.67 Get:1 http://deb.debian.org/debian bookworm/main amd64 libargon2-1 amd64 0~20171227-0.3+deb12u1 [19.4 kB]
+#5 24.54 Get:2 http://deb.debian.org/debian bookworm/main amd64 dmsetup amd64 2:1.02.185-2 [82.0 kB]
+#5 25.53 Get:3 http://deb.debian.org/debian bookworm/main amd64 libdevmapper1.02.1 amd64 2:1.02.185-2 [133 kB]
+#5 26.28 Get:4 http://deb.debian.org/debian bookworm/main amd64 libjson-c5 amd64 0.16-2 [44.1 kB]
+#5 27.38 Get:5 http://deb.debian.org/debian bookworm/main amd64 libcryptsetup12 amd64 2:2.6.1-4~deb12u2 [223 kB]
+#5 28.52 Get:6 http://deb.debian.org/debian bookworm/main amd64 libfdisk1 amd64 2.38.1-5+deb12u3 [194 kB]
+#5 29.30 Get:7 http://deb.debian.org/debian bookworm/main amd64 libkmod2 amd64 30+20221128-1 [57.9 kB]
+#5 30.02 Get:8 http://deb.debian.org/debian bookworm/main amd64 libapparmor1 amd64 3.0.8-3 [41.2 kB]
+#5 30.59 Get:9 http://deb.debian.org/debian bookworm/main amd64 libip4tc2 amd64 1.8.9-2 [19.0 kB]
+#5 32.64 Get:10 http://deb.debian.org/debian bookworm/main amd64 libsystemd-shared amd64 252.39-1~deb12u2 [1696 kB]
+#5 37.82 Get:11 http://deb.debian.org/debian bookworm/main amd64 systemd amd64 252.39-1~deb12u2 [3044 kB]
+#5 39.74 Get:12 http://deb.debian.org/debian bookworm/main amd64 systemd-sysv amd64 252.39-1~deb12u2 [42.9 kB]
+#5 40.79 Get:13 http://deb.debian.org/debian bookworm/main amd64 libdbus-1-3 amd64 1.14.10-1~deb12u1 [201 kB]
+#5 41.77 Get:14 http://deb.debian.org/debian bookworm/main amd64 dbus-bin amd64 1.14.10-1~deb12u1 [105 kB]
+#5 42.64 Get:15 http://deb.debian.org/debian bookworm/main amd64 dbus-session-bus-common all 1.14.10-1~deb12u1 [78.2 kB
+]
+#5 43.67 Get:16 http://deb.debian.org/debian-security bookworm-security/main amd64 libexpat1 amd64 2.5.0-1+deb12u5 [108
+ kB]
+#5 44.78 Get:17 http://deb.debian.org/debian bookworm/main amd64 dbus-daemon amd64 1.14.10-1~deb12u1 [184 kB]
+#5 46.62 Get:18 http://deb.debian.org/debian bookworm/main amd64 dbus-system-bus-common all 1.14.10-1~deb12u1 [79.3 kB]
+#5 48.53 Get:19 http://deb.debian.org/debian bookworm/main amd64 dbus amd64 1.14.10-1~deb12u1 [97.4 kB]
+#5 49.57 Get:20 http://deb.debian.org/debian bookworm/main amd64 libelf1 amd64 0.188-2.1 [174 kB]
+#5 50.54 Get:21 http://deb.debian.org/debian bookworm/main amd64 libbpf1 amd64 1:1.1.2-0+deb12u1 [145 kB]
+#5 51.51 Get:22 http://deb.debian.org/debian bookworm/main amd64 libbsd0 amd64 0.11.7-2 [117 kB]
+#5 52.06 Get:23 http://deb.debian.org/debian bookworm/main amd64 libmnl0 amd64 1.0.4-3 [12.5 kB]
+#5 52.78 Get:24 http://deb.debian.org/debian bookworm/main amd64 libxtables12 amd64 1.8.9-2 [30.8 kB]
+#5 53.63 Get:25 http://deb.debian.org/debian bookworm/main amd64 libcap2-bin amd64 1:2.66-4+deb12u3+b1 [35.2 kB]
+#5 55.14 Get:26 http://deb.debian.org/debian bookworm/main amd64 iproute2 amd64 6.1.0-3 [1046 kB]
+#5 55.97 Get:27 http://deb.debian.org/debian bookworm/main amd64 libproc2-0 amd64 2:4.0.2-3 [62.8 kB]
+#5 57.42 Get:28 http://deb.debian.org/debian bookworm/main amd64 procps amd64 2:4.0.2-3 [709 kB]
+#5 58.57 Get:29 http://deb.debian.org/debian bookworm/main amd64 libpam-systemd amd64 252.39-1~deb12u2 [226 kB]
+#5 58.95 Get:30 http://deb.debian.org/debian bookworm/main amd64 hicolor-icon-theme all 0.17-2 [11.4 kB]
+#5 60.20 Get:31 http://deb.debian.org/debian bookworm/main amd64 libgdk-pixbuf2.0-common all 2.42.10+dfsg-1+deb12u4 [30
+7 kB]
+#5 61.70 Get:32 http://deb.debian.org/debian bookworm/main amd64 libglib2.0-0 amd64 2.74.6-2+deb12u9 [1403 kB]
+#5 65.91 Get:33 http://deb.debian.org/debian bookworm/main amd64 libicu72 amd64 72.1-3+deb12u1 [9376 kB]
+#5 71.65 Get:34 http://deb.debian.org/debian bookworm/main amd64 libxml2 amd64 2.9.14+dfsg-1.3~deb12u6 [689 kB]
+#5 73.14 Get:35 http://deb.debian.org/debian bookworm/main amd64 shared-mime-info amd64 2.2-1 [729 kB]
+#5 74.29 Get:36 http://deb.debian.org/debian bookworm/main amd64 libjpeg62-turbo amd64 1:2.1.5-2 [166 kB]
+#5 75.50 Get:37 http://deb.debian.org/debian-security bookworm-security/main amd64 libpng16-16 amd64 1.6.39-2+deb12u6 [
+277 kB]
+#5 76.57 Get:38 http://deb.debian.org/debian bookworm/main amd64 libdeflate0 amd64 1.14-1 [61.4 kB]
+#5 77.18 Get:39 http://deb.debian.org/debian bookworm/main amd64 libjbig0 amd64 2.1-6.1 [31.7 kB]
+#5 78.19 Get:40 http://deb.debian.org/debian bookworm/main amd64 liblerc4 amd64 4.0.0+ds-2 [170 kB]
+#5 79.42 Get:41 http://deb.debian.org/debian bookworm/main amd64 libwebp7 amd64 1.2.4-0.2+deb12u1 [286 kB]
+#5 80.72 Get:42 http://deb.debian.org/debian bookworm/main amd64 libtiff6 amd64 4.5.0-6+deb12u4 [316 kB]
+#5 81.79 Get:43 http://deb.debian.org/debian bookworm/main amd64 libgdk-pixbuf-2.0-0 amd64 2.42.10+dfsg-1+deb12u4 [139
+kB]
+#5 82.61 Get:44 http://deb.debian.org/debian bookworm/main amd64 gtk-update-icon-cache amd64 3.24.38-2~deb12u3 [44.2 kB
+]
+#5 86.02 Get:45 http://deb.debian.org/debian bookworm/main amd64 adwaita-icon-theme all 43-1 [5124 kB]
+#5 88.45 Get:46 http://deb.debian.org/debian bookworm/main amd64 at-spi2-common all 2.46.0-5 [162 kB]
+#5 89.02 Get:47 http://deb.debian.org/debian bookworm/main amd64 libasound2-data all 1.2.8-1 [20.5 kB]
+#5 90.18 Get:48 http://deb.debian.org/debian bookworm/main amd64 libasound2 amd64 1.2.8-1+b1 [362 kB]
+#5 90.94 Get:49 http://deb.debian.org/debian bookworm/main amd64 libatk1.0-0 amd64 2.46.0-5 [49.6 kB]
+#5 91.51 Get:50 http://deb.debian.org/debian bookworm/main amd64 libxau6 amd64 1:1.0.9-1 [19.7 kB]
+#5 93.16 Get:51 http://deb.debian.org/debian bookworm/main amd64 libxdmcp6 amd64 1:1.1.2-3 [26.3 kB]
+#5 94.33 Get:52 http://deb.debian.org/debian bookworm/main amd64 libxcb1 amd64 1.15-1 [144 kB]
+#5 95.53 Get:53 http://deb.debian.org/debian bookworm/main amd64 libx11-data all 2:1.8.4-2+deb12u2 [292 kB]
+#5 96.96 Get:54 http://deb.debian.org/debian bookworm/main amd64 libx11-6 amd64 2:1.8.4-2+deb12u2 [760 kB]
+#5 97.78 Get:55 http://deb.debian.org/debian bookworm/main amd64 libxext6 amd64 2:1.3.4-1+b1 [52.9 kB]
+#5 98.63 Get:56 http://deb.debian.org/debian bookworm/main amd64 libxi6 amd64 2:1.8-1+b1 [84.2 kB]
+#5 99.44 Get:57 http://deb.debian.org/debian bookworm/main amd64 libatspi2.0-0 amd64 2.46.0-5 [75.4 kB]
+#5 100.2 Get:58 http://deb.debian.org/debian bookworm/main amd64 libatk-bridge2.0-0 amd64 2.46.0-5 [64.6 kB]
+#5 101.4 Get:59 http://deb.debian.org/debian-security bookworm-security/main amd64 libbrotli1 amd64 1.0.9-2+deb12u1 [27
+5 kB]
+#5 109.6 Get:60 http://deb.debian.org/debian bookworm/main amd64 libfreetype6 amd64 2.12.1+dfsg-5+deb12u4 [398 kB]
+#5 111.2 Get:61 http://deb.debian.org/debian bookworm/main amd64 fonts-dejavu-core all 2.37-6 [1068 kB]
+#5 112.5 Get:62 http://deb.debian.org/debian bookworm/main amd64 fontconfig-config amd64 2.14.1-4 [315 kB]
+#5 113.8 Get:63 http://deb.debian.org/debian bookworm/main amd64 libfontconfig1 amd64 2.14.1-4 [386 kB]
+#5 115.2 Get:64 http://deb.debian.org/debian bookworm/main amd64 libpixman-1-0 amd64 0.42.2-1 [546 kB]
+#5 116.6 Get:65 http://deb.debian.org/debian bookworm/main amd64 libxcb-render0 amd64 1.15-1 [115 kB]
+#5 117.6 Get:66 http://deb.debian.org/debian bookworm/main amd64 libxcb-shm0 amd64 1.15-1 [105 kB]
+#5 118.2 Get:67 http://deb.debian.org/debian bookworm/main amd64 libxrender1 amd64 1:0.9.10-1.1 [33.2 kB]
+#5 119.5 Get:68 http://deb.debian.org/debian bookworm/main amd64 libcairo2 amd64 1.16.0-7 [575 kB]
+#5 120.5 Get:69 http://deb.debian.org/debian bookworm/main amd64 libavahi-common-data amd64 0.8-10+deb12u1 [107 kB]
+#5 121.1 Get:70 http://deb.debian.org/debian bookworm/main amd64 libavahi-common3 amd64 0.8-10+deb12u1 [42.1 kB]
+#5 121.9 Get:71 http://deb.debian.org/debian bookworm/main amd64 libavahi-client3 amd64 0.8-10+deb12u1 [45.8 kB]
+#5 123.0 Get:72 http://deb.debian.org/debian bookworm/main amd64 libcups2 amd64 2.4.2-3+deb12u9 [245 kB]
+#5 124.2 Get:73 http://deb.debian.org/debian bookworm/main amd64 libdav1d6 amd64 1.0.0-2+deb12u1 [513 kB]
+#5 125.0 Get:74 http://deb.debian.org/debian bookworm/main amd64 libdouble-conversion3 amd64 3.2.1-1 [41.5 kB]
+#5 125.6 Get:75 http://deb.debian.org/debian bookworm/main amd64 libogg0 amd64 1.3.5-3 [23.4 kB]
+#5 126.9 Get:76 http://deb.debian.org/debian bookworm/main amd64 libflac12 amd64 1.4.2+ds-2 [198 kB]
+#5 127.3 Get:77 http://deb.debian.org/debian bookworm/main amd64 libdrm-common all 2.4.114-1 [7112 B]
+#5 127.9 Get:78 http://deb.debian.org/debian bookworm/main amd64 libdrm2 amd64 2.4.114-1+b1 [37.5 kB]
+#5 135.6 Get:79 http://deb.debian.org/debian bookworm/main amd64 libwayland-server0 amd64 1.21.0-1 [35.9 kB]
+#5 136.2 Get:80 http://deb.debian.org/debian bookworm/main amd64 libgbm1 amd64 22.3.6-1+deb12u2 [38.1 kB]
+#5 137.0 Get:81 http://deb.debian.org/debian bookworm/main amd64 libgraphite2-3 amd64 1.3.14-1+deb12u1 [74.6 kB]
+#5 139.9 Get:82 http://deb.debian.org/debian bookworm/main amd64 libharfbuzz0b amd64 6.0.0+dfsg-3 [1945 kB]
+#5 141.6 Get:83 http://deb.debian.org/debian bookworm/main amd64 libharfbuzz-subset0 amd64 6.0.0+dfsg-3 [1931 kB]
+#5 142.7 Get:84 http://deb.debian.org/debian bookworm/main amd64 liblcms2-2 amd64 2.14-2+deb12u1 [154 kB]
+#5 143.3 Get:85 http://deb.debian.org/debian bookworm/main amd64 libminizip1 amd64 1.1-8+deb12u1 [20.1 kB]
+#5 144.2 Get:86 http://deb.debian.org/debian bookworm/main amd64 libnspr4 amd64 2:4.35-1 [113 kB]
+#5 145.8 Get:87 http://deb.debian.org/debian-security bookworm-security/main amd64 libnss3 amd64 2:3.87.1-1+deb12u4 [13
+31 kB]
+#5 147.2 Get:88 http://deb.debian.org/debian bookworm/main amd64 libopenh264-7 amd64 2.3.1+dfsg-3+deb12u2 [393 kB]
+#5 148.3 Get:89 http://deb.debian.org/debian bookworm/main amd64 libopenjp2-7 amd64 2.5.0-2+deb12u3 [189 kB]
+#5 149.3 Get:90 http://deb.debian.org/debian bookworm/main amd64 libopus0 amd64 1.3.1-3 [195 kB]
+#5 150.9 Get:91 http://deb.debian.org/debian bookworm/main amd64 fontconfig amd64 2.14.1-4 [449 kB]
+#5 152.0 Get:92 http://deb.debian.org/debian bookworm/main amd64 libfribidi0 amd64 1.0.8-2.1 [65.0 kB]
+#5 153.1 Get:93 http://deb.debian.org/debian bookworm/main amd64 libthai-data all 0.1.29-1 [176 kB]
+#5 153.8 Get:94 http://deb.debian.org/debian bookworm/main amd64 libdatrie1 amd64 0.2.13-2+b1 [43.3 kB]
+#5 154.6 Get:95 http://deb.debian.org/debian bookworm/main amd64 libthai0 amd64 0.1.29-1 [57.5 kB]
+#5 155.8 Get:96 http://deb.debian.org/debian bookworm/main amd64 libpango-1.0-0 amd64 1.50.12+ds-1 [212 kB]
+#5 156.3 Get:97 http://deb.debian.org/debian bookworm/main amd64 libasyncns0 amd64 0.8-6+b3 [12.9 kB]
+#5 157.5 Get:98 http://deb.debian.org/debian bookworm/main amd64 libmp3lame0 amd64 3.100-6 [365 kB]
+#5 158.5 Get:99 http://deb.debian.org/debian bookworm/main amd64 libmpg123-0 amd64 1.31.2-1+deb12u1 [147 kB]
+#5 159.4 Get:100 http://deb.debian.org/debian bookworm/main amd64 libvorbis0a amd64 1.3.7-1 [93.0 kB]
+#5 160.2 Get:101 http://deb.debian.org/debian bookworm/main amd64 libvorbisenc2 amd64 1.3.7-1 [80.6 kB]
+#5 161.3 Get:102 http://deb.debian.org/debian bookworm/main amd64 libsndfile1 amd64 1.2.0-1+deb12u1 [197 kB]
+#5 162.4 Get:103 http://deb.debian.org/debian bookworm/main amd64 libx11-xcb1 amd64 2:1.8.4-2+deb12u2 [192 kB]
+#5 163.5 Get:104 http://deb.debian.org/debian bookworm/main amd64 libpulse0 amd64 16.1+dfsg1-2+b1 [274 kB]
+#5 164.1 Get:105 http://deb.debian.org/debian bookworm/main amd64 libxcomposite1 amd64 1:0.4.5-1 [16.6 kB]
+#5 164.6 Get:106 http://deb.debian.org/debian bookworm/main amd64 libxdamage1 amd64 1:1.1.6-1 [15.1 kB]
+#5 165.3 Get:107 http://deb.debian.org/debian bookworm/main amd64 libxfixes3 amd64 1:6.0.0-2 [22.7 kB]
+#5 167.7 Get:108 http://deb.debian.org/debian bookworm/main amd64 xkb-data all 2.35.1-1 [764 kB]
+#5 168.7 Get:109 http://deb.debian.org/debian bookworm/main amd64 libxkbcommon0 amd64 1.5.0-1 [106 kB]
+#5 169.4 Get:110 http://deb.debian.org/debian bookworm/main amd64 libxnvctrl0 amd64 525.85.05-3~deb12u1 [13.5 kB]
+#5 170.0 Get:111 http://deb.debian.org/debian bookworm/main amd64 libxrandr2 amd64 2:1.5.2-2+b1 [39.2 kB]
+#5 170.9 Get:112 http://deb.debian.org/debian bookworm/main amd64 libcairo-gobject2 amd64 1.16.0-7 [112 kB]
+#5 171.8 Get:113 http://deb.debian.org/debian bookworm/main amd64 libcolord2 amd64 1.4.6-2.2 [137 kB]
+#5 173.2 Get:114 http://deb.debian.org/debian bookworm/main amd64 libepoxy0 amd64 1.5.10-1 [189 kB]
+#5 173.9 Get:115 http://deb.debian.org/debian bookworm/main amd64 libpangoft2-1.0-0 amd64 1.50.12+ds-1 [47.4 kB]
+#5 174.5 Get:116 http://deb.debian.org/debian bookworm/main amd64 libpangocairo-1.0-0 amd64 1.50.12+ds-1 [34.2 kB]
+#5 175.1 Get:117 http://deb.debian.org/debian bookworm/main amd64 libwayland-client0 amd64 1.21.0-1 [28.3 kB]
+#5 175.6 Get:118 http://deb.debian.org/debian bookworm/main amd64 libwayland-cursor0 amd64 1.21.0-1 [14.4 kB]
+#5 176.0 Get:119 http://deb.debian.org/debian bookworm/main amd64 libwayland-egl1 amd64 1.21.0-1 [8640 B]
+#5 176.7 Get:120 http://deb.debian.org/debian bookworm/main amd64 libxcursor1 amd64 1:1.2.1-1 [40.9 kB]
+#5 177.3 Get:121 http://deb.debian.org/debian bookworm/main amd64 libxinerama1 amd64 2:1.1.4-3 [17.8 kB]
+#5 178.1 Get:122 http://deb.debian.org/debian bookworm/main amd64 dbus-user-session amd64 1.14.10-1~deb12u1 [78.1 kB]
+#5 183.0 Get:123 http://deb.debian.org/debian bookworm/main amd64 libdconf1 amd64 0.40.0-4 [40.9 kB]
+#5 183.8 Get:124 http://deb.debian.org/debian bookworm/main amd64 dconf-service amd64 0.40.0-4 [31.6 kB]
+#5 184.4 Get:125 http://deb.debian.org/debian bookworm/main amd64 dconf-gsettings-backend amd64 0.40.0-4 [27.8 kB]
+#5 187.0 Get:126 http://deb.debian.org/debian bookworm/main amd64 libgtk-3-common all 3.24.38-2~deb12u3 [3895 kB]
+#5 189.0 Get:127 http://deb.debian.org/debian bookworm/main amd64 libgtk-3-0 amd64 3.24.38-2~deb12u3 [2847 kB]
+#5 190.0 Get:128 http://deb.debian.org/debian bookworm/main amd64 libfontenc1 amd64 1:1.1.4-1 [24.3 kB]
+#5 190.8 Get:129 http://deb.debian.org/debian bookworm/main amd64 libglvnd0 amd64 1.6.0-1 [51.8 kB]
+#5 192.4 Get:130 http://deb.debian.org/debian bookworm/main amd64 libglapi-mesa amd64 22.3.6-1+deb12u2 [35.9 kB]
+#5 193.3 Get:131 http://deb.debian.org/debian bookworm/main amd64 libxcb-dri2-0 amd64 1.15-1 [107 kB]
+#5 194.3 Get:132 http://deb.debian.org/debian bookworm/main amd64 libxcb-dri3-0 amd64 1.15-1 [107 kB]
+#5 195.3 Get:133 http://deb.debian.org/debian bookworm/main amd64 libxcb-glx0 amd64 1.15-1 [122 kB]
+#5 196.3 Get:134 http://deb.debian.org/debian bookworm/main amd64 libxcb-present0 amd64 1.15-1 [105 kB]
+#5 197.2 Get:135 http://deb.debian.org/debian bookworm/main amd64 libxcb-randr0 amd64 1.15-1 [117 kB]
+#5 198.2 Get:136 http://deb.debian.org/debian bookworm/main amd64 libxcb-sync1 amd64 1.15-1 [109 kB]
+#5 199.2 Get:137 http://deb.debian.org/debian bookworm/main amd64 libxcb-xfixes0 amd64 1.15-1 [109 kB]
+#5 199.7 Get:138 http://deb.debian.org/debian bookworm/main amd64 libxshmfence1 amd64 1.3-1 [8820 B]
+#5 200.2 Get:139 http://deb.debian.org/debian bookworm/main amd64 libxxf86vm1 amd64 1:1.1.4-1+b2 [20.8 kB]
+#5 200.8 Get:140 http://deb.debian.org/debian bookworm/main amd64 libdrm-amdgpu1 amd64 2.4.114-1+b1 [20.9 kB]
+#5 202.6 Get:141 http://deb.debian.org/debian bookworm/main amd64 libpciaccess0 amd64 0.17-2 [51.4 kB]
+#5 203.5 Get:142 http://deb.debian.org/debian bookworm/main amd64 libdrm-intel1 amd64 2.4.114-1+b1 [64.0 kB]
+#5 204.1 Get:143 http://deb.debian.org/debian bookworm/main amd64 libdrm-nouveau2 amd64 2.4.114-1+b1 [19.1 kB]
+#5 204.6 Get:144 http://deb.debian.org/debian bookworm/main amd64 libdrm-radeon1 amd64 2.4.114-1+b1 [21.8 kB]
+#5 205.5 Get:145 http://deb.debian.org/debian bookworm/main amd64 libedit2 amd64 3.1-20221030-2 [93.0 kB]
+#5 211.0 Get:146 http://deb.debian.org/debian bookworm/main amd64 libz3-4 amd64 4.8.12-3.1 [7216 kB]
+#5 235.9 Get:147 http://deb.debian.org/debian bookworm/main amd64 libllvm15 amd64 1:15.0.6-4+b1 [23.1 MB]
+#5 239.4 Get:148 http://deb.debian.org/debian bookworm/main amd64 libsensors-config all 1:3.6.0-7.1 [14.3 kB]
+#5 240.1 Get:149 http://deb.debian.org/debian bookworm/main amd64 libsensors5 amd64 1:3.6.0-7.1 [34.2 kB]
+#5 247.3 Get:150 http://deb.debian.org/debian bookworm/main amd64 libgl1-mesa-dri amd64 22.3.6-1+deb12u2 [7240 kB]
+#5 248.7 Get:151 http://deb.debian.org/debian bookworm/main amd64 libglx-mesa0 amd64 22.3.6-1+deb12u2 [148 kB]
+#5 250.4 Get:152 http://deb.debian.org/debian bookworm/main amd64 libglx0 amd64 1.6.0-1 [34.4 kB]
+#5 251.2 Get:153 http://deb.debian.org/debian bookworm/main amd64 libgl1 amd64 1.6.0-1 [88.4 kB]
+#5 253.3 Get:154 http://deb.debian.org/debian bookworm/main amd64 x11-common all 1:7.7+23 [252 kB]
+#5 255.1 Get:155 http://deb.debian.org/debian bookworm/main amd64 libice6 amd64 2:1.0.10-1 [58.5 kB]
+#5 255.7 Get:156 http://deb.debian.org/debian bookworm/main amd64 libsm6 amd64 2:1.2.3-1 [35.1 kB]
+#5 256.8 Get:157 http://deb.debian.org/debian bookworm/main amd64 libxt6 amd64 1:1.2.1-1.1 [186 kB]
+#5 257.5 Get:158 http://deb.debian.org/debian bookworm/main amd64 libxmu6 amd64 2:1.1.3-3 [60.1 kB]
+#5 258.3 Get:159 http://deb.debian.org/debian bookworm/main amd64 libxpm4 amd64 1:3.5.12-1.1+deb12u1 [48.6 kB]
+#5 259.3 Get:160 http://deb.debian.org/debian bookworm/main amd64 libxaw7 amd64 2:1.0.14-1 [201 kB]
+#5 260.3 Get:161 http://deb.debian.org/debian bookworm/main amd64 libxcb-shape0 amd64 1.15-1 [106 kB]
+#5 261.0 Get:162 http://deb.debian.org/debian bookworm/main amd64 libxft2 amd64 2.3.6-1 [61.8 kB]
+#5 261.9 Get:163 http://deb.debian.org/debian bookworm/main amd64 libxkbfile1 amd64 1:1.1.0-1 [75.2 kB]
+#5 262.5 Get:164 http://deb.debian.org/debian bookworm/main amd64 libxmuu1 amd64 2:1.1.3-3 [23.9 kB]
+#5 263.1 Get:165 http://deb.debian.org/debian bookworm/main amd64 libxtst6 amd64 2:1.2.3-1.1 [28.0 kB]
+#5 263.7 Get:166 http://deb.debian.org/debian bookworm/main amd64 libxv1 amd64 2:1.0.11-1.1 [24.8 kB]
+#5 264.3 Get:167 http://deb.debian.org/debian bookworm/main amd64 libxxf86dga1 amd64 2:1.1.5-1 [22.1 kB]
+#5 265.3 Get:168 http://deb.debian.org/debian bookworm/main amd64 x11-utils amd64 7.7+5 [202 kB]
+#5 269.2 Get:169 http://deb.debian.org/debian bookworm/main amd64 xdg-utils all 1.1.3-4.1 [75.5 kB]
+#5 283.2 Get:170 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium-common amd64 156.0.8078.79
+-1~deb12u1 [31.6 MB]
+#5 317.4 Ign:171 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium amd64 156.0.8078.79-1~deb1
+2u1
+#5 318.4 Get:172 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium-sandbox amd64 156.0.8078.7
+9-1~deb12u1 [164 kB]
+#5 318.9 Get:173 http://deb.debian.org/debian bookworm/main amd64 libip6tc2 amd64 1.8.9-2 [19.4 kB]
+#5 319.5 Get:174 http://deb.debian.org/debian bookworm/main amd64 libnfnetlink0 amd64 1.0.2-2 [15.1 kB]
+#5 320.2 Get:175 http://deb.debian.org/debian bookworm/main amd64 libnetfilter-conntrack3 amd64 1.0.9-3 [40.7 kB]
+#5 321.0 Get:176 http://deb.debian.org/debian bookworm/main amd64 libnftnl11 amd64 1.2.4-2 [61.6 kB]
+#5 337.3 Get:177 http://deb.debian.org/debian bookworm/main amd64 iptables amd64 1.8.9-2 [360 kB]
+#5 367.4 Ign:171 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium amd64 156.0.8078.79-1~deb1
+2u1
+#5 429.5 Ign:171 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium amd64 156.0.8078.79-1~deb1
+2u1
+#5 493.6 Err:171 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium amd64 156.0.8078.79-1~deb1
+2u1
+#5 493.6   Connection failed [IP: 146.75.46.132 80]
+#5 493.6 Fetched 125 MB in 7min 51s (267 kB/s)
+#5 493.6 E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/chromium/chromium_156.0.8078.79-1
+%7edeb12u1_amd64.deb  Connection failed [IP: 146.75.46.132 80]
+#5 493.6 E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+#5 ERROR: process "/bin/sh -c apt-get update && apt-get install -y --no-install-recommends chromium chromium-sandbox ip
+route2 iptables util-linux     && rm -rf /var/lib/apt/lists/*     && groupadd -g 10003 vrae-ipc && useradd -u 10001 -g
+10003 -M browser" did not complete successfully: exit code: 100
+------
+ > [2/2] RUN apt-get update && apt-get install -y --no-install-recommends chromium chromium-sandbox iproute2 iptables u
+til-linux     && rm -rf /var/lib/apt/lists/*     && groupadd -g 10003 vrae-ipc && useradd -u 10001 -g 10003 -M browser:
+320.2 Get:175 http://deb.debian.org/debian bookworm/main amd64 libnetfilter-conntrack3 amd64 1.0.9-3 [40.7 kB]
+321.0 Get:176 http://deb.debian.org/debian bookworm/main amd64 libnftnl11 amd64 1.2.4-2 [61.6 kB]
+337.3 Get:177 http://deb.debian.org/debian bookworm/main amd64 iptables amd64 1.8.9-2 [360 kB]
+367.4 Ign:171 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium amd64 156.0.8078.79-1~deb12u1
+429.5 Ign:171 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium amd64 156.0.8078.79-1~deb12u1
+493.6 Err:171 http://deb.debian.org/debian-security bookworm-security/main amd64 chromium amd64 156.0.8078.79-1~deb12u1
+493.6   Connection failed [IP: 146.75.46.132 80]
+493.6 Fetched 125 MB in 7min 51s (267 kB/s)
+493.6 E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/chromium/chromium_156.0.8078.79-1%7e
+deb12u1_amd64.deb  Connection failed [IP: 146.75.46.132 80]
+493.6 E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+------
+Dockerfile:2
+--------------------
+   1 |     FROM python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+   2 | >>> RUN apt-get update && apt-get install -y --no-install-recommends chromium chromium-sandbox iproute2 iptables
+ util-linux \
+   3 | >>>     && rm -rf /var/lib/apt/lists/* \
+   4 | >>>     && groupadd -g 10003 vrae-ipc && useradd -u 10001 -g 10003 -M browser
+   5 |     ENV HOME=/tmp/profile
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c apt-get update && apt-get install -y --no-install-recommen
+ds chromium chromium-sandbox iproute2 iptables util-linux     && rm -rf /var/lib/apt/lists/*     && groupadd -g 10003 v
+rae-ipc && useradd -u 10001 -g 10003 -M browser" did not complete successfully: exit code: 100
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/x3r7rcow99f72a15f24c83pwh
+EXIT_CODE=1
