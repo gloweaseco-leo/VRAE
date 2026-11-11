@@ -13,6 +13,7 @@ from vrae.evidence import EvidenceError, EvidencePack
 from .readiness import catalog, GAPS
 
 VERSION = 'ra2b0-1.0.0'
+JOURNEY_VERSION = 'ra2b1-1.0.0'
 
 
 class Navigation(HTMLParser):
@@ -69,12 +70,13 @@ def _metadata(record):
         'error': page['error']}
 
 
-def _row(doc, rule, result, reason, *, citations=None, home=None, target=None):
+def _row(doc, rule, result, reason, *, citations=None, home=None, target=None,
+         source=None, statement=None, coverage_note=None):
     citations = citations or []
     objective = result in ('PASS', 'FAIL_WITH_EVIDENCE')
     ids = sorted({ref for c in citations for ref in
                   (c['evidence_ref'], c.get('target_evidence_ref')) if ref}) if objective else []
-    statement = {
+    statement = statement or {
         'PASS': 'This captured static homepage nav href reached a captured HTTP 200 category-path page.',
         'FAIL_WITH_EVIDENCE': 'This captured static homepage nav href returned HTTP 404 or 410 at capture time.',
         'UNKNOWN': 'Insufficient evidence for this bounded rule judgment.',
@@ -84,9 +86,12 @@ def _row(doc, rule, result, reason, *, citations=None, home=None, target=None):
         'rule_id': rule['rule_id'], 'rule_version': rule['rule_version'],
         'evidence_ids': ids, 'result': result, 'kind': 'OBJECTIVE' if objective else 'UNKNOWN',
         'statement': statement,
-        'coverage_note': 'One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.'}
+        'coverage_note': coverage_note or 'One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.'}
     row = {'observation': observation, 'reason': reason, 'citations': citations,
            'homepage': home, 'target_response': target}
+    if source is not None:
+        row['source_page'] = source
+        del row['homepage']
     observation['observation_id'] = 'obs-' + document_hash(row)
     validate_contract('Observation', observation)
     return row
@@ -163,33 +168,53 @@ def _discover(pack, doc, rule):
     return rows or [_row(doc, rule, 'UNKNOWN', 'HTTP_HOMEPAGE_REQUIRED')]
 
 
-def execute(pack: EvidencePack, *, expected_pack_ref: str) -> dict:
+def execute(pack: EvidencePack, *, expected_pack_ref: str, evaluator_version: str = VERSION) -> dict:
     if not isinstance(expected_pack_ref, str) or not re.fullmatch(r'ep-[0-9a-f]{64}', expected_pack_ref):
         raise EvidenceError('RULE_EXECUTION_INTEGRITY')
     pack.verify(expected_ref=expected_pack_ref)
+    if evaluator_version not in (VERSION, JOURNEY_VERSION):
+        raise EvidenceError('RULE_VERSION_UNSUPPORTED')
     doc = pack.document
     rules = catalog()
     executions = []
     for rule in rules['rules']:
         enabled = rule['rule_id'] == 'DISC-01'
-        rows = _discover(pack, doc, rule) if enabled else [_row(
-            doc, rule, 'UNKNOWN', GAPS[rule['rule_id']])]
+        if evaluator_version == JOURNEY_VERSION and rule['rule_id'] in ('DISC-02', 'CTA-02'):
+            from .journey import evaluate_links
+            enabled, rows = True, evaluate_links(pack, doc, rule)
+        else:
+            rows = _discover(pack, doc, rule) if enabled else [_row(
+                doc, rule, 'UNKNOWN', GAPS[rule['rule_id']])]
         executions.append({'rule_id': rule['rule_id'], 'rule_version': rule['rule_version'],
             'buyer_task': rule['buyer_task'], 'enabled': enabled, 'observations': rows})
-    result = {'schema_version': '1.0', 'evaluator_version': VERSION,
+    result = {'schema_version': '1.0', 'evaluator_version': evaluator_version,
         'catalog_version': rules['catalog_version'], 'catalog_sha256': document_hash(rules),
         'expected_pack_ref': expected_pack_ref, 'tenant_id': doc['tenant_id'], 'run_id': doc['run_id'],
         'executions': executions, 'coverage': doc['coverage'],
         'limitations': ['OFFLINE_SYNTHETIC_CONSISTENCY_ONLY', 'NO_LIVE_AUTHORIZATION_CHECK',
                         'STATIC_NAV_HREF_ONLY', 'NO_FINDINGS_OR_BUSINESS_IMPACT']}
+    if evaluator_version == JOURNEY_VERSION:
+        from .journey import compose_paths
+        result['journeys'], result['journey_composition'] = compose_paths(executions)
+        result['recorded_capture_scope'] = [{
+            'source_ref': source['source_ref'],
+            **{k: source['document'][k] for k in ('tenant_id', 'run_id', 'policy_id', 'policy_version')},
+            'terms_reference': source['document'].get('terms_reference'),
+            'authorization_limit': 'RECORDED_SCOPE_NOT_CURRENT_AUTHORIZATION',
+        } for source in doc['sources']]
+        result['limitations'][2] = 'STATIC_HREF_PATH_ONLY'
     result['execution_ref'] = 'rx-' + document_hash(result)
     return result
 
 
-def verify_execution(output: dict, pack: EvidencePack, *, expected_pack_ref: str) -> None:
+def verify_execution(output: dict, pack: EvidencePack, *, expected_pack_ref: str,
+                     expected_evaluator_version: str | None = None) -> None:
     """Recompute every assertion, locator, response and output against a trusted pin."""
     try:
-        expected = execute(pack, expected_pack_ref=expected_pack_ref)
+        version = output['evaluator_version']
+        if expected_evaluator_version is not None and version != expected_evaluator_version:
+            raise ValueError('RULE_VERSION_MISMATCH')
+        expected = execute(pack, expected_pack_ref=expected_pack_ref, evaluator_version=version)
         if json.dumps(output, sort_keys=True, allow_nan=False) != json.dumps(expected, sort_keys=True):
             raise ValueError('RULE_EXECUTION_MISMATCH')
     except Exception as exc:
