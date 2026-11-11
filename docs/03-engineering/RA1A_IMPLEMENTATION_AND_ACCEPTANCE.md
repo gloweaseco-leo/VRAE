@@ -2,9 +2,9 @@
 
 ## 结论与基线
 
-本地工程验收 **PASS / LOCAL_ENGINEERING_VERIFIED**；GitHub CI 单独追踪
-Issue #3 的 **CI_INFRA_BLOCKED**，不得作为 PASS。A0–A4 已实现并在合成环境验收，
-可交 Owner 审核。整体发布状态 **PARTIAL**，未授权生产采集或 RA-1B。
+本地工程验收 **PASS / LOCAL_ENGINEERING_VERIFIED**；GitHub 首次 PR CI 实际运行并通过，
+不再将本次运行标为 CI_INFRA_BLOCKED。A0–A4 已实现并在合成环境验收，
+总体 **PASS（RA-1A 合成环境范围）**，可交 Owner 审核；未授权生产采集或 RA-1B。
 未发现仍未解决的本轮 P0/P1；结论仅覆盖下面明确测试的边界，不是生产 SSRF 认证。
 
 实际同步的 main：`deaa8fd9834684e784fc7d388952f01f5fa4980d`，与指定基线一致。
@@ -121,9 +121,15 @@ docker run --rm --network none --cap-add NET_ADMIN --read-only \
 ## CI、网络访问与成本
 
 保留原 CI 门禁，新增隔离连接任务；PR 触发一次，不空提交或反复重跑。
-[Issue #3](https://github.com/gloweaseco-leo/VRAE/issues/3) 的账户计费限制独立于源码测试。
-本提交的实际 run/job/annotation 状态在 Draft PR 中补充，不能把未启动的 job 算 PASS。
-未修改 Billing；Owner 若要恢复托管 CI，仅需处理其账户付款/额度并授权一次正常验证。
+[Issue #3](https://github.com/gloweaseco-leo/VRAE/issues/3) 记录历史计费阻断。本次
+[run 42952833840](https://github.com/gloweaseco-leo/VRAE/actions/runs/42952833840)
+三个作业已实际执行并成功：3.13 job130300918366、3.11 job130300918710、
+隔离 job130300918592。常规矩阵各369通过/24跳过，隔离393通过/0跳过。
+运行于 2026-11-11 03:27 UTC，完整时间与步骤见
+[hosted-ci.json](ra1a-evidence/hosted-ci.json) 和 [完整日志](ra1a-evidence/hosted-ci.log)。
+测试对象为实现提交 `81f48d9028b1050e6d1ed06f4c495b07550041c7` 的 PR 合并引用。
+此后提交仅补充文档与证据，最新 HEAD 的 CI 状态继续在 Draft PR 记录。
+未修改 Billing、不推断账户付款已解决，也未关闭历史 Issue #3。
 
 网络访问仅 GitHub 仓库/Issue、官方依赖文档、Python 包和镜像构建依赖下载。
 测试网站请求全部在隔离 lo 命名空间；真实第三方网站0、模型调用0、付费模型费用0，
