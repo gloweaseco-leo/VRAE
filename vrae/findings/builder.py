@@ -14,6 +14,8 @@ VERSION = 'ra2c0-1.0.0'
 EVALUATOR = 'ra2b1-1.0.0'
 INFO_VERSION = 'ra2c1-1.0.0'
 INFO_EVALUATOR = 'ra2b3-1.0.0'
+SEO_VERSION = 'ra2c2-1.0.0'
+SEO_EVALUATOR = 'ra2b4-1.0.0'
 MAX_BYTES = 8_000_000
 
 
@@ -77,7 +79,8 @@ def _bridge(pack, observation, finding):
 
 def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expected_evaluator_version,
              expected_builder_version=VERSION):
-    evaluator = {VERSION: EVALUATOR, INFO_VERSION: INFO_EVALUATOR}.get(expected_builder_version)
+    evaluator = {VERSION: EVALUATOR, INFO_VERSION: INFO_EVALUATOR,
+                 SEO_VERSION: SEO_EVALUATOR}.get(expected_builder_version)
     if (evaluator is None or expected_evaluator_version != evaluator or not isinstance(expected_execution_ref, str)
             or not re.fullmatch(r'rx-[0-9a-f]{64}', expected_execution_ref)):
         _fail()
@@ -91,7 +94,7 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
                      expected_evaluator_version=expected_evaluator_version)
     if execution['catalog_version'] != '1.0.0':
         _fail()
-    items, positives, product_facts = [], [], []
+    items, positives, product_facts, seo_signals = [], [], [], []
     ids: set[str] = set()
     for index, rule in enumerate(execution['executions']):
         for row_index, row in enumerate(rule['observations']):
@@ -106,7 +109,9 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
                 positive = {'observation_id': oid, 'rule_id': rule['rule_id'],
                     'buyer_task': rule['buyer_task'], 'execution_locator': locator,
                     'provenance': row}
-                if expected_builder_version == INFO_VERSION and rule['rule_id'] == 'INFO-01':
+                if expected_builder_version == SEO_VERSION and rule['rule_id'] == 'SEO-01':
+                    seo_signals.append(positive)
+                elif expected_builder_version in (INFO_VERSION, SEO_VERSION) and rule['rule_id'] == 'INFO-01':
                     product_facts.append(positive)
                 else:
                     positives.append(positive)
@@ -137,7 +142,7 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
             items.append({'finding': finding, 'rule_id': rule['rule_id'], 'outcome': result,
                 'execution_locator': locator, 'gap_reason': row['reason'],
                 'coverage_note': observation['coverage_note'], 'provenance': row, 'guard_bridge': bridge})
-    if len(items) > 256 or len(positives) + len(product_facts) > 512:
+    if len(items) > 256 or len(positives) + len(product_facts) + len(seo_signals) > 512:
         _fail()
     result = {'schema_version': '1.0', 'builder_version': expected_builder_version, 'tenant_id': execution['tenant_id'],
         'run_id': execution['run_id'], 'expected_pack_ref': expected_pack_ref,
@@ -152,10 +157,16 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
         'limitations': ['OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION',
             'NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM',
             'NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF', 'PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT']}
-    if expected_builder_version == INFO_VERSION:
+    if expected_builder_version in (INFO_VERSION, SEO_VERSION):
         result['checked_product_facts'] = sorted(product_facts, key=lambda item: item['observation_id'])
         result['limitations'].append(
             'PRODUCT_SOURCE_TEXT_ONLY_NOT_ACCURACY_COMPLETENESS_AUTHENTICITY_COMPREHENSION_OR_FIT')
+    if expected_builder_version == SEO_VERSION:
+        result['checked_seo_signals'] = sorted(seo_signals, key=lambda item: item['observation_id'])
+        result['limitations'].extend([
+            'SEO01_ORIGINAL_HOME_TITLE_CANONICAL_TAG_PRESENCE_ONLY_NOT_A_DEFECT',
+            'NO_CANONICAL_TARGET_FETCH_INDEXING_RANKING_CRAWLABILITY_OR_SEO_HEALTH_CLAIM',
+            'ROBOTS_SITEMAP_UNKNOWN_WITHOUT_SEPARATELY_RESOLVABLE_CAPTURE'])
     result['package_ref'] = 'fp-' + document_hash(result)
     if len(_encode(result)) > MAX_BYTES:
         _fail()

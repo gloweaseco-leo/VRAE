@@ -1,0 +1,63 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______ test_separate_seo_product_path_positives_and_one_broken_contact _______
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...al diameter</th><td>DN 50</td></tr>\n</table>\n<a href="/contact">Contact</a><a href="/rfq">RFQ</a>\n</main></html>')))
+execution = {'schema_version': '1.0', 'evaluator_version': 'ra2b4-1.0.0', 'catalog_version': '1.0.0', 'catalog_sha256': '24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1', ...}
+expected_pack_ref = 'ep-152b47e1a7f196358312572dae3d3745b9ff2f58e30667c5497064c50f57f1b5'
+expected_execution_ref = 'rx-aef89cba3317cfc91d671d0b490012304f2e2a4c68bc17b2041f3a0c5bcca261'
+expected_evaluator_version = 'ra2b4-1.0.0'
+expected_builder_version = 'ra2c2-1.0.0'
+
+    def build_findings(pack: EvidencePack, execution: dict, *, expected_pack_ref: str,
+                       expected_execution_ref: str, expected_evaluator_version: str,
+                       expected_builder_version: str = VERSION) -> FindingPackage:
+        try:
+>           return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+                expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version,
+                expected_builder_version=expected_builder_version)))
+
+vrae\findings\builder.py:214:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\findings\builder.py:83: in _project
+    _fail()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def _fail():
+>       raise FindingError('FINDING_INTEGRITY')
+E       vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+vrae\findings\builder.py:25: FindingError
+
+The above exception was the direct cause of the following exception:
+
+    def test_separate_seo_product_path_positives_and_one_broken_contact():
+        pack, execution = diagnostic_input()
+>       doc = build_findings(pack, execution, **pins(pack, execution)).document
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\findings\test_seo01_integration.py:8:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...al diameter</th><td>DN 50</td></tr>\n</table>\n<a href="/contact">Contact</a><a href="/rfq">RFQ</a>\n</main></html>')))
+execution = {'schema_version': '1.0', 'evaluator_version': 'ra2b4-1.0.0', 'catalog_version': '1.0.0', 'catalog_sha256': '24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1', ...}
+expected_pack_ref = 'ep-152b47e1a7f196358312572dae3d3745b9ff2f58e30667c5497064c50f57f1b5'
+expected_execution_ref = 'rx-aef89cba3317cfc91d671d0b490012304f2e2a4c68bc17b2041f3a0c5bcca261'
+expected_evaluator_version = 'ra2b4-1.0.0'
+expected_builder_version = 'ra2c2-1.0.0'
+
+    def build_findings(pack: EvidencePack, execution: dict, *, expected_pack_ref: str,
+                       expected_execution_ref: str, expected_evaluator_version: str,
+                       expected_builder_version: str = VERSION) -> FindingPackage:
+        try:
+            return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+                expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version,
+                expected_builder_version=expected_builder_version)))
+        except Exception as exc:
+>           raise FindingError('FINDING_INTEGRITY') from exc
+E           vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+vrae\findings\builder.py:218: FindingError
+=========================== short test summary info ===========================
+FAILED tests/findings/test_seo01_integration.py::test_separate_seo_product_path_positives_and_one_broken_contact
+1 failed in 1.85s
