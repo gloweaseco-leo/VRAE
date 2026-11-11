@@ -14,6 +14,7 @@ from .readiness import catalog, GAPS
 
 VERSION = 'ra2b0-1.0.0'
 JOURNEY_VERSION = 'ra2b1-1.0.0'
+INFO_VERSION = 'ra2b3-1.0.0'
 
 
 class Navigation(HTMLParser):
@@ -172,14 +173,18 @@ def execute(pack: EvidencePack, *, expected_pack_ref: str, evaluator_version: st
     if not isinstance(expected_pack_ref, str) or not re.fullmatch(r'ep-[0-9a-f]{64}', expected_pack_ref):
         raise EvidenceError('RULE_EXECUTION_INTEGRITY')
     pack.verify(expected_ref=expected_pack_ref)
-    if evaluator_version not in (VERSION, JOURNEY_VERSION):
+    if evaluator_version not in (VERSION, JOURNEY_VERSION, INFO_VERSION):
         raise EvidenceError('RULE_VERSION_UNSUPPORTED')
     doc = pack.document
     rules = catalog()
     executions = []
     for rule in rules['rules']:
         enabled = rule['rule_id'] == 'DISC-01'
-        if evaluator_version == JOURNEY_VERSION and rule['rule_id'] in ('DISC-02', 'CTA-02'):
+        if evaluator_version == INFO_VERSION and rule['rule_id'] == 'INFO-01':
+            from .info01 import evaluate_product_info
+            enabled, rows = True, evaluate_product_info(
+                pack, doc, rule, expected_pack_ref=expected_pack_ref)
+        elif evaluator_version in (JOURNEY_VERSION, INFO_VERSION) and rule['rule_id'] in ('DISC-02', 'CTA-02'):
             from .journey import evaluate_links
             enabled, rows = True, evaluate_links(pack, doc, rule)
         else:
@@ -193,7 +198,7 @@ def execute(pack: EvidencePack, *, expected_pack_ref: str, evaluator_version: st
         'executions': executions, 'coverage': doc['coverage'],
         'limitations': ['OFFLINE_SYNTHETIC_CONSISTENCY_ONLY', 'NO_LIVE_AUTHORIZATION_CHECK',
                         'STATIC_NAV_HREF_ONLY', 'NO_FINDINGS_OR_BUSINESS_IMPACT']}
-    if evaluator_version == JOURNEY_VERSION:
+    if evaluator_version in (JOURNEY_VERSION, INFO_VERSION):
         from .journey import compose_paths
         result['journeys'], result['journey_composition'] = compose_paths(executions)
         result['recorded_capture_scope'] = [{
@@ -203,6 +208,10 @@ def execute(pack: EvidencePack, *, expected_pack_ref: str, evaluator_version: st
             'authorization_limit': 'RECORDED_SCOPE_NOT_CURRENT_AUTHORIZATION',
         } for source in doc['sources']]
         result['limitations'][2] = 'STATIC_HREF_PATH_ONLY'
+    if evaluator_version == INFO_VERSION:
+        result['limitations'][2] = 'STATIC_HREF_PATH_AND_PRODUCT_SOURCE_TEXT_ONLY'
+        result['limitations'].extend(['INFO01_POSITIVE_ONLY_NO_FAIL_OR_NOT_APPLICABLE',
+                                      'NO_PRODUCT_ACCURACY_COMPLETENESS_OR_FIT_CLAIM'])
     result['execution_ref'] = 'rx-' + document_hash(result)
     return result
 
