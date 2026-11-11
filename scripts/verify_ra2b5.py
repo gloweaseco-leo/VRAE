@@ -60,7 +60,7 @@ for case in data['cases']:
                 assert hashlib.sha256(raw).hexdigest() == citation['content_sha256']
                 text = raw.decode('utf-8')
                 element = citation['element']
-                offset = sum(len(s) for s in text.splitlines(keepends=True)[:element['line'] - 1]) + element['column']
+                offset = sum(len(s) + 1 for s in text.split('\n')[:element['line'] - 1]) + element['column']
                 assert text[offset:].startswith(citation['raw_element'])
                 assert citation['raw_element'].startswith(element['start_tag'])
                 inner = citation['raw_element'].split('>', 1)[1].rsplit('</', 1)[0]

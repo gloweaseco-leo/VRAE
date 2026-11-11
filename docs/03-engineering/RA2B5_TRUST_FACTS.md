@@ -44,7 +44,9 @@ exact `raw_element` preserves the original entity spelling/markup too. Every
 citation includes the original response hash, source/snapshot/evidence ref and
 source JSON pointer, requested/final URL, captured_at, element path, original
 opening tag and line/column. Lines are one-based; columns are zero-based Unicode
-character offsets. Path indices count all sibling elements, not XPath tag indices.
+character offsets; as in HTMLParser, only LF increments the line number (CR/NEL/
+Unicode separators remain original characters). Path indices count all sibling
+elements, not XPath tag indices.
 Complete original body bytes remain available in the pinned EvidencePack.
 
 Balanced UTF-8 subset only: at most 131072 source bytes, 2048 elements, 32 levels,
@@ -112,7 +114,7 @@ parser/output bounds and rehashed text/href/locator/hash/time/scope/metadata for
 ## Verification and stopping point
 
 Initial red records the actual missing-module failure before implementation.
-The new dedicated suite has 90 tests. Full regressions and all accepted
+The new dedicated suite has 94 tests. Full regressions and all accepted
 RA-2A/B0/B1/B2/B3/C0/C1/D0/D1 replays plus B5 use
 `python docs/03-engineering/ra2b5-evidence/regress.py <new-log-directory>`.
 Run Python 3.11 and 3.13 serially. Original logs, interpreter, imported source path,
@@ -120,6 +122,17 @@ source HEAD, command and exit codes are preserved. Windows temp/schema read
 failures, if any, are recorded as failures; no old tests/schema are changed.
 Final exact-head 3.11/3.13/isolated-http/isolated-browser CI links, actual counts
 and accepted main/checkout merge SHA are recorded in the Draft PR.
+
+Initial full Python 3.11 run: 932 passed / 25 skips / 1 failed. The unchanged
+legacy no-network safety guard reads production source using Windows GBK;
+Chinese literal labels in the new module caused a UnicodeDecodeError. Only the
+new module's labels were converted to equivalent ASCII Unicode escapes; Chinese
+extraction semantics and the old guard are unchanged. Raw failure stays in
+`ra2b5-evidence/python311/6.log`. A separate targeted red also exposed wrong raw
+element slices for CR/NEL/U+2028 before LF; the extractor now uses HTMLParser's
+LF-only character offsets, with four dedicated red-to-green cases. Original
+synthetic fixture inputs are explicitly UTF-8/LF for cross-platform fixed transport
+reproduction; the extractor itself never normalizes original captured bytes.
 
 Only this module, dedicated tests/trust fixtures, a separate sealed replay/script
 and limited B5 docs/evidence change. No execution.py, rules __init__, readiness,

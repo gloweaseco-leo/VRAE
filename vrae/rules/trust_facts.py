@@ -14,9 +14,10 @@ ROLES = {'HOME', 'ABOUT', 'CONTACT'}
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta',
         'param', 'source', 'track', 'wbr'}
 NAME_LABELS = {'company name', 'organization name', 'legal name', 'brand name',
-               '公司名称', '企业名称', '组织名称', '法定名称', '品牌名称'}
+               '\u516c\u53f8\u540d\u79f0', '\u4f01\u4e1a\u540d\u79f0', '\u7ec4\u7ec7\u540d\u79f0',
+               '\u6cd5\u5b9a\u540d\u79f0', '\u54c1\u724c\u540d\u79f0'}
 ABOUT_LABELS = {'about us', 'about the company', 'company profile', 'company overview',
-                '关于我们', '公司简介', '企业简介'}
+                '\u5173\u4e8e\u6211\u4eec', '\u516c\u53f8\u7b80\u4ecb', '\u4f01\u4e1a\u7b80\u4ecb'}
 MAX_BYTES = 8_000_000
 
 
@@ -30,7 +31,8 @@ class _Static(HTMLParser):
     def __init__(self, raw):
         super().__init__(convert_charrefs=True)
         self.raw = raw.decode('utf-8', errors='strict')
-        self.lines = self.raw.splitlines(keepends=True)
+        # HTMLParser increments line numbers only on LF, not CR/NEL/U+2028.
+        self.line_starts = [0] + [m.end() for m in re.finditer('\n', self.raw)]
         self.stack: list[dict] = []
         self.nodes: list[dict] = []
         self.roots: list[dict] = []
@@ -41,7 +43,7 @@ class _Static(HTMLParser):
 
     def _source_offset(self):
         line, column = self.getpos()
-        return sum(len(s) for s in self.lines[:line - 1]) + column
+        return self.line_starts[line - 1] + column
 
     def handle_starttag(self, tag, attrs):
         if len(self.nodes) >= 2048 or len(self.stack) >= 32:

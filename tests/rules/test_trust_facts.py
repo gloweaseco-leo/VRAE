@@ -22,13 +22,14 @@ FIXTURES = Path(__file__).parents[1] / 'fixtures/sites'
 def trust_pack(name='about', *, retained=True, about=None, contact=None, status=200,
                home=None, home_status=200, contact_status=200, max_pages=5, blocked=None,
                redirect=None):
-    html = (FIXTURES / f'trust-{name}.html').read_bytes() if about is None else about
+    # Fixed synthetic transport inputs use UTF-8/LF across Git checkout platforms.
+    html = (FIXTURES / f'trust-{name}.html').read_text(encoding='utf-8').encode('utf-8') if about is None else about
     routes = {
         'https://example.org/': (home_status, {'content-type': 'text/html'}, home if home is not None else
             b'<html><nav><a href="/about">About</a><a href="/contact">Contact</a></nav></html>'),
         'https://example.org/about': (status, {'content-type': 'text/html'}, html),
         'https://example.org/contact': (contact_status, {'content-type': 'text/html'},
-            (FIXTURES / 'trust-contact.html').read_bytes() if contact is None else contact),
+            (FIXTURES / 'trust-contact.html').read_text(encoding='utf-8').encode('utf-8') if contact is None else contact),
     }
     routes['https://example.org/robots.txt'] = (200, {'content-type': 'text/plain'},
         b'User-agent: *\nDisallow: /about\n' if blocked == 'robots' else b'User-agent: *\nDisallow:\n')
@@ -37,7 +38,7 @@ def trust_pack(name='about', *, retained=True, about=None, contact=None, status=
     if redirect:
         routes['https://example.org/contact'] = (302, {'location': redirect}, b'')
         routes['https://example.org' + redirect] = (200, {'content-type': 'text/html'},
-            (FIXTURES / 'trust-contact.html').read_bytes())
+            (FIXTURES / 'trust-contact.html').read_text(encoding='utf-8').encode('utf-8'))
     transport = SyntheticTransport(routes)
     bundle = asyncio.run(Collector(SafeFetcher(FixedDNS(), transport)).capture(
         'run-trust-facts', access(), limits=Limits(max_pages=max_pages, interval_seconds=0.01),
@@ -98,7 +99,7 @@ def test_complete_raw_citations_and_independent_response_edges(positive):
                 assert citation['url'] == row['source_page']['url']
                 raw = resolved['content'].decode('utf-8')
                 pos = citation['element']
-                offset = sum(len(s) for s in raw.splitlines(keepends=True)[:pos['line'] - 1]) + pos['column']
+                offset = sum(len(s) + 1 for s in raw.split('\n')[:pos['line'] - 1]) + pos['column']
                 assert raw[offset:].startswith(citation['raw_element'])
                 assert citation['raw_element'].startswith(pos['start_tag'])
                 inner = citation['raw_element'].split('>', 1)[1].rsplit('</', 1)[0]
@@ -406,3 +407,15 @@ def test_new_sealed_fixture_replays_all_three_industrial_sites():
         }, expected_ref=case['expected_pack_ref'])
         verify_facts(case['facts'], pack, expected_pack_ref=case['expected_pack_ref'])
         assert case['facts']['facts_ref'] == case['expected_facts_ref']
+
+
+@pytest.mark.parametrize('prefix', ['<html>\r<main>\n', '<html>\r\n<main>\r\n',
+                                   '<html>\u2028<main>\n', '<html>\u0085<main>\n'])
+def test_exact_slices_with_cr_lf_and_unicode_separator_characters(prefix):
+    raw = prefix + '<address>Office &amp; sales</address></main></html>'
+    output = run(trust_pack(about=raw.encode('utf-8'), contact=b'<html></html>'))
+    citation = next(f['citation'] for f in page(output)['facts'] if f['kind'] == 'ADDRESS_TEXT')
+    assert citation['raw_element'] == '<address>Office &amp; sales</address>'
+    offset = raw.index('<address>')
+    assert citation['element']['line'] == raw[:offset].count('\n') + 1
+    assert citation['element']['column'] == len(raw[:offset].rsplit('\n', 1)[-1])
