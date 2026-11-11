@@ -7,8 +7,9 @@
 
 ## 状态
 
-结论：**PASS（RA-1B 合成隔离工程范围，待 Owner / 首席架构师最终验收）**。
-本地及托管 CI 已通过，详见[恢复核验与最终审计](RA1B_FINAL_AUDIT.md)。
+结论：**SECURITY_BLOCKED（最终HEAD的Worker强杀后自动退出门禁失败）**。
+早期完整测试通过，但最终CI暴露清理可靠性问题，不能以早期PASS替代。
+详见[恢复核验与最终审计](RA1B_FINAL_AUDIT.md)。
 实现分支 `feat/ra1b-browser-worker-isolation`，
 [Draft PR #6](https://github.com/gloweaseco-leo/VRAE/pull/6) 保持 Draft，不合并或部署。
 

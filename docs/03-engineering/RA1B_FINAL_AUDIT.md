@@ -1,5 +1,28 @@
 # RA-1B 恢复核验与最终工程审计
 
+## 最终状态：SECURITY_BLOCKED
+
+最终文档HEAD `66d910284c0ad1d4fe1bf2ac32b09c37bd3b3807` 的
+[run42968878052](https://github.com/gloweaseco-leo/VRAE/actions/runs/42968878052)
+出现真实失败，优先于下述历史PASS。Python3.11、3.13及isolated-http均success；
+isolated-browser job130352416147失败，前15场景Worker退出0，最后worker_kill预期137，
+但紧接着的inspect仍显示浏览器Running，监督器抛出
+`SECURITY_BLOCKED: browser did not exit after control disconnect`。
+finally中的docker rm和volume rm成功、删除后inspect为1，证明强制回收完成；
+**不能证明控制通道断开后的自动退出可靠**，不得绕过断言或用重跑PASS掩盖。
+可能涉及退出时序竞争，尚未确认根因，不宣称已修复。
+按Owner停止条件停止受影响浏览器工作，保持Draft，不合并、不部署、不进入RA-2。
+下一轮须先定位强杀后Chromium/relay退出时序及进程证据，再修复并完整验收；
+禁止关闭Sandbox、放宽出网或删除清理断言。
+
+[完整失败日志](ra1b-evidence/hosted-final-browser-failure.log)；
+[198文件原始artifact13833300062](https://github.com/gloweaseco-leo/VRAE/actions/runs/42968878052/artifacts/13833300062)，
+ZIP SHA256 `486674355430fd6e3901fb615c9ae33bc9448dbec9cbef82ac33043aa888fa5d`。
+未见未授权连接或写入成功证据，但清理门禁未通过，整体不得宣称PASS。
+下文仅为首次实现CI的历史记录，不代表最终结论。
+
+## 首次实现CI历史记录
+
 2026-11-11 恢复开发后重新 fetch：远端 main 仍为
 `8bc460764dedb6a87c2e7806b2d3b382875596de`，未覆盖既有成果。
 实现提交 `474ef34c1f7f1f839e2e3f90ca080c2b0130a202`，首次 PR CI 检出合并引用
@@ -35,7 +58,7 @@ Namespace/chroot syscall许可用于启用Chromium自身Sandbox，没有关闭Sa
 完整攻击触发标记、Broker拒绝、诱饵方法/目标、资源限制和清理记录见
 [证据索引](ra1b-evidence/README.md)，历史失败未删除。
 
-工程判断：**PASS（仅 RA-1B 合成隔离范围）**，未发现阻止本轮交付的未解决P0/P1。
+首次CI工程判断曾为PASS；已被上方最终HEAD的SECURITY_BLOCKED取代。
 最终验收仍由Owner和首席架构师决定；保持Draft PR，不自行合并。
 该判断不代表生产安全认证或真实站点适配通过。
 

@@ -21,3 +21,8 @@ Hosted CI: run42966852022 at implementation474ef34, merge ref32f6b7e.
 `ci-first.json` records actual jobs/steps; `hosted-311.log`, `hosted-313.log`,
 `hosted-http.log`, `hosted-browser.log` are full logs retrieved from GitHub.
 All four jobs succeeded. Hosted files supplement the historical local archive index.
+
+FINAL OVERRIDE: run42968878052 at66d9102 failed isolated-browser job130352416147:
+Worker SIGKILL137 was expected, but browser remained Running at final-state inspection.
+Forced container/volume deletion succeeded. Automatic teardown reliability is unproven.
+See `hosted-final-browser-failure.log`. Overall SECURITY_BLOCKED; earlier PASS is historical.
