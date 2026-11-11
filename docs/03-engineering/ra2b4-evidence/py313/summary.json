@@ -1,0 +1,179 @@
+{
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "source_root": "D:\\Projects\\VRAE\\.worktrees\\ra2b4",
+  "results": [
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "scripts/verify_ra2b4.py",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2a.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2b0.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2b1.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2b2.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2b3.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2b4.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2c0.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2c1.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2d0.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2d1.py"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2d1.py",
+        "--reviews",
+        "docs/03-engineering/ra2d1-review/SIMULATED_NOT_HUMAN_GOLD.json"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "matches": true
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra2d1.py",
+        "--reviews",
+        "docs/03-engineering/ra2d1-review/negative-forged-gold.json"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "matches": true
+    }
+  ]
+}
