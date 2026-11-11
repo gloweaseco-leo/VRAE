@@ -1,5 +1,6 @@
 """Internal per-hop transport primitive. Collector adds mandatory robots and evidence policy."""
 from typing import Protocol
+import ipaddress
 from jsonschema import ValidationError
 
 from .errors import CollectionError
@@ -51,8 +52,19 @@ class SafeFetcher:
                     budget.check()
                     budget.access.check(current)
                     # No retries/failover in RA-1A. Every attempted request consumes budget.
-                    return await self.transport.exchange(current, method, addresses[0], budget,
+                    response = await self.transport.exchange(current, method, addresses[0], budget,
                         min(max_bytes or budget.limits.max_bytes, budget.limits.max_bytes))
+                    # An injected adapter is not a trust boundary. Validate its claimed
+                    # destination before emitting even one successful hop.
+                    try:
+                        if response.url != current or not isinstance(response.peer_ip, str):
+                            raise ValueError("Transport destination mismatch")
+                        peer = public_addresses([response.peer_ip])[0]
+                        if ipaddress.ip_address(peer) != ipaddress.ip_address(addresses[0]):
+                            raise ValueError("Transport peer mismatch")
+                    except (AttributeError, TypeError, ValueError, CollectionError) as exc:
+                        raise CollectionError("HTTP_PROTOCOL_ERROR") from exc
+                    return response
                 response = await budget.run(exchange(), budget.limits.request_seconds)
                 try:
                     validate_document("FetchResponse", response.document())

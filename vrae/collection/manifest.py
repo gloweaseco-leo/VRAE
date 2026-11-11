@@ -6,6 +6,31 @@ import json
 from . import VERSION
 from .errors import CollectionError
 from .policy import SourceAccess
+from .redirects import REDIRECT_STATUSES
+
+
+def _verify_trace(trace: list[dict], start: str, final: str | None, status: int | None):
+    """Check recorded relationships, not whether a remote server actually sent them."""
+    from .resolver import public_addresses
+    if not trace:
+        if final is not None or status is not None:
+            raise CollectionError("EVIDENCE_INTEGRITY")
+        return
+    if trace[0]["url"] != start or len({h["url"] for h in trace}) != len(trace):
+        raise CollectionError("EVIDENCE_INTEGRITY")
+    for index, hop in enumerate(trace):
+        try:
+            public_addresses([hop["peer_ip"]])
+        except CollectionError as exc:
+            raise CollectionError("EVIDENCE_INTEGRITY") from exc
+        if index + 1 < len(trace):
+            if hop["status"] not in REDIRECT_STATUSES or hop["location"] != trace[index + 1]["url"]:
+                raise CollectionError("EVIDENCE_INTEGRITY")
+        elif final is not None or status is not None:
+            if hop["url"] != final or hop["status"] != status or hop["location"] is not None:
+                raise CollectionError("EVIDENCE_INTEGRITY")
+        elif hop["location"] is not None and hop["status"] not in REDIRECT_STATUSES:
+            raise CollectionError("EVIDENCE_INTEGRITY")
 
 
 def sha256(body: bytes) -> str:
@@ -30,8 +55,41 @@ class CaptureBundle:
             raise CollectionError("EVIDENCE_INTEGRITY")
         referenced = set()
         ids = set()
+        evidence_ids = set()
+        requested = set()
+        from .discovery import ROLES, page_role
+        observed = {p["role"] for p in doc["pages"] if p["snapshot"]["status"] == "FETCHED"}
+        coverage = doc["coverage"]
+        if (sorted(coverage["observed_roles"]) != sorted(observed)
+                or sorted(coverage["unverified_roles"]) != sorted(set(ROLES) - observed)):
+            raise CollectionError("EVIDENCE_INTEGRITY")
+        items = {item["url"]: item for item in doc["inventory"]}
+        if len(items) != len(doc["inventory"]):
+            raise CollectionError("EVIDENCE_INTEGRITY")
+        fetched_urls = {p["snapshot"]["final_url"] for p in doc["pages"]
+                        if p["snapshot"]["status"] == "FETCHED"}
+        seed = doc["pages"][0]["snapshot"]["url"] if doc["pages"] else None
+        for item in items.values():
+            if (item["role"] != page_role(item["url"])
+                    or not (item["url"] == seed == item["discovered_from"]
+                            or item["discovered_from"] in fetched_urls)):
+                raise CollectionError("EVIDENCE_INTEGRITY")
+        robots = doc["robots"]
+        _verify_trace(robots["trace"], robots["url"],
+                      robots["trace"][-1]["url"] if robots["trace"] else None, robots["status"])
         for page in self.manifest["pages"]:
             snapshot = page["snapshot"]
+            url = snapshot["url"]
+            if url in requested or page["role"] != page_role(url):
+                raise CollectionError("EVIDENCE_INTEGRITY")
+            requested.add(url)
+            if url not in items:
+                # A pre-discovery robots/policy failure has no inventory yet.
+                if doc["inventory"] or not doc["errors"] or snapshot["status"] == "FETCHED":
+                    raise CollectionError("EVIDENCE_INTEGRITY")
+            elif items[url]["role"] != page["role"]:
+                raise CollectionError("EVIDENCE_INTEGRITY")
+            _verify_trace(page["redirect_trace"], url, snapshot["final_url"], page["http_status"])
             if snapshot["tenant_id"] != doc["tenant_id"] or snapshot["run_id"] != doc["run_id"]:
                 raise CollectionError("EVIDENCE_INTEGRITY")
             if (snapshot["policy_id"] != doc["policy_id"]
@@ -49,6 +107,10 @@ class CaptureBundle:
                         or len(self.objects[ref]) != page["bytes"]):
                     raise CollectionError("EVIDENCE_INTEGRITY")
             evidence = page["evidence"]
+            if evidence is not None:
+                if evidence["evidence_id"] in evidence_ids:
+                    raise CollectionError("EVIDENCE_INTEGRITY")
+                evidence_ids.add(evidence["evidence_id"])
             if snapshot["status"] == "FETCHED":
                 if (evidence is None or page["http_status"] != 200 or page["error"] is not None
                         or page["bytes"] == 0 or not page["redirect_trace"]

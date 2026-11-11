@@ -1,0 +1,1104 @@
+FFFFFFFFF..FFFFFFF.FFFFFF                                                [100%]
+================================== FAILURES ===================================
+_ test_forged_transport_is_rejected_before_trace_or_evidence[url-https://evil.test/] _
+
+field = 'url', value = 'https://evil.test/'
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+_ test_forged_transport_is_rejected_before_trace_or_evidence[url-https://example.org/private] _
+
+field = 'url', value = 'https://example.org/private'
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+_ test_forged_transport_is_rejected_before_trace_or_evidence[url-https://example.org:443/] _
+
+field = 'url', value = 'https://example.org:443/'
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+_ test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-93.184.216.21] _
+
+field = 'peer_ip', value = '93.184.216.21'
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+_ test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-127.0.0.1] _
+
+field = 'peer_ip', value = '127.0.0.1'
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+_ test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-169.254.169.254] _
+
+field = 'peer_ip', value = '169.254.169.254'
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+_ test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-::ffff:93.184.216.20] _
+
+field = 'peer_ip', value = '::ffff:93.184.216.20'
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+_ test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-invalid] _
+
+field = 'peer_ip', value = 'invalid'
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+____ test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-] _____
+
+field = 'peer_ip', value = ''
+
+    @pytest.mark.parametrize("field,value", [
+        ("url", "https://evil.test/"), ("url", "https://example.org/private"),
+        ("url", "https://example.org:443/"), ("peer_ip", "93.184.216.21"),
+        ("peer_ip", "127.0.0.1"), ("peer_ip", "169.254.169.254"),
+        ("peer_ip", "::ffff:93.184.216.20"), ("peer_ip", "invalid"),
+        ("peer_ip", ""), ("peer_ip", None),
+    ])
+    def test_forged_transport_is_rejected_before_trace_or_evidence(field, value):
+        class Forged(SyntheticTransport):
+            async def exchange(self, url, method, ip, budget, max_bytes):
+                response = await super().exchange(url, method, ip, budget, max_bytes)
+                return replace(response, **{field: value})
+
+        async def run():
+            fetcher = SafeFetcher(FixedDNS(), Forged({}))
+            with pytest.raises(CollectionError) as caught:
+                await fetcher.fetch("https://example.org/", "GET", Budget(Limits(), access()))
+            assert caught.value.trace == []
+            bundle = await Collector(fetcher).capture("run-forged", access())
+            assert all(p["snapshot"]["status"] != "FETCHED" and p["evidence"] is None
+                       and not p["redirect_trace"] for p in bundle.manifest["pages"])
+>       asyncio.run(run())
+
+tests\collection\test_a5.py:37:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        fetcher = SafeFetcher(FixedDNS(), Forged({}))
+>       with pytest.raises(CollectionError) as caught:
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:31: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[coverage_added] _
+
+change = 'coverage_added'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[coverage_missing] _
+
+change = 'coverage_missing'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[complement] __
+
+change = 'complement'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[inventory_missing] _
+
+change = 'inventory_missing'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[inventory_role] _
+
+change = 'inventory_role'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[inventory_origin] _
+
+change = 'inventory_origin'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[inventory_duplicate] _
+
+change = 'inventory_duplicate'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[evidence_duplicate] _
+
+change = 'evidence_duplicate'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[trace_start] _
+
+change = 'trace_start'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[trace_link] __
+
+change = 'trace_link'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[trace_status] _
+
+change = 'trace_status'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[trace_terminal] _
+
+change = 'trace_terminal'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+_ test_resealed_manifest_cannot_hide_cross_object_contradictions[robots_start] _
+
+change = 'robots_start'
+
+    @pytest.mark.parametrize("change", [
+        "coverage_added", "coverage_missing", "complement", "inventory_missing",
+        "inventory_role", "inventory_origin", "inventory_duplicate", "snapshot_duplicate",
+        "evidence_duplicate", "trace_start", "trace_link", "trace_status", "trace_terminal",
+        "robots_start",
+    ])
+    def test_resealed_manifest_cannot_hide_cross_object_contradictions(change):
+        bundle, _ = collect({
+            "https://example.org/": (302, {"location": "/home"}, b""),
+            "https://example.org/home": (200, {"content-type": "text/html"},
+                                          b'<html><a href="/about">About</a></html>'),
+        })
+        doc = bundle.manifest
+        page = doc["pages"][0]
+        if change == "coverage_added":
+            doc["coverage"]["observed_roles"].append("PRODUCT")
+        elif change == "coverage_missing":
+            doc["coverage"]["observed_roles"] = []
+        elif change == "complement":
+            doc["coverage"]["unverified_roles"] = []
+        elif change == "inventory_missing":
+            doc["inventory"] = []
+        elif change == "inventory_role":
+            doc["inventory"][0]["role"] = "PRODUCT"
+        elif change == "inventory_origin":
+            doc["inventory"][1]["discovered_from"] = "https://example.org/never-fetched"
+        elif change == "inventory_duplicate":
+            doc["inventory"].append(doc["inventory"][0].copy())
+        elif change == "snapshot_duplicate":
+            doc["pages"][1]["snapshot"]["snapshot_id"] = page["snapshot"]["snapshot_id"]
+        elif change == "evidence_duplicate":
+            doc["pages"][1]["evidence"]["evidence_id"] = page["evidence"]["evidence_id"]
+        elif change == "trace_start":
+            page["redirect_trace"][0]["url"] = "https://example.org/wrong"
+        elif change == "trace_link":
+            page["redirect_trace"][0]["location"] = "https://example.org/wrong"
+        elif change == "trace_status":
+            page["redirect_trace"][0]["status"] = 200
+        elif change == "trace_terminal":
+            page["redirect_trace"][-1]["location"] = "https://example.org/wrong"
+        else:
+            doc["robots"]["trace"][0]["url"] = "https://example.org/wrong"
+        doc["manifest_sha256"] = document_hash({k:v for k,v in doc.items() if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_a5.py:95: Failed
+=========================== short test summary info ===========================
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[url-https://evil.test/]
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[url-https://example.org/private]
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[url-https://example.org:443/]
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-93.184.216.21]
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-127.0.0.1]
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-169.254.169.254]
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-::ffff:93.184.216.20]
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-invalid]
+FAILED tests/collection/test_a5.py::test_forged_transport_is_rejected_before_trace_or_evidence[peer_ip-]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[coverage_added]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[coverage_missing]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[complement]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[inventory_missing]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[inventory_role]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[inventory_origin]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[inventory_duplicate]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[evidence_duplicate]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[trace_start]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[trace_link]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[trace_status]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[trace_terminal]
+FAILED tests/collection/test_a5.py::test_resealed_manifest_cannot_hide_cross_object_contradictions[robots_start]
+22 failed, 3 passed in 3.17s
+EXIT_CODE=1

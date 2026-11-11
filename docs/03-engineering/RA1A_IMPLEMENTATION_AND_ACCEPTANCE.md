@@ -1,5 +1,74 @@
 # RA-1A 实现与验收（2026-11-10 America/New_York）
 
+## A5 最终安全契约收口（2026-11-10 America/New_York）
+
+本节覆盖下方 A0–A4 历史验收；原始实现及日志保留。起始远程 HEAD 已重新 fetch 核对，
+仍为 `4cefd53e2dc9cec22bb5172e606942c1530b0739`，继续原分支及 Draft PR #4。
+实现提交 SHA 与托管 CI 结果在本节后续验收记录补齐；未完成前不宣称 FINAL PASS。
+
+### A5-01 / A5-02
+
+- Fetcher 在写入任何 hop 之前，校验 Transport 返回 URL 与当前授权规范 URL 完全相等。
+  peer_ip 必须存在且为字符串，通过完整公网地址检查，再按数值与选定 IP 比较；
+  IPv6 等价文本表示允许，私网、mapped IPv6、空值、无效地址和其他公网 IP 均拒绝。
+  拒绝使用 HTTP_PROTOCOL_ERROR，不产生成功快照或证据；先前已校验的跳转可以保留。
+  没有改变实际 socket 连接、DNS pinning、TLS SNI/证书检查、SourcePolicy 或逐跳策略。
+- Manifest 根据 FETCHED 页重新推导 observed_roles，要求 unverified_roles 严格互补，
+  拒绝重复/漏报/多报；页面角色与当前确定性 URL 角色规则一致。
+- Inventory URL 唯一，每个实际请求页有对应条目及角色。条目的 discovered_from 必须
+  指向已 FETCHED 的最终 URL；起始种子允许自引用。robots/政策在发现前失败时允许
+  空 Inventory，但必须有错误且不能为 FETCHED。
+- 快照 ID、证据 ID、已请求 URL 唯一；对象引用是内容寻址，多个页面相同原文共享
+  body 引用是合法去重，不错误要求其唯一。原有对象哈希及无孤立对象检查保留。
+- 页面跳转链第一跳等于请求 URL、中间跳必须为重定向且 Location 接续下一跳，
+  完成链末跳匹配最终 URL/HTTP 状态且无继续跳转；检查 hop IP、循环和 robots 起点。
+  在 robots 阶段失败时，不再把 robots 的 trace 错挂在目标页面上；错误记录保留其 trace。
+
+### 验证能力限制（不是数字签名或来源证明）
+
+验证只拒绝保留字段之间可检测的矛盾。没有保留正文时不能重算原网页哈希，也不能
+独立证明 Inventory 中链接曾出现在 HTML。即使保留正文，本轮也不做原文链接重解析。
+robots 正文、远程 DNS 原答复、证书链和服务端响应真实性不由 Manifest 独立证明；
+时间、条款引用、请求/总字节计数、截断标记及错误原因也不是仅凭包内容可验证的事实。
+角色只是 URL 启发式分类。内部完全一致的伪造包仍可重新计算普通 SHA-256，不能把
+完整性校验宣称为身份认证、签名、网络来源真实性或自然语言事实验证。
+Fetcher 只交叉核对适配器报告和已授权目标，不声称能识别任意恶意适配器的全面造假。
+
+### A5-03 隐私与架构复查
+
+默认无 HTML 对象、无 excerpt 保存仍成立，但 URL 路径（例如合成人名、客户编号、
+邀请 token）可能进入 snapshot、Inventory、discovered_from 和跳转记录；禁止查询字符串
+不能保证路径匿名化。新增合成用例明确记录此边界。Manifest 本身应视为私有敏感元数据，
+不得直接公开；路径去标识、受控原始 URL 映射、TTL、存储访问控制及导出脱敏是后续门禁。
+本轮不静默改写 URL 契约以免破坏来源关系，也不声称已实现上述存储/导出机制。
+未新增公共网络入口/访问能力；未变更 L0/L1 政策；未引入浏览器、DB、模型、L2M 依赖。
+
+### 失败与回归证据
+
+新增 `tests/collection/test_a5.py` 共29项，保留原393项。初次25项测试为
+**22 FAIL / 3 PASS，exit1**，涵盖伪造 URL/IP、覆盖角色、Inventory、重复证据 ID 和
+跳转关系；其余4项补充缺失属性、第二跳伪造、隐私边界及内容去重正常路径。
+原始失败日志：[red.log](ra1a-a5-evidence/red.log)。没有删除旧测试或放松网络门禁。
+复用此前独立 venv（无宿主包继承）；版本及源码哈希重新记录。
+
+| 环境 | pytest | compileall / Ruff / mypy / pip check |
+|---|---|---|
+| Windows CPython 3.11.15 | 398 PASS / 0 FAIL / 24 SKIP | 全部 exit0 |
+| Windows CPython 3.13.13 | 398 PASS / 0 FAIL / 24 SKIP | 全部 exit0 |
+| Linux 隔离 CPython 3.11.17 | 422 PASS / 0 FAIL / 0 SKIP | 全部 exit0 |
+
+完整命令、时刻、退出码、工具版本、源码哈希见
+[3.11](ra1a-a5-evidence/acceptance-311/summary.json)、
+[3.13](ra1a-a5-evidence/acceptance-313/summary.json)。Linux 实验沿用下方 network none、
+默认 DROP、降权、只读根文件系统和资源限制，不访问真实第三方网站。
+完整隔离日志见 [lab-acceptance.log](ra1a-a5-evidence/lab-acceptance.log)，包含全部24项
+真实 DNS/Socket/TLS/跳转/内网与 metadata 阻断实验及网络证据，容器退出0。
+
+剩余风险：本阶段已知 P0/P1 缺陷修复后必须以全量 Linux 和三个真实 CI 作业通过为门禁。
+P2：URL 路径隐私；非签名证据的来源真实性限制；未保留正文时无法重验链接及原文哈希。
+生产网络/身份/存储隔离及跨进程限流仍为生产准入条件，不属于本轮已验证成果。
+无模型调用、无服务采购；机器/托管 CI 实际账单未知。最终验收由 Owner 决定，禁止自动 RA-1B。
+
 ## 结论与基线
 
 本地工程验收 **PASS / LOCAL_ENGINEERING_VERIFIED**；GitHub 首次 PR CI 实际运行并通过，

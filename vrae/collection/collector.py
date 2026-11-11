@@ -101,6 +101,6 @@ class Collector:
                 errors.append(exc.document())
                 if not pages:
                     page, _ = page_record(access, run_id, access.start_url,
-                                         page_role(access.start_url), error=exc, trace=exc.trace)
+                                         page_role(access.start_url), error=exc)
                     pages.append(page)
             return seal(access, run_id, pages, objects, items, budget, robots, errors, truncated)
