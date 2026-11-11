@@ -5,7 +5,8 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[3]
-TARGET = Path(__file__).resolve().parent / 'latest-main' / f"python{sys.version_info.major}{sys.version_info.minor}"
+run_group = 'latest-main-approved' if '--approved-run' in sys.argv else 'latest-main'
+TARGET = Path(__file__).resolve().parent / run_group / f"python{sys.version_info.major}{sys.version_info.minor}"
 TARGET.mkdir(parents=True, exist_ok=True)
 commands = [
     ['-c', 'import vrae.findings.builder as b; print(b.__file__)'],

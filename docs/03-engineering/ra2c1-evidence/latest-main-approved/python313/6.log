@@ -1,0 +1,131 @@
+........................................................................ [  8%]
+.......................s.....................................sssssssssss [ 16%]
+sssssssssssss........................................................... [ 24%]
+........................................................................ [ 33%]
+........................................................................ [ 41%]
+........................................................................ [ 49%]
+........................................................................ [ 58%]
+.......................................................................F [ 66%]
+........................................................................ [ 74%]
+........................................................................ [ 82%]
+........................................................................ [ 91%]
+........................................................................ [ 99%]
+....                                                                     [100%]
+================================== FAILURES ===================================
+___ test_unsupported_markup[<html><h1>X</h1><table><tr><th>Size</th><td>50] ___
+
+self = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...7b8b3e3810d9265c7d3dd7c85886d72dc4287413b9e066b9db1879577d8408ad', b'<html><h1>X</h1><table><tr><th>Size</th><td>50')))
+expected_ref = 'ep-b9aafee93c13e8ce5abf4238f1d9af2c3a31cb7278325b93285c07fcd9598266'
+
+    def verify(self, *, expected_ref: str | None = None) -> None:
+        try:
+            if len(self._payload) > 8_000_000 or len(dict(self._blobs)) != len(self._blobs):
+                _fail()
+            doc = self.document
+            schema = json.loads((Path(__file__).parents[2] /
+                'contracts/v1/evidence/EvidencePack.schema.json').read_text(encoding='utf-8'))
+            Draft202012Validator(schema, format_checker=FormatChecker()).validate(doc)
+            if expected_ref is not None and doc['pack_ref'] != expected_ref:
+                _fail()
+>           rebuilt = _project(doc['sources'], self.objects)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+vrae\evidence\pack.py:280: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\evidence\pack.py:86: in _project
+    rebuilt, _ = _source(bundle)
+                 ^^^^^^^^^^^^^^^
+vrae\evidence\pack.py:45: in _source
+    clone.verify()
+vrae\collection\manifest.py:52: in verify
+    validate_document("CaptureManifest", self.manifest)
+vrae\collection\contracts.py:15: in validate_document
+    schema = json.loads((ROOT / (name + ".schema.json")).read_text(encoding="utf-8"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('D:/Projects/VRAE-Codex2/.worktrees/ra2c1/contracts/v1/collection/CaptureManifest.schema.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2c1\\contracts\\v1\\collection\\CaptureManifest.schema.json'
+
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:537: FileNotFoundError
+
+The above exception was the direct cause of the following exception:
+
+raw = b'<html><h1>X</h1><table><tr><th>Size</th><td>50'
+
+    @pytest.mark.parametrize('raw', [b'<html><h1>X</h1><table><tr><th>Size</th><td>50',
+        b'<html><h1>X</h1><h1>Y</h1></html>',
+        b'<html><h1>X</h1><script>render()</script></html>',
+        b'<html><div hidden><h1>X</h1></div></html>',
+        b'<html><h1>X</h1><table><tr><td>Size</td><td>50</td></tr></table></html>',
+        b'<html><h1>X</h1><dl><dt>Size</dt><dd>50</dd></dl></html>'])
+    def test_unsupported_markup(raw):
+        pack = product_pack(markup=raw)
+>       assert run(pack)['pages'][0]['status'] == 'UNKNOWN'
+               ^^^^^^^^^
+
+tests\rules\test_product_facts.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\rules\test_product_facts.py:44: in run
+    return extract(pack, expected_pack_ref=pack.ref)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\rules\product_facts.py:116: in extract
+    raw = pack.resolve(ev['evidence_ref'], expected_pack_ref=expected_pack_ref)['content']
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\evidence\pack.py:288: in resolve
+    self.verify(expected_ref=expected_pack_ref)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...7b8b3e3810d9265c7d3dd7c85886d72dc4287413b9e066b9db1879577d8408ad', b'<html><h1>X</h1><table><tr><th>Size</th><td>50')))
+expected_ref = 'ep-b9aafee93c13e8ce5abf4238f1d9af2c3a31cb7278325b93285c07fcd9598266'
+
+    def verify(self, *, expected_ref: str | None = None) -> None:
+        try:
+            if len(self._payload) > 8_000_000 or len(dict(self._blobs)) != len(self._blobs):
+                _fail()
+            doc = self.document
+            schema = json.loads((Path(__file__).parents[2] /
+                'contracts/v1/evidence/EvidencePack.schema.json').read_text(encoding='utf-8'))
+            Draft202012Validator(schema, format_checker=FormatChecker()).validate(doc)
+            if expected_ref is not None and doc['pack_ref'] != expected_ref:
+                _fail()
+            rebuilt = _project(doc['sources'], self.objects)
+            if _encode(doc) != _encode(rebuilt):
+                _fail()
+        except Exception as exc:
+            # Schema/source errors are normalized; no source contents leak in safe errors.
+>           raise EvidenceError('EVIDENCE_INTEGRITY') from exc
+E           vrae.evidence.pack.EvidenceError: EVIDENCE_INTEGRITY
+
+vrae\evidence\pack.py:285: EvidenceError
+=========================== short test summary info ===========================
+SKIPPED [1] tests\browser\test_isolated_browser.py:60: Requires separate sandboxed Chromium and Worker containers
+SKIPPED [1] tests\collection\test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+SKIPPED [2] tests\collection\test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+SKIPPED [3] tests\collection\test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+FAILED tests/rules/test_product_facts.py::test_unsupported_markup[<html><h1>X</h1><table><tr><th>Size</th><td>50]
+1 failed, 842 passed, 25 skipped in 115.49s (0:01:55)

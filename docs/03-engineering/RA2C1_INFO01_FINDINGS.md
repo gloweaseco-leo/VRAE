@@ -12,6 +12,25 @@ original paths; final integrated runs are recorded separately under
 `ra2c1-evidence/latest-main/`, adding the read-only RA-2D-1 replay. The initial
 4/4 CI run 43012977480 is historical, not the latest-main integration gate.
 
+The first latest-main local runs hit five pytest `tmp_path` setup PermissionErrors
+under the Windows sandbox (`838 passed / 25 skipped / 5 errors` each); raw logs
+remain under `latest-main/`. No test or assertion was changed. Tool-approved
+complete reruns outside that sandbox are under `latest-main-approved/`; reproduce
+with `python docs/03-engineering/ra2c1-evidence/regress.py --approved-run`.
+The first approved Python 3.13 run recorded one schema-read FileNotFoundError
+(`842 passed / 25 skipped / 1 failed`); the unchanged tracked schema was present
+on immediate inspection. That complete run is retained separately under
+`python313-schema-read-error/`. A subsequent full Python 3.13 run is performed
+alone; no assertion, input or production code is changed to obtain a pass. That
+serial run again recorded `842 passed / 25 skipped / 1 failed`, now reading the
+unchanged CaptureManifest schema in a different legacy product-facts test.
+Its original log remains at `latest-main-approved/python313/6.log`; that local
+Python 3.13 run is NOT claimed successful. All other 15 commands passed in both
+approved interpreter runs; Python 3.11 full regression passed 843 / 25 skips.
+Final exact-head Linux hosted 3.13 full pytest is the required integration gate;
+the Windows intermittent file-read cause remains undetermined. Original schemas,
+legacy tests and filesystem protections were not modified or bypassed in source.
+
 ## Version and trust boundary
 
 `build_findings`, `FindingPackage.load` and `FindingPackage.verify` accept
