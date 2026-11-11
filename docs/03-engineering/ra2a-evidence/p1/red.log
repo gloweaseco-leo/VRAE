@@ -1,0 +1,123 @@
+FFFFFFF.                                                                 [100%]
+================================== FAILURES ===================================
+_____________ test_wrong_site_mixed_sources_rejected[False-False] _____________
+
+observed = False, reverse = False
+
+    @pytest.mark.parametrize('observed', [False, True])
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_wrong_site_mixed_sources_rejected(observed, reverse):
+        sources = [http(), relocate_browser(observed)]
+        for source in sources:
+            source.verify()
+>       with pytest.raises(EvidenceError, match='^EVIDENCE_INTEGRITY$'):
+E       Failed: DID NOT RAISE EvidenceError
+
+tests\evidence\test_site_coherence.py:42: Failed
+_____________ test_wrong_site_mixed_sources_rejected[False-True] ______________
+
+observed = True, reverse = False
+
+    @pytest.mark.parametrize('observed', [False, True])
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_wrong_site_mixed_sources_rejected(observed, reverse):
+        sources = [http(), relocate_browser(observed)]
+        for source in sources:
+            source.verify()
+>       with pytest.raises(EvidenceError, match='^EVIDENCE_INTEGRITY$'):
+E       Failed: DID NOT RAISE EvidenceError
+
+tests\evidence\test_site_coherence.py:42: Failed
+_____________ test_wrong_site_mixed_sources_rejected[True-False] ______________
+
+observed = False, reverse = True
+
+    @pytest.mark.parametrize('observed', [False, True])
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_wrong_site_mixed_sources_rejected(observed, reverse):
+        sources = [http(), relocate_browser(observed)]
+        for source in sources:
+            source.verify()
+>       with pytest.raises(EvidenceError, match='^EVIDENCE_INTEGRITY$'):
+E       Failed: DID NOT RAISE EvidenceError
+
+tests\evidence\test_site_coherence.py:42: Failed
+______________ test_wrong_site_mixed_sources_rejected[True-True] ______________
+
+observed = True, reverse = True
+
+    @pytest.mark.parametrize('observed', [False, True])
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_wrong_site_mixed_sources_rejected(observed, reverse):
+        sources = [http(), relocate_browser(observed)]
+        for source in sources:
+            source.verify()
+>       with pytest.raises(EvidenceError, match='^EVIDENCE_INTEGRITY$'):
+E       Failed: DID NOT RAISE EvidenceError
+
+tests\evidence\test_site_coherence.py:42: Failed
+________________ test_http_only_wrong_site_rejected[inventory] ________________
+
+field = 'inventory'
+
+    @pytest.mark.parametrize('field', ['inventory', 'final_url'])
+    def test_http_only_wrong_site_rejected(field):
+        source = http()
+        if field == 'inventory':
+            source.manifest['inventory'].append({
+                'url': 'https://unrelated.example/products', 'role': 'CATALOG',
+                'discovered_from': 'https://example.org/'})
+        else:
+            page = source.manifest['pages'][0]
+            page['snapshot']['final_url'] = 'https://unrelated.example/'
+            hop = page['redirect_trace'][0]
+            hop.update(status=302, location='https://unrelated.example/')
+            page['redirect_trace'].append({**hop, 'url': 'https://unrelated.example/',
+                                          'status': 200, 'location': None})
+        seal(source)
+>       with pytest.raises(EvidenceError):
+E       Failed: DID NOT RAISE EvidenceError
+
+tests\evidence\test_site_coherence.py:61: Failed
+________________ test_http_only_wrong_site_rejected[final_url] ________________
+
+field = 'final_url'
+
+    @pytest.mark.parametrize('field', ['inventory', 'final_url'])
+    def test_http_only_wrong_site_rejected(field):
+        source = http()
+        if field == 'inventory':
+            source.manifest['inventory'].append({
+                'url': 'https://unrelated.example/products', 'role': 'CATALOG',
+                'discovered_from': 'https://example.org/'})
+        else:
+            page = source.manifest['pages'][0]
+            page['snapshot']['final_url'] = 'https://unrelated.example/'
+            hop = page['redirect_trace'][0]
+            hop.update(status=302, location='https://unrelated.example/')
+            page['redirect_trace'].append({**hop, 'url': 'https://unrelated.example/',
+                                          'status': 200, 'location': None})
+        seal(source)
+>       with pytest.raises(EvidenceError):
+E       Failed: DID NOT RAISE EvidenceError
+
+tests\evidence\test_site_coherence.py:61: Failed
+__________ test_browser_only_wrong_site_approved_inventory_rejected ___________
+
+    def test_browser_only_wrong_site_approved_inventory_rejected():
+        source = browser(True)
+        source.manifest['approved_urls'].append('https://sub.example.org/products')
+        seal(source)
+>       with pytest.raises(EvidenceError):
+E       Failed: DID NOT RAISE EvidenceError
+
+tests\evidence\test_site_coherence.py:69: Failed
+=========================== short test summary info ===========================
+FAILED tests/evidence/test_site_coherence.py::test_wrong_site_mixed_sources_rejected[False-False]
+FAILED tests/evidence/test_site_coherence.py::test_wrong_site_mixed_sources_rejected[False-True]
+FAILED tests/evidence/test_site_coherence.py::test_wrong_site_mixed_sources_rejected[True-False]
+FAILED tests/evidence/test_site_coherence.py::test_wrong_site_mixed_sources_rejected[True-True]
+FAILED tests/evidence/test_site_coherence.py::test_http_only_wrong_site_rejected[inventory]
+FAILED tests/evidence/test_site_coherence.py::test_http_only_wrong_site_rejected[final_url]
+FAILED tests/evidence/test_site_coherence.py::test_browser_only_wrong_site_approved_inventory_rejected
+7 failed, 1 passed in 2.10s
