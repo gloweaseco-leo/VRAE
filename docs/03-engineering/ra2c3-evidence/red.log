@@ -1,0 +1,63 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___ test_explicit_trust_source_group_is_separate_from_seo_product_and_paths ___
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f industrial valve components.</p></section>\n<a href="mailto:sales@valves.example">Email sales</a>\n</body></html>')))
+execution = {'schema_version': '1.0', 'evaluator_version': 'ra2b6-1.0.0', 'catalog_version': '1.0.0', 'catalog_sha256': '24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1', ...}
+expected_pack_ref = 'ep-586b8a2fff821de46ba8dca2db86a4e2e8d2e1536fef5aa5a3320ca791631a24'
+expected_execution_ref = 'rx-1d333bd28db3146a7cda2993712e3b7290a9fb49d00b0f2c208438946858c5b5'
+expected_evaluator_version = 'ra2b6-1.0.0'
+expected_builder_version = 'ra2c3-1.0.0'
+
+    def build_findings(pack: EvidencePack, execution: dict, *, expected_pack_ref: str,
+                       expected_execution_ref: str, expected_evaluator_version: str,
+                       expected_builder_version: str = VERSION) -> FindingPackage:
+        try:
+>           return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+                expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version,
+                expected_builder_version=expected_builder_version)))
+
+vrae\findings\builder.py:225:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\findings\builder.py:86: in _project
+    _fail()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def _fail():
+>       raise FindingError('FINDING_INTEGRITY')
+E       vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+vrae\findings\builder.py:27: FindingError
+
+The above exception was the direct cause of the following exception:
+
+    def test_explicit_trust_source_group_is_separate_from_seo_product_and_paths():
+        pack, execution = diagnostic_input()
+>       doc = build_findings(pack, execution, **pins(pack, execution)).document
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\findings\test_ra2c3_integration.py:8:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f industrial valve components.</p></section>\n<a href="mailto:sales@valves.example">Email sales</a>\n</body></html>')))
+execution = {'schema_version': '1.0', 'evaluator_version': 'ra2b6-1.0.0', 'catalog_version': '1.0.0', 'catalog_sha256': '24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1', ...}
+expected_pack_ref = 'ep-586b8a2fff821de46ba8dca2db86a4e2e8d2e1536fef5aa5a3320ca791631a24'
+expected_execution_ref = 'rx-1d333bd28db3146a7cda2993712e3b7290a9fb49d00b0f2c208438946858c5b5'
+expected_evaluator_version = 'ra2b6-1.0.0'
+expected_builder_version = 'ra2c3-1.0.0'
+
+    def build_findings(pack: EvidencePack, execution: dict, *, expected_pack_ref: str,
+                       expected_execution_ref: str, expected_evaluator_version: str,
+                       expected_builder_version: str = VERSION) -> FindingPackage:
+        try:
+            return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+                expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version,
+                expected_builder_version=expected_builder_version)))
+        except Exception as exc:
+>           raise FindingError('FINDING_INTEGRITY') from exc
+E           vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+vrae\findings\builder.py:229: FindingError
+=========================== short test summary info ===========================
+FAILED tests/findings/test_ra2c3_integration.py::test_explicit_trust_source_group_is_separate_from_seo_product_and_paths
+1 failed in 1.85s
