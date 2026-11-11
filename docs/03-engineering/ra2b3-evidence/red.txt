@@ -1,0 +1,32 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+______ test_pinned_product_name_and_specs_become_single_bounded_positive ______
+
+    def test_pinned_product_name_and_specs_become_single_bounded_positive():
+        pack = product_pack()
+>       output = run(pack)
+                 ^^^^^^^^^
+
+tests\rules\test_info01.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\rules\test_info01.py:20: in run
+    return execute(pack, expected_pack_ref=pack.ref, evaluator_version=VERSION)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...757b5416459b447fab445beb77d367deaaef20a75a984d829', b'<html><body><a href="/products/sv-40">SV-40</a></body></html>')))
+expected_pack_ref = 'ep-ec4d540adc964247888b4cf8f19301bf5e0d3fbe56770d11669fd1ac81d62a03'
+evaluator_version = 'ra2b3-1.0.0'
+
+    def execute(pack: EvidencePack, *, expected_pack_ref: str, evaluator_version: str = VERSION) -> dict:
+        if not isinstance(expected_pack_ref, str) or not re.fullmatch(r'ep-[0-9a-f]{64}', expected_pack_ref):
+            raise EvidenceError('RULE_EXECUTION_INTEGRITY')
+        pack.verify(expected_ref=expected_pack_ref)
+        if evaluator_version not in (VERSION, JOURNEY_VERSION):
+>           raise EvidenceError('RULE_VERSION_UNSUPPORTED')
+E           vrae.evidence.pack.EvidenceError: RULE_VERSION_UNSUPPORTED
+
+vrae\rules\execution.py:176: EvidenceError
+=========================== short test summary info ===========================
+FAILED tests/rules/test_info01.py::test_pinned_product_name_and_specs_become_single_bounded_positive
+1 failed in 4.13s
