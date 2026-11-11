@@ -4,6 +4,14 @@ Issue #23. Base: Owner-accepted main `acc5f7594dd5b96b1fda41dcf743f6c27bbac611`.
 Independent worktree `D:/Projects/VRAE-Codex2/.worktrees/ra2c1`, branch
 `feat/ra2c1-info01-finding-integration`. Draft for Owner independent acceptance.
 
+During final CI verification, main advanced to Owner-accepted RA-2D-1 engineering
+merge `8f91dfd1783fa66c4827a6d2073c6237516de902` (Owner acceptance on PR #22).
+It was merged without conflicts at `d802c9ee2e209054217f6ee653f3427aceeb1ce9`.
+No Codex 1 file was edited. Initial dual-interpreter evidence is preserved at the
+original paths; final integrated runs are recorded separately under
+`ra2c1-evidence/latest-main/`, adding the read-only RA-2D-1 replay. The initial
+4/4 CI run 43012977480 is historical, not the latest-main integration gate.
+
 ## Version and trust boundary
 
 `build_findings`, `FindingPackage.load` and `FindingPackage.verify` accept
