@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/evidence/EvidencePack.schema.json",
+  "title": "EvidencePack 1.0 — private capture provenance, not diagnosis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "pack_ref", "tenant_id", "run_id", "policy_id", "policy_version", "private", "sources", "snapshots", "evidence", "coverage", "integrity"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "pack_ref": {"type": "string", "pattern": "^ep-[a-f0-9]{64}$"},
+    "tenant_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{2,63}$"},
+    "run_id": {"$ref": "#/$defs/id"}, "policy_id": {"$ref": "#/$defs/id"},
+    "policy_version": {"type": "integer", "minimum": 1},
+    "private": {"const": true},
+    "sources": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/source"}},
+    "snapshots": {"type": "array", "maxItems": 256, "uniqueItems": true, "items": {"$ref": "#/$defs/snapshot"}},
+    "evidence": {"type": "array", "maxItems": 512, "uniqueItems": true, "items": {"$ref": "#/$defs/evidence"}},
+    "coverage": {"type": "array", "maxItems": 8192, "uniqueItems": true, "items": {"$ref": "#/$defs/coverage"}},
+    "integrity": {
+      "type": "object", "additionalProperties": false, "required": ["status", "checks", "limitations"],
+      "properties": {"status": {"const": "VERIFIED"}, "checks": {"$ref": "#/$defs/strings"}, "limitations": {"$ref": "#/$defs/strings"}}
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"},
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sourceRef": {"type": "string", "pattern": "^src-[a-f0-9]{64}$"},
+    "pageRef": {"type": "string", "pattern": "^page-[a-f0-9]{64}$"},
+    "pointer": {"type": "string", "pattern": "^/", "maxLength": 256},
+    "strings": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}},
+    "url": {"type": "string", "format": "uri", "pattern": "^https?://", "maxLength": 2048},
+    "nullableId": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+    "viewport": {"enum": ["desktop", "mobile", null]},
+    "status": {"enum": ["OBSERVED", "UNKNOWN", "ACCESS_BLOCKED"]},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_ref", "kind", "schema_version", "document_sha256", "document", "object_refs"],
+      "properties": {
+        "source_ref": {"$ref": "#/$defs/sourceRef"},
+        "kind": {"enum": ["CaptureManifest", "BrowserObservation"]},
+        "schema_version": {"const": "1.0"}, "document_sha256": {"$ref": "#/$defs/hash"},
+        "document": {"type": "object"},
+        "object_refs": {"type": "object", "maxProperties": 512, "additionalProperties": {"$ref": "#/$defs/hash"}}
+      }
+    },
+    "snapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["snapshot_ref", "source_ref", "locator", "source_snapshot_id", "url", "final_url", "observed_at", "capture_mode", "viewport", "status"],
+      "properties": {
+        "snapshot_ref": {"$ref": "#/$defs/pageRef"}, "source_ref": {"$ref": "#/$defs/sourceRef"},
+        "locator": {"$ref": "#/$defs/pointer"}, "source_snapshot_id": {"$ref": "#/$defs/nullableId"},
+        "url": {"$ref": "#/$defs/url"},
+        "final_url": {"anyOf": [{"$ref": "#/$defs/url"}, {"type": "null"}]},
+        "observed_at": {"type": "string", "format": "date-time"},
+        "capture_mode": {"enum": ["HTTP", "BROWSER"]}, "viewport": {"$ref": "#/$defs/viewport"}, "status": {"$ref": "#/$defs/status"}
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_ref", "snapshot_ref", "locator", "kind", "content_sha256", "blob_ref", "content_verification", "source_evidence_id", "status", "limitations", "evidence_ref"],
+      "properties": {
+        "source_ref": {"$ref": "#/$defs/sourceRef"}, "snapshot_ref": {"$ref": "#/$defs/pageRef"},
+        "locator": {"$ref": "#/$defs/pointer"}, "kind": {"enum": ["HTTP_BODY", "BROWSER_DOM", "BROWSER_SCREENSHOT"]},
+        "content_sha256": {"$ref": "#/$defs/hash"},
+        "blob_ref": {"anyOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]},
+        "content_verification": {"enum": ["HASH_VERIFIED", "NOT_RECOMPUTABLE"]},
+        "source_evidence_id": {"$ref": "#/$defs/nullableId"}, "status": {"$ref": "#/$defs/status"},
+        "limitations": {"$ref": "#/$defs/strings"}, "evidence_ref": {"type": "string", "pattern": "^ev-[a-f0-9]{64}$"}
+      }
+    },
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_ref", "locator", "scope", "url", "viewport", "role", "snapshot_ref", "status", "reason"],
+      "properties": {
+        "source_ref": {"$ref": "#/$defs/sourceRef"}, "locator": {"$ref": "#/$defs/pointer"}, "scope": {"enum": ["PAGE", "ROLE"]},
+        "url": {"anyOf": [{"$ref": "#/$defs/url"}, {"type": "null"}]},
+        "viewport": {"$ref": "#/$defs/viewport"}, "role": {"anyOf": [{"type": "string", "maxLength": 64}, {"type": "null"}]},
+        "snapshot_ref": {"anyOf": [{"$ref": "#/$defs/pageRef"}, {"type": "null"}]},
+        "status": {"enum": ["OBSERVED", "UNKNOWN", "ACCESS_BLOCKED", "NOT_VISITED", "NOT_APPLICABLE"]},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 128}
+      },
+      "allOf": [{"if": {"properties": {"status": {"const": "NOT_APPLICABLE"}}}, "then": false}]
+    }
+  }
+}
