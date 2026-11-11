@@ -1,0 +1,55 @@
+........................................................................ [  7%]
+.......................s.....................................sssssssssss [ 15%]
+sssssssssssss........................................................... [ 22%]
+........................................................................ [ 30%]
+........................................................................ [ 37%]
+........................................................................ [ 45%]
+........................................................................ [ 52%]
+........................................................................ [ 60%]
+........................................................................ [ 67%]
+........................................................................ [ 75%]
+........................................................................ [ 82%]
+........................................................................ [ 90%]
+.....F.................................................................. [ 97%]
+......................                                                   [100%]
+================================== FAILURES ===================================
+_______________ test_no_network_or_unauthorized_framework_code ________________
+
+    def test_no_network_or_unauthorized_framework_code() -> None:
+        domain_path = Path(__file__).parents[1] / "vrae"
+        banned = ("import requests", "import httpx", "import socket",
+                  "import playwright", "urllib.request", "subprocess.", "supabase")
+        for source in domain_path.rglob("*.py"):
+>           data = source.read_text()
+                   ^^^^^^^^^^^^^^^^^^
+
+tests\test_domain.py:388: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('D:/Projects/VRAE-Codex2/.worktrees/ra2b5/vrae/rules/trust_facts.py')
+encoding = 'locale', errors = None
+
+    def read_text(self, encoding=None, errors=None):
+        """
+        Open the file in text mode, read it, and close the file.
+        """
+        encoding = io.text_encoding(encoding)
+        with self.open(mode='r', encoding=encoding, errors=errors) as f:
+>           return f.read()
+                   ^^^^^^^^
+E           UnicodeDecodeError: 'gbk' codec can't decode byte 0xac in position 687: illegal multibyte sequence
+
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\pathlib.py:1059: UnicodeDecodeError
+=========================== short test summary info ===========================
+SKIPPED [1] tests\browser\test_isolated_browser.py:60: Requires separate sandboxed Chromium and Worker containers
+SKIPPED [1] tests\collection\test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+SKIPPED [2] tests\collection\test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+SKIPPED [3] tests\collection\test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+FAILED tests/test_domain.py::test_no_network_or_unauthorized_framework_code
+1 failed, 932 passed, 25 skipped in 164.08s (0:02:44)
