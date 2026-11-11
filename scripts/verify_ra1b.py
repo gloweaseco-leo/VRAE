@@ -22,10 +22,16 @@ common = ['--network', 'none', '--read-only', '--security-opt', 'no-new-privileg
           '--memory', '512m', '--cpus', '1', '--pids-limit', '256',
           '--tmpfs', '/tmp:rw,nosuid,nodev,size=256m']
 results = []
+events = []
+
+
+def event(event_name, **fields):
+    events.append({'event': event_name, 'monotonic_ns': time.monotonic_ns(), **fields})
 
 
 def run(name, command, timeout=50, required=True):
-    started = time.time()
+    started = time.monotonic()
+    event('command_start', name=name)
     try:
         result = subprocess.run(command, cwd=root, capture_output=True, text=True,
                                 encoding='utf-8', errors='replace', timeout=timeout)
@@ -35,7 +41,8 @@ def run(name, command, timeout=50, required=True):
         output = str(exc)
     (args.output / (name + '.log')).write_text(
         'COMMAND=' + repr(command) + '\n' + output + f'\nEXIT_CODE={code}\n', encoding='utf-8')
-    results.append({'name': name, 'command': command, 'exit_code': code, 'seconds': time.time() - started})
+    results.append({'name': name, 'command': command, 'exit_code': code, 'seconds': time.monotonic() - started})
+    event('command_exit', name=name, exit_code=code)
     print(name, 'EXIT_CODE', code, flush=True)
     if code and required:
         raise RuntimeError('SECURITY_BLOCKED: ' + name)
@@ -75,6 +82,7 @@ try:
                     for _ in range(100):
                         logs = subprocess.run(['docker', 'logs', wname], capture_output=True, text=True)
                         if 'KILL_READY' in logs.stdout:
+                            event('sigkill_issued', case=case)
                             run(case + '-kill', ['docker', 'kill', '--signal', 'KILL',
                                                 wname if case == 'worker_kill' else bname])
                             return
@@ -84,6 +92,15 @@ try:
             code, _ = run(case + '-worker', ['docker', 'run', '--name', wname, *common,
                 '--cap-add', 'NET_ADMIN', '--env', 'VRAE_BROWSER_CASE=' + case,
                 '--mount', f'type=volume,src={volume},dst=/ipc', worker], timeout=40, required=False)
+            event('worker_exited', case=case, exit_code=code)
+            # docker wait observes state convergence, never causes termination.
+            # No fixed sleep or forced cleanup can satisfy this automatic-exit gate.
+            wait_started = time.monotonic()
+            wait_code, _ = run(case + '-automatic-exit', ['docker', 'wait', bname],
+                               timeout=5, required=False)
+            elapsed = time.monotonic() - wait_started
+            event('automatic_exit_observed' if wait_code == 0 else 'automatic_exit_timeout',
+                  case=case, elapsed_seconds=elapsed)
             if killer:
                 killer.join(timeout=5)
                 if killer.is_alive():
@@ -91,15 +108,25 @@ try:
             inspect(wname, case + '-worker-config')
             run(case + '-browser-log', ['docker', 'logs', bname], required=False)
             _, final_state = run(case + '-browser-final-state', ['docker', 'inspect', bname])
-            if json.loads(final_state)[0]['State']['Running']:
+            state = json.loads(final_state)[0]['State']
+            if wait_code != 0 or state['Running'] or state['Pid'] != 0:
                 raise RuntimeError('SECURITY_BLOCKED: browser did not exit after control disconnect')
+            top_code, _ = run(case + '-process-absence', ['docker', 'top', bname], required=False)
+            if top_code == 0:
+                raise RuntimeError('SECURITY_NO_GO: browser processes remain')
             if code != (137 if case == 'worker_kill' else 0):
                 raise RuntimeError('SECURITY_BLOCKED: ' + case)
         finally:
+            event('supervisor_cleanup_started', case=case)
             run(case + '-remove', ['docker', 'rm', '-f', bname, wname], required=False)
             run(case + '-volume-remove', ['docker', 'volume', 'rm', volume])
             code, _ = run(case + '-cleanup-proof', ['docker', 'inspect', bname, wname], required=False)
             if code == 0:
                 raise RuntimeError('SECURITY_NO_GO: workload remains')
+            volume_code, _ = run(case + '-volume-cleanup-proof',
+                                 ['docker', 'volume', 'inspect', volume], required=False)
+            if volume_code == 0:
+                raise RuntimeError('SECURITY_NO_GO: IPC volume remains')
 finally:
     (args.output / 'summary.json').write_text(json.dumps(results, indent=2), encoding='utf-8')
+    (args.output / 'lifecycle.json').write_text(json.dumps(events, indent=2), encoding='utf-8')

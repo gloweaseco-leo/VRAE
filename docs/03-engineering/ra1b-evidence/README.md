@@ -26,3 +26,9 @@ FINAL OVERRIDE: run42968878052 at66d9102 failed isolated-browser job130352416147
 Worker SIGKILL137 was expected, but browser remained Running at final-state inspection.
 Forced container/volume deletion succeeded. Automatic teardown reliability is unproven.
 See `hosted-final-browser-failure.log`. Overall SECURITY_BLOCKED; earlier PASS is historical.
+
+B6 follow-up: `b6-summary.json` and `b6-raw.zip` preserve20 consecutive real worker_kill
+cases, source hashes, per-event monotonic timestamps, both Python regressions and initial
+Docker-permission failure. `b6-prior-success-browser.log` is run42969519632's historical
+green browser job. Final B6 result requires the final SHA's four successful CI jobs;
+see RA1B_B6_RELIABILITY.md and Draft PR6. Never discard the earlier red run.

@@ -5,6 +5,11 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import time
+
+
+def event(name, **fields):
+    print(json.dumps({'event': name, 'monotonic_ns': time.monotonic_ns(), **fields}), flush=True)
 
 MAX_MESSAGE = 8_000_000
 ARGS = ['chromium', '--headless', '--disable-gpu', '--no-first-run',
@@ -45,9 +50,11 @@ async def main():
     os.close(child_out)
     async def supervise():
         code = await asyncio.to_thread(child.wait)
+        event('chromium_reaped', pid=child.pid, exit_code=code)
         print(json.dumps({'chromium_exit': code, 'container_teardown': True}), flush=True)
         # This process is container PID1. Its exit also tears down the PID namespace,
         # including any remaining zygote/renderer descendants after a browser crash.
+        event('pid1_exit', pid=os.getpid(), chromium_exit=code)
         os._exit(0 if code == 0 else 1)
     asyncio.create_task(supervise())
     connected = False
@@ -62,6 +69,7 @@ async def main():
             while True:
                 line = await reader.readline()
                 if not line:
+                    event('control_socket_eof')
                     break
                 if len(line) > MAX_MESSAGE:
                     raise ValueError('CDP message limit')
@@ -83,11 +91,14 @@ async def main():
         try:
             await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
         finally:
+            event('relay_channel_closed')
             if child.poll() is None:
+                event('chromium_kill_sent', pid=child.pid)
                 child.kill()
             for task in tasks:
                 task.cancel()
             writer.close()
+            event('control_socket_close_requested')
     server = await asyncio.start_unix_server(handle, '/ipc/cdp.sock', limit=MAX_MESSAGE)
     os.chmod('/ipc/cdp.sock', 0o660)
     async with server:

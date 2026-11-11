@@ -1,5 +1,8 @@
 # RA-1B 恢复核验与最终工程审计
 
+> B6后续记录：[可靠性收口](RA1B_B6_RELIABILITY.md)。下文SECURITY_BLOCKED为历史失败，
+> 最终候选结论以B6门禁及Draft PR #6上对应最终SHA的四项CI实际结果为准。
+
 ## 最终状态：SECURITY_BLOCKED
 
 最终文档HEAD `66d910284c0ad1d4fe1bf2ac32b09c37bd3b3807` 的

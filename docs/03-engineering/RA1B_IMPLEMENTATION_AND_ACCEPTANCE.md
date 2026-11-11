@@ -7,8 +7,9 @@
 
 ## 状态
 
-结论：**SECURITY_BLOCKED（最终HEAD的Worker强杀后自动退出门禁失败）**。
-早期完整测试通过，但最终CI暴露清理可靠性问题，不能以早期PASS替代。
+历史阻断：Worker强杀后即时检查失败。Owner授权B6收口后，20次真实专项通过，
+最终候选结论须同时满足[B6可靠性门禁](RA1B_B6_RELIABILITY.md)及最终SHA四项CI成功。
+历史失败保留，不能以早期PASS替代。
 详见[恢复核验与最终审计](RA1B_FINAL_AUDIT.md)。
 实现分支 `feat/ra1b-browser-worker-isolation`，
 [Draft PR #6](https://github.com/gloweaseco-leo/VRAE/pull/6) 保持 Draft，不合并或部署。
