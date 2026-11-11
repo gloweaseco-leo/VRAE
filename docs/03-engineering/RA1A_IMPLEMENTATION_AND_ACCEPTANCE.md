@@ -4,7 +4,8 @@
 
 本节覆盖下方 A0–A4 历史验收；原始实现及日志保留。起始远程 HEAD 已重新 fetch 核对，
 仍为 `4cefd53e2dc9cec22bb5172e606942c1530b0739`，继续原分支及 Draft PR #4。
-实现提交 SHA 与托管 CI 结果在本节后续验收记录补齐；未完成前不宣称 FINAL PASS。
+修复代码 SHA：`df2a8e04ff145bcdccc5c374086328c3a783ea2b`。
+本地与托管 CI 均通过，结论为 **RA-1A FINAL PASS CANDIDATE**，等待 Owner 最终验收。
 
 ### A5-01 / A5-02
 
@@ -64,7 +65,15 @@ Fetcher 只交叉核对适配器报告和已授权目标，不声称能识别任
 完整隔离日志见 [lab-acceptance.log](ra1a-a5-evidence/lab-acceptance.log)，包含全部24项
 真实 DNS/Socket/TLS/跳转/内网与 metadata 阻断实验及网络证据，容器退出0。
 
-剩余风险：本阶段已知 P0/P1 缺陷修复后必须以全量 Linux 和三个真实 CI 作业通过为门禁。
+托管验收：[run 42955948129](https://github.com/gloweaseco-leo/VRAE/actions/runs/42955948129)，
+对应上述修复 SHA 的 PR 合并引用。Python3.11 job130310957395、Python3.13 job130310957392、
+Linux isolated-http job130310957121 均有真实步骤且 PASS；矩阵各398通过/24跳过，
+隔离422通过/0跳过，全部质量命令 exit0。完整步骤和时间见
+[hosted-ci.json](ra1a-a5-evidence/hosted-ci.json)，完整输出见
+[hosted-ci.log](ra1a-a5-evidence/hosted-ci.log)。本次补充验收证据的文档提交不改实现，
+其最终 HEAD CI 状态也会在 PR #4 更新，不通过重跑或空提交获取成功。
+
+剩余风险：本阶段未发现未解决的 P0/P1，已满足 RA-1A 合成环境最终架构验收条件。
 P2：URL 路径隐私；非签名证据的来源真实性限制；未保留正文时无法重验链接及原文哈希。
 生产网络/身份/存储隔离及跨进程限流仍为生产准入条件，不属于本轮已验证成果。
 无模型调用、无服务采购；机器/托管 CI 实际账单未知。最终验收由 Owner 决定，禁止自动 RA-1B。
