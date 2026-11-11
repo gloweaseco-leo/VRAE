@@ -1,0 +1,31 @@
+{
+  "started_utc": "2026-11-11T14:42:48.905389+00:00",
+  "finished_utc": "2026-11-11T14:43:20.011833+00:00",
+  "target_sha": "4b5ebe689f048ba20d38354ae7c03d4bbaf37c6a",
+  "qa_commit": "5dcb09526c1dc08a2d7060866ab96bdfc3fe017d",
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "command": [
+    "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/findings/test_ra2c3_independent_adversarial.py",
+    "--tb=short",
+    "--junitxml=D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2c3-qa\\docs\\03-engineering\\ra2c3-independent-qa\\runs\\baseline-313\\junit.xml"
+  ],
+  "cwd": "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2c3-qa",
+  "exit_code": 1,
+  "counts": {
+    "tests": 139,
+    "failures": 1,
+    "errors": 115,
+    "skipped": 0
+  },
+  "source_sha256": {
+    "tests/findings/test_ra2c3_independent_adversarial.py": "2c35973cd9e811961a8e68109e37a1db2d00908fabdaeb565f5c2331118fb110",
+    "tests/findings/fixtures/ra2c3_codex2_inputs.json": "6669f78a1a5f536a6e481346057f7c78ed372d560f42ed9aef98057ab181bfd1",
+    "tests/findings/fixtures/ra2c3_codex2_legacy_pins.json": "c241b3e2f4e3a59c7f55db7df7094cd1d7eb684e208373ff4f4b1eba39cb97ff"
+  }
+}

@@ -1,0 +1,138 @@
+........................................................................ [  4%]
+.......................s.....................................sssssssssss [  9%]
+sssssssssssss........................................................... [ 14%]
+........................................................................ [ 19%]
+........................................................................ [ 24%]
+........................................................................ [ 29%]
+........................................................................ [ 34%]
+........................................................................ [ 39%]
+.......................................................F................ [ 44%]
+...FFF.................................................................. [ 48%]
+...........................FF........................................... [ 53%]
+........................................................................ [ 58%]
+........................................................................ [ 63%]
+........................................................................ [ 68%]
+........................................................................ [ 73%]
+........................................................................ [ 78%]
+........................................................................ [ 83%]
+........................................................................ [ 88%]
+........................................................................ [ 92%]
+........................................................................ [ 97%]
+................................                                         [100%]
+================================== FAILURES ===================================
+_ test_rehashed_execution_and_package_cannot_bypass_pinned_source_replay[unknown_pass] _
+tests\findings\test_ra2c3_integration.py:259: in test_rehashed_execution_and_package_cannot_bypass_pinned_source_replay
+    pack, original = diagnostic_input(contact_status=404 if mutation == 'unknown_pass' else 403)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\ra2c3_synthetic.py:41: in diagnostic_input
+    'run-ra2c3-synthetic', access(), limits=Limits(max_pages=max_pages, interval_seconds=0.01),
+                           ^^^^^^^^
+tests\collection\test_security.py:26: in access
+    return SourceAccess(request, lambda: policy, terms_reference="terms-synthetic", now=lambda: NOW)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\collection\policy.py:41: in __init__
+    validate_contract("AuditRequest", audit)
+vrae\domain\contracts.py:21: in validate_contract
+    Draft202012Validator(load_schema(name), format_checker=FormatChecker()).validate(payload)
+                         ^^^^^^^^^^^^^^^^^
+vrae\domain\contracts.py:15: in load_schema
+    return json.loads((ROOT / (name + ".schema.json")).read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:537: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2c3-qa\\contracts\\v1\\AuditRequest.schema.json'
+_ test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged[tests/fixtures/findings/industrial-diagnostic.json-ra2c0-1.0.0] _
+tests\findings\test_ra2c3_integration.py:397: in test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged
+    data = json.loads(Path(path).read_text(encoding='utf-8'))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:537: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   OSError: [Errno 22] Invalid argument: 'tests\\fixtures\\findings\\industrial-diagnostic.json'
+_ test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged[tests/findings/fixtures/info01-private-package.json-ra2c1-1.0.0] _
+tests\findings\test_ra2c3_integration.py:397: in test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged
+    data = json.loads(Path(path).read_text(encoding='utf-8'))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:537: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   OSError: [Errno 22] Invalid argument: 'tests\\findings\\fixtures\\info01-private-package.json'
+_ test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged[tests/findings/fixtures/seo01-private-package.json-ra2c2-1.0.0] _
+tests\findings\test_ra2c3_integration.py:397: in test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged
+    data = json.loads(Path(path).read_text(encoding='utf-8'))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:537: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   OSError: [Errno 22] Invalid argument: 'tests\\findings\\fixtures\\seo01-private-package.json'
+_ test_historical_packages_and_default_bytes_unchanged[tests/fixtures/findings/industrial-diagnostic.json-ra2c0-1.0.0] _
+tests\findings\test_seo01_integration.py:350: in test_historical_packages_and_default_bytes_unchanged
+    data = json.loads(Path(path).read_text(encoding='utf-8'))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:537: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   OSError: [Errno 22] Invalid argument: 'tests\\fixtures\\findings\\industrial-diagnostic.json'
+_ test_historical_packages_and_default_bytes_unchanged[tests/findings/fixtures/info01-private-package.json-ra2c1-1.0.0] _
+tests\findings\test_seo01_integration.py:350: in test_historical_packages_and_default_bytes_unchanged
+    data = json.loads(Path(path).read_text(encoding='utf-8'))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:537: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   OSError: [Errno 22] Invalid argument: 'tests\\findings\\fixtures\\info01-private-package.json'
+=========================== short test summary info ===========================
+SKIPPED [1] tests\browser\test_isolated_browser.py:60: Requires separate sandboxed Chromium and Worker containers
+SKIPPED [1] tests\collection\test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+SKIPPED [2] tests\collection\test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+SKIPPED [3] tests\collection\test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+FAILED tests/findings/test_ra2c3_integration.py::test_rehashed_execution_and_package_cannot_bypass_pinned_source_replay[unknown_pass]
+FAILED tests/findings/test_ra2c3_integration.py::test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged[tests/fixtures/findings/industrial-diagnostic.json-ra2c0-1.0.0]
+FAILED tests/findings/test_ra2c3_integration.py::test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged[tests/findings/fixtures/info01-private-package.json-ra2c1-1.0.0]
+FAILED tests/findings/test_ra2c3_integration.py::test_historical_c0_c1_c2_canonical_bytes_refs_and_default_dispatch_unchanged[tests/findings/fixtures/seo01-private-package.json-ra2c2-1.0.0]
+FAILED tests/findings/test_seo01_integration.py::test_historical_packages_and_default_bytes_unchanged[tests/fixtures/findings/industrial-diagnostic.json-ra2c0-1.0.0]
+FAILED tests/findings/test_seo01_integration.py::test_historical_packages_and_default_bytes_unchanged[tests/findings/fixtures/info01-private-package.json-ra2c1-1.0.0]
+6 failed, 1441 passed, 25 skipped in 326.77s (0:05:26)
