@@ -1,0 +1,69 @@
+........................................................................ [  7%]
+.......................s.....................................sssssssssss [ 15%]
+sssssssssssss........................................................... [ 23%]
+........................................................................ [ 30%]
+........................................................................ [ 38%]
+........................................................................ [ 46%]
+........................................................................ [ 54%]
+........................................................................ [ 61%]
+..............................................F......................... [ 69%]
+........................................................................ [ 77%]
+........................................................................ [ 84%]
+........................................................................ [ 92%]
+.....................................................................    [100%]
+================================== FAILURES ===================================
+_ test_missing_conflicting_external_or_dynamic_signals_never_become_seo_failure[markup25] _
+
+markup = b'<html><head><![unsupported]><title>A</title><link rel="canonical" href="/"></head><body>Synthetic B2B components</body></html>'
+
+    @pytest.mark.parametrize('markup', [
+        head(b'<title>Valves</title>'), head(b'<link rel="canonical" href="/">'),
+        head(b'<title> </title><link rel="canonical" href="/">'),
+        head(b'<title>A</title><title>B</title><link rel="canonical" href="/">'),
+        head(b'<title>A</title><link rel="canonical" href="/"><link rel="canonical" href="/other">'),
+        head(b'<title>A</title><link rel="canonical" href="/"><link rel="canonical" href="/">'),
+        head(b'<title>A</title><link rel="canonical" href="https://unrelated.example/">'),
+        head(b'<title>A</title><link rel="canonical" href="http://example.org/">'),
+        head(b'<title>A</title><link rel="canonical" href="/" href="/other">'),
+        head(b'<title>A</title><link rel="canonical" rel="alternate" href="/">'),
+        head(b'<title>A</title><link rel="canonical" href="">'),
+        head(b'<title>A</title><link rel="canonical" href="/?secret=query">'),
+        head(b'<title>A</title><link rel="canonical" href="/#section">'),
+        head(b'<base href="https://unrelated.example/"><title>A</title><link rel="canonical" href="/">'),
+        head(b'<script>document.title="A"; const canonical="/";</script>'),
+        head(b'<template><title>A</title><link rel="canonical" href="/"></template>'),
+        b'<html><body><title>A</title><link rel="canonical" href="/"></body></html>',
+        b'<html><template><head><title>A</title><link rel="canonical" href="/"></head></template></html>',
+        b'<html><div><head><title>A</title><link rel="canonical" href="/"></head></div></html>',
+        b'<html><head><title>A</title><link rel="canonical" href="/">',
+        head(b'<title>A<b>B</b></title><link rel="canonical" href="/">'),
+        head(b'<div><title>A</title><link rel="canonical" href="/"></div>'),
+        head(b'</body><title>A</title><link rel="canonical" href="/">'),
+        head(b'<title>A</title><link rel="canonical" href="https://example.org:8443/">'),
+        head(b'<title>A</title><link rel="canonical" href="/%2e%2e/">'),
+        head(b'<![unsupported]><title>A</title><link rel="canonical" href="/">'),
+        head(b'<title>A</title><link rel="canonical" href="/\\outside.example/">'),
+    ])
+    def test_missing_conflicting_external_or_dynamic_signals_never_become_seo_failure(markup):
+        pack = seo_pack(markup)
+        row = seo(run(pack))['observations'][0]
+>       assert row['observation']['result'] == 'UNKNOWN'
+E       AssertionError: assert 'PASS' == 'UNKNOWN'
+E
+E         - UNKNOWN
+E         + PASS
+
+tests\rules\test_seo01.py:110: AssertionError
+=========================== short test summary info ===========================
+SKIPPED [1] tests\browser\test_isolated_browser.py:60: Requires separate sandboxed Chromium and Worker containers
+SKIPPED [1] tests\collection\test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+SKIPPED [2] tests\collection\test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+SKIPPED [3] tests\collection\test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+FAILED tests/rules/test_seo01.py::test_missing_conflicting_external_or_dynamic_signals_never_become_seo_failure[markup25]
+1 failed, 907 passed, 25 skipped in 133.59s (0:02:13)
