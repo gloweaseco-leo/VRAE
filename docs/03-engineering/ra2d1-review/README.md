@@ -35,6 +35,9 @@ approval reference is **blank**. Nothing here is an actual approval or public re
    key generation, approval button or Gold promotion operation in this tool.
 
 Default replay is **read-only**: `python scripts/verify_ra2d1.py`.
+The minimal isolated-HTTP image omits docs/: the tool reconstructs the complete
+old report from sealed inputs and checks the same fixed canonical report SHA.
+When the archived report file exists it is additionally compared; no pin is relaxed.
 Explicit `--export` only writes identical blank artifacts; if a review file has
 changed it refuses to overwrite it. All reviewer input is separate from candidates.
 

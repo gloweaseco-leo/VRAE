@@ -52,8 +52,13 @@ def _bytes(value):
 def load_packet(root: Path):
     """Always replay all seven original samples before exposing/importing decisions."""
     report = evaluate_directory(root / 'tests/benchmark/samples', expected_manifest_ref=MANIFEST_REF)
-    sealed = json.loads((root / 'docs/03-engineering/ra2d0-evidence/report.json').read_text(encoding='utf-8'))
-    if report != sealed or report['report_ref'] != BENCHMARK_REF:
+    # The accepted isolated-HTTP image intentionally copies no docs/. Reconstruct
+    # the complete report from sealed inputs and require the SAME accepted hash.
+    expected_ref = 'bench-' + document_hash({k: v for k, v in report.items() if k != 'report_ref'})
+    if report['report_ref'] != BENCHMARK_REF or expected_ref != BENCHMARK_REF:
+        _fail('SEALED_BENCHMARK_REPORT_MISMATCH')
+    archived = root / 'docs/03-engineering/ra2d0-evidence/report.json'
+    if archived.exists() and report != json.loads(archived.read_text(encoding='utf-8')):
         _fail('SEALED_BENCHMARK_REPORT_MISMATCH')
     rows = []
     for site in report['sites']:

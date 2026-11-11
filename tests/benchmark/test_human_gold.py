@@ -3,6 +3,7 @@ from copy import deepcopy
 import hashlib
 import json
 import subprocess
+import shutil
 import sys
 
 import pytest
@@ -196,8 +197,10 @@ def test_unknown_blocked_and_sparse_math_is_not_tn_or_precision(packet):
 
 
 def test_default_cli_is_read_only_pending_and_preserves_all_old_sample_bytes():
-    paths = [*sorted((ROOT / 'tests/benchmark/samples').glob('*.json')),
-             ROOT / 'docs/03-engineering/ra2d0-evidence/report.json']
+    paths = sorted((ROOT / 'tests/benchmark/samples').glob('*.json'))
+    archived_report = ROOT / 'docs/03-engineering/ra2d0-evidence/report.json'
+    if archived_report.exists():
+        paths.append(archived_report)
     before = {str(path): hashlib.sha256(path.read_bytes()).hexdigest() for path in paths}
     result = subprocess.run([sys.executable, str(ROOT / 'scripts/verify_ra2d1.py')],
                             capture_output=True, text=True, cwd=ROOT, check=True)
@@ -245,3 +248,12 @@ def test_partial_review_never_claims_an_evaluated_gate_and_false_facts_cannot_pa
     assert _quality_gate(True, True, True) == 'QUALITY_GATE_FAIL_FALSE_FACT'
     assert _quality_gate(True, True, False) == 'QUALITY_GATE_OWNER_DECISION_REQUIRED'
     assert _quality_gate(True, False, False) == 'QUALITY_GATE_NOT_EVALUABLE'
+
+
+def test_minimal_isolated_layout_still_reconstructs_the_exact_sealed_report(packet, tmp_path):
+    root = tmp_path / 'readonly-layout'
+    target = root / 'tests/benchmark/samples'
+    target.parent.mkdir(parents=True)
+    shutil.copytree(ROOT / 'tests/benchmark/samples', target)
+    assert not (root / 'docs').exists()
+    assert load_packet(root) == packet

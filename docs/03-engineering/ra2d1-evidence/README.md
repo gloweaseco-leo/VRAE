@@ -18,8 +18,8 @@ human review, signing key, signature or approval is supplied by this package.
   simulated rows to count as eligible in the prototype. No real signature or
   authorization was involved. Reserved SIMULATED_* identities/references now
   remain ineligible independently of origin/verifier; the same test is green.
-- `green.log`: 35 focused tests passed. The final full run adds one pure simulated
-  partial-review policy case (36 new tests total). Partial real review never gives
+- `green.log`: final 37 focused tests passed, including pure simulated
+  partial-review policy and minimal isolated-layout cases. Partial real review never gives
   an evaluated overall gate; warnings/provisional statistics remain separate.
 - `negative-forged-gold.log`: deliberately invalid SIMULATED Gold stamp rejected.
 - `temp-permission311.log` / `temp-permission313.log`: initial full local runs had
@@ -27,12 +27,30 @@ human review, signing key, signature or approval is supplied by this package.
   access to the shared pytest temp directory. Raw failures are retained. Both
   complete runners were rerun outside that sandbox after tool approval; no tests
   removed, weakened or added to skip lists.
-- Final `python311/` and `python313/`: each **728 passed /25 existing environment
+- Final `python311/` and `python313/`: each **729 passed /25 existing environment
   skips**. All 13 command outcomes match expectations: normal commands exit0;
   the forged-stamp CLI deliberately exits1. Interpreter, command, expected/actual
   exit codes and complete outputs retained in each summary/log set.
 - The 25 skips are 24 dedicated HTTP-isolation cases plus one Browser-isolation
   function, executed separately by the original hosted security jobs.
+
+## Actual first hosted failure / narrow portability correction
+
+Initial HEAD `e4f6d147eeaf5c17e74078bea38f49f97fbb46ed` had two successful Python
+jobs and a successful Browser job, but [isolated-http failed](https://github.com/gloweaseco-leo/VRAE/actions/runs/43010195677/job/130487562027):
+1 failed /718 passed /33 setup errors /1 browser-only skip. The new utility wrongly
+assumed docs/ existed inside the accepted HTTP image. That image intentionally
+copies no docs/. No existing security gate or container layout was modified.
+
+The new utility now reconstructs the full old report from the sealed sample
+inputs and verifies its complete canonical SHA against the **same frozen report
+ref**. If the archive file is present, its content is additionally compared.
+The new minimal-layout test actually omits docs/ and requires identical packet
+output. Seven samples, old report and all expected pins remain unchanged.
+The complete failed job log is also retained locally at
+`.venv/ra2d1-ci/first-http-failure.log`; final exact-SHA CI results are attached to
+the same Draft PR after completion. Prior local 728-pass results remain in the
+initial commit; final logs here contain the corrected 729-pass runs.
 
 Full replay: `python docs/03-engineering/ra2d1-evidence/regress.py python311`
 (or python313). DEMO: `python scripts/verify_ra2d1.py --reviews
