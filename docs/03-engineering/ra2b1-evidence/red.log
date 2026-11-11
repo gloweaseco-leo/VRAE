@@ -1,0 +1,148 @@
+FFFFFFFF..                                                               [100%]
+================================== FAILURES ===================================
+_______________ test_captured_journey_edge[200-PASS-DISC-02-2] ________________
+
+rule = 'DISC-02', stage = 2, status = 200, expected = 'PASS'
+
+    @pytest.mark.parametrize('rule,stage', [('DISC-02', 2), ('CTA-02', 3)])
+    @pytest.mark.parametrize('status,expected', [(200, 'PASS'), (404, 'FAIL_WITH_EVIDENCE'),
+        (410, 'FAIL_WITH_EVIDENCE'), (403, 'ACCESS_BLOCKED'), (500, 'UNKNOWN')])
+    def test_captured_journey_edge(rule, stage, status, expected):
+        pack = journey_pack(stage, status)
+        output = execute(pack, expected_pack_ref=pack.ref)
+>       assert rows(output, rule)[0]['observation']['result'] == expected
+E       AssertionError: assert 'UNKNOWN' == 'PASS'
+E         
+E         - PASS
+E         + UNKNOWN
+
+tests\rules\test_journey.py:47: AssertionError
+________________ test_captured_journey_edge[200-PASS-CTA-02-3] ________________
+
+rule = 'CTA-02', stage = 3, status = 200, expected = 'PASS'
+
+    @pytest.mark.parametrize('rule,stage', [('DISC-02', 2), ('CTA-02', 3)])
+    @pytest.mark.parametrize('status,expected', [(200, 'PASS'), (404, 'FAIL_WITH_EVIDENCE'),
+        (410, 'FAIL_WITH_EVIDENCE'), (403, 'ACCESS_BLOCKED'), (500, 'UNKNOWN')])
+    def test_captured_journey_edge(rule, stage, status, expected):
+        pack = journey_pack(stage, status)
+        output = execute(pack, expected_pack_ref=pack.ref)
+>       assert rows(output, rule)[0]['observation']['result'] == expected
+E       AssertionError: assert 'UNKNOWN' == 'PASS'
+E         
+E         - PASS
+E         + UNKNOWN
+
+tests\rules\test_journey.py:47: AssertionError
+________ test_captured_journey_edge[404-FAIL_WITH_EVIDENCE-DISC-02-2] _________
+
+rule = 'DISC-02', stage = 2, status = 404, expected = 'FAIL_WITH_EVIDENCE'
+
+    @pytest.mark.parametrize('rule,stage', [('DISC-02', 2), ('CTA-02', 3)])
+    @pytest.mark.parametrize('status,expected', [(200, 'PASS'), (404, 'FAIL_WITH_EVIDENCE'),
+        (410, 'FAIL_WITH_EVIDENCE'), (403, 'ACCESS_BLOCKED'), (500, 'UNKNOWN')])
+    def test_captured_journey_edge(rule, stage, status, expected):
+        pack = journey_pack(stage, status)
+        output = execute(pack, expected_pack_ref=pack.ref)
+>       assert rows(output, rule)[0]['observation']['result'] == expected
+E       AssertionError: assert 'UNKNOWN' == 'FAIL_WITH_EVIDENCE'
+E         
+E         - FAIL_WITH_EVIDENCE
+E         + UNKNOWN
+
+tests\rules\test_journey.py:47: AssertionError
+_________ test_captured_journey_edge[404-FAIL_WITH_EVIDENCE-CTA-02-3] _________
+
+rule = 'CTA-02', stage = 3, status = 404, expected = 'FAIL_WITH_EVIDENCE'
+
+    @pytest.mark.parametrize('rule,stage', [('DISC-02', 2), ('CTA-02', 3)])
+    @pytest.mark.parametrize('status,expected', [(200, 'PASS'), (404, 'FAIL_WITH_EVIDENCE'),
+        (410, 'FAIL_WITH_EVIDENCE'), (403, 'ACCESS_BLOCKED'), (500, 'UNKNOWN')])
+    def test_captured_journey_edge(rule, stage, status, expected):
+        pack = journey_pack(stage, status)
+        output = execute(pack, expected_pack_ref=pack.ref)
+>       assert rows(output, rule)[0]['observation']['result'] == expected
+E       AssertionError: assert 'UNKNOWN' == 'FAIL_WITH_EVIDENCE'
+E         
+E         - FAIL_WITH_EVIDENCE
+E         + UNKNOWN
+
+tests\rules\test_journey.py:47: AssertionError
+________ test_captured_journey_edge[410-FAIL_WITH_EVIDENCE-DISC-02-2] _________
+
+rule = 'DISC-02', stage = 2, status = 410, expected = 'FAIL_WITH_EVIDENCE'
+
+    @pytest.mark.parametrize('rule,stage', [('DISC-02', 2), ('CTA-02', 3)])
+    @pytest.mark.parametrize('status,expected', [(200, 'PASS'), (404, 'FAIL_WITH_EVIDENCE'),
+        (410, 'FAIL_WITH_EVIDENCE'), (403, 'ACCESS_BLOCKED'), (500, 'UNKNOWN')])
+    def test_captured_journey_edge(rule, stage, status, expected):
+        pack = journey_pack(stage, status)
+        output = execute(pack, expected_pack_ref=pack.ref)
+>       assert rows(output, rule)[0]['observation']['result'] == expected
+E       AssertionError: assert 'UNKNOWN' == 'FAIL_WITH_EVIDENCE'
+E         
+E         - FAIL_WITH_EVIDENCE
+E         + UNKNOWN
+
+tests\rules\test_journey.py:47: AssertionError
+_________ test_captured_journey_edge[410-FAIL_WITH_EVIDENCE-CTA-02-3] _________
+
+rule = 'CTA-02', stage = 3, status = 410, expected = 'FAIL_WITH_EVIDENCE'
+
+    @pytest.mark.parametrize('rule,stage', [('DISC-02', 2), ('CTA-02', 3)])
+    @pytest.mark.parametrize('status,expected', [(200, 'PASS'), (404, 'FAIL_WITH_EVIDENCE'),
+        (410, 'FAIL_WITH_EVIDENCE'), (403, 'ACCESS_BLOCKED'), (500, 'UNKNOWN')])
+    def test_captured_journey_edge(rule, stage, status, expected):
+        pack = journey_pack(stage, status)
+        output = execute(pack, expected_pack_ref=pack.ref)
+>       assert rows(output, rule)[0]['observation']['result'] == expected
+E       AssertionError: assert 'UNKNOWN' == 'FAIL_WITH_EVIDENCE'
+E         
+E         - FAIL_WITH_EVIDENCE
+E         + UNKNOWN
+
+tests\rules\test_journey.py:47: AssertionError
+__________ test_captured_journey_edge[403-ACCESS_BLOCKED-DISC-02-2] ___________
+
+rule = 'DISC-02', stage = 2, status = 403, expected = 'ACCESS_BLOCKED'
+
+    @pytest.mark.parametrize('rule,stage', [('DISC-02', 2), ('CTA-02', 3)])
+    @pytest.mark.parametrize('status,expected', [(200, 'PASS'), (404, 'FAIL_WITH_EVIDENCE'),
+        (410, 'FAIL_WITH_EVIDENCE'), (403, 'ACCESS_BLOCKED'), (500, 'UNKNOWN')])
+    def test_captured_journey_edge(rule, stage, status, expected):
+        pack = journey_pack(stage, status)
+        output = execute(pack, expected_pack_ref=pack.ref)
+>       assert rows(output, rule)[0]['observation']['result'] == expected
+E       AssertionError: assert 'UNKNOWN' == 'ACCESS_BLOCKED'
+E         
+E         - ACCESS_BLOCKED
+E         + UNKNOWN
+
+tests\rules\test_journey.py:47: AssertionError
+___________ test_captured_journey_edge[403-ACCESS_BLOCKED-CTA-02-3] ___________
+
+rule = 'CTA-02', stage = 3, status = 403, expected = 'ACCESS_BLOCKED'
+
+    @pytest.mark.parametrize('rule,stage', [('DISC-02', 2), ('CTA-02', 3)])
+    @pytest.mark.parametrize('status,expected', [(200, 'PASS'), (404, 'FAIL_WITH_EVIDENCE'),
+        (410, 'FAIL_WITH_EVIDENCE'), (403, 'ACCESS_BLOCKED'), (500, 'UNKNOWN')])
+    def test_captured_journey_edge(rule, stage, status, expected):
+        pack = journey_pack(stage, status)
+        output = execute(pack, expected_pack_ref=pack.ref)
+>       assert rows(output, rule)[0]['observation']['result'] == expected
+E       AssertionError: assert 'UNKNOWN' == 'ACCESS_BLOCKED'
+E         
+E         - ACCESS_BLOCKED
+E         + UNKNOWN
+
+tests\rules\test_journey.py:47: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/rules/test_journey.py::test_captured_journey_edge[200-PASS-DISC-02-2]
+FAILED tests/rules/test_journey.py::test_captured_journey_edge[200-PASS-CTA-02-3]
+FAILED tests/rules/test_journey.py::test_captured_journey_edge[404-FAIL_WITH_EVIDENCE-DISC-02-2]
+FAILED tests/rules/test_journey.py::test_captured_journey_edge[404-FAIL_WITH_EVIDENCE-CTA-02-3]
+FAILED tests/rules/test_journey.py::test_captured_journey_edge[410-FAIL_WITH_EVIDENCE-DISC-02-2]
+FAILED tests/rules/test_journey.py::test_captured_journey_edge[410-FAIL_WITH_EVIDENCE-CTA-02-3]
+FAILED tests/rules/test_journey.py::test_captured_journey_edge[403-ACCESS_BLOCKED-DISC-02-2]
+FAILED tests/rules/test_journey.py::test_captured_journey_edge[403-ACCESS_BLOCKED-CTA-02-3]
+8 failed, 2 passed in 2.50s
