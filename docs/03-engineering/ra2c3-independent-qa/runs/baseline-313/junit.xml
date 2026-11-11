@@ -1,0 +1,1973 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="115" failures="1" skipped="0" tests="139" time="29.665" timestamp="2026-11-11T09:42:49.910247-05:00" hostname="dong"><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[positive-PASS]" time="0.732" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[brand_only-UNKNOWN]" time="0.805" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[conflicting_name-UNKNOWN]" time="0.840" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[missing_introduction-UNKNOWN]" time="0.844" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[missing_href-UNKNOWN]" time="0.695" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[unvisited-UNKNOWN]" time="1.417" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[raw_absent-UNKNOWN]" time="0.506" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[js_only-UNKNOWN]" time="0.937" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[about_403-ACCESS_BLOCKED]" time="0.714" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[waf-ACCESS_BLOCKED]" time="0.736" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[robots-ACCESS_BLOCKED]" time="0.730" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[contact_403-ACCESS_BLOCKED]" time="0.672" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[contact_404-UNKNOWN]" time="0.657" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[contact_410-UNKNOWN]" time="0.658" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[contact_500-UNKNOWN]" time="0.649" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[name_omitted-UNKNOWN]" time="0.757" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[same_brand_different_legal_names-UNKNOWN]" time="0.806" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_accepted_evaluator_independent_status_oracle[qualification_claim_is_quote_only-PASS]" time="0.742" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_separate_broken_contact_pack_preserves_cross_rule_semantics[404]" time="0.846" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_separate_broken_contact_pack_preserves_cross_rule_semantics[410]" time="0.880" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_supported_builder_is_required_not_skipped_or_stubbed" time="0.473"><failure message="vrae.findings.builder.FindingError: FINDING_INTEGRITY">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:187: in test_ra2c3_supported_builder_is_required_not_skipped_or_stubbed
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</failure></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_positive_is_source_only_separate_and_fully_pinned" time="0.489"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[positive-PASS]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[brand_only-UNKNOWN]" time="0.000"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[conflicting_name-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[missing_introduction-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[missing_href-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[unvisited-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[raw_absent-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[js_only-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[about_403-ACCESS_BLOCKED]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[waf-ACCESS_BLOCKED]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[robots-ACCESS_BLOCKED]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[contact_403-ACCESS_BLOCKED]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[contact_404-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[contact_410-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[contact_500-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[name_omitted-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[same_brand_different_legal_names-UNKNOWN]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_status_scope_is_not_promoted_to_trust_or_defect[qualification_claim_is_quote_only-PASS]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[name]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[introduction]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[href]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[label]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[raw_element]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[opening_tag]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[line]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[column]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[path]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[url]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[final_url]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[observed_at]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[body_hash]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[source_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[snapshot_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[evidence_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[source_pointer]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[fact_kind]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[missing_provenance]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[source_pages]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[fact_ids]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[target_status]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[target_trace]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[target_error]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[target_source]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[target_snapshot]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[target_missing]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[scope_tenant]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[scope_run]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[scope_policy]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[scope_policy_version]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[scope_terms]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[coverage]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[unvisited]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[blocked]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[statement_authentication]" time="0.003"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[trust_defect]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[duplicate_positive]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[private]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[approved]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[shareable]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[public_report]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[share_grant]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[builder]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[evaluator]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[pack_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[execution_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[package_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[unknown_fact]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[unknown_severity]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_package_attack_cannot_authorize_new_proof_or_privacy[unknown_statement]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[name]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[introduction]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[href]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[label]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[line]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[column]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[path]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[body_hash]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[observed_at]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[source_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[snapshot_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[evidence_ref]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[target_status]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[target_missing]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[scope_tenant]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[scope_policy]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[statement_authentication]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[trust_defect]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_rehashed_embedded_execution_also_replays_original_sources[unvisited]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_resealed_pack_scope_is_not_authority[tenant_id]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_resealed_pack_scope_is_not_authority[run_id]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_resealed_pack_scope_is_not_authority[policy_id]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_resealed_pack_scope_is_not_authority[policy_version]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_resealed_pack_scope_is_not_authority[coverage]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_changed_original_bytes_and_other_valid_run_fail_trusted_pin" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_build_load_verify_require_all_independently_held_pins[expected_pack_ref-None]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_build_load_verify_require_all_independently_held_pins[expected_pack_ref-ep-0000000000000000000000000000000000000000000000000000000000000000]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_build_load_verify_require_all_independently_held_pins[expected_execution_ref-rx-0000000000000000000000000000000000000000000000000000000000000000]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_build_load_verify_require_all_independently_held_pins[expected_evaluator_version-ra2b4-1.0.0]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_build_load_verify_require_all_independently_held_pins[expected_builder_version-ra2c2-1.0.0]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_build_load_verify_require_all_independently_held_pins[expected_builder_version-None]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_build_load_verify_require_all_independently_held_pins[expected_builder_version-ra2c9-unreviewed]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_never_implicitly_upgrades_or_accepts_an_old_execution" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_detached_documents_and_naked_finding_are_not_mutable_proof" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_oversize_wrapper_and_nan_cannot_be_rehashed_into_a_valid_package" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[missing_target]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[status]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[trace]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[error]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[source]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[snapshot]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[native_id]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[native_snapshot]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_true_broken_link_never_loses_its_inseparable_target_and_native_edge[raw_href]" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_ra2c3_spoofed_target_404_cannot_create_a_defect_from_a_real_200" time="0.001"><error message="failed on setup with &quot;vrae.findings.builder.FindingError: FINDING_INTEGRITY&quot;">vrae\findings\builder.py:225: in build_findings
+    return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
+vrae\findings\builder.py:86: in _project
+    _fail()
+vrae\findings\builder.py:27: in _fail
+    raise FindingError('FINDING_INTEGRITY')
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY
+
+The above exception was the direct cause of the following exception:
+tests\findings\test_ra2c3_independent_adversarial.py:157: in positive
+    package = build(pack, execution)
+              ^^^^^^^^^^^^^^^^^^^^^^
+tests\findings\test_ra2c3_independent_adversarial.py:114: in build
+    return build_findings(pack, execution, **pins(pack, execution))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\findings\builder.py:229: in build_findings
+    raise FindingError('FINDING_INTEGRITY') from exc
+E   vrae.findings.builder.FindingError: FINDING_INTEGRITY</error></testcase><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_historical_sealed_bytes_and_refs_are_unchanged[tests/fixtures/findings/industrial-diagnostic.json-ra2c0-1.0.0-ra2b1-1.0.0]" time="0.774" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_historical_sealed_bytes_and_refs_are_unchanged[tests/findings/fixtures/info01-private-package.json-ra2c1-1.0.0-ra2b3-1.0.0]" time="0.542" /><testcase classname="tests.findings.test_ra2c3_independent_adversarial" name="test_contract_historical_sealed_bytes_and_refs_are_unchanged[tests/findings/fixtures/seo01-private-package.json-ra2c2-1.0.0-ra2b4-1.0.0]" time="0.622" /></testsuite></testsuites>
