@@ -1,0 +1,818 @@
+{
+  "cases": [
+    {
+      "captured_defects": [],
+      "case": "positive-contact-200",
+      "expected_builder_version": "ra2c3-1.0.0",
+      "expected_evaluator_version": "ra2b6-1.0.0",
+      "expected_execution_ref": "rx-bd53d5ac4072084fde99bb98713873936c53be40ef6e079cb37086b28c851c92",
+      "expected_pack_ref": "ep-0d8c47039d18a69016272c6be4749adc2730bbe20251bb1d952480b50f0bc438",
+      "limits": [
+        "OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION",
+        "NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM",
+        "NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF",
+        "PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT",
+        "PRODUCT_SOURCE_TEXT_ONLY_NOT_ACCURACY_COMPLETENESS_AUTHENTICITY_COMPREHENSION_OR_FIT",
+        "SEO01_ORIGINAL_HOME_TITLE_CANONICAL_TAG_PRESENCE_ONLY_NOT_A_DEFECT",
+        "NO_CANONICAL_TARGET_FETCH_INDEXING_RANKING_CRAWLABILITY_OR_SEO_HEALTH_CLAIM",
+        "ROBOTS_SITEMAP_UNKNOWN_WITHOUT_SEPARATELY_RESOLVABLE_CAPTURE",
+        "TRUST01_SELF_DECLARED_ORGANIZATION_INTRO_AND_STATIC_CONTACT_SOURCE_PRESENCE_ONLY",
+        "NO_AUTHENTICATED_ENTITY_FACTORY_CERTIFICATE_QUALIFICATION_OR_CONTACT_OWNERSHIP_CLAIM",
+        "NO_CONTACT_DELIVERABILITY_SUCCESSFUL_INQUIRY_TRUST_SCORE_DEFECT_OR_BUSINESS_HARM_CLAIM"
+      ],
+      "package_ref": "fp-9bb9b6e0d0ba9f7d79545c5d7a6f73f33f31f9e7303e70cb7d925db9668bbf9a",
+      "path_positive_groups": 3,
+      "product_positive_groups": 1,
+      "seo_positive_groups": 1,
+      "trust_positive_groups": 1,
+      "trust_result": "PASS",
+      "trust_sources": [
+        {
+          "error": null,
+          "evidence_refs": [
+            "ev-12745b9b60b9e30d6629a724d765834cac339b8f5167ae761741546f49fde3b2"
+          ],
+          "final_url": "https://example.org/",
+          "http_status": 200,
+          "locator": "/pages/0",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/",
+            "locator": "/pages/0/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-a7bb0c42ab7e1bd7e1eae77e9f870b8f146fba630ec024bf0f9e2d15fd1a4702",
+            "source_ref": "src-68aa6f2f27404349a50475a93c907bde6173103e16015828a9768ba3d2581780",
+            "source_snapshot_id": "snap-dd4a91509f44c6a5007e4784583e6a3b005344510d4ebc1112cb7b4f575c5fb4",
+            "status": "OBSERVED",
+            "url": "https://example.org/",
+            "viewport": null
+          },
+          "snapshot_ref": "page-a7bb0c42ab7e1bd7e1eae77e9f870b8f146fba630ec024bf0f9e2d15fd1a4702",
+          "source_ref": "src-68aa6f2f27404349a50475a93c907bde6173103e16015828a9768ba3d2581780",
+          "url": "https://example.org/"
+        },
+        {
+          "error": null,
+          "evidence_refs": [
+            "ev-cc520eb4c86863cd77e1dd073023afcd2f878cb2668896fcac4f73d2ae74c789"
+          ],
+          "final_url": "https://example.org/contact",
+          "http_status": 200,
+          "locator": "/pages/3",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/contact"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/contact",
+            "locator": "/pages/3/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-6f6836d7b7355a928cfd5cbdf7fc2db1bc798502cfb8ed270f4d2770a14a744f",
+            "source_ref": "src-68aa6f2f27404349a50475a93c907bde6173103e16015828a9768ba3d2581780",
+            "source_snapshot_id": "snap-9e187866dc2a35b03b2566feec6ffc5ebd04076de05a92f79c224b29e7f9c454",
+            "status": "OBSERVED",
+            "url": "https://example.org/contact",
+            "viewport": null
+          },
+          "snapshot_ref": "page-6f6836d7b7355a928cfd5cbdf7fc2db1bc798502cfb8ed270f4d2770a14a744f",
+          "source_ref": "src-68aa6f2f27404349a50475a93c907bde6173103e16015828a9768ba3d2581780",
+          "url": "https://example.org/contact"
+        }
+      ]
+    },
+    {
+      "captured_defects": [
+        {
+          "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+          "execution_locator": "/executions/10/observations/0",
+          "finding": {
+            "buyer_task": "INQUIRE",
+            "evidence_ids": [
+              "ev-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7"
+            ],
+            "finding_id": "finding-2597032258549852391e86e7e821e0a38461cfb53084a325fd81e18de094a377",
+            "kind": "OBSERVATION",
+            "observation_id": "obs-cd1743690cd54e8889b3590fe97678d9d5638271526e6b493d05cb44b27ef072",
+            "rule_version": "1.0.0",
+            "run_id": "run-ra2c3-synthetic",
+            "schema_version": "1.0",
+            "severity": null,
+            "statement": "One captured static href returned HTTP 404 at capture time; limited to the bound source href and target response.",
+            "tenant_id": "tenant-example"
+          },
+          "gap_reason": "CAPTURED_BROKEN_HREF",
+          "guard_bridge": {
+            "evidence_mapping": [
+              {
+                "evidence_ref": "ev-23b890cd9a3712245c40ac967fafb42d241c3b64385df133b8e3f41f5e346cd9",
+                "native_evidence_id": "ev-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+                "native_snapshot_id": "snap-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+                "snapshot_ref": "page-2616f60d6df84d96db6d3bd508cc59d1f99fcafa8bee49f023c822b72c66a8c6",
+                "source_locator": "/pages/2/evidence",
+                "source_ref": "src-8c6e2639b3d4f9538852ffdfe8b6a182e279ed4e75c04ce4461f3e05d18c2b4c"
+              }
+            ],
+            "guard_observation": {
+              "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+              "evidence_ids": [
+                "ev-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7"
+              ],
+              "kind": "OBJECTIVE",
+              "observation_id": "obs-cd1743690cd54e8889b3590fe97678d9d5638271526e6b493d05cb44b27ef072",
+              "result": "FAIL_WITH_EVIDENCE",
+              "rule_id": "CTA-02",
+              "rule_version": "1.0.0",
+              "run_id": "run-ra2c3-synthetic",
+              "schema_version": "1.0",
+              "statement": "This captured static href returned HTTP 404 or 410 at capture time.",
+              "tenant_id": "tenant-example"
+            },
+            "kind": "EXACT_NATIVE_HTTP_ID_MAPPING",
+            "limit": "Source body bridge only; target response proof requires the inseparable provenance edge.",
+            "native_evidence": {
+              "certainty": "OBSERVED",
+              "checksum": "c752514c8b6667db69763f17a383efa0bdbb18df83f3276dfcc72a8b7acb2d76",
+              "evidence_id": "ev-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+              "excerpt": null,
+              "locator": "http-response-body",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "run_id": "run-ra2c3-synthetic",
+              "schema_version": "1.0",
+              "snapshot_id": "snap-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+              "tenant_id": "tenant-example"
+            },
+            "native_snapshot": {
+              "capture_mode": "HTTP",
+              "captured_at": "2026-11-10T12:00:00+00:00",
+              "final_url": "https://example.org/products/sv-40",
+              "policy_id": "pol-001",
+              "policy_version": 1,
+              "private_object_ref": "body-c752514c8b6667db69763f17a383efa0bdbb18df83f3276dfcc72a8b7acb2d76",
+              "run_id": "run-ra2c3-synthetic",
+              "schema_version": "1.0",
+              "sha256": "c752514c8b6667db69763f17a383efa0bdbb18df83f3276dfcc72a8b7acb2d76",
+              "snapshot_id": "snap-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+              "status": "FETCHED",
+              "tenant_id": "tenant-example",
+              "url": "https://example.org/products/sv-40"
+            }
+          },
+          "outcome": "FAIL_WITH_EVIDENCE",
+          "provenance": {
+            "citations": [
+              {
+                "anchor_index": 0,
+                "column": 0,
+                "evidence_ref": "ev-23b890cd9a3712245c40ac967fafb42d241c3b64385df133b8e3f41f5e346cd9",
+                "line": 9,
+                "locator": "/pages/2/evidence",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "raw_href": "/contact",
+                "snapshot_ref": "page-2616f60d6df84d96db6d3bd508cc59d1f99fcafa8bee49f023c822b72c66a8c6",
+                "source_ref": "src-8c6e2639b3d4f9538852ffdfe8b6a182e279ed4e75c04ce4461f3e05d18c2b4c",
+                "url": "https://example.org/products/sv-40"
+              }
+            ],
+            "observation": {
+              "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+              "evidence_ids": [
+                "ev-23b890cd9a3712245c40ac967fafb42d241c3b64385df133b8e3f41f5e346cd9"
+              ],
+              "kind": "OBJECTIVE",
+              "observation_id": "obs-cd1743690cd54e8889b3590fe97678d9d5638271526e6b493d05cb44b27ef072",
+              "result": "FAIL_WITH_EVIDENCE",
+              "rule_id": "CTA-02",
+              "rule_version": "1.0.0",
+              "run_id": "run-ra2c3-synthetic",
+              "schema_version": "1.0",
+              "statement": "This captured static href returned HTTP 404 or 410 at capture time.",
+              "tenant_id": "tenant-example"
+            },
+            "reason": "CAPTURED_BROKEN_HREF",
+            "source_page": {
+              "error": null,
+              "final_url": "https://example.org/products/sv-40",
+              "http_status": 200,
+              "locator": "/pages/2",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/products/sv-40"
+                }
+              ],
+              "snapshot_ref": "page-2616f60d6df84d96db6d3bd508cc59d1f99fcafa8bee49f023c822b72c66a8c6",
+              "source_ref": "src-8c6e2639b3d4f9538852ffdfe8b6a182e279ed4e75c04ce4461f3e05d18c2b4c",
+              "url": "https://example.org/products/sv-40"
+            },
+            "target_response": {
+              "error": {
+                "code": "HTTP_ERROR",
+                "retryable": false,
+                "safe_message": "HTTP_ERROR",
+                "schema_version": "1.0"
+              },
+              "final_url": "https://example.org/contact",
+              "http_status": 404,
+              "locator": "/pages/3",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 404,
+                  "url": "https://example.org/contact"
+                }
+              ],
+              "snapshot_ref": "page-70037a8c4ece7fd1da7fbe95ac0cfdd58a75609b3a0a428c3981cc8c354ad1d8",
+              "source_ref": "src-8c6e2639b3d4f9538852ffdfe8b6a182e279ed4e75c04ce4461f3e05d18c2b4c",
+              "url": "https://example.org/contact"
+            }
+          },
+          "rule_id": "CTA-02"
+        }
+      ],
+      "case": "broken-contact-404",
+      "expected_builder_version": "ra2c3-1.0.0",
+      "expected_evaluator_version": "ra2b6-1.0.0",
+      "expected_execution_ref": "rx-3338d836a37bea5b2c17c00560821d322a91924483a4d14e2973b98ff8b679ac",
+      "expected_pack_ref": "ep-c67f7fec3413d85ae4f83ff0210ab2ba9ab4ed88100748497ca3689c6204e3eb",
+      "limits": [
+        "OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION",
+        "NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM",
+        "NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF",
+        "PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT",
+        "PRODUCT_SOURCE_TEXT_ONLY_NOT_ACCURACY_COMPLETENESS_AUTHENTICITY_COMPREHENSION_OR_FIT",
+        "SEO01_ORIGINAL_HOME_TITLE_CANONICAL_TAG_PRESENCE_ONLY_NOT_A_DEFECT",
+        "NO_CANONICAL_TARGET_FETCH_INDEXING_RANKING_CRAWLABILITY_OR_SEO_HEALTH_CLAIM",
+        "ROBOTS_SITEMAP_UNKNOWN_WITHOUT_SEPARATELY_RESOLVABLE_CAPTURE",
+        "TRUST01_SELF_DECLARED_ORGANIZATION_INTRO_AND_STATIC_CONTACT_SOURCE_PRESENCE_ONLY",
+        "NO_AUTHENTICATED_ENTITY_FACTORY_CERTIFICATE_QUALIFICATION_OR_CONTACT_OWNERSHIP_CLAIM",
+        "NO_CONTACT_DELIVERABILITY_SUCCESSFUL_INQUIRY_TRUST_SCORE_DEFECT_OR_BUSINESS_HARM_CLAIM"
+      ],
+      "package_ref": "fp-9fa8fe8d414b38cf8498339b45553c94b817065a37a1e4c70ff9a4707c67b918",
+      "path_positive_groups": 2,
+      "product_positive_groups": 1,
+      "seo_positive_groups": 1,
+      "trust_positive_groups": 0,
+      "trust_result": "UNKNOWN",
+      "trust_sources": [
+        {
+          "error": null,
+          "evidence_refs": [
+            "ev-2736ec7bcd23147682e3b85ab595dbeed6211227d2f6b58eaef7b9302d7f7b3d"
+          ],
+          "final_url": "https://example.org/",
+          "http_status": 200,
+          "locator": "/pages/0",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/",
+            "locator": "/pages/0/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-57a590f8cf8ad7443aee9f2fba3cd89a6a4a70d19dcfd2c1abc154001967111b",
+            "source_ref": "src-8c6e2639b3d4f9538852ffdfe8b6a182e279ed4e75c04ce4461f3e05d18c2b4c",
+            "source_snapshot_id": "snap-dd4a91509f44c6a5007e4784583e6a3b005344510d4ebc1112cb7b4f575c5fb4",
+            "status": "OBSERVED",
+            "url": "https://example.org/",
+            "viewport": null
+          },
+          "snapshot_ref": "page-57a590f8cf8ad7443aee9f2fba3cd89a6a4a70d19dcfd2c1abc154001967111b",
+          "source_ref": "src-8c6e2639b3d4f9538852ffdfe8b6a182e279ed4e75c04ce4461f3e05d18c2b4c",
+          "url": "https://example.org/"
+        },
+        {
+          "error": {
+            "code": "HTTP_ERROR",
+            "retryable": false,
+            "safe_message": "HTTP_ERROR",
+            "schema_version": "1.0"
+          },
+          "evidence_refs": [],
+          "final_url": "https://example.org/contact",
+          "http_status": 404,
+          "locator": "/pages/3",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 404,
+              "url": "https://example.org/contact"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/contact",
+            "locator": "/pages/3/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-70037a8c4ece7fd1da7fbe95ac0cfdd58a75609b3a0a428c3981cc8c354ad1d8",
+            "source_ref": "src-8c6e2639b3d4f9538852ffdfe8b6a182e279ed4e75c04ce4461f3e05d18c2b4c",
+            "source_snapshot_id": "snap-9e187866dc2a35b03b2566feec6ffc5ebd04076de05a92f79c224b29e7f9c454",
+            "status": "UNKNOWN",
+            "url": "https://example.org/contact",
+            "viewport": null
+          },
+          "snapshot_ref": "page-70037a8c4ece7fd1da7fbe95ac0cfdd58a75609b3a0a428c3981cc8c354ad1d8",
+          "source_ref": "src-8c6e2639b3d4f9538852ffdfe8b6a182e279ed4e75c04ce4461f3e05d18c2b4c",
+          "url": "https://example.org/contact"
+        }
+      ]
+    },
+    {
+      "captured_defects": [
+        {
+          "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+          "execution_locator": "/executions/10/observations/0",
+          "finding": {
+            "buyer_task": "INQUIRE",
+            "evidence_ids": [
+              "ev-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7"
+            ],
+            "finding_id": "finding-df4da219c7b9d098171b435fb8ddddb24e9fd282a0ea20798d6a14f191523582",
+            "kind": "OBSERVATION",
+            "observation_id": "obs-3f17dccf9d3211b077a2211ada8838e5e02fe034c3191defb45f37442248ec6e",
+            "rule_version": "1.0.0",
+            "run_id": "run-ra2c3-synthetic",
+            "schema_version": "1.0",
+            "severity": null,
+            "statement": "One captured static href returned HTTP 410 at capture time; limited to the bound source href and target response.",
+            "tenant_id": "tenant-example"
+          },
+          "gap_reason": "CAPTURED_BROKEN_HREF",
+          "guard_bridge": {
+            "evidence_mapping": [
+              {
+                "evidence_ref": "ev-bb5e6ea3f76829ef97af02fcee16bbc3bdf8f00adc62fa65dac6d6a73d263c36",
+                "native_evidence_id": "ev-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+                "native_snapshot_id": "snap-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+                "snapshot_ref": "page-ea5b2876fcbe1ec75b2a88ee99c02625e81bf1bf9311482b88f45aa23db8e153",
+                "source_locator": "/pages/2/evidence",
+                "source_ref": "src-56d35bce069fac84a524a4f78848acdf53f3cfcad10cffa1fd782930dbda8168"
+              }
+            ],
+            "guard_observation": {
+              "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+              "evidence_ids": [
+                "ev-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7"
+              ],
+              "kind": "OBJECTIVE",
+              "observation_id": "obs-3f17dccf9d3211b077a2211ada8838e5e02fe034c3191defb45f37442248ec6e",
+              "result": "FAIL_WITH_EVIDENCE",
+              "rule_id": "CTA-02",
+              "rule_version": "1.0.0",
+              "run_id": "run-ra2c3-synthetic",
+              "schema_version": "1.0",
+              "statement": "This captured static href returned HTTP 404 or 410 at capture time.",
+              "tenant_id": "tenant-example"
+            },
+            "kind": "EXACT_NATIVE_HTTP_ID_MAPPING",
+            "limit": "Source body bridge only; target response proof requires the inseparable provenance edge.",
+            "native_evidence": {
+              "certainty": "OBSERVED",
+              "checksum": "c752514c8b6667db69763f17a383efa0bdbb18df83f3276dfcc72a8b7acb2d76",
+              "evidence_id": "ev-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+              "excerpt": null,
+              "locator": "http-response-body",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "run_id": "run-ra2c3-synthetic",
+              "schema_version": "1.0",
+              "snapshot_id": "snap-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+              "tenant_id": "tenant-example"
+            },
+            "native_snapshot": {
+              "capture_mode": "HTTP",
+              "captured_at": "2026-11-10T12:00:00+00:00",
+              "final_url": "https://example.org/products/sv-40",
+              "policy_id": "pol-001",
+              "policy_version": 1,
+              "private_object_ref": "body-c752514c8b6667db69763f17a383efa0bdbb18df83f3276dfcc72a8b7acb2d76",
+              "run_id": "run-ra2c3-synthetic",
+              "schema_version": "1.0",
+              "sha256": "c752514c8b6667db69763f17a383efa0bdbb18df83f3276dfcc72a8b7acb2d76",
+              "snapshot_id": "snap-bff3ef4496b625239b4bcd1582de38aeb083dba556c26ca2a0488aaf3091baa7",
+              "status": "FETCHED",
+              "tenant_id": "tenant-example",
+              "url": "https://example.org/products/sv-40"
+            }
+          },
+          "outcome": "FAIL_WITH_EVIDENCE",
+          "provenance": {
+            "citations": [
+              {
+                "anchor_index": 0,
+                "column": 0,
+                "evidence_ref": "ev-bb5e6ea3f76829ef97af02fcee16bbc3bdf8f00adc62fa65dac6d6a73d263c36",
+                "line": 9,
+                "locator": "/pages/2/evidence",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "raw_href": "/contact",
+                "snapshot_ref": "page-ea5b2876fcbe1ec75b2a88ee99c02625e81bf1bf9311482b88f45aa23db8e153",
+                "source_ref": "src-56d35bce069fac84a524a4f78848acdf53f3cfcad10cffa1fd782930dbda8168",
+                "url": "https://example.org/products/sv-40"
+              }
+            ],
+            "observation": {
+              "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+              "evidence_ids": [
+                "ev-bb5e6ea3f76829ef97af02fcee16bbc3bdf8f00adc62fa65dac6d6a73d263c36"
+              ],
+              "kind": "OBJECTIVE",
+              "observation_id": "obs-3f17dccf9d3211b077a2211ada8838e5e02fe034c3191defb45f37442248ec6e",
+              "result": "FAIL_WITH_EVIDENCE",
+              "rule_id": "CTA-02",
+              "rule_version": "1.0.0",
+              "run_id": "run-ra2c3-synthetic",
+              "schema_version": "1.0",
+              "statement": "This captured static href returned HTTP 404 or 410 at capture time.",
+              "tenant_id": "tenant-example"
+            },
+            "reason": "CAPTURED_BROKEN_HREF",
+            "source_page": {
+              "error": null,
+              "final_url": "https://example.org/products/sv-40",
+              "http_status": 200,
+              "locator": "/pages/2",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/products/sv-40"
+                }
+              ],
+              "snapshot_ref": "page-ea5b2876fcbe1ec75b2a88ee99c02625e81bf1bf9311482b88f45aa23db8e153",
+              "source_ref": "src-56d35bce069fac84a524a4f78848acdf53f3cfcad10cffa1fd782930dbda8168",
+              "url": "https://example.org/products/sv-40"
+            },
+            "target_response": {
+              "error": {
+                "code": "HTTP_ERROR",
+                "retryable": false,
+                "safe_message": "HTTP_ERROR",
+                "schema_version": "1.0"
+              },
+              "final_url": "https://example.org/contact",
+              "http_status": 410,
+              "locator": "/pages/3",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 410,
+                  "url": "https://example.org/contact"
+                }
+              ],
+              "snapshot_ref": "page-cd90b9e084ba82bf6e3ab84a850851416e34fe21c93b0eaafbc7ccc55c32ea96",
+              "source_ref": "src-56d35bce069fac84a524a4f78848acdf53f3cfcad10cffa1fd782930dbda8168",
+              "url": "https://example.org/contact"
+            }
+          },
+          "rule_id": "CTA-02"
+        }
+      ],
+      "case": "broken-contact-410",
+      "expected_builder_version": "ra2c3-1.0.0",
+      "expected_evaluator_version": "ra2b6-1.0.0",
+      "expected_execution_ref": "rx-5d4da060d879562dad1dfff1d7c2bf32479a00d4da464fa836bfb94c53b711dc",
+      "expected_pack_ref": "ep-e4fd11e3b91b577fd7791d9639ca9c6f6aae2f4d1874814e02a84a60e05b061a",
+      "limits": [
+        "OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION",
+        "NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM",
+        "NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF",
+        "PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT",
+        "PRODUCT_SOURCE_TEXT_ONLY_NOT_ACCURACY_COMPLETENESS_AUTHENTICITY_COMPREHENSION_OR_FIT",
+        "SEO01_ORIGINAL_HOME_TITLE_CANONICAL_TAG_PRESENCE_ONLY_NOT_A_DEFECT",
+        "NO_CANONICAL_TARGET_FETCH_INDEXING_RANKING_CRAWLABILITY_OR_SEO_HEALTH_CLAIM",
+        "ROBOTS_SITEMAP_UNKNOWN_WITHOUT_SEPARATELY_RESOLVABLE_CAPTURE",
+        "TRUST01_SELF_DECLARED_ORGANIZATION_INTRO_AND_STATIC_CONTACT_SOURCE_PRESENCE_ONLY",
+        "NO_AUTHENTICATED_ENTITY_FACTORY_CERTIFICATE_QUALIFICATION_OR_CONTACT_OWNERSHIP_CLAIM",
+        "NO_CONTACT_DELIVERABILITY_SUCCESSFUL_INQUIRY_TRUST_SCORE_DEFECT_OR_BUSINESS_HARM_CLAIM"
+      ],
+      "package_ref": "fp-53e59644d46b39c0bc2194ce476c26677bc7ac452ff36632442c3f66dfbf6938",
+      "path_positive_groups": 2,
+      "product_positive_groups": 1,
+      "seo_positive_groups": 1,
+      "trust_positive_groups": 0,
+      "trust_result": "UNKNOWN",
+      "trust_sources": [
+        {
+          "error": null,
+          "evidence_refs": [
+            "ev-5422c87385f4460cbe5e75927956beb19eda74a4f08a2e77b84ef2bee4bace26"
+          ],
+          "final_url": "https://example.org/",
+          "http_status": 200,
+          "locator": "/pages/0",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/",
+            "locator": "/pages/0/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-240897d1958ad2c76e9e1242fc4545f0bb33ef23384102e0ab45cd655f0ba1b5",
+            "source_ref": "src-56d35bce069fac84a524a4f78848acdf53f3cfcad10cffa1fd782930dbda8168",
+            "source_snapshot_id": "snap-dd4a91509f44c6a5007e4784583e6a3b005344510d4ebc1112cb7b4f575c5fb4",
+            "status": "OBSERVED",
+            "url": "https://example.org/",
+            "viewport": null
+          },
+          "snapshot_ref": "page-240897d1958ad2c76e9e1242fc4545f0bb33ef23384102e0ab45cd655f0ba1b5",
+          "source_ref": "src-56d35bce069fac84a524a4f78848acdf53f3cfcad10cffa1fd782930dbda8168",
+          "url": "https://example.org/"
+        },
+        {
+          "error": {
+            "code": "HTTP_ERROR",
+            "retryable": false,
+            "safe_message": "HTTP_ERROR",
+            "schema_version": "1.0"
+          },
+          "evidence_refs": [],
+          "final_url": "https://example.org/contact",
+          "http_status": 410,
+          "locator": "/pages/3",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 410,
+              "url": "https://example.org/contact"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/contact",
+            "locator": "/pages/3/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-cd90b9e084ba82bf6e3ab84a850851416e34fe21c93b0eaafbc7ccc55c32ea96",
+            "source_ref": "src-56d35bce069fac84a524a4f78848acdf53f3cfcad10cffa1fd782930dbda8168",
+            "source_snapshot_id": "snap-9e187866dc2a35b03b2566feec6ffc5ebd04076de05a92f79c224b29e7f9c454",
+            "status": "UNKNOWN",
+            "url": "https://example.org/contact",
+            "viewport": null
+          },
+          "snapshot_ref": "page-cd90b9e084ba82bf6e3ab84a850851416e34fe21c93b0eaafbc7ccc55c32ea96",
+          "source_ref": "src-56d35bce069fac84a524a4f78848acdf53f3cfcad10cffa1fd782930dbda8168",
+          "url": "https://example.org/contact"
+        }
+      ]
+    },
+    {
+      "captured_defects": [],
+      "case": "blocked-contact-403",
+      "expected_builder_version": "ra2c3-1.0.0",
+      "expected_evaluator_version": "ra2b6-1.0.0",
+      "expected_execution_ref": "rx-1e7ba6e3e1176414e28e492ef1bbcc3ef8de859067212520957d4a820a4ab047",
+      "expected_pack_ref": "ep-57b265363429e2c001fbd5b04a4b901cb339897d2ef23eccfde0a6144239f125",
+      "limits": [
+        "OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION",
+        "NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM",
+        "NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF",
+        "PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT",
+        "PRODUCT_SOURCE_TEXT_ONLY_NOT_ACCURACY_COMPLETENESS_AUTHENTICITY_COMPREHENSION_OR_FIT",
+        "SEO01_ORIGINAL_HOME_TITLE_CANONICAL_TAG_PRESENCE_ONLY_NOT_A_DEFECT",
+        "NO_CANONICAL_TARGET_FETCH_INDEXING_RANKING_CRAWLABILITY_OR_SEO_HEALTH_CLAIM",
+        "ROBOTS_SITEMAP_UNKNOWN_WITHOUT_SEPARATELY_RESOLVABLE_CAPTURE",
+        "TRUST01_SELF_DECLARED_ORGANIZATION_INTRO_AND_STATIC_CONTACT_SOURCE_PRESENCE_ONLY",
+        "NO_AUTHENTICATED_ENTITY_FACTORY_CERTIFICATE_QUALIFICATION_OR_CONTACT_OWNERSHIP_CLAIM",
+        "NO_CONTACT_DELIVERABILITY_SUCCESSFUL_INQUIRY_TRUST_SCORE_DEFECT_OR_BUSINESS_HARM_CLAIM"
+      ],
+      "package_ref": "fp-80e9dce4a7bef96b50dd9698620a8f9cad33a55837fa5463ddf0004d0e0ef397",
+      "path_positive_groups": 2,
+      "product_positive_groups": 1,
+      "seo_positive_groups": 1,
+      "trust_positive_groups": 0,
+      "trust_result": "ACCESS_BLOCKED",
+      "trust_sources": [
+        {
+          "error": null,
+          "evidence_refs": [
+            "ev-d3e6237f1d27307044fa51a7e87f1a5dda6679740c1eea4af90837d8cf5b3c7d"
+          ],
+          "final_url": "https://example.org/",
+          "http_status": 200,
+          "locator": "/pages/0",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/",
+            "locator": "/pages/0/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-a569c10f5f039ad5ba728f50d6e69c14f83d9698d0efc770ecd84b07417e464a",
+            "source_ref": "src-660344f48e8fef4cbf6e21adfea914e3066d06dec0a80cc83f21d937e5248661",
+            "source_snapshot_id": "snap-dd4a91509f44c6a5007e4784583e6a3b005344510d4ebc1112cb7b4f575c5fb4",
+            "status": "OBSERVED",
+            "url": "https://example.org/",
+            "viewport": null
+          },
+          "snapshot_ref": "page-a569c10f5f039ad5ba728f50d6e69c14f83d9698d0efc770ecd84b07417e464a",
+          "source_ref": "src-660344f48e8fef4cbf6e21adfea914e3066d06dec0a80cc83f21d937e5248661",
+          "url": "https://example.org/"
+        },
+        {
+          "error": {
+            "code": "ACCESS_BLOCKED",
+            "retryable": false,
+            "safe_message": "ACCESS_BLOCKED",
+            "schema_version": "1.0"
+          },
+          "evidence_refs": [],
+          "final_url": "https://example.org/contact",
+          "http_status": 403,
+          "locator": "/pages/3",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 403,
+              "url": "https://example.org/contact"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/contact",
+            "locator": "/pages/3/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-5761df079cdad487af7301820137998a3aafb2f662a7fe84055ff24a88c1f2a2",
+            "source_ref": "src-660344f48e8fef4cbf6e21adfea914e3066d06dec0a80cc83f21d937e5248661",
+            "source_snapshot_id": "snap-9e187866dc2a35b03b2566feec6ffc5ebd04076de05a92f79c224b29e7f9c454",
+            "status": "ACCESS_BLOCKED",
+            "url": "https://example.org/contact",
+            "viewport": null
+          },
+          "snapshot_ref": "page-5761df079cdad487af7301820137998a3aafb2f662a7fe84055ff24a88c1f2a2",
+          "source_ref": "src-660344f48e8fef4cbf6e21adfea914e3066d06dec0a80cc83f21d937e5248661",
+          "url": "https://example.org/contact"
+        }
+      ]
+    },
+    {
+      "captured_defects": [],
+      "case": "unknown-contact-500",
+      "expected_builder_version": "ra2c3-1.0.0",
+      "expected_evaluator_version": "ra2b6-1.0.0",
+      "expected_execution_ref": "rx-8401822ce379883f713fde6e1bc21dec8ed8c2fa067fd5a9afda382f7d1579ec",
+      "expected_pack_ref": "ep-d19eee1844ecffd77059a7a484385efff1e65c5b268afdc1a9f829f6ef173835",
+      "limits": [
+        "OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION",
+        "NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM",
+        "NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF",
+        "PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT",
+        "PRODUCT_SOURCE_TEXT_ONLY_NOT_ACCURACY_COMPLETENESS_AUTHENTICITY_COMPREHENSION_OR_FIT",
+        "SEO01_ORIGINAL_HOME_TITLE_CANONICAL_TAG_PRESENCE_ONLY_NOT_A_DEFECT",
+        "NO_CANONICAL_TARGET_FETCH_INDEXING_RANKING_CRAWLABILITY_OR_SEO_HEALTH_CLAIM",
+        "ROBOTS_SITEMAP_UNKNOWN_WITHOUT_SEPARATELY_RESOLVABLE_CAPTURE",
+        "TRUST01_SELF_DECLARED_ORGANIZATION_INTRO_AND_STATIC_CONTACT_SOURCE_PRESENCE_ONLY",
+        "NO_AUTHENTICATED_ENTITY_FACTORY_CERTIFICATE_QUALIFICATION_OR_CONTACT_OWNERSHIP_CLAIM",
+        "NO_CONTACT_DELIVERABILITY_SUCCESSFUL_INQUIRY_TRUST_SCORE_DEFECT_OR_BUSINESS_HARM_CLAIM"
+      ],
+      "package_ref": "fp-d5ae9758df84486d1d35d2863b2dcf5167497956ca2e46a1e7a23c065bdf79bd",
+      "path_positive_groups": 2,
+      "product_positive_groups": 1,
+      "seo_positive_groups": 1,
+      "trust_positive_groups": 0,
+      "trust_result": "UNKNOWN",
+      "trust_sources": [
+        {
+          "error": null,
+          "evidence_refs": [
+            "ev-83b969094772d63c3f3414edfe785b5d846e2d74da406d4f84d2d56f64a83f05"
+          ],
+          "final_url": "https://example.org/",
+          "http_status": 200,
+          "locator": "/pages/0",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/",
+            "locator": "/pages/0/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-224ff0a0b3f2b09951aaa3a5b81a294d7c9307d074004b7dbac3a7de80581039",
+            "source_ref": "src-1921ed735350032b230b9e0c672e89317f7bcabc684b946e1b683e9d3e784f6b",
+            "source_snapshot_id": "snap-dd4a91509f44c6a5007e4784583e6a3b005344510d4ebc1112cb7b4f575c5fb4",
+            "status": "OBSERVED",
+            "url": "https://example.org/",
+            "viewport": null
+          },
+          "snapshot_ref": "page-224ff0a0b3f2b09951aaa3a5b81a294d7c9307d074004b7dbac3a7de80581039",
+          "source_ref": "src-1921ed735350032b230b9e0c672e89317f7bcabc684b946e1b683e9d3e784f6b",
+          "url": "https://example.org/"
+        },
+        {
+          "error": {
+            "code": "HTTP_ERROR",
+            "retryable": false,
+            "safe_message": "HTTP_ERROR",
+            "schema_version": "1.0"
+          },
+          "evidence_refs": [],
+          "final_url": "https://example.org/contact",
+          "http_status": 500,
+          "locator": "/pages/3",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 500,
+              "url": "https://example.org/contact"
+            }
+          ],
+          "snapshot": {
+            "capture_mode": "HTTP",
+            "final_url": "https://example.org/contact",
+            "locator": "/pages/3/snapshot",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "snapshot_ref": "page-0d3f74daf1c4dbd6b4c39948bc3c42d30eb01d39866070c52a6e3f7726c99514",
+            "source_ref": "src-1921ed735350032b230b9e0c672e89317f7bcabc684b946e1b683e9d3e784f6b",
+            "source_snapshot_id": "snap-9e187866dc2a35b03b2566feec6ffc5ebd04076de05a92f79c224b29e7f9c454",
+            "status": "UNKNOWN",
+            "url": "https://example.org/contact",
+            "viewport": null
+          },
+          "snapshot_ref": "page-0d3f74daf1c4dbd6b4c39948bc3c42d30eb01d39866070c52a6e3f7726c99514",
+          "source_ref": "src-1921ed735350032b230b9e0c672e89317f7bcabc684b946e1b683e9d3e784f6b",
+          "url": "https://example.org/contact"
+        }
+      ]
+    }
+  ],
+  "historical_refs_on_positive_pack": [
+    {
+      "builder_version": "ra2c0-1.0.0",
+      "evaluator_version": "ra2b1-1.0.0",
+      "execution_ref": "rx-ccef4a09123899e00dd4c06b25d132faa4e565265e90801fcfcdea04c573999f",
+      "package_ref": "fp-4e90f3a6235509877c0a5c43a3b3e323f485c0a99267b3b6bc9b692976e8bccf"
+    },
+    {
+      "builder_version": "ra2c1-1.0.0",
+      "evaluator_version": "ra2b3-1.0.0",
+      "execution_ref": "rx-ab2fc93bbefeb45138ca749b9cc25b4f7ca0a3fc09ac31ad399d64f838eaa137",
+      "package_ref": "fp-23fd173908b5dd43769de93da71ec7f08d466e01ed53773138fed4fa6ad0bcb2"
+    },
+    {
+      "builder_version": "ra2c2-1.0.0",
+      "evaluator_version": "ra2b4-1.0.0",
+      "execution_ref": "rx-818fdb418ca3095dfeb9e129ae18de4b6d31b78720183ae10a3e0bba36adb6af",
+      "package_ref": "fp-65f235d3920b6aaa33ed3bb5e26b131de89655e21670f239332e2dedcf375881"
+    }
+  ],
+  "same_capture_trust_pass_with_contact_defect": false,
+  "scope_constraint": "FROZEN_B6_TRUST_ABSTAINS_ON_ANY_RELEVANT_CONTACT_404_410",
+  "status": "VERIFIED_PRIVATE_SELF_DECLARED_SOURCE_FACTS_AND_STATUS_MATRIX"
+}

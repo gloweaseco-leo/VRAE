@@ -1,0 +1,61 @@
+...............F........................................................ [ 69%]
+..........................F....                                          [100%]
+================================== FAILURES ===================================
+_ test_missing_ambiguous_unvisited_or_blocked_source_is_nondefect[kwargs7-UNKNOWN] _
+
+kwargs = {'max_pages': 1}, outcome = 'UNKNOWN'
+
+    @pytest.mark.parametrize('kwargs,outcome', [
+        ({'home': HOME.replace(b'Company name', b'Brand name'),
+          'contact': CONTACT.replace(b'Company name', b'Brand name')}, 'UNKNOWN'),
+        ({'contact': CONTACT.replace(b'SV Industrial Valve Works', b'Other Declared Entity')}, 'UNKNOWN'),
+        ({'home': HOME.replace(INTRO, b''), 'contact': CONTACT.replace(INTRO, b'')}, 'UNKNOWN'),
+        ({'home': HOME.replace(MAILTO, b''), 'contact': CONTACT.replace(MAILTO, b'').replace(HTTP_LINK, b'')}, 'UNKNOWN'),
+        ({'home': HOME.replace(DECLARATION, b'<script>const company="Invented";</script>')}, 'UNKNOWN'),
+        ({'contact': CONTACT.replace(b'</body>', b'<table><tr><th>Legal name</th><td>Other Entity</td></tr></table></body>')}, 'UNKNOWN'),
+        ({'home': HOME.replace(b'Company name', b'Unsupported name'),
+          'contact': CONTACT.replace(b'Company name', b'Unsupported name')}, 'UNKNOWN'),
+        ({'max_pages': 1}, 'UNKNOWN'), ({'retained': False}, 'UNKNOWN'),
+        ({'about': b'<html><p>No supported company declaration</p></html>'}, 'UNKNOWN'),
+        ({'about': CONTACT.replace(b'SV Industrial Valve Works', b'Different Legal Name')}, 'UNKNOWN'),
+        ({'home_status': 403}, 'ACCESS_BLOCKED'),
+        ({'home': b'<html>Verify you are human</html>'}, 'ACCESS_BLOCKED'),
+        ({'robots': b'User-agent: *\nDisallow: /contact\n'}, 'ACCESS_BLOCKED'),
+        ({'robots': b'User-agent: *\nDisallow: /\n'}, 'ACCESS_BLOCKED'),
+    ])
+    def test_missing_ambiguous_unvisited_or_blocked_source_is_nondefect(kwargs, outcome):
+        pack, execution = diagnostic_input(**kwargs)
+        doc = build(pack, execution).document
+>       assert doc['checked_trust_source_facts'] == []
+E       AssertionError: assert [{'buyer_task...], ...}, ...}] == []
+E
+E         Left contains one more item: {'buyer_task': 'TRUST', 'execution_locator': '/executions/6/observations/0', 'observation_id': 'obs-492360ab5fd74baec1...'/coverage/unverified_roles/5', 'reason': 'ROLE_NOT_VERIFIED', 'role': 'OTHER', 'scope': 'ROLE', ...}, ...], ...}, ...}
+E         Use -v to get more diff
+
+tests\findings\test_ra2c3_integration.py:171: AssertionError
+________ test_optional_browser_source_never_becomes_http_company_proof ________
+
+demo = (EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"A...nant-example"},"run_id":"run-ra2c3-synthetic","schema_version":"1.0","shareable":false,"tenant_id":"tenant-example"}'))
+
+    def test_optional_browser_source_never_becomes_http_company_proof(demo):
+        from tests.evidence.synthetic import browser
+        from tests.evidence.test_site_coherence import seal, relocate_browser
+        pack, _, _ = demo
+        source = pack.document['sources'][0]
+        http = CaptureBundle(source['document'], {k: pack.objects[v] for k, v in source['object_refs'].items()})
+        observed = browser(True)
+        observed.manifest['run_id'] = pack.document['run_id']
+        seal(observed)
+        mixed = build_pack([http, observed])
+        execution = execute(mixed, expected_pack_ref=mixed.ref, evaluator_version=EVALUATOR)
+        doc = build(mixed, execution).document
+        assert len(doc['recorded_capture_scope']) == 2
+>       row = doc['checked_trust_source_facts'][0]['provenance']
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: list index out of range
+
+tests\findings\test_ra2c3_integration.py:351: IndexError
+=========================== short test summary info ===========================
+FAILED tests/findings/test_ra2c3_integration.py::test_missing_ambiguous_unvisited_or_blocked_source_is_nondefect[kwargs7-UNKNOWN]
+FAILED tests/findings/test_ra2c3_integration.py::test_optional_browser_source_never_becomes_http_company_proof
+2 failed, 101 passed in 41.32s
