@@ -1,0 +1,105 @@
+docker : #0 building with "desktop-linux" instance using docker driver
+所在位置 行:2 字符: 1
++ docker build -f infra/ra1b/Worker.Dockerfile -t vrae-ra1b-worker:loca ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (#0 building wit...g docker driver:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+#1 [internal] load build definition from Worker.Dockerfile
+#1 transferring dockerfile: 972B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d08
+9c903ca5fd283f501e3a805f5f89
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 134B 0.0s done
+#3 DONE 0.0s
+
+#4 [ 1/13] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f50
+1e3a805f5f89
+#4 resolve docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a8
+05f5f89 0.1s done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 14.56kB 0.0s done
+#5 DONE 0.0s
+
+#6 [ 8/13] COPY contracts ./contracts
+#6 CACHED
+
+#7 [ 3/13] WORKDIR /work
+#7 CACHED
+
+#8 [ 5/13] RUN python -m pip install --no-cache-dir -r requirements-ra1a.lock
+#8 CACHED
+
+#9 [ 6/13] COPY pyproject.toml ./
+#9 CACHED
+
+#10 [ 2/13] RUN apt-get update && apt-get install -y --no-install-recommends iproute2 iptables openssl util-linux     &
+& rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [ 4/13] COPY requirements-ra1a.lock ./
+#11 CACHED
+
+#12 [ 7/13] COPY vrae ./vrae
+#12 CACHED
+
+#13 [ 9/13] COPY industry-packs ./industry-packs
+#13 CACHED
+
+#14 [10/13] COPY tests ./tests
+#14 DONE 0.1s
+
+#15 [11/13] RUN python -m pip install --no-deps --no-build-isolation -e '.[dev]'
+#15 0.968 Obtaining file:///work
+#15 0.973   Checking if build backend supports build_editable: started
+#15 1.389   Checking if build backend supports build_editable: finished with status 'done'
+#15 1.391   Preparing editable metadata (pyproject.toml): started
+#15 1.970   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#15 1.984 Checking if build backend supports build_editable: started
+#15 2.182 Checking if build backend supports build_editable: finished with status 'done'
+#15 2.183 Building wheels for collected packages: vrae
+#15 2.188   Building editable for vrae (pyproject.toml): started
+#15 2.535   Building editable for vrae (pyproject.toml): finished with status 'done'
+#15 2.537   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2739 sha256=1dd8fbe2757162b516
+5cdcece87ae4e9775a22490d9f701181cd4b9a40ccdde9
+#15 2.537   Stored in directory: /tmp/pip-ephem-wheel-cache-g_4se1qo/wheels/ab/b8/c0/a9ba31bee702e5eb1c32d648f0503425e0
+3b81d5dafe8f0dd3
+#15 2.540 Successfully built vrae
+#15 2.540 Installing collected packages: vrae
+#15 2.561 Successfully installed vrae-0.1.0
+#15 2.561 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the s
+ystem package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#15 3.576
+#15 3.576 [notice] A new release of pip is available: 24.0 -> 26.3
+#15 3.576 [notice] To update, run: pip install --upgrade pip
+#15 DONE 3.8s
+
+#16 [12/13] COPY infra/ra1a/entrypoint.sh /entrypoint.sh
+#16 DONE 0.2s
+
+#17 [13/13] RUN sed -i 's/\r$//; s/--regid=65532/--regid=10003/; s@python scripts/verify_ra1a.py /tmp/verification@pyth
+on -m pytest -q -s -p no:cacheprovider tests/browser/test_isolated_browser.py@' /entrypoint.sh     && chmod 755 /entryp
+oint.sh
+#17 DONE 0.6s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 0.8s done
+#18 exporting manifest sha256:61ec04f75fb81023b533fad33d84e909be761b52c57415969734032e7f018f60 0.0s done
+#18 exporting config sha256:3ac43b417a901c904f08b244949812f8e5a4163416368048fa3c84374f9d79ce 0.0s done
+#18 exporting attestation manifest sha256:23fe621e59c63f5ede5e644473066cea8bd8b621ece75b95405fb856703ed228 0.0s done
+#18 exporting manifest list sha256:68e24b811a1e6a42d4a487b588950313e4b2ca3609cda752cca02fd56a982e9a
+#18 exporting manifest list sha256:68e24b811a1e6a42d4a487b588950313e4b2ca3609cda752cca02fd56a982e9a 0.0s done
+#18 naming to docker.io/library/vrae-ra1b-worker:local done
+#18 unpacking to docker.io/library/vrae-ra1b-worker:local
+#18 unpacking to docker.io/library/vrae-ra1b-worker:local 0.2s done
+#18 DONE 1.3s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/jvhu5oxyeyng0peh6jq88g0ca

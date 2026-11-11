@@ -51,3 +51,10 @@ See [implementation and acceptance](docs/03-engineering/RA1A_IMPLEMENTATION_AND_
 for the real socket/DNS/TLS/firewall lab and full regression evidence.
 Install with `python -m pip install -e '.[dev]' -c requirements-ra1a.lock`.
 Production network isolation remains a separate deployment gate.
+
+## RA-1B browser containment
+
+The browser Worker experiment uses separate containers, a private CDP pipe relay,
+an RA-1A resource broker and kernel-denied browser Internet sockets. See the
+[RA-1B acceptance record](docs/03-engineering/RA1B_IMPLEMENTATION_AND_ACCEPTANCE.md).
+All browser targets are synthetic; no production or RA-2 authorization is implied.

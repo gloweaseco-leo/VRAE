@@ -1,0 +1,65 @@
+docker : #0 building with "desktop-linux" instance using docker driver
+所在位置 行:2 字符: 1
++ docker build -f infra/ra1b/Dockerfile -t vrae-ra1b-browser:local . *> ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (#0 building wit...g docker driver:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.01kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d08
+9c903ca5fd283f501e3a805f5f89
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 134B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 7.33kB 0.1s done
+#4 DONE 0.1s
+
+#5 [stage-0 1/7] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd
+283f501e3a805f5f89
+#5 resolve docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a8
+05f5f89 0.1s done
+#5 DONE 0.1s
+
+#6 [stage-0 3/7] RUN mkdir /ipc && chown 10001:10003 /ipc && chmod 770 /ipc
+#6 CACHED
+
+#7 [stage-0 4/7] RUN test "$(dpkg-query -W -f='${Version}' chromium)" = '156.0.8078.79-1~deb12u1'
+#7 CACHED
+
+#8 [stage-0 2/7] RUN --mount=type=cache,target=/var/cache/apt,sharing=locked     sed -i 's@http://deb.debian.org@https:
+//deb.debian.org@g' /etc/apt/sources.list.d/debian.sources     && apt-get -o Acquire::Retries=1 -o Acquire::https::Time
+out=30 update     && apt-get -o Acquire::Retries=1 -o Acquire::https::Timeout=30 install -y --no-install-recommends chr
+omium chromium-sandbox iproute2 iptables util-linux     && rm -rf /var/lib/apt/lists/*     && groupadd -g 10003 vrae-ip
+c && useradd -u 10001 -g 10003 -M browser
+#8 CACHED
+
+#9 [stage-0 5/7] COPY infra/ra1b/preflight.py /opt/preflight.py
+#9 CACHED
+
+#10 [stage-0 6/7] COPY infra/ra1b/agent.py /opt/agent.py
+#10 DONE 0.0s
+
+#11 [stage-0 7/7] COPY infra/ra1b/kernel_probe.py /opt/kernel_probe.py
+#11 DONE 0.1s
+
+#12 exporting to image
+#12 exporting layers
+#12 exporting layers 0.2s done
+#12 exporting manifest sha256:78bda52c27fc38165b862190525c3b4a823da45a52135b8176c3c6a2227b3ad7 0.0s done
+#12 exporting config sha256:3287d2a075c2040ca4d8a2f71394aa9ae58d074b4cb6810d609e2552a14bb460 0.0s done
+#12 exporting attestation manifest sha256:6b285be8804bfafc15cf8642269e45039f04bbff5b42909c95987fb2cb5ac381 0.0s done
+#12 exporting manifest list sha256:9eeb20e5de76fe0c54b0c11c8de4803b8e209ad6bd6d7cdf4b5956a99da8d67e
+#12 exporting manifest list sha256:9eeb20e5de76fe0c54b0c11c8de4803b8e209ad6bd6d7cdf4b5956a99da8d67e 0.0s done
+#12 naming to docker.io/library/vrae-ra1b-browser:local done
+#12 unpacking to docker.io/library/vrae-ra1b-browser:local 0.1s done
+#12 DONE 0.5s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/gn5bh0eyuzkj1ykmdxr1e31oe

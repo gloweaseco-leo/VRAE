@@ -1,0 +1,17 @@
+............F                                                            [100%]
+================================== FAILURES ===================================
+_____ test_observed_without_fetched_document_rejected_even_with_artifacts _____
+
+    def test_observed_without_fetched_document_rejected_even_with_artifacts():
+        result = bundle()
+        item = result.manifest['observations'][0]
+        item.update(status='OBSERVED', errors=[], screenshot_ref=item['dom_ref'])
+        result.manifest['sha256'] = document_hash({k:v for k,v in result.manifest.items() if k != 'sha256'})
+>       with pytest.raises(CollectionError):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\browser\test_contracts.py:75: Failed
+=========================== short test summary info ===========================
+FAILED tests/browser/test_contracts.py::test_observed_without_fetched_document_rejected_even_with_artifacts
+1 failed, 12 passed in 5.29s
+EXIT_CODE=1

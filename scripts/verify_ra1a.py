@@ -20,7 +20,7 @@ commands = [
     [sys.executable, "-m", "pytest", "-q", *(["-s", "-p", "no:cacheprovider"] if lab else [])],
     [sys.executable, "-m", "pip", "check"],
 ]
-files = sorted(p for folder in ("vrae", "tests", "contracts", "industry-packs", "infra/ra1a", "scripts", ".github/workflows")
+files = sorted(p for folder in ("vrae", "tests", "contracts", "industry-packs", "infra", "scripts", ".github/workflows")
                for p in (root / folder).rglob("*") if p.is_file() and "__pycache__" not in p.parts)
 files += [root / "pyproject.toml", root / "requirements-ra1a.lock"]
 summary = {"python": sys.version, "platform": platform.platform(), "prefix": sys.prefix,

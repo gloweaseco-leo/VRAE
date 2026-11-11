@@ -1,0 +1,260 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "policy_id": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "policy_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "approved_urls": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "maxLength": 2048
+      }
+    },
+    "renderer": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "private": {
+      "const": true
+    },
+    "observations": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "viewport": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "enum": [
+                  "desktop",
+                  "mobile"
+                ]
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1280
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 844
+              },
+              "mobile": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "width",
+              "height",
+              "mobile"
+            ],
+            "additionalProperties": false
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "enum": [
+              "OBSERVED",
+              "UNKNOWN",
+              "ACCESS_BLOCKED"
+            ]
+          },
+          "dom_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "screenshot_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "errors": {
+            "type": "array",
+            "maxItems": 130,
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            }
+          },
+          "resources": {
+            "type": "array",
+            "maxItems": 128,
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "maxLength": 2048
+                },
+                "method": {
+                  "type": "string",
+                  "maxLength": 16
+                },
+                "resource_type": {
+                  "type": "string",
+                  "maxLength": 32
+                },
+                "outcome": {
+                  "enum": [
+                    "UNKNOWN",
+                    "FETCHED",
+                    "ACCESS_BLOCKED"
+                  ]
+                },
+                "error": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "redirect_trace": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^https?://",
+                        "maxLength": 2048
+                      },
+                      "status": {
+                        "type": "integer",
+                        "minimum": 100,
+                        "maximum": 599
+                      },
+                      "peer_ip": {
+                        "type": "string",
+                        "maxLength": 64
+                      },
+                      "location": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "uri",
+                            "pattern": "^https?://",
+                            "maxLength": 2048
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "url",
+                      "status",
+                      "peer_ip",
+                      "location"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 6
+                },
+                "sha256": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "url",
+                "method",
+                "resource_type",
+                "outcome",
+                "error",
+                "redirect_trace",
+                "sha256"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "url",
+          "viewport",
+          "observed_at",
+          "status",
+          "dom_ref",
+          "screenshot_ref",
+          "errors",
+          "resources"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "verification_limit": {
+      "const": "Consistency only; not signed provenance or diagnosis."
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "run_id",
+    "policy_id",
+    "policy_version",
+    "approved_urls",
+    "renderer",
+    "private",
+    "observations",
+    "verification_limit",
+    "sha256"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/browser/BrowserObservation.schema.json",
+  "title": "Private Browser Observation v1"
+}
