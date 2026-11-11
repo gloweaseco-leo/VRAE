@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "D:\Projects\VRAE\.worktrees\ra2c2\scripts\verify_ra2d1.py", line 39, in <module>
+    result = assess_reviews(packet, review, repository=root, approval_file=args.owner_approval,
+        signature_file=args.owner_signature, trust=trust)
+  File "D:\Projects\VRAE\.worktrees\ra2c2\tests\benchmark\human_gold.py", line 228, in assess_reviews
+    rows = validate_review(packet, review)
+  File "D:\Projects\VRAE\.worktrees\ra2c2\tests\benchmark\human_gold.py", line 113, in validate_review
+    _fail('UNIT_BINDING_OR_STATE_MISMATCH')
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\VRAE\.worktrees\ra2c2\tests\benchmark\human_gold.py", line 44, in _fail
+    raise ReviewError(reason)
+tests.benchmark.human_gold.ReviewError: UNIT_BINDING_OR_STATE_MISMATCH
