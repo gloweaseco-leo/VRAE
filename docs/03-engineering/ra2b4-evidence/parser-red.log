@@ -1,0 +1,47 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_homepage_original_title_canonical_becomes_bounded_search_technical_observation _
+
+    def test_homepage_original_title_canonical_becomes_bounded_search_technical_observation():
+        pack = seo_pack()
+>       output = execute(pack, expected_pack_ref=pack.ref, evaluator_version=VERSION)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\rules\test_seo01.py:46:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\rules\execution.py:186: in execute
+    enabled, rows = True, evaluate_seo01(pack, doc, rule, expected_pack_ref=expected_pack_ref)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\rules\seo01.py:202: in evaluate_seo01
+    signals = _signals(raw.decode('utf-8-sig', errors='strict'), snapshot['final_url'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\rules\seo01.py:128: in _signals
+    parser.feed(text)
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\html\parser.py:149: in feed
+    self.goahead(0)
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\html\parser.py:231: in goahead
+    k = self.parse_starttag(i)
+        ^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\html\parser.py:446: in parse_starttag
+    self.handle_starttag(tag, attrs)
+vrae\rules\seo01.py:77: in handle_starttag
+    self.active_title = {'element': self.element(tag, raw), 'start_tag': raw}
+                                    ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <vrae.rules.seo01.HeadSignals object at 0x000002A540F24B90>
+tag = 'title', raw = '<title>', start = None
+
+    def element(self, tag, raw, start=None):
+        line, column = self.getpos()
+        return {'tag': tag, 'line': line, 'column': column,
+>           'character_start': self.offset() if start is None else start,
+                               ^^^^^^^^^^^^^
+            'character_end': (self.offset() if start is None else start) + len(raw),
+            'offset_basis': 'UTF8_SIG_DECODED_CHARACTER_RANGE', 'raw_element': raw}
+E       TypeError: 'int' object is not callable
+
+vrae\rules\seo01.py:42: TypeError
+=========================== short test summary info ===========================
+FAILED tests/rules/test_seo01.py::test_homepage_original_title_canonical_becomes_bounded_search_technical_observation
+1 failed in 0.80s
