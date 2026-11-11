@@ -59,7 +59,7 @@ untrusted document's self-reported ref; this is offline consistency, not signatu
 or current collection authorization.
 
 `python scripts/verify_ra2b3.py` defaults to offline replay of the new sealed
-`ra2b3-evidence/product-observation.json`. Explicit `--write-example` derives ONLY
+`tests/rules/fixtures/info01-product-observation.json`. Explicit `--write-example` derives ONLY
 the new example from the already accepted RA-2B-2 synthetic pack. No old file is
 rewritten. It verifies the extractor facts ref, new execution and historical refs,
 then independently checks every citation against original source lines without
@@ -108,6 +108,15 @@ legacy default compatibility and FindingBuilder refusal. Resealed output mutatio
 cover names/labels/values, line/column/path, evidence IDs/refs, source/snapshot,
 hash/time/URL, tenant/run/policy, versions, statement, result and coverage. Pack
 tampering and independently valid cross-scope/old packs must fail the trusted pin.
+
+Initial hosted run 43005776594 exposed a fixture packaging error: the new test
+looked under docs/, which the existing HTTP lab Dockerfile intentionally does not
+copy. HTTP lab reported 738 pass / 1 fail / 1 Browser skip (FileNotFoundError).
+`initial-hosted-http-failure.txt` preserves the raw job log. The new fixture was
+moved unchanged into dedicated tests/rules/fixtures, which the existing Docker
+COPY tests includes. Replay/test paths were corrected; no Dockerfile, security
+configuration, assertions or original fixtures were weakened. Full regressions
+and all four hosted jobs are rerun on the corrected exact head.
 
 Full Python 3.11/3.13 checks and all RA-2A/B0/B1/B2/C0/B3 offline replays use
 `python docs/03-engineering/ra2b3-evidence/regress.py`. Commands, interpreter, source

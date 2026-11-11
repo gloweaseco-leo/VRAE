@@ -12,7 +12,7 @@ from vrae.rules import execute, verify_execution  # noqa: E402
 from vrae.rules.product_facts import extract  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE = ROOT / 'docs/03-engineering/ra2b3-evidence/product-observation.json'
+EXAMPLE = ROOT / 'tests/rules/fixtures/info01-product-observation.json'
 VERSION = 'ra2b3-1.0.0'
 
 

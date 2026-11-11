@@ -231,8 +231,8 @@ def test_browser_only_pack_is_unknown_and_wrong_version_is_refused():
 
 
 def test_new_sealed_example_replays_without_changing_historical_versions():
-    data = json.loads((Path(__file__).parents[2] /
-        'docs/03-engineering/ra2b3-evidence/product-observation.json').read_text(encoding='utf-8'))
+    data = json.loads((Path(__file__).parent /
+        'fixtures/info01-product-observation.json').read_text(encoding='utf-8'))
     pack = EvidencePack.load(data['document'], {k: base64.b64decode(v, validate=True)
         for k, v in data['objects_base64'].items()}, expected_ref=data['expected_pack_ref'])
     assert run(pack) == data['expected_execution']
