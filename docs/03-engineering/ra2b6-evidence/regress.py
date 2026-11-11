@@ -1,4 +1,4 @@
-"""Record Phase A tests and unchanged accepted replays without resealing history."""
+"""Record opt-in tests and unchanged accepted replays without resealing history."""
 import json
 from pathlib import Path
 import subprocess
@@ -17,7 +17,8 @@ commands = [
     ['-m', 'mypy', 'vrae'], ['-m', 'pytest', '-q', 'tests/rules/test_trust01.py'],
     ['-m', 'pytest', '-q'], ['-m', 'pip', 'check'],
     *[[f'scripts/verify_{name}.py'] for name in
-      ('ra2a', 'ra2b0', 'ra2b1', 'ra2b2', 'ra2b3', 'ra2b5', 'ra2b6', 'ra2c0', 'ra2c1', 'ra2d0', 'ra2d1')],
+      ('ra2a', 'ra2b0', 'ra2b1', 'ra2b2', 'ra2b3', 'ra2b4', 'ra2b5', 'ra2b6',
+       'ra2b6_execution', 'ra2c0', 'ra2c1', 'ra2d0', 'ra2d1')],
 ]
 head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
 results = []
@@ -28,8 +29,10 @@ for index, args in enumerate(commands, 1):
     results.append({'command': [sys.executable, *args], 'exit_code': proc.returncode, 'log': log})
     print(f'{index}: exit={proc.returncode} {args}', flush=True)
 (target / 'summary.json').write_text(json.dumps({
-    'python': sys.version, 'root': str(root), 'head_at_run': head, 'phase': 'PREP_ONLY',
-    'trust01_enabled': False, 'development_base': 'a55b362cad7147b2c8da31a7842f6d4f36eba5fa',
+    'python': sys.version, 'root': str(root), 'head_at_run': head, 'phase': 'OPT_IN_DRAFT',
+    'opt_in_evaluator_version': 'ra2b6-1.0.0', 'default_trust01_enabled': False,
+    'development_base': 'a55b362cad7147b2c8da31a7842f6d4f36eba5fa',
+    'accepted_integration_main': '8c1e8960c1aa50af359d180e97fcb5d658bf0590',
     'checks': results,
 }, indent=2) + '\n', encoding='utf-8')
 sys.exit(int(any(item['exit_code'] for item in results)))

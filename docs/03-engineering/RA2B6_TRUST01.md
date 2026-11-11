@@ -1,4 +1,58 @@
-# RA-2B-6 Phase A: PREP ONLY / INTEGRATION BLOCKED
+# RA-2B-6: explicit bounded positive TRUST-01 (Draft, Owner audit pending)
+
+## Current Phase B implementation
+
+The sequencing gate was visibly satisfied before any dispatcher edit. Owner
+FINAL PASS for PR #29 exact head `33f2fb93755ee347ac820894d66b74747dcf3984` is recorded at
+https://github.com/gloweaseco-leo/VRAE/pull/29#issuecomment-6796755776 . GitHub reports
+PR #29 MERGED at 2026-11-11T13:12:50Z, main
+`8c1e8960c1aa50af359d180e97fcb5d658bf0590`. After fetch, that accepted main was merged
+without conflicts at `d977d86621672c3015733e0e5ad8929a47e4b574` (parents: Phase A
+checkpoint `888229cbe7992b7b0fd2c27147a91648991fe42a` and the accepted main).
+No unreviewed branch, cherry-pick, rebase or force-push was used.
+
+Only then was execution.py minimally extended for explicit
+`evaluator_version='ra2b6-1.0.0'`. It inherits the accepted five bounded checks
+DISC-01/02, INFO-01, CTA-02 and SEO-01, and adds this sixth TRUST-01 source-only
+subcheck. All other fifteen execution rows are exactly the ra2b4 rows for the
+same pack; journey composition and coverage stay unchanged. Ten rules remain
+deferred UNKNOWN. All 16 IDs, rule/catalog versions 1.0.0 and old default remain.
+Historical ra2b0/b1/b3/b4 stay byte-for-byte compatible with their sealed refs and
+keep TRUST-01 disabled/UNKNOWN. New-version execution remains private like ra2b4.
+
+This is Draft opt-in code awaiting Owner independent acceptance, not production
+authorization or a declaration of trustworthy companies. All scope/status rules
+below still apply. verify_execution replays the complete new execution against
+the caller-pinned pack with the expected new evaluator version, including every
+original citation, metadata edge, policy/run scope and coverage. Accepted ra2c0
+and ra2c1 FindingBuilders reject both the real new execution and resealed old-version
+spoofs. No new FindingBuilder or report integration is included.
+
+New enabled-version demo: `python scripts/verify_ra2b6_execution.py`. It loads the
+separate sealed `tests/rules/fixtures/trust01-execution.json`, reproduces nine fixed
+synthetic packs, verifies all execution pins and all four historical refs per pack,
+checks original bytes/positions without the source parser, and demonstrates
+simultaneous source-only SEO-01 and TRUST-01 positives. Default writes nothing;
+explicit --write-example writes only the new execution fixture. No historical or
+Phase A preparation fixture was rewritten. The earlier
+`python scripts/verify_ra2b6.py` still replays preparatory wrappers with false
+trust01_enabled, and old ra2b3 remains disabled; that wrapper is not an evaluator.
+
+Phase B has 104 dedicated tests, including nine-case status/inheritance matrix,
+complete resealed RuleExecution forgery, strict pack/version pins, and actual old
+FindingBuilder refusals. Phase B red genuinely failed RULE_VERSION_UNSUPPORTED
+after the accepted main merge but before dispatcher implementation. Full raw
+Phase A and Phase B evidence are retained separately. Final exact head/latest-main
+four hosted CI links and actual counts are recorded in the Draft PR.
+
+## Archived Phase A checkpoint (historical gate state)
+
+The following describes Phase A at head 888229c, before the visible PR #29
+merge gate. Its source, pins and original logs are preserved. Its blocked status
+does not describe current Phase B source; the pure preparation wrapper remains
+intentionally PREP_ONLY even when consumed by a separate opt-in execution.
+
+### Phase A: PREP ONLY / INTEGRATION BLOCKED
 
 Issue #30. Development base: Owner-accepted main
 `a55b362cad7147b2c8da31a7842f6d4f36eba5fa`. Independent worktree

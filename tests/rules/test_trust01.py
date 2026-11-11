@@ -309,14 +309,30 @@ def test_prep_is_detached_and_requires_full_wrapper_and_bounded_output(positive,
 def test_phase_a_never_changes_or_enables_existing_dispatch(positive):
     from vrae.rules import execute
     pack, _ = positive
-    for version in ('ra2b0-1.0.0', 'ra2b1-1.0.0', 'ra2b3-1.0.0'):
+    for version in ('ra2b0-1.0.0', 'ra2b1-1.0.0', 'ra2b3-1.0.0', 'ra2b4-1.0.0'):
         before = execute(pack, expected_pack_ref=pack.ref, evaluator_version=version)
         run(pack)
         assert execute(pack, expected_pack_ref=pack.ref, evaluator_version=version) == before
         trust = next(e for e in before['executions'] if e['rule_id'] == 'TRUST-01')
         assert not trust['enabled'] and all(r['observation']['result'] == 'UNKNOWN' for r in trust['observations'])
-    with pytest.raises(EvidenceError):
-        execute(pack, expected_pack_ref=pack.ref, evaluator_version='ra2b6-1.0.0')
+
+
+def test_new_evaluator_is_explicit_and_inherits_five_accepted_checks(positive):
+    from vrae.rules import execute, verify_execution
+    pack, _ = positive
+    old = execute(pack, expected_pack_ref=pack.ref, evaluator_version='ra2b4-1.0.0')
+    new = execute(pack, expected_pack_ref=pack.ref, evaluator_version='ra2b6-1.0.0')
+    enabled = {e['rule_id'] for e in new['executions'] if e['enabled']}
+    assert enabled == {'DISC-01', 'DISC-02', 'INFO-01', 'TRUST-01', 'CTA-02', 'SEO-01'}
+    assert [e for e in new['executions'] if e['rule_id'] != 'TRUST-01'] == [
+        e for e in old['executions'] if e['rule_id'] != 'TRUST-01']
+    assert new['journeys'] == old['journeys'] and new['coverage'] == old['coverage']
+    assert new['recorded_capture_scope'] == old['recorded_capture_scope']
+    assert len(new['executions']) == 16 and new['catalog_version'] == '1.0.0'
+    assert all(e['rule_version'] == '1.0.0' for e in new['executions'])
+    assert execute(pack, expected_pack_ref=pack.ref) == execute(
+        pack, expected_pack_ref=pack.ref, evaluator_version='ra2b0-1.0.0')
+    verify_execution(new, pack, expected_pack_ref=pack.ref, expected_evaluator_version='ra2b6-1.0.0')
 
 
 def preparation_cases():
@@ -355,3 +371,138 @@ def test_sealed_preparation_examples_replay_without_enabling_dispatch():
         verify_preparation(output, pack, expected_pack_ref=case['expected_pack_ref'])
         assert output['preparation_ref'] == case['expected_preparation_ref']
         assert result(output) == case['expected_result']
+
+
+def combined_pack():
+    home = (b'<html><head><title>Industrial valves &amp; actuators</title>'
+            b'<link rel="canonical" href="https://example.org/"></head><body><nav>'
+            b'<a href="/about">About us</a><a href="/contact">Contact</a></nav></body></html>')
+    return trust_pack(home=home)
+
+
+def execution_cases():
+    return preparation_cases() + [('seo-and-trust-source-positives', combined_pack(), 'PASS')]
+
+
+@pytest.mark.parametrize('index', range(9))
+def test_new_execution_status_matrix_and_old_five_rows_preserved(index):
+    from vrae.rules import execute, verify_execution
+    _, pack, expected = execution_cases()[index]
+    output = execute(pack, expected_pack_ref=pack.ref, evaluator_version='ra2b6-1.0.0')
+    baseline = execute(pack, expected_pack_ref=pack.ref, evaluator_version='ra2b4-1.0.0')
+    trust = next(e for e in output['executions'] if e['rule_id'] == 'TRUST-01')
+    assert trust['enabled'] and trust['buyer_task'] == 'TRUST'
+    assert trust['observations'][0]['observation']['result'] == expected
+    assert [e for e in output['executions'] if e['rule_id'] != 'TRUST-01'] == [
+        e for e in baseline['executions'] if e['rule_id'] != 'TRUST-01']
+    if expected != 'PASS':
+        assert trust['observations'][0]['observation']['evidence_ids'] == []
+    if index == 8:
+        seo = next(e for e in output['executions'] if e['rule_id'] == 'SEO-01')
+        assert seo['observations'][0]['observation']['result'] == 'PASS'
+    verify_execution(output, pack, expected_pack_ref=pack.ref, expected_evaluator_version='ra2b6-1.0.0')
+
+
+@pytest.fixture(scope='module')
+def integrated():
+    from vrae.rules import execute
+    pack = combined_pack()
+    return pack, execute(pack, expected_pack_ref=pack.ref, evaluator_version='ra2b6-1.0.0')
+
+
+@pytest.mark.parametrize('mutation', ['text', 'paragraph', 'href', 'line', 'hash', 'time',
+    'target_status', 'target_missing', 'trace', 'source', 'snapshot', 'coverage', 'tenant',
+    'policy', 'unvisited', 'statement', 'evidence', 'version', 'fail'])
+def test_complete_resealed_execution_forgery_rejected(integrated, mutation):
+    from vrae.rules import verify_execution
+    pack, original = integrated
+    output = deepcopy(original)
+    row = next(e for e in output['executions'] if e['rule_id'] == 'TRUST-01')['observations'][0]
+    citation = next(c for c in row['citations'] if c['fact_kind'] == 'DECLARED_NAME' and c['citation_role'] == 'VALUE')
+    link = next(f for p in row['source_facts']['pages'] for f in p['facts']
+                if f['kind'] == 'STATIC_CONTACT_LINK' and f['raw_href'] == '/contact')
+    if mutation in {'text', 'paragraph'}:
+        kind = 'DECLARED_NAME' if mutation == 'text' else 'SELF_DESCRIPTION'
+        next(c for c in row['citations'] if c['fact_kind'] == kind)['text'] = 'Forged value'
+    elif mutation == 'href':
+        link['raw_href'] = '/invented'
+    elif mutation == 'line':
+        citation['element']['line'] = 999
+    elif mutation in {'hash', 'time', 'source', 'snapshot'}:
+        citation[{'hash': 'content_sha256', 'time': 'observed_at',
+                  'source': 'source_ref', 'snapshot': 'snapshot_ref'}[mutation]] = 'fake'
+    elif mutation == 'target_status':
+        link['target_responses'][0]['http_status'] = 404
+    elif mutation == 'target_missing':
+        del link['target_responses']
+    elif mutation == 'trace':
+        link['target_responses'][0]['redirect_trace'] = []
+    elif mutation == 'coverage':
+        row['coverage'] = []
+    elif mutation in {'tenant', 'policy'}:
+        row['recorded_capture_scope'][0]['tenant_id' if mutation == 'tenant' else 'policy_id'] = 'other'
+    elif mutation == 'unvisited':
+        row['unvisited_candidates'] = [{'url': 'https://example.org/fake'}]
+    elif mutation == 'statement':
+        row['observation']['statement'] = 'Certified legitimate factory; inquiries succeed.'
+    elif mutation == 'evidence':
+        row['observation']['evidence_ids'] = ['ev-' + '0' * 64]
+    elif mutation == 'version':
+        output['evaluator_version'] = 'ra2b4-1.0.0'
+    else:
+        row['observation']['result'] = 'FAIL_WITH_EVIDENCE'
+    facts = row['source_facts']
+    facts['facts_ref'] = 'tf-' + document_hash({k: v for k, v in facts.items() if k != 'facts_ref'})
+    row['observation'].pop('observation_id', None)
+    row['observation']['observation_id'] = 'obs-' + document_hash(row)
+    output['execution_ref'] = 'rx-' + document_hash({k: v for k, v in output.items() if k != 'execution_ref'})
+    with pytest.raises(EvidenceError):
+        verify_execution(output, pack, expected_pack_ref=pack.ref, expected_evaluator_version='ra2b6-1.0.0')
+    with pytest.raises(EvidenceError):
+        verify_execution(output, pack, expected_pack_ref=pack.ref)
+
+
+@pytest.mark.parametrize('builder,evaluator', [('ra2c0-1.0.0', 'ra2b1-1.0.0'), ('ra2c1-1.0.0', 'ra2b3-1.0.0')])
+def test_accepted_finding_builders_reject_actual_new_execution_and_version_spoof(integrated, builder, evaluator):
+    from vrae.findings import build_findings, FindingError
+    pack, execution = integrated
+    with pytest.raises(FindingError):
+        build_findings(pack, execution, expected_pack_ref=pack.ref,
+            expected_execution_ref=execution['execution_ref'], expected_evaluator_version='ra2b6-1.0.0',
+            expected_builder_version=builder)
+    fake = deepcopy(execution)
+    fake['evaluator_version'] = evaluator
+    fake['execution_ref'] = 'rx-' + document_hash({k: v for k, v in fake.items() if k != 'execution_ref'})
+    with pytest.raises(FindingError):
+        build_findings(pack, fake, expected_pack_ref=pack.ref, expected_execution_ref=fake['execution_ref'],
+                       expected_evaluator_version=evaluator, expected_builder_version=builder)
+
+
+def test_new_execution_requires_pack_and_expected_version_pins(integrated):
+    from vrae.rules import execute, verify_execution
+    pack, execution = integrated
+    for pin in (None, '', 'ep-' + '0' * 64):
+        with pytest.raises(EvidenceError):
+            execute(pack, expected_pack_ref=pin, evaluator_version='ra2b6-1.0.0')
+        with pytest.raises(EvidenceError):
+            verify_execution(execution, pack, expected_pack_ref=pin,
+                             expected_evaluator_version='ra2b6-1.0.0')
+    with pytest.raises(EvidenceError):
+        verify_execution(execution, pack, expected_pack_ref=pack.ref,
+                         expected_evaluator_version='ra2b4-1.0.0')
+
+
+def test_sealed_new_executions_and_all_historical_refs_replay():
+    import base64
+    from pathlib import Path
+    from vrae.rules import execute, verify_execution
+    data = json.loads((Path(__file__).parent / 'fixtures/trust01-execution.json').read_text(encoding='utf-8'))
+    assert data['evaluator_version'] == 'ra2b6-1.0.0' and len(data['cases']) == 9
+    for case in data['cases']:
+        pack = EvidencePack.load(case['document'], {
+            k: base64.b64decode(v, validate=True) for k, v in case['objects_base64'].items()
+        }, expected_ref=case['expected_pack_ref'])
+        verify_execution(case['execution'], pack, expected_pack_ref=case['expected_pack_ref'],
+                         expected_evaluator_version='ra2b6-1.0.0')
+        for version, ref in case['historical_execution_refs'].items():
+            assert execute(pack, expected_pack_ref=pack.ref, evaluator_version=version)['execution_ref'] == ref
