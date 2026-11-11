@@ -12,6 +12,8 @@ from vrae.rules import verify_execution
 
 VERSION = 'ra2c0-1.0.0'
 EVALUATOR = 'ra2b1-1.0.0'
+INFO_VERSION = 'ra2c1-1.0.0'
+INFO_EVALUATOR = 'ra2b3-1.0.0'
 MAX_BYTES = 8_000_000
 
 
@@ -73,8 +75,10 @@ def _bridge(pack, observation, finding):
         'limit': 'Source body bridge only; target response proof requires the inseparable provenance edge.'}
 
 
-def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expected_evaluator_version):
-    if (expected_evaluator_version != EVALUATOR or not isinstance(expected_execution_ref, str)
+def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expected_evaluator_version,
+             expected_builder_version=VERSION):
+    evaluator = {VERSION: EVALUATOR, INFO_VERSION: INFO_EVALUATOR}.get(expected_builder_version)
+    if (evaluator is None or expected_evaluator_version != evaluator or not isinstance(expected_execution_ref, str)
             or not re.fullmatch(r'rx-[0-9a-f]{64}', expected_execution_ref)):
         _fail()
     raw = _encode(execution)
@@ -87,7 +91,7 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
                      expected_evaluator_version=expected_evaluator_version)
     if execution['catalog_version'] != '1.0.0':
         _fail()
-    items, positives = [], []
+    items, positives, product_facts = [], [], []
     ids: set[str] = set()
     for index, rule in enumerate(execution['executions']):
         for row_index, row in enumerate(rule['observations']):
@@ -99,9 +103,13 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
             locator = f'/executions/{index}/observations/{row_index}'
             result = observation['result']
             if result == 'PASS':
-                positives.append({'observation_id': oid, 'rule_id': rule['rule_id'],
+                positive = {'observation_id': oid, 'rule_id': rule['rule_id'],
                     'buyer_task': rule['buyer_task'], 'execution_locator': locator,
-                    'provenance': row})
+                    'provenance': row}
+                if expected_builder_version == INFO_VERSION and rule['rule_id'] == 'INFO-01':
+                    product_facts.append(positive)
+                else:
+                    positives.append(positive)
                 continue
             if result not in ('FAIL_WITH_EVIDENCE', 'UNKNOWN', 'ACCESS_BLOCKED'):
                 _fail()  # No independently justified NOT_APPLICABLE exists in this version.
@@ -123,15 +131,15 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
                 'rule_version': observation['rule_version']}
             bridge = _bridge(pack, observation, finding)
             finding['finding_id'] = 'finding-' + document_hash({
-                'builder_version': VERSION, 'expected_pack_ref': expected_pack_ref,
+                'builder_version': expected_builder_version, 'expected_pack_ref': expected_pack_ref,
                 'execution_ref': expected_execution_ref, 'finding': finding})
             validate_contract('Finding', finding)
             items.append({'finding': finding, 'rule_id': rule['rule_id'], 'outcome': result,
                 'execution_locator': locator, 'gap_reason': row['reason'],
                 'coverage_note': observation['coverage_note'], 'provenance': row, 'guard_bridge': bridge})
-    if len(items) > 256 or len(positives) > 512:
+    if len(items) > 256 or len(positives) + len(product_facts) > 512:
         _fail()
-    result = {'schema_version': '1.0', 'builder_version': VERSION, 'tenant_id': execution['tenant_id'],
+    result = {'schema_version': '1.0', 'builder_version': expected_builder_version, 'tenant_id': execution['tenant_id'],
         'run_id': execution['run_id'], 'expected_pack_ref': expected_pack_ref,
         'execution_ref': expected_execution_ref, 'evaluator_version': expected_evaluator_version,
         'catalog_version': execution['catalog_version'], 'catalog_sha256': execution['catalog_sha256'],
@@ -144,6 +152,10 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
         'limitations': ['OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION',
             'NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM',
             'NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF', 'PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT']}
+    if expected_builder_version == INFO_VERSION:
+        result['checked_product_facts'] = sorted(product_facts, key=lambda item: item['observation_id'])
+        result['limitations'].append(
+            'PRODUCT_SOURCE_TEXT_ONLY_NOT_ACCURACY_COMPLETENESS_AUTHENTICITY_COMPREHENSION_OR_FIT')
     result['package_ref'] = 'fp-' + document_hash(result)
     if len(_encode(result)) > MAX_BYTES:
         _fail()
@@ -169,25 +181,26 @@ class FindingPackage:
 
     @classmethod
     def load(cls, document, pack, *, expected_pack_ref, expected_execution_ref,
-             expected_evaluator_version, expected_package_ref):
+             expected_evaluator_version, expected_package_ref, expected_builder_version=VERSION):
         try:
             package = cls(_encode(document))
             package.verify(pack, expected_pack_ref=expected_pack_ref,
                 expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version,
-                expected_package_ref=expected_package_ref)
+                expected_package_ref=expected_package_ref, expected_builder_version=expected_builder_version)
             return package
         except Exception as exc:
             raise FindingError('FINDING_INTEGRITY') from exc
 
     def verify(self, pack, *, expected_pack_ref, expected_execution_ref,
-               expected_evaluator_version, expected_package_ref):
+               expected_evaluator_version, expected_package_ref, expected_builder_version=VERSION):
         try:
             document = self.document
             if (not isinstance(expected_package_ref, str) or not re.fullmatch(r'fp-[0-9a-f]{64}', expected_package_ref)
                     or document['package_ref'] != expected_package_ref):
                 _fail()
             rebuilt = _project(pack, document['rule_execution'], expected_pack_ref=expected_pack_ref,
-                expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version)
+                expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version,
+                expected_builder_version=expected_builder_version)
             if _encode(document) != _encode(rebuilt):
                 _fail()
         except Exception as exc:
@@ -195,9 +208,11 @@ class FindingPackage:
 
 
 def build_findings(pack: EvidencePack, execution: dict, *, expected_pack_ref: str,
-                   expected_execution_ref: str, expected_evaluator_version: str) -> FindingPackage:
+                   expected_execution_ref: str, expected_evaluator_version: str,
+                   expected_builder_version: str = VERSION) -> FindingPackage:
     try:
         return FindingPackage(_encode(_project(pack, execution, expected_pack_ref=expected_pack_ref,
-            expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version)))
+            expected_execution_ref=expected_execution_ref, expected_evaluator_version=expected_evaluator_version,
+            expected_builder_version=expected_builder_version)))
     except Exception as exc:
         raise FindingError('FINDING_INTEGRITY') from exc

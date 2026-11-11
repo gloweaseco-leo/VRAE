@@ -1,0 +1,78 @@
+........................................................................ [  8%]
+.......................s.....................................sssssssssss [ 16%]
+sssssssssssss........................................................... [ 24%]
+........................................................................ [ 33%]
+........................................................................ [ 41%]
+........................................................................ [ 49%]
+........................................................................ [ 58%]
+............................................................F........... [ 66%]
+........................................................................ [ 74%]
+........................................................................ [ 82%]
+........................................................................ [ 91%]
+........................................................................ [ 99%]
+....                                                                     [100%]
+================================== FAILURES ===================================
+_________________ test_independent_raw_line_review_and_replay _________________
+
+self = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...757b5416459b447fab445beb77d367deaaef20a75a984d829', b'<html><body><a href="/products/sv-40">SV-40</a></body></html>')))
+expected_ref = 'ep-ec4d540adc964247888b4cf8f19301bf5e0d3fbe56770d11669fd1ac81d62a03'
+
+>   ???
+
+D:\Projects\VRAE-Codex2\.worktrees\ra2c1\vrae\evidence\pack.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('D:/Projects/VRAE-Codex2/.worktrees/ra2c1/contracts/v1/evidence/EvidencePack.schema.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2c1\\contracts\\v1\\evidence\\EvidencePack.schema.json'
+
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\pathlib\_local.py:537: FileNotFoundError
+
+The above exception was the direct cause of the following exception:
+
+>   ???
+
+D:\Projects\VRAE-Codex2\.worktrees\ra2c1\tests\rules\test_product_facts.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+D:\Projects\VRAE-Codex2\.worktrees\ra2c1\vrae\evidence\pack.py:288: in resolve
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...757b5416459b447fab445beb77d367deaaef20a75a984d829', b'<html><body><a href="/products/sv-40">SV-40</a></body></html>')))
+expected_ref = 'ep-ec4d540adc964247888b4cf8f19301bf5e0d3fbe56770d11669fd1ac81d62a03'
+
+>   ???
+E   vrae.evidence.pack.EvidenceError: EVIDENCE_INTEGRITY
+
+D:\Projects\VRAE-Codex2\.worktrees\ra2c1\vrae\evidence\pack.py:285: EvidenceError
+=========================== short test summary info ===========================
+SKIPPED [1] tests\browser\test_isolated_browser.py:60: Requires separate sandboxed Chromium and Worker containers
+SKIPPED [1] tests\collection\test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+SKIPPED [2] tests\collection\test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+SKIPPED [3] tests\collection\test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+FAILED tests/rules/test_product_facts.py::test_independent_raw_line_review_and_replay
+1 failed, 842 passed, 25 skipped in 144.63s (0:02:24)
