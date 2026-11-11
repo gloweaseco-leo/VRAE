@@ -1,4 +1,4 @@
-name: RA-0 offline contract and domain CI
+name: VRAE contract, domain and synthetic collection CI
 
 on:
   pull_request:
@@ -22,9 +22,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install -e '.[dev]'
+      - run: python -m pip install -e '.[dev]' -c requirements-ra1a.lock
       - run: python -m compileall -q vrae
       - run: ruff check vrae tests --select E4,E7,E9,F
       - run: mypy vrae
       - run: python -m pytest -q
       - run: python -m pip check
+
+  isolated-http:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .
+      - name: Real sockets, verified TLS and kernel egress denial
+        run: >-
+          docker run --rm --network none --cap-add NET_ADMIN --read-only
+          --tmpfs /tmp:rw,nosuid,nodev,size=128m --memory 512m --cpus 1 --pids-limit 128
+          --security-opt no-new-privileges vrae-ra1a-lab:ci

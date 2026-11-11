@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/collection/RedirectTrace.schema.json",
+  "title": "RedirectTrace",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "hops": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://",
+            "maxLength": 2048
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 599
+          },
+          "peer_ip": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https?://",
+                "maxLength": 2048
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "url",
+          "status",
+          "peer_ip",
+          "location"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 6
+    }
+  },
+  "required": [
+    "schema_version",
+    "hops"
+  ],
+  "additionalProperties": false
+}

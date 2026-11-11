@@ -1,5 +1,7 @@
 # RA-1 准入审查与实施建议（RA-0F 交付，未授权执行）
 
+> 2026-11-10 更新：Owner 已通过 Issue #2 及开发指令授权 RA-1A 独立实现，明确不复制 L2M。下文保留 RA-0F 时点结论；当前交付见 [RA-1A 验收](RA1A_IMPLEMENTATION_AND_ACCEPTANCE.md)。RA-1B 仍未执行。
+
 ## 决策
 
 RA-0 本地完整工程验证已有替代证据，可提交 Owner 审批；GitHub CI 因账户计费/额度

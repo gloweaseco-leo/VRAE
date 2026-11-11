@@ -1,0 +1,97 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+_______ test_manifest_resealed_inconsistent_metadata_is_refused[policy] _______
+
+change = 'policy'
+
+    @pytest.mark.parametrize("change", ["policy", "missing_evidence", "http_status", "retained_flag"])
+    def test_manifest_resealed_inconsistent_metadata_is_refused(change):
+        bundle, _ = collect()
+        page = bundle.manifest["pages"][0]
+        if change == "policy":
+            page["snapshot"]["policy_version"] += 1
+        elif change == "missing_evidence":
+            page["evidence"] = None
+        elif change == "http_status":
+            page["http_status"] = 403
+        else:
+            page["raw_retained"] = True
+        bundle.manifest["manifest_sha256"] = document_hash({k:v for k,v in bundle.manifest.items()
+                                                           if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_pipeline.py:266: Failed
+__ test_manifest_resealed_inconsistent_metadata_is_refused[missing_evidence] __
+
+change = 'missing_evidence'
+
+    @pytest.mark.parametrize("change", ["policy", "missing_evidence", "http_status", "retained_flag"])
+    def test_manifest_resealed_inconsistent_metadata_is_refused(change):
+        bundle, _ = collect()
+        page = bundle.manifest["pages"][0]
+        if change == "policy":
+            page["snapshot"]["policy_version"] += 1
+        elif change == "missing_evidence":
+            page["evidence"] = None
+        elif change == "http_status":
+            page["http_status"] = 403
+        else:
+            page["raw_retained"] = True
+        bundle.manifest["manifest_sha256"] = document_hash({k:v for k,v in bundle.manifest.items()
+                                                           if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_pipeline.py:266: Failed
+____ test_manifest_resealed_inconsistent_metadata_is_refused[http_status] _____
+
+change = 'http_status'
+
+    @pytest.mark.parametrize("change", ["policy", "missing_evidence", "http_status", "retained_flag"])
+    def test_manifest_resealed_inconsistent_metadata_is_refused(change):
+        bundle, _ = collect()
+        page = bundle.manifest["pages"][0]
+        if change == "policy":
+            page["snapshot"]["policy_version"] += 1
+        elif change == "missing_evidence":
+            page["evidence"] = None
+        elif change == "http_status":
+            page["http_status"] = 403
+        else:
+            page["raw_retained"] = True
+        bundle.manifest["manifest_sha256"] = document_hash({k:v for k,v in bundle.manifest.items()
+                                                           if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_pipeline.py:266: Failed
+___ test_manifest_resealed_inconsistent_metadata_is_refused[retained_flag] ____
+
+change = 'retained_flag'
+
+    @pytest.mark.parametrize("change", ["policy", "missing_evidence", "http_status", "retained_flag"])
+    def test_manifest_resealed_inconsistent_metadata_is_refused(change):
+        bundle, _ = collect()
+        page = bundle.manifest["pages"][0]
+        if change == "policy":
+            page["snapshot"]["policy_version"] += 1
+        elif change == "missing_evidence":
+            page["evidence"] = None
+        elif change == "http_status":
+            page["http_status"] = 403
+        else:
+            page["raw_retained"] = True
+        bundle.manifest["manifest_sha256"] = document_hash({k:v for k,v in bundle.manifest.items()
+                                                           if k != "manifest_sha256"})
+>       with pytest.raises(CollectionError, match="EVIDENCE_INTEGRITY"):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_pipeline.py:266: Failed
+=========================== short test summary info ===========================
+FAILED tests/collection/test_pipeline.py::test_manifest_resealed_inconsistent_metadata_is_refused[policy]
+FAILED tests/collection/test_pipeline.py::test_manifest_resealed_inconsistent_metadata_is_refused[missing_evidence]
+FAILED tests/collection/test_pipeline.py::test_manifest_resealed_inconsistent_metadata_is_refused[http_status]
+FAILED tests/collection/test_pipeline.py::test_manifest_resealed_inconsistent_metadata_is_refused[retained_flag]
+4 failed, 38 deselected in 1.29s
+EXIT_CODE=1

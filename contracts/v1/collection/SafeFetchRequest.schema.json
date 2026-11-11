@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/collection/SafeFetchRequest.schema.json",
+  "title": "SafeFetchRequest",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{2,63}$"
+    },
+    "run_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://",
+      "maxLength": 2048
+    },
+    "method": {
+      "enum": [
+        "GET",
+        "HEAD"
+      ]
+    },
+    "policy_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "policy_version": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "run_id",
+    "request_id",
+    "url",
+    "method",
+    "policy_id",
+    "policy_version"
+  ],
+  "additionalProperties": false
+}

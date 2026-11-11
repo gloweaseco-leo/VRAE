@@ -1,0 +1,17 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________ test_encoded_robots_disallow_cannot_be_ignored ________________
+
+    def test_encoded_robots_disallow_cannot_be_ignored():
+        bundle, transport = collect({"https://example.org/robots.txt":
+            (200, {"content-type":"text/plain"}, b"User-agent: *\nDisallow: /%70rivate\n")})
+>       assert len(transport.calls) == 1
+E       AssertionError: assert 2 == 1
+E        +  where 2 = len([('https://example.org/robots.txt', 'GET', '93.184.216.20'), ('https://example.org/', 'GET', '93.184.216.20')])
+E        +    where [('https://example.org/robots.txt', 'GET', '93.184.216.20'), ('https://example.org/', 'GET', '93.184.216.20')] = <tests.collection.test_pipeline.SyntheticTransport object at 0x00000166DE8AAC50>.calls
+
+tests\collection\test_pipeline.py:170: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/collection/test_pipeline.py::test_encoded_robots_disallow_cannot_be_ignored
+1 failed, 32 deselected in 1.46s
+EXIT_CODE=1

@@ -1,0 +1,1202 @@
+contracts-domain (3.13)	Set up job	﻿2026-11-11T03:27:05.2360540Z Current runner version: '2.338.2'
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2400963Z ##[group]Runner Image Provisioner
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2401935Z Hosted Compute Agent
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2402565Z Version: 20261028.624
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2403319Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2404083Z Build Date: 2026-10-28T21:51:42Z
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2405181Z Worker ID: {25e0ef2c-297f-4c4d-9f00-d323999e5b0b}
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2405983Z Region: canadaeast
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2406618Z Cloud: Azure
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2407282Z ##[endgroup]
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2408867Z ##[group]Operating System
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2409618Z Ubuntu
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2410228Z 26.04.1
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2410771Z LTS
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2411360Z ##[endgroup]
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2411962Z ##[group]Runner Image
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2412595Z Image: ubuntu-26.04
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2413294Z Version: 20261101.186.1
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2414808Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2416781Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2417786Z ##[endgroup]
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2419078Z ##[group]GITHUB_TOKEN Permissions
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2421319Z Contents: read
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2422119Z Metadata: read
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2422719Z ##[endgroup]
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2425352Z Secret source: Actions
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2426414Z Cache mode: write
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2427253Z Prepare workflow directory
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2901719Z Prepare all required actions
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.2975408Z Getting action download info
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.5261825Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.6423353Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+contracts-domain (3.13)	Set up job	2026-11-11T03:27:05.8306951Z Complete job name: contracts-domain (3.13)
+contracts-domain (3.13)	Run actions/checkout@v4	﻿2026-11-11T03:27:05.9260859Z ##[group]Run actions/checkout@v4
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9262479Z with:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9263354Z   repository: gloweaseco-leo/VRAE
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9268769Z   token: ***
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9269402Z   ssh-strict: true
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9269878Z   ssh-user: git
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9270362Z   persist-credentials: true
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9270891Z   clean: true
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9271657Z   sparse-checkout-cone-mode: true
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9272729Z   fetch-depth: 1
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9273929Z   fetch-tags: false
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9275054Z   show-progress: true
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9275911Z   lfs: false
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9276441Z   submodules: false
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9276940Z   set-safe-directory: true
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9277727Z   allow-unsafe-pr-checkout: false
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:05.9278720Z ##[endgroup]
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.3172832Z Syncing repository: gloweaseco-leo/VRAE
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.3176374Z ##[group]Getting Git version info
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.3177706Z Working directory is '/home/runner/work/VRAE/VRAE'
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.3179895Z [command]/usr/bin/git version
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.3180941Z git version 2.56.0
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.3184625Z ##[endgroup]
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.3193076Z Temporarily overriding HOME='/home/runner/work/_temp/dbd7e4f2-ff6c-4956-a447-b72d57277482' before making global git config changes
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4437103Z Adding repository directory to the temporary git global config as a safe directory
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4455818Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4460272Z Deleting the contents of '/home/runner/work/VRAE/VRAE'
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4462453Z ##[group]Initializing the repository
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4463918Z [command]/usr/bin/git init /home/runner/work/VRAE/VRAE
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4467834Z hint: Using 'master' as the name for the initial branch. This default branch name
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4470145Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4475143Z hint: to use in all of your new repositories, which will suppress this warning,
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4477841Z hint: call:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4485080Z hint:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4490868Z hint: 	git config --global init.defaultBranch <name>
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4495994Z hint:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4505878Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4525749Z hint: 'development'. The just-created branch can be renamed via this command:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4543518Z hint:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4555606Z hint: 	git branch -m <name>
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4559049Z hint:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4561057Z hint: Disable this message with "git config set advice.defaultBranchName false"
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4565251Z Initialized empty Git repository in /home/runner/work/VRAE/VRAE/.git/
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4568904Z [command]/usr/bin/git remote add origin https://github.com/gloweaseco-leo/VRAE
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4572415Z ##[endgroup]
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4574063Z ##[group]Disabling automatic garbage collection
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4575870Z [command]/usr/bin/git config --local gc.auto 0
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4578806Z ##[endgroup]
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4580296Z ##[group]Setting up auth
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4581730Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4586761Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4786345Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.4818361Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.5171879Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.5179398Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.5606407Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.5610504Z ##[endgroup]
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.5612223Z ##[group]Fetching the repository
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:06.5614649Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +17506f981832516a01d83eceb57eae6f01aa6c4a:refs/remotes/pull/4/merge
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0000610Z From https://github.com/gloweaseco-leo/VRAE
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0033571Z  * [new ref]         17506f981832516a01d83eceb57eae6f01aa6c4a -> pull/4/merge
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0084148Z ##[endgroup]
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0091304Z ##[group]Determining the checkout info
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0105885Z ##[endgroup]
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0125373Z [command]/usr/bin/git sparse-checkout disable
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0199420Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0242601Z ##[group]Checking out the ref
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0248091Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/4/merge
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0437656Z Note: switching to 'refs/remotes/pull/4/merge'.
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0439406Z
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0440936Z You are in 'detached HEAD' state. You can look around, make experimental
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0443350Z changes and commit them, and you can discard any commits you make in this
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0446332Z state without impacting any branches by switching back to a branch.
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0478233Z
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0480072Z If you want to create a new branch to retain commits you create, you may
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0498091Z do so (now or later) by using -c with the switch command. Example:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0499312Z
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0499961Z   git switch -c <new-branch-name>
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0500850Z
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0501647Z Or undo this operation with:
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0503096Z
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0503785Z   git switch -
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0504888Z
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0506061Z Turn off this advice by setting config variable advice.detachedHead to false
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0507440Z
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0508898Z HEAD is now at 17506f9 Merge 81f48d9028b1050e6d1ed06f4c495b07550041c7 into deaa8fd9834684e784fc7d388952f01f5fa4980d
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0514065Z ##[endgroup]
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0543743Z [command]/usr/bin/git log -1 --format=%H
+contracts-domain (3.13)	Run actions/checkout@v4	2026-11-11T03:27:07.0575854Z 17506f981832516a01d83eceb57eae6f01aa6c4a
+contracts-domain (3.13)	Run actions/setup-python@v5	﻿2026-11-11T03:27:07.1039220Z ##[group]Run actions/setup-python@v5
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.1040216Z with:
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.1040957Z   python-version: 3.13
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.1041756Z   check-latest: false
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.1046058Z   token: ***
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.1047214Z   update-environment: true
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.1048051Z   allow-prereleases: false
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.1048862Z   freethreaded: false
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.1049649Z ##[endgroup]
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.2559512Z ##[group]Installed versions
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.2716739Z (node:2144) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.2747170Z (Use `node --trace-deprecation ...` to show where the warning was created)
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.2798459Z Successfully set up CPython (3.13.18)
+contracts-domain (3.13)	Run actions/setup-python@v5	2026-11-11T03:27:07.2800661Z ##[endgroup]
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	﻿2026-11-11T03:27:07.3065004Z ##[group]Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3067163Z [36;1mpython -m pip install -e '.[dev]' -c requirements-ra1a.lock[0m
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3188998Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3190430Z env:
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3191761Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3193655Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3195699Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3197470Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3199213Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3200970Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:07.3202524Z ##[endgroup]
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:09.9249004Z Obtaining file:///home/runner/work/VRAE/VRAE
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:09.9267246Z   Installing build dependencies: started
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:10.9510584Z   Installing build dependencies: finished with status 'done'
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:10.9535444Z   Checking if build backend supports build_editable: started
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:11.3188815Z   Checking if build backend supports build_editable: finished with status 'done'
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:11.3191570Z   Getting requirements to build editable: started
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:11.6858900Z   Getting requirements to build editable: finished with status 'done'
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:11.6874829Z   Preparing editable metadata (pyproject.toml): started
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:11.8940186Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.0462116Z Collecting jsonschema<5,>=4.23 (from vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.1387187Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.1854946Z Collecting h11==0.16.0 (from vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.2123513Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.2638384Z Collecting dnspython==2.8.0 (from vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.2920141Z   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.3691526Z Collecting pytest<10,>=8 (from vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.3964995Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.5039503Z Collecting PyYAML<7,>=6 (from vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.5308856Z   Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.9532532Z Collecting ruff<1,>=0.9 (from vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:12.9796326Z   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.1408358Z Collecting mypy<2,>=1.14 (from vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.1699778Z   Downloading mypy-1.20.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.2176379Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.2433723Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.2882811Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.3164722Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.3662136Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.3944520Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.6693010Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.6977893Z   Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.7486715Z Collecting typing_extensions>=4.6.0 (from mypy<2,>=1.14->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.7750211Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.8171961Z Collecting mypy_extensions>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.8437590Z   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.8904162Z Collecting pathspec>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.9180974Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.0758772Z Collecting librt>=0.8.0 (from mypy<2,>=1.14->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.1022659Z   Downloading librt-0.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.1442130Z Collecting iniconfig>=2 (from pytest<10,>=8->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.1704223Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.2171463Z Collecting packaging>=24 (from pytest<10,>=8->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.2438580Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.2873639Z Collecting pluggy<2,>=1.6 (from pytest<10,>=8->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.3141199Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.3631259Z Collecting pygments>=2.15 (from pytest<10,>=8->vrae==0.1.0)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.3914956Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.4275646Z Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.5281885Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.5560217Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.5855332Z Downloading mypy-1.20.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.7 MB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.7349464Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.7/14.7 MB 103.7 MB/s  0:00:00
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.7619351Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.7915938Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.8219083Z Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.8277079Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 156.0 MB/s  0:00:00
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.8549314Z Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.9316347Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 138.2 MB/s  0:00:00
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.9578291Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.9862592Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.0142687Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.0431116Z Downloading librt-0.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (531 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.0486851Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 531.7/531.7 kB 98.3 MB/s  0:00:00
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.0757963Z Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.1074574Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.1362419Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.1656033Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.1736818Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 176.0 MB/s  0:00:00
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.2012761Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.2303005Z Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (370 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.2595059Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.3316333Z Building wheels for collected packages: vrae
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.3324154Z   Building editable for vrae (pyproject.toml): started
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.5524203Z   Building editable for vrae (pyproject.toml): finished with status 'done'
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.5526753Z   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2752 sha256=1c9cf78cebf52681e364e02d2b553cf506f8d54fbcd88a49a577e6a65b23342f
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.5529157Z   Stored in directory: /tmp/pip-ephem-wheel-cache-0hp9v2x0/wheels/23/da/fa/2e5dca0e1b5e3248780677eb713062300223b606adc0296629
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.5563440Z Successfully built vrae
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.6022072Z Installing collected packages: typing_extensions, ruff, rpds-py, PyYAML, pygments, pluggy, pathspec, packaging, mypy_extensions, librt, iniconfig, h11, dnspython, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema, vrae
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.0306694Z
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.0349950Z Successfully installed PyYAML-6.0.3 attrs-26.1.0 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 packaging-26.3 pathspec-1.1.1 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 typing_extensions-4.16.0 vrae-0.1.0
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.0376040Z
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.0378590Z [notice] A new release of pip is available: 26.2.2 -> 26.3
+contracts-domain (3.13)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.0379315Z [notice] To update, run: pip install --upgrade pip
+contracts-domain (3.13)	Run python -m compileall -q vrae	﻿2026-11-11T03:27:19.1683955Z ##[group]Run python -m compileall -q vrae
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1684934Z [36;1mpython -m compileall -q vrae[0m
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1738003Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1738269Z env:
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1738565Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1739025Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1739495Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1739923Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1740335Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1740763Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+contracts-domain (3.13)	Run python -m compileall -q vrae	2026-11-11T03:27:19.1741119Z ##[endgroup]
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	﻿2026-11-11T03:27:19.2472365Z ##[group]Run ruff check vrae tests --select E4,E7,E9,F
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2472816Z [36;1mruff check vrae tests --select E4,E7,E9,F[0m
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2526356Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2526644Z env:
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2526925Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2527387Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2527830Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2528227Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2528640Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2529262Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2529591Z ##[endgroup]
+contracts-domain (3.13)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:19.2735187Z All checks passed!
+contracts-domain (3.13)	Run mypy vrae	﻿2026-11-11T03:27:19.2781168Z ##[group]Run mypy vrae
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2781466Z [36;1mmypy vrae[0m
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2836228Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2836496Z env:
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2836777Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2837238Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2837696Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2838108Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2838511Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2838930Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:19.2839262Z ##[endgroup]
+contracts-domain (3.13)	Run mypy vrae	2026-11-11T03:27:22.3144225Z Success: no issues found in 25 source files
+contracts-domain (3.13)	Run python -m pytest -q	﻿2026-11-11T03:27:22.3274056Z ##[group]Run python -m pytest -q
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3274949Z [36;1mpython -m pytest -q[0m
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3323622Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3323886Z env:
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3324163Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3324857Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3325298Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3325683Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3326094Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3326487Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:22.3326818Z ##[endgroup]
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.3364853Z ........ssssssssssssssssssssssss........................................ [ 18%]
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.6766452Z ........................................................................ [ 36%]
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.7595839Z ........................................................................ [ 54%]
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.8103602Z ........................................................................ [ 73%]
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.8671585Z ........................................................................ [ 91%]
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9361499Z .................................                                        [100%]
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9362629Z =========================== short test summary info ============================
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9363849Z SKIPPED [1] tests/collection/test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9365623Z SKIPPED [5] tests/collection/test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9367119Z SKIPPED [2] tests/collection/test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9369141Z SKIPPED [5] tests/collection/test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9400440Z SKIPPED [1] tests/collection/test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9404018Z SKIPPED [5] tests/collection/test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9405959Z SKIPPED [3] tests/collection/test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9407504Z SKIPPED [1] tests/collection/test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9408961Z SKIPPED [1] tests/collection/test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.13)	Run python -m pytest -q	2026-11-11T03:27:24.9410070Z 369 passed, 24 skipped in 2.15s
+contracts-domain (3.13)	Run python -m pip check	﻿2026-11-11T03:27:24.9850010Z ##[group]Run python -m pip check
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9850825Z [36;1mpython -m pip check[0m
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9922900Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9923339Z env:
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9923803Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9924847Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9925673Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9926396Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9927112Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9927910Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:24.9928526Z ##[endgroup]
+contracts-domain (3.13)	Run python -m pip check	2026-11-11T03:27:25.2487763Z No broken requirements found.
+contracts-domain (3.13)	Post Run actions/setup-python@v5	﻿2026-11-11T03:27:25.2911780Z Post job cleanup.
+contracts-domain (3.13)	Post Run actions/setup-python@v5	2026-11-11T03:27:25.4204845Z (node:2256) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+contracts-domain (3.13)	Post Run actions/setup-python@v5	2026-11-11T03:27:25.4206300Z (Use `node --trace-deprecation ...` to show where the warning was created)
+contracts-domain (3.13)	Post Run actions/checkout@v4	﻿2026-11-11T03:27:25.4502632Z Post job cleanup.
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.5640771Z [command]/usr/bin/git version
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.5707094Z git version 2.56.0
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.5774098Z Temporarily overriding HOME='/home/runner/work/_temp/af91c9d4-9926-4e03-b5b9-06b720a0e563' before making global git config changes
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.5776592Z Adding repository directory to the temporary git global config as a safe directory
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.5804907Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.5999540Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.6017730Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.6276135Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.6358555Z http.https://github.com/.extraheader
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.6361472Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.6437083Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.6921516Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+contracts-domain (3.13)	Post Run actions/checkout@v4	2026-11-11T03:27:25.6965227Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+contracts-domain (3.13)	Complete job	﻿2026-11-11T03:27:25.7409068Z Cleaning up orphan processes
+contracts-domain (3.13)	Complete job	2026-11-11T03:27:25.7885964Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+isolated-http	Set up job	﻿2026-11-11T03:27:04.6171522Z Current runner version: '2.338.2'
+isolated-http	Set up job	2026-11-11T03:27:04.6206294Z ##[group]Runner Image Provisioner
+isolated-http	Set up job	2026-11-11T03:27:04.6207407Z Hosted Compute Agent
+isolated-http	Set up job	2026-11-11T03:27:04.6208274Z Version: 20261028.624
+isolated-http	Set up job	2026-11-11T03:27:04.6209172Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+isolated-http	Set up job	2026-11-11T03:27:04.6210159Z Build Date: 2026-10-28T21:51:42Z
+isolated-http	Set up job	2026-11-11T03:27:04.6211187Z Worker ID: {b6fff83b-492f-4a15-a9fd-2a8742b653d6}
+isolated-http	Set up job	2026-11-11T03:27:04.6212157Z Region: eastus
+isolated-http	Set up job	2026-11-11T03:27:04.6212945Z Cloud: Azure
+isolated-http	Set up job	2026-11-11T03:27:04.6213725Z ##[endgroup]
+isolated-http	Set up job	2026-11-11T03:27:04.6215439Z ##[group]Operating System
+isolated-http	Set up job	2026-11-11T03:27:04.6216587Z Ubuntu
+isolated-http	Set up job	2026-11-11T03:27:04.6217325Z 26.04.1
+isolated-http	Set up job	2026-11-11T03:27:04.6218003Z LTS
+isolated-http	Set up job	2026-11-11T03:27:04.6218830Z ##[endgroup]
+isolated-http	Set up job	2026-11-11T03:27:04.6219629Z ##[group]Runner Image
+isolated-http	Set up job	2026-11-11T03:27:04.6220505Z Image: ubuntu-26.04
+isolated-http	Set up job	2026-11-11T03:27:04.6221245Z Version: 20261101.186.1
+isolated-http	Set up job	2026-11-11T03:27:04.6222731Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+isolated-http	Set up job	2026-11-11T03:27:04.6225295Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+isolated-http	Set up job	2026-11-11T03:27:04.6226944Z ##[endgroup]
+isolated-http	Set up job	2026-11-11T03:27:04.6228408Z ##[group]GITHUB_TOKEN Permissions
+isolated-http	Set up job	2026-11-11T03:27:04.6231252Z Contents: read
+isolated-http	Set up job	2026-11-11T03:27:04.6232023Z Metadata: read
+isolated-http	Set up job	2026-11-11T03:27:04.6232731Z ##[endgroup]
+isolated-http	Set up job	2026-11-11T03:27:04.6235255Z Secret source: Actions
+isolated-http	Set up job	2026-11-11T03:27:04.6236716Z Cache mode: write
+isolated-http	Set up job	2026-11-11T03:27:04.6238303Z Prepare workflow directory
+isolated-http	Set up job	2026-11-11T03:27:04.6633399Z Prepare all required actions
+isolated-http	Set up job	2026-11-11T03:27:04.6694137Z Getting action download info
+isolated-http	Set up job	2026-11-11T03:27:04.8281888Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+isolated-http	Set up job	2026-11-11T03:27:05.0330520Z Complete job name: isolated-http
+isolated-http	Run actions/checkout@v4	﻿2026-11-11T03:27:05.1214570Z ##[group]Run actions/checkout@v4
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1215318Z with:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1215971Z   repository: gloweaseco-leo/VRAE
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1219314Z   token: ***
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1219697Z   ssh-strict: true
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1220079Z   ssh-user: git
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1220463Z   persist-credentials: true
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1220888Z   clean: true
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1221276Z   sparse-checkout-cone-mode: true
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1221736Z   fetch-depth: 1
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1222115Z   fetch-tags: false
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1222501Z   show-progress: true
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1222886Z   lfs: false
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1223239Z   submodules: false
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1223630Z   set-safe-directory: true
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1224057Z   allow-unsafe-pr-checkout: false
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.1224684Z ##[endgroup]
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4229564Z Syncing repository: gloweaseco-leo/VRAE
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4232418Z ##[group]Getting Git version info
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4233410Z Working directory is '/home/runner/work/VRAE/VRAE'
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4237084Z [command]/usr/bin/git version
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4443285Z git version 2.56.0
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4453387Z ##[endgroup]
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4460807Z Temporarily overriding HOME='/home/runner/work/_temp/f27a4772-61b5-4137-88b3-934ec9831637' before making global git config changes
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4463906Z Adding repository directory to the temporary git global config as a safe directory
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4466745Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4522546Z Deleting the contents of '/home/runner/work/VRAE/VRAE'
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4524720Z ##[group]Initializing the repository
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4526679Z [command]/usr/bin/git init /home/runner/work/VRAE/VRAE
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4651305Z hint: Using 'master' as the name for the initial branch. This default branch name
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4653892Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4656242Z hint: to use in all of your new repositories, which will suppress this warning,
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4658004Z hint: call:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4659694Z hint:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4661164Z hint: 	git config --global init.defaultBranch <name>
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4662796Z hint:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4693017Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4694687Z hint: 'development'. The just-created branch can be renamed via this command:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4696006Z hint:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4696757Z hint: 	git branch -m <name>
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4697585Z hint:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4698592Z hint: Disable this message with "git config set advice.defaultBranchName false"
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4700939Z Initialized empty Git repository in /home/runner/work/VRAE/VRAE/.git/
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4705361Z [command]/usr/bin/git remote add origin https://github.com/gloweaseco-leo/VRAE
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4874833Z ##[endgroup]
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4913411Z ##[group]Disabling automatic garbage collection
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4957133Z [command]/usr/bin/git config --local gc.auto 0
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.4999583Z ##[endgroup]
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.5002044Z ##[group]Setting up auth
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.5003226Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.5007123Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.5421499Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.5454711Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.5726785Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.5892059Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.6878724Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.6882835Z ##[endgroup]
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.6883793Z ##[group]Fetching the repository
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.6885266Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +17506f981832516a01d83eceb57eae6f01aa6c4a:refs/remotes/pull/4/merge
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9272952Z From https://github.com/gloweaseco-leo/VRAE
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9274686Z  * [new ref]         17506f981832516a01d83eceb57eae6f01aa6c4a -> pull/4/merge
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9295183Z ##[endgroup]
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9296640Z ##[group]Determining the checkout info
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9297991Z ##[endgroup]
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9299028Z [command]/usr/bin/git sparse-checkout disable
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9343221Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9376374Z ##[group]Checking out the ref
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9377863Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/4/merge
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9497672Z Note: switching to 'refs/remotes/pull/4/merge'.
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9498837Z
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9501386Z You are in 'detached HEAD' state. You can look around, make experimental
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9502719Z changes and commit them, and you can discard any commits you make in this
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9504053Z state without impacting any branches by switching back to a branch.
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9504711Z
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9505071Z If you want to create a new branch to retain commits you create, you may
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9506107Z do so (now or later) by using -c with the switch command. Example:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9506594Z
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9506835Z   git switch -c <new-branch-name>
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9507170Z
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9507472Z Or undo this operation with:
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9507787Z
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9508002Z   git switch -
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9508258Z
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9508944Z Turn off this advice by setting config variable advice.detachedHead to false
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9509468Z
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9510029Z HEAD is now at 17506f9 Merge 81f48d9028b1050e6d1ed06f4c495b07550041c7 into deaa8fd9834684e784fc7d388952f01f5fa4980d
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9518265Z ##[endgroup]
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9569444Z [command]/usr/bin/git log -1 --format=%H
+isolated-http	Run actions/checkout@v4	2026-11-11T03:27:05.9597475Z 17506f981832516a01d83eceb57eae6f01aa6c4a
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	﻿2026-11-11T03:27:05.9858308Z ##[group]Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:05.9859355Z [36;1mdocker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .[0m
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:05.9911798Z shell: /usr/bin/bash -e {0}
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:05.9912407Z ##[endgroup]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.5881558Z #0 building with "default" instance using docker driver
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.5884117Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.5884694Z #1 [internal] load build definition from Dockerfile
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.5886091Z #1 transferring dockerfile: 926B done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.5886879Z #1 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.5887434Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.5887910Z #2 [auth] library/python:pull token for registry-1.docker.io
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.7342716Z #2 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.7343646Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.7345138Z #3 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:06.9195108Z #3 DONE 0.4s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0415753Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0416802Z #4 [internal] load .dockerignore
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0419176Z #4 transferring context: 134B done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0420061Z #4 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0420566Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0421704Z #5 [ 1/14] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0425006Z #5 resolve docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89 0.0s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0427560Z #5 DONE 0.1s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0428016Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.0428408Z #6 [internal] load build context
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.1596472Z #6 transferring context: 280.08kB 0.0s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.1597909Z #6 DONE 0.1s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.1598441Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.1600048Z #5 [ 1/14] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.1603373Z #5 sha256:f9b274ee4fbe248a842b5b75ee2e2e2db298596c140c7febbb6e987c77d1d246 249B / 249B 0.0s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.1607596Z #5 sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 3.34MB / 3.34MB 0.1s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.3474146Z #5 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 19.92MB / 28.25MB 0.2s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.3478050Z #5 sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 18.32MB / 18.32MB 0.2s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.3480923Z #5 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 28.25MB / 28.25MB 0.3s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.6514623Z #5 sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 18.32MB / 18.32MB 0.6s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.7971728Z #5 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 28.25MB / 28.25MB 0.6s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:07.7972697Z #5 extracting sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:08.3867429Z #5 extracting sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 0.7s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:08.3868444Z #5 DONE 1.4s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:08.6242201Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:08.6243605Z #5 [ 1/14] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:08.6247531Z #5 extracting sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 0.1s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:08.6248681Z #5 extracting sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.0297239Z #5 extracting sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 0.6s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.0297991Z #5 DONE 2.1s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.1878393Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.1879959Z #5 [ 1/14] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.1881371Z #5 extracting sha256:f9b274ee4fbe248a842b5b75ee2e2e2db298596c140c7febbb6e987c77d1d246 done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.1882858Z #5 DONE 2.1s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.1883160Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.1883877Z #7 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends iproute2 iptables openssl util-linux     && rm -rf /var/lib/apt/lists/*
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.2387689Z #7 0.201 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.3489826Z #7 0.210 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.3491510Z #7 0.210 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.3492624Z #7 0.261 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.3493570Z #7 0.312 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:09.5492834Z #7 0.361 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [367 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:10.0490665Z #7 1.012 Fetched 9405 kB in 1s (11.3 MB/s)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:10.4417985Z #7 1.012 Reading package lists...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:10.8727336Z #7 1.423 Reading package lists...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.0267142Z #7 1.849 Building dependency tree...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.0274637Z #7 1.988 Reading state information...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.1402174Z #7 2.103 util-linux is already the newest version (2.38.1-5+deb12u3).
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.1403956Z #7 2.103 util-linux set to manually installed.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.1428953Z #7 2.103 The following additional packages will be installed:
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2400893Z #7 2.103   libbpf1 libbsd0 libcap2-bin libelf1 libip4tc2 libip6tc2 libmnl0
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2402146Z #7 2.103   libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libssl3 libxtables12
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2403172Z #7 2.105 Suggested packages:
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2404809Z #7 2.105   iproute2-doc python3:any firewalld kmod
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2405791Z #7 2.105 Recommended packages:
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2430628Z #7 2.105   libatm1 nftables libpam-cap
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2432057Z #7 2.167 The following NEW packages will be installed:
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2433832Z #7 2.167   iproute2 iptables libbpf1 libbsd0 libcap2-bin libelf1 libip4tc2 libip6tc2
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2434735Z #7 2.168   libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libxtables12
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2435446Z #7 2.168 The following packages will be upgraded:
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2436164Z #7 2.169   libssl3 openssl
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2436728Z #7 2.189 2 upgraded, 13 newly installed, 0 to remove and 4 not upgraded.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2437347Z #7 2.189 Need to get 5558 kB of archives.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2438011Z #7 2.189 After this operation, 8585 kB of additional disk space will be used.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2440464Z #7 2.189 Get:1 http://deb.debian.org/debian bookworm/main amd64 libelf1 amd64 0.188-2.1 [174 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2443811Z #7 2.193 Get:2 http://deb.debian.org/debian bookworm/main amd64 libbpf1 amd64 1:1.1.2-0+deb12u1 [145 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2447394Z #7 2.194 Get:3 http://deb.debian.org/debian bookworm/main amd64 libbsd0 amd64 0.11.7-2 [117 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2458878Z #7 2.195 Get:4 http://deb.debian.org/debian bookworm/main amd64 libmnl0 amd64 1.0.4-3 [12.5 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2461220Z #7 2.195 Get:5 http://deb.debian.org/debian bookworm/main amd64 libxtables12 amd64 1.8.9-2 [30.8 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2462970Z #7 2.196 Get:6 http://deb.debian.org/debian bookworm/main amd64 libcap2-bin amd64 1:2.66-4+deb12u3+b1 [35.2 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2463912Z #7 2.196 Get:7 http://deb.debian.org/debian bookworm/main amd64 iproute2 amd64 6.1.0-3 [1046 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2466799Z #7 2.202 Get:8 http://deb.debian.org/debian bookworm/main amd64 libip4tc2 amd64 1.8.9-2 [19.0 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2472834Z #7 2.202 Get:9 http://deb.debian.org/debian bookworm/main amd64 libip6tc2 amd64 1.8.9-2 [19.4 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2476634Z #7 2.203 Get:10 http://deb.debian.org/debian bookworm/main amd64 libnfnetlink0 amd64 1.0.2-2 [15.1 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.2478729Z #7 2.203 Get:11 http://deb.debian.org/debian bookworm/main amd64 libnetfilter-conntrack3 amd64 1.0.9-3 [40.7 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.3625219Z #7 2.205 Get:12 http://deb.debian.org/debian bookworm/main amd64 libnftnl11 amd64 1.2.4-2 [61.6 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.3626091Z #7 2.206 Get:13 http://deb.debian.org/debian bookworm/main amd64 iptables amd64 1.8.9-2 [360 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.3626692Z #7 2.206 Get:14 http://deb.debian.org/debian-security bookworm-security/main amd64 libssl3 amd64 3.0.22-1~deb12u2 [2040 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.3627310Z #7 2.211 Get:15 http://deb.debian.org/debian-security bookworm-security/main amd64 openssl amd64 3.0.22-1~deb12u2 [1442 kB]
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.3627869Z #7 2.301 debconf: delaying package configuration, since apt-utils is not installed
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.3628208Z #7 2.325 Fetched 5558 kB in 0s (134 MB/s)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4695389Z #7 2.339 Selecting previously unselected package libelf1:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4696370Z #7 2.339 (Reading database ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4696885Z (Reading database ... 5%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4697369Z (Reading database ... 10%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4697786Z (Reading database ... 15%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4698189Z (Reading database ... 20%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4698589Z (Reading database ... 25%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4699005Z (Reading database ... 30%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4699408Z (Reading database ... 35%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4699797Z (Reading database ... 40%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4700199Z (Reading database ... 45%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4700600Z (Reading database ... 50%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4700991Z (Reading database ... 55%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4701406Z (Reading database ... 60%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4701797Z (Reading database ... 65%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4702192Z (Reading database ... 70%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4702571Z (Reading database ... 75%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4702953Z (Reading database ... 80%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4703329Z (Reading database ... 85%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4703704Z (Reading database ... 90%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4798878Z (Reading database ... 95%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4799767Z (Reading database ... 100%
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4814920Z (Reading database ... 6704 files and directories currently installed.)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4816638Z #7 2.346 Preparing to unpack .../00-libelf1_0.188-2.1_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4818506Z #7 2.359 Unpacking libelf1:amd64 (0.188-2.1) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4819082Z #7 2.385 Selecting previously unselected package libbpf1:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4819861Z #7 2.387 Preparing to unpack .../01-libbpf1_1%3a1.1.2-0+deb12u1_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4820387Z #7 2.388 Unpacking libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4820875Z #7 2.409 Selecting previously unselected package libbsd0:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4821401Z #7 2.412 Preparing to unpack .../02-libbsd0_0.11.7-2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4821850Z #7 2.412 Unpacking libbsd0:amd64 (0.11.7-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.4822286Z #7 2.432 Selecting previously unselected package libmnl0:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6097217Z #7 2.435 Preparing to unpack .../03-libmnl0_1.0.4-3_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6097833Z #7 2.436 Unpacking libmnl0:amd64 (1.0.4-3) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6098383Z #7 2.454 Selecting previously unselected package libxtables12:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6098929Z #7 2.456 Preparing to unpack .../04-libxtables12_1.8.9-2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6099396Z #7 2.456 Unpacking libxtables12:amd64 (1.8.9-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6099887Z #7 2.471 Selecting previously unselected package libcap2-bin.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6100463Z #7 2.473 Preparing to unpack .../05-libcap2-bin_1%3a2.66-4+deb12u3+b1_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6101335Z #7 2.473 Unpacking libcap2-bin (1:2.66-4+deb12u3+b1) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6101801Z #7 2.491 Selecting previously unselected package iproute2.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6102299Z #7 2.493 Preparing to unpack .../06-iproute2_6.1.0-3_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6102752Z #7 2.494 Unpacking iproute2 (6.1.0-3) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.6103197Z #7 2.572 Selecting previously unselected package libip4tc2:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7567838Z #7 2.575 Preparing to unpack .../07-libip4tc2_1.8.9-2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7568927Z #7 2.576 Unpacking libip4tc2:amd64 (1.8.9-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7569551Z #7 2.591 Selecting previously unselected package libip6tc2:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7570083Z #7 2.593 Preparing to unpack .../08-libip6tc2_1.8.9-2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7574447Z #7 2.594 Unpacking libip6tc2:amd64 (1.8.9-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7575128Z #7 2.609 Selecting previously unselected package libnfnetlink0:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7576169Z #7 2.611 Preparing to unpack .../09-libnfnetlink0_1.0.2-2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7576999Z #7 2.612 Unpacking libnfnetlink0:amd64 (1.0.2-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7577699Z #7 2.627 Selecting previously unselected package libnetfilter-conntrack3:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7578502Z #7 2.629 Preparing to unpack .../10-libnetfilter-conntrack3_1.0.9-3_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7579253Z #7 2.630 Unpacking libnetfilter-conntrack3:amd64 (1.0.9-3) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7579967Z #7 2.649 Selecting previously unselected package libnftnl11:amd64.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7580674Z #7 2.650 Preparing to unpack .../11-libnftnl11_1.2.4-2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7581309Z #7 2.650 Unpacking libnftnl11:amd64 (1.2.4-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7581919Z #7 2.667 Selecting previously unselected package iptables.
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7582581Z #7 2.670 Preparing to unpack .../12-iptables_1.8.9-2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7583194Z #7 2.670 Unpacking iptables (1.8.9-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.7583805Z #7 2.720 Preparing to unpack .../13-libssl3_3.0.22-1~deb12u2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.9130620Z #7 2.725 Unpacking libssl3:amd64 (3.0.22-1~deb12u2) over (3.0.22-1~deb12u1) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:11.9716168Z #7 2.934 Preparing to unpack .../14-openssl_3.0.22-1~deb12u2_amd64.deb ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.0773378Z #7 2.937 Unpacking openssl (3.0.22-1~deb12u2) over (3.0.22-1~deb12u1) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.0774482Z #7 3.039 Setting up libip4tc2:amd64 (1.8.9-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1944066Z #7 3.042 Setting up libip6tc2:amd64 (1.8.9-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1944898Z #7 3.044 Setting up libssl3:amd64 (3.0.22-1~deb12u2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1945473Z #7 3.046 Setting up libcap2-bin (1:2.66-4+deb12u3+b1) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1946207Z #7 3.048 Setting up libmnl0:amd64 (1.0.4-3) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1946764Z #7 3.053 Setting up libxtables12:amd64 (1.8.9-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1947703Z #7 3.055 Setting up libnfnetlink0:amd64 (1.0.2-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1956190Z #7 3.057 Setting up openssl (3.0.22-1~deb12u2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1957047Z #7 3.063 Setting up libbsd0:amd64 (0.11.7-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1960482Z #7 3.065 Setting up libelf1:amd64 (0.188-2.1) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1963391Z #7 3.067 Setting up libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1966955Z #7 3.069 Setting up iproute2 (6.1.0-3) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1967422Z #7 3.136 debconf: unable to initialize frontend: Dialog
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1967983Z #7 3.136 debconf: (TERM is not set, so the dialog frontend is not usable.)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1968554Z #7 3.136 debconf: falling back to frontend: Readline
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1969026Z #7 3.137 debconf: unable to initialize frontend: Readline
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1975429Z #7 3.137 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1977354Z #7 3.137 debconf: falling back to frontend: Teletype
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.1977662Z #7 3.157 Setting up libnftnl11:amd64 (1.2.4-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3752330Z #7 3.163 Setting up libnetfilter-conntrack3:amd64 (1.0.9-3) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3753690Z #7 3.171 Setting up iptables (1.8.9-2) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3755474Z #7 3.175 update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) in auto mode
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3756985Z #7 3.177 update-alternatives: using /usr/sbin/ip6tables-legacy to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3758151Z #7 3.179 update-alternatives: using /usr/sbin/iptables-nft to provide /usr/sbin/iptables (iptables) in auto mode
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3759248Z #7 3.181 update-alternatives: using /usr/sbin/ip6tables-nft to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3760551Z #7 3.183 update-alternatives: using /usr/sbin/arptables-nft to provide /usr/sbin/arptables (arptables) in auto mode
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3761718Z #7 3.185 update-alternatives: using /usr/sbin/ebtables-nft to provide /usr/sbin/ebtables (ebtables) in auto mode
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:12.3762676Z #7 3.187 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.3047853Z #7 DONE 5.3s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.4886382Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.4887303Z #8 [ 3/14] WORKDIR /work
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.4887830Z #8 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.4888140Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.4888372Z #9 [ 4/14] COPY requirements-ra1a.lock ./
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.4888824Z #9 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.4889070Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:14.4889448Z #10 [ 5/14] RUN python -m pip install --no-cache-dir -r requirements-ra1a.lock
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:15.7224224Z #10 1.384 Collecting attrs==26.1.0 (from -r requirements-ra1a.lock (line 2))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:15.9351865Z #10 1.597   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.0378660Z #10 1.638 Collecting colorama==0.4.6 (from -r requirements-ra1a.lock (line 3))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.0379270Z #10 1.700   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.1473650Z #10 1.750 Collecting dnspython==2.8.0 (from -r requirements-ra1a.lock (line 4))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.1474490Z #10 1.810   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.2818847Z #10 1.847 Collecting h11==0.16.0 (from -r requirements-ra1a.lock (line 5))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.2819349Z #10 1.906   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.2819746Z #10 1.943 Collecting iniconfig==2.3.1 (from -r requirements-ra1a.lock (line 6))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.3835646Z #10 2.004   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.3836915Z #10 2.046 Collecting jsonschema-specifications==2025.9.1 (from -r requirements-ra1a.lock (line 7))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.4970517Z #10 2.105   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.4971700Z #10 2.159 Collecting jsonschema==4.26.0 (from -r requirements-ra1a.lock (line 8))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.7077286Z #10 2.220   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.7454412Z #10 2.407 Collecting librt==0.16.0 (from -r requirements-ra1a.lock (line 9))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.9327429Z #10 2.466   Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:16.9329105Z #10 2.595 Collecting mypy==1.20.2 (from -r requirements-ra1a.lock (line 10))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.0848842Z #10 2.656   Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.0850651Z #10 2.688 Collecting mypy_extensions==1.2.0 (from -r requirements-ra1a.lock (line 11))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.0851658Z #10 2.747   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.2484561Z #10 2.749 Requirement already satisfied: packaging==26.3 in /usr/local/lib/python3.11/site-packages (from -r requirements-ra1a.lock (line 12)) (26.3)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.2486054Z #10 2.784 Collecting pathspec==1.1.1 (from -r requirements-ra1a.lock (line 13))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.2486937Z #10 2.844   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.2487679Z #10 2.910 Collecting pluggy==1.7.0 (from -r requirements-ra1a.lock (line 14))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.3508967Z #10 2.969   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.3510219Z #10 3.013 Collecting Pygments==2.21.0 (from -r requirements-ra1a.lock (line 15))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.4726239Z #10 3.071   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.4727774Z #10 3.134 Collecting pytest==9.2.0 (from -r requirements-ra1a.lock (line 16))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.5889468Z #10 3.192   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.5891126Z #10 3.251 Collecting PyYAML==6.0.3 (from -r requirements-ra1a.lock (line 17))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.7108927Z #10 3.327   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.7109952Z #10 3.373 Collecting referencing==0.37.0 (from -r requirements-ra1a.lock (line 18))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:17.9197618Z #10 3.431   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:18.0310683Z #10 3.693 Collecting rpds-py==2026.9.1 (from -r requirements-ra1a.lock (line 19))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:18.2413354Z #10 3.753   Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:18.4634448Z #10 4.126 Collecting ruff==0.17.4 (from -r requirements-ra1a.lock (line 20))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:18.5773764Z #10 4.187   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:18.5774759Z #10 4.240 Collecting typing_extensions==4.16.0 (from -r requirements-ra1a.lock (line 21))
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:18.8017744Z #10 4.311   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:18.8019317Z #10 4.314 Requirement already satisfied: setuptools==79.0.1 in /usr/local/lib/python3.11/site-packages (from -r requirements-ra1a.lock (line 22)) (79.0.1)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:18.8848401Z #10 4.547 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.0122858Z #10 4.614    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.5/67.5 kB 983.4 kB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.0123592Z #10 4.674 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.1639679Z #10 4.737 Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.2830558Z #10 4.826    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.1/331.1 kB 3.8 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.2832213Z #10 4.887 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.2833175Z #10 4.945 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.4145659Z #10 5.015 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.4147007Z #10 5.076 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.6129222Z #10 5.081    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 31.4 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.6131312Z #10 5.162 Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (515 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.8228501Z #10 5.275    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 516.0/516.0 kB 4.7 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:19.8229471Z #10 5.334 Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.6 MB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.2900263Z #10 5.830    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.6/14.6 MB 29.0 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.2901568Z #10 5.893 Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.2902783Z #10 5.952 Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.4424764Z #10 5.954    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.3/57.3 kB 267.7 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.4425434Z #10 6.015 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.4426127Z #10 6.105 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.5787506Z #10 6.119    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 97.9 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.5789177Z #10 6.179 Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.5790365Z #10 6.182    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 411.8/411.8 kB 407.9 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.5791366Z #10 6.240 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.6990185Z #10 6.244    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 374.5 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.8823908Z #10 6.302 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.8824545Z #10 6.361 Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (375 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.8825423Z #10 6.364    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 375.4/375.4 kB 428.8 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.8826295Z #10 6.434 Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:20.8827126Z #10 6.544    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 101.5 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:21.0600747Z #10 6.603 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:21.0602318Z #10 6.604    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.6/45.6 kB 302.3 MB/s eta 0:00:00
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:21.0604043Z #10 6.722 Installing collected packages: typing_extensions, ruff, rpds-py, PyYAML, Pygments, pluggy, pathspec, mypy_extensions, librt, iniconfig, h11, dnspython, colorama, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:23.3423433Z #10 9.004 Successfully installed PyYAML-6.0.3 Pygments-2.21.0 attrs-26.1.0 colorama-0.4.6 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 pathspec-1.1.1 pluggy-1.7.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 typing_extensions-4.16.0
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:23.4931799Z #10 9.004 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:23.6125361Z #10 9.275
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:23.6126482Z #10 9.275 [notice] A new release of pip is available: 24.0 -> 26.3
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:23.6127227Z #10 9.275 [notice] To update, run: pip install --upgrade pip
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.5040349Z #10 DONE 11.2s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.6173688Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.6187815Z #11 [ 6/14] COPY pyproject.toml ./
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.6196467Z #11 DONE 0.1s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.6207069Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.6207423Z #12 [ 7/14] COPY vrae ./vrae
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.6208062Z #12 DONE 0.1s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8449039Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8449758Z #13 [ 8/14] COPY contracts ./contracts
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8450126Z #13 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8450358Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8450550Z #14 [ 9/14] COPY industry-packs ./industry-packs
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8450922Z #14 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8451097Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8451252Z #15 [10/14] COPY tests ./tests
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8451527Z #15 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8451699Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8451857Z #16 [11/14] COPY scripts ./scripts
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8452153Z #16 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8452312Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:25.8452606Z #17 [12/14] RUN python -m pip install --no-deps --no-build-isolation -e '.[dev]' && mkdir /lab
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.1117247Z #17 0.418 Obtaining file:///work
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.2640099Z #17 0.419   Checking if build backend supports build_editable: started
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.3421381Z #17 0.648   Checking if build backend supports build_editable: finished with status 'done'
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.4934128Z #17 0.649   Preparing editable metadata (pyproject.toml): started
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.6597316Z #17 0.965   Preparing editable metadata (pyproject.toml): finished with status 'done'
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.7746109Z #17 0.974 Checking if build backend supports build_editable: started
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.7747502Z #17 1.081 Checking if build backend supports build_editable: finished with status 'done'
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.9268923Z #17 1.081 Building wheels for collected packages: vrae
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.9270721Z #17 1.082   Building editable for vrae (pyproject.toml): started
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:26.9696885Z #17 1.275   Building editable for vrae (pyproject.toml): finished with status 'done'
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1301666Z #17 1.276   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2739 sha256=372b4f2d20c3175bfbf5956cc04265fb08615beaf7aa24814c7f2fd23f8e1ed2
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1303642Z #17 1.276   Stored in directory: /tmp/pip-ephem-wheel-cache-jd0ul4is/wheels/ab/b8/c0/a9ba31bee702e5eb1c32d648f0503425e03b81d5dafe8f0dd3
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1304815Z #17 1.278 Successfully built vrae
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1305390Z #17 1.278 Installing collected packages: vrae
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1306107Z #17 1.285 Successfully installed vrae-0.1.0
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1307532Z #17 1.286 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1410983Z #17 1.447
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1411866Z #17 1.447 [notice] A new release of pip is available: 24.0 -> 26.3
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.1412671Z #17 1.447 [notice] To update, run: pip install --upgrade pip
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.2618983Z #17 DONE 1.6s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.4489248Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.4490943Z #18 [13/14] COPY infra/ra1a/entrypoint.sh /lab/entrypoint.sh
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.4491832Z #18 DONE 0.0s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.4492158Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.4492786Z #19 [14/14] RUN sed -i 's/\r$//' /lab/entrypoint.sh && chmod 755 /lab/entrypoint.sh
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.4692693Z #19 DONE 0.2s
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.6240377Z
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.6241294Z #20 exporting to image
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:27.6241698Z #20 exporting layers
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:32.1935898Z #20 exporting layers 4.7s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:32.3655804Z #20 exporting manifest sha256:fc9faf3e0d1c232906a602db4eb2de00457d566e229705484431f1167c62795f done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:32.3656994Z #20 exporting config sha256:320c16df42c6389be4692e0d3c6752515c286d8b033892e172cf5d8099fe531d done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:32.3658814Z #20 exporting attestation manifest sha256:168600929c89ffa0cbc4db222b9d0ea297f8cb3408c0a8d823dfb1f9695f9138 done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:32.3660048Z #20 exporting manifest list sha256:dc7b374b96a572c741875383af5e9c2710bd1b68e407cfd0965c580e9e215d58 done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:32.3661214Z #20 naming to docker.io/library/vrae-ra1a-lab:ci done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:32.3661823Z #20 unpacking to docker.io/library/vrae-ra1a-lab:ci
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:33.3599789Z #20 unpacking to docker.io/library/vrae-ra1a-lab:ci 1.1s done
+isolated-http	Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .	2026-11-11T03:27:33.4603595Z #20 DONE 5.9s
+isolated-http	Real sockets, verified TLS and kernel egress denial	﻿2026-11-11T03:27:33.4720588Z ##[group]Run docker run --rm --network none --cap-add NET_ADMIN --read-only --tmpfs /tmp:rw,nosuid,nodev,size=128m --memory 512m --cpus 1 --pids-limit 128 --security-opt no-new-privileges vrae-ra1a-lab:ci
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:33.4721723Z [36;1mdocker run --rm --network none --cap-add NET_ADMIN --read-only --tmpfs /tmp:rw,nosuid,nodev,size=128m --memory 512m --cpus 1 --pids-limit 128 --security-opt no-new-privileges vrae-ra1a-lab:ci[0m
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:33.4773623Z shell: /usr/bin/bash -e {0}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:33.4773885Z ##[endgroup]
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6490117Z === ISOLATED NAMESPACE AND FIREWALL ===
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6512107Z 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6514144Z     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6514907Z     inet 127.0.0.1/8 scope host lo
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6515646Z        valid_lft forever preferred_lft forever
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6516304Z     inet 93.184.216.20/32 scope global lo
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6516923Z        valid_lft forever preferred_lft forever
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6517444Z     inet 93.184.216.21/32 scope global lo
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6517956Z        valid_lft forever preferred_lft forever
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6518466Z     inet 93.184.216.53/32 scope global lo
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6518970Z        valid_lft forever preferred_lft forever
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6519496Z     inet 169.254.169.254/32 scope global lo
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6520015Z        valid_lft forever preferred_lft forever
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6520536Z     inet 10.77.0.2/32 scope global lo
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6521041Z        valid_lft forever preferred_lft forever
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6521659Z     inet6 ::1/128 scope host
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6522162Z        valid_lft forever preferred_lft forever
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6542632Z # Generated by iptables-save v1.8.9 (nf_tables) on Wed Nov 11 03:27:35 2026
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6543151Z *filter
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6543408Z :INPUT DROP [0:0]
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6543685Z :FORWARD DROP [0:0]
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6544042Z :OUTPUT DROP [0:0]
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6544623Z -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6545103Z -A INPUT -d 93.184.216.20/32 -p tcp -m multiport --dports 80,443 -j ACCEPT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6545827Z -A INPUT -d 93.184.216.53/32 -p udp -m udp --dport 53 -j ACCEPT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6546245Z -A INPUT -d 93.184.216.53/32 -p tcp -m tcp --dport 53 -j ACCEPT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6546712Z -A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6547215Z -A OUTPUT -d 93.184.216.20/32 -p tcp -m multiport --dports 80,443 -j ACCEPT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6547706Z -A OUTPUT -d 93.184.216.53/32 -p udp -m udp --dport 53 -j ACCEPT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6548174Z -A OUTPUT -d 93.184.216.53/32 -p tcp -m tcp --dport 53 -j ACCEPT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6548566Z COMMIT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6548805Z # Completed on Wed Nov 11 03:27:35 2026
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6562139Z # Generated by ip6tables-save v1.8.9 (nf_tables) on Wed Nov 11 03:27:35 2026
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6562861Z *filter
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6563257Z :INPUT DROP [0:0]
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6563700Z :FORWARD DROP [0:0]
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6563991Z :OUTPUT DROP [0:0]
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6564250Z COMMIT
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:35.6564516Z # Completed on Wed Nov 11 03:27:35 2026
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:36.0087386Z 1-compileall.log EXIT_CODE 0
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:36.0088122Z
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:36.1024916Z 2-ruff.log EXIT_CODE 0
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:36.1026462Z All checks passed!
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:36.1027210Z
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:37.7949056Z 3-mypy.log EXIT_CODE 0
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:37.7950647Z Success: no issues found in 25 source files
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:37.7951401Z
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4633410Z 4-pytest.log EXIT_CODE 0
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4636982Z ........NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28], ["factory.test.", 1], ["factory.test.", 28], ["factory.test.", 1], ["factory.test.", 28], ["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET /robots.txt HTTP/1.1", "GET / HTTP/1.1", "GET /products HTTP/1.1", "GET /contact HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test", "factory.test", "factory.test", "factory.test"], "test": "tests/collection/test_isolated.py::test_real_dns_tls_peer_host_and_evidence (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4641793Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[127.0.0.1] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4648265Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[169.254.169.254] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4650676Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[10.77.0.2] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4653023Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[93.184.216.21] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4655393Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[::1] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4658116Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_tls_untrusted_or_wrong_hostname_has_no_http[factory.test-False] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4661048Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["wrong.test.", 1], ["wrong.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": ["wrong.test"], "test": "tests/collection/test_isolated.py::test_tls_untrusted_or_wrong_hostname_has_no_http[wrong.test-True] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4672021Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[http://127.0.0.1/] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4675120Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[http://169.254.169.254/] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4678447Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[https://other.test/] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4681541Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[http://factory.test/] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4685157Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[/a/%252e%252e/private] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4688259Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28], ["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_dns_rebinding_on_redirect_is_blocked (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4691447Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[chunked] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4694257Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[no-length] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4697188Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[huge-length] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4699984Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[slow-headers] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4702658Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[slow-chunk] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4705259Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_real_dns_mixed_or_ipv6_denial_has_zero_http[values0-A] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4708065Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_real_dns_mixed_or_ipv6_denial_has_zero_http[values1-AAAA] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4710646Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_real_dns_mixed_or_ipv6_denial_has_zero_http[values2-AAAA] (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4713346Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_cancel_during_stream_closes_socket (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4716282Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["HEAD / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_head_has_no_body_and_no_hidden_resolution (call)", "uid": 65532}
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4719037Z ..........................................................................................................................................................................................................................................................................................................................................................................
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4720589Z 393 passed in 3.04s
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:41.4721019Z
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:42.5489501Z 5-pip.log EXIT_CODE 0
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:42.5489958Z No broken requirements found.
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:42.5491166Z  WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:42.5496875Z
+isolated-http	Real sockets, verified TLS and kernel egress denial	2026-11-11T03:27:43.5731327Z ENVIRONMENT={"python": "3.11.17 (main, Oct  6 2026, 02:01:58) [GCC 12.2.0]", "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.36", "prefix": "/usr/local", "base_prefix": "/usr/local", "isolated_lab": true, "versions": {"pytest": "9.2.0", "jsonschema": "4.26.0", "ruff": "0.17.4", "mypy": "1.20.2", "PyYAML": "6.0.3", "h11": "0.16.0", "dnspython": "2.8.0"}, "results": [{"command": ["/usr/local/bin/python", "-m", "compileall", "-q", "vrae"], "started": "2026-11-11T03:27:35.868411+00:00", "ended": "2026-11-11T03:27:36.007351+00:00", "exit_code": 0, "log": "1-compileall.log"}, {"command": ["/usr/local/bin/python", "-m", "ruff", "check", "vrae", "tests", "--select", "E4,E7,E9,F"], "started": "2026-11-11T03:27:36.007390+00:00", "ended": "2026-11-11T03:27:36.101964+00:00", "exit_code": 0, "log": "2-ruff.log"}, {"command": ["/usr/local/bin/python", "-m", "mypy", "vrae"], "started": "2026-11-11T03:27:36.102006+00:00", "ended": "2026-11-11T03:27:37.794294+00:00", "exit_code": 0, "log": "3-mypy.log"}, {"command": ["/usr/local/bin/python", "-m", "pytest", "-q", "-s", "-p", "no:cacheprovider"], "started": "2026-11-11T03:27:37.794334+00:00", "ended": "2026-11-11T03:27:41.462546+00:00", "exit_code": 0, "log": "4-pytest.log"}, {"command": ["/usr/local/bin/python", "-m", "pip", "check"], "started": "2026-11-11T03:27:41.462612+00:00", "ended": "2026-11-11T03:27:42.548328+00:00", "exit_code": 0, "log": "5-pip.log"}]}
+isolated-http	Post Run actions/checkout@v4	﻿2026-11-11T03:27:43.6467443Z Post job cleanup.
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.7306459Z [command]/usr/bin/git version
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.7375369Z git version 2.56.0
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.7438947Z Temporarily overriding HOME='/home/runner/work/_temp/9283b79c-2e78-4c8f-aa7c-23eed93ffd6e' before making global git config changes
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.7440093Z Adding repository directory to the temporary git global config as a safe directory
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.7441005Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.7546970Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.7562138Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.7986775Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.8031020Z http.https://github.com/.extraheader
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.8058166Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.8173484Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.8506612Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+isolated-http	Post Run actions/checkout@v4	2026-11-11T03:27:43.8567524Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+isolated-http	Complete job	﻿2026-11-11T03:27:43.9130855Z Cleaning up orphan processes
+isolated-http	Complete job	2026-11-11T03:27:43.9476917Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+contracts-domain (3.11)	Set up job	﻿2026-11-11T03:27:04.7818117Z Current runner version: '2.338.2'
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7852027Z ##[group]Runner Image Provisioner
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7853386Z Hosted Compute Agent
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7854158Z Version: 20261028.624
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7855077Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7856074Z Build Date: 2026-10-28T21:51:42Z
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7857038Z Worker ID: {706a72e5-1e04-406b-81d2-39815b0262c1}
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7858064Z Region: eastus2
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7858763Z Cloud: Azure
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7859507Z ##[endgroup]
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7861278Z ##[group]Operating System
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7862346Z Ubuntu
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7863144Z 26.04.1
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7863803Z LTS
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7864508Z ##[endgroup]
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7865284Z ##[group]Runner Image
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7866062Z Image: ubuntu-26.04
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7866818Z Version: 20261101.186.1
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7868149Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7870362Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7871585Z ##[endgroup]
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7873305Z ##[group]GITHUB_TOKEN Permissions
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7875969Z Contents: read
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7876835Z Metadata: read
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7877562Z ##[endgroup]
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7880101Z Secret source: Actions
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7881176Z Cache mode: write
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.7882233Z Prepare workflow directory
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.8275620Z Prepare all required actions
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.8334768Z Getting action download info
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:04.9770193Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:05.3470262Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+contracts-domain (3.11)	Set up job	2026-11-11T03:27:05.6182686Z Complete job name: contracts-domain (3.11)
+contracts-domain (3.11)	Run actions/checkout@v4	﻿2026-11-11T03:27:05.6926456Z ##[group]Run actions/checkout@v4
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6927290Z with:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6927733Z   repository: gloweaseco-leo/VRAE
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6931467Z   token: ***
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6932090Z   ssh-strict: true
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6932529Z   ssh-user: git
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6932960Z   persist-credentials: true
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6933425Z   clean: true
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6933848Z   sparse-checkout-cone-mode: true
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6934336Z   fetch-depth: 1
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6934752Z   fetch-tags: false
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6935174Z   show-progress: true
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6935600Z   lfs: false
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6936012Z   submodules: false
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6936445Z   set-safe-directory: true
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6936926Z   allow-unsafe-pr-checkout: false
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:05.6937664Z ##[endgroup]
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6637807Z Syncing repository: gloweaseco-leo/VRAE
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6639126Z ##[group]Getting Git version info
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6639474Z Working directory is '/home/runner/work/VRAE/VRAE'
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6668715Z [command]/usr/bin/git version
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6823187Z git version 2.56.0
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6853966Z ##[endgroup]
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6871154Z Temporarily overriding HOME='/home/runner/work/_temp/39ebfa24-3ecb-4696-84bd-323fdfb9e94a' before making global git config changes
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6878869Z Adding repository directory to the temporary git global config as a safe directory
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.6880303Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7233376Z Deleting the contents of '/home/runner/work/VRAE/VRAE'
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7236790Z ##[group]Initializing the repository
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7272989Z [command]/usr/bin/git init /home/runner/work/VRAE/VRAE
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7691633Z hint: Using 'master' as the name for the initial branch. This default branch name
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7693035Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7693677Z hint: to use in all of your new repositories, which will suppress this warning,
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7694631Z hint: call:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7694922Z hint:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7695322Z hint: 	git config --global init.defaultBranch <name>
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7695748Z hint:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7696170Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7696726Z hint: 'development'. The just-created branch can be renamed via this command:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7697205Z hint:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7697540Z hint: 	git branch -m <name>
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7697893Z hint:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7698321Z hint: Disable this message with "git config set advice.defaultBranchName false"
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7803128Z Initialized empty Git repository in /home/runner/work/VRAE/VRAE/.git/
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.7816620Z [command]/usr/bin/git remote add origin https://github.com/gloweaseco-leo/VRAE
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.8026081Z ##[endgroup]
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.8026895Z ##[group]Disabling automatic garbage collection
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.8027741Z [command]/usr/bin/git config --local gc.auto 0
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.8062736Z ##[endgroup]
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.8063605Z ##[group]Setting up auth
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.8097030Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.8129685Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:07.9987333Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.0029432Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.0423314Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.0450185Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.0708082Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.0747622Z ##[endgroup]
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.0748562Z ##[group]Fetching the repository
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.0757057Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +17506f981832516a01d83eceb57eae6f01aa6c4a:refs/remotes/pull/4/merge
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4459933Z From https://github.com/gloweaseco-leo/VRAE
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4479661Z  * [new ref]         17506f981832516a01d83eceb57eae6f01aa6c4a -> pull/4/merge
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4482879Z ##[endgroup]
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4483556Z ##[group]Determining the checkout info
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4492889Z ##[endgroup]
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4495881Z [command]/usr/bin/git sparse-checkout disable
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4616460Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4668491Z ##[group]Checking out the ref
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4669264Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/4/merge
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4859185Z Note: switching to 'refs/remotes/pull/4/merge'.
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4862272Z
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4880776Z You are in 'detached HEAD' state. You can look around, make experimental
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4883464Z changes and commit them, and you can discard any commits you make in this
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4883907Z state without impacting any branches by switching back to a branch.
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4884139Z
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4884309Z If you want to create a new branch to retain commits you create, you may
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4884682Z do so (now or later) by using -c with the switch command. Example:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4884890Z
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4885001Z   git switch -c <new-branch-name>
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4885158Z
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4885286Z Or undo this operation with:
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4885929Z
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4886053Z   git switch -
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4886252Z
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4886542Z Turn off this advice by setting config variable advice.detachedHead to false
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4886931Z
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4887394Z HEAD is now at 17506f9 Merge 81f48d9028b1050e6d1ed06f4c495b07550041c7 into deaa8fd9834684e784fc7d388952f01f5fa4980d
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4928019Z ##[endgroup]
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.4999004Z [command]/usr/bin/git log -1 --format=%H
+contracts-domain (3.11)	Run actions/checkout@v4	2026-11-11T03:27:08.5026757Z 17506f981832516a01d83eceb57eae6f01aa6c4a
+contracts-domain (3.11)	Run actions/setup-python@v5	﻿2026-11-11T03:27:08.5397478Z ##[group]Run actions/setup-python@v5
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.5397901Z with:
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.5398223Z   python-version: 3.11
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.5398533Z   check-latest: false
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.5402163Z   token: ***
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.5402476Z   update-environment: true
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.5402803Z   allow-prereleases: false
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.5403133Z   freethreaded: false
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.5403442Z ##[endgroup]
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.6686500Z ##[group]Installed versions
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.7432883Z (node:2080) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.7443583Z (Use `node --trace-deprecation ...` to show where the warning was created)
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.7462400Z Successfully set up CPython (3.11.18)
+contracts-domain (3.11)	Run actions/setup-python@v5	2026-11-11T03:27:08.7481446Z ##[endgroup]
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	﻿2026-11-11T03:27:08.7663758Z ##[group]Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7664384Z [36;1mpython -m pip install -e '.[dev]' -c requirements-ra1a.lock[0m
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7865420Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7865812Z env:
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7866157Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7866768Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7867334Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7867862Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7868370Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7868877Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:08.7869305Z ##[endgroup]
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.0483261Z Obtaining file:///home/runner/work/VRAE/VRAE
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:13.0494546Z   Installing build dependencies: started
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.8105052Z   Installing build dependencies: finished with status 'done'
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:14.8106113Z   Checking if build backend supports build_editable: started
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.1130779Z   Checking if build backend supports build_editable: finished with status 'done'
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.1141053Z   Getting requirements to build editable: started
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.3803360Z   Getting requirements to build editable: finished with status 'done'
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.3804514Z   Preparing editable metadata (pyproject.toml): started
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.5329455Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.7503245Z Collecting jsonschema<5,>=4.23 (from vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:15.9474417Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.0272897Z Collecting h11==0.16.0 (from vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.0919891Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.1681440Z Collecting dnspython==2.8.0 (from vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.2295665Z   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.3359818Z Collecting pytest<10,>=8 (from vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.3933637Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.4976828Z Collecting PyYAML<7,>=6 (from vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.5563073Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:16.9623199Z Collecting ruff<1,>=0.9 (from vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:17.0205048Z   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:17.4959040Z Collecting mypy<2,>=1.14 (from vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:17.5538232Z   Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:17.9125287Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:17.9983248Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.0658695Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.1281447Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.1958994Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.2616806Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.5039001Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.5610141Z   Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.6300267Z Collecting typing_extensions>=4.6.0 (from mypy<2,>=1.14->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.6892955Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.7550184Z Collecting mypy_extensions>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.8129166Z   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.8923061Z Collecting pathspec>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:18.9495660Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.1693217Z Collecting librt>=0.8.0 (from mypy<2,>=1.14->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.2263965Z   Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.2942778Z Collecting iniconfig>=2 (from pytest<10,>=8->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.3507070Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.4183300Z Collecting packaging>=24 (from pytest<10,>=8->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.4753872Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.5401379Z Collecting pluggy<2,>=1.6 (from pytest<10,>=8->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.5980470Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.6701162Z Collecting pygments>=2.15 (from pytest<10,>=8->vrae==0.1.0)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.7269099Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:19.8001696Z Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.0247964Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.0848991Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.1491909Z Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.6 MB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.7097166Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.6/14.6 MB 26.5 MB/s  0:00:00
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.7702772Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.8355088Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.8968509Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.9014033Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 193.1 MB/s  0:00:00
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:20.9589201Z Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.1295828Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 61.8 MB/s  0:00:00
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.1866516Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.2455428Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.3266676Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.3852668Z Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (515 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.4569869Z Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.5573116Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.6171659Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.6770404Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.7762554Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 10.2 MB/s  0:00:00
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.8340516Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.8935755Z Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (375 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:21.9812983Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:22.0355167Z Building wheels for collected packages: vrae
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:22.0362210Z   Building editable for vrae (pyproject.toml): started
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:22.6003191Z   Building editable for vrae (pyproject.toml): finished with status 'done'
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:22.6004664Z   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2752 sha256=056bc22872aa8a44c253ad1c37e35c373ac3391412a9908d7caf33ae57754de8
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:22.6006189Z   Stored in directory: /tmp/pip-ephem-wheel-cache-9i2garvp/wheels/8d/f8/ad/4281012b20b5cd4b7fe75eee0e2db2fd275b2e89e386a21875
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:22.6015861Z Successfully built vrae
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:22.6330705Z Installing collected packages: typing_extensions, ruff, rpds-py, PyYAML, pygments, pluggy, pathspec, packaging, mypy_extensions, librt, iniconfig, h11, dnspython, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema, vrae
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:25.2405546Z
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:25.2417761Z Successfully installed PyYAML-6.0.3 attrs-26.1.0 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 packaging-26.3 pathspec-1.1.1 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 typing_extensions-4.16.0 vrae-0.1.0
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:25.2425216Z
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:25.2425660Z [notice] A new release of pip is available: 26.2.2 -> 26.3
+contracts-domain (3.11)	Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock	2026-11-11T03:27:25.2426325Z [notice] To update, run: pip install --upgrade pip
+contracts-domain (3.11)	Run python -m compileall -q vrae	﻿2026-11-11T03:27:25.3493879Z ##[group]Run python -m compileall -q vrae
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3494209Z [36;1mpython -m compileall -q vrae[0m
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3539395Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3539627Z env:
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3539865Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3540222Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3540566Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3540874Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3541199Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3541528Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+contracts-domain (3.11)	Run python -m compileall -q vrae	2026-11-11T03:27:25.3541947Z ##[endgroup]
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	﻿2026-11-11T03:27:25.4098598Z ##[group]Run ruff check vrae tests --select E4,E7,E9,F
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4098952Z [36;1mruff check vrae tests --select E4,E7,E9,F[0m
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4144075Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4144301Z env:
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4144536Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4144898Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4145245Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4145552Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4145856Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4146164Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4146612Z ##[endgroup]
+contracts-domain (3.11)	Run ruff check vrae tests --select E4,E7,E9,F	2026-11-11T03:27:25.4311553Z All checks passed!
+contracts-domain (3.11)	Run mypy vrae	﻿2026-11-11T03:27:25.4341724Z ##[group]Run mypy vrae
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4342280Z [36;1mmypy vrae[0m
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4385859Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4386088Z env:
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4386345Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4386711Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4387068Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4387372Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4387670Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4387974Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:25.4388503Z ##[endgroup]
+contracts-domain (3.11)	Run mypy vrae	2026-11-11T03:27:27.1697495Z Success: no issues found in 25 source files
+contracts-domain (3.11)	Run python -m pytest -q	﻿2026-11-11T03:27:27.1813880Z ##[group]Run python -m pytest -q
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1814346Z [36;1mpython -m pytest -q[0m
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1871318Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1871555Z env:
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1872089Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1872525Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1872873Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1873183Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1873497Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1873803Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:27.1874064Z ##[endgroup]
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:28.7883437Z ........ssssssssssssssssssssssss........................................ [ 18%]
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.0056094Z ........................................................................ [ 36%]
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.0543475Z ........................................................................ [ 54%]
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.0826437Z ........................................................................ [ 73%]
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1143833Z ........................................................................ [ 91%]
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1613142Z .................................                                        [100%]
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1639626Z =========================== short test summary info ============================
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1640614Z SKIPPED [1] tests/collection/test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1642079Z SKIPPED [5] tests/collection/test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1643223Z SKIPPED [2] tests/collection/test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1644421Z SKIPPED [5] tests/collection/test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1645575Z SKIPPED [1] tests/collection/test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1646689Z SKIPPED [5] tests/collection/test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1648333Z SKIPPED [3] tests/collection/test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1649463Z SKIPPED [1] tests/collection/test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1650569Z SKIPPED [1] tests/collection/test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+contracts-domain (3.11)	Run python -m pytest -q	2026-11-11T03:27:29.1651370Z 369 passed, 24 skipped in 1.48s
+contracts-domain (3.11)	Run python -m pip check	﻿2026-11-11T03:27:29.2012860Z ##[group]Run python -m pip check
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2013154Z [36;1mpython -m pip check[0m
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2058359Z shell: /usr/bin/bash -e {0}
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2058753Z env:
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2058989Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2059350Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2059694Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2060001Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2060310Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2060616Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.2060878Z ##[endgroup]
+contracts-domain (3.11)	Run python -m pip check	2026-11-11T03:27:29.3903488Z No broken requirements found.
+contracts-domain (3.11)	Post Run actions/setup-python@v5	﻿2026-11-11T03:27:29.4226565Z Post job cleanup.
+contracts-domain (3.11)	Post Run actions/setup-python@v5	2026-11-11T03:27:29.5277861Z (node:2161) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+contracts-domain (3.11)	Post Run actions/setup-python@v5	2026-11-11T03:27:29.5279055Z (Use `node --trace-deprecation ...` to show where the warning was created)
+contracts-domain (3.11)	Post Run actions/checkout@v4	﻿2026-11-11T03:27:29.5513895Z Post job cleanup.
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.6392576Z [command]/usr/bin/git version
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.6452838Z git version 2.56.0
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.6459304Z Temporarily overriding HOME='/home/runner/work/_temp/cb017292-538e-4b5d-9115-30631d66174e' before making global git config changes
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.6461004Z Adding repository directory to the temporary git global config as a safe directory
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.6464575Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.6555982Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.6663971Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.7094415Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.7109538Z http.https://github.com/.extraheader
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.7133680Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.7151359Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.7468137Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+contracts-domain (3.11)	Post Run actions/checkout@v4	2026-11-11T03:27:29.7502856Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+contracts-domain (3.11)	Complete job	﻿2026-11-11T03:27:29.7874612Z Cleaning up orphan processes
+contracts-domain (3.11)	Complete job	2026-11-11T03:27:29.8167353Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

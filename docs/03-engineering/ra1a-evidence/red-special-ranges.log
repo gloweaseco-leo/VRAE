@@ -1,0 +1,56 @@
+....................FFF.......................                           [100%]
+================================== FAILURES ===================================
+____________ test_nonpublic_or_transition_ip_is_refused[192.0.0.9] ____________
+
+ip = '192.0.0.9'
+
+    @pytest.mark.parametrize("ip", [
+        "127.0.0.1", "10.0.0.1", "172.16.0.1", "192.168.0.1", "169.254.169.254",
+        "0.0.0.0", "100.64.0.1", "224.0.0.1", "240.0.0.1", "192.0.2.1",
+        "::", "::1", "fe80::1", "fc00::1", "ff02::1", "2001:db8::1",
+        "::ffff:8.8.8.8", "fe80::1%eth0", "64:ff9b::808:808", "2002:0808:0808::1",
+        "192.0.0.9", "192.88.99.1", "2001:30::1",
+    ])
+    def test_nonpublic_or_transition_ip_is_refused(ip):
+>       with pytest.raises(CollectionError):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_security.py:37: Failed
+___________ test_nonpublic_or_transition_ip_is_refused[192.88.99.1] ___________
+
+ip = '192.88.99.1'
+
+    @pytest.mark.parametrize("ip", [
+        "127.0.0.1", "10.0.0.1", "172.16.0.1", "192.168.0.1", "169.254.169.254",
+        "0.0.0.0", "100.64.0.1", "224.0.0.1", "240.0.0.1", "192.0.2.1",
+        "::", "::1", "fe80::1", "fc00::1", "ff02::1", "2001:db8::1",
+        "::ffff:8.8.8.8", "fe80::1%eth0", "64:ff9b::808:808", "2002:0808:0808::1",
+        "192.0.0.9", "192.88.99.1", "2001:30::1",
+    ])
+    def test_nonpublic_or_transition_ip_is_refused(ip):
+>       with pytest.raises(CollectionError):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_security.py:37: Failed
+___________ test_nonpublic_or_transition_ip_is_refused[2001:30::1] ____________
+
+ip = '2001:30::1'
+
+    @pytest.mark.parametrize("ip", [
+        "127.0.0.1", "10.0.0.1", "172.16.0.1", "192.168.0.1", "169.254.169.254",
+        "0.0.0.0", "100.64.0.1", "224.0.0.1", "240.0.0.1", "192.0.2.1",
+        "::", "::1", "fe80::1", "fc00::1", "ff02::1", "2001:db8::1",
+        "::ffff:8.8.8.8", "fe80::1%eth0", "64:ff9b::808:808", "2002:0808:0808::1",
+        "192.0.0.9", "192.88.99.1", "2001:30::1",
+    ])
+    def test_nonpublic_or_transition_ip_is_refused(ip):
+>       with pytest.raises(CollectionError):
+E       Failed: DID NOT RAISE CollectionError
+
+tests\collection\test_security.py:37: Failed
+=========================== short test summary info ===========================
+FAILED tests/collection/test_security.py::test_nonpublic_or_transition_ip_is_refused[192.0.0.9]
+FAILED tests/collection/test_security.py::test_nonpublic_or_transition_ip_is_refused[192.88.99.1]
+FAILED tests/collection/test_security.py::test_nonpublic_or_transition_ip_is_refused[2001:30::1]
+3 failed, 43 passed in 1.47s
+EXIT_CODE=1

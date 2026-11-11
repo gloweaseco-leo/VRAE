@@ -386,7 +386,11 @@ def test_no_network_or_unauthorized_framework_code() -> None:
               "import playwright", "urllib.request", "subprocess.", "supabase")
     for source in domain_path.rglob("*.py"):
         data = source.read_text()
-        assert all(word not in data for word in banned), source
+        # RA-1A explicitly authorizes pinned sockets in this one infrastructure file.
+        # Keep every other original ban across the whole tree, including pure domain.
+        permitted_socket = source == domain_path / "collection" / "http_transport.py"
+        assert all(word not in data for word in banned
+                   if not (word == "import socket" and permitted_socket)), source
 
 @pytest.mark.parametrize(
     "case",
