@@ -1,0 +1,50 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________ test_invalid_http_status_is_structured_refusal ________________
+
+    def test_invalid_http_status_is_structured_refusal():
+        async def run():
+            transport = SyntheticTransport({"https://example.org/": (999, {}, b"")})
+            with pytest.raises(CollectionError, match="HTTP_PROTOCOL_ERROR"):
+                await SafeFetcher(FixedDNS(), transport).fetch("https://example.org/", "GET", Budget(Limits(), access()))
+>       asyncio.run(run())
+
+tests\collection\test_pipeline.py:218:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:190: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests\collection\test_pipeline.py:217: in run
+    await SafeFetcher(FixedDNS(), transport).fetch("https://example.org/", "GET", Budget(Limits(), access()))
+vrae\collection\fetcher.py:55: in fetch
+    validate_document("FetchResponse", response.document())
+vrae\collection\contracts.py:16: in validate_document
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(payload)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Draft202012Validator(schema={'$id': 'https://vrae...e.schema.json', '$schema': 'https://json...020-12/schema', 'additi... ...}, format_checker=<FormatChecker checkers=['date', 'email', 'idn-email', 'ipv4', 'ipv6', 'regex', 'time', 'uuid']>)
+args = ({'schema_version': '1.0', 'url': 'https://example.org/', 'status': 999, 'peer_ip': '93.184.216.20', ...},)
+kwargs = {}
+
+    def validate(self, *args, **kwargs):
+        for error in self.iter_errors(*args, **kwargs):
+>           raise error
+E           jsonschema.exceptions.ValidationError: 999 is greater than the maximum of 599
+E
+E           Failed validating 'maximum' in schema['properties']['status']:
+E               {'type': 'integer', 'minimum': 100, 'maximum': 599}
+E
+E           On instance['status']:
+E               999
+
+.venv\ra1a311\Lib\site-packages\jsonschema\validators.py:450: ValidationError
+=========================== short test summary info ===========================
+FAILED tests/collection/test_pipeline.py::test_invalid_http_status_is_structured_refusal
+1 failed, 33 deselected in 1.71s
+EXIT_CODE=1

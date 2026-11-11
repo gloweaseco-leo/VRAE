@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/collection/PageInventory.schema.json",
+  "title": "PageInventory",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://",
+            "maxLength": 2048
+          },
+          "role": {
+            "enum": [
+              "HOME",
+              "CATALOG",
+              "CATEGORY",
+              "PRODUCT",
+              "APPLICATION",
+              "ABOUT",
+              "CONTACT",
+              "OTHER"
+            ]
+          },
+          "discovered_from": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "url",
+          "role",
+          "discovered_from"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 256
+    },
+    "truncated": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "items",
+    "truncated"
+  ],
+  "additionalProperties": false
+}

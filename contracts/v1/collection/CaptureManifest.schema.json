@@ -1,0 +1,711 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/collection/CaptureManifest.schema.json",
+  "title": "CaptureManifest",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{2,63}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "audit_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "policy_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "policy_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "terms_reference": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+    },
+    "collector_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rules_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "snapshot": {
+            "title": "PageSnapshot",
+            "type": "object",
+            "properties": {
+              "schema_version": {
+                "const": "1.0"
+              },
+              "tenant_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]{2,63}$"
+              },
+              "snapshot_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+              },
+              "run_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+              },
+              "policy_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+              },
+              "policy_version": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https?://",
+                "maxLength": 2048
+              },
+              "final_url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https?://",
+                    "maxLength": 2048
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "captured_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "capture_mode": {
+                "type": "string",
+                "enum": [
+                  "HTTP",
+                  "BROWSER",
+                  "SYNTHETIC"
+                ]
+              },
+              "sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "private_object_ref": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "FETCHED",
+                  "ACCESS_BLOCKED",
+                  "UNKNOWN"
+                ]
+              }
+            },
+            "required": [
+              "schema_version",
+              "tenant_id",
+              "snapshot_id",
+              "run_id",
+              "policy_id",
+              "policy_version",
+              "url",
+              "final_url",
+              "captured_at",
+              "capture_mode",
+              "sha256",
+              "private_object_ref",
+              "status"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "const": "FETCHED"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "final_url": {
+                      "type": "string",
+                      "format": "uri",
+                      "pattern": "^https?://"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "title": "Evidence",
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "const": "1.0"
+                  },
+                  "tenant_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]{2,63}$"
+                  },
+                  "evidence_id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+                  },
+                  "run_id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+                  },
+                  "snapshot_id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+                  },
+                  "locator": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "excerpt": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "certainty": {
+                    "type": "string",
+                    "enum": [
+                      "OBSERVED",
+                      "UNKNOWN"
+                    ]
+                  },
+                  "checksum": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "observed_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "tenant_id",
+                  "evidence_id",
+                  "run_id",
+                  "snapshot_id",
+                  "locator",
+                  "excerpt",
+                  "certainty",
+                  "checksum",
+                  "observed_at"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "certainty": {
+                          "const": "OBSERVED"
+                        }
+                      },
+                      "required": [
+                        "certainty"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "checksum": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "role": {
+            "enum": [
+              "HOME",
+              "CATALOG",
+              "CATEGORY",
+              "PRODUCT",
+              "APPLICATION",
+              "ABOUT",
+              "CONTACT",
+              "OTHER"
+            ]
+          },
+          "http_status": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 599
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "redirect_trace": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https?://",
+                  "maxLength": 2048
+                },
+                "status": {
+                  "type": "integer",
+                  "minimum": 100,
+                  "maximum": 599
+                },
+                "peer_ip": {
+                  "type": "string",
+                  "maxLength": 64
+                },
+                "location": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri",
+                      "pattern": "^https?://",
+                      "maxLength": 2048
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "url",
+                "status",
+                "peer_ip",
+                "location"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 6
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1500000
+          },
+          "raw_retained": {
+            "type": "boolean"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "const": "1.0"
+                  },
+                  "code": {
+                    "enum": [
+                      "ACCESS_BLOCKED",
+                      "CANCELLED",
+                      "CONTENT_ENCODING_INVALID",
+                      "CONTENT_TYPE_INVALID",
+                      "DNS_FAILED",
+                      "EVIDENCE_INSUFFICIENT",
+                      "EVIDENCE_INTEGRITY",
+                      "FORBIDDEN_TENANT",
+                      "HOST_BUSY",
+                      "HTTP_ERROR",
+                      "HTTP_PROTOCOL_ERROR",
+                      "INPUT_INVALID",
+                      "INVALID_URL",
+                      "LIMIT_EXCEEDED",
+                      "METHOD_NOT_ALLOWED",
+                      "NETWORK_ERROR",
+                      "POLICY_EXPIRED",
+                      "POLICY_REQUIRED",
+                      "POLICY_REVOKED",
+                      "REDIRECT_BLOCKED",
+                      "REDIRECT_LIMIT",
+                      "ROBOTS_DISALLOWED",
+                      "ROBOTS_UNKNOWN",
+                      "SOURCE_NOT_ALLOWED",
+                      "SSRF_BLOCKED",
+                      "TIMEOUT",
+                      "TLS_FAILED"
+                    ]
+                  },
+                  "safe_message": {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  "retryable": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "code",
+                  "safe_message",
+                  "retryable"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "snapshot",
+          "evidence",
+          "role",
+          "http_status",
+          "redirect_trace",
+          "bytes",
+          "raw_retained",
+          "error"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 8
+    },
+    "inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://",
+            "maxLength": 2048
+          },
+          "role": {
+            "enum": [
+              "HOME",
+              "CATALOG",
+              "CATEGORY",
+              "PRODUCT",
+              "APPLICATION",
+              "ABOUT",
+              "CONTACT",
+              "OTHER"
+            ]
+          },
+          "discovered_from": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "url",
+          "role",
+          "discovered_from"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 256
+    },
+    "robots": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://",
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 599
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "trace": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https?://",
+                "maxLength": 2048
+              },
+              "status": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 599
+              },
+              "peer_ip": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "location": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https?://",
+                    "maxLength": 2048
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "url",
+              "status",
+              "peer_ip",
+              "location"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 6
+        }
+      },
+      "required": [
+        "url",
+        "status",
+        "sha256",
+        "trace"
+      ],
+      "additionalProperties": false
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "const": "1.0"
+          },
+          "code": {
+            "enum": [
+              "ACCESS_BLOCKED",
+              "CANCELLED",
+              "CONTENT_ENCODING_INVALID",
+              "CONTENT_TYPE_INVALID",
+              "DNS_FAILED",
+              "EVIDENCE_INSUFFICIENT",
+              "EVIDENCE_INTEGRITY",
+              "FORBIDDEN_TENANT",
+              "HOST_BUSY",
+              "HTTP_ERROR",
+              "HTTP_PROTOCOL_ERROR",
+              "INPUT_INVALID",
+              "INVALID_URL",
+              "LIMIT_EXCEEDED",
+              "METHOD_NOT_ALLOWED",
+              "NETWORK_ERROR",
+              "POLICY_EXPIRED",
+              "POLICY_REQUIRED",
+              "POLICY_REVOKED",
+              "REDIRECT_BLOCKED",
+              "REDIRECT_LIMIT",
+              "ROBOTS_DISALLOWED",
+              "ROBOTS_UNKNOWN",
+              "SOURCE_NOT_ALLOWED",
+              "SSRF_BLOCKED",
+              "TIMEOUT",
+              "TLS_FAILED"
+            ]
+          },
+          "safe_message": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "retryable": {
+            "const": false
+          }
+        },
+        "required": [
+          "schema_version",
+          "code",
+          "safe_message",
+          "retryable"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 8
+    },
+    "requests": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 64
+    },
+    "received_body_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12073728
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "observed_roles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "HOME",
+              "CATALOG",
+              "CATEGORY",
+              "PRODUCT",
+              "APPLICATION",
+              "ABOUT",
+              "CONTACT",
+              "OTHER"
+            ]
+          },
+          "maxItems": 8
+        },
+        "unverified_roles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "HOME",
+              "CATALOG",
+              "CATEGORY",
+              "PRODUCT",
+              "APPLICATION",
+              "ABOUT",
+              "CONTACT",
+              "OTHER"
+            ]
+          },
+          "maxItems": 8
+        },
+        "inventory_truncated": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "observed_roles",
+        "unverified_roles",
+        "inventory_truncated",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "tenant_id",
+    "run_id",
+    "audit_id",
+    "policy_id",
+    "policy_version",
+    "terms_reference",
+    "collector_version",
+    "rules_version",
+    "pages",
+    "inventory",
+    "robots",
+    "errors",
+    "requests",
+    "received_body_bytes",
+    "coverage",
+    "manifest_sha256"
+  ],
+  "additionalProperties": false
+}

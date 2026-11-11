@@ -1,0 +1,31 @@
+........ssssssssssssssssss.............................................. [ 19%]
+........................................................................ [ 39%]
+........................................................................ [ 59%]
+............................................................F........... [ 78%]
+........................................................................ [ 98%]
+.....                                                                    [100%]
+================================== FAILURES ===================================
+_______________ test_no_network_or_unauthorized_framework_code ________________
+
+    def test_no_network_or_unauthorized_framework_code() -> None:
+        domain_path = Path(__file__).parents[1] / "vrae"
+        banned = ("import requests", "import httpx", "import socket",
+                  "import playwright", "urllib.request", "subprocess.", "supabase")
+        for source in domain_path.rglob("*.py"):
+            data = source.read_text()
+>           assert all(word not in data for word in banned), source
+E           AssertionError: WindowsPath('D:/Projects/VRAE/vrae/collection/http_transport.py')
+E           assert False
+E            +  where False = all(<generator object test_no_network_or_unauthorized_framework_code.<locals>.<genexpr> at 0x000001FBD633B680>)
+
+tests\test_domain.py:389: AssertionError
+=========================== short test summary info ===========================
+SKIPPED [1] tests\collection\test_isolated.py:117: Requires disposable --network none firewall lab; never run on host
+SKIPPED [4] tests\collection\test_isolated.py:136: Requires disposable --network none firewall lab; never run on host
+SKIPPED [2] tests\collection\test_isolated.py:148: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:159: Requires disposable --network none firewall lab; never run on host
+SKIPPED [1] tests\collection\test_isolated.py:174: Requires disposable --network none firewall lab; never run on host
+SKIPPED [5] tests\collection\test_isolated.py:189: Requires disposable --network none firewall lab; never run on host
+FAILED tests/test_domain.py::test_no_network_or_unauthorized_framework_code
+1 failed, 346 passed, 18 skipped in 2.74s
+EXIT_CODE=1

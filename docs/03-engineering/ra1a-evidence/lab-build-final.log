@@ -1,0 +1,128 @@
+docker : #0 building with "desktop-linux" instance using docker driver
+所在位置 行:2 字符: 1
++ docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:local . > docs ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (#0 building wit...g docker driver:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.04kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d08
+9c903ca5fd283f501e3a805f5f89
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 134B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [ 1/13] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f50
+1e3a805f5f89
+#5 resolve docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a8
+05f5f89 0.0s done
+#5 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 47.64kB 0.0s done
+#4 DONE 0.1s
+
+#6 [ 4/13] COPY requirements-ra1a.lock ./
+#6 CACHED
+
+#7 [ 3/13] WORKDIR /work
+#7 CACHED
+
+#8 [ 5/13] RUN python -m pip install --no-cache-dir -r requirements-ra1a.lock
+#8 CACHED
+
+#9 [ 2/13] RUN apt-get update && apt-get install -y --no-install-recommends iproute2 iptables openssl util-linux     &&
+ rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [ 6/13] COPY pyproject.toml ./
+#10 CACHED
+
+#11 [ 7/13] COPY vrae ./vrae
+#11 DONE 0.1s
+
+#12 [ 8/13] COPY contracts ./contracts
+#12 DONE 0.1s
+
+#13 [ 9/13] COPY industry-packs ./industry-packs
+#13 DONE 0.1s
+
+#14 [10/13] COPY tests ./tests
+#14 DONE 0.1s
+
+#15 [11/13] RUN python -m pip install --no-deps --no-build-isolation -e '.[dev]'     && mkdir /lab     && openssl req -
+x509 -newkey rsa:2048 -nodes -days 2        -keyout /lab/key.pem -out /lab/cert.pem -subj '/CN=factory.test'        -ad
+dext 'subjectAltName=DNS:factory.test'     && chmod 644 /lab/key.pem /lab/cert.pem
+#15 0.917 Obtaining file:///work
+#15 0.924   Checking if build backend supports build_editable: started
+#15 1.667   Checking if build backend supports build_editable: finished with status 'done'
+#15 1.669   Preparing editable metadata (pyproject.toml): started
+#15 2.515   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#15 2.546 Checking if build backend supports build_editable: started
+#15 2.805 Checking if build backend supports build_editable: finished with status 'done'
+#15 2.806 Building wheels for collected packages: vrae
+#15 2.809   Building editable for vrae (pyproject.toml): started
+#15 3.129   Building editable for vrae (pyproject.toml): finished with status 'done'
+#15 3.130   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2739 sha256=eb0cf5e089c0a2357e
+414ec5f97324b5adaa3e5f1c0bee8b4d5b78fd08b2bf0b
+#15 3.130   Stored in directory: /tmp/pip-ephem-wheel-cache-e8xyqsro/wheels/ab/b8/c0/a9ba31bee702e5eb1c32d648f0503425e0
+3b81d5dafe8f0dd3
+#15 3.133 Successfully built vrae
+#15 3.134 Installing collected packages: vrae
+#15 3.158 Successfully installed vrae-0.1.0
+#15 3.158 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the s
+ystem package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#15 4.143
+#15 4.143 [notice] A new release of pip is available: 24.0 -> 26.3
+#15 4.143 [notice] To update, run: pip install --upgrade pip
+#15 4.231 ...+...+...+..+............+.+..+.+...........+....++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++*.....+.....+..........+.................+.+..............++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++*.+..........+............+.....+.+.....+............+...............+......+.+...+.....+...+...++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#15 4.338 ..+...+...+.....+......+......+...+....+...+..+..........+..+.+............+..+...+...+....+.....+...+.+.....
+.+........+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*......+..............+.+..+....+...+...
+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+..................+.........+...........+.....
+..+...+.....+.........+.......+.....+.+..+...+....+......+..+...+...+....+...........+....+..+....+.........+.....+....
+..+.+......+..+.+..+...+.........+.+............+........+......+.+..+...+...+..........+.........+.................+..
+.+.+..+..........+.....+....+...+..+....+.....+..........+..+...+.+...+..+......+.............+..+.......+..+...+...+..
+...........+.................+..................+.+.....+.+.........+........+.......+...+........+.........+......+...
+.+...+..+....+..+....+..............+.........+.+.....+.+.....+....+..+..................+.+...+...+............+.....+
+..........+..+......+...+.......+...+...........+...+......+.+...........+...+.........+...+....+...........+...+....+.
+...........+........+.+..+.......+...+.....+....+...+...+.................+............+......+.............+.........+
+......+......+.....+...+......+.+...+.....+......+...............+.......+..+.+...........+.+..+......+....+..+........
+.......+....+..+.......+...........+.+.........+......+.....+................+..+...+....+.....+...+..........+...+...+
+.....+....+...+.........+........+...+...............+....+.........+......+.....+.+..+...+.........+.+..+.......+.....
+....+.....+.......+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#15 5.363 -----
+#15 DONE 5.4s
+
+#16 [12/13] COPY infra/ra1a/entrypoint.sh /lab/entrypoint.sh
+#16 DONE 0.1s
+
+#17 [13/13] RUN sed -i 's/\r$//' /lab/entrypoint.sh && chmod 755 /lab/entrypoint.sh
+#17 DONE 0.3s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 0.5s done
+#18 exporting manifest sha256:f675b81fb631c30e2585ef80c875f8b09b2c70832d77c2b19a9cc50ac7d9a31c 0.0s done
+#18 exporting config sha256:0fa9b077e733dd8876f2b1dac57c6ff8f200585616a2f7758f8c22017da2fc38 0.0s done
+#18 exporting attestation manifest sha256:6eb2fff4a5f68a3560d0ce16656bd23e6f5084976563ed8f5b245199cfd80478 0.0s done
+#18 exporting manifest list sha256:3b20d97060d8803881a89ce6c2e996d591d412d37aeb3c02f77dc34eb94492e6 0.0s done
+#18 naming to docker.io/library/vrae-ra1a-lab:local
+#18 naming to docker.io/library/vrae-ra1a-lab:local done
+#18 unpacking to docker.io/library/vrae-ra1a-lab:local
+#18 unpacking to docker.io/library/vrae-ra1a-lab:local 0.4s done
+#18 DONE 1.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/9zhb32liyujt98frmxt85ecg1
+EXIT_CODE=0

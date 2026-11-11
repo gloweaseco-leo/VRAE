@@ -1,7 +1,7 @@
 # VRAE — VEYFRONT Rebuild Audit Engine
 
 独立、证据驱动的 B2B 网站采购商体验诊断引擎。首个商业消费者为 VEYFRONT。
-**当前分支仅为 RA-0 工程基础，未上线、未真实抓取、未调用大模型、未部署 API/DB/Worker。**
+**当前分支包含 RA-0 基础与 RA-1A 安全 HTTP 采集合成验收；未上线、未访问真实企业网站、未调用大模型、未部署 API/DB/Worker。**
 
 ## Developer quickstart — offline synthetic only
 
@@ -44,3 +44,10 @@ ADR-0001/0002 prevail over historical V1.0 archive; no shared database with VEYF
 VEYFRONT: customer intake, inquiry, quote and sale. VRAE: audit evidence, rules,
 human review and report grants. L2M: separate website rebuild upon approval.
 Vey2GE: future versioned events only, never shared DB or implicit E3.
+
+## RA-1A isolated HTTP collection
+
+See [implementation and acceptance](docs/03-engineering/RA1A_IMPLEMENTATION_AND_ACCEPTANCE.md)
+for the real socket/DNS/TLS/firewall lab and full regression evidence.
+Install with `python -m pip install -e '.[dev]' -c requirements-ra1a.lock`.
+Production network isolation remains a separate deployment gate.
