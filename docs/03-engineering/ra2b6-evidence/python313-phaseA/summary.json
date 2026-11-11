@@ -1,0 +1,173 @@
+{
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "root": "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b6",
+  "head_at_run": "9babc72703e8b3a6b4fd5ecaf2c8bb8ab6990ffe",
+  "phase": "PREP_ONLY",
+  "trust01_enabled": false,
+  "development_base": "a55b362cad7147b2c8da31a7842f6d4f36eba5fa",
+  "checks": [
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-c",
+        "import vrae.rules.trust01 as t; print(t.__file__)"
+      ],
+      "exit_code": 0,
+      "log": "1.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "log": "2.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "exit_code": 0,
+      "log": "3.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "log": "4.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/rules/test_trust01.py"
+      ],
+      "exit_code": 0,
+      "log": "5.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "log": "6.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": "7.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2a.py"
+      ],
+      "exit_code": 0,
+      "log": "8.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2b0.py"
+      ],
+      "exit_code": 0,
+      "log": "9.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2b1.py"
+      ],
+      "exit_code": 0,
+      "log": "10.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2b2.py"
+      ],
+      "exit_code": 0,
+      "log": "11.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2b3.py"
+      ],
+      "exit_code": 0,
+      "log": "12.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2b5.py"
+      ],
+      "exit_code": 0,
+      "log": "13.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2b6.py"
+      ],
+      "exit_code": 0,
+      "log": "14.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2c0.py"
+      ],
+      "exit_code": 0,
+      "log": "15.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2c1.py"
+      ],
+      "exit_code": 0,
+      "log": "16.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2d0.py"
+      ],
+      "exit_code": 0,
+      "log": "17.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "scripts/verify_ra2d1.py"
+      ],
+      "exit_code": 0,
+      "log": "18.log"
+    }
+  ]
+}
