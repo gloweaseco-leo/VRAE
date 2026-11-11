@@ -1,0 +1,36 @@
+..........................................F.                             [100%]
+================================== FAILURES ===================================
+____ test_package_is_immutable_and_detached_and_requires_all_trusted_pins _____
+
+    def test_package_is_immutable_and_detached_and_requires_all_trusted_pins():
+        pack, execution = diagnostic_input()
+        package = build(pack, execution)
+        original = package.document
+        package.document['items'].clear()
+        execution['executions'].clear()
+        assert package.document == original
+        with pytest.raises((FrozenInstanceError, AttributeError)):
+            package._payload = b'changed'
+        with pytest.raises(FindingError):
+            FindingPackage(bytearray(b'{}'))
+        with pytest.raises(FindingError):
+>           load(original['items'][0]['finding'], pack, original['rule_execution'])
+
+tests\findings\test_builder.py:220: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+document = {'buyer_task': 'UNDERSTAND', 'evidence_ids': [], 'finding_id': 'finding-046c5c1d19f41774b3bbc99a02fb6607f0cadde82d1b088f29f294ebe078e941', 'kind': 'UNKNOWN', ...}
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...058b0bc4340cab986e9e3bed4619235dcbfcbb855f938c700c9faebe', b'<html><a href="/products/valve-v1">Valve V1</a></html>')))
+execution = {'catalog_sha256': '24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1', 'catalog_version': '1.0.0', 'co..., 'reason': 'BOUNDED_CAPTURE_ONLY', 'role': None, 'scope': 'PAGE', ...}, ...], 'evaluator_version': 'ra2b1-1.0.0', ...}
+
+    def load(document, pack, execution):
+        return FindingPackage.load(document, pack, expected_pack_ref=pack.ref,
+            expected_execution_ref=execution['execution_ref'], expected_evaluator_version='ra2b1-1.0.0',
+>           expected_package_ref=document['package_ref'])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'package_ref'
+
+tests\findings\test_builder.py:72: KeyError
+=========================== short test summary info ===========================
+FAILED tests/findings/test_builder.py::test_package_is_immutable_and_detached_and_requires_all_trusted_pins
+1 failed, 43 passed in 22.68s
