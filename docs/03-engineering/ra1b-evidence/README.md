@@ -16,3 +16,8 @@ Worker SIGKILL deliberately returns137; it is not counted as a successful pytest
 Early revocation-labelled experiments used cancellation or an insufficient trigger window;
 only the final suite's actual POLICY_REVOKED plus action-trigger assertions establish revocation.
 No remote company data or production secrets are present; sites/certificates are synthetic.
+
+Hosted CI: run42966852022 at implementation474ef34, merge ref32f6b7e.
+`ci-first.json` records actual jobs/steps; `hosted-311.log`, `hosted-313.log`,
+`hosted-http.log`, `hosted-browser.log` are full logs retrieved from GitHub.
+All four jobs succeeded. Hosted files supplement the historical local archive index.

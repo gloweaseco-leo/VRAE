@@ -7,8 +7,10 @@
 
 ## 状态
 
-本地完整回归已通过；托管 CI 待 PR 首次运行核验，不提前宣称 CI PASS。实现分支
-`feat/ra1b-browser-worker-isolation`，只提交独立 Draft PR，不合并或部署。
+结论：**PASS（RA-1B 合成隔离工程范围，待 Owner / 首席架构师最终验收）**。
+本地及托管 CI 已通过，详见[恢复核验与最终审计](RA1B_FINAL_AUDIT.md)。
+实现分支 `feat/ra1b-browser-worker-isolation`，
+[Draft PR #6](https://github.com/gloweaseco-leo/VRAE/pull/6) 保持 Draft，不合并或部署。
 
 | 包 | 交付 |
 |---|---|
@@ -131,7 +133,7 @@ python scripts/verify_ra1b.py /tmp/browser-gates
 
 正常 Python 回归分别报告；浏览器测试在宿主跳过，不能算通过。
 保留原 `isolated-http` CI，新增 `isolated-browser` CI。任一 Runner 不支持本门禁即失败，
-没有保护关闭或 skip-on-failure fallback。最终结果、代码 SHA 与 run/job 在验收后补充。
+没有保护关闭或 skip-on-failure fallback。代码 SHA、run/job 与实际结果见最终审计。
 
 ## 依赖、审计与剩余门禁
 
