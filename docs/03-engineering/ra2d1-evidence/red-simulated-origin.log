@@ -1,0 +1,22 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_relabelled_simulated_rows_never_count_even_under_a_simulated_positive_verifier _
+
+packet = {'version': 'ra2d1-1.0.0', 'manifest_ref': 'cdea4fd2db9abcdce16e31632c9f6c96ff27fe32eb7a37ffc8711b432655a8fa', 'benchmark_report_ref': 'bench-20f34b51f69666edd89d26fcb54a569375edbba73f49b0a2cd9968a4064ccca4', 'private': True, ...}
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026BC6ABC090>
+
+    def test_relabelled_simulated_rows_never_count_even_under_a_simulated_positive_verifier(packet, monkeypatch):
+        from . import human_gold
+        review = simulated_review(packet)
+        review['origin'] = 'EXTERNAL_HUMAN'  # Adversarial relabel; reserved DEMO identities remain.
+        fake_rows = {row['unit_ref'] for row in review['rows'] if row['status'] == 'REVIEWED'}
+        monkeypatch.setattr(human_gold, 'verified_owner_rows', lambda *args, **kwargs:
+                            (fake_rows, 'SIMULATED_VERIFIER_NOT_REAL_AUTHORITY'))
+        result = assess_reviews(packet, review)
+>       assert result['eligible_verified_rows'] == 0
+E       assert 2 == 0
+
+tests\benchmark\test_human_gold.py:237: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/benchmark/test_human_gold.py::test_relabelled_simulated_rows_never_count_even_under_a_simulated_positive_verifier
+1 failed, 34 deselected in 2.82s
