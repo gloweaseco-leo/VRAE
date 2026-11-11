@@ -1,0 +1,2226 @@
+{
+  "candidate_labels": [
+    {
+      "adjudication": null,
+      "anchor_index": 0,
+      "conflict_resolution": null,
+      "controlled_sample_sha256": "730d48a6cbbca06f817ec0cf87a4d104d4655116df1a9b42a9eb8419093ac807",
+      "expected": "PASS",
+      "owner_approval_reference": null,
+      "rationale": "302 then category HTTP200 captured.",
+      "reviewed_at": null,
+      "reviewer": null,
+      "rule_id": "DISC-01",
+      "rule_version": "1.0.0",
+      "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+      "source_observed_at": "2026-11-10T12:00:00+00:00",
+      "source_url": "https://example.org/",
+      "status": "CANDIDATE",
+      "target_url": "https://example.org/category/moved"
+    },
+    {
+      "adjudication": null,
+      "anchor_index": 0,
+      "conflict_resolution": null,
+      "controlled_sample_sha256": "730d48a6cbbca06f817ec0cf87a4d104d4655116df1a9b42a9eb8419093ac807",
+      "expected": "UNKNOWN",
+      "owner_approval_reference": null,
+      "rationale": "Original href observed; target not visited within page budget.",
+      "reviewed_at": null,
+      "reviewer": null,
+      "rule_id": "DISC-02",
+      "rule_version": "1.0.0",
+      "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+      "source_observed_at": "2026-11-10T12:00:00+00:00",
+      "source_url": "https://example.org/category/moved",
+      "status": "CANDIDATE",
+      "target_url": "https://example.org/products/valve-v1"
+    },
+    {
+      "adjudication": null,
+      "anchor_index": null,
+      "conflict_resolution": null,
+      "controlled_sample_sha256": "730d48a6cbbca06f817ec0cf87a4d104d4655116df1a9b42a9eb8419093ac807",
+      "expected": "UNKNOWN",
+      "owner_approval_reference": null,
+      "rationale": "No captured product source; mobile layout not evaluated.",
+      "reviewed_at": null,
+      "reviewer": null,
+      "rule_id": "CTA-02",
+      "rule_version": "1.0.0",
+      "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+      "source_observed_at": null,
+      "source_url": null,
+      "status": "CANDIDATE",
+      "target_url": null
+    }
+  ],
+  "controlled_sample_sha256": "730d48a6cbbca06f817ec0cf87a4d104d4655116df1a9b42a9eb8419093ac807",
+  "evidence_document": {
+    "coverage": [
+      {
+        "locator": "/coverage/unverified_roles/0",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "ABOUT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/1",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "APPLICATION",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/2",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CATALOG",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/3",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CONTACT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/4",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "OTHER",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/5",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "PRODUCT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/inventory/2",
+        "reason": "INVENTORY_ONLY",
+        "role": "PRODUCT",
+        "scope": "PAGE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "NOT_VISITED",
+        "url": "https://example.org/products/valve-v1",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/0/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "OBSERVED",
+        "url": "https://example.org/",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/1/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "OBSERVED",
+        "url": "https://example.org/category/moved",
+        "viewport": null
+      }
+    ],
+    "evidence": [
+      {
+        "blob_ref": "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8",
+        "content_sha256": "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8",
+        "content_verification": "HASH_VERIFIED",
+        "evidence_ref": "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+        "kind": "HTTP_BODY",
+        "limitations": [
+          "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+        ],
+        "locator": "/pages/1/evidence",
+        "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+        "source_evidence_id": "ev-98971f9b622829b9c4bf28e9d582265980d1502ae218c40db1762edf8674ef17",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "OBSERVED"
+      },
+      {
+        "blob_ref": "c2a8af5ac24a876d3b1742b1ca0e2b3cca91e428a4adc2173672fdb81845f4ce",
+        "content_sha256": "c2a8af5ac24a876d3b1742b1ca0e2b3cca91e428a4adc2173672fdb81845f4ce",
+        "content_verification": "HASH_VERIFIED",
+        "evidence_ref": "ev-cdbb8354571b950865e5ad69002853a2431a26257b998237e443e9b7e64d968e",
+        "kind": "HTTP_BODY",
+        "limitations": [
+          "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+        ],
+        "locator": "/pages/0/evidence",
+        "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+        "source_evidence_id": "ev-1bfa6fa813568a02bf767d02898b8d3faa24f43ae8bfc54c89ce14d52fb2b4ae",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "OBSERVED"
+      }
+    ],
+    "integrity": {
+      "checks": [
+        "SOURCE_VERIFIERS",
+        "RETAINED_BLOB_HASHES",
+        "SCOPE_AND_REFERENCES",
+        "DETERMINISTIC_PROJECTION"
+      ],
+      "limitations": [
+        "CONSISTENCY_NOT_SIGNED_PROVENANCE",
+        "NO_BUSINESS_OR_COMPLETENESS_ASSERTION",
+        "PRIVATE_URL_DOM_SCREENSHOT_MAY_CONTAIN_PII",
+        "NO_CURRENT_POLICY_AUTHORIZATION_CHECK"
+      ],
+      "status": "VERIFIED"
+    },
+    "pack_ref": "ep-e0c44582f7c4de093200624f6a1c0231faa0870d0a50bad9d6389d825152fa13",
+    "policy_id": "pol-001",
+    "policy_version": 1,
+    "private": true,
+    "run_id": "run-bench-redirect_budget",
+    "schema_version": "1.0",
+    "snapshots": [
+      {
+        "capture_mode": "HTTP",
+        "final_url": "https://example.org/",
+        "locator": "/pages/0/snapshot",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "source_snapshot_id": "snap-1bfa6fa813568a02bf767d02898b8d3faa24f43ae8bfc54c89ce14d52fb2b4ae",
+        "status": "OBSERVED",
+        "url": "https://example.org/",
+        "viewport": null
+      },
+      {
+        "capture_mode": "HTTP",
+        "final_url": "https://example.org/category/valves",
+        "locator": "/pages/1/snapshot",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "source_snapshot_id": "snap-98971f9b622829b9c4bf28e9d582265980d1502ae218c40db1762edf8674ef17",
+        "status": "OBSERVED",
+        "url": "https://example.org/category/moved",
+        "viewport": null
+      }
+    ],
+    "sources": [
+      {
+        "document": {
+          "audit_id": "aud-001",
+          "collector_version": "ra1a-1.0.0",
+          "coverage": {
+            "inventory_truncated": false,
+            "note": "Unvisited or blocked pages do not prove absence or website defects.",
+            "observed_roles": [
+              "CATEGORY",
+              "HOME"
+            ],
+            "unverified_roles": [
+              "ABOUT",
+              "APPLICATION",
+              "CATALOG",
+              "CONTACT",
+              "OTHER",
+              "PRODUCT"
+            ]
+          },
+          "errors": [],
+          "inventory": [
+            {
+              "discovered_from": "https://example.org/",
+              "role": "HOME",
+              "url": "https://example.org/"
+            },
+            {
+              "discovered_from": "https://example.org/",
+              "role": "CATEGORY",
+              "url": "https://example.org/category/moved"
+            },
+            {
+              "discovered_from": "https://example.org/category/valves",
+              "role": "PRODUCT",
+              "url": "https://example.org/products/valve-v1"
+            }
+          ],
+          "manifest_sha256": "940510b821e2f98a858448c408b63506d3527616aa2c416a133646650d8e68f0",
+          "pages": [
+            {
+              "bytes": 61,
+              "error": null,
+              "evidence": {
+                "certainty": "OBSERVED",
+                "checksum": "c2a8af5ac24a876d3b1742b1ca0e2b3cca91e428a4adc2173672fdb81845f4ce",
+                "evidence_id": "ev-1bfa6fa813568a02bf767d02898b8d3faa24f43ae8bfc54c89ce14d52fb2b4ae",
+                "excerpt": null,
+                "locator": "http-response-body",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "snapshot_id": "snap-1bfa6fa813568a02bf767d02898b8d3faa24f43ae8bfc54c89ce14d52fb2b4ae",
+                "tenant_id": "tenant-example"
+              },
+              "http_status": 200,
+              "raw_retained": true,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/"
+                }
+              ],
+              "role": "HOME",
+              "snapshot": {
+                "capture_mode": "HTTP",
+                "captured_at": "2026-11-10T12:00:00+00:00",
+                "final_url": "https://example.org/",
+                "policy_id": "pol-001",
+                "policy_version": 1,
+                "private_object_ref": "body-c2a8af5ac24a876d3b1742b1ca0e2b3cca91e428a4adc2173672fdb81845f4ce",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "sha256": "c2a8af5ac24a876d3b1742b1ca0e2b3cca91e428a4adc2173672fdb81845f4ce",
+                "snapshot_id": "snap-1bfa6fa813568a02bf767d02898b8d3faa24f43ae8bfc54c89ce14d52fb2b4ae",
+                "status": "FETCHED",
+                "tenant_id": "tenant-example",
+                "url": "https://example.org/"
+              }
+            },
+            {
+              "bytes": 79,
+              "error": null,
+              "evidence": {
+                "certainty": "OBSERVED",
+                "checksum": "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8",
+                "evidence_id": "ev-98971f9b622829b9c4bf28e9d582265980d1502ae218c40db1762edf8674ef17",
+                "excerpt": null,
+                "locator": "http-response-body",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "snapshot_id": "snap-98971f9b622829b9c4bf28e9d582265980d1502ae218c40db1762edf8674ef17",
+                "tenant_id": "tenant-example"
+              },
+              "http_status": 200,
+              "raw_retained": true,
+              "redirect_trace": [
+                {
+                  "location": "https://example.org/category/valves",
+                  "peer_ip": "93.184.216.20",
+                  "status": 302,
+                  "url": "https://example.org/category/moved"
+                },
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/category/valves"
+                }
+              ],
+              "role": "CATEGORY",
+              "snapshot": {
+                "capture_mode": "HTTP",
+                "captured_at": "2026-11-10T12:00:00+00:00",
+                "final_url": "https://example.org/category/valves",
+                "policy_id": "pol-001",
+                "policy_version": 1,
+                "private_object_ref": "body-fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "sha256": "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8",
+                "snapshot_id": "snap-98971f9b622829b9c4bf28e9d582265980d1502ae218c40db1762edf8674ef17",
+                "status": "FETCHED",
+                "tenant_id": "tenant-example",
+                "url": "https://example.org/category/moved"
+              }
+            }
+          ],
+          "policy_id": "pol-001",
+          "policy_version": 1,
+          "received_body_bytes": 164,
+          "requests": 4,
+          "robots": {
+            "sha256": "e5c4b84484ee4216e9373be99380320c25dd94805f99f0a805846f087636553f",
+            "status": 200,
+            "trace": [
+              {
+                "location": null,
+                "peer_ip": "93.184.216.20",
+                "status": 200,
+                "url": "https://example.org/robots.txt"
+              }
+            ],
+            "url": "https://example.org/robots.txt"
+          },
+          "rules_version": "http-evidence-1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "terms_reference": "benchmark-synthetic"
+        },
+        "document_sha256": "f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "kind": "CaptureManifest",
+        "object_refs": {
+          "body-c2a8af5ac24a876d3b1742b1ca0e2b3cca91e428a4adc2173672fdb81845f4ce": "c2a8af5ac24a876d3b1742b1ca0e2b3cca91e428a4adc2173672fdb81845f4ce",
+          "body-fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8": "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8"
+        },
+        "schema_version": "1.0",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0"
+      }
+    ],
+    "tenant_id": "tenant-example"
+  },
+  "finding_package": {
+    "approval_status": "NOT_APPROVED",
+    "artifact_kind": "INTERNAL_SYNTHETIC_DIAGNOSTIC",
+    "builder_version": "ra2c0-1.0.0",
+    "catalog_sha256": "24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1",
+    "catalog_version": "1.0.0",
+    "checked_positive_paths": [
+      {
+        "buyer_task": "DISCOVER",
+        "execution_locator": "/executions/0/observations/0",
+        "observation_id": "obs-e52403f71aa4d00cd7329aad0f1afe73b2c6ea830a8381bcd74986f94bc38c9e",
+        "provenance": {
+          "citations": [
+            {
+              "anchor_index": 0,
+              "column": 11,
+              "evidence_ref": "ev-cdbb8354571b950865e5ad69002853a2431a26257b998237e443e9b7e64d968e",
+              "line": 1,
+              "locator": "/pages/0/evidence",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "raw_href": "/category/moved",
+              "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+              "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+              "target_evidence_ref": "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+              "url": "https://example.org/"
+            }
+          ],
+          "homepage": {
+            "error": null,
+            "final_url": "https://example.org/",
+            "http_status": 200,
+            "locator": "/pages/0",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "redirect_trace": [
+              {
+                "location": null,
+                "peer_ip": "93.184.216.20",
+                "status": 200,
+                "url": "https://example.org/"
+              }
+            ],
+            "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+            "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+            "url": "https://example.org/"
+          },
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [
+              "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+              "ev-cdbb8354571b950865e5ad69002853a2431a26257b998237e443e9b7e64d968e"
+            ],
+            "kind": "OBJECTIVE",
+            "observation_id": "obs-e52403f71aa4d00cd7329aad0f1afe73b2c6ea830a8381bcd74986f94bc38c9e",
+            "result": "PASS",
+            "rule_id": "DISC-01",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "This captured static homepage nav href reached a captured HTTP 200 category-path page.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "CAPTURED_REACHABLE_NAV_HREF",
+          "target_response": {
+            "error": null,
+            "final_url": "https://example.org/category/valves",
+            "http_status": 200,
+            "locator": "/pages/1",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "redirect_trace": [
+              {
+                "location": "https://example.org/category/valves",
+                "peer_ip": "93.184.216.20",
+                "status": 302,
+                "url": "https://example.org/category/moved"
+              },
+              {
+                "location": null,
+                "peer_ip": "93.184.216.20",
+                "status": 200,
+                "url": "https://example.org/category/valves"
+              }
+            ],
+            "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+            "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+            "url": "https://example.org/category/moved"
+          }
+        },
+        "rule_id": "DISC-01"
+      }
+    ],
+    "coverage": [
+      {
+        "locator": "/coverage/unverified_roles/0",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "ABOUT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/1",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "APPLICATION",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/2",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CATALOG",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/3",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CONTACT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/4",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "OTHER",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/5",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "PRODUCT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/inventory/2",
+        "reason": "INVENTORY_ONLY",
+        "role": "PRODUCT",
+        "scope": "PAGE",
+        "snapshot_ref": null,
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "NOT_VISITED",
+        "url": "https://example.org/products/valve-v1",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/0/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "OBSERVED",
+        "url": "https://example.org/",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/1/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "status": "OBSERVED",
+        "url": "https://example.org/category/moved",
+        "viewport": null
+      }
+    ],
+    "evaluator_version": "ra2b1-1.0.0",
+    "execution_ref": "rx-4666833198d414bf2fd3d5783340a1f9c2d9f4fe895b9990101521277863dfe7",
+    "expected_pack_ref": "ep-e0c44582f7c4de093200624f6a1c0231faa0870d0a50bad9d6389d825152fa13",
+    "items": [
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/3/observations/0",
+        "finding": {
+          "buyer_task": "UNDERSTAND",
+          "evidence_ids": [],
+          "finding_id": "finding-0b4ca386198ede4efe203370cea8df3d80eaa59830c804561a3234fcddf05be2",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-e92e7886e4c12a02b4c6820b372e125ca3ddd8125ee67ffa2de8d0a4ffca7e77",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "No product identity/specification parser with field locators.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-e92e7886e4c12a02b4c6820b372e125ca3ddd8125ee67ffa2de8d0a4ffca7e77",
+            "result": "UNKNOWN",
+            "rule_id": "INFO-01",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "No product identity/specification parser with field locators.",
+          "target_response": null
+        },
+        "rule_id": "INFO-01"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/6/observations/0",
+        "finding": {
+          "buyer_task": "TRUST",
+          "evidence_ids": [],
+          "finding_id": "finding-0ee0383bc57e593915aac7b9d673e46c6ce7a87d75d30804c8c4618e917eaa89",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-9b53021090152698de4b43286067ddff8fad765f8cdb2b99c0aac8edb2efa050",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "No verified company identity/context extraction; href alone cannot establish identity.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-9b53021090152698de4b43286067ddff8fad765f8cdb2b99c0aac8edb2efa050",
+            "result": "UNKNOWN",
+            "rule_id": "TRUST-01",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "No verified company identity/context extraction; href alone cannot establish identity.",
+          "target_response": null
+        },
+        "rule_id": "TRUST-01"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/5/observations/0",
+        "finding": {
+          "buyer_task": "UNDERSTAND",
+          "evidence_ids": [],
+          "finding_id": "finding-146339783955c1e7d27e4cdeb7f34dd165852d92d2b7198b0609f560af762beb",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-d8dda6b601386c022fbef9681174f261e4f7eb8d9fde98ad3b513cec7c129fd2",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "Language clarity requires human verification; no deterministic semantic judgment.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-d8dda6b601386c022fbef9681174f261e4f7eb8d9fde98ad3b513cec7c129fd2",
+            "result": "UNKNOWN",
+            "rule_id": "INFO-03",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "Language clarity requires human verification; no deterministic semantic judgment.",
+          "target_response": null
+        },
+        "rule_id": "INFO-03"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/14/observations/0",
+        "finding": {
+          "buyer_task": "SEARCH_TECHNICAL",
+          "evidence_ids": [],
+          "finding_id": "finding-1f20ec0b288991451d718d02951d6108f58385a20bff461ac1022d2086d8ffab",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-2497982b4a358aeb68a64468399cc3cf9c9e66dd2d87092b1b24adbdc243da9d",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "Non-200 snapshots have no observed EvidencePack evidence_ref; metadata-only Observation adapter deferred.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-2497982b4a358aeb68a64468399cc3cf9c9e66dd2d87092b1b24adbdc243da9d",
+            "result": "UNKNOWN",
+            "rule_id": "TECH-01",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "Non-200 snapshots have no observed EvidencePack evidence_ref; metadata-only Observation adapter deferred.",
+          "target_response": null
+        },
+        "rule_id": "TECH-01"
+      },
+      {
+        "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+        "execution_locator": "/executions/1/observations/0",
+        "finding": {
+          "buyer_task": "DISCOVER",
+          "evidence_ids": [],
+          "finding_id": "finding-5b8d452f42d32f5ea10d8d942fd1ea9079415f24ca82c52390690c590f11e785",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-ebea5f3752e5caf6724106bd1132005a74530408071f3390f5bb631cb8450539",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded static path step.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "TARGET_NOT_OBSERVED",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [
+            {
+              "anchor_index": 0,
+              "column": 31,
+              "evidence_ref": "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+              "line": 1,
+              "locator": "/pages/1/evidence",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "raw_href": "/products/valve-v1",
+              "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+              "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+              "url": "https://example.org/category/moved"
+            }
+          ],
+          "observation": {
+            "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-ebea5f3752e5caf6724106bd1132005a74530408071f3390f5bb631cb8450539",
+            "result": "UNKNOWN",
+            "rule_id": "DISC-02",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded static path step.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "TARGET_NOT_OBSERVED",
+          "source_page": {
+            "error": null,
+            "final_url": "https://example.org/category/valves",
+            "http_status": 200,
+            "locator": "/pages/1",
+            "observed_at": "2026-11-10T12:00:00+00:00",
+            "redirect_trace": [
+              {
+                "location": "https://example.org/category/valves",
+                "peer_ip": "93.184.216.20",
+                "status": 302,
+                "url": "https://example.org/category/moved"
+              },
+              {
+                "location": null,
+                "peer_ip": "93.184.216.20",
+                "status": 200,
+                "url": "https://example.org/category/valves"
+              }
+            ],
+            "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+            "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+            "url": "https://example.org/category/moved"
+          },
+          "target_response": null
+        },
+        "rule_id": "DISC-02"
+      },
+      {
+        "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+        "execution_locator": "/executions/10/observations/0",
+        "finding": {
+          "buyer_task": "INQUIRE",
+          "evidence_ids": [],
+          "finding_id": "finding-5c8f623fed6f98324c95bc0cf20c8f4d85e809a81180489026865d46b4dbfa98",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-0fe027b37f85095ec746b0ed01475c58c5eac91f156321575c5465fbc1c24a6a",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded static path step.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "SOURCE_ROLE_NOT_CAPTURED",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-0fe027b37f85095ec746b0ed01475c58c5eac91f156321575c5465fbc1c24a6a",
+            "result": "UNKNOWN",
+            "rule_id": "CTA-02",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded static path step.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "SOURCE_ROLE_NOT_CAPTURED",
+          "target_response": null
+        },
+        "rule_id": "CTA-02"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/7/observations/0",
+        "finding": {
+          "buyer_task": "TRUST",
+          "evidence_ids": [],
+          "finding_id": "finding-61c5df38a9d3c79b6c1d9aa75bf14fac6327a03f3b961de983a3856032f52f6c",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-9d55cf973a2dda1e934db8c19278a0c7d384d30077004d323d7b2d5b55a673cd",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "No proof/context parser or authenticity evidence.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-9d55cf973a2dda1e934db8c19278a0c7d384d30077004d323d7b2d5b55a673cd",
+            "result": "UNKNOWN",
+            "rule_id": "TRUST-02",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "No proof/context parser or authenticity evidence.",
+          "target_response": null
+        },
+        "rule_id": "TRUST-02"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/11/observations/0",
+        "finding": {
+          "buyer_task": "INQUIRE",
+          "evidence_ids": [],
+          "finding_id": "finding-678758ae9772d222ccccf322ab771a4fed17221d3bd0a487bfacad512e046c79",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-2e155d45a1f4e4455e2fa2b6418906a750470f756029b9e808f4d2c3d56e4ba9",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "No overflow geometry or scoped visual-layout evaluator.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-2e155d45a1f4e4455e2fa2b6418906a750470f756029b9e808f4d2c3d56e4ba9",
+            "result": "UNKNOWN",
+            "rule_id": "CTA-03",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "No overflow geometry or scoped visual-layout evaluator.",
+          "target_response": null
+        },
+        "rule_id": "CTA-03"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/8/observations/0",
+        "finding": {
+          "buyer_task": "TRUST",
+          "evidence_ids": [],
+          "finding_id": "finding-83f6861a8b7ac626cca07b675966522697818f40ecc3a763c77b5353bb44d75a",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-7170bb988c23232f016f0aadc9e7de943a8dd5977143b5328b05dad14d8cc2ec",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "No scoped entity resolution or comparable company/contact passages.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-7170bb988c23232f016f0aadc9e7de943a8dd5977143b5328b05dad14d8cc2ec",
+            "result": "UNKNOWN",
+            "rule_id": "TRUST-03",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "No scoped entity resolution or comparable company/contact passages.",
+          "target_response": null
+        },
+        "rule_id": "TRUST-03"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/9/observations/0",
+        "finding": {
+          "buyer_task": "INQUIRE",
+          "evidence_ids": [],
+          "finding_id": "finding-8e370d01a2cbe1d25e5323edccaa82db3368d8d3f261bbe49c7cb6b49274579e",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-3c4a739fc1cadd2f9826b5507ead6fdfe3b73c89770008624db6905332b0b7ba",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "Browser DOM has tag/visible/text but no href; HTML href cannot prove rendered visibility.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-3c4a739fc1cadd2f9826b5507ead6fdfe3b73c89770008624db6905332b0b7ba",
+            "result": "UNKNOWN",
+            "rule_id": "CTA-01",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "Browser DOM has tag/visible/text but no href; HTML href cannot prove rendered visibility.",
+          "target_response": null
+        },
+        "rule_id": "CTA-01"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/12/observations/0",
+        "finding": {
+          "buyer_task": "SEARCH_TECHNICAL",
+          "evidence_ids": [],
+          "finding_id": "finding-a4d831e711ea060f4e6b6f578ae103531e10f2fedb5977ceef829555bcd939b0",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-588e5be167afa4aa2e41d29584128456441bb44d7bff28dd166340c207ba7cb1",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "Sitemap/tag combination and metadata applicability not implemented; robots hashes are insufficient.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-588e5be167afa4aa2e41d29584128456441bb44d7bff28dd166340c207ba7cb1",
+            "result": "UNKNOWN",
+            "rule_id": "SEO-01",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "Sitemap/tag combination and metadata applicability not implemented; robots hashes are insufficient.",
+          "target_response": null
+        },
+        "rule_id": "SEO-01"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/13/observations/0",
+        "finding": {
+          "buyer_task": "SEARCH_TECHNICAL",
+          "evidence_ids": [],
+          "finding_id": "finding-bc488ca555b7a4ca8b7ebefdfe9893c1bdb61c42a317b45a63baa2a6187bc188",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-350ac6464050abfee99087236a6368416e1853b9dde8ffee8871c92107d991ae",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "No verified product text/anchor context or crawlability evaluator.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-350ac6464050abfee99087236a6368416e1853b9dde8ffee8871c92107d991ae",
+            "result": "UNKNOWN",
+            "rule_id": "SEO-02",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "No verified product text/anchor context or crawlability evaluator.",
+          "target_response": null
+        },
+        "rule_id": "SEO-02"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/15/observations/0",
+        "finding": {
+          "buyer_task": "SEARCH_TECHNICAL",
+          "evidence_ids": [],
+          "finding_id": "finding-db8cc6dfbed23abdfed010d591d4d701d928186538455e8c17728dd0e1e502e4",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-c8ab72f585716228ba0d4fa4dbae65f56de230e2dba040e54fbe1fc06051101e",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "No image/heading context extraction or accessibility evaluator.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-c8ab72f585716228ba0d4fa4dbae65f56de230e2dba040e54fbe1fc06051101e",
+            "result": "UNKNOWN",
+            "rule_id": "TECH-02",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "No image/heading context extraction or accessibility evaluator.",
+          "target_response": null
+        },
+        "rule_id": "TECH-02"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/4/observations/0",
+        "finding": {
+          "buyer_task": "UNDERSTAND",
+          "evidence_ids": [],
+          "finding_id": "finding-e0fa54d1b0e1c36542223944762f9ee6084bac7d5c320ed0bb02d0452c99a681",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-112374d10c340c86d10480fc039c72721cac050f963ca69f1f32c2a47036c2a0",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "Industry pack has material requirement but no observed attribute mapping or applicability proof.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-112374d10c340c86d10480fc039c72721cac050f963ca69f1f32c2a47036c2a0",
+            "result": "UNKNOWN",
+            "rule_id": "INFO-02",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "Industry pack has material requirement but no observed attribute mapping or applicability proof.",
+          "target_response": null
+        },
+        "rule_id": "INFO-02"
+      },
+      {
+        "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+        "execution_locator": "/executions/2/observations/0",
+        "finding": {
+          "buyer_task": "DISCOVER",
+          "evidence_ids": [],
+          "finding_id": "finding-ef14daeffe1f61cd9d7b7632ea555dbf3ed70289177c669b55b0ca517cc42a7d",
+          "kind": "UNKNOWN",
+          "observation_id": "obs-1f1b240c02310a9a31f7c808ab86b1815c9f9d55d3f917ac9b982d87b28b00ec",
+          "rule_version": "1.0.0",
+          "run_id": "run-bench-redirect_budget",
+          "schema_version": "1.0",
+          "severity": null,
+          "statement": "Insufficient evidence for this bounded rule judgment.",
+          "tenant_id": "tenant-example"
+        },
+        "gap_reason": "No independently established industry/application relevance mapping.",
+        "guard_bridge": {
+          "context_id": "ctx-644a6156b07072ad3b3e6a95685036fdc257cd42ca228eddaec452c2dbbf5ad3",
+          "evidence_mapping": [],
+          "kind": "UNKNOWN_RUN_CONTEXT",
+          "limit": "Guard scope projection only; no captured snapshot or fact evidence asserted.",
+          "scope": {
+            "run_id": "run-bench-redirect_budget",
+            "tenant_id": "tenant-example"
+          }
+        },
+        "outcome": "UNKNOWN",
+        "provenance": {
+          "citations": [],
+          "homepage": null,
+          "observation": {
+            "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+            "evidence_ids": [],
+            "kind": "UNKNOWN",
+            "observation_id": "obs-1f1b240c02310a9a31f7c808ab86b1815c9f9d55d3f917ac9b982d87b28b00ec",
+            "result": "UNKNOWN",
+            "rule_id": "DISC-03",
+            "rule_version": "1.0.0",
+            "run_id": "run-bench-redirect_budget",
+            "schema_version": "1.0",
+            "statement": "Insufficient evidence for this bounded rule judgment.",
+            "tenant_id": "tenant-example"
+          },
+          "reason": "No independently established industry/application relevance mapping.",
+          "target_response": null
+        },
+        "rule_id": "DISC-03"
+      }
+    ],
+    "limitations": [
+      "OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION",
+      "NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM",
+      "NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF",
+      "PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT"
+    ],
+    "package_ref": "fp-a2e8803168f747651ec31c360752413f927f6cbb5eb406828f6474fd0603cc02",
+    "private": true,
+    "recorded_capture_scope": [
+      {
+        "authorization_limit": "RECORDED_SCOPE_NOT_CURRENT_AUTHORIZATION",
+        "policy_id": "pol-001",
+        "policy_version": 1,
+        "run_id": "run-bench-redirect_budget",
+        "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+        "tenant_id": "tenant-example",
+        "terms_reference": "benchmark-synthetic"
+      }
+    ],
+    "rule_execution": {
+      "catalog_sha256": "24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1",
+      "catalog_version": "1.0.0",
+      "coverage": [
+        {
+          "locator": "/coverage/unverified_roles/0",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "ABOUT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/1",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "APPLICATION",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/2",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATALOG",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/3",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CONTACT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/4",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "OTHER",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/5",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "PRODUCT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/inventory/2",
+          "reason": "INVENTORY_ONLY",
+          "role": "PRODUCT",
+          "scope": "PAGE",
+          "snapshot_ref": null,
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "NOT_VISITED",
+          "url": "https://example.org/products/valve-v1",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/0/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/1/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "status": "OBSERVED",
+          "url": "https://example.org/category/moved",
+          "viewport": null
+        }
+      ],
+      "evaluator_version": "ra2b1-1.0.0",
+      "execution_ref": "rx-4666833198d414bf2fd3d5783340a1f9c2d9f4fe895b9990101521277863dfe7",
+      "executions": [
+        {
+          "buyer_task": "DISCOVER",
+          "enabled": true,
+          "observations": [
+            {
+              "citations": [
+                {
+                  "anchor_index": 0,
+                  "column": 11,
+                  "evidence_ref": "ev-cdbb8354571b950865e5ad69002853a2431a26257b998237e443e9b7e64d968e",
+                  "line": 1,
+                  "locator": "/pages/0/evidence",
+                  "observed_at": "2026-11-10T12:00:00+00:00",
+                  "raw_href": "/category/moved",
+                  "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+                  "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                  "target_evidence_ref": "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+                  "url": "https://example.org/"
+                }
+              ],
+              "homepage": {
+                "error": null,
+                "final_url": "https://example.org/",
+                "http_status": 200,
+                "locator": "/pages/0",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "redirect_trace": [
+                  {
+                    "location": null,
+                    "peer_ip": "93.184.216.20",
+                    "status": 200,
+                    "url": "https://example.org/"
+                  }
+                ],
+                "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+                "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                "url": "https://example.org/"
+              },
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [
+                  "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+                  "ev-cdbb8354571b950865e5ad69002853a2431a26257b998237e443e9b7e64d968e"
+                ],
+                "kind": "OBJECTIVE",
+                "observation_id": "obs-e52403f71aa4d00cd7329aad0f1afe73b2c6ea830a8381bcd74986f94bc38c9e",
+                "result": "PASS",
+                "rule_id": "DISC-01",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "This captured static homepage nav href reached a captured HTTP 200 category-path page.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "CAPTURED_REACHABLE_NAV_HREF",
+              "target_response": {
+                "error": null,
+                "final_url": "https://example.org/category/valves",
+                "http_status": 200,
+                "locator": "/pages/1",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "redirect_trace": [
+                  {
+                    "location": "https://example.org/category/valves",
+                    "peer_ip": "93.184.216.20",
+                    "status": 302,
+                    "url": "https://example.org/category/moved"
+                  },
+                  {
+                    "location": null,
+                    "peer_ip": "93.184.216.20",
+                    "status": 200,
+                    "url": "https://example.org/category/valves"
+                  }
+                ],
+                "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+                "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                "url": "https://example.org/category/moved"
+              }
+            }
+          ],
+          "rule_id": "DISC-01",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "DISCOVER",
+          "enabled": true,
+          "observations": [
+            {
+              "citations": [
+                {
+                  "anchor_index": 0,
+                  "column": 31,
+                  "evidence_ref": "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+                  "line": 1,
+                  "locator": "/pages/1/evidence",
+                  "observed_at": "2026-11-10T12:00:00+00:00",
+                  "raw_href": "/products/valve-v1",
+                  "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+                  "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                  "url": "https://example.org/category/moved"
+                }
+              ],
+              "observation": {
+                "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-ebea5f3752e5caf6724106bd1132005a74530408071f3390f5bb631cb8450539",
+                "result": "UNKNOWN",
+                "rule_id": "DISC-02",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded static path step.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "TARGET_NOT_OBSERVED",
+              "source_page": {
+                "error": null,
+                "final_url": "https://example.org/category/valves",
+                "http_status": 200,
+                "locator": "/pages/1",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "redirect_trace": [
+                  {
+                    "location": "https://example.org/category/valves",
+                    "peer_ip": "93.184.216.20",
+                    "status": 302,
+                    "url": "https://example.org/category/moved"
+                  },
+                  {
+                    "location": null,
+                    "peer_ip": "93.184.216.20",
+                    "status": 200,
+                    "url": "https://example.org/category/valves"
+                  }
+                ],
+                "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+                "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                "url": "https://example.org/category/moved"
+              },
+              "target_response": null
+            }
+          ],
+          "rule_id": "DISC-02",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "DISCOVER",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-1f1b240c02310a9a31f7c808ab86b1815c9f9d55d3f917ac9b982d87b28b00ec",
+                "result": "UNKNOWN",
+                "rule_id": "DISC-03",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "No independently established industry/application relevance mapping.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "DISC-03",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "UNDERSTAND",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-e92e7886e4c12a02b4c6820b372e125ca3ddd8125ee67ffa2de8d0a4ffca7e77",
+                "result": "UNKNOWN",
+                "rule_id": "INFO-01",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "No product identity/specification parser with field locators.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "INFO-01",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "UNDERSTAND",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-112374d10c340c86d10480fc039c72721cac050f963ca69f1f32c2a47036c2a0",
+                "result": "UNKNOWN",
+                "rule_id": "INFO-02",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "Industry pack has material requirement but no observed attribute mapping or applicability proof.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "INFO-02",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "UNDERSTAND",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-d8dda6b601386c022fbef9681174f261e4f7eb8d9fde98ad3b513cec7c129fd2",
+                "result": "UNKNOWN",
+                "rule_id": "INFO-03",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "Language clarity requires human verification; no deterministic semantic judgment.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "INFO-03",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "TRUST",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-9b53021090152698de4b43286067ddff8fad765f8cdb2b99c0aac8edb2efa050",
+                "result": "UNKNOWN",
+                "rule_id": "TRUST-01",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "No verified company identity/context extraction; href alone cannot establish identity.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "TRUST-01",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "TRUST",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-9d55cf973a2dda1e934db8c19278a0c7d384d30077004d323d7b2d5b55a673cd",
+                "result": "UNKNOWN",
+                "rule_id": "TRUST-02",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "No proof/context parser or authenticity evidence.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "TRUST-02",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "TRUST",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-7170bb988c23232f016f0aadc9e7de943a8dd5977143b5328b05dad14d8cc2ec",
+                "result": "UNKNOWN",
+                "rule_id": "TRUST-03",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "No scoped entity resolution or comparable company/contact passages.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "TRUST-03",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "INQUIRE",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-3c4a739fc1cadd2f9826b5507ead6fdfe3b73c89770008624db6905332b0b7ba",
+                "result": "UNKNOWN",
+                "rule_id": "CTA-01",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "Browser DOM has tag/visible/text but no href; HTML href cannot prove rendered visibility.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "CTA-01",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "INQUIRE",
+          "enabled": true,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-0fe027b37f85095ec746b0ed01475c58c5eac91f156321575c5465fbc1c24a6a",
+                "result": "UNKNOWN",
+                "rule_id": "CTA-02",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded static path step.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "SOURCE_ROLE_NOT_CAPTURED",
+              "target_response": null
+            }
+          ],
+          "rule_id": "CTA-02",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "INQUIRE",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-2e155d45a1f4e4455e2fa2b6418906a750470f756029b9e808f4d2c3d56e4ba9",
+                "result": "UNKNOWN",
+                "rule_id": "CTA-03",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "No overflow geometry or scoped visual-layout evaluator.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "CTA-03",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "SEARCH_TECHNICAL",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-588e5be167afa4aa2e41d29584128456441bb44d7bff28dd166340c207ba7cb1",
+                "result": "UNKNOWN",
+                "rule_id": "SEO-01",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "Sitemap/tag combination and metadata applicability not implemented; robots hashes are insufficient.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "SEO-01",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "SEARCH_TECHNICAL",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-350ac6464050abfee99087236a6368416e1853b9dde8ffee8871c92107d991ae",
+                "result": "UNKNOWN",
+                "rule_id": "SEO-02",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "No verified product text/anchor context or crawlability evaluator.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "SEO-02",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "SEARCH_TECHNICAL",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-2497982b4a358aeb68a64468399cc3cf9c9e66dd2d87092b1b24adbdc243da9d",
+                "result": "UNKNOWN",
+                "rule_id": "TECH-01",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "Non-200 snapshots have no observed EvidencePack evidence_ref; metadata-only Observation adapter deferred.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "TECH-01",
+          "rule_version": "1.0.0"
+        },
+        {
+          "buyer_task": "SEARCH_TECHNICAL",
+          "enabled": false,
+          "observations": [
+            {
+              "citations": [],
+              "homepage": null,
+              "observation": {
+                "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+                "evidence_ids": [],
+                "kind": "UNKNOWN",
+                "observation_id": "obs-c8ab72f585716228ba0d4fa4dbae65f56de230e2dba040e54fbe1fc06051101e",
+                "result": "UNKNOWN",
+                "rule_id": "TECH-02",
+                "rule_version": "1.0.0",
+                "run_id": "run-bench-redirect_budget",
+                "schema_version": "1.0",
+                "statement": "Insufficient evidence for this bounded rule judgment.",
+                "tenant_id": "tenant-example"
+              },
+              "reason": "No image/heading context extraction or accessibility evaluator.",
+              "target_response": null
+            }
+          ],
+          "rule_id": "TECH-02",
+          "rule_version": "1.0.0"
+        }
+      ],
+      "expected_pack_ref": "ep-e0c44582f7c4de093200624f6a1c0231faa0870d0a50bad9d6389d825152fa13",
+      "journey_composition": {
+        "max_paths": 256,
+        "scope": "Bounded captured paths only; no whole-site coverage assertion.",
+        "truncated": false
+      },
+      "journeys": [
+        {
+          "complete": false,
+          "journey_ref": "journey-a8fad2b61e6f3bad0a392235da5a704270df816890306f269ea219e8adcddaa6",
+          "steps": [
+            {
+              "citations": [
+                {
+                  "anchor_index": 0,
+                  "column": 11,
+                  "evidence_ref": "ev-cdbb8354571b950865e5ad69002853a2431a26257b998237e443e9b7e64d968e",
+                  "line": 1,
+                  "locator": "/pages/0/evidence",
+                  "observed_at": "2026-11-10T12:00:00+00:00",
+                  "raw_href": "/category/moved",
+                  "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+                  "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                  "target_evidence_ref": "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+                  "url": "https://example.org/"
+                }
+              ],
+              "observation_id": "obs-e52403f71aa4d00cd7329aad0f1afe73b2c6ea830a8381bcd74986f94bc38c9e",
+              "result": "PASS",
+              "rule_id": "DISC-01",
+              "rule_version": "1.0.0",
+              "source_page": {
+                "error": null,
+                "final_url": "https://example.org/",
+                "http_status": 200,
+                "locator": "/pages/0",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "redirect_trace": [
+                  {
+                    "location": null,
+                    "peer_ip": "93.184.216.20",
+                    "status": 200,
+                    "url": "https://example.org/"
+                  }
+                ],
+                "snapshot_ref": "page-a2bf89293f5dd0446487c30c0af25e2329e7dc8ea4624eae60367c9c6cfe0c48",
+                "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                "url": "https://example.org/"
+              },
+              "target_response": {
+                "error": null,
+                "final_url": "https://example.org/category/valves",
+                "http_status": 200,
+                "locator": "/pages/1",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "redirect_trace": [
+                  {
+                    "location": "https://example.org/category/valves",
+                    "peer_ip": "93.184.216.20",
+                    "status": 302,
+                    "url": "https://example.org/category/moved"
+                  },
+                  {
+                    "location": null,
+                    "peer_ip": "93.184.216.20",
+                    "status": 200,
+                    "url": "https://example.org/category/valves"
+                  }
+                ],
+                "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+                "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                "url": "https://example.org/category/moved"
+              }
+            },
+            {
+              "citations": [
+                {
+                  "anchor_index": 0,
+                  "column": 31,
+                  "evidence_ref": "ev-b61afbbad8bfa0ee8829e6016f4dde9ee83fdab976e2125b41e4a93ddd449f4c",
+                  "line": 1,
+                  "locator": "/pages/1/evidence",
+                  "observed_at": "2026-11-10T12:00:00+00:00",
+                  "raw_href": "/products/valve-v1",
+                  "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+                  "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                  "url": "https://example.org/category/moved"
+                }
+              ],
+              "observation_id": "obs-ebea5f3752e5caf6724106bd1132005a74530408071f3390f5bb631cb8450539",
+              "result": "UNKNOWN",
+              "rule_id": "DISC-02",
+              "rule_version": "1.0.0",
+              "source_page": {
+                "error": null,
+                "final_url": "https://example.org/category/valves",
+                "http_status": 200,
+                "locator": "/pages/1",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "redirect_trace": [
+                  {
+                    "location": "https://example.org/category/valves",
+                    "peer_ip": "93.184.216.20",
+                    "status": 302,
+                    "url": "https://example.org/category/moved"
+                  },
+                  {
+                    "location": null,
+                    "peer_ip": "93.184.216.20",
+                    "status": 200,
+                    "url": "https://example.org/category/valves"
+                  }
+                ],
+                "snapshot_ref": "page-f0787c06e521678ba5928f6d69dc839ab67e9a5ce8bcdf1e0f5f3feafc28a6b3",
+                "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+                "url": "https://example.org/category/moved"
+              },
+              "target_response": null
+            }
+          ],
+          "terminal_result": "UNKNOWN"
+        }
+      ],
+      "limitations": [
+        "OFFLINE_SYNTHETIC_CONSISTENCY_ONLY",
+        "NO_LIVE_AUTHORIZATION_CHECK",
+        "STATIC_HREF_PATH_ONLY",
+        "NO_FINDINGS_OR_BUSINESS_IMPACT"
+      ],
+      "recorded_capture_scope": [
+        {
+          "authorization_limit": "RECORDED_SCOPE_NOT_CURRENT_AUTHORIZATION",
+          "policy_id": "pol-001",
+          "policy_version": 1,
+          "run_id": "run-bench-redirect_budget",
+          "source_ref": "src-f6e3b7ba2913b40170127271229ac14d8af847102f0c93e3d8dfff47893236a0",
+          "tenant_id": "tenant-example",
+          "terms_reference": "benchmark-synthetic"
+        }
+      ],
+      "run_id": "run-bench-redirect_budget",
+      "schema_version": "1.0",
+      "tenant_id": "tenant-example"
+    },
+    "run_id": "run-bench-redirect_budget",
+    "schema_version": "1.0",
+    "shareable": false,
+    "tenant_id": "tenant-example"
+  },
+  "fixture": {
+    "annotation": "Captured same-role redirect; page budget stops before product. No mobile observation is available.",
+    "max_pages": 2,
+    "retain_raw_html": true,
+    "routes": [
+      {
+        "body": "<html><nav><a href=\"/category/moved\">Catalog</a></nav></html>",
+        "headers": {
+          "content-type": "text/html"
+        },
+        "status": 200,
+        "url": "https://example.org/"
+      },
+      {
+        "body": "",
+        "headers": {
+          "location": "/category/valves"
+        },
+        "status": 302,
+        "url": "https://example.org/category/moved"
+      },
+      {
+        "body": "<html><h1>Valve components</h1><a href=\"/products/valve-v1\">Valve V1</a></html>",
+        "headers": {
+          "content-type": "text/html"
+        },
+        "status": 200,
+        "url": "https://example.org/category/valves"
+      },
+      {
+        "body": "User-agent: *\nDisallow:\n",
+        "headers": {
+          "content-type": "text/plain"
+        },
+        "status": 200,
+        "url": "https://example.org/robots.txt"
+      }
+    ],
+    "site_id": "redirect_budget",
+    "site_type": "REDIRECT_AND_COVERAGE_LIMIT"
+  },
+  "objects_base64": {
+    "c2a8af5ac24a876d3b1742b1ca0e2b3cca91e428a4adc2173672fdb81845f4ce": "PGh0bWw+PG5hdj48YSBocmVmPSIvY2F0ZWdvcnkvbW92ZWQiPkNhdGFsb2c8L2E+PC9uYXY+PC9odG1sPg==",
+    "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8": "PGh0bWw+PGgxPlZhbHZlIGNvbXBvbmVudHM8L2gxPjxhIGhyZWY9Ii9wcm9kdWN0cy92YWx2ZS12MSI+VmFsdmUgVjE8L2E+PC9odG1sPg=="
+  },
+  "pins": {
+    "expected_evaluator_version": "ra2b1-1.0.0",
+    "expected_execution_ref": "rx-4666833198d414bf2fd3d5783340a1f9c2d9f4fe895b9990101521277863dfe7",
+    "expected_pack_ref": "ep-e0c44582f7c4de093200624f6a1c0231faa0870d0a50bad9d6389d825152fa13",
+    "expected_package_ref": "fp-a2e8803168f747651ec31c360752413f927f6cbb5eb406828f6474fd0603cc02"
+  }
+}
