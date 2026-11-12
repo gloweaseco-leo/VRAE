@@ -85,6 +85,11 @@ def _trust(trust, source_raw, document, html):
             "expected_source_sha256",
         ),
     )
+    if type(held["expected_issue_count"]) is not int or not 0 <= held["expected_issue_count"] <= 3:
+        refuse("D_TRUST_INPUT_REQUIRED")
+    for key in ("expected_payload_sha256", "expected_html_sha256", "expected_source_sha256"):
+        if type(held[key]) is not str or not re.fullmatch(r"[0-9a-f]{64}", held[key]):
+            refuse("D_TRUST_INPUT_REQUIRED")
     if (
         sha(document) != held["expected_payload_sha256"]
         or sha(html) != held["expected_html_sha256"]
@@ -96,7 +101,7 @@ def _trust(trust, source_raw, document, html):
     shape(policy, ("kind", "scope", "allowed_purpose", "current_authorization"))
     if (
         policy["kind"] != "TEST_ONLY_POLICY_SNAPSHOT"
-        or policy["scope"] != held["pins"]["expected_scope"]
+        or canonical(policy["scope"]) != canonical(held["pins"]["expected_scope"])
         or policy["allowed_purpose"] != "OFFLINE_REVIEW_SIMULATION"
         or policy["current_authorization"] != "NOT_IMPLEMENTED"
     ):
@@ -176,6 +181,11 @@ def _replay_bytes(document: bytes, html: bytes, source_raw: bytes, trust: Synthe
     try:
         d = parse(document, limit=SOURCE_LIMIT)
         s = parse(source_raw, limit=SOURCE_LIMIT)
+        shape(
+            s,
+            ("pack", "package", "objects_base64", "guard_inputs", "metadata"),
+            code="D_SOURCE_SHAPE",
+        )
         held, policy = _trust(trust, source_raw, document, html)
         p = held["pins"]
         objects = {k: base64.b64decode(v, validate=True) for k, v in s["objects_base64"].items()}

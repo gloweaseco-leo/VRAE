@@ -30,7 +30,12 @@ def main():
         ('pip', ['-m', 'pip', 'check']),
         ('scenarios', [str(HERE / 'scenarios.py'), str(run / 'scenarios.json')]),
     ]
+    if '--targeted' in sys.argv:
+        # Explicit final-source local stage. Complete default full regressions
+        # run in both new hosted Python jobs and original isolated HTTP CI.
+        commands = [(name, argv) for name, argv in commands if name != 'full']
     record = {'head': git('rev-parse', 'HEAD'), 'base': BASE, 'python': sys.version,
+              'mode': 'FINAL_TARGETED_FULL_IN_HOSTED_CI' if '--targeted' in sys.argv else 'LOCAL_FULL',
               'executable': sys.executable, 'tracked_diff_at_start': git('diff', '--name-only', 'HEAD'),
               'commands': []}
     for name, args in commands:

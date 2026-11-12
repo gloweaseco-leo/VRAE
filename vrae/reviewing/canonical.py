@@ -18,7 +18,7 @@ class ReviewError(ValueError):
 
 
 def refuse(code: str) -> NoReturn:
-    raise ReviewError(code)
+    raise ReviewError(code) from None
 
 
 def _check(value, depth=0):
