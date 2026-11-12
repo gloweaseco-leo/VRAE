@@ -30,6 +30,8 @@ Only exact generated narrow statements can obtain `SOURCE_FACT_BINDING_VERIFIED`
 
 The instruction lexicon is a conservative rejection aid, **not a universal prompt-injection detector**. Known role delimiters, tool commands, report sharing, pin override and secret-leak instructions are rejected in source citations and proposed prose. Unknown instruction wording cannot cause execution: this module has no tools, network, provider, approval, sharing or report capability. Free prose always remains unapproved. Consumers must preserve this boundary and must not treat human-review items as facts.
 
+Instruction scans recurse through actual source/citation strings before JSON escaping, including decoded text and LF/tab separators. Untrusted interpretation/model/reference metadata is also checked, with identifier separators normalized only for rejection checks; original input text/IDs are never rewritten in the stored interpretation or binding.
+
 All results are private, `NOT_APPROVED`, unshareable, not reports and not semantic approval. This work does not certify external authenticity or current authorization, call a real model, generate customer reports, deploy, perform RA-3C/D, or evaluate deferred human Gold (still 0/26).
 
 ## Test matrix

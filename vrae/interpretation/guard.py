@@ -45,6 +45,18 @@ def _detach(value):
     return json.loads(raw)
 
 
+def _contains_instruction(value):
+    # Scan actual strings, including decoded citation text. JSON serialization
+    # would escape LF/tab and could hide whitespace-separated instructions.
+    if isinstance(value, str):
+        return INJECTION.search(value) is not None
+    if isinstance(value, dict):
+        return any(_contains_instruction(k) or _contains_instruction(v) for k, v in value.items())
+    if isinstance(value, list):
+        return any(_contains_instruction(v) for v in value)
+    return False
+
+
 def _context(pack, package, pins):
     if set(pins) != {'expected_pack_ref', 'expected_execution_ref', 'expected_package_ref',
                      'expected_builder_version', 'expected_evaluator_version',
@@ -156,6 +168,11 @@ def binding(*, pointer, text, claim_type, fact, context):
 def _project(interpretation, bindings, pack, package, pins):
     interpretation, bindings = _detach(interpretation), _detach(bindings)
     validate_contract('AIInterpretation', interpretation)
+    for field in ('interpretation_id', 'model_id', 'observation_ids', 'evidence_ids'):
+        values = interpretation[field] if isinstance(interpretation[field], list) else [interpretation[field]]
+        if any(isinstance(v, str) and (_contains_instruction(v) or
+               _contains_instruction(re.sub(r'[_.-]+', ' ', v))) for v in values):
+            _fail('UNTRUSTED_INSTRUCTION')
     current = catalog(pack, package, **pins)
     context, facts = current['context'], current['facts']
     fact_bytes = {_encode(fact) for fact in facts}
@@ -194,7 +211,7 @@ def _project(interpretation, bindings, pack, package, pins):
         elif (b['fact']['observation_id'] not in interpretation['observation_ids']
               or b['fact']['source']['citation']['evidence_ref'] not in interpretation['evidence_ids']):
             reason = 'CLAIM_REFERENCE'
-        elif INJECTION.search(text) or INJECTION.search(_encode(b['fact']['source']).decode('utf-8')):
+        elif _contains_instruction(text) or _contains_instruction(b['fact']['source']):
             reason = 'UNTRUSTED_INSTRUCTION'
         elif interpretation['status'] != 'VALIDATED':
             reason = 'INTERPRETATION_NOT_ELIGIBLE'

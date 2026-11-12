@@ -2,7 +2,7 @@
 
 AIInterpretation's global evidence IDs do not establish support for individual statements. This adds a separate private versioned per-claim binding and replay guard: exact captured source elements and bound CTA 404/410 responses can receive literal-source verification; hypotheses, paraphrases, recommendations and missing-information prose require human review. Unsupported objective assertions are rejected without altering the original text. No result approves semantics, reports or sharing.
 
-Refs #40. New independent worktree/branch from accepted main `7e62bfcd1a900630b80b02850a0086cc950e4138`. Only interpretation, its tests, its verification script and RA-3B evidence are changed. No intelligence/RA-3A branch integration, frozen-contract changes, model/provider calls, customer reports, deployment or RA-3C/D.
+Refs #40. New independent worktree/branch from accepted main `7e62bfcd1a900630b80b02850a0086cc950e4138`, subsequently normal-merged latest Owner-accepted main `8379e5f63d3feaa66a646d8a19d866a693162c99` after PR #41 FINAL PASS and actual merge. Only interpretation, its tests, its verification script and RA-3B evidence are changed relative to latest main. Intelligence is preserved unchanged. No unaccepted RA-3A branch integration, frozen-contract changes, model/provider calls, customer reports, deployment or RA-3C/D.
 
 ## Evidence and validation
 
