@@ -1,0 +1,3494 @@
+[
+  {
+    "name": "kernel-control",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--entrypoint",
+      "python",
+      "vrae-ra1b-browser:local",
+      "/opt/kernel_probe.py",
+      "--control"
+    ],
+    "exit_code": 0,
+    "seconds": 1.2750062510000078
+  },
+  {
+    "name": "kernel-deny",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--entrypoint",
+      "python",
+      "vrae-ra1b-browser:local",
+      "/opt/kernel_probe.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.32614621299998703
+  },
+  {
+    "name": "sandbox",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--entrypoint",
+      "python",
+      "vrae-ra1b-browser:local",
+      "/opt/preflight.py"
+    ],
+    "exit_code": 0,
+    "seconds": 1.385528918999995
+  },
+  {
+    "name": "readonly-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-a59601b0d76a-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.013043640999995887
+  },
+  {
+    "name": "readonly-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-a59601b0d76a-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011157663999995293
+  },
+  {
+    "name": "readonly-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-a59601b0d76a-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-a59601b0d76a-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11489391199999943
+  },
+  {
+    "name": "readonly-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-a59601b0d76a-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.013698306000009097
+  },
+  {
+    "name": "readonly-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-a59601b0d76a-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.30064201000000423
+  },
+  {
+    "name": "readonly-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-a59601b0d76a-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=readonly",
+      "--mount",
+      "type=volume,src=vrae-b1-a59601b0d76a-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.2517334690000013
+  },
+  {
+    "name": "readonly-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-a59601b0d76a-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01167977100000428
+  },
+  {
+    "name": "readonly-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-a59601b0d76a-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011397943999995164
+  },
+  {
+    "name": "readonly-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-a59601b0d76a-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012690228000010961
+  },
+  {
+    "name": "readonly-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-a59601b0d76a-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011253593999995815
+  },
+  {
+    "name": "readonly-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-a59601b0d76a-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010403170999992994
+  },
+  {
+    "name": "readonly-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-a59601b0d76a-browser",
+      "vrae-b1-a59601b0d76a-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.023484758000009265
+  },
+  {
+    "name": "readonly-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-a59601b0d76a-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011005909999994401
+  },
+  {
+    "name": "readonly-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-a59601b0d76a-browser",
+      "vrae-b1-a59601b0d76a-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.02339636099999609
+  },
+  {
+    "name": "readonly-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-a59601b0d76a-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010314639000000625
+  },
+  {
+    "name": "writes-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-ff29abe1cf7f-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010919044000004874
+  },
+  {
+    "name": "writes-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-ff29abe1cf7f-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010399806999998873
+  },
+  {
+    "name": "writes-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-ff29abe1cf7f-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-ff29abe1cf7f-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.10956019500000025
+  },
+  {
+    "name": "writes-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-ff29abe1cf7f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.015483883000001697
+  },
+  {
+    "name": "writes-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-ff29abe1cf7f-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3030225790000003
+  },
+  {
+    "name": "writes-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-ff29abe1cf7f-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=writes",
+      "--mount",
+      "type=volume,src=vrae-b1-ff29abe1cf7f-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.268904250999995
+  },
+  {
+    "name": "writes-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-ff29abe1cf7f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011767465999994897
+  },
+  {
+    "name": "writes-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-ff29abe1cf7f-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011209887999996226
+  },
+  {
+    "name": "writes-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-ff29abe1cf7f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011656590000001188
+  },
+  {
+    "name": "writes-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-ff29abe1cf7f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010676328999991824
+  },
+  {
+    "name": "writes-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-ff29abe1cf7f-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011215706000001546
+  },
+  {
+    "name": "writes-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-ff29abe1cf7f-browser",
+      "vrae-b1-ff29abe1cf7f-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.023016583999989848
+  },
+  {
+    "name": "writes-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-ff29abe1cf7f-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012180164000000104
+  },
+  {
+    "name": "writes-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-ff29abe1cf7f-browser",
+      "vrae-b1-ff29abe1cf7f-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.02604373500000179
+  },
+  {
+    "name": "writes-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-ff29abe1cf7f-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011378335000003403
+  },
+  {
+    "name": "private-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-cfaa34bd34c4-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012810268999999153
+  },
+  {
+    "name": "private-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-cfaa34bd34c4-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011087114000005727
+  },
+  {
+    "name": "private-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-cfaa34bd34c4-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-cfaa34bd34c4-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.12431429000000094
+  },
+  {
+    "name": "private-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-cfaa34bd34c4-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.015109774999999104
+  },
+  {
+    "name": "private-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-cfaa34bd34c4-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.30531442900000627
+  },
+  {
+    "name": "private-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-cfaa34bd34c4-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=private",
+      "--mount",
+      "type=volume,src=vrae-b1-cfaa34bd34c4-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.245411935000007
+  },
+  {
+    "name": "private-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-cfaa34bd34c4-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.015278336999998032
+  },
+  {
+    "name": "private-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-cfaa34bd34c4-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01136209499999552
+  },
+  {
+    "name": "private-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-cfaa34bd34c4-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011922695999999178
+  },
+  {
+    "name": "private-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-cfaa34bd34c4-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011317922000003477
+  },
+  {
+    "name": "private-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-cfaa34bd34c4-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010059018000006859
+  },
+  {
+    "name": "private-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-cfaa34bd34c4-browser",
+      "vrae-b1-cfaa34bd34c4-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.02332256500000085
+  },
+  {
+    "name": "private-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-cfaa34bd34c4-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011946469999998044
+  },
+  {
+    "name": "private-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-cfaa34bd34c4-browser",
+      "vrae-b1-cfaa34bd34c4-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.024086585000006266
+  },
+  {
+    "name": "private-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-cfaa34bd34c4-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011025598000003356
+  },
+  {
+    "name": "resources-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-3ce867a63055-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011813175000000342
+  },
+  {
+    "name": "resources-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-3ce867a63055-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01090490100000352
+  },
+  {
+    "name": "resources-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-3ce867a63055-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-3ce867a63055-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1299971800000037
+  },
+  {
+    "name": "resources-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-3ce867a63055-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.014131640999991646
+  },
+  {
+    "name": "resources-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-3ce867a63055-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.2816621770000012
+  },
+  {
+    "name": "resources-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-3ce867a63055-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=resources",
+      "--mount",
+      "type=volume,src=vrae-b1-3ce867a63055-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.376426534000018
+  },
+  {
+    "name": "resources-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-3ce867a63055-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011885782999996763
+  },
+  {
+    "name": "resources-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-3ce867a63055-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011133333000003631
+  },
+  {
+    "name": "resources-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-3ce867a63055-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011751143999987335
+  },
+  {
+    "name": "resources-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-3ce867a63055-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010949046999996881
+  },
+  {
+    "name": "resources-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-3ce867a63055-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010209266000003936
+  },
+  {
+    "name": "resources-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-3ce867a63055-browser",
+      "vrae-b1-3ce867a63055-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.021417381999981444
+  },
+  {
+    "name": "resources-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-3ce867a63055-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01147285800001896
+  },
+  {
+    "name": "resources-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-3ce867a63055-browser",
+      "vrae-b1-3ce867a63055-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.02297425699998712
+  },
+  {
+    "name": "resources-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-3ce867a63055-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011169112000004588
+  },
+  {
+    "name": "channels-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-08954a78618a-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011754832999997689
+  },
+  {
+    "name": "channels-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-08954a78618a-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.009945038000012119
+  },
+  {
+    "name": "channels-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-08954a78618a-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-08954a78618a-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.13265623699999196
+  },
+  {
+    "name": "channels-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-08954a78618a-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.014547055999997838
+  },
+  {
+    "name": "channels-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-08954a78618a-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3028648030000056
+  },
+  {
+    "name": "channels-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-08954a78618a-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=channels",
+      "--mount",
+      "type=volume,src=vrae-b1-08954a78618a-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.1997604240000044
+  },
+  {
+    "name": "channels-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-08954a78618a-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012008668000021316
+  },
+  {
+    "name": "channels-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-08954a78618a-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011203318000013951
+  },
+  {
+    "name": "channels-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-08954a78618a-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012232912000001761
+  },
+  {
+    "name": "channels-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-08954a78618a-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010956343000003699
+  },
+  {
+    "name": "channels-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-08954a78618a-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011148909000013418
+  },
+  {
+    "name": "channels-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-08954a78618a-browser",
+      "vrae-b1-08954a78618a-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.023410893999994187
+  },
+  {
+    "name": "channels-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-08954a78618a-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011937454000019443
+  },
+  {
+    "name": "channels-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-08954a78618a-browser",
+      "vrae-b1-08954a78618a-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.024384959000002482
+  },
+  {
+    "name": "channels-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-08954a78618a-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010914666000019224
+  },
+  {
+    "name": "escape-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-55695ed16d41-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.03144470699999147
+  },
+  {
+    "name": "escape-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-55695ed16d41-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011607065000021066
+  },
+  {
+    "name": "escape-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-55695ed16d41-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-55695ed16d41-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11043311200000971
+  },
+  {
+    "name": "escape-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-55695ed16d41-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012851581999996142
+  },
+  {
+    "name": "escape-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-55695ed16d41-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.2545772480000039
+  },
+  {
+    "name": "escape-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-55695ed16d41-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=escape",
+      "--mount",
+      "type=volume,src=vrae-b1-55695ed16d41-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.246823422999995
+  },
+  {
+    "name": "escape-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-55695ed16d41-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012668940999986944
+  },
+  {
+    "name": "escape-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-55695ed16d41-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01240434700000037
+  },
+  {
+    "name": "escape-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-55695ed16d41-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01276278599999614
+  },
+  {
+    "name": "escape-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-55695ed16d41-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011748220000015408
+  },
+  {
+    "name": "escape-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-55695ed16d41-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011195096999983889
+  },
+  {
+    "name": "escape-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-55695ed16d41-browser",
+      "vrae-b1-55695ed16d41-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.022903386999985287
+  },
+  {
+    "name": "escape-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-55695ed16d41-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.02106536200000164
+  },
+  {
+    "name": "escape-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-55695ed16d41-browser",
+      "vrae-b1-55695ed16d41-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.025791550999997526
+  },
+  {
+    "name": "escape-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-55695ed16d41-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011264380000000074
+  },
+  {
+    "name": "storage-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-b24e67a2fea8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.013392864999985932
+  },
+  {
+    "name": "storage-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-b24e67a2fea8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010809782999984918
+  },
+  {
+    "name": "storage-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-b24e67a2fea8-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-b24e67a2fea8-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11131796899999813
+  },
+  {
+    "name": "storage-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-b24e67a2fea8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.015550536000006332
+  },
+  {
+    "name": "storage-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-b24e67a2fea8-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3706525150000175
+  },
+  {
+    "name": "storage-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-b24e67a2fea8-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=storage",
+      "--mount",
+      "type=volume,src=vrae-b1-b24e67a2fea8-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.2889311000000134
+  },
+  {
+    "name": "storage-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-b24e67a2fea8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012346739999998135
+  },
+  {
+    "name": "storage-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-b24e67a2fea8-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01431275699999901
+  },
+  {
+    "name": "storage-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-b24e67a2fea8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012945076999983485
+  },
+  {
+    "name": "storage-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-b24e67a2fea8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01133684599997764
+  },
+  {
+    "name": "storage-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-b24e67a2fea8-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.012205722999993895
+  },
+  {
+    "name": "storage-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-b24e67a2fea8-browser",
+      "vrae-b1-b24e67a2fea8-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.024087449999996124
+  },
+  {
+    "name": "storage-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-b24e67a2fea8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012532398999979932
+  },
+  {
+    "name": "storage-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-b24e67a2fea8-browser",
+      "vrae-b1-b24e67a2fea8-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.02557057499998905
+  },
+  {
+    "name": "storage-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-b24e67a2fea8-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011417609999995193
+  },
+  {
+    "name": "redirect-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-13155087be53-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012749397999982648
+  },
+  {
+    "name": "redirect-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-13155087be53-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011532472999988386
+  },
+  {
+    "name": "redirect-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-13155087be53-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-13155087be53-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1123168309999869
+  },
+  {
+    "name": "redirect-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-13155087be53-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.016753614999998945
+  },
+  {
+    "name": "redirect-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-13155087be53-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.32757990800001835
+  },
+  {
+    "name": "redirect-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-13155087be53-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=redirect",
+      "--mount",
+      "type=volume,src=vrae-b1-13155087be53-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.1582398609999984
+  },
+  {
+    "name": "redirect-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-13155087be53-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011325999999996839
+  },
+  {
+    "name": "redirect-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-13155087be53-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01190089499999658
+  },
+  {
+    "name": "redirect-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-13155087be53-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012329303000001346
+  },
+  {
+    "name": "redirect-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-13155087be53-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011526785999990352
+  },
+  {
+    "name": "redirect-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-13155087be53-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010253740999985439
+  },
+  {
+    "name": "redirect-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-13155087be53-browser",
+      "vrae-b1-13155087be53-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.02221723099998485
+  },
+  {
+    "name": "redirect-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-13155087be53-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010686466999999311
+  },
+  {
+    "name": "redirect-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-13155087be53-browser",
+      "vrae-b1-13155087be53-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.02432091200000741
+  },
+  {
+    "name": "redirect-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-13155087be53-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011196441000009827
+  },
+  {
+    "name": "redirect_private-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-d8670883518c-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.028358730999997306
+  },
+  {
+    "name": "redirect_private-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-d8670883518c-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011390702999989344
+  },
+  {
+    "name": "redirect_private-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-d8670883518c-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-d8670883518c-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.10797023399999262
+  },
+  {
+    "name": "redirect_private-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-d8670883518c-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.013636164999979883
+  },
+  {
+    "name": "redirect_private-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-d8670883518c-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3695332199999939
+  },
+  {
+    "name": "redirect_private-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-d8670883518c-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=redirect_private",
+      "--mount",
+      "type=volume,src=vrae-b1-d8670883518c-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 3.2255749380000225
+  },
+  {
+    "name": "redirect_private-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-d8670883518c-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011677653999981885
+  },
+  {
+    "name": "redirect_private-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-d8670883518c-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011530532999984189
+  },
+  {
+    "name": "redirect_private-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-d8670883518c-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011685775000017884
+  },
+  {
+    "name": "redirect_private-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-d8670883518c-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011286683999998104
+  },
+  {
+    "name": "redirect_private-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-d8670883518c-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.0103640210000151
+  },
+  {
+    "name": "redirect_private-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-d8670883518c-browser",
+      "vrae-b1-d8670883518c-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.023813432999986617
+  },
+  {
+    "name": "redirect_private-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-d8670883518c-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011281408999991527
+  },
+  {
+    "name": "redirect_private-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-d8670883518c-browser",
+      "vrae-b1-d8670883518c-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.023518875999997135
+  },
+  {
+    "name": "redirect_private-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-d8670883518c-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010158609999990631
+  },
+  {
+    "name": "rebinding-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-05c1d85db919-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01252977400000077
+  },
+  {
+    "name": "rebinding-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-05c1d85db919-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010603083999995988
+  },
+  {
+    "name": "rebinding-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-05c1d85db919-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-05c1d85db919-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1036910779999971
+  },
+  {
+    "name": "rebinding-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-05c1d85db919-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.0132448889999921
+  },
+  {
+    "name": "rebinding-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-05c1d85db919-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.29754254700000615
+  },
+  {
+    "name": "rebinding-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-05c1d85db919-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=rebinding",
+      "--mount",
+      "type=volume,src=vrae-b1-05c1d85db919-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 10.627546851999995
+  },
+  {
+    "name": "rebinding-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-05c1d85db919-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011332390999996278
+  },
+  {
+    "name": "rebinding-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-05c1d85db919-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011217283999997107
+  },
+  {
+    "name": "rebinding-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-05c1d85db919-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012615111999991768
+  },
+  {
+    "name": "rebinding-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-05c1d85db919-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011665006999976413
+  },
+  {
+    "name": "rebinding-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-05c1d85db919-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010647517999984757
+  },
+  {
+    "name": "rebinding-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-05c1d85db919-browser",
+      "vrae-b1-05c1d85db919-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.028848065999994787
+  },
+  {
+    "name": "rebinding-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-05c1d85db919-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01196959299997502
+  },
+  {
+    "name": "rebinding-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-05c1d85db919-browser",
+      "vrae-b1-05c1d85db919-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.024219162999997934
+  },
+  {
+    "name": "rebinding-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-05c1d85db919-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010990305000007083
+  },
+  {
+    "name": "infinite-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-bd1474a60cba-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012211712999999236
+  },
+  {
+    "name": "infinite-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-bd1474a60cba-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010546965999992608
+  },
+  {
+    "name": "infinite-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-bd1474a60cba-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-bd1474a60cba-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11133663100000035
+  },
+  {
+    "name": "infinite-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-bd1474a60cba-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.015060868999995591
+  },
+  {
+    "name": "infinite-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-bd1474a60cba-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.30318327900002373
+  },
+  {
+    "name": "infinite-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-bd1474a60cba-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=infinite",
+      "--mount",
+      "type=volume,src=vrae-b1-bd1474a60cba-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 18.215516564000012
+  },
+  {
+    "name": "infinite-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-bd1474a60cba-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011787075999990293
+  },
+  {
+    "name": "infinite-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-bd1474a60cba-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011331101000024546
+  },
+  {
+    "name": "infinite-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-bd1474a60cba-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012571702999991885
+  },
+  {
+    "name": "infinite-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-bd1474a60cba-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010783766999992395
+  },
+  {
+    "name": "infinite-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-bd1474a60cba-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.01128832799997781
+  },
+  {
+    "name": "infinite-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-bd1474a60cba-browser",
+      "vrae-b1-bd1474a60cba-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.021910565999974096
+  },
+  {
+    "name": "infinite-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-bd1474a60cba-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011314150999993444
+  },
+  {
+    "name": "infinite-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-bd1474a60cba-browser",
+      "vrae-b1-bd1474a60cba-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.02345602199997643
+  },
+  {
+    "name": "infinite-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-bd1474a60cba-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010375108000005184
+  },
+  {
+    "name": "memory-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-d3e0702923c8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01175889399999619
+  },
+  {
+    "name": "memory-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-d3e0702923c8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010560939000015424
+  },
+  {
+    "name": "memory-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-d3e0702923c8-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-d3e0702923c8-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1063217829999985
+  },
+  {
+    "name": "memory-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-d3e0702923c8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.014692658999990726
+  },
+  {
+    "name": "memory-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-d3e0702923c8-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.25367640600001096
+  },
+  {
+    "name": "memory-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-d3e0702923c8-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=memory",
+      "--mount",
+      "type=volume,src=vrae-b1-d3e0702923c8-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 18.378513126
+  },
+  {
+    "name": "memory-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-d3e0702923c8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011490207999997892
+  },
+  {
+    "name": "memory-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-d3e0702923c8-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011201155999998491
+  },
+  {
+    "name": "memory-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-d3e0702923c8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011971342999999024
+  },
+  {
+    "name": "memory-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-d3e0702923c8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010993485999989616
+  },
+  {
+    "name": "memory-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-d3e0702923c8-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010426311000003352
+  },
+  {
+    "name": "memory-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-d3e0702923c8-browser",
+      "vrae-b1-d3e0702923c8-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.021803744999999708
+  },
+  {
+    "name": "memory-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-d3e0702923c8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011622113999976591
+  },
+  {
+    "name": "memory-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-d3e0702923c8-browser",
+      "vrae-b1-d3e0702923c8-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.02476460700000871
+  },
+  {
+    "name": "memory-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-d3e0702923c8-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011237648999980365
+  },
+  {
+    "name": "revocation-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-413b0832aff3-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011935154000013881
+  },
+  {
+    "name": "revocation-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-413b0832aff3-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010771398000002819
+  },
+  {
+    "name": "revocation-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-413b0832aff3-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-413b0832aff3-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.10792955899998447
+  },
+  {
+    "name": "revocation-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-413b0832aff3-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012669568000006848
+  },
+  {
+    "name": "revocation-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-413b0832aff3-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3130418180000163
+  },
+  {
+    "name": "revocation-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-413b0832aff3-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=revocation",
+      "--mount",
+      "type=volume,src=vrae-b1-413b0832aff3-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 6.3269021369999905
+  },
+  {
+    "name": "revocation-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-413b0832aff3-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.03890620200002104
+  },
+  {
+    "name": "revocation-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-413b0832aff3-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01365938699998992
+  },
+  {
+    "name": "revocation-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-413b0832aff3-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012188119999990477
+  },
+  {
+    "name": "revocation-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-413b0832aff3-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011261383000004344
+  },
+  {
+    "name": "revocation-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-413b0832aff3-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.01060901899998612
+  },
+  {
+    "name": "revocation-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-413b0832aff3-browser",
+      "vrae-b1-413b0832aff3-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.022415359999996554
+  },
+  {
+    "name": "revocation-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-413b0832aff3-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011118328999998539
+  },
+  {
+    "name": "revocation-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-413b0832aff3-browser",
+      "vrae-b1-413b0832aff3-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.023823678999974618
+  },
+  {
+    "name": "revocation-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-413b0832aff3-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.0104534049999927
+  },
+  {
+    "name": "crash-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-4b1c4f52e874-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.0113396840000064
+  },
+  {
+    "name": "crash-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-4b1c4f52e874-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010758715000008578
+  },
+  {
+    "name": "crash-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-4b1c4f52e874-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-4b1c4f52e874-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11003050499999745
+  },
+  {
+    "name": "crash-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-4b1c4f52e874-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01608376000001499
+  },
+  {
+    "name": "crash-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-4b1c4f52e874-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.30596323600002506
+  },
+  {
+    "name": "crash-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-4b1c4f52e874-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=crash",
+      "--mount",
+      "type=volume,src=vrae-b1-4b1c4f52e874-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 9.80578260499999
+  },
+  {
+    "name": "crash-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-4b1c4f52e874-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011762618999995311
+  },
+  {
+    "name": "crash-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-4b1c4f52e874-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011606417999985297
+  },
+  {
+    "name": "crash-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-4b1c4f52e874-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011828807999989976
+  },
+  {
+    "name": "crash-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-4b1c4f52e874-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011710349999987102
+  },
+  {
+    "name": "crash-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-4b1c4f52e874-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010682799999983672
+  },
+  {
+    "name": "crash-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-4b1c4f52e874-browser",
+      "vrae-b1-4b1c4f52e874-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.02213621699999635
+  },
+  {
+    "name": "crash-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-4b1c4f52e874-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011709349000000202
+  },
+  {
+    "name": "crash-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-4b1c4f52e874-browser",
+      "vrae-b1-4b1c4f52e874-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.02434515100000567
+  },
+  {
+    "name": "crash-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-4b1c4f52e874-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010967897000000448
+  },
+  {
+    "name": "sigkill-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-faaa0445c21f-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01168846199999507
+  },
+  {
+    "name": "sigkill-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-faaa0445c21f-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.010635833999998567
+  },
+  {
+    "name": "sigkill-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-faaa0445c21f-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-faaa0445c21f-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.10789066899999966
+  },
+  {
+    "name": "sigkill-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-faaa0445c21f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012978202999988753
+  },
+  {
+    "name": "sigkill-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-faaa0445c21f-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.30713160199999834
+  },
+  {
+    "name": "sigkill-kill",
+    "command": [
+      "docker",
+      "kill",
+      "--signal",
+      "KILL",
+      "vrae-b1-faaa0445c21f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.08289476499999182
+  },
+  {
+    "name": "sigkill-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-faaa0445c21f-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=sigkill",
+      "--mount",
+      "type=volume,src=vrae-b1-faaa0445c21f-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 0,
+    "seconds": 9.828078148999992
+  },
+  {
+    "name": "sigkill-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-faaa0445c21f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.013240652999996882
+  },
+  {
+    "name": "sigkill-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-faaa0445c21f-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012287548000017523
+  },
+  {
+    "name": "sigkill-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-faaa0445c21f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.013028800000000729
+  },
+  {
+    "name": "sigkill-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-faaa0445c21f-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012105264000012994
+  },
+  {
+    "name": "sigkill-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-faaa0445c21f-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.012484137999990708
+  },
+  {
+    "name": "sigkill-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-faaa0445c21f-browser",
+      "vrae-b1-faaa0445c21f-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.02817879100001619
+  },
+  {
+    "name": "sigkill-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-faaa0445c21f-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012565843999993831
+  },
+  {
+    "name": "sigkill-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-faaa0445c21f-browser",
+      "vrae-b1-faaa0445c21f-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.025958393999985674
+  },
+  {
+    "name": "sigkill-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-faaa0445c21f-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.011577606000003016
+  },
+  {
+    "name": "worker_kill-volume",
+    "command": [
+      "docker",
+      "volume",
+      "create",
+      "--driver",
+      "local",
+      "--opt",
+      "type=tmpfs",
+      "--opt",
+      "device=tmpfs",
+      "--opt",
+      "o=size=1m,uid=10001,gid=10003,mode=0770",
+      "vrae-b1-f839a222c1e8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012890603000016654
+  },
+  {
+    "name": "worker_kill-volume-config",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-f839a222c1e8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011039119000002984
+  },
+  {
+    "name": "worker_kill-browser-start",
+    "command": [
+      "docker",
+      "run",
+      "-d",
+      "--name",
+      "vrae-b1-f839a222c1e8-browser",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "seccomp=/home/runner/work/VRAE/VRAE/infra/ra1b/seccomp.json",
+      "--mount",
+      "type=volume,src=vrae-b1-f839a222c1e8-ipc,dst=/ipc",
+      "vrae-ra1b-browser:local"
+    ],
+    "exit_code": 0,
+    "seconds": 0.11716882999999712
+  },
+  {
+    "name": "worker_kill-browser-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-f839a222c1e8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.014251513000004934
+  },
+  {
+    "name": "worker_kill-ready",
+    "command": [
+      "docker",
+      "exec",
+      "vrae-b1-f839a222c1e8-browser",
+      "python",
+      "-c",
+      "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3554138400000113
+  },
+  {
+    "name": "worker_kill-kill",
+    "command": [
+      "docker",
+      "kill",
+      "--signal",
+      "KILL",
+      "vrae-b1-f839a222c1e8-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.05869854099998406
+  },
+  {
+    "name": "worker_kill-worker",
+    "command": [
+      "docker",
+      "run",
+      "--name",
+      "vrae-b1-f839a222c1e8-worker",
+      "--network",
+      "none",
+      "--read-only",
+      "--security-opt",
+      "no-new-privileges",
+      "--memory",
+      "512m",
+      "--cpus",
+      "1",
+      "--pids-limit",
+      "256",
+      "--tmpfs",
+      "/tmp:rw,nosuid,nodev,size=256m",
+      "--cap-add",
+      "NET_ADMIN",
+      "--env",
+      "VRAE_BROWSER_CASE=worker_kill",
+      "--mount",
+      "type=volume,src=vrae-b1-f839a222c1e8-ipc,dst=/ipc",
+      "vrae-ra1b-worker:local"
+    ],
+    "exit_code": 137,
+    "seconds": 1.8209784960000093
+  },
+  {
+    "name": "worker_kill-automatic-exit",
+    "command": [
+      "docker",
+      "wait",
+      "vrae-b1-f839a222c1e8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.07510455599998522
+  },
+  {
+    "name": "worker_kill-worker-config",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-f839a222c1e8-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012152743000001465
+  },
+  {
+    "name": "worker_kill-browser-log",
+    "command": [
+      "docker",
+      "logs",
+      "vrae-b1-f839a222c1e8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.012059150999988333
+  },
+  {
+    "name": "worker_kill-browser-final-state",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-f839a222c1e8-browser"
+    ],
+    "exit_code": 0,
+    "seconds": 0.011111081999985117
+  },
+  {
+    "name": "worker_kill-process-absence",
+    "command": [
+      "docker",
+      "top",
+      "vrae-b1-f839a222c1e8-browser"
+    ],
+    "exit_code": 1,
+    "seconds": 0.009838876000003438
+  },
+  {
+    "name": "worker_kill-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "vrae-b1-f839a222c1e8-browser",
+      "vrae-b1-f839a222c1e8-worker"
+    ],
+    "exit_code": 0,
+    "seconds": 0.02128068299998631
+  },
+  {
+    "name": "worker_kill-volume-remove",
+    "command": [
+      "docker",
+      "volume",
+      "rm",
+      "vrae-b1-f839a222c1e8-ipc"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01086272099999519
+  },
+  {
+    "name": "worker_kill-cleanup-proof",
+    "command": [
+      "docker",
+      "inspect",
+      "vrae-b1-f839a222c1e8-browser",
+      "vrae-b1-f839a222c1e8-worker"
+    ],
+    "exit_code": 1,
+    "seconds": 0.023108447999987902
+  },
+  {
+    "name": "worker_kill-volume-cleanup-proof",
+    "command": [
+      "docker",
+      "volume",
+      "inspect",
+      "vrae-b1-f839a222c1e8-ipc"
+    ],
+    "exit_code": 1,
+    "seconds": 0.010433559000006198
+  }
+]

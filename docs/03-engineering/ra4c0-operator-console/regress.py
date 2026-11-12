@@ -14,6 +14,7 @@ sys.path.insert(0,str(ROOT))
 out = HERE/'evidence'/('regress-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S-%f')+'-'+str(sys.version_info.minor))
 out.mkdir(parents=True)
 env = dict(os.environ,PYTHONPATH=str(ROOT),PYTHONUTF8='1',PYTHONDONTWRITEBYTECODE='1',
+           VRAE_RA3C_QA_ADAPTER_PATH=str(ROOT/'docs/03-engineering/ra3c-independent-qa/owner-adjudicated-v2/legacy_transport.py'),
            RUFF_CACHE_DIR=str(out/'runtime/ruff'),MYPY_CACHE_DIR=str(out/'runtime/mypy'))
 rows=[]
 start_head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
@@ -34,11 +35,22 @@ def run(name,args,expected=0):
         raise SystemExit('FAILED '+name+' (raw log retained)')
 
 
+if '--probe-temp' in sys.argv:
+    run('probe-temp',['-m','pytest','-x','-vv','-p','no:cacheprovider',
+        'tests/benchmark/test_human_gold.py::test_unsigned_or_wrong_review_attestation_is_pending_not_authority'])
+    raise SystemExit(0)
+
 run('ruff',['-m','ruff','check','vrae','tests','apps/operator_console','--select','E4,E7,E9,F'])
 run('mypy',['-m','mypy','vrae'])
-run('full',['-m','pytest','-q','-s','-p','no:cacheprovider','--junitxml='+str(out/'full.xml')])
+run('full',['-m','pytest','-q','-s','-p','no:cacheprovider',
+    '--basetemp='+str(out/'runtime/pytest'),'--junitxml='+str(out/'full.xml')])
 run('historical-v1',['-m','pytest','-q','-p','no:cacheprovider','-o','addopts=-ra',
-    'tests/reporting/test_ra3c_independent_acceptance.py','--junitxml='+str(out/'historical.xml')],1)
+    'tests/reporting/test_ra3c_independent_acceptance.py','--basetemp='+str(out/'runtime/historical'),
+    '--junitxml='+str(out/'historical.xml')],1)
+import xml.etree.ElementTree as ET
+historical_nodes=ET.parse(out/'historical.xml').getroot().findall('.//testcase')
+assert len(historical_nodes)==64 and sum(n.find('failure') is not None for n in historical_nodes)==53
+assert not any(n.find('error') is not None or n.find('skipped') is not None for n in historical_nodes)
 run('pip-check',['-m','pip','check'])
 for i,stage in enumerate(('ra2a','ra2b0','ra2b1','ra2b2','ra2b3','ra2b4','ra2b5','ra2b6',
     'ra2b6_execution','ra2c0','ra2c1','ra2c2','ra2c3','ra2d0','ra2d1','ra3a','ra3b')):

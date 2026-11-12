@@ -1,6 +1,6 @@
 // Actual SSR navigation and native source disclosure in local Chromium; no packages.
-import {spawn} from 'node:child_process';
-import {mkdir,mkdtemp,writeFile} from 'node:fs/promises';
+import {spawn,execFileSync} from 'node:child_process';
+import {mkdir,mkdtemp,writeFile,readFile,readdir} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
@@ -8,6 +8,9 @@ import assert from 'node:assert/strict';
 const own=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(own,'../../..');
 const out=path.join(own,'evidence','browser-'+new Date().toISOString().replace(/[:.]/g,'-'));
 await mkdir(out,{recursive:true});
+const sourceHead=execFileSync('git',['rev-parse','HEAD'],{cwd:root,windowsHide:true}).toString().trim();
+const app=path.join(root,'apps/operator_console'),sourceHashes={};
+for(const name of await readdir(app)){if(/\.(py|css|json)$/.test(name))sourceHashes[name]=createHash('sha256').update(await readFile(path.join(app,name))).digest('hex')}
 const profile=await mkdtemp(path.join(out,'profile-'));
 const py=process.env.RA4C0_PYTHON||path.resolve(root,'../ra2b3/.venv/Scripts/python.exe');
 const server=spawn(py,['-B','-m','apps.operator_console.preview','--test-only','--synthetic-fixtures'],{cwd:root,windowsHide:true,stdio:['ignore','pipe','pipe']});
@@ -19,6 +22,7 @@ async function ev(expression){const r=await call('Runtime.evaluate',{expression,
 async function check(id,expression,details={}){const observed=typeof expression==='string'?await ev(expression):expression;records.push({id,pass:!!observed,observed,details});await writeFile(path.join(out,'assertions.json'),JSON.stringify(records,null,2));assert(observed,id)}
 async function waitReady(fragment){for(let i=0;i<150;i++){if(await ev(`document.readyState==='complete'&&location.href.includes(${JSON.stringify(fragment)})`))return;await new Promise(r=>setTimeout(r,40))}throw Error('NAVIGATION_TIMEOUT_'+fragment)}
 async function navigate(url){await call('Page.navigate',{url},sid);await waitReady(new URL(url).pathname)}
+async function key(key,code,virtual,extra={}){await call('Input.dispatchKeyEvent',{type:'keyDown',key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual,...extra},sid);await call('Input.dispatchKeyEvent',{type:'keyUp',key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual},sid)}
 async function click(selector,fragment){await ev(`(()=>{document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center'});return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))})()`);const p=await ev(`(()=>{const e=document.querySelector(${JSON.stringify(selector)}),r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);await call('Input.dispatchMouseEvent',{type:'mousePressed',...p,button:'left',clickCount:1},sid);await call('Input.dispatchMouseEvent',{type:'mouseReleased',...p,button:'left',clickCount:1},sid);if(fragment)await waitReady(fragment)}
 async function screenshot(name,full=false){await ev('window.scrollTo(0,0)');const width=await ev('innerWidth'),height=full?await ev('document.documentElement.scrollHeight'):await ev('innerHeight');const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:full,...(full?{clip:{x:0,y:0,width,height,scale:1}}:{})},sid);const b=Buffer.from(r.data,'base64');await writeFile(path.join(out,name),b);shots.push({file:name,width,height,sha256:createHash('sha256').update(b).digest('hex')})}
 async function metrics(id){const result=await ev(`({width:innerWidth,scroll:document.documentElement.scrollWidth,bannerSize:parseFloat(getComputedStyle(document.querySelector('.private-bar')).fontSize),banner:document.querySelector('.private-bar').innerText,actions:[...document.querySelectorAll('.action,button,input,select,summary')].map(e=>({text:e.innerText||e.name,height:e.getBoundingClientRect().height})),external:[...document.querySelectorAll('[src],[href]')].map(e=>e.src||e.href).filter(u=>u.startsWith('http')&&!u.startsWith(location.origin)),scripts:document.scripts.length})`);await check(id,result.scroll<=result.width&&result.bannerSize>=12&&result.banner.includes('NOT APPROVED')&&result.external.length===0&&result.scripts===0&&result.actions.every(a=>a.height>=44),result)}
@@ -53,7 +57,9 @@ try{
     for(const task of ['403','unknown']){
       await click(`[data-key="task-${task}"]`,`/tasks/task-${task}`);await check(`${width}-${task}-neutral-no-report`,`document.body.innerText.includes('不能据此判断网站缺陷')&&!document.querySelector('[data-key="review"]')`);await screenshot(`blocked-${task}-${width}.png`,true);await click('[data-key="back-pool"]',new URL(base).pathname);
     }
-    await navigate(base+'?stage=REVIEW_REQUIRED&q='+encodeURIComponent('工业泵'));await check(`${width}-real-filter-request`,`document.querySelectorAll('.task').length===1&&document.querySelector('.task').innerText.includes('404')`);
+    await click('select[name="stage"]');await key('Home','Home',36);for(let n=0;n<6;n++)await key('ArrowDown','ArrowDown',40);await key('Enter','Enter',13);
+    await click('input[name="q"]');await call('Input.insertText',{text:'工业泵'},sid);await click('button[type="submit"]');await waitReady('?stage=REVIEW_REQUIRED');
+    await check(`${width}-real-filter-request`,`document.querySelectorAll('.task').length===1&&document.querySelector('.task').innerText.includes('404')&&document.querySelector('select').value==='REVIEW_REQUIRED'&&document.querySelector('input').value==='工业泵'`);
     await navigate(base+'?q='+encodeURIComponent('<script>alert(1)</script>'));await check(`${width}-query-injection-inert`,`document.scripts.length===0&&document.body.innerText.includes('没有匹配')`);
     await navigate(base+'tasks/task-404/review?version=2&draft=rd-stale');await check(`${width}-stale-denial`,`document.body.innerText.includes('STALE_VERSION')&&!document.body.innerText.includes('Captured static href')`);
     await call('Target.closeTarget',{targetId});
@@ -66,10 +72,11 @@ try{
     ['mutation',base+'tasks/task-404/approve',{method:'POST'},501],
     ['url-input',base+'?url=https://evil.example',{},400],
   ]){const r=await fetch(target,opts);await check(name,r.status===status,{status:r.status,body:await r.text()})}
+  for(const [name,hash] of Object.entries(sourceHashes))assert.equal(createHash('sha256').update(await readFile(path.join(app,name))).digest('hex'),hash,'SOURCE_CHANGED_'+name);
 }catch(error){await writeFile(path.join(out,'failure.txt'),error.stack);process.exitCode=1}
 finally{
   await writeFile(path.join(out,'raw-cdp.json'),JSON.stringify({commands,network,responses,exceptions},null,2));
-  await writeFile(path.join(out,'receipt.json'),JSON.stringify({version,mode:'SYNTHETIC_TEST_ONLY',assertions:records.length,passed:records.filter(r=>r.pass).length,screenshots:shots,networkCount:network.length,serverError},null,2));
+  await writeFile(path.join(out,'receipt.json'),JSON.stringify({version,sourceHead,sourceHashes,mode:'SYNTHETIC_TEST_ONLY',assertions:records.length,passed:records.filter(r=>r.pass).length,screenshots:shots,networkCount:network.length,serverError},null,2));
   await writeFile(path.join(out,'chromium-stderr.txt'),stderr);await writeFile(path.join(out,'server-stderr.txt'),serverError);
   if(ws)ws.close();if(chrome)chrome.kill();server.kill();
   console.log(JSON.stringify({out,assertions:records.length,failures:records.filter(r=>!r.pass),exitCode:process.exitCode||0}));
