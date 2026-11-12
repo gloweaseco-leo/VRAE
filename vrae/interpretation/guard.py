@@ -200,8 +200,9 @@ def _project(interpretation, bindings, pack, package, pins):
     results = []
     for pointer, text, types in claims:
         b = by_pointer[pointer]
+        computed_ref = 'cb-' + document_hash({k: v for k, v in b.items() if k != 'binding_ref'})
         reason = None
-        if (b['binding_ref'] != 'cb-' + document_hash({k: v for k, v in b.items() if k != 'binding_ref'})
+        if (b['binding_ref'] != computed_ref
                 or b['binding_version'] != VERSION or _encode(b['context']) != _encode(context)):
             reason = 'BINDING_INTEGRITY'
         elif b['text'] != text or b['claim_type'] not in types:
@@ -221,7 +222,7 @@ def _project(interpretation, bindings, pack, package, pins):
                   if b['claim_type'] == 'OBJECTIVE_SOURCE_FACT' else 'HUMAN_REVIEW_REQUIRED')
         trace = reason or ('LITERAL_ONLY' if status == 'SOURCE_FACT_BINDING_VERIFIED'
                            else 'SEMANTICS_REQUIRE_HUMAN')
-        results.append({'pointer': pointer, 'binding_ref': b['binding_ref'],
+        results.append({'pointer': pointer, 'binding_ref': computed_ref,
                         'status': status, 'reason': trace})
     result = {'guard_version': VERSION, 'context': context,
               'interpretation_sha256': document_hash(interpretation),

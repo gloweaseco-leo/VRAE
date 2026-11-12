@@ -276,3 +276,15 @@ def test_schema_valid_metadata_cannot_carry_instruction_authority(baseline, fiel
     i[field] = value
     with pytest.raises(GuardError, match='UNTRUSTED_INSTRUCTION'):
         validate(i, b, p, f, **k)
+
+
+def test_rejected_binding_reference_is_not_reflected_in_diagnostics(baseline):
+    p, f, k = baseline
+    i, b = proposal(p, f, k)
+    computed_ref = b[0]['binding_ref']
+    marker = 'synthetic-sensitive-marker@example.invalid'
+    b[0]['binding_ref'] = marker
+    document = validate(i, b, p, f, **k).document
+    assert document['claims'][0] == {'pointer': '/hypotheses/0', 'binding_ref': computed_ref,
+        'status': 'REJECTED', 'reason': 'BINDING_INTEGRITY'}
+    assert marker not in json.dumps(document)
