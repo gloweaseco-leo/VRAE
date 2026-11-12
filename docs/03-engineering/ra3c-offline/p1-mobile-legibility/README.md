@@ -12,6 +12,9 @@ source/Guard、`editorial.PROPOSALS`、C3/native schema、问题上限、NOT_RUN
 Caller pins 只更新 renderer 版本与由此派生的 rd-ref/HTML 摘要；原始来源/Guard 容器
 SHA-256 仍为 `3189a276ffabfa307f9e0c478208941b3868bd27895f0281928c0d96000bb26b`。
 完整内容/asset hash 自动变化；原生版本 id 包含 pins，因此 native hash 的衍生变化也保持原算法。
+固定合成回放的输入 metadata/version 保持原值，新软件/制品由 renderer 1.0.2、rd-ref、HTML/asset
+hash 与新 native report_version_id 区分。本轮没有持久客户报告或已批准版本的迁移/复用；
+真实版本审批工作流仍属于尚未授权实施的 RA3D。
 
 ## 新版可查看产物
 
@@ -52,7 +55,14 @@ merge commit `5acbb23f6e8a4e3a02144cf7cf7a076b48552c9e`，父提交为旧功能 
 最新已验收 main `60dbe1e1acfc84ad0849e84f3abe3712ad8ebccd`（含已验收 Phase0 文档）。
 未修改 Codex-1 QA 或 Phase0 设计文件，没有 RA3D 生产实现。
 
-双 Python 全仓/历史重放正在本轮执行；最终实际 JUnit、原始日志、源码边界证明和最后四项 hosted CI
-以随后封存的本目录记录与 PR #47 最终精确 SHA 交付段为准。新增报告回归预期 71 项，
+双 Python 全仓/历史重放已完成，见 [实际结果](RESULTS.md)、[源码与结果证明](source-and-results-proof.json)、
+[原始字节归档索引](archive-index.json)。最后四项 hosted CI 和最终精确 SHA 以 PR #47 最终交付段为准。
+报告回归实际 71 项，
 不把 Codex-1 的 64 项独立 QA 输入边界差异算作产品通过或擅自修正其 oracle。
 工程/视觉候选仍须 Owner 与独立 QA 在新 exact SHA 上验收，保持 private/NOT_APPROVED/不可分享。
+
+封存中发现默认 Git archive 采用了 Windows CRLF 导出；报告 refs 虽全部相同，源码字节严格
+比对仍拒绝。旧导出及两次运行记录在 `prior-export-crlf/` 保留；最终使用显式
+`core.autocrlf=false/core.eol=lf` 导出，214 个文件分别匹配原 Git blob 后再执行两版旧引擎重放。
+未放宽哈希断言。`archive-index.json` 指原始工作字节 ZIP；Git 文本换行规范化与这些原字节
+分别核验，不能混用 JSON 容器摘要和规范化报告/HTML 摘要。
