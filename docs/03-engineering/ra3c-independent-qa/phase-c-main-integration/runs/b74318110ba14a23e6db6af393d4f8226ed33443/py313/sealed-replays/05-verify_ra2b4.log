@@ -1,0 +1,1063 @@
+{
+  "status": "VERIFIED_OFFLINE_SOURCE_TAGS_ONLY",
+  "evaluator_version": "ra2b4-1.0.0",
+  "limitations": [
+    "NO_LIVE_COLLECTION",
+    "NO_INDEXING_RANKING_OR_HEALTH_CLAIM",
+    "ROBOTS_SITEMAP_UNKNOWN_NO_RESOLVABLE_BODY"
+  ],
+  "cases": [
+    {
+      "case": "industrial-home",
+      "pack_ref": "ep-b168aade67afa6239a8f59c08acc0a7c7aaff52ec41057d4973af98e55ebbb74",
+      "execution_ref": "rx-19185b7a155cdd641e391c2c9d8847e02c00d348c4af775bd8d0276d9f4a7ebd",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [
+          "ev-c6b5b2015fb8de668a1275607c3517417b92d217c45fee244174c0b698ef2ec3"
+        ],
+        "kind": "OBJECTIVE",
+        "observation_id": "obs-316e39199f516ee17bc6ba1c37c23bd672057ef9990c45df4299e87d520b30bc",
+        "result": "PASS",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "This captured HOME-request static HTML has one nonempty title and one same-site canonical href; source tag presence only.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "BOUNDED_TITLE_CANONICAL_PRESENT",
+      "source_page": {
+        "error": null,
+        "final_url": "https://example.org/",
+        "http_status": 200,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [
+          {
+            "location": null,
+            "peer_ip": "93.184.216.20",
+            "status": 200,
+            "url": "https://example.org/"
+          }
+        ],
+        "snapshot_ref": "page-8c3b71bcb1ca280945c66c3ced3cad3eba3c3d693f45b7bf204b4b34454e8ff8",
+        "source_ref": "src-581ba98ec93ee4ecdb74c0c553122587da664e88cd46962e569766d1f85c4504",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [
+            {
+              "attributes": [
+                {
+                  "name": "rel",
+                  "value": "canonical"
+                },
+                {
+                  "name": "href",
+                  "value": "/"
+                }
+              ],
+              "attributes_unambiguous": true,
+              "element": {
+                "character_end": 100,
+                "character_start": 69,
+                "column": 0,
+                "line": 4,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<link rel=\"canonical\" href=\"/\">",
+                "tag": "link"
+              },
+              "href": "/"
+            }
+          ],
+          "reason": "SINGLE_SAME_SITE_SOURCE_CANONICAL",
+          "status": "OBSERVED",
+          "value": "https://example.org/"
+        },
+        "description": {
+          "candidates": [
+            {
+              "attributes_unambiguous": true,
+              "element": {
+                "character_end": 176,
+                "character_start": 101,
+                "column": 0,
+                "line": 5,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<meta name=\"description\" content=\"Synthetic industrial components catalog\">",
+                "tag": "meta"
+              },
+              "value": "Synthetic industrial components catalog"
+            }
+          ],
+          "reason": "SINGLE_SOURCE_META_DESCRIPTION",
+          "status": "OBSERVED",
+          "value": "Synthetic industrial components catalog"
+        },
+        "parse_issues": [],
+        "robots": {
+          "candidates": [],
+          "reason": "NO_RESOLVABLE_ROBOTS_BODY_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "NO_CAPTURED_RESOLVABLE_SITEMAP_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [
+            {
+              "element": {
+                "character_end": 68,
+                "character_start": 14,
+                "column": 0,
+                "line": 3,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<title>Industrial valves &amp; pump components</title>",
+                "tag": "title"
+              },
+              "raw_inner": "Industrial valves &amp; pump components",
+              "text": "Industrial valves & pump components"
+            }
+          ],
+          "reason": "SINGLE_NONEMPTY_SOURCE_TITLE",
+          "status": "OBSERVED",
+          "value": "Industrial valves & pump components"
+        }
+      },
+      "citations": [
+        {
+          "content_sha256": "a24a20e00cc7b1c260b48c099fb3d85e6ecf19490bad5aff62a07eddb2ebb53e",
+          "element": {
+            "character_end": 68,
+            "character_start": 14,
+            "column": 0,
+            "line": 3,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<title>Industrial valves &amp; pump components</title>",
+            "tag": "title"
+          },
+          "evidence_ref": "ev-c6b5b2015fb8de668a1275607c3517417b92d217c45fee244174c0b698ef2ec3",
+          "fact_role": "TITLE",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "raw_inner": "Industrial valves &amp; pump components",
+          "snapshot_ref": "page-8c3b71bcb1ca280945c66c3ced3cad3eba3c3d693f45b7bf204b4b34454e8ff8",
+          "source_ref": "src-581ba98ec93ee4ecdb74c0c553122587da664e88cd46962e569766d1f85c4504",
+          "text": "Industrial valves & pump components",
+          "url": "https://example.org/"
+        },
+        {
+          "attributes": [
+            {
+              "name": "rel",
+              "value": "canonical"
+            },
+            {
+              "name": "href",
+              "value": "/"
+            }
+          ],
+          "attributes_unambiguous": true,
+          "content_sha256": "a24a20e00cc7b1c260b48c099fb3d85e6ecf19490bad5aff62a07eddb2ebb53e",
+          "element": {
+            "character_end": 100,
+            "character_start": 69,
+            "column": 0,
+            "line": 4,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<link rel=\"canonical\" href=\"/\">",
+            "tag": "link"
+          },
+          "evidence_ref": "ev-c6b5b2015fb8de668a1275607c3517417b92d217c45fee244174c0b698ef2ec3",
+          "fact_role": "CANONICAL",
+          "final_url": "https://example.org/",
+          "href": "/",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-8c3b71bcb1ca280945c66c3ced3cad3eba3c3d693f45b7bf204b4b34454e8ff8",
+          "source_ref": "src-581ba98ec93ee4ecdb74c0c553122587da664e88cd46962e569766d1f85c4504",
+          "url": "https://example.org/"
+        },
+        {
+          "attributes_unambiguous": true,
+          "content_sha256": "a24a20e00cc7b1c260b48c099fb3d85e6ecf19490bad5aff62a07eddb2ebb53e",
+          "element": {
+            "character_end": 176,
+            "character_start": 101,
+            "column": 0,
+            "line": 5,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<meta name=\"description\" content=\"Synthetic industrial components catalog\">",
+            "tag": "meta"
+          },
+          "evidence_ref": "ev-c6b5b2015fb8de668a1275607c3517417b92d217c45fee244174c0b698ef2ec3",
+          "fact_role": "DESCRIPTION",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-8c3b71bcb1ca280945c66c3ced3cad3eba3c3d693f45b7bf204b4b34454e8ff8",
+          "source_ref": "src-581ba98ec93ee4ecdb74c0c553122587da664e88cd46962e569766d1f85c4504",
+          "url": "https://example.org/",
+          "value": "Synthetic industrial components catalog"
+        }
+      ]
+    },
+    {
+      "case": "title-only",
+      "pack_ref": "ep-a181a601a26d21ad9544bed944e7a0377bc6f5101250433b82c53d6cc3d39340",
+      "execution_ref": "rx-f0785c48c96a2e6c9c605487a8877969a4986f12bdc91b6cd4fdcec85ed1bce8",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [],
+        "kind": "UNKNOWN",
+        "observation_id": "obs-d46b46999132b74e6ff796fab42b8ae912b8180eb9c05e42bbb4605490f98b66",
+        "result": "UNKNOWN",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "Insufficient unambiguous retained static head evidence for the bounded title/canonical check.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS",
+      "source_page": {
+        "error": null,
+        "final_url": "https://example.org/",
+        "http_status": 200,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [
+          {
+            "location": null,
+            "peer_ip": "93.184.216.20",
+            "status": 200,
+            "url": "https://example.org/"
+          }
+        ],
+        "snapshot_ref": "page-0fd47baf9d0e56a1aad17ab57bc959395337246fc65d395def5c8cd0fa06a885",
+        "source_ref": "src-9cf74e3f0517cd2ab0e089115b4c56766cbe52c089e90700196547acaa1b890c",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [],
+          "reason": "MISSING_EMPTY_MULTIPLE_OR_UNSUPPORTED_CANONICAL",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "description": {
+          "candidates": [],
+          "reason": "MISSING_EMPTY_OR_AMBIGUOUS_DESCRIPTION",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "parse_issues": [],
+        "robots": {
+          "candidates": [],
+          "reason": "NO_RESOLVABLE_ROBOTS_BODY_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "NO_CAPTURED_RESOLVABLE_SITEMAP_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [
+            {
+              "element": {
+                "character_end": 48,
+                "character_start": 12,
+                "column": 12,
+                "line": 1,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<title>Industrial components</title>",
+                "tag": "title"
+              },
+              "raw_inner": "Industrial components",
+              "text": "Industrial components"
+            }
+          ],
+          "reason": "SINGLE_NONEMPTY_SOURCE_TITLE",
+          "status": "OBSERVED",
+          "value": "Industrial components"
+        }
+      },
+      "citations": [
+        {
+          "content_sha256": "7d769c293e799a84be9798ead930352b4be091013ac018e539076046902e2fc9",
+          "element": {
+            "character_end": 48,
+            "character_start": 12,
+            "column": 12,
+            "line": 1,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<title>Industrial components</title>",
+            "tag": "title"
+          },
+          "evidence_ref": "ev-18be3a0b599425721a2f78adefb0afa8f2b8e3e5da823b50af4723cd58500458",
+          "fact_role": "TITLE",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "raw_inner": "Industrial components",
+          "snapshot_ref": "page-0fd47baf9d0e56a1aad17ab57bc959395337246fc65d395def5c8cd0fa06a885",
+          "source_ref": "src-9cf74e3f0517cd2ab0e089115b4c56766cbe52c089e90700196547acaa1b890c",
+          "text": "Industrial components",
+          "url": "https://example.org/"
+        }
+      ]
+    },
+    {
+      "case": "conflicting-canonical",
+      "pack_ref": "ep-41ff3edc38f1902f5b5cee2a8013f3a08f426c3e895c56252e55768e5f691cd7",
+      "execution_ref": "rx-a99651b07585ee03ee7e936fd668018bd6a944f91ae96b0530761fae91a9f09f",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [],
+        "kind": "UNKNOWN",
+        "observation_id": "obs-2a24b67805605c3a244f96a545abe65d35e3556c6df7c4d635e33391a98f82cc",
+        "result": "UNKNOWN",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "Insufficient unambiguous retained static head evidence for the bounded title/canonical check.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS",
+      "source_page": {
+        "error": null,
+        "final_url": "https://example.org/",
+        "http_status": 200,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [
+          {
+            "location": null,
+            "peer_ip": "93.184.216.20",
+            "status": 200,
+            "url": "https://example.org/"
+          }
+        ],
+        "snapshot_ref": "page-b7e73bfc85994755de125585f6b3923eeab52c7e66a0b4f66b02c202859b2766",
+        "source_ref": "src-06e6cc8ca2c299513d6e0328a94b1be88e91d10bc45978262c61bdb25245cac4",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [
+            {
+              "attributes": [
+                {
+                  "name": "rel",
+                  "value": "canonical"
+                },
+                {
+                  "name": "href",
+                  "value": "/"
+                }
+              ],
+              "attributes_unambiguous": true,
+              "element": {
+                "character_end": 64,
+                "character_start": 33,
+                "column": 33,
+                "line": 1,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<link rel=\"canonical\" href=\"/\">",
+                "tag": "link"
+              },
+              "href": "/"
+            },
+            {
+              "attributes": [
+                {
+                  "name": "rel",
+                  "value": "canonical"
+                },
+                {
+                  "name": "href",
+                  "value": "/catalog"
+                }
+              ],
+              "attributes_unambiguous": true,
+              "element": {
+                "character_end": 102,
+                "character_start": 64,
+                "column": 64,
+                "line": 1,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<link rel=\"canonical\" href=\"/catalog\">",
+                "tag": "link"
+              },
+              "href": "/catalog"
+            }
+          ],
+          "reason": "MISSING_EMPTY_MULTIPLE_OR_UNSUPPORTED_CANONICAL",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "description": {
+          "candidates": [],
+          "reason": "MISSING_EMPTY_OR_AMBIGUOUS_DESCRIPTION",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "parse_issues": [],
+        "robots": {
+          "candidates": [],
+          "reason": "NO_RESOLVABLE_ROBOTS_BODY_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "NO_CAPTURED_RESOLVABLE_SITEMAP_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [
+            {
+              "element": {
+                "character_end": 33,
+                "character_start": 12,
+                "column": 12,
+                "line": 1,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<title>Valves</title>",
+                "tag": "title"
+              },
+              "raw_inner": "Valves",
+              "text": "Valves"
+            }
+          ],
+          "reason": "SINGLE_NONEMPTY_SOURCE_TITLE",
+          "status": "OBSERVED",
+          "value": "Valves"
+        }
+      },
+      "citations": [
+        {
+          "content_sha256": "f9f0640ece0e97857070c20e8d33e23114ba4656823df132e6b3ef1a7c064c5f",
+          "element": {
+            "character_end": 33,
+            "character_start": 12,
+            "column": 12,
+            "line": 1,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<title>Valves</title>",
+            "tag": "title"
+          },
+          "evidence_ref": "ev-d1925c73937fd93b9b4df6a12f640b330dcfde54fd9c6f0de498f225ed92da52",
+          "fact_role": "TITLE",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "raw_inner": "Valves",
+          "snapshot_ref": "page-b7e73bfc85994755de125585f6b3923eeab52c7e66a0b4f66b02c202859b2766",
+          "source_ref": "src-06e6cc8ca2c299513d6e0328a94b1be88e91d10bc45978262c61bdb25245cac4",
+          "text": "Valves",
+          "url": "https://example.org/"
+        },
+        {
+          "attributes": [
+            {
+              "name": "rel",
+              "value": "canonical"
+            },
+            {
+              "name": "href",
+              "value": "/"
+            }
+          ],
+          "attributes_unambiguous": true,
+          "content_sha256": "f9f0640ece0e97857070c20e8d33e23114ba4656823df132e6b3ef1a7c064c5f",
+          "element": {
+            "character_end": 64,
+            "character_start": 33,
+            "column": 33,
+            "line": 1,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<link rel=\"canonical\" href=\"/\">",
+            "tag": "link"
+          },
+          "evidence_ref": "ev-d1925c73937fd93b9b4df6a12f640b330dcfde54fd9c6f0de498f225ed92da52",
+          "fact_role": "CANONICAL",
+          "final_url": "https://example.org/",
+          "href": "/",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-b7e73bfc85994755de125585f6b3923eeab52c7e66a0b4f66b02c202859b2766",
+          "source_ref": "src-06e6cc8ca2c299513d6e0328a94b1be88e91d10bc45978262c61bdb25245cac4",
+          "url": "https://example.org/"
+        },
+        {
+          "attributes": [
+            {
+              "name": "rel",
+              "value": "canonical"
+            },
+            {
+              "name": "href",
+              "value": "/catalog"
+            }
+          ],
+          "attributes_unambiguous": true,
+          "content_sha256": "f9f0640ece0e97857070c20e8d33e23114ba4656823df132e6b3ef1a7c064c5f",
+          "element": {
+            "character_end": 102,
+            "character_start": 64,
+            "column": 64,
+            "line": 1,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<link rel=\"canonical\" href=\"/catalog\">",
+            "tag": "link"
+          },
+          "evidence_ref": "ev-d1925c73937fd93b9b4df6a12f640b330dcfde54fd9c6f0de498f225ed92da52",
+          "fact_role": "CANONICAL",
+          "final_url": "https://example.org/",
+          "href": "/catalog",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-b7e73bfc85994755de125585f6b3923eeab52c7e66a0b4f66b02c202859b2766",
+          "source_ref": "src-06e6cc8ca2c299513d6e0328a94b1be88e91d10bc45978262c61bdb25245cac4",
+          "url": "https://example.org/"
+        }
+      ]
+    },
+    {
+      "case": "external-canonical",
+      "pack_ref": "ep-98d3f55b280fd49f19dccc97b3b53c0ec9204f2bfb29631025c4c13e430efa17",
+      "execution_ref": "rx-7263748b0b93d7798a20b29ec0eb9b45ee2c96588944a8e70abea157e32554dd",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [],
+        "kind": "UNKNOWN",
+        "observation_id": "obs-7fe504663171e906b00b8d5c1f42bb780fcf85649ce598c00ba45eff6ade58db",
+        "result": "UNKNOWN",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "Insufficient unambiguous retained static head evidence for the bounded title/canonical check.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS",
+      "source_page": {
+        "error": null,
+        "final_url": "https://example.org/",
+        "http_status": 200,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [
+          {
+            "location": null,
+            "peer_ip": "93.184.216.20",
+            "status": 200,
+            "url": "https://example.org/"
+          }
+        ],
+        "snapshot_ref": "page-8a6c19ace7dbcfd9bf9869ba5fdb591515010715f08b1c5c34211fbfb9dca308",
+        "source_ref": "src-f2d44f2a5338229d77e155170f8def291970fd46c95a3edf8a826c20df64f267",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [
+            {
+              "attributes": [
+                {
+                  "name": "rel",
+                  "value": "canonical"
+                },
+                {
+                  "name": "href",
+                  "value": "https://outside.example/"
+                }
+              ],
+              "attributes_unambiguous": true,
+              "element": {
+                "character_end": 87,
+                "character_start": 33,
+                "column": 33,
+                "line": 1,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<link rel=\"canonical\" href=\"https://outside.example/\">",
+                "tag": "link"
+              },
+              "href": "https://outside.example/"
+            }
+          ],
+          "reason": "CANONICAL_NORMALIZATION_OR_SITE_BOUNDARY_UNSUPPORTED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "description": {
+          "candidates": [],
+          "reason": "MISSING_EMPTY_OR_AMBIGUOUS_DESCRIPTION",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "parse_issues": [],
+        "robots": {
+          "candidates": [],
+          "reason": "NO_RESOLVABLE_ROBOTS_BODY_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "NO_CAPTURED_RESOLVABLE_SITEMAP_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [
+            {
+              "element": {
+                "character_end": 33,
+                "character_start": 12,
+                "column": 12,
+                "line": 1,
+                "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+                "raw_element": "<title>Valves</title>",
+                "tag": "title"
+              },
+              "raw_inner": "Valves",
+              "text": "Valves"
+            }
+          ],
+          "reason": "SINGLE_NONEMPTY_SOURCE_TITLE",
+          "status": "OBSERVED",
+          "value": "Valves"
+        }
+      },
+      "citations": [
+        {
+          "content_sha256": "acc1785cb94114c53cd50306987be680f9c83584f734e7f167b725de04974763",
+          "element": {
+            "character_end": 33,
+            "character_start": 12,
+            "column": 12,
+            "line": 1,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<title>Valves</title>",
+            "tag": "title"
+          },
+          "evidence_ref": "ev-619d6e5121e79e573f56bdfb56f2508947be28be22da9bc8cab6fdb60589f944",
+          "fact_role": "TITLE",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "raw_inner": "Valves",
+          "snapshot_ref": "page-8a6c19ace7dbcfd9bf9869ba5fdb591515010715f08b1c5c34211fbfb9dca308",
+          "source_ref": "src-f2d44f2a5338229d77e155170f8def291970fd46c95a3edf8a826c20df64f267",
+          "text": "Valves",
+          "url": "https://example.org/"
+        },
+        {
+          "attributes": [
+            {
+              "name": "rel",
+              "value": "canonical"
+            },
+            {
+              "name": "href",
+              "value": "https://outside.example/"
+            }
+          ],
+          "attributes_unambiguous": true,
+          "content_sha256": "acc1785cb94114c53cd50306987be680f9c83584f734e7f167b725de04974763",
+          "element": {
+            "character_end": 87,
+            "character_start": 33,
+            "column": 33,
+            "line": 1,
+            "offset_basis": "UTF8_SIG_DECODED_CHARACTER_RANGE",
+            "raw_element": "<link rel=\"canonical\" href=\"https://outside.example/\">",
+            "tag": "link"
+          },
+          "evidence_ref": "ev-619d6e5121e79e573f56bdfb56f2508947be28be22da9bc8cab6fdb60589f944",
+          "fact_role": "CANONICAL",
+          "final_url": "https://example.org/",
+          "href": "https://outside.example/",
+          "locator": "/pages/0/evidence",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-8a6c19ace7dbcfd9bf9869ba5fdb591515010715f08b1c5c34211fbfb9dca308",
+          "source_ref": "src-f2d44f2a5338229d77e155170f8def291970fd46c95a3edf8a826c20df64f267",
+          "url": "https://example.org/"
+        }
+      ]
+    },
+    {
+      "case": "js-only",
+      "pack_ref": "ep-d76c5d9366c15c4a34785d36756157096f97999292b76252ac231768dc27efa0",
+      "execution_ref": "rx-119b67343d4a1045a21636c3fbb1692408fe6555a99ed0d07741770d3ce42569",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [],
+        "kind": "UNKNOWN",
+        "observation_id": "obs-d9c668e07a7fe0fe551f38c52cf03b627b7095eaa5067dc92bfc134982d21909",
+        "result": "UNKNOWN",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "Insufficient unambiguous retained static head evidence for the bounded title/canonical check.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS",
+      "source_page": {
+        "error": null,
+        "final_url": "https://example.org/",
+        "http_status": 200,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [
+          {
+            "location": null,
+            "peer_ip": "93.184.216.20",
+            "status": 200,
+            "url": "https://example.org/"
+          }
+        ],
+        "snapshot_ref": "page-cf60a1267174e0e40e8a7c4d68ba4815bc9cf5d215542551b3f91f90f809843b",
+        "source_ref": "src-6b466db4b4af421534ba7dacb9a5f3a1a84176deb3524331f9721cb240e9ea21",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [],
+          "reason": "MISSING_EMPTY_MULTIPLE_OR_UNSUPPORTED_CANONICAL",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "description": {
+          "candidates": [],
+          "reason": "MISSING_EMPTY_OR_AMBIGUOUS_DESCRIPTION",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "parse_issues": [],
+        "robots": {
+          "candidates": [],
+          "reason": "NO_RESOLVABLE_ROBOTS_BODY_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "NO_CAPTURED_RESOLVABLE_SITEMAP_EVIDENCE",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [],
+          "reason": "MISSING_EMPTY_OR_MULTIPLE_TITLE",
+          "status": "UNKNOWN",
+          "value": null
+        }
+      },
+      "citations": []
+    },
+    {
+      "case": "raw-not-retained",
+      "pack_ref": "ep-f1a31742d4f3ae6f324bf95761e6bf2fd8e7f19f5dd5486963fa41bdb7240907",
+      "execution_ref": "rx-13841502f0c219b2cc7302227ce51297d57f86ed74761f86a5500eb864d68585",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [],
+        "kind": "UNKNOWN",
+        "observation_id": "obs-027402ad654583e866f848a42c0bd7ab59896a28af85fc256ddb4d69959f6797",
+        "result": "UNKNOWN",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "Insufficient unambiguous retained static head evidence for the bounded title/canonical check.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "RETAINED_OBSERVED_HTTP_HTML_REQUIRED",
+      "source_page": {
+        "error": null,
+        "final_url": "https://example.org/",
+        "http_status": 200,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [
+          {
+            "location": null,
+            "peer_ip": "93.184.216.20",
+            "status": 200,
+            "url": "https://example.org/"
+          }
+        ],
+        "snapshot_ref": "page-de86a53d78e4cc9dc3057ba933c9cba7a48b0ba3c9eb67e04a2460ca90f30c88",
+        "source_ref": "src-ecfc693e22b948409b03738f0c92d6543f5adcc9a5ae23ee02db39b30d8d9071",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [],
+          "reason": "RETAINED_OBSERVED_HTTP_HTML_REQUIRED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "description": {
+          "candidates": [],
+          "reason": "RETAINED_OBSERVED_HTTP_HTML_REQUIRED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "robots": {
+          "candidates": [],
+          "reason": "RETAINED_OBSERVED_HTTP_HTML_REQUIRED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "RETAINED_OBSERVED_HTTP_HTML_REQUIRED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [],
+          "reason": "RETAINED_OBSERVED_HTTP_HTML_REQUIRED",
+          "status": "UNKNOWN",
+          "value": null
+        }
+      },
+      "citations": []
+    },
+    {
+      "case": "http-403",
+      "pack_ref": "ep-840eeb8d9d1fcf8808ee477040378e8b61080102a892bb1dea5f97caccbb2b02",
+      "execution_ref": "rx-a508ad0d12cdeefa68679793aaa75d38057f51116ea424726c5466ed58536614",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [],
+        "kind": "UNKNOWN",
+        "observation_id": "obs-af296d69113c3ce00f0697b07b1fbd166732b2608d3c3016807d9e6610b62597",
+        "result": "ACCESS_BLOCKED",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "Access to this captured source was blocked; no SEO defect is asserted.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "SOURCE_ACCESS_BLOCKED",
+      "source_page": {
+        "error": {
+          "code": "ACCESS_BLOCKED",
+          "retryable": false,
+          "safe_message": "ACCESS_BLOCKED",
+          "schema_version": "1.0"
+        },
+        "final_url": "https://example.org/",
+        "http_status": 403,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [
+          {
+            "location": null,
+            "peer_ip": "93.184.216.20",
+            "status": 403,
+            "url": "https://example.org/"
+          }
+        ],
+        "snapshot_ref": "page-be6dd7a2c476b77e42bd8094395a113a50a4ce811c6e78a793e3eb064375eeac",
+        "source_ref": "src-a546b8581b87829023301c14b64a868a3dfe017b54e4b38bfae5567c0b5cf5d5",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "description": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "robots": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        }
+      },
+      "citations": []
+    },
+    {
+      "case": "robots-denied",
+      "pack_ref": "ep-a7a7a05f85be82bd2d7b02563eca1787b88bcd1147aa2f1ffe0a7b4f3a499ce6",
+      "execution_ref": "rx-4612d394a960f459c2829abd84a906d6aecc264983fb8394362b4e2bb887e994",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [],
+        "kind": "UNKNOWN",
+        "observation_id": "obs-1867d57855dee311a0a73fb9f26d7b510c87f975ae74d1aaef7e1e306f51d06b",
+        "result": "ACCESS_BLOCKED",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "Access to this captured source was blocked; no SEO defect is asserted.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "SOURCE_ACCESS_BLOCKED",
+      "source_page": {
+        "error": {
+          "code": "ROBOTS_DISALLOWED",
+          "retryable": false,
+          "safe_message": "ROBOTS_DISALLOWED",
+          "schema_version": "1.0"
+        },
+        "final_url": null,
+        "http_status": null,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [],
+        "snapshot_ref": "page-d19983af13916df50b64490e9f16fbd3687f4f93dcab913c99959d6ddb5642d0",
+        "source_ref": "src-2e7185ae35214c53341e0f4fe3f9adb996d7883454fe070deeb763ba718b5d15",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "description": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "robots": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        }
+      },
+      "citations": []
+    },
+    {
+      "case": "waf",
+      "pack_ref": "ep-3440f843932320d9c5293882618a65720733a98054e3e9b6e548faabf711b577",
+      "execution_ref": "rx-8f7dd74972390e53b545f01e09fb7ec216295c978dbb757e0431e820e1adc261",
+      "observation": {
+        "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+        "evidence_ids": [],
+        "kind": "UNKNOWN",
+        "observation_id": "obs-9e56490b786daf4967d417b141030987e030c69f7276ee3ce1979dd85a0cafdc",
+        "result": "ACCESS_BLOCKED",
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "run_id": "run-seo-synthetic",
+        "schema_version": "1.0",
+        "statement": "Access to this captured source was blocked; no SEO defect is asserted.",
+        "tenant_id": "tenant-example"
+      },
+      "reason": "SOURCE_ACCESS_BLOCKED",
+      "source_page": {
+        "error": {
+          "code": "ACCESS_BLOCKED",
+          "retryable": false,
+          "safe_message": "ACCESS_BLOCKED",
+          "schema_version": "1.0"
+        },
+        "final_url": "https://example.org/",
+        "http_status": 200,
+        "locator": "/pages/0",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "redirect_trace": [
+          {
+            "location": null,
+            "peer_ip": "93.184.216.20",
+            "status": 200,
+            "url": "https://example.org/"
+          }
+        ],
+        "snapshot_ref": "page-274a482f7e0f5eac32e1e9fbf18a47cc2e7852a8824670a30ecaf7947dadb506",
+        "source_ref": "src-9e64bbb38d34028321a1ed21b6c4ee1eadbb6ec1d3b2283bb6a461e6ea5e339e",
+        "url": "https://example.org/"
+      },
+      "seo_signals": {
+        "canonical": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "description": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "robots": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "sitemap": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "title": {
+          "candidates": [],
+          "reason": "SOURCE_ACCESS_BLOCKED",
+          "status": "UNKNOWN",
+          "value": null
+        }
+      },
+      "citations": []
+    }
+  ]
+}

@@ -12,7 +12,7 @@ import pytest
 _ROOT = Path(__file__).resolve().parents[2]
 _CONTRACT = _ROOT/'docs/03-engineering/ra3c-independent-qa/phase-c-main-integration/collection_contract.py'
 assert hashlib.sha256(_CONTRACT.read_bytes().replace(b'\r\n',b'\n')).hexdigest() == \
-    '6282c12175ba5dc0d6fd409994fd9f17bd59f57faae4521f037631d659b21022', 'OWNER_V2_COLLECTION_TRANSPORT_INTEGRITY'
+    '57038faba1d867219f243ae6c8f89d52e66c2fcc3bed315ea9645d9a1820a58a', 'OWNER_V2_COLLECTION_TRANSPORT_INTEGRITY'
 _spec = importlib.util.spec_from_file_location('owner_ra3c_v2_collection_contract',_CONTRACT)
 _contract = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_contract)

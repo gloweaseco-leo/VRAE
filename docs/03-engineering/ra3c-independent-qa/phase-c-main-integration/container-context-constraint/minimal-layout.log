@@ -1,0 +1,17 @@
+
+=================================== ERRORS ====================================
+_____ ERROR collecting tests/reporting/test_ra3c_owner_adjudicated_v2.py ______
+tests\reporting\test_ra3c_owner_adjudicated_v2.py:14: in <module>
+    assert hashlib.sha256(_CONTRACT.read_bytes().replace(b'\r\n',b'\n')).hexdigest() == \
+                          ^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_abc.py:625: in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+..\..\..\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:537: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\liu\\AppData\\Local\\Temp\\vrae-ra3c-no-docs-5a4s473x\\docs\\03-engineering\\ra3c-independent-qa\\phase-c-main-integration\\collection_contract.py'
+=========================== short test summary info ===========================
+ERROR tests/reporting/test_ra3c_owner_adjudicated_v2.py - FileNotFoundError: ...
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+no tests collected, 1 error in 0.86s

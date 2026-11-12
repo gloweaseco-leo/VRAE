@@ -136,6 +136,10 @@ def actual_collection_receipt(request,suite):
     finally:
         result = dict(source_sha256=info['source_sha256'],actual_call_reports=reports.calls,
             setup_or_call_problems=reports.problems,primary_count=64,denial_count=54)
-        terminal.write_line('OWNER_RA3C_V2_ACTUAL_CALL_REPORTS '+json.dumps(result,sort_keys=True))
+        # Teardown runs under pytest capture. Disable capture solely while
+        # publishing this read-only receipt, so ordinary -q CI retains it.
+        capture = request.config.pluginmanager.getplugin('capturemanager')
+        with capture.global_and_fixture_disabled():
+            terminal.write_line('OWNER_RA3C_V2_ACTUAL_CALL_REPORTS '+json.dumps(result,sort_keys=True))
         request.config.pluginmanager.unregister(reports)
         assert len(reports.calls) == 118 and set(reports.calls.values()) == {'passed'} and not reports.problems
