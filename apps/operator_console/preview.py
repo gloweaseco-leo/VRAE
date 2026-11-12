@@ -10,6 +10,10 @@ import secrets
 
 from .fixtures import make_fixture
 from .interface import ConsoleInterface, Response
+from .contracts import ConsoleError
+from .proposals import ProposalPreview, BODY_LIMIT, CONTENT_TYPE
+from . import views
+from .proposal_views import composer
 
 
 def serve(*, test_only=False, synthetic_fixtures=False, host='127.0.0.1', port=0):
@@ -17,7 +21,8 @@ def serve(*, test_only=False, synthetic_fixtures=False, host='127.0.0.1', port=0
         raise ValueError('TEST_ONLY_LOOPBACK_REQUIRED')
     service, context = make_fixture()
     prefix = '/__fixture__/' + secrets.token_urlsafe(24) + '/'
-    interface = ConsoleInterface(service,prefix=prefix)
+    proposals = ProposalPreview(service,context,test_only=test_only,synthetic_fixtures=synthetic_fixtures)
+    interface = ConsoleInterface(service,prefix=prefix,proposal_preview=proposals)
 
     class Handler(BaseHTTPRequestHandler):
         def handle_read(self):
@@ -26,8 +31,35 @@ def serve(*, test_only=False, synthetic_fixtures=False, host='127.0.0.1', port=0
             if (self.headers.get('Host') != expected_host
                     or (origin is not None and origin != 'http://'+expected_host)
                     or not self.path.startswith(prefix)
-                    or self.headers.get('Sec-Fetch-Site') in ('cross-site','same-site')):
+                    or self.headers.get('Sec-Fetch-Site') in ('cross-site','same-site')
+                    or len(self.headers.get_all('Host', [])) != 1):
                 response = Response(403,b'UNAUTHORIZED','text/plain; charset=utf-8')
+            elif self.command == 'POST' and self.path.split('?',1)[0].endswith('/proposal-preview'):
+                self.close_connection = True
+                length = self.headers.get('Content-Length','')
+                if (origin != 'http://'+expected_host or len(self.headers.get_all('Origin',[])) != 1
+                        or self.headers.get('Cookie') is not None
+                        or self.headers.get('Authorization') is not None
+                        or self.headers.get('Transfer-Encoding') is not None
+                        or len(self.headers.get_all('Content-Length',[])) != 1
+                        or len(self.headers.get_all('Content-Type',[])) != 1
+                        or not length.isascii() or not length.isdigit() or len(length) > 6
+                        or int(length) > BODY_LIMIT or self.headers.get('Content-Type') != CONTENT_TYPE):
+                    response = Response(403,b'UNAUTHORIZED','text/plain; charset=utf-8')
+                else:
+                    self.connection.settimeout(3)
+                    try:
+                        raw = self.rfile.read(int(length))
+                        if len(raw) != int(length):
+                            raise ValueError('INCOMPLETE_BODY')
+                        result = proposals.post(context,self.path,raw,CONTENT_TYPE,prefix=prefix)
+                        response = Response(200,composer(prefix,*result).encode('utf-8'))
+                    except ConsoleError as exc:
+                        code = str(exc)
+                        status = 403 if code == 'UNAUTHORIZED' else 501 if code == 'NOT_IMPLEMENTED' else 409 if code in ('STALE_VERSION','SOURCE_INTEGRITY','NOT_READY') else 400
+                        response = Response(status,views.error(prefix,code).encode('utf-8'))
+                    except (ValueError, UnicodeError, TypeError, TimeoutError):
+                        response = Response(400,b'INVALID_INPUT','text/plain; charset=utf-8')
             else:
                 response = interface.dispatch(context,self.command,self.path)
             self.send_response(response.status)
@@ -35,7 +67,11 @@ def serve(*, test_only=False, synthetic_fixtures=False, host='127.0.0.1', port=0
             self.send_header('Content-Length',str(len(response.body)))
             self.send_header('Cache-Control','no-store')
             self.send_header('X-Content-Type-Options','nosniff')
-            self.send_header('Referrer-Policy','no-referrer')
+            # Chromium suppresses Origin to "null" on POST under no-referrer.
+            # Keep exact Origin enforcement; only the local form pages use
+            # same-origin (never send any referrer across origins).
+            form_page = self.path.split('?',1)[0].endswith(('/proposal','/proposal-preview'))
+            self.send_header('Referrer-Policy','same-origin' if form_page and response.status == 200 else 'no-referrer')
             self.send_header('Content-Security-Policy',"default-src 'none'; style-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'; connect-src 'none'")
             self.end_headers()
             if self.command != 'HEAD':
