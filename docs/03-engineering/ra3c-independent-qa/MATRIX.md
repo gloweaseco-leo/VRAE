@@ -29,9 +29,9 @@ distinct-issue production coverage. 404/410 captures remain separate, TRUST UNKN
 
 Phase A: replay independently authored local inputs on **accepted** collector,
 evidence, rules, findings and guard; freeze literal refs and inputs. Missing
-`vrae.reporting` is a genuine prerequisite collection RED, no stub/skip/xfail.
+`vrae.reporting` is a genuine prerequisite fixture-setup RED, no stub/skip/xfail.
 All main blobs stay unchanged. Old RA3A/B and security controls run separately;
-do not claim full pytest passed when collection stopped.
+do not claim full pytest passed when the reporting prerequisite is absent.
 
 Issue #45 does not prescribe Python function/field names. Freeze an API-neutral
 QA transport protocol separately (`SUBJECT_PROTOCOL.md`). Later candidate wiring
