@@ -53,4 +53,6 @@ All results are private, `NOT_APPROVED`, unshareable, not reports and not semant
 
 `preserved-history.json` anchors SHA-256 values to the accepted main Git blobs. The check permits Git's ordinary CRLF checkout conversion by hashing LF-normalized text; it does not change any historical file. Captured raw response bytes remain base64-preserved and are checked without newline normalization.
 
+The same historical manifest is available under the new test fixtures, because the unchanged isolated HTTP image excludes `docs/`. Only its explicit `VRAE_ISOLATED_LAB=1` test invocation may report absent docs as unavailable; every missing source/contract/test artifact still fails, and every source proof still replays. The CLI and full-repository jobs require all 70 historical files. The existing sealed-Gold minimal-layout reconstruction tests also continue unchanged. The first hosted run exposed this docs dependency (`b3182a9`, isolated-http); it is retained as negative evidence, not counted as a pass.
+
 See `fixed-replay-result.json`, Python-version JUnit XML, final validation summary and hosted CI links for executed results. No accuracy score or customer-facing output is claimed.

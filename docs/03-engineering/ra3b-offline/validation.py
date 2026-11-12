@@ -20,6 +20,8 @@ def history():
                   ['git', 'show', accepted + ':' + p], cwd=ROOT)).hexdigest() for p in paths}}
     (OUT / 'preserved-history.json').write_text(json.dumps(result, sort_keys=True, indent=2) + '\n',
                                                encoding='utf-8')
+    (ROOT / 'tests/interpretation/fixtures/preserved-history.json').write_text(
+        json.dumps(result, sort_keys=True, indent=2) + '\n', encoding='utf-8')
     archive = ROOT / 'tests/interpretation/fixtures/fixed-replay.json'
     if archive.exists():
         data = json.loads(archive.read_text(encoding='utf-8'))

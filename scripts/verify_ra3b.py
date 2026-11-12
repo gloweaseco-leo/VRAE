@@ -3,6 +3,7 @@ import argparse
 import base64
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 
@@ -37,7 +38,7 @@ def case(status):
                              for obj, bs in [(h, hb), (r, rb)]]}
 
 
-def replay(data):
+def replay(data, *, minimal_isolated_layout=False):
     output = []
     for c in data['cases']:
         k = c['pins']
@@ -62,8 +63,14 @@ def replay(data):
     # Historical contract/Gold bytes are pinned independently from new fixtures.
     for path, digest in data['historical_sha256'].items():
         assert hashlib.sha256((ROOT / path).read_bytes().replace(b'\r\n', b'\n')).hexdigest() == digest
-    preserved = json.loads((EVIDENCE / 'preserved-history.json').read_text(encoding='utf-8'))
+    preserved = json.loads((ROOT / 'tests/interpretation/fixtures/preserved-history.json').read_text(
+        encoding='utf-8'))
+    unavailable = []
     for path, digest in preserved['sha256'].items():
+        if (minimal_isolated_layout and os.environ.get('VRAE_ISOLATED_LAB') == '1'
+                and path.startswith('docs/') and not (ROOT / path).exists()):
+            unavailable.append(path)
+            continue  # The unchanged HTTP image excludes docs; no source/evidence check is skipped.
         assert hashlib.sha256((ROOT / path).read_bytes().replace(b'\r\n', b'\n')).hexdigest() == digest
     # Red/green: genuine citation + unrelated objective assertion, same valid IDs.
     p, f, k = source()
@@ -77,7 +84,9 @@ def replay(data):
     else:
         raise AssertionError('INVALID_JSON_ACCEPTED')
     return {'status': 'OFFLINE_PRIVATE_REPLAY_PASS', 'cases': output, 'negative_red_green': rejected,
-            'historical_files_verified': len(preserved['sha256']), 'human_gold': '0/26_UNEVALUATED',
+            'historical_files_verified': len(preserved['sha256']) - len(unavailable),
+            'history_unavailable_in_minimal_isolated_layout': unavailable,
+            'human_gold': '0/26_UNEVALUATED',
             'no_provider_calls': True, 'no_customer_report': True, 'shareable': False,
             'limitations': ['SOURCE_CONSISTENCY_NOT_AUTHENTICITY', 'NO_SEMANTIC_APPROVAL',
                            'INJECTION_LEXICON_IS_CONSERVATIVE_NOT_A_UNIVERSAL_DETECTOR']}
