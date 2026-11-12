@@ -76,7 +76,7 @@ def main():
             'skipped': sum(c.find('skipped') is not None for c in cases)}
     ok = all(r['matches'] for r in results)
     if args.mode == 'candidate':
-        ok = ok and counts['qa']['testcases'] > 100 and all(counts['qa'][k] == 0
+        ok = ok and counts['qa']['testcases'] == 224 and all(counts['qa'][k] == 0
                                                          for k in ('failure', 'error', 'skipped'))
     summary = dict(python=sys.version, source_head=args.expected_source, accepted_base=BASE,
         mode=args.mode, outcome=('PREREQUISITE_RED_CONFIRMED' if args.mode == 'baseline'

@@ -184,7 +184,7 @@ def test_source_locator_or_id_swap_and_outer_rehash(part):
     citation = args[1][0]['fact']['source']['citation']
     position = citation.get('element', citation)
     target = position if part in ('line', 'column', 'dom_path') else citation
-    target[part] = 900 if part in ('line', 'column') else 'forged-codex1'
+    target['path' if part == 'dom_path' else part] = 900 if part in ('line', 'column') else 'forged-codex1'
     rehash(args[1][0])
     rejected(args)
 
@@ -388,7 +388,7 @@ def test_original_pack_bytes_and_native_source_edges_replayed(mutation):
     else:
         page = doc['sources'][0]['document']['pages'][0]
         if mutation == 'source_time':
-            page['snapshot']['fetched_at'] = '2026-01-01T00:00:00Z'
+            page['snapshot']['captured_at'] = '2026-01-01T00:00:00Z'
         elif mutation == 'evidence_id':
             page['evidence']['evidence_id'] = 'evidence-forged-codex1'
         elif mutation == 'snapshot_id':
