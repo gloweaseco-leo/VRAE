@@ -1,0 +1,298 @@
+{
+  "commands": 245,
+  "all_expected_exits_match": true,
+  "worker_exits": [
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 124996547301,
+      "case": "readonly",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 128278735650,
+      "case": "writes",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 131691160242,
+      "case": "private",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 135177398488,
+      "case": "resources",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 138603707186,
+      "case": "channels",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 142109742023,
+      "case": "escape",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 145475283248,
+      "case": "storage",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 148887828227,
+      "case": "redirect",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 152364164189,
+      "case": "redirect_private",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 155911034658,
+      "case": "rebinding",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 174380976424,
+      "case": "infinite",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 193363490907,
+      "case": "memory",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 200466940297,
+      "case": "revocation",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 210607747397,
+      "case": "crash",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 220768675208,
+      "case": "sigkill",
+      "exit_code": 0
+    },
+    {
+      "event": "worker_exited",
+      "monotonic_ns": 223041293555,
+      "case": "worker_kill",
+      "exit_code": 137
+    }
+  ],
+  "negative_probes": [
+    {
+      "name": "readonly-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "readonly-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "readonly-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "writes-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "writes-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "writes-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "private-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "private-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "private-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "resources-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "resources-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "resources-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "channels-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "channels-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "channels-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "escape-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "escape-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "escape-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "storage-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "storage-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "storage-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "redirect-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "redirect-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "redirect-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "redirect_private-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "redirect_private-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "redirect_private-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "rebinding-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "rebinding-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "rebinding-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "infinite-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "infinite-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "infinite-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "memory-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "memory-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "memory-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "revocation-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "revocation-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "revocation-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "crash-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "crash-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "crash-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "sigkill-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "sigkill-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "sigkill-volume-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "worker_kill-process-absence",
+      "exit_code": 1
+    },
+    {
+      "name": "worker_kill-cleanup-proof",
+      "exit_code": 1
+    },
+    {
+      "name": "worker_kill-volume-cleanup-proof",
+      "exit_code": 1
+    }
+  ],
+  "server_digest": "sha256:e4c310a2f62d82987cf147a772ba3386bab182575c01d7ac55d60b60ad38da17",
+  "downloaded_zip_sha256": "e4c310a2f62d82987cf147a772ba3386bab182575c01d7ac55d60b60ad38da17"
+}
