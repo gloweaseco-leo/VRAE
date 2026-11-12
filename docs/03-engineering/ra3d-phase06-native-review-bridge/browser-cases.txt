@@ -1,0 +1,68 @@
+  for(const width of [1280,375,320]){
+    const height=width===1280?1000:812;
+    const {targetId}=await call('Target.createTarget',{url:'about:blank'});({sessionId:sid}=await call('Target.attachToTarget',{targetId,flatten:true}));
+    await call('Page.enable',{},sid);await call('Runtime.enable',{},sid);await call('Network.enable',{},sid);
+    await call('Network.setBlockedURLs',{urls:['http://*','https://*','ws://*','wss://*','ftp://*']},sid);
+    await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<740},sid);
+    await call('Page.navigate',{url:pathToFileURL(path.join(here,'index.html')).href},sid);
+    for(let i=0;i<200;i++){if(await ev(`document.readyState==='complete'&&!!document.querySelector('#native-dossier .native-claim')`))break;await new Promise(r=>setTimeout(r,25))}
+    await ev('document.fonts.ready');
+    for(const c of ['404','200']){
+      if(c==='200')await scenario('coverage');
+      await ev('window.scrollTo(0,0)');
+      const metrics=await ev(`(()=>{const e=document.querySelector('.private-bar'),r=e.getBoundingClientRect();return{width:innerWidth,scrollWidth:document.documentElement.scrollWidth,lang:document.documentElement.lang,banner:{text:e.innerText,minFont:Math.min(...[e,...e.querySelectorAll('*')].map(n=>parseFloat(getComputedStyle(n).fontSize))),top:r.top,bottom:r.bottom},context:document.querySelector('#context').innerText}})()`);
+      await check(`${width}-${c}-layout`,metrics.scrollWidth<=width&&metrics.banner.minFont>=12&&metrics.banner.top>=0&&metrics.banner.bottom<=height&&metrics.banner.text.includes('真实 RA3C 合成证据重放')&&metrics.banner.text.includes('NOT APPROVED'),metrics);
+      await check(`${width}-${c}-native-context`,`document.querySelector('#context').innerText.includes(window.NATIVE_DOSSIERS['${c}'].native_document.metadata.report_id)&&document.querySelector('#context').innerText.includes('2026-11-10T12:00:00+00:00')&&!document.querySelector('#context').innerText.includes('sim-')`);
+      await screenshot(`native-${c}-${width}.png`,true);
+      if(c==='404'){
+        await check(`${width}-404-fact-and-proposals`,`(()=>{const d=window.NATIVE_DOSSIERS['404'].native_document,i=d.issues[0],t=document.querySelector('#review').innerText;return [i.fact_claim,...Object.values(i.proposals)].every(c=>t.includes(c.text))&&i.finding.buyer_task==='INQUIRE'&&i.fact_claim.status==='SOURCE_FACT_BINDING_VERIFIED'&&Object.values(i.proposals).every(c=>c.status==='HUMAN_REVIEW_REQUIRED')})()`);
+        await check(`${width}-initial-positive-disabled`,'document.querySelector("#positive").disabled');
+      }else await check(`${width}-zero-not-report`,`!document.querySelector('#positive')&&window.NATIVE_DOSSIERS['200'].native_document.native_report_version===null&&document.querySelector('#review').innerText.includes('native ReportVersion = null')`);
+      await click('#open-evidence');
+      await check(`${width}-${c}-main-source-click`,`(()=>{const x=window.NATIVE_DOSSIERS['${c}'],s=x.source;return document.querySelector('#evidence-panel > pre').textContent===s.quote&&document.querySelector('#evidence-panel').innerText.includes(s.citation.evidence_ref)&&document.querySelector('#evidence-panel').innerText.includes(s.capturedAt)&&document.activeElement.id==='evidence-panel'})()`);
+      if(c==='200')await check(`${width}-200-no-fabricated-guard`,'document.querySelector("#evidence-panel").innerText.includes("没有 RA3B CTA binding / Guard claim")');
+      await click('#raw-source summary');
+      await check(`${width}-${c}-actual-body-bytes`,`(()=>{const s=window.NATIVE_DOSSIERS['${c}'].source,b=Uint8Array.from(atob(s.bodyBase64),x=>x.charCodeAt(0));return new TextDecoder().decode(b.slice(...s.byteRange))===s.quote&&document.querySelector('#raw-source pre').textContent===new TextDecoder().decode(b)})()`);
+      // Full screenshot includes actual quote and original source, not just a top-of-page notice.
+      await screenshot(`native-evidence-${c}-${width}.png`,true);
+      await click('#return-issue');await check(`${width}-${c}-return-focus`,'document.activeElement.id==="open-evidence"');
+      if(c==='404'){await key('Tab',{windowsVirtualKeyCode:9});await key(' ',{code:'Space',windowsVirtualKeyCode:32});await check(`${width}-keyboard-fact`,'document.querySelector("#check-fact").checked');for(const id of ['impact','action','verification','scope','preview','boundary'])await click('#check-'+id)}
+      else for(const id of ['scope','preview','boundary'])await click('#check-'+id);
+      await check(`${width}-${c}-additional-native-claims-required`,c==='404'?'document.querySelector("#positive").disabled':'document.querySelector("#ack-coverage").disabled');
+      const claimCount=await ev(`window.NATIVE_DOSSIERS['${c}'].shownClaims.length`);
+      for(let index=0;index<claimCount;index++){
+        await click(`.claim-source[data-index="${index}"]`);
+        await check(`${width}-${c}-claim-${index}-exact-native-source`,`(()=>{const item=window.NATIVE_DOSSIERS['${c}'].shownClaims[${index}],box=document.querySelector('#native-source-content');return document.querySelector('#native-source-dialog').open&&box.querySelector('pre').textContent===item.source.quote&&box.innerText.includes(item.claim.text)&&box.innerText.includes(item.claim.status)&&box.innerText.includes(item.claim.binding_ref)&&box.innerText.includes(item.source.citation.url)})()`);
+        await check(`${width}-${c}-claim-${index}-visible-private-dialog`,`(()=>{const e=document.querySelector('.native-dialog-label'),r=e.getBoundingClientRect(),d=document.querySelector('#native-source-dialog');return document.activeElement.id==='source-title'&&d.scrollTop===0&&parseFloat(getComputedStyle(e).fontSize)>=12&&r.top>=0&&r.bottom<=innerHeight&&d.scrollWidth<=d.clientWidth&&e.innerText.includes('NOT APPROVED')})()`);
+        if(index===0){const img=await call('Page.captureScreenshot',{format:'png'},sid);const b=Buffer.from(img.data,'base64'),file=`native-claim-dialog-${c}-${width}.png`;await writeFile(path.join(out,file),b);shots.push({file,sha256:sha(b),width,height})}
+        await click('#close-native-source');await check(`${width}-${c}-claim-${index}-return`,'document.activeElement.classList.contains("claim-source")&&!document.querySelector("#native-source-dialog").open');
+        await click(`.native-claim:nth-of-type(${index+1}) .native-ack`);
+      }
+      await click('#native-hashes summary');await check(`${width}-${c}-full-native-hashes`,`(()=>{const d=window.NATIVE_DOSSIERS['${c}'].native_document,t=document.querySelector('#native-hashes').innerText;return [d.html_sha256,d.editorial_content_sha256,d.renderer_asset_sha256,d.draft_ref,...d.pins.expected_guard_refs].every(x=>t.includes(x))})()`);
+      await click('#native-preview summary');
+      for(let i=0;i<100;i++){if(await ev(`!!document.querySelector('#native-preview iframe')`))break;await new Promise(r=>setTimeout(r,20))}
+      await check(`${width}-${c}-exact-preview-file`,`document.querySelector('#native-preview iframe').getAttribute('src')===window.NATIVE_DOSSIERS['${c}'].native_html_path && document.querySelector('#native-preview iframe').getAttribute('sandbox')===''`);
+      // Sandboxed file iframe may be a separate Chromium renderer target (OOPIF).
+      // Prove the loaded URL AND actual private DOM, not just src/request or frame-tree membership.
+      let preview,previewProof;
+      for(let i=0;i<100;i++){
+        const targets=await call('Target.getTargets');preview=targets.targetInfos.find(t=>t.type==='iframe'&&t.url.endsWith(`/dossiers/contact-${c}.html`));
+        if(preview){const {sessionId:childSid}=await call('Target.attachToTarget',{targetId:preview.targetId,flatten:true});
+          const r=await call('Runtime.evaluate',{expression:'({url:location.href,ready:document.readyState,text:document.body?.innerText,scripts:document.scripts.length,forms:document.forms.length})',returnByValue:true},childSid);previewProof=r.result.value;
+          await call('Target.detachFromTarget',{sessionId:childSid});if(previewProof?.ready==='complete')break;}
+        await new Promise(r=>setTimeout(r,25));
+      }
+      await check(`${width}-${c}-native-preview-actually-loaded`,previewProof?.url.endsWith(`/dossiers/contact-${c}.html`)&&previewProof?.text.includes('NOT APPROVED')&&previewProof?.scripts===0&&previewProof?.forms===0,previewProof);
+      const before=await ev(`JSON.stringify(window.NATIVE_DOSSIERS['${c}'].native_document)`);
+      await click(c==='404'?'#positive':'#ack-coverage');await check(`${width}-${c}-confirm-only`,'document.querySelector("#confirmation").open&&!document.querySelector(".result")');
+      await click('#commit-simulation');await check(`${width}-${c}-native-immutable-and-unapproved`,await ev(`JSON.stringify(window.NATIVE_DOSSIERS['${c}'].native_document)===${JSON.stringify(before)}&&document.querySelector('.private-bar').innerText.includes('NOT APPROVED')&&document.querySelector('.result').innerText.includes(${JSON.stringify(c==='404'?'未形成真实 APPROVE':'仅内部')})&&!document.querySelector('.result').innerText.includes('没有真实决定、原生报告或分享授权')`));
+      await screenshot(`native-result-${c}-${width}.png`,true);
+      const rows=await ev('document.querySelector("#events").innerText');await writeFile(path.join(out,`interaction-${c}-${width}.txt`),rows);
+    }
+    await check(`${width}-no-send-share-export`,'![...document.querySelectorAll("button,a")].some(e=>/分享|导出|发送/.test(e.textContent))');
+    await call('Page.reload',{},sid);for(let i=0;i<200;i++){if(await ev('!!document.querySelector("#positive")'))break;await new Promise(r=>setTimeout(r,25))}
+    await check(`${width}-reload-memory-only`,'!document.querySelector(".result")&&document.querySelector("#positive").disabled');
+    await call('Target.closeTarget',{targetId});sid=null;
+  }
+  await check('zero-external-page-requests',network.filter(n=>!n.request.url.startsWith('file:')&&!n.request.url.startsWith('about:')).length===0);
+  await check('zero-runtime-exceptions',exceptions.length===0);
