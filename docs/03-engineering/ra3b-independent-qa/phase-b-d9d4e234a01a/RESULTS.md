@@ -35,6 +35,12 @@ amendments, raw archive and baseline hosted CI records remain untouched.
 
 JUnit, stdout/stderr, commands, import paths, timestamps, original candidate tree,
 and before/after overlay hashes are in each runtime directory and `index.json`.
+The **authoritative raw bytes** are also preserved losslessly in
+`phase-b-raw.zip`: index lists every ZIP member's byte size/SHA256 and the
+archive SHA256. Existing Git text normalization changes CRLF in some readable
+text copies; those paths are explicitly listed in the index. ZIP members retain
+the exact original bytes and were reread/hash-verified. No repository settings
+were changed to hide this distinction.
 Actual commands, run from the detached candidate root:
 
 ```text
