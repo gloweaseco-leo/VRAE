@@ -37,6 +37,12 @@ artifacts_raw=api(f'actions/runs/{run_id}/artifacts')
 (out/'artifacts.json').write_bytes(artifacts_raw)
 artifacts=[]
 for artifact in json.loads(artifacts_raw)['artifacts']:
+    if artifact['name'].startswith('ra4a-pg16-') and not artifact['expired']:
+        raw=api(f'actions/artifacts/{artifact["id"]}/zip')
+        filename=artifact['name']+'.zip'
+        (out/filename).write_bytes(raw)
+        artifacts.append({'id':artifact['id'],'name':artifact['name'],'url':artifact['archive_download_url'],
+                          'file':filename,'sha256':hashlib.sha256(raw).hexdigest()})
     if artifact['name']=='ra1b-synthetic-security-evidence' and not artifact['expired']:
         raw=api(f'actions/artifacts/{artifact["id"]}/zip')
         (out/'original-browser-security.zip').write_bytes(raw)

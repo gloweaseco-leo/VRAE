@@ -2,6 +2,8 @@
 
 PR #65 / Issue #64，独立 worktree `ra4c1`，分支 `codex2/ra4c1-review-target-read-bridge`。已验收基线 main `9d138ba57e0b442b9dace1a2247d7aaa46ca38ac`；普通 merge 核对结果为已包含，无 rebase/强推/cherry-pick。最终精确 HEAD 与四项新 CI 的 actual checkout/parents/tree 在最终 PR body 和本目录 post-CI 回执公开。保持 Draft，非 Owner FINAL PASS。
 
+**最终 main 已更新**：Owner 协调后普通合入 `e9ec1bd7f36a0446af14f04b66b71e4d45ebfb97`；合并提交 `2c6e48e8c31a50ec8cf5fee153ce3d20d6be4540`，顺序父 SHA 为旧候选 `f175c20e2e001689f50aec5bc9fc8bd3a1ba07f4`、新 main `e9ec1bd7f36a0446af14f04b66b71e4d45ebfb97`。旧候选四绿仅作历史；新最终 HEAD 需四项默认 CI **及两项 PG CI** 全部通过。RA4A P1 SQL/persistence/CI/evidence 原 blob/mode 完整保留，不接线至 UI；真实身份/生产事务仍未开放。原9d封存另存 SOURCE-SEAL-9d-initial.json。
+
 现有任务→原生核对→精确核对对象→原始来源链路已实际接入 accepted-main D1/D2。11 项任务、8 类阶段、原生 404/200、既有来源页面和所有中性状态保留。完整 source 与 HTML bytes 经 native ReportDraft.load/Guard 及 D1/D2 build_target/validate_target 重放；不引入新 hash engine 或新 SPA。
 
 | 案例 | 外部已持有 target digest | 原生 H0 |

@@ -53,7 +53,7 @@ if len(sys.argv)>1:
     r=load(folder/'receipt.json')
     head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     assert r['run_head']==r['pr_head']==head and r['draft']
-    assert r['accepted_main']=='9d138ba57e0b442b9dace1a2247d7aaa46ca38ac'
+    assert r['accepted_main']=='e9ec1bd7f36a0446af14f04b66b71e4d45ebfb97'
     assert r['merge_parents']==[r['accepted_main'],head] and r['merge_tree']==r['head_tree']
     assert len(r['jobs'])==4 and all(j['conclusion']=='success' and j['checkout']==r['merge_commit'] for j in r['jobs'])
     for job in r['jobs']:
@@ -73,7 +73,18 @@ if len(sys.argv)>1:
     a=r['artifacts'][0]
     assert hashlib.sha256((folder/a['file']).read_bytes()).hexdigest()==a['sha256']
     assert len(load(folder/'browser-summary-0.json'))==245
-    result.update(state='FOUR_CI_GREEN_ENGINEERING_CANDIDATE_NOT_OWNER_FINAL_PASS',final_ci=r)
+    assert len(sys.argv)==3,'New accepted main requires both dedicated PG CI jobs too'
+    pg_folder=Path(sys.argv[2])
+    pg=load(pg_folder/'receipt.json')
+    assert pg['run_head']==pg['pr_head']==head and pg['accepted_main']==r['accepted_main']
+    assert pg['merge_parents']==r['merge_parents'] and pg['head_tree']==pg['merge_tree']==r['head_tree']
+    assert len(pg['jobs'])==2 and all(j['conclusion']=='success' and j['checkout']==r['merge_commit'] for j in pg['jobs'])
+    assert len(pg['artifacts'])==2
+    for j in pg['jobs']:
+        assert hashlib.sha256((pg_folder/j['log']).read_bytes()).hexdigest()==j['log_sha256']
+    for a in pg['artifacts']:
+        assert hashlib.sha256((pg_folder/a['file']).read_bytes()).hexdigest()==a['sha256']
+    result.update(state='SIX_CI_GREEN_ENGINEERING_CANDIDATE_NOT_OWNER_FINAL_PASS',final_ci=r,pg_ci=pg)
 destination=(Path(sys.argv[1]) if len(sys.argv)>1 else HERE)/'ACCEPTANCE.json'
 destination.write_bytes(json.dumps(result,ensure_ascii=False,indent=2).encode('utf-8')+b'\n')
 print(json.dumps({'state':result['state'],'python':python,'browser':browser,'destination':str(destination)},ensure_ascii=True))

@@ -2,6 +2,8 @@
 
 Owner Issue #64，起始已验收 main `9d138ba57e0b442b9dace1a2247d7aaa46ca38ac`。沿用现有 Python SSR 控制台、任务池、原生核对页和证据页；没有第二套 UI、状态机或哈希引擎。保持 Draft，等待独立 FINAL PASS。
 
+最终协调：[Owner 评论 6829155014](https://github.com/gloweaseco-leo/VRAE/pull/65#issuecomment-6829155014) 指定新已验收 main `e9ec1bd7f36a0446af14f04b66b71e4d45ebfb97`。已在原 worktree 普通 merge，提交 `2c6e48e8c31a50ec8cf5fee153ce3d20d6be4540`，父提交依次 `f175c20e2e001689f50aec5bc9fc8bd3a1ba07f4` / `e9ec1bd7f36a0446af14f04b66b71e4d45ebfb97`。RA4A P1 合成 PG/RLS/queue 已验收代码完整保留；本 UI 不接入 PostgreSQL、真实身份或决定接口。最终除原四项 CI 外还要求新 main 的两项专用 PG CI 真实通过。
+
 操作：仓库根目录执行 `python -B -m apps.operator_console.preview --test-only --synthetic-fixtures`，打开输出的 127.0.0.1 地址。选择 404 或 200 任务→原生核对→“查看完整核对对象与逐条来源”→原始字节→返回；浏览器后退/前进保留相同任务、版本与 target digest。其他 9 项合成任务和原有 8 类阶段均保留。
 
 ## 来源接线

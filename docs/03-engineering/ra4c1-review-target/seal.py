@@ -6,7 +6,7 @@ import subprocess
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[2]
-BASE='9d138ba57e0b442b9dace1a2247d7aaa46ca38ac'
+BASE='e9ec1bd7f36a0446af14f04b66b71e4d45ebfb97'
 ALLOWED=('apps/operator_console/','tests/operator_console/','docs/03-engineering/ra4c1-review-target/')
 
 
