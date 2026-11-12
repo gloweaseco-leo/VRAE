@@ -1,0 +1,120 @@
+{
+  "cases": [
+    {
+      "contact_status": 200,
+      "expected_builder_version": "ra2c3-1.0.0",
+      "expected_evaluator_version": "ra2b6-1.0.0",
+      "expected_execution_ref": "rx-8eb00007328c590ac418cdda53ec89c1103a35ef76e64325780a72877f4ce3cc",
+      "expected_guard_version": "ra3b-1.0.0",
+      "expected_pack_ref": "ep-47656e4dee3c5cfdacab34ceebf8685f2d1d250a429a15360b22223063da1bca",
+      "expected_package_ref": "fp-9e7ff40540652069a5a29763eebcb7b8bd5b90a93f3bf4c2c640eb663f48007c",
+      "expected_scope": {
+        "policy_id": "pol-001",
+        "policy_version": 1,
+        "run_id": "run-ra3b-200base",
+        "tenant_id": "tenant-test"
+      },
+      "guard_ref": "cg-aa435894d63a2711d81102088b14f0969596d9c3ea240343f841c4a3fc21dd89",
+      "human_review_queue": [
+        {
+          "pointer": "/hypotheses/0",
+          "status": "HUMAN_REVIEW_REQUIRED",
+          "text": "A buyer may need human help confirming the captured contact route."
+        },
+        {
+          "pointer": "/recommendations/0",
+          "status": "HUMAN_REVIEW_REQUIRED",
+          "text": "A human should review the captured route before suggesting a change."
+        }
+      ],
+      "source_rules": [
+        "INFO-01",
+        "SEO-01",
+        "TRUST-01"
+      ]
+    },
+    {
+      "contact_status": 404,
+      "expected_builder_version": "ra2c3-1.0.0",
+      "expected_evaluator_version": "ra2b6-1.0.0",
+      "expected_execution_ref": "rx-6adfc5ceb141665de578c151df983eb7ebb5b66b3f7eb54a16633de6b8beedf7",
+      "expected_guard_version": "ra3b-1.0.0",
+      "expected_pack_ref": "ep-4031d8172a013486684569f646ffc8653e05140598e1012e652e6b59dc436906",
+      "expected_package_ref": "fp-a9d16cc8ddf3902fa26d062e9422a62eb2441a5579959db9642741ce3cb7fba2",
+      "expected_scope": {
+        "policy_id": "pol-001",
+        "policy_version": 1,
+        "run_id": "run-ra3b-404base",
+        "tenant_id": "tenant-test"
+      },
+      "guard_ref": "cg-1fb51722c5c8997aab115206ab337c8f1297f83df72dbdbe41a8bd603ecc99b0",
+      "human_review_queue": [
+        {
+          "pointer": "/hypotheses/0",
+          "status": "HUMAN_REVIEW_REQUIRED",
+          "text": "A buyer may need human help confirming the captured contact route."
+        },
+        {
+          "pointer": "/recommendations/0",
+          "status": "HUMAN_REVIEW_REQUIRED",
+          "text": "A human should review the captured route before suggesting a change."
+        }
+      ],
+      "source_rules": [
+        "CTA-02",
+        "INFO-01",
+        "SEO-01"
+      ]
+    },
+    {
+      "contact_status": 410,
+      "expected_builder_version": "ra2c3-1.0.0",
+      "expected_evaluator_version": "ra2b6-1.0.0",
+      "expected_execution_ref": "rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99",
+      "expected_guard_version": "ra3b-1.0.0",
+      "expected_pack_ref": "ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199",
+      "expected_package_ref": "fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059",
+      "expected_scope": {
+        "policy_id": "pol-001",
+        "policy_version": 1,
+        "run_id": "run-ra3b-410base",
+        "tenant_id": "tenant-test"
+      },
+      "guard_ref": "cg-d50e9fcdb0a54cbfcf4cfd43663787f92d92df0ab1a45c465d496fba40f3af25",
+      "human_review_queue": [
+        {
+          "pointer": "/hypotheses/0",
+          "status": "HUMAN_REVIEW_REQUIRED",
+          "text": "A buyer may need human help confirming the captured contact route."
+        },
+        {
+          "pointer": "/recommendations/0",
+          "status": "HUMAN_REVIEW_REQUIRED",
+          "text": "A human should review the captured route before suggesting a change."
+        }
+      ],
+      "source_rules": [
+        "CTA-02",
+        "INFO-01",
+        "SEO-01"
+      ]
+    }
+  ],
+  "historical_files_verified": 70,
+  "human_gold": "0/26_UNEVALUATED",
+  "limitations": [
+    "SOURCE_CONSISTENCY_NOT_AUTHENTICITY",
+    "NO_SEMANTIC_APPROVAL",
+    "INJECTION_LEXICON_IS_CONSERVATIVE_NOT_A_UNIVERSAL_DETECTOR"
+  ],
+  "negative_red_green": {
+    "binding_ref": "cb-7f10497b561f19a7a7c4b4897eedd0e9fdb55c8c0158c09063d50131a6b04b3d",
+    "pointer": "/hypotheses/0",
+    "reason": "UNSUPPORTED_OBJECTIVE_ASSERTION",
+    "status": "REJECTED"
+  },
+  "no_customer_report": true,
+  "no_provider_calls": true,
+  "shareable": false,
+  "status": "OFFLINE_PRIVATE_REPLAY_PASS"
+}
