@@ -1,0 +1,157 @@
+--- V1_frozen_business_function
++++ OWNER_ADJUDICATED_RA3C_QA_V2_business_function
+@@ -1,11 +1,12 @@
+ @pytest.mark.parametrize('case',CASES,ids=[c['id']+'-'+c['name'] for c in CASES])
+-def test_independent_product_acceptance(subject,case,record_property):
+-    ctx = prepare_context(case['scenario'],case.get('profile','truthful'))
++def test_owner_adjudicated_business_objective(subject,case,record_property):
++    ctx = positive_context(case['scenario'])
+     oracle = case['oracle']
+     if oracle in ('cross_pack','guard_pins'):
++        build(subject,ctx)  # require real valid baseline before attacking held pins
+         if oracle == 'cross_pack':
+             bad = deepcopy(ctx)
+-            bad['pack'] = prepare_context('healthy200')['pack']
++            bad['pack'] = positive_context('healthy200')['pack']
+             assert bad['pack'].ref != ctx['pack'].ref
+             with pytest.raises(subject.rejection_types):
+                 subject.build(bad,revision=1,created_at=INPUT['report_time'])
+@@ -29,9 +30,9 @@
+                 subject.build(bad,revision=1,created_at=INPUT['report_time'])
+         else:
+             for key,prefix in (('expected_pack_ref','ep-'),('expected_execution_ref','rx-'),
+-                               ('expected_package_ref','fp-'),('expected_guard_ref','cg-')):
++                               ('expected_package_ref','fp-'),('expected_guard_refs','cg-')):
+                 bad = deepcopy(ctx)
+-                bad['pins'][key] = prefix+'0'*64
++                bad['pins'][key] = [prefix+'0'*64] if key == 'expected_guard_refs' else prefix+'0'*64
+                 assert bad['pins'] != ctx['pins']
+                 with pytest.raises(subject.rejection_types):
+                     subject.build(bad,revision=1,created_at=INPUT['report_time'])
+@@ -43,7 +44,15 @@
+                 with pytest.raises(subject.rejection_types):
+                     subject.build(bad,revision=1,created_at=INPUT['report_time'])
+         return
+-    if oracle == 'false_claims' or case['id'] in ('E03','E04','E05','E07','E08'):
++    if oracle == 'false_claims':
++        artifact = build(subject,ctx)  # real admissible source-backed report required
++        attack = attack_context(case['scenario'],case['profile'])
++        assert any(c['status'] == 'REJECTED' for c in guard_claims(attack))
++        with pytest.raises(subject.rejection_types) as rejected:
++            subject.build(attack,revision=1,created_at=INPUT['report_time'])
++        assert str(rejected.value) == 'REPORT_CLAIM_REJECTED'
++        assert len(str(rejected.value)) <= 256 and SPECIAL_TEXT not in str(rejected.value)
++    elif case['id'] in ('E03','E04','E05','E07','E08'):
+         try:
+             artifact = build(subject,ctx)
+         except subject.rejection_types as error:
+@@ -99,7 +108,8 @@
+     elif oracle in ('no_scores','no_lead','no_testimonials'):
+         objective = '\n'.join(field(subject,artifact,'objective_texts'))
+         assert not re.search('全站评分|网站得分|保证.*提升|损失.*(?:美元|元)|已确认商机|已收到询盘|真实客户案例|客户证言',objective)
+-        assert field(subject,artifact,'scores') in (None,[],{})
++        assert not subject.score_fields(artifact)
++        assert all(i['finding']['severity'] is None for i in items)
+     elif oracle == 'finding':
+         original = {r['finding_id']:r for r in ctx['verified_findings']}
+         assert items and all(field(subject,artifact,'issue.finding_id',issue=i) in original for i in items)
+@@ -111,31 +121,37 @@
+         assert ev['source_url'] == resolved['snapshot']['url'] and ev['captured_scope'] == ctx['caller_scope']
+         assert ev['target_status'] in (404,410) and ev['href'] == '/contact'
+         assert any(c['binding_ref'] == ev['binding_ref'] and c['status'] == 'SOURCE_FACT_BINDING_VERIFIED'
+-                   for c in ctx['guard'].document['claims'])
++                   for c in guard_claims(ctx))
+     elif oracle == 'false_claims':
+         objective = '\n'.join(field(subject,artifact,'objective_texts'))
+         assert not any(text in objective for text in INPUT['profiles'][case['profile']])
+-        admitted = {c['binding_ref'] for c in ctx['guard'].document['claims'] if c['status'] == 'SOURCE_FACT_BINDING_VERIFIED'}
++        admitted = {c['binding_ref'] for c in guard_claims(ctx) if c['status'] == 'SOURCE_FACT_BINDING_VERIFIED'}
+         assert set(field(subject,artifact,'objective_binding_refs')) <= admitted
+     elif oracle == 'roundtrip':
+         integrity_hash(subject,artifact)
+         loaded = subject.load(deepcopy(artifact['document']),artifact['html'],ctx,expected_digest=artifact['digest'])
+         assert loaded['document'] == artifact['document'] and loaded['html'] == artifact['html']
+-        again = build(subject,prepare_context(case['scenario']))
++        again = build(subject,positive_context(case['scenario']))
+         assert again['document'] == artifact['document'] and again['html'] == artifact['html']
+     elif oracle == 'tamper':
+-        role = 'issues'
+-        changed = deepcopy(items)
+-        assert changed
+-        field_name = 'issue.'+case['field']
+-        path = subject.origins[field_name]
+-        assert path['kind'] == 'json'
+-        relative = path['pointer'].rsplit('/',1)
+-        parent = pointer(changed[0],relative[0])
+-        key = relative[1]
+-        old = parent[key]
+-        parent[key] = (str(old)+' 攻击性改写') if isinstance(old,str) else {'forged':'unrelated source'}
+-        load_rejects(subject,artifact,ctx,mutate(subject,artifact,role,changed))
++        if case['field'] == 'evidence':
++            for leaf in ('evidence_ref','url'):
++                path = '/issues/0/fact_claim/fact/source/citation/'+leaf
++                old = pointer(artifact['document'],path)
++                changed = mutate_json(artifact,path,old+'-foreign')
++                changed['draft_ref'] = 'rd-'+hashlib.sha256(canonical({k:v for k,v in changed.items() if k != 'draft_ref'})).hexdigest()
++                load_rejects(subject,artifact,ctx,changed)
++                load_rejects(subject,artifact,ctx,changed,expected_digest=changed['draft_ref'])
++        else:
++            changed = deepcopy(items)
++            assert changed
++            path = subject.origins['issue.'+case['field']]
++            assert path['kind'] == 'json'
++            head,key = path['pointer'].rsplit('/',1)
++            parent = pointer(changed[0],head)
++            old = parent[key]
++            parent[key] = str(old)+' 攻击性改写' if isinstance(old,str) else {'forged':'unrelated source'}
++            load_rejects(subject,artifact,ctx,mutate(subject,artifact,'issues',changed))
+     elif oracle == 'html_tamper':
+         load_rejects(subject,artifact,ctx,html=artifact['html']+b'\n<p>forged unreviewed statement</p>')
+     elif oracle in ('scope_tamper','metadata_tamper','layout_tamper','guard_tamper','approval_tamper'):
+@@ -148,16 +164,22 @@
+                 load_rejects(subject,artifact,ctx,mutate(subject,artifact,'scope',scope))
+         if oracle == 'guard_tamper':
+             bad = deepcopy(ctx)
+-            doc = ctx['guard'].document
++            bundle = next(b for b in bad['guard_inputs'] if any(c['status'] == 'HUMAN_REVIEW_REQUIRED' for c in b['guard']['claims']))
++            doc = bundle['guard']
+             row = next(c for c in doc['claims'] if c['status'] == 'HUMAN_REVIEW_REQUIRED')
+             row['status'] = 'SOURCE_FACT_BINDING_VERIFIED'
+             doc['guard_ref'] = 'cg-'+document_hash({k:v for k,v in doc.items() if k != 'guard_ref'})
+-            bad['guard'] = GuardResult(canonical(doc))
+-            assert bad['guard'].ref != ctx['guard'].ref and bad['pins'] == ctx['pins']
+-            with pytest.raises(subject.rejection_types):
+-                subject.build(bad,revision=1,created_at=INPUT['report_time'])
++            assert bad['guard_inputs'] != ctx['guard_inputs'] and bad['pins'] == ctx['pins']
++            with pytest.raises(subject.rejection_types):
++                subject.build(bad,revision=1,created_at=INPUT['report_time'])
++        if oracle == 'layout_tamper':
++            old = field(subject,artifact,'language').encode('utf-8')
++            token = b'lang="'+old+b'"'
++            assert token in artifact['html']
++            changed_html = artifact['html'].replace(token,b'lang="en-US"',1)
++            load_rejects(subject,artifact,ctx,html=changed_html)
+         roles = {'scope_tamper':['scope'], 'metadata_tamper':['captured_at','version','coverage'],
+-            'layout_tamper':['language','layout_version','asset_version'],
++            'layout_tamper':['layout_version','asset_version'],
+             'guard_tamper':['guard_ref'], 'approval_tamper':['approval_status','private','shareable']}[oracle]
+         for role in roles:
+             old = field(subject,artifact,role)
+@@ -166,7 +188,7 @@
+                 value = 'APPROVED'
+             load_rejects(subject,artifact,ctx,mutate(subject,artifact,role,value))
+     elif oracle == 'version_pin':
+-        newer = build(subject,prepare_context(case['scenario']),revision=2)
++        newer = build(subject,positive_context(case['scenario']),revision=2)
+         assert newer['digest'] != artifact['digest'] and canonical(newer['document']) != canonical(artifact['document'])
+         load_rejects(subject,artifact,ctx,newer['document'],newer['html'])
+     elif oracle in ('native_hash','share_denied'):
+@@ -237,7 +259,7 @@
+             assert len(memo['reasoning']) >= 80 and memo['screenshot_refs']
+             assert memo['not_report_approval'] is True
+             if oracle == 'value_memo':
+-                zero = build(subject,prepare_context('healthy200'))
++                zero = build(subject,positive_context('healthy200'))
+                 assert field(subject,zero,'issues') == [] and len(items) == 1
+                 integrity_hash(subject,zero)
+                 comparison = memo['comparison']

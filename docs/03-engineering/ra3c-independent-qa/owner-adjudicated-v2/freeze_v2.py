@@ -1,0 +1,53 @@
+"""Freeze new V2 code/inputs and prove complete prior QA history unchanged."""
+import argparse
+import ast
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+PRIOR = '61b9173a32789185bd7fcaf750adb6118ec4bc43'
+PREFIX = 'docs/03-engineering/ra3c-independent-qa/owner-adjudicated-v2/'
+
+
+def git(*args):
+    return subprocess.check_output(['git',*args],cwd=ROOT)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--create',action='store_true')
+    args = parser.parse_args()
+    old = {line.split('\t',1)[1]:line.split('\t',1)[0].split()[2] for line in git('ls-tree','-r',PRIOR).decode().splitlines()}
+    index = {line.split('\t',1)[1]:line.split('\t',1)[0].split()[1] for line in git('ls-files','--stage').decode().splitlines()}
+    assert all(index[p] == b for p,b in old.items()), 'Prior source/evidence must never be rewritten'
+    assert not git('diff','--name-only').strip(), 'Stage intended new source before sealing/checking'
+    cases = json.loads((HERE/'fixtures/cases.json').read_text(encoding='utf-8'))
+    original = json.loads((ROOT/'tests/reporting/fixtures/ra3c_codex1_cases.json').read_text(encoding='utf-8'))
+    assert cases == original and len(cases) == 64
+    tree = ast.parse((HERE/'test_acceptance_v2.py').read_text(encoding='utf-8'))
+    assert not any(isinstance(n,ast.Attribute) and n.attr in ('skip','skipif','xfail') for n in ast.walk(tree))
+    target = HERE/'FREEZE_V2.json'
+    if args.create:
+        assert not target.exists(), 'Preserve first V2 freeze'
+        files = {}
+        for p,b in index.items():
+            if p.startswith(PREFIX):
+                raw = git('show',':'+p)
+                files[p] = dict(git_blob=b,git_sha256=hashlib.sha256(raw).hexdigest(),
+                    worktree_sha256=hashlib.sha256((ROOT/p).read_bytes()).hexdigest())
+        target.write_text(json.dumps(dict(version='OWNER_ADJUDICATED_RA3C_QA_V2',
+            authority='PR48 issuecomment-6815825564',prior_head=PRIOR,prior_blobs_unchanged=len(old),
+            primary_objectives=64,companion_denials=54,case_ids=[c['id'] for c in cases],
+            final_candidate_not_yet_bound=True,files=files),ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    else:
+        data = json.loads(target.read_text(encoding='utf-8'))
+        for p,row in data['files'].items():
+            assert index[p] == row['git_blob'] and hashlib.sha256(git('show',':'+p)).hexdigest() == row['git_sha256'],p
+    print('V2 64 objectives +54 denials; all',len(old),'prior source/evidence blobs unchanged')
+
+
+if __name__ == '__main__':
+    main()
