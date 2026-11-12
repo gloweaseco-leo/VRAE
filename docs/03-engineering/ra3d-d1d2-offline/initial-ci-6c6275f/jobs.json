@@ -1,0 +1,445 @@
+{
+  "total_count": 4,
+  "jobs": [
+    {
+      "id": 131156838313,
+      "run_id": 43210583446,
+      "workflow_name": "VRAE contract, domain and synthetic collection CI",
+      "head_branch": "codex1/ra3d-d1d2-offline-review-contract",
+      "run_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/runs/43210583446",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVpXt488AAAAeiY6HqQ",
+      "head_sha": "6c6275f936b45157947285e017cd5364f5d6827e",
+      "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/jobs/131156838313",
+      "html_url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43210583446/job/131156838313",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-12T11:36:19Z",
+      "started_at": "2026-11-12T11:36:21Z",
+      "completed_at": "2026-11-12T11:45:15Z",
+      "name": "isolated-http",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-12T11:36:22Z",
+          "completed_at": "2026-11-12T11:36:22Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-12T11:36:22Z",
+          "completed_at": "2026-11-12T11:36:26Z"
+        },
+        {
+          "name": "Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-12T11:36:26Z",
+          "completed_at": "2026-11-12T11:36:47Z"
+        },
+        {
+          "name": "Real sockets, verified TLS and kernel egress denial",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-12T11:36:47Z",
+          "completed_at": "2026-11-12T11:45:14Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-12T11:45:14Z",
+          "completed_at": "2026-11-12T11:45:14Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-12T11:45:14Z",
+          "completed_at": "2026-11-12T11:45:14Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/check-runs/131156838313",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000006024,
+      "runner_name": "GitHub Actions 1000006024",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 131156838666,
+      "run_id": 43210583446,
+      "workflow_name": "VRAE contract, domain and synthetic collection CI",
+      "head_branch": "codex1/ra3d-d1d2-offline-review-contract",
+      "run_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/runs/43210583446",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVpXt488AAAAeiY6JCg",
+      "head_sha": "6c6275f936b45157947285e017cd5364f5d6827e",
+      "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/jobs/131156838666",
+      "html_url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43210583446/job/131156838666",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-12T11:36:19Z",
+      "started_at": "2026-11-12T11:36:21Z",
+      "completed_at": "2026-11-12T11:40:02Z",
+      "name": "isolated-browser",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-12T11:36:22Z",
+          "completed_at": "2026-11-12T11:36:23Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-12T11:36:23Z",
+          "completed_at": "2026-11-12T11:36:26Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-12T11:36:26Z",
+          "completed_at": "2026-11-12T11:36:26Z"
+        },
+        {
+          "name": "Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-12T11:36:26Z",
+          "completed_at": "2026-11-12T11:36:34Z"
+        },
+        {
+          "name": "Run docker build -f infra/ra1b/Dockerfile -t vrae-ra1b-browser:local .",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-12T11:36:34Z",
+          "completed_at": "2026-11-12T11:37:31Z"
+        },
+        {
+          "name": "Run docker build -f infra/ra1b/Worker.Dockerfile -t vrae-ra1b-worker:local .",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-12T11:37:31Z",
+          "completed_at": "2026-11-12T11:37:54Z"
+        },
+        {
+          "name": "Real sandbox, broker and adversarial container lifecycle",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-12T11:37:54Z",
+          "completed_at": "2026-11-12T11:39:57Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-12T11:39:57Z",
+          "completed_at": "2026-11-12T11:39:59Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-12T11:39:59Z",
+          "completed_at": "2026-11-12T11:39:59Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-12T11:39:59Z",
+          "completed_at": "2026-11-12T11:40:00Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-12T11:40:00Z",
+          "completed_at": "2026-11-12T11:40:00Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/check-runs/131156838666",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000006025,
+      "runner_name": "GitHub Actions 1000006025",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 131156838778,
+      "run_id": 43210583446,
+      "workflow_name": "VRAE contract, domain and synthetic collection CI",
+      "head_branch": "codex1/ra3d-d1d2-offline-review-contract",
+      "run_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/runs/43210583446",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVpXt488AAAAeiY6Jeg",
+      "head_sha": "6c6275f936b45157947285e017cd5364f5d6827e",
+      "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/jobs/131156838778",
+      "html_url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43210583446/job/131156838778",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-12T11:36:19Z",
+      "started_at": "2026-11-12T11:36:21Z",
+      "completed_at": "2026-11-12T11:45:59Z",
+      "name": "contracts-domain (3.13)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-12T11:36:22Z",
+          "completed_at": "2026-11-12T11:36:22Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-12T11:36:22Z",
+          "completed_at": "2026-11-12T11:36:25Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-12T11:36:25Z",
+          "completed_at": "2026-11-12T11:36:25Z"
+        },
+        {
+          "name": "Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-12T11:36:25Z",
+          "completed_at": "2026-11-12T11:36:33Z"
+        },
+        {
+          "name": "Run python -m compileall -q vrae",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-12T11:36:33Z",
+          "completed_at": "2026-11-12T11:36:33Z"
+        },
+        {
+          "name": "Run ruff check vrae tests --select E4,E7,E9,F",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-12T11:36:33Z",
+          "completed_at": "2026-11-12T11:36:33Z"
+        },
+        {
+          "name": "Run mypy vrae",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-12T11:36:33Z",
+          "completed_at": "2026-11-12T11:36:36Z"
+        },
+        {
+          "name": "Run python -m pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-12T11:36:36Z",
+          "completed_at": "2026-11-12T11:45:57Z"
+        },
+        {
+          "name": "Run python -m pip check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-12T11:45:57Z",
+          "completed_at": "2026-11-12T11:45:57Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-12T11:45:57Z",
+          "completed_at": "2026-11-12T11:45:57Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-11-12T11:45:57Z",
+          "completed_at": "2026-11-12T11:45:57Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-11-12T11:45:57Z",
+          "completed_at": "2026-11-12T11:45:57Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/check-runs/131156838778",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000006026,
+      "runner_name": "GitHub Actions 1000006026",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 131156838809,
+      "run_id": 43210583446,
+      "workflow_name": "VRAE contract, domain and synthetic collection CI",
+      "head_branch": "codex1/ra3d-d1d2-offline-review-contract",
+      "run_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/runs/43210583446",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVpXt488AAAAeiY6JmQ",
+      "head_sha": "6c6275f936b45157947285e017cd5364f5d6827e",
+      "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/jobs/131156838809",
+      "html_url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43210583446/job/131156838809",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-12T11:36:19Z",
+      "started_at": "2026-11-12T11:36:21Z",
+      "completed_at": "2026-11-12T11:41:31Z",
+      "name": "contracts-domain (3.11)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-12T11:36:22Z",
+          "completed_at": "2026-11-12T11:36:22Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-12T11:36:22Z",
+          "completed_at": "2026-11-12T11:36:25Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-12T11:36:25Z",
+          "completed_at": "2026-11-12T11:36:25Z"
+        },
+        {
+          "name": "Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-12T11:36:25Z",
+          "completed_at": "2026-11-12T11:36:31Z"
+        },
+        {
+          "name": "Run python -m compileall -q vrae",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-12T11:36:31Z",
+          "completed_at": "2026-11-12T11:36:31Z"
+        },
+        {
+          "name": "Run ruff check vrae tests --select E4,E7,E9,F",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-12T11:36:31Z",
+          "completed_at": "2026-11-12T11:36:31Z"
+        },
+        {
+          "name": "Run mypy vrae",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-12T11:36:31Z",
+          "completed_at": "2026-11-12T11:36:33Z"
+        },
+        {
+          "name": "Run python -m pytest -q",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-12T11:36:33Z",
+          "completed_at": "2026-11-12T11:41:28Z"
+        },
+        {
+          "name": "Run python -m pip check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-12T11:41:28Z",
+          "completed_at": "2026-11-12T11:41:29Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-12T11:41:29Z",
+          "completed_at": "2026-11-12T11:41:29Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-11-12T11:41:29Z",
+          "completed_at": "2026-11-12T11:41:29Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-11-12T11:41:29Z",
+          "completed_at": "2026-11-12T11:41:29Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/check-runs/131156838809",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000006027,
+      "runner_name": "GitHub Actions 1000006027",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

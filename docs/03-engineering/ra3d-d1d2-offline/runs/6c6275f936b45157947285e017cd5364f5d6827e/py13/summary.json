@@ -1,0 +1,95 @@
+{
+  "head": "6c6275f936b45157947285e017cd5364f5d6827e",
+  "base": "e40201bf399cc8c5d11a708fcbe33c31f01e67b2",
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+  "tracked_diff_at_start": "",
+  "commands": [
+    {
+      "name": "compile",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "vrae"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.4007339000017964,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ruff",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.9769207999997889,
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "mypy",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 9.492332599998917,
+      "stdout_sha256": "1ae1a89d54d420cace381d4367eb85674ac10663afe0766641917ac6d36ebbd0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "reviewing",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/reviewing",
+        "-o",
+        "junit_family=legacy",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra3d-d1d2-offline-review-contract\\docs\\03-engineering\\ra3d-d1d2-offline\\runs\\6c6275f936b45157947285e017cd5364f5d6827e\\py13\\reviewing.xml"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 57.09138160000293,
+      "stdout_sha256": "fe2fc3f0f8fff8a1e219f23bada354e7b729fe6eac8095422ec10fe441ba64f4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "junit": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "123",
+        "time": "54.839",
+        "timestamp": "2026-11-12T06:35:52.632544-05:00"
+      }
+    },
+    {
+      "name": "full",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-o",
+        "junit_family=legacy",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra3d-d1d2-offline-review-contract\\docs\\03-engineering\\ra3d-d1d2-offline\\runs\\6c6275f936b45157947285e017cd5364f5d6827e\\py13\\full.xml"
+      ],
+      "exit": 4294967295,
+      "elapsed_seconds": 974.402065299997,
+      "stdout_sha256": "9f4c4c3531c582c3f3a5408c4c1f6dce068ccbaf3950db6ffce99a862cb064dd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

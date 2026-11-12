@@ -1,0 +1,100 @@
+diff --git a/tests/reviewing/test_strict_metadata.py b/tests/reviewing/test_strict_metadata.py
+new file mode 100644
+index 0000000..89c4a1f
+--- /dev/null
++++ b/tests/reviewing/test_strict_metadata.py
+@@ -0,0 +1,44 @@
++"""Regression for independently reproduced initial-candidate type confusion."""
++
++from dataclasses import replace
++import json
++
++from vrae.reviewing import build_target
++from vrae.reviewing.canonical import SOURCE_LIMIT, canonical, parse, sha
++from .synthetic import inputs
++from .test_offline_contract import denial
++
++
++def test_boolean_policy_version_is_not_integer_one():
++    i = inputs()
++    policy = parse(i.trust.policy)
++    policy["scope"]["policy_version"] = True
++    with denial("D_POLICY_UNTRUSTED"):
++        build_target(i.document, i.html, i.source, trust=replace(i.trust, policy=canonical(policy)))
++
++
++def test_boolean_expected_count_is_not_integer_one():
++    i = inputs()
++    held = parse(i.trust.held)
++    held["expected_issue_count"] = True
++    with denial("D_TRUST_INPUT_REQUIRED"):
++        build_target(i.document, i.html, i.source, trust=replace(i.trust, held=canonical(held)))
++
++
++def test_unknown_source_fields_rejected_even_after_outer_rehash():
++    i = inputs()
++    source = json.loads(i.source)
++    source["trusted_human"] = "Owner"
++    raw = canonical(source, limit=SOURCE_LIMIT)
++    held = parse(i.trust.held)
++    held["expected_source_sha256"] = sha(raw)
++    with denial("D_SOURCE_SHAPE"):
++        build_target(i.document, i.html, raw, trust=replace(i.trust, held=canonical(held)))
++
++
++def test_safe_error_suppresses_underlying_context():
++    i = inputs()
++    with denial("D_ARTIFACT_TAMPER") as caught:
++        build_target(i.document, i.html + b"secret-untrusted-text", i.source, trust=i.trust)
++    assert "secret-untrusted-text" not in str(caught.value)
++    assert caught.value.__suppress_context__ is True
+diff --git a/vrae/reviewing/canonical.py b/vrae/reviewing/canonical.py
+index 4976a38..c7e1632 100644
+--- a/vrae/reviewing/canonical.py
++++ b/vrae/reviewing/canonical.py
+@@ -18,7 +18,7 @@ class ReviewError(ValueError):
+ 
+ 
+ def refuse(code: str) -> NoReturn:
+-    raise ReviewError(code)
++    raise ReviewError(code) from None
+ 
+ 
+ def _check(value, depth=0):
+diff --git a/vrae/reviewing/target.py b/vrae/reviewing/target.py
+index 60fc35c..85c8e9a 100644
+--- a/vrae/reviewing/target.py
++++ b/vrae/reviewing/target.py
+@@ -85,6 +85,11 @@ def _trust(trust, source_raw, document, html):
+             "expected_source_sha256",
+         ),
+     )
++    if type(held["expected_issue_count"]) is not int or not 0 <= held["expected_issue_count"] <= 3:
++        refuse("D_TRUST_INPUT_REQUIRED")
++    for key in ("expected_payload_sha256", "expected_html_sha256", "expected_source_sha256"):
++        if type(held[key]) is not str or not re.fullmatch(r"[0-9a-f]{64}", held[key]):
++            refuse("D_TRUST_INPUT_REQUIRED")
+     if (
+         sha(document) != held["expected_payload_sha256"]
+         or sha(html) != held["expected_html_sha256"]
+@@ -96,7 +101,7 @@ def _trust(trust, source_raw, document, html):
+     shape(policy, ("kind", "scope", "allowed_purpose", "current_authorization"))
+     if (
+         policy["kind"] != "TEST_ONLY_POLICY_SNAPSHOT"
+-        or policy["scope"] != held["pins"]["expected_scope"]
++        or canonical(policy["scope"]) != canonical(held["pins"]["expected_scope"])
+         or policy["allowed_purpose"] != "OFFLINE_REVIEW_SIMULATION"
+         or policy["current_authorization"] != "NOT_IMPLEMENTED"
+     ):
+@@ -176,6 +181,11 @@ def _replay_bytes(document: bytes, html: bytes, source_raw: bytes, trust: Synthe
+     try:
+         d = parse(document, limit=SOURCE_LIMIT)
+         s = parse(source_raw, limit=SOURCE_LIMIT)
++        shape(
++            s,
++            ("pack", "package", "objects_base64", "guard_inputs", "metadata"),
++            code="D_SOURCE_SHAPE",
++        )
+         held, policy = _trust(trust, source_raw, document, html)
+         p = held["pins"]
+         objects = {k: base64.b64decode(v, validate=True) for k, v in s["objects_base64"].items()}
