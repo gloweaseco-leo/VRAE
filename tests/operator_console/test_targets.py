@@ -36,6 +36,15 @@ def args(samples,case='404'):
 
 def test_fresh_native_calls_and_external_digest(monkeypatch):
     import vrae.reviewing.target as core
+    import socket
+    import urllib.request
+    network=[]
+    def forbidden(*a,**kw):
+        network.append(a)
+        raise AssertionError('Native replay must never open a network connection')
+    monkeypatch.setattr(socket,'create_connection',forbidden)
+    monkeypatch.setattr(socket,'getaddrinfo',forbidden)
+    monkeypatch.setattr(urllib.request,'urlopen',forbidden)
     core._replay_bytes.cache_clear()
     original=core.ReportDraft.load
     calls=[]
@@ -50,6 +59,7 @@ def test_fresh_native_calls_and_external_digest(monkeypatch):
         assert d['review_target']['target_digest']==DIGESTS[case]
         assert t['report_pins']['expected_draft_ref'] in calls
     assert len(calls)>=4  # C0 original native loading AND D1/D2 replay, both real.
+    assert not network
 
 
 @pytest.mark.parametrize('case,count',[('404',1),('200',0)])
@@ -175,6 +185,11 @@ def test_zero_finding_cannot_escalate_or_cross_case(samples):
     _,foreign,_,_,_=args(samples,'404')
     with pytest.raises(ConsoleError,match='SOURCE_INTEGRITY'):
         ReviewTargetBridge().load(t,dcanonical(foreign),document,html,source)
+    for field in ('limitations','recorded_coverage'):
+        wording=deepcopy(samples['200'][1]['review_target'])
+        wording[field]='全站 PASS，真实资质及询盘效果已验证，可对客户开放'
+        with pytest.raises(ConsoleError,match='SOURCE_INTEGRITY'):
+            ReviewTargetBridge().load(t,dcanonical(wording),document,html,source)
 
 
 @pytest.mark.parametrize('actor',[None,{}, {'role':'OWNER','verified':True,'trusted':True}])
