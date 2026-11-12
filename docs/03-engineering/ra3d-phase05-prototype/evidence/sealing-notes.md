@@ -9,3 +9,5 @@
 一次 `node -e` PowerShell 字符串命令解析失败，退出 1，未写入文件。原始错误摘要：`SyntaxError: Invalid or unexpected token` / `Expected ',', got '<eof>'`。后续使用 apply_patch 明确修改 HTTP 记录读取与零问题确认框 id。最终浏览器输入快照包含修正后的精确源码，没有将该失败计为通过。
 
 浏览器各轮的 ERROR、原始截图、断言、stderr 与网络/CDP 日志均保留。临时 `profile-*` 为工具运行数据且不属于 UI 状态，被 `.gitignore` 排除。没有删除或修改已有 main 工件。
+
+原始 Chromium stderr 为 CRLF，默认 `git diff --cached --check` 将 CR 判为行尾空白（exit 1）；为保留日志精确字节未裁剪。使用单次 `git -c core.whitespace=cr-at-eol diff --cached --check` 验证其余空白后 exit 0，未修改仓库配置或 CI。原始 stderr 中的 Chromium 启动/网络服务诊断仍保留；浏览器 PASS 限于实测页面交互、DOM 和请求观测，不声称浏览器进程无任何诊断信息。
