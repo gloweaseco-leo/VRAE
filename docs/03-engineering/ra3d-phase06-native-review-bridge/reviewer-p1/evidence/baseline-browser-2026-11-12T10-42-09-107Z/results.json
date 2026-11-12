@@ -1,0 +1,84 @@
+{
+  "status": "NOT_PASS",
+  "scope": "NATIVE_READONLY_SYNTHETIC_UI_NOT_PRODUCTION",
+  "runId": "2026-11-12T10-42-09-107Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.4",
+    "revision": "@f842f52ef39fd97b449eb27cff414bf05a98ddce",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75"
+  },
+  "chromiumExecutable": "C:/Users/liu/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+  "chromiumArgs": [
+    "--headless=new",
+    "--disable-gpu",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "--disable-background-networking",
+    "--disable-component-update",
+    "--disable-sync",
+    "--disable-default-apps",
+    "--disable-extensions",
+    "--disable-domain-reliability",
+    "--disable-features=MediaRouter,OptimizationHints",
+    "--disable-crash-reporter",
+    "--proxy-server=http://127.0.0.1:9",
+    "--proxy-bypass-list=<-loopback>",
+    "--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE localhost",
+    "--remote-debugging-address=127.0.0.1",
+    "--remote-debugging-port=0",
+    "--user-data-dir=<run-profile>",
+    "--disk-cache-dir=<run-profile>/cache",
+    "about:blank"
+  ],
+  "inputs": {
+    "index.html": {
+      "sha256": "5af51d01dec6352f4fb8550eee06cf0299bf82bd6880dc0bf239f3876bf81fd4",
+      "bytes": 3449
+    },
+    "bridge.css": {
+      "sha256": "87707c0b960fb66afb0ed37e841c367bd0bb7ec4bac38a9392ac4636c7d6cc28",
+      "bytes": 1124
+    },
+    "bridge-fixture.js": {
+      "sha256": "7fc7071f53e7dd5eab0a2c1308cef3464f04b6c109eecc17cffc7ee847aca358",
+      "bytes": 2062
+    },
+    "bridge-view.js": {
+      "sha256": "16678c1c70df49d0223558cd9f9f8148ccdb5862e99db32fdfdb1fad654029b9",
+      "bytes": 7989
+    },
+    "dossier-data.js": {
+      "sha256": "5e97f397da8965a8201cc83b4a958560003f3bde411c1ee07b2b5b5dc698c462",
+      "bytes": 105695
+    },
+    "browser-test.mjs": {
+      "sha256": "dba4f49503259c9fc7be2d379e0b05409ed6aa248cab76c22cd4aab44c20f6da",
+      "bytes": 17638
+    }
+  },
+  "counts": {
+    "PASS": 0,
+    "FAIL": 0,
+    "ERROR": 1,
+    "SKIP": 0
+  },
+  "assertions": [
+    {
+      "id": "execution-error",
+      "status": "ERROR",
+      "error": {
+        "message": "CDP_TIMEOUT_Target.attachToTarget",
+        "stack": "Error: CDP_TIMEOUT_Target.attachToTarget\n    at Timeout._onTimeout (file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-reviewer-p1/docs/03-engineering/ra3d-phase06-native-review-bridge/reviewer-p1/compat-170-plus.mjs:24:194)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+      }
+    }
+  ],
+  "screenshots": [],
+  "observedExternalPageRequests": [],
+  "runtimeExceptions": [],
+  "infrastructureError": {
+    "message": "CDP_TIMEOUT_Target.attachToTarget",
+    "stack": "Error: CDP_TIMEOUT_Target.attachToTarget\n    at Timeout._onTimeout (file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-reviewer-p1/docs/03-engineering/ra3d-phase06-native-review-bridge/reviewer-p1/compat-170-plus.mjs:24:194)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+  }
+}
