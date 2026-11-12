@@ -1,0 +1,20 @@
+Terminal traceback transcribed from the actual tool result; pytest raw files
+are stored separately and unchanged. External recorder failed AFTER pytest
+stdout/stderr/JUnit were written.
+No pytest process returncode was saved for this first Python 3.13 attempt.
+Frozen tests and candidate source were not edited.
+
+Traceback (most recent call last):
+  File "D:\Projects\VRAE\.worktrees\ra3b-independent-qa\.venv\ra3b-independent\phase-b\run_phase_b.py", line 97, in <module>
+    sys.exit(main())
+  File "D:\Projects\VRAE\.worktrees\ra3b-independent-qa\.venv\ra3b-independent\phase-b\run_phase_b.py", line 81, in main
+    after = integrity()
+  File "D:\Projects\VRAE\.worktrees\ra3b-independent-qa\.venv\ra3b-independent\phase-b\run_phase_b.py", line 29, in integrity
+    assert not git('status', '--porcelain', cwd=QA_ROOT)
+AssertionError
+
+Cause: recorder required original QA worktree globally clean, and Codex-1 had
+just created an untracked evidence-packaging helper beneath the exclusive QA
+documentation directory while pytest was running. Moved that helper to ignored
+.venv before rerunning the same entire frozen suite into python313-rerun.
+This is a recorder/setup exception, not a feature assertion or ignored test.

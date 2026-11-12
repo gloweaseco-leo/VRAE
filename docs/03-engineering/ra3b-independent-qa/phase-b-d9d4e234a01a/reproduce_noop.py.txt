@@ -1,0 +1,47 @@
+"""Reproduce the frozen True-fact_ref failure without any source/test edits.
+
+Run this recorder from the exact detached candidate worktree with frozen overlay.
+"""
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path.cwd()))
+path = Path('tests/interpretation/test_ra3b_independent_adversarial.py')
+spec = importlib.util.spec_from_file_location('codex1_frozen_repro', path)
+qa = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(qa)
+
+
+def canonical(value):
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
+
+
+args = qa.proposal()
+before = canonical(args[1][0])
+original_fact = args[1][0]['fact']['fact_ref']
+original_binding = args[1][0]['binding_ref']
+args[1][0]['fact']['fact_ref'] = 'forged-codex1'
+mutated = canonical(args[1][0])
+qa.rehash(args[1][0])  # Exact frozen helper used by the failing parameter case.
+after = canonical(args[1][0])
+result = qa.run(args)
+record = dict(case='test_fact_tamper_even_with_recomputed_hashes[True-fact_ref]',
+    candidate='d9d4e234a01a27a4543404b7060c8867e60d0309',
+    qa_head='8b961b72ce544251e6f28177cc0ea183f7486af0',
+    guard_import=sys.modules['vrae.interpretation.guard'].__file__,
+    qa_import=str(path.resolve()),
+    binding_before_sha256=hashlib.sha256(before).hexdigest(),
+    binding_mutated_sha256=hashlib.sha256(mutated).hexdigest(),
+    binding_after_sha256=hashlib.sha256(after).hexdigest(),
+    mutation_changed_bytes=before != mutated, rehash_restored_all_binding_bytes=before == after,
+    original_fact_ref=original_fact, restored_fact_ref=args[1][0]['fact']['fact_ref'],
+    original_binding_ref=original_binding, restored_binding_ref=args[1][0]['binding_ref'],
+    claim_status=result['claims'][0]['status'], approval_status=result['approval_status'],
+    shareable=result['shareable'], semantic_approval=result['semantic_approval'],
+    interpretation_unchanged=True,
+    classification='CONTRADICTORY_ORACLE_NO_OP_REQUIRES_OWNER_ADJUDICATION')
+assert before != mutated and before == after
+print(json.dumps(record,indent=2))

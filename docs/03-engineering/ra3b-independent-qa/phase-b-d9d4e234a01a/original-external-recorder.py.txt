@@ -1,0 +1,97 @@
+"""External recorder: only two frozen QA files overlay exact detached source."""
+import ast
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+
+QA_ROOT = Path(__file__).resolve().parents[3]
+CANDIDATE = QA_ROOT.parent/'ra3b-qa-candidate-d9d4e234a01a'
+SOURCE = 'd9d4e234a01a27a4543404b7060c8867e60d0309'
+QA_HEAD = '8b961b72ce544251e6f28177cc0ea183f7486af0'
+FILES = ['tests/interpretation/test_ra3b_independent_adversarial.py',
+         'tests/interpretation/fixtures/ra3b_codex1_inputs.json']
+
+
+def git(*args, cwd=CANDIDATE):
+    return subprocess.check_output(['git', *args], cwd=cwd, text=True).strip()
+
+
+def integrity():
+    assert git('rev-parse', 'HEAD') == SOURCE
+    assert not git('diff', '--name-only', SOURCE)
+    assert not git('diff', '--cached', '--name-only')
+    assert git('rev-parse', 'HEAD', cwd=QA_ROOT) == QA_HEAD
+    assert not git('status', '--porcelain', cwd=QA_ROOT)
+    assert git('status', '--porcelain', '--untracked-files=all').splitlines() == [
+        '?? '+FILES[1], '?? '+FILES[0]]
+    hashes = {}
+    for name in FILES:
+        original = subprocess.check_output(['git', 'show', QA_HEAD+':'+name], cwd=QA_ROOT)
+        actual = (CANDIDATE/name).read_bytes()
+        assert actual == original, name
+        assert git('hash-object', name) == git('rev-parse', QA_HEAD+':'+name, cwd=QA_ROOT)
+        hashes[name] = dict(git_blob=git('hash-object', name), bytes=len(actual),
+            sha256=hashlib.sha256(actual).hexdigest())
+    tree = ast.parse((CANDIDATE/FILES[0]).read_text())
+    assert not any(isinstance(n, ast.Attribute) and n.attr in ('skip', 'skipif', 'xfail')
+                   for n in ast.walk(tree))
+    return dict(candidate=SOURCE, qa_head=QA_HEAD, source_tree=git('rev-parse', 'HEAD^{tree}'),
+                tracked_source_changes=0, overlay_only=FILES, hashes=hashes)
+
+
+def main():
+    out = Path(__file__).parent/sys.argv[1]
+    out.mkdir(exist_ok=False)
+    before = integrity()
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE='1')
+    metadata_cmd = [sys.executable, '-c',
+        "import importlib.util,json,sys,vrae.interpretation.guard as g; "
+        "p='tests/interpretation/test_ra3b_independent_adversarial.py'; "
+        "s=importlib.util.spec_from_file_location('codex1_frozen_import_probe',p); "
+        "m=importlib.util.module_from_spec(s); s.loader.exec_module(m); "
+        "print(json.dumps({'python':sys.version,'guard_import':g.__file__,"
+        "'qa_import':m.__file__,'input_path':str(m.INPUT_PATH),'sys_path':sys.path}))"]
+    meta = subprocess.run(metadata_cmd, cwd=CANDIDATE, env=env, capture_output=True)
+    (out/'import-stdout.json').write_bytes(meta.stdout)
+    (out/'import-stderr.log').write_bytes(meta.stderr)
+    assert meta.returncode == 0
+    import_meta = json.loads(meta.stdout)
+    assert Path(import_meta['guard_import']).resolve().is_relative_to(CANDIDATE)
+    assert Path(import_meta['qa_import']).resolve() == CANDIDATE/FILES[0]
+    cmd = [sys.executable, '-m', 'pytest', '-q', FILES[0], '--tb=short',
+           '--junitxml='+str(out/'qa.xml')]
+    started = datetime.now(timezone.utc).isoformat()
+    print('START', sys.version.split()[0], SOURCE, 'frozen QA 224 planned', flush=True)
+    result = subprocess.run(cmd, cwd=CANDIDATE, env=env, capture_output=True)
+    (out/'stdout.log').write_bytes(result.stdout)
+    (out/'stderr.log').write_bytes(result.stderr)
+    cases = ET.parse(out/'qa.xml').findall('.//testcase')
+    counts = dict(collected=len(cases), failures=sum(c.find('failure') is not None for c in cases),
+        errors=sum(c.find('error') is not None for c in cases),
+        skipped=sum(c.find('skipped') is not None for c in cases))
+    counts['passed'] = counts['collected']-counts['failures']-counts['errors']-counts['skipped']
+    counts['xfail'] = sum(c.find('skipped') is not None and
+                         'xfail' in c.find('skipped').get('type','').lower() for c in cases)
+    counts['xpass_summary_present'] = b'xpassed' in result.stdout or b'XPASS' in result.stdout
+    after = integrity()
+    assert before == after
+    green = result.returncode == 0 and counts['collected'] == 224 and counts['passed'] == 224
+    green = green and counts['skipped'] == counts['xfail'] == 0 and not counts['xpass_summary_present']
+    record = dict(python=sys.version, cwd=str(CANDIDATE), command=cmd, import_command=metadata_cmd,
+        imports=import_meta, started_utc=started, ended_utc=datetime.now(timezone.utc).isoformat(),
+        exit_code=result.returncode, counts=counts, outcome='GREEN' if green else 'RED',
+        before=before, after=after, failures=[dict(classname=c.get('classname'), name=c.get('name'),
+            message=(c.find('failure') if c.find('failure') is not None else c.find('error')).get('message'))
+            for c in cases if c.find('failure') is not None or c.find('error') is not None])
+    (out/'summary.json').write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps(dict(exit_code=result.returncode, counts=counts, outcome=record['outcome'])),flush=True)
+    return int(not green)
+
+
+if __name__ == '__main__':
+    sys.exit(main())

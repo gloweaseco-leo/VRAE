@@ -1,0 +1,15 @@
+........................................................................ [ 32%]
+.................F...................................................... [ 64%]
+........................................................................ [ 96%]
+........                                                                 [100%]
+================================== FAILURES ===================================
+_________ test_fact_tamper_even_with_recomputed_hashes[True-fact_ref] _________
+tests\interpretation\test_ra3b_independent_adversarial.py:177: in test_fact_tamper_even_with_recomputed_hashes
+    rejected(args)
+tests\interpretation\test_ra3b_independent_adversarial.py:102: in rejected
+    assert out['claims'] and all(c['status'] == 'REJECTED' for c in out['claims'])
+E   AssertionError: assert ([{'binding_ref': 'cb-8a3fac29fd29eca4149861e4910670f8cb293fde7f72845a4cca02c57e91f299', 'pointer': '/hypotheses/0', 'reason': 'LITERAL_ONLY', 'status': 'SOURCE_FACT_BINDING_VERIFIED'}] and False)
+E    +  where False = all(<generator object rejected.<locals>.<genexpr> at 0x00000196F78E9D80>)
+=========================== short test summary info ===========================
+FAILED tests/interpretation/test_ra3b_independent_adversarial.py::test_fact_tamper_even_with_recomputed_hashes[True-fact_ref]
+1 failed, 223 passed in 142.51s (0:02:22)
