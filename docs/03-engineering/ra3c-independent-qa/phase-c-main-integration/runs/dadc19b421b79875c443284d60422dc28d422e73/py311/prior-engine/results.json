@@ -1,0 +1,476 @@
+{
+  "qa_head": "dadc19b421b79875c443284d60422dc28d422e73",
+  "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+  "prior_commit": "6a7a3d3aa5f4341059b04567157f7fc58d6bf6d2",
+  "snapshot": "C:\\Users\\liu\\AppData\\Local\\Temp\\vrae-codex1-prior-engine-3yp3abcn",
+  "prior_renderer": "ra3c-html-1.0.1",
+  "all_original_blob_bytes_verified": {
+    "contracts/v1/AIInterpretation.schema.json": "f577602f20638d95db0619510c60513dc301a23f",
+    "contracts/v1/AuditRequest.schema.json": "242884228f4d12fc6c05376086378c457774c48f",
+    "contracts/v1/AuditRun.schema.json": "d844f9ce5faab71874a8fbdf0acb0bcf6c0a856f",
+    "contracts/v1/ErrorCode.schema.json": "2892b53a921a95de912bdb968891eaf2dcb55969",
+    "contracts/v1/EventEnvelope.schema.json": "c8583133e7ffef9523c52a987a571d7bda062c60",
+    "contracts/v1/Evidence.schema.json": "3667dd29de0c4b0bc57dc497a628e40ddb828aa9",
+    "contracts/v1/Finding.schema.json": "be9f26cf4ec25c520bfb7eaf7ad54277c69d3cd1",
+    "contracts/v1/IndustryPack.schema.json": "f700402cf247bb2a2cd98f4a59e23f7abca0a115",
+    "contracts/v1/Observation.schema.json": "a9e25612615a1d00d125e3d7c8c7d40ee58c26a3",
+    "contracts/v1/PageSnapshot.schema.json": "b881b7b569a7029b9a82ced15ec469d4c14b0c35",
+    "contracts/v1/README.md": "ec009ef34ac53897aa3be7c1e8b5c3e74ecb7d4f",
+    "contracts/v1/ReportVersion.schema.json": "19422d32c067156b2d3a4674cc21aca9b26d77c9",
+    "contracts/v1/ReviewDecision.schema.json": "76bc533dee0806cb0158c777559729bce59581b1",
+    "contracts/v1/RuleCatalog.schema.json": "09a593ec7638e6bec2675ddb757f3eb94b70a5c6",
+    "contracts/v1/SalesHandoff.schema.json": "ad267ea1b5ea551a411ebe6221ab5b594afcb45e",
+    "contracts/v1/ShareGrant.schema.json": "3213c2d4cc0145d4338fe0453925d3ebf201f43c",
+    "contracts/v1/SourcePolicy.schema.json": "94248e14453085e26147efe172b301682225228f",
+    "contracts/v1/UsageRecord.schema.json": "6024179b29c3b1fc2a58c8fc40191a18cfa6d611",
+    "contracts/v1/browser/BrowserObservation.schema.json": "ca16396584d83c28cb76c283cf427266ce1e2ce1",
+    "contracts/v1/browser/README.md": "57858ce471a63313bd265086d0608c668ec884d2",
+    "contracts/v1/collection/CaptureManifest.schema.json": "ff63d573debb9f6043482c66bd74fe74e48898fa",
+    "contracts/v1/collection/CollectionError.schema.json": "09b70930b746f93d189f6b5eb16984bd2faeee47",
+    "contracts/v1/collection/FetchResponse.schema.json": "c2ed11bd50eb6566b364c87e94f5fc94e309cfe2",
+    "contracts/v1/collection/PageInventory.schema.json": "2233f52fbe2e9529209e69039ee9e9e84bc232dd",
+    "contracts/v1/collection/README.md": "8af42b1828e10628423578c62ae9c57a5b775068",
+    "contracts/v1/collection/RedirectTrace.schema.json": "de8b509cd9c3d4b5d0db923c23fef038d1475dbb",
+    "contracts/v1/collection/SafeFetchRequest.schema.json": "85d36bd7f055031f606824f1c9d4e756f622c4b2",
+    "contracts/v1/evidence/EvidencePack.schema.json": "bb941f87d0a8497f9afd2a3264f0d6863d97aa25",
+    "contracts/v1/evidence/README.md": "4736eae0e3b283834cb8ce6b2cd68c78b5c74217",
+    "contracts/v1/openapi.yaml": "c225132de32c1c954dfd2b4ed49968a6d8efef6c",
+    "industry-packs/industrial_parts.v1.json": "0095ccbb77a2642878be5c8818b63edd8d3ab00b",
+    "industry-packs/rule_catalog.v1.json": "2aeeb6ec4c06ecdae9b45d68dbb8df5b8d05db16",
+    "scripts/verify_ra1a.py": "2a1f4478210925d08bb40d9c1c3c408980800874",
+    "scripts/verify_ra1b.py": "7930750dca3b6e601536b13655ed53f6e08de75f",
+    "scripts/verify_ra2a.py": "6d46c739600e9c63d3153c83330d918696df8d9a",
+    "scripts/verify_ra2b0.py": "833091efc3ffa90bbf7edc49df87c1afb01b4ea6",
+    "scripts/verify_ra2b1.py": "9fff1a70df3480083097895ad17139e18339964b",
+    "scripts/verify_ra2b2.py": "5b04f28254e4959a396378b43e7c5cdbd0726569",
+    "scripts/verify_ra2b3.py": "0b171715744b0c726db262c09274fb1141ddacbb",
+    "scripts/verify_ra2b4.py": "48b1ec047e4061301525b8f55c9a7e558682dcd5",
+    "scripts/verify_ra2b5.py": "0c77ec454d98f2451409d83039beef1f3c1f886c",
+    "scripts/verify_ra2b6.py": "590d354cad0d37c2d594d6e527ca168017a2d8eb",
+    "scripts/verify_ra2b6_execution.py": "25c2bb93e417a6a808eef4724a1a9253dedb3c3a",
+    "scripts/verify_ra2c0.py": "3ba9fb87606cf8d966b437dbe687c2b80cf3a2cf",
+    "scripts/verify_ra2c1.py": "99b589f737dfb238bf9d1edd8369e780268bb2b5",
+    "scripts/verify_ra2c2.py": "cbbae6467c8027dc2e58df50a25a1fabbee04fd5",
+    "scripts/verify_ra2c3.py": "d7648e1823579f843cf23ab00fcf548cfe1dce63",
+    "scripts/verify_ra2d0.py": "f6b4ab15df9f565a64d7b45bdd6f77a140526b42",
+    "scripts/verify_ra2d1.py": "5829b54cf2f0ddf34c5c679f6a8edcf0169dfc9c",
+    "scripts/verify_ra3a.py": "f7641647266f9f65744c9d73a3f462bcf1a340c3",
+    "scripts/verify_ra3b.py": "fab4992b62a38109e438e4b2a0025f41340355ac",
+    "scripts/verify_ra3c.py": "efaac5d8b27d94bfca8dc287a749edf9da461353",
+    "tests/__init__.py": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "tests/benchmark/__init__.py": "454ad425acb7bce4b57eea6c6a465d8041f1a057",
+    "tests/benchmark/human_gold.py": "3ec65074eb172bff6692a1bb60dfe0fa3f70052a",
+    "tests/benchmark/quality.py": "ed6c1bd74dea7b7ca6be2572add7070828446e95",
+    "tests/benchmark/samples/manifest.json": "7c641d26e05b79ea472b846ae3b297e1dfde1d2f",
+    "tests/benchmark/samples/mixed_broken_paths.json": "ec8f477a29f60d3c489ca5544e509ba497105e8f",
+    "tests/benchmark/samples/redirect_budget.json": "c7f562631ea7e44b10ba92fae333b93aa2b33689",
+    "tests/benchmark/samples/robots_denied.json": "d0ff23b9a077ac86227f8fccacdf5de9e446dfe7",
+    "tests/benchmark/samples/spa_navigation.json": "73b16a81ff9aab9eaa950fb6357e970f33201711",
+    "tests/benchmark/samples/static_catalog.json": "7ef8ceb2844382853a7fe34c730c2febdbae2454",
+    "tests/benchmark/samples/unretained_html.json": "383d2af9126e57965412a2f1e0e1a621bfb92b7d",
+    "tests/benchmark/samples/waf_challenge.json": "24edd117c0e95eb0e3e0887c90fe1444d7fd0525",
+    "tests/benchmark/scenarios.py": "9b4cb110683b2c44e34a34caf9d27297bc22673e",
+    "tests/benchmark/test_human_gold.py": "6695a9c9b7e95dfc1184cb5da35b14f59d62b676",
+    "tests/benchmark/test_quality.py": "221295f312baf001ebcf9fbc2f47dbcf8c66848b",
+    "tests/browser/__init__.py": "d69837d70b7cd40e31cfd324336550ff955763a8",
+    "tests/browser/test_broker.py": "031f0aa2e731567f563a0c6ce322ecec6a04694e",
+    "tests/browser/test_contracts.py": "43b9d656c251570533dcea6bf1eff8b5fc6d84e4",
+    "tests/browser/test_isolated_browser.py": "34383c4710ee6faae75da59da57bf9e1707b36eb",
+    "tests/collection/__init__.py": "204acf2cb6b8e038f958c1a7212246c09136c3e8",
+    "tests/collection/test_a5.py": "c79ed8ac482b1adf07bb1ebe7d5ac7b65225aea5",
+    "tests/collection/test_contracts.py": "ded8d251617d776f39269b98eae32edd5668f648",
+    "tests/collection/test_isolated.py": "ed59545a0e4c12cbfda7ad9e7fd1100b609532bb",
+    "tests/collection/test_pipeline.py": "47cb7b21824b10120d1ef327fd3d537ffa6f7476",
+    "tests/collection/test_security.py": "77503f1efc3d52ff7d43be6352c1f3bb94c2be52",
+    "tests/evidence/__init__.py": "200a9cd7de13f6364084308ab78bdf2f1fc5a781",
+    "tests/evidence/synthetic.py": "a744e84bd70d4697fd91482e3c1578f845307b46",
+    "tests/evidence/test_pack.py": "52e35267dbcb6bbac504ebc67ae2d59d1b9cb801",
+    "tests/evidence/test_site_coherence.py": "3c35da637e842f2f44313af10610dacd6fb9188d",
+    "tests/findings/__init__.py": "ba0beb1e782bdd1fadfbe432b2ea9da5f610725a",
+    "tests/findings/fixtures/info01-private-package.json": "0427b341d447dd99e044fdbe5dcb95058c41b88d",
+    "tests/findings/fixtures/ra2c3-private-packages.json": "6ac905229cb81d5b5ae82772de2109bbdd199d45",
+    "tests/findings/fixtures/ra2c3_codex2_inputs.json": "1e8c76e83745275d69cc961d96265737f916e052",
+    "tests/findings/fixtures/ra2c3_codex2_legacy_pins.json": "41e11a0b2fb5a3c646cdb1958582790e578bfe7c",
+    "tests/findings/fixtures/seo01-private-package.json": "f51a808e8acb5224a4d4f6f80063501984dc7059",
+    "tests/findings/info01_synthetic.py": "ad7f17226e825ec492375fbc412d5017b8451c4a",
+    "tests/findings/ra2c3_synthetic.py": "43a268f393dea052e7997d625c7f1eed3bebfc41",
+    "tests/findings/seo01_synthetic.py": "7d9d16cc43580a4306cb27b53efbdb7f95f7db7c",
+    "tests/findings/synthetic.py": "e11830e47c3bc62f16419192b30c22a02935c930",
+    "tests/findings/test_builder.py": "e032e9e173fcce29c1fb775af3d9c5c2817034fe",
+    "tests/findings/test_info01_integration.py": "937b35214409dfabebddd573e3668817c96ee11e",
+    "tests/findings/test_ra2c3_independent_adversarial.py": "004b1b7bedbe2478361a52e2668586502164d63a",
+    "tests/findings/test_ra2c3_integration.py": "22c2e32979dab7148fc10bbda7575dbe8bd3076a",
+    "tests/findings/test_seo01_integration.py": "7cf6307ba33dac1bc9dc6256a6d6d8b6d94a8509",
+    "tests/fixtures/contracts/invalid.json": "4667febff4ad5e4169455f630e787ff95441fcd2",
+    "tests/fixtures/contracts/valid.json": "9d68af50aa22b9f41a11be4e16cbaa3b83222262",
+    "tests/fixtures/evidence/README.md": "28b130d29de294cba752fe39435dd41cb870893c",
+    "tests/fixtures/evidence/combined.json": "0dac0e578402e318875261bd6d6ae362f17a9482",
+    "tests/fixtures/evidence/wrong-site-legacy.json": "cb1c25b929bd1f9f9451c4fb8d03492beffc71bd",
+    "tests/fixtures/findings/industrial-diagnostic.json": "d6b502e3f49e79f718803218e86506117e056e68",
+    "tests/fixtures/rules/gold_contract_cases.json": "0efa8ef5ea41c59e68b9a5d5d5bffc0e4211bab8",
+    "tests/fixtures/rules/industrial-journey.json": "4c55dff4f50778181361e0fa8752121dcd1c2622",
+    "tests/fixtures/rules/industrial-navigation.json": "28bf715a0f35dc97225eec4c31255e0710976c55",
+    "tests/fixtures/security/url_cases.json": "095d4b8726f17da60d22ff9de876207c02b550c5",
+    "tests/fixtures/sites/blocked.html": "61228fe778c894e7ece7cda57ced266676da1aba",
+    "tests/fixtures/sites/catalog.html": "5162cb2a3d363f9f58194f1385be729f012a06cb",
+    "tests/fixtures/sites/cms.html": "4ecdc518f07e106599eedc09b8fd634bc64a137c",
+    "tests/fixtures/sites/factory.html": "3da86b3a0e7bf8f00284db9e9132226cc56cb35f",
+    "tests/fixtures/sites/product-info-conflict.html": "f260080223a27f0884c7a92a00c162bdbd3576a5",
+    "tests/fixtures/sites/product-info-empty.html": "96e8e3a5a5ae4e2d2012365d736a3ce795fef283",
+    "tests/fixtures/sites/product-info-no-parameters.html": "e0c523de43645655590e0f159e1587c16b0888dc",
+    "tests/fixtures/sites/product-info-valve.html": "e8ea0d7f3dd838292190e70436b29fa4f4253cc2",
+    "tests/fixtures/sites/product-info-variant.html": "a86315d8bd9411f63b09950cd4c768b22b419fcd",
+    "tests/fixtures/sites/spa.html": "1038d638a8f173eee7714afb0921467a631a3d8b",
+    "tests/fixtures/sites/trust-about.html": "5c6462e27533ecab57214afc1022b7667fe46f1e",
+    "tests/fixtures/sites/trust-contact.html": "6e2d1084b7cb0f30d9496162f2fb2d27a6640e5a",
+    "tests/fixtures/sites/trust-js.html": "43818e714cc828de8835c790e61940335c64f4f9",
+    "tests/fixtures/sites/trust-mixed.html": "6c682195c79ab673f625acd2453eba2e77d34683",
+    "tests/intelligence/__init__.py": "258ca9a29aff0c3f04b52b790910dd3e904add3c",
+    "tests/intelligence/fixtures/ra3a-offline-demo.json": "9dade44ab78d1650fb6f79e0da533f4c1fea4808",
+    "tests/intelligence/synthetic.py": "4c7472891922e28bc49e8a61abadf68e82097e56",
+    "tests/intelligence/test_accounting.py": "4477c87615261d5682c0680f83fa5407bcc77cf3",
+    "tests/intelligence/test_demo.py": "228829693d67eb043dec2bcb2c83415a400268ec",
+    "tests/intelligence/test_gateway.py": "891f0d0c096ec065c9e0db73a3f21c5aa1fa9881",
+    "tests/intelligence/test_request.py": "3448617441633f8b2a25485bbfe3b0f7e5bb2c52",
+    "tests/interpretation/__init__.py": "f4896c186fb28fefd6ecb37f0eeea3d07c5219d3",
+    "tests/interpretation/fixtures/fixed-replay.json": "2c83a1dce903c8462f149271335a1384226e41d2",
+    "tests/interpretation/fixtures/preserved-history.json": "cf8faa1a06454400046814f922c871bcaf40f50f",
+    "tests/interpretation/fixtures/ra3b_codex1_inputs.json": "7fa3a75e3001ad9c95abee2aff66a2b73a32e740",
+    "tests/interpretation/synthetic.py": "cd9329b734f7545a2a790e07eb79021818f7be13",
+    "tests/interpretation/test_fixed_replay.py": "ae0ca9c1b02d8aafee48a3ca66c82ea657a7e250",
+    "tests/interpretation/test_guard.py": "7025b11db4162712a39c7edb28121e5644ee4521",
+    "tests/interpretation/test_ra3b_independent_adversarial.py": "84dcb51e794310d5bfa6426042e50c1d785bcef6",
+    "tests/reporting/__init__.py": "36fcc656c7d183e79e3d0872ee6f574ed6a89f49",
+    "tests/reporting/fixtures/caller-pins.json": "ecc72e0789d32a4f00515d08ba98d53ea310cea9",
+    "tests/reporting/fixtures/sources.json": "fc29afd9baaa332f096bcf64c597864a2812fc76",
+    "tests/reporting/synthetic.py": "6b5f8c40d6c2fb0aa85fda6caabeff77b9c59e4b",
+    "tests/reporting/test_draft.py": "d74279233ff5a6c5cbf5bf7eb2a450b76607e8ec",
+    "tests/rules/__init__.py": "d7ad51773c30588795dc42dc71a0df51a488cdd0",
+    "tests/rules/fixtures/info01-product-observation.json": "4b29797ec0687375ab2b3581d7b0585bd4ade27a",
+    "tests/rules/fixtures/seo01-static-signals.json": "5f7cdb6e337f4bfc3063fa1316f96717e2190d8a",
+    "tests/rules/fixtures/trust-source-facts.json": "d34acfdc769f196c492ff200c4b0fd08792f9bb5",
+    "tests/rules/fixtures/trust01-execution.json": "fe5ed3dedb343ba0a5207e83eb2f5c9d87676e86",
+    "tests/rules/fixtures/trust01-preparation.json": "926b129a927a0f33b7eedd9f1ae5c76f9f078101",
+    "tests/rules/synthetic.py": "c23149122b9c374c38b81fede8699581357e0f97",
+    "tests/rules/test_execution.py": "f08565622af27ddb6929430dbf0fd8df2b6b7ee7",
+    "tests/rules/test_info01.py": "1d31a966e01aaec87869586d3acdc972f3d3535e",
+    "tests/rules/test_journey.py": "499938f8a3e4dc7594e06928ade91f13e6152076",
+    "tests/rules/test_product_facts.py": "8db944d24698311e71024b395213e7bb17bff816",
+    "tests/rules/test_seo01.py": "1db2b4b4b40a21a1be123c167566e3917aecacb9",
+    "tests/rules/test_trust01.py": "4a8f1e34f63f80c8495953ef0366025dbe1c8e1f",
+    "tests/rules/test_trust_facts.py": "eb80c589248fa78a625bef7b089564cbd70cd4a1",
+    "tests/test_contracts.py": "5c27ae68e7e8df75da3aee8d00c72e38dd73d1c5",
+    "tests/test_domain.py": "c2eb5464af6cbf8e15c86fff49499f279fbe1d18",
+    "tests/test_ra0f_regressions.py": "3920b0952677a79bbd947ea900edc925748db05c",
+    "vrae/__init__.py": "09a2643da29881e866dcb6da158aea0cb0042346",
+    "vrae/browser/__init__.py": "8264d4b0ffabba582ba47c6fd8bce87542648359",
+    "vrae/browser/broker.py": "5e9f7b05e7dfc921a1758012b78c3d8647def9c1",
+    "vrae/browser/cdp.py": "cff06744a607880105389a61a3e6c4262ac6bcaf",
+    "vrae/browser/controller.py": "f234e87be64a6e99c77dd92ebd53658495e32416",
+    "vrae/browser/observation.py": "c03471fdf31b205aa90eaa2a727c6e5629a494bd",
+    "vrae/collection/__init__.py": "ab30a3bbf8e1f010b756b6d3bca8017eb30cce72",
+    "vrae/collection/collector.py": "9fb64c63ce87ad114ef0cf4c70a21953b7875e22",
+    "vrae/collection/contracts.py": "a010f6d46879552b6a4d66f397f17e8df955d53f",
+    "vrae/collection/discovery.py": "cb4b7d748246f515d0e41114c73b4596c51cd73c",
+    "vrae/collection/errors.py": "31fdcc980a5e8bd36c50d8029571538d015b001c",
+    "vrae/collection/fetcher.py": "f2c3b7b4af9a2dc8168bb889686477809fc3aa76",
+    "vrae/collection/http_transport.py": "6d8bfef1ff8813f1da31b7307f2cf99cf0a2b607",
+    "vrae/collection/limits.py": "c6fcc834310a2b6343b5d5af1d81a3ce35648454",
+    "vrae/collection/manifest.py": "3b6252995a32ebc750d064e5a98fd0ff8be39dbd",
+    "vrae/collection/policy.py": "773aafa62e8062554c1aa4079b21d98f35ce17fc",
+    "vrae/collection/redirects.py": "b0eaf143bfcab1e4fbc794d014de11809abdca60",
+    "vrae/collection/resolver.py": "3948d80f05a4c140f74314fe8a2ac994fb50c988",
+    "vrae/collection/robots.py": "7d44f5b6ae5895274b5ddb5bfb183e1b898d5298",
+    "vrae/domain/__init__.py": "1d8a6d87a347eb3abb593dd67d3e34cb7586bcb4",
+    "vrae/domain/access.py": "106796cac71852b6c1f2f5748154271b48eaf6ac",
+    "vrae/domain/budget.py": "5e2b1fa7ea691cff266ef8b109d9d4a72a7700ab",
+    "vrae/domain/business.py": "01ed4fd7e19bfc4499b3a2a7f55d7d683d812807",
+    "vrae/domain/contracts.py": "03a91d4e09ea1f09db91ed0f4daada8bab3e1a56",
+    "vrae/domain/errors.py": "1572e11abb3d70f995f5301247c28d67c07a17e3",
+    "vrae/domain/evidence.py": "b25d660da5e1c1803f1dcd7815c05914a12f9965",
+    "vrae/domain/idempotency.py": "54e0096912ae1a72c48ef22f6b2a28842a0536cf",
+    "vrae/domain/policy.py": "99316edc642904893c0830ba6bef46515198e5cb",
+    "vrae/domain/reviews.py": "fddefd1caddd39bb9fb7ae6229340071bd973e28",
+    "vrae/domain/workflow.py": "80d582fbef90c24d8e1b9ca2c52b1f65f4565d43",
+    "vrae/evidence/__init__.py": "d6ce49ed087ae7b839eff2f979f03c4d00682d64",
+    "vrae/evidence/pack.py": "8f7e63ab77660bf71e72d1ebd55b68cde8735b0a",
+    "vrae/findings/__init__.py": "f510f433184ac8614ff3e4339d6e313e41a3bec3",
+    "vrae/findings/builder.py": "711361876b24fd9834edc62f6305b6054649db26",
+    "vrae/intelligence/__init__.py": "4d0a2f15781207fd4cada9ee77e10b64b6b048c7",
+    "vrae/intelligence/accounting.py": "2e9af528ed4b05175c8df3ddf328d9fdb57160ac",
+    "vrae/intelligence/audit.py": "5b5710307a9155c3c72b7e4d3b5a7b0ff382d5c2",
+    "vrae/intelligence/common.py": "ecf32f282f43c0eb9df3d01df046b1e33a78eb8c",
+    "vrae/intelligence/gateway.py": "ed3726898657c33ae7f32f4395e104754b9073e3",
+    "vrae/intelligence/provider.py": "04315acba6655b96ede9db4eaf27f1c01669ed44",
+    "vrae/intelligence/request.py": "14beb6aa29a3b26501795f9f8348c09d860d84d1",
+    "vrae/interpretation/__init__.py": "bcfcaef812eaa57d6cf5d00998a1800dfbf09e3e",
+    "vrae/interpretation/guard.py": "3c068f86c5d553468e14941a0fa944d15a8240f7",
+    "vrae/reporting/__init__.py": "0cbd59050d19d294f28db5ad0ed334c67d2b2010",
+    "vrae/reporting/common.py": "ab4aeec1b382e24f473ac8caeaaef8e7cb716188",
+    "vrae/reporting/draft.py": "8f30c890ea5622a69b639c07bc25f68f26fca747",
+    "vrae/reporting/editorial.py": "fe125b8d7dedd35b3ce8f0cd0741758781ac1ffb",
+    "vrae/reporting/renderer.py": "baa1f9722a01935a3fc8353aedb3b3d1bc2552ba",
+    "vrae/rules/__init__.py": "292a18a72e064d4c4b29996e45a49de418e23b92",
+    "vrae/rules/execution.py": "c183970fd90ec69729221a4174c38d193f4b054b",
+    "vrae/rules/info01.py": "608cfaadbaaa2c009862146bcbcbd2922b33e82d",
+    "vrae/rules/journey.py": "fe1fabf33b1b9cdf2334c434ece3c588f6a67e42",
+    "vrae/rules/product_facts.py": "251eea900e4ff14a28a9b6321b42df84e8ea0c85",
+    "vrae/rules/readiness.py": "2e04bbcee62ba05fdad27eabb35f71d04084d5c1",
+    "vrae/rules/seo01.py": "35c898e1cdeed9563ad0b575d299de726254f045",
+    "vrae/rules/trust01.py": "d1a1dd86a3576e8dfb8c98157478ae28cde6c241",
+    "vrae/rules/trust_facts.py": "3ee310d68c9612db046723a8fa08603810e9ef98"
+  },
+  "original_command": [
+    "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+    "scripts/verify_ra3c.py",
+    "--output",
+    "C:\\Users\\liu\\AppData\\Local\\Temp\\vrae-codex1-prior-engine-3yp3abcn\\docs\\03-engineering\\ra3c-offline\\qa-original-engine-replay"
+  ],
+  "actual_exit": 0,
+  "prior_cases": [
+    {
+      "case": "200",
+      "draft_ref": "rd-6e01a60789ce80d40b949eb7bc68e41584dc1d7fd89001ca14d643cd1d8bce52",
+      "html": "contact-200.html",
+      "html_sha256": "968fb166644da29bea9cafac300bc2fdb26ffa9642a02b6460ad4130f7c9c8ca",
+      "issues": 0,
+      "kind": "PRIVATE_COVERAGE_SUMMARY",
+      "native_report_version": null,
+      "trust_outcomes": [
+        {
+          "observation_id": "obs-8730dd0a4e2c0fa4ba64acdb8134169215926af7c5bcb5403447306624fa2fd0",
+          "result": "PASS",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-2ac5ffaa43efbaa1926402532bebb8bf4f485fdd8007df2d24215b7b98d09512",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-1dfb9b4e3c639762f83d93ba8fafa1326db3ec0e3006c24f4d5f8f12092df381",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ]
+    },
+    {
+      "case": "404",
+      "draft_ref": "rd-46fc19844ad6713b6a5e76797f43a967572217ce1bee9820c6795461e7c1de6a",
+      "html": "contact-404.html",
+      "html_sha256": "6a1dd633260554bd0c1b84f276bed0784fd7c3e27d39d3764cc3fdb9aa42bdca",
+      "issues": 1,
+      "kind": "L1_REPORT_DRAFT",
+      "native_report_version": {
+        "approved_at": null,
+        "approved_by": null,
+        "audit_mode": "L1",
+        "content_hash": "afa83c8fca1e4d40150352643a0545c17c2a410c23ccc075d7968ef3fcb4fb81",
+        "created_at": "2026-11-12T02:30:00Z",
+        "created_by": "offline-review-operator",
+        "finding_ids": [
+          "finding-1985ef832a6662b0b8e4905fce8f70b4603503a545d492949a3e1b14cdd4dc2f"
+        ],
+        "report_id": "report-ra3c-404",
+        "report_version_id": "rv-b086a81002ec22a57d5c0703cbf50ee7f955d9fe3af4b80204c9c56b52db738c",
+        "run_id": "run-ra3b-404base",
+        "schema_version": "1.0",
+        "status": "REVIEW_REQUIRED",
+        "tenant_id": "tenant-test",
+        "version": 1
+      },
+      "trust_outcomes": [
+        {
+          "observation_id": "obs-9f1186125205d51f0808743a2f3d0e8763d85d98599bfa65d46556c4632157d4",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-bbea29087f4314d4c6dccbc75a30ad8bd4b1971416a90c3f1d301cdac55c33b0",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-19dbdebdbf472559bbe4022e184d51e5a5b7601b3d688118108c246d97d72ca6",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ]
+    },
+    {
+      "case": "410",
+      "draft_ref": "rd-321efdc79ed525857b7187c3d8c1c04d1960b27d150c0735dbb7ca1a5f85b205",
+      "html": "contact-410.html",
+      "html_sha256": "fbe867613196313fbe5e46575a0a0823a3dd850d0d1f80f88704d2e5f0304326",
+      "issues": 1,
+      "kind": "L1_REPORT_DRAFT",
+      "native_report_version": {
+        "approved_at": null,
+        "approved_by": null,
+        "audit_mode": "L1",
+        "content_hash": "dc0df07d37a516337478b742650f1e136bb74527911e830bba5a6cbd688bcb54",
+        "created_at": "2026-11-12T02:30:00Z",
+        "created_by": "offline-review-operator",
+        "finding_ids": [
+          "finding-2c2a3b2e9117e492bd6ab99d16fbb4ab4cd90ba724aa08f0a1f8809754a1f7bc"
+        ],
+        "report_id": "report-ra3c-410",
+        "report_version_id": "rv-804360f2f0433c56cf219acd7dd110b60b76c0e831c5c15967461eeb8651ccd9",
+        "run_id": "run-ra3b-410base",
+        "schema_version": "1.0",
+        "status": "REVIEW_REQUIRED",
+        "tenant_id": "tenant-test",
+        "version": 1
+      },
+      "trust_outcomes": [
+        {
+          "observation_id": "obs-ff029c086ba0909d6fd216ca5c60c62e730f0c8738dfd4a1af2dba48e5df80fd",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-ea3353f37a2d0f5ce2ea174df730ba81dfa924f630f896dcf2a287a1f9cf42d2",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-54fd1d0e225d1b6d494879dfaed2b727bbb5cd96fe8e63582fb2e77535e6afc0",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ]
+    },
+    {
+      "case": "403",
+      "draft_ref": "rd-5718c94154344370cf9d89641703324a5a17770f58f295b6b0066832a7663c79",
+      "html": "contact-403.html",
+      "html_sha256": "5cc60d8954c12d65f22bb12260459c410d61d3e85a2f9a74a5af3ebd5febd71b",
+      "issues": 0,
+      "kind": "PRIVATE_COVERAGE_SUMMARY",
+      "native_report_version": null,
+      "trust_outcomes": [
+        {
+          "observation_id": "obs-f3e90384da65f9c3bc79f3d90b92482e4b6e0db3508485bbfd2ed65a4e622903",
+          "result": "ACCESS_BLOCKED",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-1c0e755b439b0a9b91a84f58dee0739b7f0bbdb63f11710a66e535a684a0310e",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-f0de883b3643cfeab0c1dddadc6744f9694cc544e339f2c2d8de6925d57eab66",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ]
+    },
+    {
+      "case": "500",
+      "draft_ref": "rd-3d08cba27e01c6df2cd4f88a6ac517a8aeb4944aefe99502c4a3d3d43929a70e",
+      "html": "contact-500.html",
+      "html_sha256": "7d1c256a73eb9614488557707a82146d01bbaf3d34d3a6d48862c54ef2710dd5",
+      "issues": 0,
+      "kind": "PRIVATE_COVERAGE_SUMMARY",
+      "native_report_version": null,
+      "trust_outcomes": [
+        {
+          "observation_id": "obs-209627f81e08b58132bd1c5122b8e95d76b41f78718ac66131aed0d45de1e45d",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-a057d8635d3eb682b434b842aedd39721b4d1f7bc7de1b1303ec3c4c7d249f75",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-536b9e263548b7c3273d05c279ef86c54ca26211fc5c7cd7413dfd5fd40a75c8",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ]
+    },
+    {
+      "case": "robots",
+      "draft_ref": "rd-c1c65bf5eca7d9dfb913c057145065f8c18ce3e00b02bdd8cca22354c6783401",
+      "html": "contact-robots.html",
+      "html_sha256": "b8d2440d9dd41a271932a2639f70ba6fdb723d8f28a3dee1f32f1d6b531aaef7",
+      "issues": 0,
+      "kind": "PRIVATE_COVERAGE_SUMMARY",
+      "native_report_version": null,
+      "trust_outcomes": [
+        {
+          "observation_id": "obs-8ba0fbe0dd5581caf056b8e4cc6c9b4d43107a41bc6d86c674e729451ac92a5e",
+          "result": "ACCESS_BLOCKED",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-703eb0327d2004e5a2b2a52657fd609f1c7de1addef0f3f3638cd10616898f19",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-e730a1218f88306dff22f4a57ccf006582f4d67c2b1a0a6a2d01f518f1b853f6",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ]
+    },
+    {
+      "case": "unretained",
+      "draft_ref": "rd-7f68b1f9f8cf5d7ae484336bebc110cefe5756ff96d715908d64738a15b2470b",
+      "html": "contact-unretained.html",
+      "html_sha256": "c7b3d2110d5a6c5ce40ca28b81e318c370e9d834ceb14ce5a187e0c637ad3b69",
+      "issues": 0,
+      "kind": "PRIVATE_COVERAGE_SUMMARY",
+      "native_report_version": null,
+      "trust_outcomes": [
+        {
+          "observation_id": "obs-7b50c29c8aeeb8e8fe950bea993eba12f89f527bde6973f00770aa6ae16fd536",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-0621f8a64886542ab8bd73c43200c4a0a71f9793519ff8389b7f7c7ce993ec6a",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-d121910875717f3306ae74e3e7e199cab587cf7a801f5ca6798ab3d5c11eb6b6",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ]
+    },
+    {
+      "case": "waf",
+      "draft_ref": "rd-88bd4863e627debc9c6fa8ae21371a67d1e399e965aa982780436ff4ef271a13",
+      "html": "contact-waf.html",
+      "html_sha256": "fb4df8d65ae209bcb4d2821c5485a7209d47b36638693d36ddb1234e3e4a1395",
+      "issues": 0,
+      "kind": "PRIVATE_COVERAGE_SUMMARY",
+      "native_report_version": null,
+      "trust_outcomes": [
+        {
+          "observation_id": "obs-d73085a7b9efbff9e20daa6fd0a275bc7e0b9db633ebf0870e7f59f0eed38746",
+          "result": "ACCESS_BLOCKED",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-c2f88252dff67eb5abea8e91c99e7d2809c6ae6265357aaf6065ee03b69d49d1",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-5d2a1028a5efece417fb689a50ca0f8fc70730ef12fbd7fb90d7a42e878e895d",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ]
+    }
+  ],
+  "current_renderer_stale_pin_rejection": "REPORT_PIN_VERSION",
+  "foreign_worktree_touched": false
+}

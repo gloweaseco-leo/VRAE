@@ -1,0 +1,559 @@
+{
+  "kind": "ACCEPTED_CORE_SOURCE_GUARD_REPLAY_NOT_REPORTING_PASS",
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "requests": [
+    {
+      "request": "positive/healthy200",
+      "scenario": "healthy200",
+      "source_pins": {
+        "expected_pack_ref": "ep-8e00f1b143f8c10230826b551b87022a8fc9ff6943693adf4c15c02817a3d0f6",
+        "expected_execution_ref": "rx-17d145b87a415dbbd1e978a050d9a70b2953fbf901c49243b211f1c727bfcab7",
+        "expected_package_ref": "fp-b702ff3fb1a6dc255afdc0a07f8c9fd75ff8d20eaea561d19847e8bb9b33883c",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-healthy200",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-0d6c90294cc8d6dde687e4054da8ed925c9501f35283911699ff3be1f14ccec1",
+        "cg-1cf607bca7a931bd1a3d7fb3035f31f5d80cc82a5f7a4276310c4b09dcce1e0d",
+        "cg-ee3e447c1ab8e6fdc4cd97d035743a71f1cd91d2057bb553bee35c99eca21bfc"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 3
+      },
+      "actual_native_failure_count": 0,
+      "bound_failure_observations": []
+    },
+    {
+      "request": "positive/broken404",
+      "scenario": "broken404",
+      "source_pins": {
+        "expected_pack_ref": "ep-7158fedd2b1afa492096ab186fe861e6024460bf7be7d712a7f1ee6e28074905",
+        "expected_execution_ref": "rx-1bb672d38896a0519217c2e140a7a33f3c42098c97031e7ecb824d83c834312d",
+        "expected_package_ref": "fp-664a499cafb86fd93e911c5918666437e15c5533a0495d6ef6b9158ccd97ead3",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-broken404",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-ad533e046572f5065efeecc4ceeac83523971a6990e0f7a2e0516ed4d431a106",
+        "cg-6203d0a46111573a96779855680f65075b2616b1545e3a2898ca01d72a91c3de",
+        "cg-3efc3d584710452bfbf2e6f6e8c983d96b14143825e0ae93344771166563bb94"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 3,
+        "HUMAN_REVIEW_REQUIRED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-0ca801e8e26104e158513b22975d5a12c46420614a5f3fa7f32f73ab25474203"
+      ]
+    },
+    {
+      "request": "positive/broken410",
+      "scenario": "broken410",
+      "source_pins": {
+        "expected_pack_ref": "ep-e61fe35a32bd88ad22f5b4cd67e2f674930372ca827c42928bcbcab4b85a1c4f",
+        "expected_execution_ref": "rx-496f967e5dff0d0070324df978b0bd85d2c45e6872e93752ac896b44536f3ded",
+        "expected_package_ref": "fp-37cfb855349dba3fd2185699aa8307afce61961231726b1661bd9c45b0887393",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-broken410",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-de4562388d919bcc2d74ef477c46ec3207cfdf5e904f383ff7056a77a075b0b6",
+        "cg-b11e81c005c2deac2bf4ea15b8218fb34225f819ccbbe40cb7b10b4f63de7d11",
+        "cg-369e90b2a79296f112c3e14bba904d6ea82adbba6eb15e82957c9eefe6e5fab0"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 3,
+        "HUMAN_REVIEW_REQUIRED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-d5ba986a97418446078186c8f022c8cb56dc77782812ebc753ac19906d4436ab"
+      ]
+    },
+    {
+      "request": "positive/blocked403",
+      "scenario": "blocked403",
+      "source_pins": {
+        "expected_pack_ref": "ep-a5b828e7e9908eb95f8f99d990d3e9192c030cc5f2dd8d43c468669bcbea42ee",
+        "expected_execution_ref": "rx-2220eec8e5fa44ef594811595ed96c47ffded6e8e3dade3835211271c4fa9e1c",
+        "expected_package_ref": "fp-9cb169122bdce5ad691d744e99e35a56693cd5b6939086b6d88a5d8451dcadb7",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-blocked403",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-04e930a47925cdb839cd735b4f36c2f30bd6eab6c906d957834fe43c889b5702",
+        "cg-84f02ce3dab9a3f471fbb877bf721fb28c5f70ee1349b052f6fab0bd4373109a"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 2
+      },
+      "actual_native_failure_count": 0,
+      "bound_failure_observations": []
+    },
+    {
+      "request": "positive/failed500",
+      "scenario": "failed500",
+      "source_pins": {
+        "expected_pack_ref": "ep-f0837be19f807561d090899be27db1a4c0e3ecc36e6a51d6abc14a491a269bed",
+        "expected_execution_ref": "rx-69412a2f0f1ef11e1ff48b015b67e6707323241293115cfc6ce43c2912b9dc15",
+        "expected_package_ref": "fp-4f735d946f1932324ca3f36ddb1fabfe24cb27eeab22676a3dff980ea9e18d3e",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-failed500",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-438984d0d9195390597f4c78e9822df54293607dbd8b8dc546dca1f4c9167024",
+        "cg-ead9aad9b13d7951dcb3eb63a3940d131f7acc8f2d3bc014b372d9ea1f96ff83"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 2
+      },
+      "actual_native_failure_count": 0,
+      "bound_failure_observations": []
+    },
+    {
+      "request": "positive/waf",
+      "scenario": "waf",
+      "source_pins": {
+        "expected_pack_ref": "ep-f594c032b7cc4573ce9b70f04fe44876402a25e8c949616c09ec5b3bb8d97723",
+        "expected_execution_ref": "rx-d2ea519c31c66d03ed646e3f4ebdda18e60441ebd9f68f97e02888071e300dc6",
+        "expected_package_ref": "fp-5e1f8cd76fed43fc5526a1489e07acbb2c863502f6a950b78f5e2c03ac029ba8",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-waf",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-656a67d70126ea7c04ff373217287f0dfab8faf8a550ef0c7adafb2781971624",
+        "cg-c15311ad8c526552fb4c73c8012078e3d9fcb856a61d037b8a355625b110d6d1"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 2
+      },
+      "actual_native_failure_count": 0,
+      "bound_failure_observations": []
+    },
+    {
+      "request": "positive/robots",
+      "scenario": "robots",
+      "source_pins": {
+        "expected_pack_ref": "ep-5ad7bd72f24f8ef4014704bfe00e6640af64001257b095c9a397b451a520598c",
+        "expected_execution_ref": "rx-f662e5ea829c258df55ec29401c211a39d909160580f8ea0ebb41129f583bc74",
+        "expected_package_ref": "fp-23452becdbe641220c1c67884bcb2bec7e0de92c18e39b5c351b2a289f6dbc53",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-robots",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-3afdae1da022d3201af2518016c3e0ca5d5f9edf3f54403a77d576b110ef857c",
+        "cg-d03486d771cdc5ecb27bdbfc2b401e2ea5bc647df7d4eebd3cfc7d6efff8476d"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 2
+      },
+      "actual_native_failure_count": 0,
+      "bound_failure_observations": []
+    },
+    {
+      "request": "positive/raw_absent",
+      "scenario": "raw_absent",
+      "source_pins": {
+        "expected_pack_ref": "ep-c97e24d115fe3c9da8900bbc6c8fca1b0700634ade4fca79e0be10a51ca7d27c",
+        "expected_execution_ref": "rx-838823a4dfc575f37dad0f26c7436bd6f98b53962e0a2cc5be21e097b05698ee",
+        "expected_package_ref": "fp-8e3c20a9271b7eb16295ee5f55398312522cee5decb0b7c11b906d5eed75d2c2",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-raw_absent",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [],
+      "claim_statuses": {},
+      "actual_native_failure_count": 0,
+      "bound_failure_observations": []
+    },
+    {
+      "request": "positive/unvisited",
+      "scenario": "unvisited",
+      "source_pins": {
+        "expected_pack_ref": "ep-2a915bf9ecc3510f61fe8acc086701d4bb4c7bbcab26805df7d51290d89b2880",
+        "expected_execution_ref": "rx-43379a1dd9d674d5cec031555c3b1dd270ebd7201c2ac544660258b3fa1702b1",
+        "expected_package_ref": "fp-5e7c388518e991bd54ee75de8b4c44afa04d1cfff7fd2ac230f9fdca880aa9cb",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-unvisited",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-8850ec566ef10a84f3cb8d4b8e337849651df243db703f7769f166232d9c67df"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 1
+      },
+      "actual_native_failure_count": 0,
+      "bound_failure_observations": []
+    },
+    {
+      "request": "positive/duplicate_contact",
+      "scenario": "duplicate_contact",
+      "source_pins": {
+        "expected_pack_ref": "ep-753d06f5fc1f6da61999fb8b23d243deb6cd9318381125dd7429ff62b4974d3b",
+        "expected_execution_ref": "rx-68617a2fd264f75e8e662a68c28176931b412dfb9005a42c3a1bc602a5d7c638",
+        "expected_package_ref": "fp-5c8f37b5b0213f8d3e14fa0a989ae525484ea1ca8b7d0371c2163ff801f3b526",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-duplicate_contact",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-d2e8dd1e2af70a7da2a106744121e49e0569304d97187168ca6e2742b8de9e24",
+        "cg-30863e67d611068f81eadc905600862080ce5eadb0bd28126a103d08faf468af",
+        "cg-9641b68d18445ec04241849171d3b91bdcc7a14fedb053b5db80a8d8c6cfed5e",
+        "cg-7d58a2570eaedc158f6d1230f9110ce2440fe222b720db72af5571267b02fe96"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 4,
+        "HUMAN_REVIEW_REQUIRED": 6
+      },
+      "actual_native_failure_count": 2,
+      "bound_failure_observations": [
+        "obs-4a9be8744a994b6a61a2346fee3b2bfb9ee7167f725fe29509bbed6911fba481",
+        "obs-8b6b1b6cfbb24eb1f221e5234e588d4850dc7ee4784f97d18e9492b95c80f258"
+      ]
+    },
+    {
+      "request": "positive/script_source",
+      "scenario": "script_source",
+      "source_pins": {
+        "expected_pack_ref": "ep-6da457ede2e194655838e0022a7ef1d4884e0d31fd6d53a32e1647656bef6d1e",
+        "expected_execution_ref": "rx-a17b1a0039e4b72cffac0ca989bd9de1a027ea42c05adfe39451ffe7abfb4c53",
+        "expected_package_ref": "fp-b8dd28797f00ff8871a35e3bfebb77efda34068b5f922f596ce26c822abb5910",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-script_source",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-aabcbc91dec23fc79c5bd80e4ccc1f3d5dec83e84c226bd644715086c5664ab2",
+        "cg-5ff6e2682b85cb73fcecb28846e42280a34a5ace1404aa6a416a485a74218e3c",
+        "cg-a0568804096c7eeaa0311cdcc17839a89511c0ef6b4d3689f051cff6b7e8d350"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 3,
+        "HUMAN_REVIEW_REQUIRED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-1c7e26702f0d0298ad5fd74f0795cf97e6f013ae5caa42543a7d0ab732fdecea"
+      ]
+    },
+    {
+      "request": "positive/image_source",
+      "scenario": "image_source",
+      "source_pins": {
+        "expected_pack_ref": "ep-ce8d9a58cf7db3a69aeb93abb4fb702e9cd36693addd73ece8adfcd5c1178f93",
+        "expected_execution_ref": "rx-9b054a30525f6c0a7b625d2c69dddab0b82bc6c94e231f3e62f7b5c1ebba8460",
+        "expected_package_ref": "fp-72ac77ae832012ce198e940e267db8a3c540754aca0a118749126c8284e97a95",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-image_source",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-4686c36c02675c88b62c604a3eca2cd2d630f8056b1fe09970a8cd1b2c8263e9",
+        "cg-2791ddccc48a340e37a2a26a021b01966439ad715625662be98af5c594ff6063",
+        "cg-05231db21c7668a35007cebdb8e460d443b32207856ea44c02ccc3a3b761946c"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 3,
+        "HUMAN_REVIEW_REQUIRED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-38a3cc7d4be8e53f43bdede9c9cf8b8c56bd3f7e14fe3bc7042537bb1b1b14b1"
+      ]
+    },
+    {
+      "request": "positive/long_bidi",
+      "scenario": "long_bidi",
+      "source_pins": {
+        "expected_pack_ref": "ep-2d088dce187958bb6c1b9229ae51cddd4ea3858fb8efc4606d95b9d38c87e3d2",
+        "expected_execution_ref": "rx-0fbd1a4250729acdd98b7f0d5f10865c5136a097a92418df1339c8a7f6413400",
+        "expected_package_ref": "fp-6048bd9dc31ab70d3b7fb1e28e0a95271327e39f707d569258a0459e6963985e",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-long_bidi",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-331bf499d592bf6e4d9b2e9797dc305dc4cd7d60a22a6246d7fc5efae85e12ee",
+        "cg-0fac75cf0488cab386237cbd7f46ecf7dc9899a762498a8a2361222b23c6fcb6"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 2,
+        "HUMAN_REVIEW_REQUIRED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-aa2f4a59a73f6f54b8ba943a8daece68db8a5298db27bbf6580c536f74e77610"
+      ]
+    },
+    {
+      "request": "positive/pii_source",
+      "scenario": "pii_source",
+      "source_pins": {
+        "expected_pack_ref": "ep-f5559be40870aa24198f151c3ca44fd01fb941a683997cf436a411c4453ffea5",
+        "expected_execution_ref": "rx-0531ec58cfb32a3f4959fb25b3a68f8e36a64690f3057c5897e15beb8a93dfc2",
+        "expected_package_ref": "fp-b420be20f758cab6241bac27aaa9e095e6b3fc3de45b437af25db03afd30aab7",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-pii_source",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-279084c320d73ce8378d705045cc3dc667b0df9bd872e46ac67249bba106a4c5",
+        "cg-1928e4dd14cfe64a10b96a57136f67d8b457e7f0aba1df138b1c1316e01de10a",
+        "cg-2368ff67858a65bbdc0a087c9219bc8095284eb0d197ae0ac6d99611b8824a53"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 3,
+        "HUMAN_REVIEW_REQUIRED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-8df6c5e5b4444bb4036dedee9acb71eaafa76585489fc3060e0e1ec4945fe1d6"
+      ]
+    },
+    {
+      "request": "attack/broken404/credentials",
+      "scenario": "broken404",
+      "source_pins": {
+        "expected_pack_ref": "ep-7158fedd2b1afa492096ab186fe861e6024460bf7be7d712a7f1ee6e28074905",
+        "expected_execution_ref": "rx-1bb672d38896a0519217c2e140a7a33f3c42098c97031e7ecb824d83c834312d",
+        "expected_package_ref": "fp-664a499cafb86fd93e911c5918666437e15c5533a0495d6ef6b9158ccd97ead3",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-broken404",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-b2f8c2ea4366c95073a3ab931df50cdb60afb0b2315b8b9b86cbc2213c653b46"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 1,
+        "HUMAN_REVIEW_REQUIRED": 3,
+        "REJECTED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-0ca801e8e26104e158513b22975d5a12c46420614a5f3fa7f32f73ab25474203"
+      ]
+    },
+    {
+      "request": "attack/broken404/rank_revenue",
+      "scenario": "broken404",
+      "source_pins": {
+        "expected_pack_ref": "ep-7158fedd2b1afa492096ab186fe861e6024460bf7be7d712a7f1ee6e28074905",
+        "expected_execution_ref": "rx-1bb672d38896a0519217c2e140a7a33f3c42098c97031e7ecb824d83c834312d",
+        "expected_package_ref": "fp-664a499cafb86fd93e911c5918666437e15c5533a0495d6ef6b9158ccd97ead3",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-broken404",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-3914a7d2806327ce84cc16a527d0cf355badd3a41f1581a7945c1cd0b512fc91"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 1,
+        "HUMAN_REVIEW_REQUIRED": 3,
+        "REJECTED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-0ca801e8e26104e158513b22975d5a12c46420614a5f3fa7f32f73ab25474203"
+      ]
+    },
+    {
+      "request": "attack/healthy200/delivery_case",
+      "scenario": "healthy200",
+      "source_pins": {
+        "expected_pack_ref": "ep-8e00f1b143f8c10230826b551b87022a8fc9ff6943693adf4c15c02817a3d0f6",
+        "expected_execution_ref": "rx-17d145b87a415dbbd1e978a050d9a70b2953fbf901c49243b211f1c727bfcab7",
+        "expected_package_ref": "fp-b702ff3fb1a6dc255afdc0a07f8c9fd75ff8d20eaea561d19847e8bb9b33883c",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-healthy200",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-efd032019262e643570674f8b5b333af0d0f00b3fb316da3983324bb5163ccb5"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 1,
+        "REJECTED": 2
+      },
+      "actual_native_failure_count": 0,
+      "bound_failure_observations": []
+    },
+    {
+      "request": "attack/broken404/instructions",
+      "scenario": "broken404",
+      "source_pins": {
+        "expected_pack_ref": "ep-7158fedd2b1afa492096ab186fe861e6024460bf7be7d712a7f1ee6e28074905",
+        "expected_execution_ref": "rx-1bb672d38896a0519217c2e140a7a33f3c42098c97031e7ecb824d83c834312d",
+        "expected_package_ref": "fp-664a499cafb86fd93e911c5918666437e15c5533a0495d6ef6b9158ccd97ead3",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-broken404",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-89397c445e4b38ec5f84c734c473257b39e200091e8504d500b79094e71c1d15"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 1,
+        "HUMAN_REVIEW_REQUIRED": 3,
+        "REJECTED": 3
+      },
+      "actual_native_failure_count": 1,
+      "bound_failure_observations": [
+        "obs-0ca801e8e26104e158513b22975d5a12c46420614a5f3fa7f32f73ab25474203"
+      ]
+    },
+    {
+      "request": "partial/duplicate_contact",
+      "scenario": "duplicate_contact",
+      "source_pins": {
+        "expected_pack_ref": "ep-753d06f5fc1f6da61999fb8b23d243deb6cd9318381125dd7429ff62b4974d3b",
+        "expected_execution_ref": "rx-68617a2fd264f75e8e662a68c28176931b412dfb9005a42c3a1bc602a5d7c638",
+        "expected_package_ref": "fp-5c8f37b5b0213f8d3e14fa0a989ae525484ea1ca8b7d0371c2163ff801f3b526",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_scope": {
+          "tenant_id": "tenant-ra3c-qa",
+          "run_id": "run-ra3c-qa-duplicate_contact",
+          "policy_id": "policy-ra3c-qa",
+          "policy_version": 1
+        }
+      },
+      "external_guard_refs": [
+        "cg-36eddc821622402ec28297a51c6d78bacb9eb671a745e966a25e48d17baaed32"
+      ],
+      "claim_statuses": {
+        "SOURCE_FACT_BINDING_VERIFIED": 1,
+        "HUMAN_REVIEW_REQUIRED": 3
+      },
+      "actual_native_failure_count": 2,
+      "bound_failure_observations": [
+        "obs-8b6b1b6cfbb24eb1f221e5234e588d4850dc7ee4784f97d18e9492b95c80f258"
+      ]
+    }
+  ],
+  "reporting_imported": false,
+  "model_calls": 0,
+  "real_network_calls": 0,
+  "admissible_fixture_sha256": "e9e7079169e9357cef8e3c73e7f6c0e86fe710af7f0c309d9af7bc69d78c4d43",
+  "original_input_git_sha256": "93dee1d7045327281bf310edd412ca189257707cb36c8bd0665e7099f38e6604"
+}

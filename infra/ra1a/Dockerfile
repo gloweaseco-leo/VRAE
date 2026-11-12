@@ -10,6 +10,7 @@ COPY contracts ./contracts
 COPY industry-packs ./industry-packs
 COPY tests ./tests
 COPY scripts ./scripts
+COPY docs/03-engineering/ra3c-independent-qa ./docs/03-engineering/ra3c-independent-qa
 RUN python -m pip install --no-deps --no-build-isolation -e '.[dev]' && mkdir /lab
 COPY infra/ra1a/entrypoint.sh /lab/entrypoint.sh
 RUN sed -i 's/\r$//' /lab/entrypoint.sh && chmod 755 /lab/entrypoint.sh

@@ -1,0 +1,31 @@
+diff --git a/infra/ra1a/Dockerfile b/infra/ra1a/Dockerfile
+--- a/infra/ra1a/Dockerfile
++++ b/infra/ra1a/Dockerfile
+@@ -11,5 +11,6 @@ COPY industry-packs ./industry-packs
+ COPY tests ./tests
+ COPY scripts ./scripts
++COPY docs/03-engineering/ra3c-independent-qa ./docs/03-engineering/ra3c-independent-qa
+ RUN python -m pip install --no-deps --no-build-isolation -e '.[dev]' && mkdir /lab
+ COPY infra/ra1a/entrypoint.sh /lab/entrypoint.sh
+ RUN sed -i 's/\r$//' /lab/entrypoint.sh && chmod 755 /lab/entrypoint.sh
+diff --git a/infra/ra1a/Dockerfile.dockerignore b/infra/ra1a/Dockerfile.dockerignore
+new file mode 100644
+--- /dev/null
++++ b/infra/ra1a/Dockerfile.dockerignore
+@@ -0,0 +1,16 @@
++.git
++.venv*
++**/__pycache__
++.pytest_cache
++.mypy_cache
++.ruff_cache
++*.egg-info
++docs
++output
++.env*
++# Keep the root ignore intact; admit only the independently pinned QA resources.
++!docs/
++docs/*
++!docs/03-engineering/
++docs/03-engineering/*
++!docs/03-engineering/ra3c-independent-qa/

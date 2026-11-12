@@ -1,0 +1,1860 @@
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE         [100%]
+=================================== ERRORS ====================================
+_ ERROR at setup of test_independent_product_acceptance[T01-404: one captured product-contact failure, TRUST unknown] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T02-410: independent capture, one issue not combined with 404] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T03-200: truthful zero issues, no native empty ReportVersion] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T04-403: inaccessible is not a business defect] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T05-WAF challenge: honest restricted coverage] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T06-Robots denied contact: no invented FAIL] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T07-Unretained raw source: no unsupported objective report] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T08-Unvisited contact: no assertion of broken inquiry] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T09-500: transient source failure is not proven 404 defect] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T10-Repeated contact edge is one buyer problem] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T11-200/404 pack mix cannot launder a finding] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[T12-Padding one issue to four cannot load as the original draft] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B01-Four layers are distinguishable in structured and rendered output] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B02-Potential impact stays provisional human review] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B03-Suggested action remains proposed, not approved delivery] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B04-Recheck names the recorded path and observable status] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B05-Verified INQUIRE buyer task preserved] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B06-Capture date/pages/unchecked scope visible] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B07-Chinese-first fact wording has no unsupported certainty] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B08-VEYFRONT action is scoped discussion, not complex-platform commitment] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B09-No invented severity, confidence, whole-site score or ROI] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[B10-Next step does not claim a lead, sale or consultation occurred] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[C01-Every issue points to original verified native Finding] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[C02-Quoted source bytes/positions and individual guard binding match] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[C03-URL/href/status/time/scope all trace exact captured edge] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[C04-TRUST/SEO/INFO positives are never repackaged as defects] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[C05-Real refs do not prove legal registration, ISO or factory ownership] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[C06-Real refs do not prove search rank, uplift, loss or causality] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[C07-Contact 200 does not prove delivery or customer case] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[C08-Caller-held guard/package pins are not replaced from output] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D01-Deterministic build-load-verify round trip includes exact HTML] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D02-Editorial fact wording changed after hash fails closed] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D03-HTML bytes changed after hash fails closed] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D04-Citation ID or URL changed after hash fails closed] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D05-Cross tenant/run/policy cannot inherit report identity] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D06-Source timestamp, coverage and version are hash-bound] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D07-Language/layout/asset versions are content-bound] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D08-Claim status/guard ref alteration is rejected] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D09-New valid version cannot load under old independent digest] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D10-APPROVED/by/time/shareable forgery fails closed] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D11-Fabricated ReviewDecision/ShareGrant cannot authorize native draft] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[D12-Native ReportVersion, when included, validates exact RA0 finding hash] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E01-Standalone HTML has no executable or remote dependency] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E02-Source/evidence links remain internal anchors] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E03-Captured script-shaped text remains inert] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E04-Image/onerror source remains inert] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E05-javascript/data/encoded href cannot become active navigation] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E06-Model role delimiters and tool commands cannot change authority] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E07-Long untrusted title remains bounded, not a debug dump] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E08-Bidi/RTL text cannot impersonate privacy controls] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E09-PII may be bounded reviewer text, never public href/token] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E10-All evidence anchors are unique and resolvable] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E11-Primary report is not the full raw evidence/guard JSON] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E12-No unsupported customer photograph/testimonial/case claim] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E13-No active send/share/contact form or enabled lead action] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[E14-UTF-8 Chinese page and legible private synthetic state] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[F01-Actual 375px mobile reading: no horizontal overflow] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[F02-Actual 1280px desktop: one-page hierarchy readable] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[F03-Actual citation click/expand reaches correct recorded source] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[F04-Private/not-approved badge visible above fold on both sizes] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[F05-Genuine screenshots bind exact HTML/candidate, zero external requests] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[F06-Source-bound QA reading memo separates four business layers] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[F07-Actual review states what VEYFRONT can offer and cannot promise] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+_ ERROR at setup of test_independent_product_acceptance[F08-Compare 0/1-issue drafts for honest commercial usefulness] _
+
+    @pytest.fixture(scope='module')
+    def subject():
+        # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+        with no_external_effects():
+            reporting = importlib.import_module('vrae.reporting')
+        filename = os.environ.get('VRAE_RA3C_QA_ADAPTER_PATH')
+        assert filename, 'QA_MAPPING_NOT_BOUND: exact-candidate public API mapping required'
+        spec = importlib.util.spec_from_file_location('codex1_ra3c_transport',filename)
+        module = importlib.util.module_from_spec(spec)
+        with no_external_effects():
+            spec.loader.exec_module(module)
+>           result = module.bind(reporting)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\reporting\test_ra3c_independent_acceptance.py:238: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+reporting = <module 'vrae.reporting' from 'D:\\Projects\\VRAE\\.worktrees\\ra3c-qa-phaseb-6a7a3d3a\\vrae\\reporting\\__init__.py'>
+
+    def bind(reporting):
+        # Fail at fixture setup, rather than mislabelling mapping gaps as 64 business
+        # failures. Do not point Phase-B pytest at this draft until Owner resolves gaps.
+>       raise MappingNotBound('QA_MAPPING_NOT_BOUND:'+','.join(OPEN_GAPS))
+E       codex1_ra3c_transport.MappingNotBound: QA_MAPPING_NOT_BOUND:M01_REQUEST_METADATA,M02_PROPOSAL_VOCABULARY,M03_LANGUAGE_MUTATION,M04_EVIDENCE_MUTATION,M05_OBJECTIVE_COLLECTIONS,M06_ABSENT_SCORE,M07_EMPTY_GUARD,M08_MULTI_PAGE_SINGLE_FACT
+
+..\ra3c-independent-qa\docs\03-engineering\ra3c-independent-qa\adapter-preflight-v1\adapter_draft.py:129: MappingNotBound
+=========================== short test summary info ===========================
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T01-404: one captured product-contact failure, TRUST unknown]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T02-410: independent capture, one issue not combined with 404]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T03-200: truthful zero issues, no native empty ReportVersion]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T04-403: inaccessible is not a business defect]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T05-WAF challenge: honest restricted coverage]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T06-Robots denied contact: no invented FAIL]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T07-Unretained raw source: no unsupported objective report]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T08-Unvisited contact: no assertion of broken inquiry]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T09-500: transient source failure is not proven 404 defect]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T10-Repeated contact edge is one buyer problem]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T11-200/404 pack mix cannot launder a finding]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T12-Padding one issue to four cannot load as the original draft]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B01-Four layers are distinguishable in structured and rendered output]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B02-Potential impact stays provisional human review]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B03-Suggested action remains proposed, not approved delivery]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B04-Recheck names the recorded path and observable status]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B05-Verified INQUIRE buyer task preserved]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B06-Capture date/pages/unchecked scope visible]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B07-Chinese-first fact wording has no unsupported certainty]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B08-VEYFRONT action is scoped discussion, not complex-platform commitment]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B09-No invented severity, confidence, whole-site score or ROI]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B10-Next step does not claim a lead, sale or consultation occurred]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C01-Every issue points to original verified native Finding]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C02-Quoted source bytes/positions and individual guard binding match]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C03-URL/href/status/time/scope all trace exact captured edge]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C04-TRUST/SEO/INFO positives are never repackaged as defects]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C05-Real refs do not prove legal registration, ISO or factory ownership]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C06-Real refs do not prove search rank, uplift, loss or causality]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C07-Contact 200 does not prove delivery or customer case]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C08-Caller-held guard/package pins are not replaced from output]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D01-Deterministic build-load-verify round trip includes exact HTML]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D02-Editorial fact wording changed after hash fails closed]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D03-HTML bytes changed after hash fails closed]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D04-Citation ID or URL changed after hash fails closed]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D05-Cross tenant/run/policy cannot inherit report identity]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D06-Source timestamp, coverage and version are hash-bound]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D07-Language/layout/asset versions are content-bound]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D08-Claim status/guard ref alteration is rejected]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D09-New valid version cannot load under old independent digest]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D10-APPROVED/by/time/shareable forgery fails closed]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D11-Fabricated ReviewDecision/ShareGrant cannot authorize native draft]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D12-Native ReportVersion, when included, validates exact RA0 finding hash]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E01-Standalone HTML has no executable or remote dependency]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E02-Source/evidence links remain internal anchors]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E03-Captured script-shaped text remains inert]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E04-Image/onerror source remains inert]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E05-javascript/data/encoded href cannot become active navigation]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E06-Model role delimiters and tool commands cannot change authority]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E07-Long untrusted title remains bounded, not a debug dump]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E08-Bidi/RTL text cannot impersonate privacy controls]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E09-PII may be bounded reviewer text, never public href/token]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E10-All evidence anchors are unique and resolvable]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E11-Primary report is not the full raw evidence/guard JSON]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E12-No unsupported customer photograph/testimonial/case claim]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E13-No active send/share/contact form or enabled lead action]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E14-UTF-8 Chinese page and legible private synthetic state]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F01-Actual 375px mobile reading: no horizontal overflow]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F02-Actual 1280px desktop: one-page hierarchy readable]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F03-Actual citation click/expand reaches correct recorded source]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F04-Private/not-approved badge visible above fold on both sizes]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F05-Genuine screenshots bind exact HTML/candidate, zero external requests]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F06-Source-bound QA reading memo separates four business layers]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F07-Actual review states what VEYFRONT can offer and cannot promise]
+ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F08-Compare 0/1-issue drafts for honest commercial usefulness]
+64 errors in 6.82s

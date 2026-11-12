@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; style-src &#x27;sha256-N3teclcbEtxoqXb1UQN85v3d9FjX1s0j1+Q1cf0orEU=&#x27;; script-src &#x27;none&#x27;; connect-src &#x27;none&#x27;; img-src &#x27;none&#x27;; font-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;; frame-src &#x27;none&#x27;"><meta name="referrer" content="no-referrer">
+<title>VEYFRONT｜私有 L1 诊断草稿｜example.org</title><style>
+:root{color-scheme:light;--ink:#18313e;--muted:#59666c;--line:#dce3e1;--paper:#fff;--sand:#f3f0e9;--accent:#925332;--green:#256253;--soft:#edf5f1}
+*{box-sizing:border-box}html{scroll-behavior:auto;scroll-padding-top:24px}body{margin:0;background:var(--sand);color:var(--ink);font:14px/1.65 "Segoe UI","Microsoft YaHei","PingFang SC",Arial,sans-serif}a{color:var(--green);text-decoration-thickness:1px;text-underline-offset:4px}a:focus-visible,summary:focus-visible,section:focus-visible{outline:3px solid #a96736;outline-offset:5px}button{font:inherit}code,pre,.mono{font-family:Consolas,"SFMono-Regular",monospace;overflow-wrap:anywhere;word-break:break-word}code{font-size:.92em}bdi{unicode-bidi:isolate}h1,h2,h3,p{margin:0}h1{font-size:clamp(27px,3.1vw,40px);line-height:1.35;letter-spacing:-.025em;max-width:760px}h2{font-size:20px;line-height:1.45}h3{font-size:14px}small{font-size:12px}.eyebrow{font-size:11px;letter-spacing:.15em;font-weight:700;text-transform:uppercase}.muted{color:var(--muted)}.private-bar{padding:11px 24px;background:var(--ink);color:#fff;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:12px;letter-spacing:.025em}.private-bar strong{font-weight:700}.sheet{max-width:1100px;margin:28px auto;background:var(--paper);border:1px solid #d6ddd8;padding:36px 42px 25px;box-shadow:0 12px 45px #18313e09}.masthead{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:23px;border-bottom:1px solid var(--line)}.brand{font-size:24px;font-weight:800;letter-spacing:.2em;line-height:1.15}.brand-sub{margin-top:6px;color:var(--muted);font-size:10px;letter-spacing:.19em}.edition{text-align:right;font-size:12px;color:var(--muted)}.edition strong{display:block;color:var(--ink);font-size:13px}.hero{padding:27px 0 24px;display:grid;grid-template-columns:1fr 175px;align-items:end;gap:28px}.hero .eyebrow{color:var(--accent);margin-bottom:10px}.intro{max-width:650px;color:var(--muted);margin-top:12px}.count{border-left:1px solid var(--line);padding-left:24px}.count strong{font-size:48px;line-height:1.1;font-weight:500;display:block}.count span{display:block;font-size:12px;margin-top:8px}.site-line{display:flex;gap:8px 22px;flex-wrap:wrap;padding:13px 0;border-top:1px solid var(--line);font-size:12px}.journey{margin:12px 0 27px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}.step{background:#fafbf9;padding:13px 12px}.step .eyebrow{font-size:9px;letter-spacing:.06em;overflow-wrap:anywhere}.step strong{display:block;font-size:14px;margin:3px 0}.step small{color:var(--muted);font-size:11px}.body-grid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:30px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}.section-title h2{font-size:16px}.issue{border:1px solid var(--line);border-top:3px solid var(--accent);padding:22px;margin-bottom:18px;scroll-margin-top:24px}.issue-head{display:flex;align-items:start;gap:13px;margin-bottom:16px}.number{font-size:13px;color:var(--accent);font-weight:700;border:1px solid #dbc4b4;padding:2px 7px;flex-shrink:0}.issue-head h2{font-size:20px}.tag{display:inline-block;color:var(--green);font-size:11px;font-weight:700;letter-spacing:.04em;margin-top:3px}.fact{background:var(--soft);padding:14px 16px;border-left:2px solid var(--green)}.label{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--green);margin-bottom:5px}.fact-line{font-size:15px;font-weight:600}.route{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:9px;font-size:12px}.route .status{padding:1px 7px;border:1px solid #c4d4cb;background:#fff}.cite{display:inline-block;margin-top:10px;font-size:12px}.proposals{display:grid;gap:13px;margin-top:16px}.proposal{border-top:1px solid var(--line);padding-top:12px}.proposal .label{color:var(--accent)}.proposal p{font-size:13px;color:#344a54}.review-pill{display:inline-block;font-size:10px;border:1px solid #d7c2b3;color:#834c2d;padding:0 5px;margin-left:5px;letter-spacing:0;font-weight:500}.side-block{padding-bottom:20px;margin-bottom:18px;border-bottom:1px solid var(--line)}.side-block h2{font-size:14px;margin-bottom:10px}.side-block p,.side-block li{font-size:12px;color:var(--muted)}.side-block ul{padding-left:18px;margin:7px 0}.source-fact{margin-top:12px;border-left:2px solid var(--line);padding-left:11px}.source-fact .label{font-size:10px;color:var(--muted)}blockquote{margin:4px 0;color:var(--ink);font-size:12px;overflow-wrap:anywhere;white-space:pre-wrap}.source-fact a{font-size:11px}.next{padding:15px;background:#f6f3ed}.next h2{font-size:14px;margin-bottom:7px}.next p{font-size:12px;color:var(--muted)}.next button{margin-top:12px;width:100%;text-align:left;background:#e8e6df;border:1px solid #cfd0c6;border-radius:0;padding:10px 12px;color:#586461;cursor:not-allowed;font-size:12px}.empty{border:1px solid #cddbd3;border-top:3px solid var(--green);padding:24px;margin-bottom:18px}.empty h2{font-size:22px;margin-bottom:12px}.empty p{font-size:13px;color:var(--muted)}.empty .label{margin-bottom:9px}.scope-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:11px}.scope-table th,.scope-table td{text-align:left;padding:7px 4px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}.footer{border-top:1px solid var(--line);padding-top:18px;margin-top:22px;display:grid;grid-template-columns:1fr 220px;gap:20px;font-size:11px;color:var(--muted)}.footer strong{color:var(--ink)}.hashes{text-align:right;overflow-wrap:anywhere}.hashes code{font-size:10px}.evidence-record{display:none;max-width:1100px;margin:28px auto;background:#fff;border:2px solid var(--green);padding:30px 40px}.evidence-record:target{display:block}.evidence-record h2{margin:15px 0}.evidence-record pre{white-space:pre-wrap;background:#f2f5f2;padding:16px;font-size:12px;max-height:450px;overflow:auto}.evidence-record dl{display:grid;grid-template-columns:145px minmax(0,1fr);gap:8px 14px;font-size:12px}.evidence-record dt{color:var(--muted)}.evidence-record dd{margin:0;overflow-wrap:anywhere}.evidence-record details{margin-top:18px;border-top:1px solid var(--line);padding-top:13px}.evidence-record summary{cursor:pointer;font-weight:600}.skip-link{position:absolute;left:12px;top:-100px;padding:10px;background:#fff;z-index:10}.skip-link:focus{top:8px}
+@media(max-width:740px){.sheet{margin:14px 10px;padding:23px 20px 20px}.private-bar{padding:10px 16px;gap:3px 10px;font-size:12px}.masthead{gap:12px;padding-bottom:18px}.brand{font-size:20px;letter-spacing:.16em}.brand-sub{font-size:8px}.edition{font-size:10px;max-width:120px}.edition strong{font-size:11px}.hero{grid-template-columns:1fr;gap:18px;padding:24px 0 20px}.count{display:flex;align-items:center;gap:13px;border-left:0;border-top:1px solid var(--line);padding:14px 0 0}.count strong{font-size:32px}.count span{margin:0}.intro{font-size:13px}.journey{grid-template-columns:1fr;margin-bottom:22px}.step{display:grid;grid-template-columns:112px 1fr;gap:2px 8px;padding:9px 12px}.step .eyebrow{grid-column:1;font-size:8px}.step strong{grid-column:1;grid-row:2;font-size:13px;margin:0}.step small{grid-column:2;grid-row:1/3;align-self:center;font-size:11px}.body-grid{grid-template-columns:1fr;gap:10px}.issue{padding:17px 15px}.issue-head{gap:9px}.issue-head h2{font-size:18px}.fact{padding:13px}.fact-line{font-size:14px}.proposals{gap:12px}.side-block{padding-bottom:15px;margin-bottom:15px}.footer{grid-template-columns:1fr;gap:13px;font-size:10px}.hashes{text-align:left}.evidence-record{margin:14px 10px;padding:20px 17px}.evidence-record dl{grid-template-columns:1fr;gap:2px}.evidence-record dd{margin-bottom:10px}.evidence-record pre{padding:12px;font-size:11px}.scope-table{font-size:11px}.site-line{font-size:11px}}
+@media print{@page{size:A4;margin:10mm}body{background:#fff;font-size:11px}.private-bar{background:#fff;color:#18313e;border-bottom:1px solid #18313e;padding:4px;font-size:9px}.sheet{margin:0;padding:15px 0 0;border:0;box-shadow:none;max-width:none}.hero{padding:17px 0;grid-template-columns:1fr 130px;gap:15px}h1{font-size:25px}.intro{font-size:10px;margin-top:7px}.masthead{padding-bottom:13px}.brand{font-size:21px}.count strong{font-size:35px}.site-line{font-size:10px;padding:8px 0}.journey{margin:7px 0 15px}.step{padding:7px}.step strong{font-size:11px}.step small{font-size:9px}.step .eyebrow{font-size:7px}.body-grid{grid-template-columns:minmax(0,1fr) 210px;gap:18px}.issue{padding:13px;margin-bottom:10px;break-inside:avoid}.issue-head{margin-bottom:10px}.issue-head h2{font-size:16px}.fact{padding:10px}.fact-line{font-size:12px}.proposals{gap:7px;margin-top:10px}.proposal{padding-top:7px}.proposal p{font-size:10px}.label{font-size:9px}.side-block p,.side-block li{font-size:10px}.source-fact{margin-top:8px}blockquote{font-size:10px}.next button{font-size:10px;padding:7px}.footer{margin-top:12px;padding-top:10px;font-size:9px}.hashes code{font-size:8px}.evidence-record,.evidence-record:target{display:none}}
+
+@media print{.multi-issue .body-grid{grid-template-columns:1fr;gap:6px}.multi-issue .issue{display:grid;grid-template-columns:190px minmax(0,1fr);gap:6px 12px;padding:9px;margin-bottom:7px}.multi-issue .issue-head{grid-column:1/-1;margin-bottom:1px}.multi-issue .issue-head h2{font-size:13px}.multi-issue .issue-head .tag{font-size:8px}.multi-issue .fact{padding:8px}.multi-issue .fact-line{font-size:10px}.multi-issue .fact small{font-size:8px}.multi-issue .fact .route{font-size:9px;margin-top:5px}.multi-issue .cite{font-size:8px;margin-top:5px}.multi-issue .proposals{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:0}.multi-issue .proposal{border-top:0;padding-top:0}.multi-issue .proposal p{font-size:9px;line-height:1.5}.multi-issue .proposal .label{font-size:8px}.multi-issue .review-pill{font-size:7px;margin-left:0}.multi-issue aside{display:block}.multi-issue aside .side-block:last-child{display:none}.multi-issue .scope-table,.multi-issue .scope-table tbody{display:block}.multi-issue .scope-table thead{display:none}.multi-issue .scope-table tr{display:inline}.multi-issue .scope-table td{display:inline;padding:0 4px 0 0;border:0}.multi-issue .scope-table tr:after{content:" · ";white-space:pre}.multi-issue aside .side-block p{font-size:8px;display:inline}.multi-issue aside .side-block{padding:2px 0;margin:0}.multi-issue aside .side-block h2{font-size:9px;display:inline;margin-right:8px}.multi-issue .hero{padding:10px 0}.multi-issue .hero h1{font-size:21px}.multi-issue .intro{font-size:9px}.multi-issue .section-title{margin-bottom:6px}.multi-issue .closing-grid{padding-top:7px}.multi-issue .footer{margin-top:8px}}
+
+.closing-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;margin-top:6px;padding-top:18px;border-top:1px solid var(--line)}.limits-inline h2{font-size:14px}.limits-inline ul{padding-left:17px;margin:8px 0 0;color:var(--muted);font-size:12px}.limits-inline li{margin-bottom:4px}.fact .cite{display:block;margin-top:9px}.scope-table td:last-child{white-space:nowrap}.coverage-mode .body-grid{grid-template-columns:1fr;gap:4px}.coverage-mode aside{display:grid;grid-template-columns:1fr 1fr;gap:28px}.coverage-mode .side-block{margin-bottom:0;border-bottom:0}.closing-grid .next{padding:15px 18px}.closing-grid .next button{margin-top:10px}.body-grid aside .side-block:last-child{border-bottom:0;margin-bottom:0}
+@media(max-width:740px){.closing-grid{grid-template-columns:1fr;gap:18px;margin-top:6px;padding-top:18px}.coverage-mode aside{grid-template-columns:1fr;gap:0}.limits-inline ul{font-size:12px}.coverage-mode .side-block{border-bottom:1px solid var(--line);margin-bottom:14px}.closing-grid .next{padding:15px}}
+@media print{.journey{grid-template-columns:repeat(5,minmax(0,1fr))}.step{display:block;padding:6px}.count{display:block;border-top:0;border-left:1px solid var(--line);padding:0 0 0 16px}.footer{grid-template-columns:1fr 190px}.hashes{text-align:right}.closing-grid{gap:15px;margin-top:4px;padding-top:10px;grid-template-columns:1.25fr 1fr}.limits-inline ul,.closing-grid .next p{font-size:9px;line-height:1.5}.limits-inline h2,.closing-grid .next h2{font-size:11px}.closing-grid .next{padding:10px}.closing-grid .next button{margin-top:6px;font-size:9px}.closing-grid .next .eyebrow{font-size:8px}.coverage-mode aside{gap:18px;grid-template-columns:1fr 1fr}.side-block{padding-bottom:10px;margin-bottom:10px}.side-block h2{margin-bottom:6px;font-size:12px}.scope-table{font-size:9px}.scope-table td,.scope-table th{padding:5px 3px}}
+
+@media print{.issue .proposals{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.issue .proposal p{font-size:9px;line-height:1.5}.issue .proposal .label{font-size:8px}.issue .review-pill{font-size:7px;margin-left:0}.issue .proposal .cite{font-size:8px}.issue .proposal{padding-top:6px}.hero{padding:12px 0}.masthead{padding-bottom:10px}.footer{gap:12px}.footer .hashes{font-size:8px}}
+
+@media print{.coverage-mode .empty{padding:15px;margin-bottom:10px}.coverage-mode .empty h2{font-size:18px;margin-bottom:7px}.coverage-mode .hero{padding:9px 0}.coverage-mode .intro{font-size:9px}.coverage-mode .section-title{margin-bottom:10px}.coverage-mode .side-block{padding-bottom:5px}}
+
+@media print{.multi-issue{font-size:9px;line-height:1.4}.multi-issue .masthead{padding-bottom:7px}.multi-issue .hero{padding:7px 0}.multi-issue .hero .eyebrow{margin-bottom:5px;font-size:9px}.multi-issue .hero h1{font-size:20px}.multi-issue .intro{margin-top:5px;font-size:9px}.multi-issue .site-line{padding:6px 0;font-size:9px}.multi-issue .journey{margin:6px 0 9px}.multi-issue .step{padding:5px}.multi-issue .step small{font-size:8px}.multi-issue .issue{grid-template-columns:290px minmax(0,1fr);gap:4px 10px;padding:8px}.multi-issue .fact-line{font-size:9px;line-height:1.4}.multi-issue .fact .label{font-size:8px}.multi-issue .fact small{font-size:7.5px}.multi-issue .fact .route{font-size:8px;margin-top:4px}.multi-issue .fact{padding:7px}.multi-issue .proposal p{font-size:8.5px;line-height:1.4}.multi-issue .proposal .cite{font-size:7px}.multi-issue .proposals{gap:7px}.multi-issue .proposal .label{font-size:7px}.multi-issue .review-pill{font-size:6.5px}.multi-issue .closing-grid{padding-top:6px}.multi-issue .limits-inline ul,.multi-issue .next p{font-size:8px}.multi-issue .footer{font-size:8px;padding-top:7px}.multi-issue .next button{font-size:8px;padding:5px}}
+
+@media print{.multi-issue .count strong{font-size:24px}.multi-issue .count span{font-size:9px;margin-top:3px}.multi-issue .hero h1{font-size:18px}.multi-issue .hero{align-items:start;padding:5px 0}.multi-issue .brand{font-size:18px}.multi-issue .brand-sub{font-size:7px;margin-top:3px}.multi-issue .edition{font-size:8px;line-height:1.4}.multi-issue .edition strong{font-size:9px}.multi-issue .masthead{padding-bottom:5px}.multi-issue .closing-grid .next{padding:7px}.multi-issue .limits-inline ul,.multi-issue .closing-grid .next p{font-size:7.5px;line-height:1.3}.multi-issue .limits-inline li{margin-bottom:2px}.multi-issue .closing-grid .next button{font-size:7.5px;margin-top:4px}.multi-issue .footer{margin-top:6px;line-height:1.3}}
+</style></head>
+<body><a class="skip-link" href="#main-content">跳至诊断内容</a>
+<div class="private-bar" role="note"><strong>合成工业样本 · 私有预览</strong><span>NOT APPROVED · 未经人工批准 · 不可客户外发</span></div>
+<main class="sheet" id="report"><header class="masthead"><div><div class="brand">VEYFRONT</div><div class="brand-sub">REBUILD ADVISORY / BUYER EXPERIENCE</div></div>
+<div class="edition"><strong>L1 网站初步诊断</strong>内部审阅稿 · v1<br>无真实模型调用</div></header>
+<section class="hero"><div><p class="eyebrow">从海外采购商的下一步出发</p><h1>先让产品页的联系路径走通。</h1><p class="intro">本次静态捕获发现了可回查的联系路径问题。建议先核实并修复这条具体路径，再讨论更广泛的采购体验改进。</p></div>
+<div class="count"><strong>01</strong><span>项有证据支持的本页问题<br><span class="muted">不评分 · 不补造问题</span></span></div></section>
+<div class="site-line"><span>实际采集站点 <strong><bdi>example.org</bdi></strong></span><span>记录页面 4 个</span><span>草稿时间 2026-11-12T02:30:00Z</span></div>
+<nav class="journey" aria-label="海外采购任务与本次静态检查范围"><div class="step"><span class="eyebrow">DISCOVER</span><strong>找到产品</strong><small>仅静态片段／链路已检查</small></div><div class="step"><span class="eyebrow">UNDERSTAND</span><strong>理解产品</strong><small>仅静态片段／链路已检查</small></div><div class="step"><span class="eyebrow">TRUST</span><strong>核对企业</strong><small>证据不足 · 尚不能判断</small></div><div class="step"><span class="eyebrow">INQUIRE</span><strong>联系咨询</strong><small>一条已绑定的路径问题</small></div><div class="step"><span class="eyebrow">SEARCH_TECHNICAL</span><strong>搜索基础</strong><small>仅静态片段／链路已检查</small></div></nav>
+<div class="body-grid" id="main-content"><section aria-label="诊断问题与人工复核提议"><div class="section-title"><h2>本次值得先讨论的具体问题</h2><span class="eyebrow">EVIDENCE FIRST</span></div><article class="issue" id="issue-1" aria-labelledby="issue-title-1"><div class="issue-head"><span class="number">01</span><div><h2 id="issue-title-1">产品 → 联系路径返回 HTTP 410</h2><span class="tag">INQUIRE · 静态路径问题</span></div></div><div class="fact"><div class="label">观察到的事实 · 仅本次采集</div><p class="fact-line">记录中的产品页静态链接，指向的联系路径未返回成功页面。</p><div class="route"><code><bdi>/contact</bdi></code><span>→</span><span class="status">HTTP 410</span></div><small class="muted">源页面：<bdi>https://example.org/products/mp-25</bdi></small><br><small class="muted">采集：2026-11-10T12:00:00+00:00</small><a class="cite" href="#ev-5abdc2389462436bc0a90d3a23fa1e5662d36dcb8cb8e67f1fbdcfc453001054">原始证据 · 页内回查 →</a></div><div class="proposals"><div class="proposal"><div class="label">对采购任务的可能影响<span class="review-pill">假设 · 待复核</span></div><p>采购商从产品页继续寻找联系入口时，可能需要额外绕行。是否影响实际询盘，仍需人工核实。</p><a class="cite" href="#ev-7c5f81dbbc91255d0c2a229613c162618a00fccd887f21a1baa58968a7cfd802">复核该提议的来源绑定 →</a></div><div class="proposal"><div class="label">VEYFRONT 候选动作<span class="review-pill">候选 · 待批准</span></div><p>建议先确认该联系页面是否仍在使用，再修正产品页链接或恢复对应页面；实施前须人工批准。</p><a class="cite" href="#ev-92a3ea385a3398f96b4ab7bbb43354475c6d7ffa28679afea8d465f3e5ed276c">复核该提议的来源绑定 →</a></div><div class="proposal"><div class="label">如何重新验证<span class="review-pill">方案 · 待批准</span></div><p>在获准环境中从同一产品页重新访问该 href，核对目标 HTTP 状态与跳转；表单送达需另行授权验证。</p><a class="cite" href="#ev-abf846eba293b48be21ec229febefa82600cd2d842b76bce9bfc48defa420bd4">复核该提议的来源绑定 →</a></div></div></article></section>
+<aside aria-label="采集范围与来源限制"><section class="side-block"><h2>已检查范围</h2><p>页首域名下的静态记录路径；路径角色不等于语义身份。</p><table class="scope-table"><thead><tr><th scope="col">记录的路径</th><th scope="col">捕获状态</th></tr></thead><tbody><tr><td><bdi>/</bdi></td><td>200</td></tr><tr><td><bdi>/category/pumps</bdi></td><td>200</td></tr><tr><td><bdi>/products/mp-25</bdi></td><td>200</td></tr><tr><td><bdi>/contact</bdi></td><td>410 · 响应已记录</td></tr></tbody></table></section>
+<section class="side-block"><h2>已绑定的正向原文</h2><p>这些是来源片段，不作为缺陷，也不作为真实性或效果背书。</p><div class="source-fact"><div class="label">产品原文 · 不核实规格真实性</div><blockquote>“MP-25 process pump”</blockquote><a class="cite" href="#ev-30a9f69cdf3ab3f1c835095337a51480a74670346d24fbb19f86a1e7789e0442">核对原文 →</a></div><div class="source-fact"><div class="label">原始标题 · 非 Google 表现</div><blockquote>“Meridian pump components”</blockquote><a class="cite" href="#ev-d7e8c7703d8a710c881c22b0997f0785717041ec9fa9811020e42a02a9ecabdd">核对原文 →</a></div></section></aside></div>
+<div class="closing-grid"><section class="limits-inline"><h2>未检查／无法判断</h2><ul><li>仅限本次保留的静态 HTML、原始标签与已记录 HTTP 响应，不代表全站或实时状态。</li><li>产品规格、公司自述仅为网站原文；未核实真实性、法律主体、工厂、证书或资质。</li><li>未验证页面实际可见性、表单提交与送达、询盘转化、销售损失或 Google 排名。</li><li>未检查部分不代表没有问题；受限、未知及缺失证据不作为缺陷。</li></ul></section>
+<section class="next"><p class="eyebrow">下一步 · 仅内部提议</p><h2>先核实范围，再明确改造动作。</h2><p>内容与链接调整可作为 Rebuild 的候选讨论范围。平台、数据库、迁移及业务资料需单独评审；不构成报价或交付承诺。</p><button type="button" disabled aria-disabled="true">建议与 VEYFRONT 讨论下一步（未启用）</button></section></div>
+<footer class="footer"><div><strong>PRIVATE / NOT_APPROVED / NO CUSTOMER SHARE</strong><br>所有假设、动作及复核方法均待人工审阅；本页不产生咨询收据或合格商机。<br>© VEYFRONT · 合成离线审阅样本 · 未检查部分不代表无问题。Human Gold 0/26，未评估准确率。</div>
+<div class="hashes">编辑内容清单 SHA-256<br><code>da2e7299699990c74e04971d3535d3874372a71531987cc365064065001ab0b0</code><br>页面完整字节哈希见配套 draft.json；两者均不是批准凭据。</div></footer></main><section class="evidence-record" id="ev-5abdc2389462436bc0a90d3a23fa1e5662d36dcb8cb8e67f1fbdcfc453001054" tabindex="-1" aria-label="私有证据回查"><a href="#report">← 返回一页报告</a><p class="eyebrow">PRIVATE EVIDENCE · NOT APPROVED</p><h2>逐条来源回查</h2><p class="muted">以下为保留的原文与引用，作为纯文本展示；不是可执行网页，也不是真实性背书。</p><pre aria-label="原始 HTML 引文">&lt;a href=&quot;/contact&quot;&gt;</pre><dl><dt>Claim 状态</dt><dd><bdi>SOURCE_FACT_BINDING_VERIFIED</bdi></dd><dt>精确原始陈述</dt><dd><bdi>Captured static href &quot;/contact&quot; returned HTTP 410 at capture time only.</bdi></dd><dt>规则／版本</dt><dd><bdi>CTA-02 / 1.0.0</bdi></dd><dt>原始源页面</dt><dd><bdi>https://example.org/products/mp-25</bdi></dd><dt>原始定位</dt><dd><bdi>/pages/2/evidence</bdi></dd><dt>字节区间</dt><dd><bdi>158–177 · UTF-8 原始字节</bdi></dd><dt>捕获时间</dt><dd><bdi>2026-11-10T12:00:00+00:00</bdi></dd><dt>来源 coverage</dt><dd><bdi>OBSERVED</bdi></dd><dt>Observation</dt><dd><bdi>obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080</bdi></dd><dt>Evidence</dt><dd><bdi>ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac</bdi></dd><dt>Binding</dt><dd><bdi>cb-5abdc2389462436bc0a90d3a23fa1e5662d36dcb8cb8e67f1fbdcfc453001054</bdi></dd><dt>Guard</dt><dd><bdi>cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10</bdi></dd><dt>EvidencePack</dt><dd><bdi>ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199</bdi></dd><dt>RuleExecution</dt><dd><bdi>rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99</bdi></dd><dt>FindingPackage</dt><dd><bdi>fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059</bdi></dd><dt>目标 URL</dt><dd><bdi>https://example.org/contact</bdi></dd><dt>最终目标 URL</dt><dd><bdi>https://example.org/contact</bdi></dd><dt>捕获的 HTTP</dt><dd><bdi>410</bdi></dd></dl><details><summary>查看完整 claim／target／版本绑定</summary><pre>{
+  &quot;claim&quot;: {
+    &quot;binding_ref&quot;: &quot;cb-5abdc2389462436bc0a90d3a23fa1e5662d36dcb8cb8e67f1fbdcfc453001054&quot;,
+    &quot;claim_type&quot;: &quot;OBJECTIVE_SOURCE_FACT&quot;,
+    &quot;fact&quot;: {
+      &quot;citation_index&quot;: 0,
+      &quot;coverage_note&quot;: &quot;One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.&quot;,
+      &quot;fact_ref&quot;: &quot;cf-74f5d709f1c0acd1f2b33b6d1364f4369003e368b27516c033a3f8006893861f&quot;,
+      &quot;observation_id&quot;: &quot;obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080&quot;,
+      &quot;observation_result&quot;: &quot;FAIL_WITH_EVIDENCE&quot;,
+      &quot;proof_kind&quot;: &quot;CAPTURED_CTA_HTTP_FAILURE&quot;,
+      &quot;rule_id&quot;: &quot;CTA-02&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;source&quot;: {
+        &quot;byte_end&quot;: 177,
+        &quot;byte_start&quot;: 158,
+        &quot;citation&quot;: {
+          &quot;anchor_index&quot;: 0,
+          &quot;column&quot;: 0,
+          &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+          &quot;line&quot;: 6,
+          &quot;locator&quot;: &quot;/pages/2/evidence&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;raw_href&quot;: &quot;/contact&quot;,
+          &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+        },
+        &quot;coverage_status&quot;: &quot;OBSERVED&quot;,
+        &quot;quote&quot;: &quot;&lt;a href=\&quot;/contact\&quot;&gt;&quot;,
+        &quot;target_response&quot;: {
+          &quot;error&quot;: {
+            &quot;code&quot;: &quot;HTTP_ERROR&quot;,
+            &quot;retryable&quot;: false,
+            &quot;safe_message&quot;: &quot;HTTP_ERROR&quot;,
+            &quot;schema_version&quot;: &quot;1.0&quot;
+          },
+          &quot;final_url&quot;: &quot;https://example.org/contact&quot;,
+          &quot;http_status&quot;: 410,
+          &quot;locator&quot;: &quot;/pages/3&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;redirect_trace&quot;: [
+            {
+              &quot;location&quot;: null,
+              &quot;peer_ip&quot;: &quot;93.184.216.20&quot;,
+              &quot;status&quot;: 410,
+              &quot;url&quot;: &quot;https://example.org/contact&quot;
+            }
+          ],
+          &quot;snapshot_ref&quot;: &quot;page-979fe403f05e19d093b6c0f3d79d3240ecd26b9e8e6d307f9666bc8e5cd0889d&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;url&quot;: &quot;https://example.org/contact&quot;
+        }
+      },
+      &quot;statement&quot;: &quot;Captured static href \&quot;/contact\&quot; returned HTTP 410 at capture time only.&quot;
+    },
+    &quot;guard_ref&quot;: &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+    &quot;pointer&quot;: &quot;/hypotheses/0&quot;,
+    &quot;status&quot;: &quot;SOURCE_FACT_BINDING_VERIFIED&quot;,
+    &quot;text&quot;: &quot;Captured static href \&quot;/contact\&quot; returned HTTP 410 at capture time only.&quot;
+  },
+  &quot;native_bridge&quot;: {
+    &quot;evidence_mapping&quot;: [
+      {
+        &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+        &quot;native_evidence_id&quot;: &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+        &quot;native_snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+        &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+        &quot;source_locator&quot;: &quot;/pages/2/evidence&quot;,
+        &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;
+      }
+    ],
+    &quot;guard_observation&quot;: {
+      &quot;coverage_note&quot;: &quot;One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.&quot;,
+      &quot;evidence_ids&quot;: [
+        &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;
+      ],
+      &quot;kind&quot;: &quot;OBJECTIVE&quot;,
+      &quot;observation_id&quot;: &quot;obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080&quot;,
+      &quot;result&quot;: &quot;FAIL_WITH_EVIDENCE&quot;,
+      &quot;rule_id&quot;: &quot;CTA-02&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;statement&quot;: &quot;This captured static href returned HTTP 404 or 410 at capture time.&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    },
+    &quot;kind&quot;: &quot;EXACT_NATIVE_HTTP_ID_MAPPING&quot;,
+    &quot;limit&quot;: &quot;Source body bridge only; target response proof requires the inseparable provenance edge.&quot;,
+    &quot;native_evidence&quot;: {
+      &quot;certainty&quot;: &quot;OBSERVED&quot;,
+      &quot;checksum&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;evidence_id&quot;: &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;excerpt&quot;: null,
+      &quot;locator&quot;: &quot;http-response-body&quot;,
+      &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    },
+    &quot;native_snapshot&quot;: {
+      &quot;capture_mode&quot;: &quot;HTTP&quot;,
+      &quot;captured_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+      &quot;final_url&quot;: &quot;https://example.org/products/mp-25&quot;,
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;private_object_ref&quot;: &quot;body-ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;sha256&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;status&quot;: &quot;FETCHED&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;,
+      &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+    }
+  },
+  &quot;scope&quot;: {
+    &quot;policy_id&quot;: &quot;pol-001&quot;,
+    &quot;policy_version&quot;: 1,
+    &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+    &quot;tenant_id&quot;: &quot;tenant-test&quot;
+  },
+  &quot;source_pins&quot;: {
+    &quot;expected_builder_version&quot;: &quot;ra2c3-1.0.0&quot;,
+    &quot;expected_evaluator_version&quot;: &quot;ra2b6-1.0.0&quot;,
+    &quot;expected_execution_ref&quot;: &quot;rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99&quot;,
+    &quot;expected_guard_refs&quot;: [
+      &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+      &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;
+    ],
+    &quot;expected_guard_version&quot;: &quot;ra3b-1.0.0&quot;,
+    &quot;expected_metadata_sha256&quot;: &quot;1a3d46696c58ea5600c87fa774b18dc1470ac9da60dd7b4ef2cbd9f8f6c73e7a&quot;,
+    &quot;expected_pack_ref&quot;: &quot;ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199&quot;,
+    &quot;expected_package_ref&quot;: &quot;fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059&quot;,
+    &quot;expected_renderer_version&quot;: &quot;ra3c-html-1.0.2&quot;,
+    &quot;expected_reporting_version&quot;: &quot;ra3c-1.0.0&quot;,
+    &quot;expected_scope&quot;: {
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    }
+  }
+}</pre></details></section><section class="evidence-record" id="ev-7c5f81dbbc91255d0c2a229613c162618a00fccd887f21a1baa58968a7cfd802" tabindex="-1" aria-label="私有证据回查"><a href="#report">← 返回一页报告</a><p class="eyebrow">PRIVATE EVIDENCE · NOT APPROVED</p><h2>逐条来源回查</h2><p class="muted">以下为保留的原文与引用，作为纯文本展示；不是可执行网页，也不是真实性背书。</p><pre aria-label="原始 HTML 引文">&lt;a href=&quot;/contact&quot;&gt;</pre><dl><dt>Claim 状态</dt><dd><bdi>HUMAN_REVIEW_REQUIRED</bdi></dd><dt>精确原始陈述</dt><dd><bdi>采购商从产品页继续寻找联系入口时，可能需要额外绕行。是否影响实际询盘，仍需人工核实。</bdi></dd><dt>规则／版本</dt><dd><bdi>CTA-02 / 1.0.0</bdi></dd><dt>原始源页面</dt><dd><bdi>https://example.org/products/mp-25</bdi></dd><dt>原始定位</dt><dd><bdi>/pages/2/evidence</bdi></dd><dt>字节区间</dt><dd><bdi>158–177 · UTF-8 原始字节</bdi></dd><dt>捕获时间</dt><dd><bdi>2026-11-10T12:00:00+00:00</bdi></dd><dt>来源 coverage</dt><dd><bdi>OBSERVED</bdi></dd><dt>Observation</dt><dd><bdi>obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080</bdi></dd><dt>Evidence</dt><dd><bdi>ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac</bdi></dd><dt>Binding</dt><dd><bdi>cb-7c5f81dbbc91255d0c2a229613c162618a00fccd887f21a1baa58968a7cfd802</bdi></dd><dt>Guard</dt><dd><bdi>cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f</bdi></dd><dt>EvidencePack</dt><dd><bdi>ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199</bdi></dd><dt>RuleExecution</dt><dd><bdi>rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99</bdi></dd><dt>FindingPackage</dt><dd><bdi>fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059</bdi></dd><dt>目标 URL</dt><dd><bdi>https://example.org/contact</bdi></dd><dt>最终目标 URL</dt><dd><bdi>https://example.org/contact</bdi></dd><dt>捕获的 HTTP</dt><dd><bdi>410</bdi></dd></dl><details><summary>查看完整 claim／target／版本绑定</summary><pre>{
+  &quot;claim&quot;: {
+    &quot;binding_ref&quot;: &quot;cb-7c5f81dbbc91255d0c2a229613c162618a00fccd887f21a1baa58968a7cfd802&quot;,
+    &quot;claim_type&quot;: &quot;HYPOTHESIS&quot;,
+    &quot;fact&quot;: {
+      &quot;citation_index&quot;: 0,
+      &quot;coverage_note&quot;: &quot;One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.&quot;,
+      &quot;fact_ref&quot;: &quot;cf-74f5d709f1c0acd1f2b33b6d1364f4369003e368b27516c033a3f8006893861f&quot;,
+      &quot;observation_id&quot;: &quot;obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080&quot;,
+      &quot;observation_result&quot;: &quot;FAIL_WITH_EVIDENCE&quot;,
+      &quot;proof_kind&quot;: &quot;CAPTURED_CTA_HTTP_FAILURE&quot;,
+      &quot;rule_id&quot;: &quot;CTA-02&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;source&quot;: {
+        &quot;byte_end&quot;: 177,
+        &quot;byte_start&quot;: 158,
+        &quot;citation&quot;: {
+          &quot;anchor_index&quot;: 0,
+          &quot;column&quot;: 0,
+          &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+          &quot;line&quot;: 6,
+          &quot;locator&quot;: &quot;/pages/2/evidence&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;raw_href&quot;: &quot;/contact&quot;,
+          &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+        },
+        &quot;coverage_status&quot;: &quot;OBSERVED&quot;,
+        &quot;quote&quot;: &quot;&lt;a href=\&quot;/contact\&quot;&gt;&quot;,
+        &quot;target_response&quot;: {
+          &quot;error&quot;: {
+            &quot;code&quot;: &quot;HTTP_ERROR&quot;,
+            &quot;retryable&quot;: false,
+            &quot;safe_message&quot;: &quot;HTTP_ERROR&quot;,
+            &quot;schema_version&quot;: &quot;1.0&quot;
+          },
+          &quot;final_url&quot;: &quot;https://example.org/contact&quot;,
+          &quot;http_status&quot;: 410,
+          &quot;locator&quot;: &quot;/pages/3&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;redirect_trace&quot;: [
+            {
+              &quot;location&quot;: null,
+              &quot;peer_ip&quot;: &quot;93.184.216.20&quot;,
+              &quot;status&quot;: 410,
+              &quot;url&quot;: &quot;https://example.org/contact&quot;
+            }
+          ],
+          &quot;snapshot_ref&quot;: &quot;page-979fe403f05e19d093b6c0f3d79d3240ecd26b9e8e6d307f9666bc8e5cd0889d&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;url&quot;: &quot;https://example.org/contact&quot;
+        }
+      },
+      &quot;statement&quot;: &quot;Captured static href \&quot;/contact\&quot; returned HTTP 410 at capture time only.&quot;
+    },
+    &quot;guard_ref&quot;: &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;,
+    &quot;pointer&quot;: &quot;/hypotheses/0&quot;,
+    &quot;status&quot;: &quot;HUMAN_REVIEW_REQUIRED&quot;,
+    &quot;text&quot;: &quot;采购商从产品页继续寻找联系入口时，可能需要额外绕行。是否影响实际询盘，仍需人工核实。&quot;
+  },
+  &quot;native_bridge&quot;: {
+    &quot;evidence_mapping&quot;: [
+      {
+        &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+        &quot;native_evidence_id&quot;: &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+        &quot;native_snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+        &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+        &quot;source_locator&quot;: &quot;/pages/2/evidence&quot;,
+        &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;
+      }
+    ],
+    &quot;guard_observation&quot;: {
+      &quot;coverage_note&quot;: &quot;One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.&quot;,
+      &quot;evidence_ids&quot;: [
+        &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;
+      ],
+      &quot;kind&quot;: &quot;OBJECTIVE&quot;,
+      &quot;observation_id&quot;: &quot;obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080&quot;,
+      &quot;result&quot;: &quot;FAIL_WITH_EVIDENCE&quot;,
+      &quot;rule_id&quot;: &quot;CTA-02&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;statement&quot;: &quot;This captured static href returned HTTP 404 or 410 at capture time.&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    },
+    &quot;kind&quot;: &quot;EXACT_NATIVE_HTTP_ID_MAPPING&quot;,
+    &quot;limit&quot;: &quot;Source body bridge only; target response proof requires the inseparable provenance edge.&quot;,
+    &quot;native_evidence&quot;: {
+      &quot;certainty&quot;: &quot;OBSERVED&quot;,
+      &quot;checksum&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;evidence_id&quot;: &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;excerpt&quot;: null,
+      &quot;locator&quot;: &quot;http-response-body&quot;,
+      &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    },
+    &quot;native_snapshot&quot;: {
+      &quot;capture_mode&quot;: &quot;HTTP&quot;,
+      &quot;captured_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+      &quot;final_url&quot;: &quot;https://example.org/products/mp-25&quot;,
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;private_object_ref&quot;: &quot;body-ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;sha256&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;status&quot;: &quot;FETCHED&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;,
+      &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+    }
+  },
+  &quot;scope&quot;: {
+    &quot;policy_id&quot;: &quot;pol-001&quot;,
+    &quot;policy_version&quot;: 1,
+    &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+    &quot;tenant_id&quot;: &quot;tenant-test&quot;
+  },
+  &quot;source_pins&quot;: {
+    &quot;expected_builder_version&quot;: &quot;ra2c3-1.0.0&quot;,
+    &quot;expected_evaluator_version&quot;: &quot;ra2b6-1.0.0&quot;,
+    &quot;expected_execution_ref&quot;: &quot;rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99&quot;,
+    &quot;expected_guard_refs&quot;: [
+      &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+      &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;
+    ],
+    &quot;expected_guard_version&quot;: &quot;ra3b-1.0.0&quot;,
+    &quot;expected_metadata_sha256&quot;: &quot;1a3d46696c58ea5600c87fa774b18dc1470ac9da60dd7b4ef2cbd9f8f6c73e7a&quot;,
+    &quot;expected_pack_ref&quot;: &quot;ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199&quot;,
+    &quot;expected_package_ref&quot;: &quot;fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059&quot;,
+    &quot;expected_renderer_version&quot;: &quot;ra3c-html-1.0.2&quot;,
+    &quot;expected_reporting_version&quot;: &quot;ra3c-1.0.0&quot;,
+    &quot;expected_scope&quot;: {
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    }
+  }
+}</pre></details></section><section class="evidence-record" id="ev-92a3ea385a3398f96b4ab7bbb43354475c6d7ffa28679afea8d465f3e5ed276c" tabindex="-1" aria-label="私有证据回查"><a href="#report">← 返回一页报告</a><p class="eyebrow">PRIVATE EVIDENCE · NOT APPROVED</p><h2>逐条来源回查</h2><p class="muted">以下为保留的原文与引用，作为纯文本展示；不是可执行网页，也不是真实性背书。</p><pre aria-label="原始 HTML 引文">&lt;a href=&quot;/contact&quot;&gt;</pre><dl><dt>Claim 状态</dt><dd><bdi>HUMAN_REVIEW_REQUIRED</bdi></dd><dt>精确原始陈述</dt><dd><bdi>建议先确认该联系页面是否仍在使用，再修正产品页链接或恢复对应页面；实施前须人工批准。</bdi></dd><dt>规则／版本</dt><dd><bdi>CTA-02 / 1.0.0</bdi></dd><dt>原始源页面</dt><dd><bdi>https://example.org/products/mp-25</bdi></dd><dt>原始定位</dt><dd><bdi>/pages/2/evidence</bdi></dd><dt>字节区间</dt><dd><bdi>158–177 · UTF-8 原始字节</bdi></dd><dt>捕获时间</dt><dd><bdi>2026-11-10T12:00:00+00:00</bdi></dd><dt>来源 coverage</dt><dd><bdi>OBSERVED</bdi></dd><dt>Observation</dt><dd><bdi>obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080</bdi></dd><dt>Evidence</dt><dd><bdi>ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac</bdi></dd><dt>Binding</dt><dd><bdi>cb-92a3ea385a3398f96b4ab7bbb43354475c6d7ffa28679afea8d465f3e5ed276c</bdi></dd><dt>Guard</dt><dd><bdi>cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f</bdi></dd><dt>EvidencePack</dt><dd><bdi>ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199</bdi></dd><dt>RuleExecution</dt><dd><bdi>rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99</bdi></dd><dt>FindingPackage</dt><dd><bdi>fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059</bdi></dd><dt>目标 URL</dt><dd><bdi>https://example.org/contact</bdi></dd><dt>最终目标 URL</dt><dd><bdi>https://example.org/contact</bdi></dd><dt>捕获的 HTTP</dt><dd><bdi>410</bdi></dd></dl><details><summary>查看完整 claim／target／版本绑定</summary><pre>{
+  &quot;claim&quot;: {
+    &quot;binding_ref&quot;: &quot;cb-92a3ea385a3398f96b4ab7bbb43354475c6d7ffa28679afea8d465f3e5ed276c&quot;,
+    &quot;claim_type&quot;: &quot;RECOMMENDATION&quot;,
+    &quot;fact&quot;: {
+      &quot;citation_index&quot;: 0,
+      &quot;coverage_note&quot;: &quot;One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.&quot;,
+      &quot;fact_ref&quot;: &quot;cf-74f5d709f1c0acd1f2b33b6d1364f4369003e368b27516c033a3f8006893861f&quot;,
+      &quot;observation_id&quot;: &quot;obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080&quot;,
+      &quot;observation_result&quot;: &quot;FAIL_WITH_EVIDENCE&quot;,
+      &quot;proof_kind&quot;: &quot;CAPTURED_CTA_HTTP_FAILURE&quot;,
+      &quot;rule_id&quot;: &quot;CTA-02&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;source&quot;: {
+        &quot;byte_end&quot;: 177,
+        &quot;byte_start&quot;: 158,
+        &quot;citation&quot;: {
+          &quot;anchor_index&quot;: 0,
+          &quot;column&quot;: 0,
+          &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+          &quot;line&quot;: 6,
+          &quot;locator&quot;: &quot;/pages/2/evidence&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;raw_href&quot;: &quot;/contact&quot;,
+          &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+        },
+        &quot;coverage_status&quot;: &quot;OBSERVED&quot;,
+        &quot;quote&quot;: &quot;&lt;a href=\&quot;/contact\&quot;&gt;&quot;,
+        &quot;target_response&quot;: {
+          &quot;error&quot;: {
+            &quot;code&quot;: &quot;HTTP_ERROR&quot;,
+            &quot;retryable&quot;: false,
+            &quot;safe_message&quot;: &quot;HTTP_ERROR&quot;,
+            &quot;schema_version&quot;: &quot;1.0&quot;
+          },
+          &quot;final_url&quot;: &quot;https://example.org/contact&quot;,
+          &quot;http_status&quot;: 410,
+          &quot;locator&quot;: &quot;/pages/3&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;redirect_trace&quot;: [
+            {
+              &quot;location&quot;: null,
+              &quot;peer_ip&quot;: &quot;93.184.216.20&quot;,
+              &quot;status&quot;: 410,
+              &quot;url&quot;: &quot;https://example.org/contact&quot;
+            }
+          ],
+          &quot;snapshot_ref&quot;: &quot;page-979fe403f05e19d093b6c0f3d79d3240ecd26b9e8e6d307f9666bc8e5cd0889d&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;url&quot;: &quot;https://example.org/contact&quot;
+        }
+      },
+      &quot;statement&quot;: &quot;Captured static href \&quot;/contact\&quot; returned HTTP 410 at capture time only.&quot;
+    },
+    &quot;guard_ref&quot;: &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;,
+    &quot;pointer&quot;: &quot;/recommendations/0&quot;,
+    &quot;status&quot;: &quot;HUMAN_REVIEW_REQUIRED&quot;,
+    &quot;text&quot;: &quot;建议先确认该联系页面是否仍在使用，再修正产品页链接或恢复对应页面；实施前须人工批准。&quot;
+  },
+  &quot;native_bridge&quot;: {
+    &quot;evidence_mapping&quot;: [
+      {
+        &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+        &quot;native_evidence_id&quot;: &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+        &quot;native_snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+        &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+        &quot;source_locator&quot;: &quot;/pages/2/evidence&quot;,
+        &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;
+      }
+    ],
+    &quot;guard_observation&quot;: {
+      &quot;coverage_note&quot;: &quot;One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.&quot;,
+      &quot;evidence_ids&quot;: [
+        &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;
+      ],
+      &quot;kind&quot;: &quot;OBJECTIVE&quot;,
+      &quot;observation_id&quot;: &quot;obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080&quot;,
+      &quot;result&quot;: &quot;FAIL_WITH_EVIDENCE&quot;,
+      &quot;rule_id&quot;: &quot;CTA-02&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;statement&quot;: &quot;This captured static href returned HTTP 404 or 410 at capture time.&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    },
+    &quot;kind&quot;: &quot;EXACT_NATIVE_HTTP_ID_MAPPING&quot;,
+    &quot;limit&quot;: &quot;Source body bridge only; target response proof requires the inseparable provenance edge.&quot;,
+    &quot;native_evidence&quot;: {
+      &quot;certainty&quot;: &quot;OBSERVED&quot;,
+      &quot;checksum&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;evidence_id&quot;: &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;excerpt&quot;: null,
+      &quot;locator&quot;: &quot;http-response-body&quot;,
+      &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    },
+    &quot;native_snapshot&quot;: {
+      &quot;capture_mode&quot;: &quot;HTTP&quot;,
+      &quot;captured_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+      &quot;final_url&quot;: &quot;https://example.org/products/mp-25&quot;,
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;private_object_ref&quot;: &quot;body-ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;sha256&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;status&quot;: &quot;FETCHED&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;,
+      &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+    }
+  },
+  &quot;scope&quot;: {
+    &quot;policy_id&quot;: &quot;pol-001&quot;,
+    &quot;policy_version&quot;: 1,
+    &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+    &quot;tenant_id&quot;: &quot;tenant-test&quot;
+  },
+  &quot;source_pins&quot;: {
+    &quot;expected_builder_version&quot;: &quot;ra2c3-1.0.0&quot;,
+    &quot;expected_evaluator_version&quot;: &quot;ra2b6-1.0.0&quot;,
+    &quot;expected_execution_ref&quot;: &quot;rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99&quot;,
+    &quot;expected_guard_refs&quot;: [
+      &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+      &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;
+    ],
+    &quot;expected_guard_version&quot;: &quot;ra3b-1.0.0&quot;,
+    &quot;expected_metadata_sha256&quot;: &quot;1a3d46696c58ea5600c87fa774b18dc1470ac9da60dd7b4ef2cbd9f8f6c73e7a&quot;,
+    &quot;expected_pack_ref&quot;: &quot;ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199&quot;,
+    &quot;expected_package_ref&quot;: &quot;fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059&quot;,
+    &quot;expected_renderer_version&quot;: &quot;ra3c-html-1.0.2&quot;,
+    &quot;expected_reporting_version&quot;: &quot;ra3c-1.0.0&quot;,
+    &quot;expected_scope&quot;: {
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    }
+  }
+}</pre></details></section><section class="evidence-record" id="ev-abf846eba293b48be21ec229febefa82600cd2d842b76bce9bfc48defa420bd4" tabindex="-1" aria-label="私有证据回查"><a href="#report">← 返回一页报告</a><p class="eyebrow">PRIVATE EVIDENCE · NOT APPROVED</p><h2>逐条来源回查</h2><p class="muted">以下为保留的原文与引用，作为纯文本展示；不是可执行网页，也不是真实性背书。</p><pre aria-label="原始 HTML 引文">&lt;a href=&quot;/contact&quot;&gt;</pre><dl><dt>Claim 状态</dt><dd><bdi>HUMAN_REVIEW_REQUIRED</bdi></dd><dt>精确原始陈述</dt><dd><bdi>在获准环境中从同一产品页重新访问该 href，核对目标 HTTP 状态与跳转；表单送达需另行授权验证。</bdi></dd><dt>规则／版本</dt><dd><bdi>CTA-02 / 1.0.0</bdi></dd><dt>原始源页面</dt><dd><bdi>https://example.org/products/mp-25</bdi></dd><dt>原始定位</dt><dd><bdi>/pages/2/evidence</bdi></dd><dt>字节区间</dt><dd><bdi>158–177 · UTF-8 原始字节</bdi></dd><dt>捕获时间</dt><dd><bdi>2026-11-10T12:00:00+00:00</bdi></dd><dt>来源 coverage</dt><dd><bdi>OBSERVED</bdi></dd><dt>Observation</dt><dd><bdi>obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080</bdi></dd><dt>Evidence</dt><dd><bdi>ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac</bdi></dd><dt>Binding</dt><dd><bdi>cb-abf846eba293b48be21ec229febefa82600cd2d842b76bce9bfc48defa420bd4</bdi></dd><dt>Guard</dt><dd><bdi>cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f</bdi></dd><dt>EvidencePack</dt><dd><bdi>ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199</bdi></dd><dt>RuleExecution</dt><dd><bdi>rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99</bdi></dd><dt>FindingPackage</dt><dd><bdi>fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059</bdi></dd><dt>目标 URL</dt><dd><bdi>https://example.org/contact</bdi></dd><dt>最终目标 URL</dt><dd><bdi>https://example.org/contact</bdi></dd><dt>捕获的 HTTP</dt><dd><bdi>410</bdi></dd></dl><details><summary>查看完整 claim／target／版本绑定</summary><pre>{
+  &quot;claim&quot;: {
+    &quot;binding_ref&quot;: &quot;cb-abf846eba293b48be21ec229febefa82600cd2d842b76bce9bfc48defa420bd4&quot;,
+    &quot;claim_type&quot;: &quot;RECOMMENDATION&quot;,
+    &quot;fact&quot;: {
+      &quot;citation_index&quot;: 0,
+      &quot;coverage_note&quot;: &quot;One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.&quot;,
+      &quot;fact_ref&quot;: &quot;cf-74f5d709f1c0acd1f2b33b6d1364f4369003e368b27516c033a3f8006893861f&quot;,
+      &quot;observation_id&quot;: &quot;obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080&quot;,
+      &quot;observation_result&quot;: &quot;FAIL_WITH_EVIDENCE&quot;,
+      &quot;proof_kind&quot;: &quot;CAPTURED_CTA_HTTP_FAILURE&quot;,
+      &quot;rule_id&quot;: &quot;CTA-02&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;source&quot;: {
+        &quot;byte_end&quot;: 177,
+        &quot;byte_start&quot;: 158,
+        &quot;citation&quot;: {
+          &quot;anchor_index&quot;: 0,
+          &quot;column&quot;: 0,
+          &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+          &quot;line&quot;: 6,
+          &quot;locator&quot;: &quot;/pages/2/evidence&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;raw_href&quot;: &quot;/contact&quot;,
+          &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+        },
+        &quot;coverage_status&quot;: &quot;OBSERVED&quot;,
+        &quot;quote&quot;: &quot;&lt;a href=\&quot;/contact\&quot;&gt;&quot;,
+        &quot;target_response&quot;: {
+          &quot;error&quot;: {
+            &quot;code&quot;: &quot;HTTP_ERROR&quot;,
+            &quot;retryable&quot;: false,
+            &quot;safe_message&quot;: &quot;HTTP_ERROR&quot;,
+            &quot;schema_version&quot;: &quot;1.0&quot;
+          },
+          &quot;final_url&quot;: &quot;https://example.org/contact&quot;,
+          &quot;http_status&quot;: 410,
+          &quot;locator&quot;: &quot;/pages/3&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;redirect_trace&quot;: [
+            {
+              &quot;location&quot;: null,
+              &quot;peer_ip&quot;: &quot;93.184.216.20&quot;,
+              &quot;status&quot;: 410,
+              &quot;url&quot;: &quot;https://example.org/contact&quot;
+            }
+          ],
+          &quot;snapshot_ref&quot;: &quot;page-979fe403f05e19d093b6c0f3d79d3240ecd26b9e8e6d307f9666bc8e5cd0889d&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;url&quot;: &quot;https://example.org/contact&quot;
+        }
+      },
+      &quot;statement&quot;: &quot;Captured static href \&quot;/contact\&quot; returned HTTP 410 at capture time only.&quot;
+    },
+    &quot;guard_ref&quot;: &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;,
+    &quot;pointer&quot;: &quot;/recommendations/1&quot;,
+    &quot;status&quot;: &quot;HUMAN_REVIEW_REQUIRED&quot;,
+    &quot;text&quot;: &quot;在获准环境中从同一产品页重新访问该 href，核对目标 HTTP 状态与跳转；表单送达需另行授权验证。&quot;
+  },
+  &quot;native_bridge&quot;: {
+    &quot;evidence_mapping&quot;: [
+      {
+        &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+        &quot;native_evidence_id&quot;: &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+        &quot;native_snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+        &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+        &quot;source_locator&quot;: &quot;/pages/2/evidence&quot;,
+        &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;
+      }
+    ],
+    &quot;guard_observation&quot;: {
+      &quot;coverage_note&quot;: &quot;One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.&quot;,
+      &quot;evidence_ids&quot;: [
+        &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;
+      ],
+      &quot;kind&quot;: &quot;OBJECTIVE&quot;,
+      &quot;observation_id&quot;: &quot;obs-d80a53e178340777af53fba8e9f22910f6aa52b83c4008c5f71e2937a9663080&quot;,
+      &quot;result&quot;: &quot;FAIL_WITH_EVIDENCE&quot;,
+      &quot;rule_id&quot;: &quot;CTA-02&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;statement&quot;: &quot;This captured static href returned HTTP 404 or 410 at capture time.&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    },
+    &quot;kind&quot;: &quot;EXACT_NATIVE_HTTP_ID_MAPPING&quot;,
+    &quot;limit&quot;: &quot;Source body bridge only; target response proof requires the inseparable provenance edge.&quot;,
+    &quot;native_evidence&quot;: {
+      &quot;certainty&quot;: &quot;OBSERVED&quot;,
+      &quot;checksum&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;evidence_id&quot;: &quot;ev-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;excerpt&quot;: null,
+      &quot;locator&quot;: &quot;http-response-body&quot;,
+      &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    },
+    &quot;native_snapshot&quot;: {
+      &quot;capture_mode&quot;: &quot;HTTP&quot;,
+      &quot;captured_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+      &quot;final_url&quot;: &quot;https://example.org/products/mp-25&quot;,
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;private_object_ref&quot;: &quot;body-ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;schema_version&quot;: &quot;1.0&quot;,
+      &quot;sha256&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+      &quot;snapshot_id&quot;: &quot;snap-8f239f3f8e927d6547320160fbd21f5d5bab6b85a489ffa1926e34c51dbb2d2f&quot;,
+      &quot;status&quot;: &quot;FETCHED&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;,
+      &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+    }
+  },
+  &quot;scope&quot;: {
+    &quot;policy_id&quot;: &quot;pol-001&quot;,
+    &quot;policy_version&quot;: 1,
+    &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+    &quot;tenant_id&quot;: &quot;tenant-test&quot;
+  },
+  &quot;source_pins&quot;: {
+    &quot;expected_builder_version&quot;: &quot;ra2c3-1.0.0&quot;,
+    &quot;expected_evaluator_version&quot;: &quot;ra2b6-1.0.0&quot;,
+    &quot;expected_execution_ref&quot;: &quot;rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99&quot;,
+    &quot;expected_guard_refs&quot;: [
+      &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+      &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;
+    ],
+    &quot;expected_guard_version&quot;: &quot;ra3b-1.0.0&quot;,
+    &quot;expected_metadata_sha256&quot;: &quot;1a3d46696c58ea5600c87fa774b18dc1470ac9da60dd7b4ef2cbd9f8f6c73e7a&quot;,
+    &quot;expected_pack_ref&quot;: &quot;ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199&quot;,
+    &quot;expected_package_ref&quot;: &quot;fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059&quot;,
+    &quot;expected_renderer_version&quot;: &quot;ra3c-html-1.0.2&quot;,
+    &quot;expected_reporting_version&quot;: &quot;ra3c-1.0.0&quot;,
+    &quot;expected_scope&quot;: {
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    }
+  }
+}</pre></details></section><section class="evidence-record" id="ev-30a9f69cdf3ab3f1c835095337a51480a74670346d24fbb19f86a1e7789e0442" tabindex="-1" aria-label="私有证据回查"><a href="#report">← 返回一页报告</a><p class="eyebrow">PRIVATE EVIDENCE · NOT APPROVED</p><h2>逐条来源回查</h2><p class="muted">以下为保留的原文与引用，作为纯文本展示；不是可执行网页，也不是真实性背书。</p><pre aria-label="原始 HTML 引文">&lt;h1&gt;MP-25 process pump&lt;/h1&gt;</pre><dl><dt>Claim 状态</dt><dd><bdi>SOURCE_FACT_BINDING_VERIFIED</bdi></dd><dt>精确原始陈述</dt><dd><bdi>Captured untrusted website source element only; no authenticity, identity, effectiveness or business outcome verified: &quot;&lt;h1&gt;MP-25 process pump&lt;/h1&gt;&quot;</bdi></dd><dt>规则／版本</dt><dd><bdi>INFO-01 / 1.0.0</bdi></dd><dt>原始源页面</dt><dd><bdi>https://example.org/products/mp-25</bdi></dd><dt>原始定位</dt><dd><bdi>/pages/2/evidence</bdi></dd><dt>字节区间</dt><dd><bdi>13–40 · UTF-8 原始字节</bdi></dd><dt>捕获时间</dt><dd><bdi>2026-11-10T12:00:00+00:00</bdi></dd><dt>来源 coverage</dt><dd><bdi>OBSERVED</bdi></dd><dt>Observation</dt><dd><bdi>obs-3e97ca6ceee28ad3f7f5fe2c5d5a9d5176da38677e48755953e8057c33e5bc33</bdi></dd><dt>Evidence</dt><dd><bdi>ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac</bdi></dd><dt>Binding</dt><dd><bdi>cb-30a9f69cdf3ab3f1c835095337a51480a74670346d24fbb19f86a1e7789e0442</bdi></dd><dt>Guard</dt><dd><bdi>cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10</bdi></dd><dt>EvidencePack</dt><dd><bdi>ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199</bdi></dd><dt>RuleExecution</dt><dd><bdi>rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99</bdi></dd><dt>FindingPackage</dt><dd><bdi>fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059</bdi></dd></dl><details><summary>查看完整 claim／target／版本绑定</summary><pre>{
+  &quot;claim&quot;: {
+    &quot;binding_ref&quot;: &quot;cb-30a9f69cdf3ab3f1c835095337a51480a74670346d24fbb19f86a1e7789e0442&quot;,
+    &quot;claim_type&quot;: &quot;OBJECTIVE_SOURCE_FACT&quot;,
+    &quot;fact&quot;: {
+      &quot;citation_index&quot;: 0,
+      &quot;coverage_note&quot;: &quot;One captured product-path page, URL role heuristic only; original static h1 and TH/TD text only. No rendered visibility, SKU identity, specification accuracy, authenticity, engineering fit, completeness, buyer comprehension or business impact. Missing, empty or ambiguous information is not a website defect.&quot;,
+      &quot;fact_ref&quot;: &quot;cf-7a52bd9066f5356728e22bf65f0475cddbed04aba69caefd825fdbc1b8a00289&quot;,
+      &quot;observation_id&quot;: &quot;obs-3e97ca6ceee28ad3f7f5fe2c5d5a9d5176da38677e48755953e8057c33e5bc33&quot;,
+      &quot;observation_result&quot;: &quot;PASS&quot;,
+      &quot;proof_kind&quot;: &quot;LITERAL_SOURCE_ELEMENT&quot;,
+      &quot;rule_id&quot;: &quot;INFO-01&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;source&quot;: {
+        &quot;byte_end&quot;: 40,
+        &quot;byte_start&quot;: 13,
+        &quot;citation&quot;: {
+          &quot;content_sha256&quot;: &quot;ae361f4b997436737f349d3fd0b7d9db8d66f54636087cafe6d17d238be1da69&quot;,
+          &quot;element&quot;: {
+            &quot;column&quot;: 0,
+            &quot;line&quot;: 2,
+            &quot;path&quot;: &quot;/html[1]/body[1]/h1[1]&quot;,
+            &quot;start_tag&quot;: &quot;&lt;h1&gt;&quot;
+          },
+          &quot;evidence_ref&quot;: &quot;ev-b95ce7e609453553d49f6beb98d65a23df6d552565a350de46ae85655dd346ac&quot;,
+          &quot;fact_role&quot;: &quot;NAME&quot;,
+          &quot;field_index&quot;: null,
+          &quot;final_url&quot;: &quot;https://example.org/products/mp-25&quot;,
+          &quot;locator&quot;: &quot;/pages/2/evidence&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;snapshot_ref&quot;: &quot;page-7da5cb363e47921f856afc63d1ba591a6d2300e170d5dab6cd158414aa2a5a75&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;text&quot;: &quot;MP-25 process pump&quot;,
+          &quot;url&quot;: &quot;https://example.org/products/mp-25&quot;
+        },
+        &quot;coverage_status&quot;: &quot;OBSERVED&quot;,
+        &quot;quote&quot;: &quot;&lt;h1&gt;MP-25 process pump&lt;/h1&gt;&quot;
+      },
+      &quot;statement&quot;: &quot;Captured untrusted website source element only; no authenticity, identity, effectiveness or business outcome verified: \&quot;&lt;h1&gt;MP-25 process pump&lt;/h1&gt;\&quot;&quot;
+    },
+    &quot;guard_ref&quot;: &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+    &quot;pointer&quot;: &quot;/hypotheses/1&quot;,
+    &quot;status&quot;: &quot;SOURCE_FACT_BINDING_VERIFIED&quot;,
+    &quot;text&quot;: &quot;Captured untrusted website source element only; no authenticity, identity, effectiveness or business outcome verified: \&quot;&lt;h1&gt;MP-25 process pump&lt;/h1&gt;\&quot;&quot;
+  },
+  &quot;native_bridge&quot;: null,
+  &quot;scope&quot;: {
+    &quot;policy_id&quot;: &quot;pol-001&quot;,
+    &quot;policy_version&quot;: 1,
+    &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+    &quot;tenant_id&quot;: &quot;tenant-test&quot;
+  },
+  &quot;source_pins&quot;: {
+    &quot;expected_builder_version&quot;: &quot;ra2c3-1.0.0&quot;,
+    &quot;expected_evaluator_version&quot;: &quot;ra2b6-1.0.0&quot;,
+    &quot;expected_execution_ref&quot;: &quot;rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99&quot;,
+    &quot;expected_guard_refs&quot;: [
+      &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+      &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;
+    ],
+    &quot;expected_guard_version&quot;: &quot;ra3b-1.0.0&quot;,
+    &quot;expected_metadata_sha256&quot;: &quot;1a3d46696c58ea5600c87fa774b18dc1470ac9da60dd7b4ef2cbd9f8f6c73e7a&quot;,
+    &quot;expected_pack_ref&quot;: &quot;ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199&quot;,
+    &quot;expected_package_ref&quot;: &quot;fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059&quot;,
+    &quot;expected_renderer_version&quot;: &quot;ra3c-html-1.0.2&quot;,
+    &quot;expected_reporting_version&quot;: &quot;ra3c-1.0.0&quot;,
+    &quot;expected_scope&quot;: {
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    }
+  }
+}</pre></details></section><section class="evidence-record" id="ev-d7e8c7703d8a710c881c22b0997f0785717041ec9fa9811020e42a02a9ecabdd" tabindex="-1" aria-label="私有证据回查"><a href="#report">← 返回一页报告</a><p class="eyebrow">PRIVATE EVIDENCE · NOT APPROVED</p><h2>逐条来源回查</h2><p class="muted">以下为保留的原文与引用，作为纯文本展示；不是可执行网页，也不是真实性背书。</p><pre aria-label="原始 HTML 引文">&lt;title&gt;Meridian pump components&lt;/title&gt;</pre><dl><dt>Claim 状态</dt><dd><bdi>SOURCE_FACT_BINDING_VERIFIED</bdi></dd><dt>精确原始陈述</dt><dd><bdi>Captured untrusted website source element only; no authenticity, identity, effectiveness or business outcome verified: &quot;&lt;title&gt;Meridian pump components&lt;/title&gt;&quot;</bdi></dd><dt>规则／版本</dt><dd><bdi>SEO-01 / 1.0.0</bdi></dd><dt>原始源页面</dt><dd><bdi>https://example.org/</bdi></dd><dt>原始定位</dt><dd><bdi>/pages/0/evidence</bdi></dd><dt>字节区间</dt><dd><bdi>14–53 · UTF-8 原始字节</bdi></dd><dt>捕获时间</dt><dd><bdi>2026-11-10T12:00:00+00:00</bdi></dd><dt>来源 coverage</dt><dd><bdi>OBSERVED</bdi></dd><dt>Observation</dt><dd><bdi>obs-b1b54b8ebb2812e6aa52b6e391609b6879518f951ffc58cdae9b591e72ea036c</bdi></dd><dt>Evidence</dt><dd><bdi>ev-c2456aef9e5ddade2465af2281b8c7216bd886ef9dde31993579b614ae156eb2</bdi></dd><dt>Binding</dt><dd><bdi>cb-d7e8c7703d8a710c881c22b0997f0785717041ec9fa9811020e42a02a9ecabdd</bdi></dd><dt>Guard</dt><dd><bdi>cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10</bdi></dd><dt>EvidencePack</dt><dd><bdi>ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199</bdi></dd><dt>RuleExecution</dt><dd><bdi>rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99</bdi></dd><dt>FindingPackage</dt><dd><bdi>fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059</bdi></dd></dl><details><summary>查看完整 claim／target／版本绑定</summary><pre>{
+  &quot;claim&quot;: {
+    &quot;binding_ref&quot;: &quot;cb-d7e8c7703d8a710c881c22b0997f0785717041ec9fa9811020e42a02a9ecabdd&quot;,
+    &quot;claim_type&quot;: &quot;OBJECTIVE_SOURCE_FACT&quot;,
+    &quot;fact&quot;: {
+      &quot;citation_index&quot;: 0,
+      &quot;coverage_note&quot;: &quot;One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.&quot;,
+      &quot;fact_ref&quot;: &quot;cf-ace8c97355622eb6feaaa2c359662ee5e24d3a1f4ecd6551d4ea5fd5452176e3&quot;,
+      &quot;observation_id&quot;: &quot;obs-b1b54b8ebb2812e6aa52b6e391609b6879518f951ffc58cdae9b591e72ea036c&quot;,
+      &quot;observation_result&quot;: &quot;PASS&quot;,
+      &quot;proof_kind&quot;: &quot;LITERAL_SOURCE_ELEMENT&quot;,
+      &quot;rule_id&quot;: &quot;SEO-01&quot;,
+      &quot;rule_version&quot;: &quot;1.0.0&quot;,
+      &quot;source&quot;: {
+        &quot;byte_end&quot;: 53,
+        &quot;byte_start&quot;: 14,
+        &quot;citation&quot;: {
+          &quot;content_sha256&quot;: &quot;225de8f36c6e583be13b810a7f1721ba5f0539b125f8c9ec8d541866e7033eff&quot;,
+          &quot;element&quot;: {
+            &quot;character_end&quot;: 53,
+            &quot;character_start&quot;: 14,
+            &quot;column&quot;: 0,
+            &quot;line&quot;: 3,
+            &quot;offset_basis&quot;: &quot;UTF8_SIG_DECODED_CHARACTER_RANGE&quot;,
+            &quot;raw_element&quot;: &quot;&lt;title&gt;Meridian pump components&lt;/title&gt;&quot;,
+            &quot;tag&quot;: &quot;title&quot;
+          },
+          &quot;evidence_ref&quot;: &quot;ev-c2456aef9e5ddade2465af2281b8c7216bd886ef9dde31993579b614ae156eb2&quot;,
+          &quot;fact_role&quot;: &quot;TITLE&quot;,
+          &quot;final_url&quot;: &quot;https://example.org/&quot;,
+          &quot;locator&quot;: &quot;/pages/0/evidence&quot;,
+          &quot;observed_at&quot;: &quot;2026-11-10T12:00:00+00:00&quot;,
+          &quot;raw_inner&quot;: &quot;Meridian pump components&quot;,
+          &quot;snapshot_ref&quot;: &quot;page-5e97d381bec22ac0290f9bb150090d57e54478ddc2aa7d5eb08369480dba4710&quot;,
+          &quot;source_ref&quot;: &quot;src-ceb9d6910fcace5940a57516c3589103e0373fa3b5541e75b96cc369b311b851&quot;,
+          &quot;text&quot;: &quot;Meridian pump components&quot;,
+          &quot;url&quot;: &quot;https://example.org/&quot;
+        },
+        &quot;coverage_status&quot;: &quot;OBSERVED&quot;,
+        &quot;quote&quot;: &quot;&lt;title&gt;Meridian pump components&lt;/title&gt;&quot;
+      },
+      &quot;statement&quot;: &quot;Captured untrusted website source element only; no authenticity, identity, effectiveness or business outcome verified: \&quot;&lt;title&gt;Meridian pump components&lt;/title&gt;\&quot;&quot;
+    },
+    &quot;guard_ref&quot;: &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+    &quot;pointer&quot;: &quot;/hypotheses/2&quot;,
+    &quot;status&quot;: &quot;SOURCE_FACT_BINDING_VERIFIED&quot;,
+    &quot;text&quot;: &quot;Captured untrusted website source element only; no authenticity, identity, effectiveness or business outcome verified: \&quot;&lt;title&gt;Meridian pump components&lt;/title&gt;\&quot;&quot;
+  },
+  &quot;native_bridge&quot;: null,
+  &quot;scope&quot;: {
+    &quot;policy_id&quot;: &quot;pol-001&quot;,
+    &quot;policy_version&quot;: 1,
+    &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+    &quot;tenant_id&quot;: &quot;tenant-test&quot;
+  },
+  &quot;source_pins&quot;: {
+    &quot;expected_builder_version&quot;: &quot;ra2c3-1.0.0&quot;,
+    &quot;expected_evaluator_version&quot;: &quot;ra2b6-1.0.0&quot;,
+    &quot;expected_execution_ref&quot;: &quot;rx-5b41e2d1318edbb9288efeabcf3609e433043452730e6b031ce90a20b34e7c99&quot;,
+    &quot;expected_guard_refs&quot;: [
+      &quot;cg-0125c5dbb1b6867aac3a4d5b799c55c4114518b7894b7c4c18ab79dd06a70c10&quot;,
+      &quot;cg-722e1899dd0ef9ea7f18b50a4d8a6cb2dbb31df6bf725483b13269e917bc5d1f&quot;
+    ],
+    &quot;expected_guard_version&quot;: &quot;ra3b-1.0.0&quot;,
+    &quot;expected_metadata_sha256&quot;: &quot;1a3d46696c58ea5600c87fa774b18dc1470ac9da60dd7b4ef2cbd9f8f6c73e7a&quot;,
+    &quot;expected_pack_ref&quot;: &quot;ep-811a7f1e80dbc3d4be6503352e14166d406cfd10976105166a83781a6eb71199&quot;,
+    &quot;expected_package_ref&quot;: &quot;fp-67445f4fea47f9657371caa2f6799b0df528274ab9f1e26d5d11ae82e7d0f059&quot;,
+    &quot;expected_renderer_version&quot;: &quot;ra3c-html-1.0.2&quot;,
+    &quot;expected_reporting_version&quot;: &quot;ra3c-1.0.0&quot;,
+    &quot;expected_scope&quot;: {
+      &quot;policy_id&quot;: &quot;pol-001&quot;,
+      &quot;policy_version&quot;: 1,
+      &quot;run_id&quot;: &quot;run-ra3b-410base&quot;,
+      &quot;tenant_id&quot;: &quot;tenant-test&quot;
+    }
+  }
+}</pre></details></section></body></html>

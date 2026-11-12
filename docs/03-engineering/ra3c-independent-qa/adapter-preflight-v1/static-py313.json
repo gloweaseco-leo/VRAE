@@ -1,0 +1,172 @@
+{
+  "kind": "READ_ONLY_STATIC_INTERFACE_PREFLIGHT_NOT_PHASE_B",
+  "provisional_sha": "6a7a3d3aa5f4341059b04567157f7fc58d6bf6d2",
+  "qa_head_before_preflight": "1db13d4fd025bd6c354d51fb26f3dd5acbbfac15",
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "candidate_imported": false,
+  "candidate_business_cases_executed": 0,
+  "candidate_build_load_render_calls": 0,
+  "independent_visual_pass": false,
+  "mapping_state": "QA_MAPPING_NOT_BOUND",
+  "accepted_blobs_unchanged": 1400,
+  "original_freeze_added_blobs_unchanged": {
+    "docs/03-engineering/ra3c-independent-qa/FREEZE.json": "646d4c9c5d1865d3a53bdabc2c38f53d7cbd3d1c",
+    "docs/03-engineering/ra3c-independent-qa/INPUT_PREPARATION.json": "0e3364a72359b4c086a67b08a2b83b1cb46afc47",
+    "docs/03-engineering/ra3c-independent-qa/MATRIX.md": "9e604f66066b4db38e8bdf2fd6b08a8d76459d52",
+    "docs/03-engineering/ra3c-independent-qa/SUBJECT_PROTOCOL.md": "5bb6d1a806efddce7fbb355f7193efa5942da97a",
+    "docs/03-engineering/ra3c-independent-qa/audit_inputs.py": "d7174972e86690ef0ed55930c6d80b4d99202e66",
+    "docs/03-engineering/ra3c-independent-qa/freeze_sources.py": "30dc248ad739060fda3dc1f7dcd1d7224ee5f0b3",
+    "docs/03-engineering/ra3c-independent-qa/make_inputs.py": "7d89c78ed64cadfb6adbcbef80833f6e51a1fbac",
+    "docs/03-engineering/ra3c-independent-qa/run_phase_a.py": "cc5c7deb240b5d284ba5aad5efe7d824c16ca58b",
+    "tests/reporting/fixtures/ra3c_codex1_cases.json": "7351a2e720007570b854236671b2497692d893d5",
+    "tests/reporting/fixtures/ra3c_codex1_inputs.json": "8a4e6a4e6d5e78a9d7970a8b0136023ad02f87d0",
+    "tests/reporting/test_ra3c_independent_acceptance.py": "92ab4b2ef743abc0388866a2054952e56ba14a41"
+  },
+  "files": {
+    "vrae/reporting/__init__.py": {
+      "git_blob": "0cbd59050d19d294f28db5ad0ed334c67d2b2010",
+      "sha256": "d0b3855fd2d92adb412d976c9c55dfc699d2f1244cd3cb246258d301eeabd6c2",
+      "bytes": 235
+    },
+    "vrae/reporting/common.py": {
+      "git_blob": "ab4aeec1b382e24f473ac8caeaaef8e7cb716188",
+      "sha256": "aef10bda4cda615a3fcb60a11270996c9ab0fcecf4dc8989307cbed85d520f02",
+      "bytes": 1081
+    },
+    "vrae/reporting/draft.py": {
+      "git_blob": "8f30c890ea5622a69b639c07bc25f68f26fca747",
+      "sha256": "31ca8c865aa996def3271c5adcf27d3b91a262acd104773c51fea8007e63a536",
+      "bytes": 14559
+    },
+    "vrae/reporting/editorial.py": {
+      "git_blob": "fe125b8d7dedd35b3ce8f0cd0741758781ac1ffb",
+      "sha256": "cf748007ffe5fdeff25d6fa661402e1423ef21aa3dc0ff6a7b9ec20e4d8faf78",
+      "bytes": 1517
+    },
+    "vrae/reporting/renderer.py": {
+      "git_blob": "baa1f9722a01935a3fc8353aedb3b3d1bc2552ba",
+      "sha256": "e630cfc9f304975b85fe695a3dadf3a75804d00cbe0b1295f69d75554e7dfda3",
+      "bytes": 27571
+    }
+  },
+  "public_api": {
+    "ReportDraft": {
+      "__post_init__": {
+        "line": 224,
+        "args": "self"
+      },
+      "document": {
+        "line": 230,
+        "args": "self"
+      },
+      "html_bytes": {
+        "line": 234,
+        "args": "self"
+      },
+      "ref": {
+        "line": 238,
+        "args": "self"
+      },
+      "load": {
+        "line": 242,
+        "args": "cls, document, html_bytes, pack, package, guard_inputs, metadata, *, expected_draft_ref, **pins"
+      }
+    },
+    "build_draft": {
+      "line": 256,
+      "args": "pack, package, guard_inputs, metadata, **pins"
+    },
+    "render": {
+      "line": 266,
+      "args": "document, html_bytes, pack, package, guard_inputs, metadata, *, expected_draft_ref, **pins"
+    }
+  },
+  "observations": {
+    "source_pin_keys": [
+      "expected_builder_version",
+      "expected_evaluator_version",
+      "expected_execution_ref",
+      "expected_guard_version",
+      "expected_pack_ref",
+      "expected_package_ref",
+      "expected_scope"
+    ],
+    "metadata_keys": [
+      "created_at",
+      "created_by",
+      "finding_selection",
+      "mode",
+      "report_id",
+      "version"
+    ],
+    "extra_pin_keys": [
+      "expected_guard_refs",
+      "expected_metadata_sha256",
+      "expected_renderer_version",
+      "expected_reporting_version"
+    ],
+    "versions": {
+      "reporting": "ra3c-1.0.0",
+      "renderer": "ra3c-html-1.0.1",
+      "editorial": "ra3c-zh-editorial-1.0.0"
+    },
+    "candidate_required_proposals": {
+      "impact": [
+        "HYPOTHESIS",
+        "采购商从产品页继续寻找联系入口时，可能需要额外绕行。是否影响实际询盘，仍需人工核实。"
+      ],
+      "action": [
+        "RECOMMENDATION",
+        "建议先确认该联系页面是否仍在使用，再修正产品页链接或恢复对应页面；实施前须人工批准。"
+      ],
+      "recheck": [
+        "RECOMMENDATION",
+        "在获准环境中从同一产品页重新访问该 href，核对目标 HTTP 状态与跳转；表单送达需另行授权验证。"
+      ]
+    },
+    "frozen_qa_proposals": [
+      [
+        "hypotheses",
+        "HYPOTHESIS",
+        "采购人员可能无法沿这条已记录的路径继续联系，需人工复核实际情境。"
+      ],
+      [
+        "recommendations",
+        "RECOMMENDATION",
+        "建议先核对产品页联系链接与目标页面，再确认是否属于标准 Rebuild 候选范围。"
+      ],
+      [
+        "recommendations",
+        "RECOMMENDATION",
+        "复验时在相同已授权范围重新请求该联系路径，核对状态和页面，不提交表单。"
+      ],
+      [
+        "missing_information",
+        "MISSING_INFORMATION",
+        "尚未核实表单送达、工厂资质、搜索排名或实际销售结果。"
+      ]
+    ],
+    "unmatched_frozen_proposals": [
+      [
+        "hypotheses",
+        "HYPOTHESIS",
+        "采购人员可能无法沿这条已记录的路径继续联系，需人工复核实际情境。"
+      ],
+      [
+        "recommendations",
+        "RECOMMENDATION",
+        "建议先核对产品页联系链接与目标页面，再确认是否属于标准 Rebuild 候选范围。"
+      ],
+      [
+        "recommendations",
+        "RECOMMENDATION",
+        "复验时在相同已授权范围重新请求该联系路径，核对状态和页面，不提交表单。"
+      ],
+      [
+        "missing_information",
+        "MISSING_INFORMATION",
+        "尚未核实表单送达、工厂资质、搜索排名或实际销售结果。"
+      ]
+    ]
+  }
+}
