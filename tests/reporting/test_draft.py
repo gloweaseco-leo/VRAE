@@ -1,8 +1,10 @@
 """Buyer-task report acceptance and adversarial replay; no external services."""
 from copy import deepcopy
+import base64
 import hashlib
 from html.parser import HTMLParser
 import json
+from pathlib import Path
 
 import pytest
 
@@ -314,3 +316,15 @@ def test_actual_active_tags_in_captured_page_never_enter_the_report_dom():
     parser.feed(d.html_bytes.decode())
     assert not {'script', 'img'} & set(parser.tags) and not parser.handlers and not parser.assets
     assert '&lt;a href=' in d.html_bytes.decode()
+
+
+def test_previous_renderer_is_retained_but_requires_its_own_engine(baseline):
+    old = json.loads((Path(__file__).parent / 'fixtures/previous-renderer.json').read_text(encoding='utf-8'))
+    html = base64.b64decode(old['html_base64'], validate=True)
+    assert hashlib.sha256(html).hexdigest() == old['document']['html_sha256']
+    assert old['held']['pins']['expected_renderer_version'] == 'ra3c-html-1.0.1'
+    p, f, g, m, _, _ = baseline
+    with pytest.raises(ReportError, match='REPORT_PIN_VERSION'):
+        ReportDraft.load(old['document'], html, p, f, g, m,
+            expected_draft_ref=old['held']['expected_draft_ref'], **old['held']['pins'])
+    assert build(baseline).document['renderer_version'] == 'ra3c-html-1.0.2'

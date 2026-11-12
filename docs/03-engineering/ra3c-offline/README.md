@@ -1,5 +1,9 @@
 # VEYFRONT 私有 L1 一页报告 · RA-3C
 
+> **P1 更新入口**：[手机提示 12px 修复及最新产物](p1-mobile-legibility/README.md)。
+> 本文件下方原截图/预览/验收记录对应保留的 `6a7a3d3…` / renderer 1.0.1，未覆盖为新版。
+> 当前 `verify_ra3c.py` 默认输出到 P1 专属目录；新版浏览器检查使用该目录下 `inspect-ui.mjs`。
+
 本目录是 **合成工业网站的内部审阅样本**，不是客户报告。所有页面均为
 `private=true / NOT_APPROVED / shareable=false`。无真实网站、模型调用、客户外发、部署、审批或 ShareGrant。
 

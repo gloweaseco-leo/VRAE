@@ -14,7 +14,7 @@ from vrae.findings import FindingPackage  # noqa: E402
 from vrae.reporting import ReportDraft, build_draft  # noqa: E402
 
 FIXTURES = ROOT / 'tests/reporting/fixtures'
-DEFAULT_OUT = ROOT / 'docs/03-engineering/ra3c-offline/preview'
+DEFAULT_OUT = ROOT / 'docs/03-engineering/ra3c-offline/p1-mobile-legibility/preview'
 CASES = (200, 404, 410, 403, 500, 'robots', 'unretained', 'waf')
 
 
