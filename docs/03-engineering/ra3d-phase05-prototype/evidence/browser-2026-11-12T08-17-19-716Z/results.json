@@ -1,0 +1,698 @@
+{
+  "status": "NOT_PASS",
+  "scope": "SYNTHETIC_UI_ONLY_NOT_PRODUCTION_RA3D",
+  "runId": "2026-11-12T08-17-19-716Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.4",
+    "revision": "@f842f52ef39fd97b449eb27cff414bf05a98ddce",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75"
+  },
+  "chromiumExecutable": "C:/Users/liu/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+  "chromiumArgs": [
+    "--headless=new",
+    "--disable-gpu",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "--disable-background-networking",
+    "--disable-component-update",
+    "--disable-sync",
+    "--disable-default-apps",
+    "--disable-extensions",
+    "--disable-domain-reliability",
+    "--disable-features=MediaRouter,OptimizationHints",
+    "--disable-crash-reporter",
+    "--proxy-server=http://127.0.0.1:9",
+    "--proxy-bypass-list=<-loopback>",
+    "--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE localhost",
+    "--remote-debugging-address=127.0.0.1",
+    "--remote-debugging-port=0",
+    "--user-data-dir=<run-profile>",
+    "--disk-cache-dir=<run-profile>/cache",
+    "about:blank"
+  ],
+  "inputs": {
+    "index.html": {
+      "sha256": "69ffbf38082c4000811f86f323cf6f205b1e21ec10266c1fc8326d1a628bc9db",
+      "bytes": 3175
+    },
+    "workbench.css": {
+      "sha256": "a583f9b3d5b5c8a54ed79171cb0c80527759055c8f01f5cc839cc2016d726724",
+      "bytes": 6969
+    },
+    "workbench.js": {
+      "sha256": "9231b318876cdf0c180918c702e3cfb935edb634ceeb24afdb7807d177bb6484",
+      "bytes": 16997
+    },
+    "fixtures.js": {
+      "sha256": "7333abd1a3249f6d72b6339117b654d51b8321c1d55a3e064faa01a0badce9f7",
+      "bytes": 7710
+    },
+    "fixtures.json": {
+      "sha256": "91046b9b86f1b68c8b5c19999b583ae8a010ea26f1d5240a6ab53f8f063b1eae",
+      "bytes": 7627
+    },
+    "browser-test.mjs": {
+      "sha256": "cd3f0c9e090d3ee7bd4f94bb108e1ed306f6961db25377954c1ad797d5894e80",
+      "bytes": 16491
+    }
+  },
+  "counts": {
+    "PASS": 33,
+    "FAIL": 0,
+    "ERROR": 1,
+    "SKIP": 0
+  },
+  "assertions": [
+    {
+      "id": "1280-contact-layout",
+      "status": "PASS",
+      "observed": true,
+      "detail": {
+        "width": 1280,
+        "scrollWidth": 1265,
+        "lang": "zh-CN",
+        "banner": {
+          "text": "离线交互模拟 · 非真实审核/审批/分享\nPRIVATE · NOT APPROVED · 不可客户外发",
+          "minFontPx": 12,
+          "top": 0,
+          "bottom": 39.1875,
+          "height": 1000
+        },
+        "targets": [
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "open-evidence",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 143.46875
+          },
+          {
+            "id": "check-fact",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-impact",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-action",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-verification",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-scope",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-preview",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-boundary",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "positive",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 154
+          },
+          {
+            "id": "note-item",
+            "tag": "SELECT",
+            "height": 44,
+            "width": 576.859375
+          },
+          {
+            "id": "review-note",
+            "tag": "TEXTAREA",
+            "height": 100,
+            "width": 576.859375
+          },
+          {
+            "id": "request-changes",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 283.921875
+          },
+          {
+            "id": "reject",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 283.9375
+          },
+          {
+            "id": "",
+            "tag": "SUMMARY",
+            "height": 44,
+            "width": 433.140625
+          },
+          {
+            "id": "reset",
+            "tag": "BUTTON",
+            "height": 44.75,
+            "width": 138
+          }
+        ]
+      }
+    },
+    {
+      "id": "1280-initial-block",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-original-quote",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-inert-attack",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-return-focus",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-keyboard-tab",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-keyboard-space",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-visible-focus",
+      "status": "PASS",
+      "observed": true,
+      "detail": {
+        "outline": "solid",
+        "width": "3px"
+      }
+    },
+    {
+      "id": "1280-positive-enabled",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-two-step-confirm",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-positive-simulation-only",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-reload-resets",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-missing-note-blocks",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-changes-inert-terminal",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-reject-terminal",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-coverage-layout",
+      "status": "PASS",
+      "observed": true,
+      "detail": {
+        "width": 1280,
+        "scrollWidth": 1265,
+        "lang": "zh-CN",
+        "banner": {
+          "text": "离线交互模拟 · 非真实审核/审批/分享\nPRIVATE · NOT APPROVED · 不可客户外发",
+          "minFontPx": 12,
+          "top": 0,
+          "bottom": 39.1875,
+          "height": 1000
+        },
+        "targets": [
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "open-evidence",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 195.15625
+          },
+          {
+            "id": "check-scope",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-preview",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-boundary",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "ack-coverage",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 229
+          },
+          {
+            "id": "",
+            "tag": "SUMMARY",
+            "height": 44,
+            "width": 433.140625
+          },
+          {
+            "id": "reset",
+            "tag": "BUTTON",
+            "height": 44.75,
+            "width": 138
+          }
+        ]
+      }
+    },
+    {
+      "id": "1280-zero-no-approval",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-coverage-response-200",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-coverage-internal-only",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-old-positive-invalidated",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-stale-layout",
+      "status": "PASS",
+      "observed": true,
+      "detail": {
+        "width": 1280,
+        "scrollWidth": 1265,
+        "lang": "zh-CN",
+        "banner": {
+          "text": "离线交互模拟 · 非真实审核/审批/分享\nPRIVATE · NOT APPROVED · 不可客户外发",
+          "minFontPx": 12,
+          "top": 0,
+          "bottom": 39.1875,
+          "height": 1000
+        },
+        "targets": [
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "open-evidence",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 143.46875
+          },
+          {
+            "id": "check-fact",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-impact",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-action",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-verification",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-scope",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-preview",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "check-boundary",
+            "tag": "INPUT",
+            "height": 20,
+            "width": 20
+          },
+          {
+            "id": "",
+            "tag": "SUMMARY",
+            "height": 44,
+            "width": 433.140625
+          },
+          {
+            "id": "mutation-type",
+            "tag": "SELECT",
+            "height": 44,
+            "width": 433.140625
+          },
+          {
+            "id": "mutate",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 124
+          },
+          {
+            "id": "open-new-version",
+            "tag": "BUTTON",
+            "height": 48.25,
+            "width": 229
+          },
+          {
+            "id": "reset",
+            "tag": "BUTTON",
+            "height": 44.75,
+            "width": 138
+          }
+        ]
+      }
+    },
+    {
+      "id": "1280-new-version-empty",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-change-version-blocked",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-change-html-blocked",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-change-citation-blocked",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-change-summary-blocked",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-change-layout-blocked",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-change-source-blocked",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-change-tenant-blocked",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-missing-source-block",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-denied-layout",
+      "status": "PASS",
+      "observed": true,
+      "detail": {
+        "width": 1280,
+        "scrollWidth": 1265,
+        "lang": "zh-CN",
+        "banner": {
+          "text": "离线交互模拟 · 非真实审核/审批/分享\nPRIVATE · NOT APPROVED · 不可客户外发",
+          "minFontPx": 12,
+          "top": 0,
+          "bottom": 39.1875,
+          "height": 1000
+        },
+        "targets": [
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "",
+            "tag": "BUTTON",
+            "height": 79.5,
+            "width": 273.5
+          },
+          {
+            "id": "denial-type",
+            "tag": "SELECT",
+            "height": 44,
+            "width": 576.859375
+          },
+          {
+            "id": "reset",
+            "tag": "BUTTON",
+            "height": 44.75,
+            "width": 138
+          }
+        ]
+      }
+    },
+    {
+      "id": "1280-denied-foreign-no-disclosure",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "1280-denied-unassigned-no-disclosure",
+      "status": "PASS",
+      "observed": true,
+      "detail": {}
+    },
+    {
+      "id": "execution-error",
+      "status": "ERROR",
+      "error": {
+        "message": "Expected values to be strictly equal:\n\n'foreign' !== 'guard'\n",
+        "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'foreign' !== 'guard'\n\n    at choose (file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase05/docs/03-engineering/ra3d-phase05-prototype/browser-test.mjs:23:324)\n    at async file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase05/docs/03-engineering/ra3d-phase05-prototype/browser-test.mjs:73:77"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "contact-1280.png",
+      "sha256": "01eea0c3f540a3a326ac6e4d3f403e8c3de914641d85f896e4a68db4c888d7b5",
+      "width": 1280,
+      "height": 2748
+    },
+    {
+      "file": "evidence-1280.png",
+      "sha256": "fff3322b40117bf857e10208d01a2020650bf15165557b3683735cac294b190e",
+      "width": 1280,
+      "height": 1000
+    },
+    {
+      "file": "positive-simulation-1280.png",
+      "sha256": "b80cbf3bbacabe8e333d02a9f2a23c230f7cbdecaa24ecefa4781bafa52dacce",
+      "width": 1280,
+      "height": 2662
+    },
+    {
+      "file": "changes-1280.png",
+      "sha256": "b378b124b9be1e92be2b8c51a82dd042a94845b9c89df67194c21368fbed6af2",
+      "width": 1280,
+      "height": 2578
+    },
+    {
+      "file": "coverage-1280.png",
+      "sha256": "24655754b30192f2ba81760b1fece24491caa5264b2262a3af884b8e8ff30910",
+      "width": 1280,
+      "height": 2180
+    },
+    {
+      "file": "stale-1280.png",
+      "sha256": "7cf6ccd13dad9cac0967dc4c52ea4f49f51e2096b96974d5548fe6f4fd7c6de8",
+      "width": 1280,
+      "height": 2600
+    },
+    {
+      "file": "denied-1280.png",
+      "sha256": "7b150c1dce90c5628976f90dd5030f26775766caa2d5bbdab3f98ae552bbf1be",
+      "width": 1280,
+      "height": 1165
+    }
+  ],
+  "observedExternalPageRequests": [],
+  "runtimeExceptions": [],
+  "infrastructureError": {
+    "message": "Expected values to be strictly equal:\n\n'foreign' !== 'guard'\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'foreign' !== 'guard'\n\n    at choose (file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase05/docs/03-engineering/ra3d-phase05-prototype/browser-test.mjs:23:324)\n    at async file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase05/docs/03-engineering/ra3d-phase05-prototype/browser-test.mjs:73:77"
+  }
+}

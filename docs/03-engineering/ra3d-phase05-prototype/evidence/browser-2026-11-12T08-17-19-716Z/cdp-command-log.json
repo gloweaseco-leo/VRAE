@@ -1,0 +1,5911 @@
+[
+  {
+    "method": "Browser.getVersion",
+    "params": {}
+  },
+  {
+    "method": "Target.createTarget",
+    "params": {
+      "url": "about:blank"
+    }
+  },
+  {
+    "method": "Target.attachToTarget",
+    "params": {
+      "targetId": "F64E6EA785DAE10C2BFD5F3FA7B807F9",
+      "flatten": true
+    }
+  },
+  {
+    "method": "Page.enable",
+    "params": {},
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.enable",
+    "params": {},
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Network.enable",
+    "params": {},
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Network.setBlockedURLs",
+    "params": {
+      "urls": [
+        "http://*",
+        "https://*",
+        "ws://*",
+        "wss://*",
+        "ftp://*"
+      ]
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Emulation.setDeviceMetricsOverride",
+    "params": {
+      "width": 1280,
+      "height": 1000,
+      "deviceScaleFactor": 1,
+      "mobile": false
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.navigate",
+    "params": {
+      "url": "file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase05/docs/03-engineering/ra3d-phase05-prototype/index.html"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.readyState==='complete'&&!!document.querySelector('#positive')",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.readyState==='complete'&&!!document.querySelector('#positive')",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.readyState==='complete'&&!!document.querySelector('#positive')",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.fonts.ready",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const b=document.querySelector('.private-bar'),r=b.getBoundingClientRect();return{width:innerWidth,scrollWidth:document.documentElement.scrollWidth,lang:document.documentElement.lang,banner:{text:b.innerText,minFontPx:Math.min(...[b,...b.querySelectorAll('*')].map(n=>parseFloat(getComputedStyle(n).fontSize))),top:r.top,bottom:r.bottom,height:innerHeight},targets:[...document.querySelectorAll('button,input,select,textarea,summary')].filter(e=>e.getBoundingClientRect().height>0).map(e=>({id:e.id,tag:e.tagName,height:e.getBoundingClientRect().height,width:e.getBoundingClientRect().width}))}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.documentElement.scrollHeight",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "innerWidth",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.captureScreenshot",
+    "params": {
+      "format": "png",
+      "captureBeyondViewport": true,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 2748,
+        "scale": 1
+      }
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#positive\").disabled && document.querySelector(\"#check-fact\").disabled",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 172.734375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 172.734375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#evidence-panel pre\").textContent===window.REVIEW_FIXTURE.source.quote && document.activeElement.id===\"evidence-panel\"",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#raw-source summary\");if(!e)throw Error('MISSING '+\"#raw-source summary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 954.9296875,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 954.9296875,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#raw-source pre\").textContent.includes(\"onerror\") && typeof window.PWNED===\"undefined\" && document.querySelectorAll(\"img,iframe\").length===0",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "innerHeight",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "innerWidth",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.captureScreenshot",
+    "params": {
+      "format": "png",
+      "captureBeyondViewport": false
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.activeElement.id===\"open-evidence\"",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Tab",
+      "windowsVirtualKeyCode": 9
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Tab",
+      "windowsVirtualKeyCode": 9
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.activeElement.id===\"check-fact\"",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": " ",
+      "code": "Space",
+      "windowsVirtualKeyCode": 32
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": " ",
+      "code": "Space",
+      "windowsVirtualKeyCode": 32
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#check-fact\").checked",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "({outline:getComputedStyle(document.activeElement).outlineStyle,width:getComputedStyle(document.activeElement).outlineWidth})",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\").disabled",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#positive\");if(!e)throw Error('MISSING '+\"#positive\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 170.5,
+      "y": 500.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 170.5,
+      "y": 500.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#confirmation\").open && !document.querySelector(\".result\") && document.activeElement.id===\"cancel-confirm\"",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#commit-simulation\");if(!e)throw Error('MISSING '+\"#commit-simulation\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 766.25,
+      "y": 677.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 766.25,
+      "y": 677.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\".result\").innerText.includes(\"模拟满足审核条件，未形成真实 APPROVE\") && document.querySelector(\".private-bar\").innerText.includes(\"NOT APPROVED\") && !document.querySelector(\"#positive\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.documentElement.scrollHeight",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "innerWidth",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.captureScreenshot",
+    "params": {
+      "format": "png",
+      "captureBeyondViewport": true,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 2662,
+        "scale": 1
+      }
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.reload",
+    "params": {},
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!!document.querySelector(\"#positive\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!!document.querySelector(\"#positive\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!!document.querySelector(\"#positive\") && document.querySelector(\"#positive\").disabled && !document.querySelector(\".result\") && !document.querySelector(\"#check-impact\").checked",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#request-changes\");if(!e)throw Error('MISSING '+\"#request-changes\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 235.4609375,
+      "y": 538.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 235.4609375,
+      "y": 538.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#confirmation\").open && document.querySelector(\"#live\").innerText.includes(\"请填写\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#review-note\");if(!e)throw Error('MISSING '+\"#review-note\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 381.9296875,
+      "y": 500.0625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 381.9296875,
+      "y": 500.0625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.insertText",
+    "params": {
+      "text": "<img src=\"https://invalid.example/reason\" onerror=\"window.PWNED=2\"> 请保留假设措辞"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#request-changes\");if(!e)throw Error('MISSING '+\"#request-changes\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 235.4609375,
+      "y": 538.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 235.4609375,
+      "y": 538.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#commit-simulation\");if(!e)throw Error('MISSING '+\"#commit-simulation\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 766.25,
+      "y": 707.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 766.25,
+      "y": 707.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\".result\").innerText.includes(\"模拟已退回修改\") && document.querySelector(\".result\").innerText.includes(\"onerror\") && !document.querySelector(\"img\") && !document.querySelector(\"#positive\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.documentElement.scrollHeight",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "innerWidth",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.captureScreenshot",
+    "params": {
+      "format": "png",
+      "captureBeyondViewport": true,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 2578,
+        "scale": 1
+      }
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#reset\");if(!e)throw Error('MISSING '+\"#reset\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 147,
+      "y": 925.6875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 147,
+      "y": 925.6875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#review-note\");if(!e)throw Error('MISSING '+\"#review-note\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 381.9296875,
+      "y": 500.0625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 381.9296875,
+      "y": 500.0625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.insertText",
+    "params": {
+      "text": "不适合本轮商务沟通，需补充上下文。"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#reject\");if(!e)throw Error('MISSING '+\"#reject\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 528.390625,
+      "y": 538.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 528.390625,
+      "y": 538.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#commit-simulation\");if(!e)throw Error('MISSING '+\"#commit-simulation\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 766.25,
+      "y": 694.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 766.25,
+      "y": 694.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\".result\").innerText.includes(\"模拟已拒绝\") && !document.querySelector(\"#positive\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"coverage\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"coverage\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 490.75,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 490.75,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const b=document.querySelector('.private-bar'),r=b.getBoundingClientRect();return{width:innerWidth,scrollWidth:document.documentElement.scrollWidth,lang:document.documentElement.lang,banner:{text:b.innerText,minFontPx:Math.min(...[b,...b.querySelectorAll('*')].map(n=>parseFloat(getComputedStyle(n).fontSize))),top:r.top,bottom:r.bottom,height:innerHeight},targets:[...document.querySelectorAll('button,input,select,textarea,summary')].filter(e=>e.getBoundingClientRect().height>0).map(e=>({id:e.id,tag:e.tagName,height:e.getBoundingClientRect().height,width:e.getBoundingClientRect().width}))}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\"#request-changes\") && document.querySelector(\"#review\").innerText.includes(\"native ReportVersion = null\") && document.querySelector(\"#ack-coverage\").disabled",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 191.078125,
+      "y": 500.25,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 191.078125,
+      "y": 500.25,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#evidence-panel\").innerText.includes(\"联系目标 200\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#ack-coverage\");if(!e)throw Error('MISSING '+\"#ack-coverage\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 208,
+      "y": 500.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 208,
+      "y": 500.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#commit-simulation\");if(!e)throw Error('MISSING '+\"#commit-simulation\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 766.25,
+      "y": 677.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 766.25,
+      "y": 677.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\".result\").innerText.includes(\"模拟范围已核对\") && !document.querySelector(\"#positive\") && document.querySelector(\"#review\").innerText.includes(\"native ReportVersion = null\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.documentElement.scrollHeight",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "innerWidth",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.captureScreenshot",
+    "params": {
+      "format": "png",
+      "captureBeyondViewport": true,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 2180,
+        "scale": 1
+      }
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 781.75,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 781.75,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#positive\");if(!e)throw Error('MISSING '+\"#positive\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 170.5,
+      "y": 500.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 170.5,
+      "y": 500.4375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#commit-simulation\");if(!e)throw Error('MISSING '+\"#commit-simulation\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 766.25,
+      "y": 677.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 766.25,
+      "y": 677.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#mutation-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#mutate\");if(!e)throw Error('MISSING '+\"#mutate\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#inspector\").innerText.includes(\"历史模拟结果\") && document.querySelector(\"#inspector\").innerText.includes(\"当前失效\") && !document.querySelector(\".result\") && !document.querySelector(\"#positive\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const b=document.querySelector('.private-bar'),r=b.getBoundingClientRect();return{width:innerWidth,scrollWidth:document.documentElement.scrollWidth,lang:document.documentElement.lang,banner:{text:b.innerText,minFontPx:Math.min(...[b,...b.querySelectorAll('*')].map(n=>parseFloat(getComputedStyle(n).fontSize))),top:r.top,bottom:r.bottom,height:innerHeight},targets:[...document.querySelectorAll('button,input,select,textarea,summary')].filter(e=>e.getBoundingClientRect().height>0).map(e=>({id:e.id,tag:e.tagName,height:e.getBoundingClientRect().height,width:e.getBoundingClientRect().width}))}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.documentElement.scrollHeight",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "innerWidth",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.captureScreenshot",
+    "params": {
+      "format": "png",
+      "captureBeyondViewport": true,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 2600,
+        "scale": 1
+      }
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-new-version\");if(!e)throw Error('MISSING '+\"#open-new-version\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 860.359375,
+      "y": 500.0625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 860.359375,
+      "y": 500.0625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#context\").innerText.includes(\"v2\") && document.querySelector(\"#positive\").disabled && !document.querySelector(\"#check-impact\").checked && document.querySelector(\"#check-fact\").disabled",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#mutation-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#mutate\");if(!e)throw Error('MISSING '+\"#mutate\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\".result\") && !document.querySelector(\"#check-fact:checked\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#mutation-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#mutate\");if(!e)throw Error('MISSING '+\"#mutate\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\".result\") && !document.querySelector(\"#check-fact:checked\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#mutation-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#mutate\");if(!e)throw Error('MISSING '+\"#mutate\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\".result\") && !document.querySelector(\"#check-fact:checked\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#mutation-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#mutate\");if(!e)throw Error('MISSING '+\"#mutate\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\".result\") && !document.querySelector(\"#check-fact:checked\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#mutation-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#mutate\");if(!e)throw Error('MISSING '+\"#mutate\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\".result\") && !document.querySelector(\"#check-fact:checked\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#mutation-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#mutate\");if(!e)throw Error('MISSING '+\"#mutate\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\".result\") && !document.querySelector(\"#check-fact:checked\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#mutation-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#mutation-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#mutate\");if(!e)throw Error('MISSING '+\"#mutate\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 800.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\".result\") && !document.querySelector(\"#check-fact:checked\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"stale\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"stale\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 774.25,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#open-evidence\");if(!e)throw Error('MISSING '+\"#open-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 165.234375,
+      "y": 499.5,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#return-issue\");if(!e)throw Error('MISSING '+\"#return-issue\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 802.59375,
+      "y": 499.75,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-fact\");if(!e)throw Error('MISSING '+\"#check-fact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-impact\");if(!e)throw Error('MISSING '+\"#check-impact\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 124.5,
+      "y": 499.875,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-action\");if(!e)throw Error('MISSING '+\"#check-action\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.125,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-verification\");if(!e)throw Error('MISSING '+\"#check-verification\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 500.375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-scope\");if(!e)throw Error('MISSING '+\"#check-scope\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-preview\");if(!e)throw Error('MISSING '+\"#check-preview\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#check-boundary\");if(!e)throw Error('MISSING '+\"#check-boundary\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 107.5,
+      "y": 499.5625,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"#missing-evidence\");if(!e)throw Error('MISSING '+\"#missing-evidence\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 939.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 939.359375,
+      "y": 500,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#positive\").disabled && document.querySelector(\"#check-fact\").disabled && document.querySelector(\"#evidence-panel\").innerText.includes(\"证据缺失\")",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const e=document.querySelector(\"[data-scenario=\\\"denied\\\"]\");if(!e)throw Error('MISSING '+\"[data-scenario=\\\"denied\\\"]\");e.scrollIntoView({block:'center'});const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mousePressed",
+      "x": 1057.75,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchMouseEvent",
+    "params": {
+      "type": "mouseReleased",
+      "x": 1057.75,
+      "y": 368.9375,
+      "button": "left",
+      "clickCount": 1
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "(()=>{const b=document.querySelector('.private-bar'),r=b.getBoundingClientRect();return{width:innerWidth,scrollWidth:document.documentElement.scrollWidth,lang:document.documentElement.lang,banner:{text:b.innerText,minFontPx:Math.min(...[b,...b.querySelectorAll('*')].map(n=>parseFloat(getComputedStyle(n).fontSize))),top:r.top,bottom:r.bottom,height:innerHeight},targets:[...document.querySelectorAll('button,input,select,textarea,summary')].filter(e=>e.getBoundingClientRect().height>0).map(e=>({id:e.id,tag:e.tagName,height:e.getBoundingClientRect().height,width:e.getBoundingClientRect().width}))}})()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\"#open-evidence\") && !document.querySelector(\"#context\").textContent && !document.querySelector(\"#review\").innerText.includes(window.REVIEW_FIXTURE.source.quote) && !document.querySelector(\"#review\").innerText.includes(window.REVIEW_FIXTURE.reportId) && !document.querySelector(\"#inspector\").innerText.includes(window.REVIEW_FIXTURE.source.sourceSha256)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "window.scrollTo(0,0)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.documentElement.scrollHeight",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "innerWidth",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Page.captureScreenshot",
+    "params": {
+      "format": "png",
+      "captureBeyondViewport": true,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 1165,
+        "scale": 1
+      }
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#denial-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#denial-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#denial-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "!document.querySelector(\"#positive\") && !document.querySelector(\"#open-evidence\") && !document.querySelector(\"#context\").textContent && !document.querySelector(\"#review\").innerText.includes(window.REVIEW_FIXTURE.source.quote) && !document.querySelector(\"#review\").innerText.includes(window.REVIEW_FIXTURE.reportId) && !document.querySelector(\"#inspector\").innerText.includes(window.REVIEW_FIXTURE.source.sourceSha256)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#denial-type\").focus()",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Home"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "[...document.querySelector(\"#denial-type\").options].map(o=>o.value)",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "ArrowDown"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyDown",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Input.dispatchKeyEvent",
+    "params": {
+      "type": "keyUp",
+      "key": "Enter"
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  },
+  {
+    "method": "Runtime.evaluate",
+    "params": {
+      "expression": "document.querySelector(\"#denial-type\").value",
+      "returnByValue": true,
+      "awaitPromise": true
+    },
+    "sessionId": "3F37509F6090FE6B8C9C12AF432DD324"
+  }
+]
