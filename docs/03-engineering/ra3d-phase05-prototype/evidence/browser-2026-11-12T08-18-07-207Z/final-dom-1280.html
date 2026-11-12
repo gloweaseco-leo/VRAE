@@ -1,0 +1,29 @@
+<html lang="zh-CN"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>VEYFRONT · 离线审核演练</title>
+  <link rel="stylesheet" href="workbench.css">
+  <script src="fixtures.js" defer=""></script>
+  <script src="workbench.js" defer=""></script>
+</head>
+<body>
+  <div class="private-bar"><strong>离线交互模拟 · 非真实审核/审批/分享</strong><span>PRIVATE · NOT APPROVED · 不可客户外发</span></div>
+  <header class="masthead"><div><a href="#workspace" class="brand">VEYFRONT<span>REVIEW STUDIO / 审核演练台</span></a></div><span class="badge">Phase 0.5 · 合成数据</span></header>
+  <main id="workspace">
+    <section class="intro"><div><p class="eyebrow">证据先行 / 判断有界</p><h1>让每一次判断，都能回到原文。</h1><p>逐项核对事实、保留假设边界，再决定这份材料是否需要修改。</p></div><div class="notice">没有登录身份、真实审批或持久记录。<br>所有操作仅在内存中；刷新页面即重置。</div></section>
+    <nav aria-label="固定合成场景" class="scenarios">
+      <button type="button" data-scenario="contact" aria-pressed="false"><span>01 / 来源核对</span><strong>一个 404 路径问题</strong></button>
+      <button type="button" data-scenario="coverage" aria-pressed="false"><span>02 / 范围确认</span><strong>零问题，不造报告</strong></button>
+      <button type="button" data-scenario="stale" aria-pressed="false"><span>03 / 变化阻断</span><strong>旧版本不能沿用</strong></button>
+      <button type="button" data-scenario="denied" aria-pressed="true"><span>04 / 访问边界</span><strong>拒绝访问与拒绝 Guard</strong></button>
+    </nav>
+    <div id="live" class="feedback warn" role="status" aria-live="polite">无权访问该审核内容。没有正向操作。</div>
+    <section id="context" aria-label="模拟版本上下文"></section>
+    <div class="work-grid"><section id="review" aria-label="逐项核对"><section class="card blocked"><h2>无权访问该审核内容</h2><p>这是固定的离线拒绝场景，不是真实租户鉴权。合成夹具随原型公开可读，UI 隐藏不能构成安全隔离。</p><p class="muted">拒绝视图不显示被拒任务的标题、id、租户、版本、hash 或 quote。</p><label class="field" for="denial-type">选择固定拒绝情形（非身份切换）</label><select id="denial-type"><option value="foreign">跨租户</option><option value="unassigned">未分配任务</option><option value="guard">Guard REJECTED</option></select><p class="notice">该陈述未通过来源校验。需移除或新版本重验；没有人工覆盖入口。</p></section></section><aside id="inspector" aria-label="原始证据与版本"><section class="card"><h2>受限内容未展示</h2></section></aside></div>
+    <section class="history"><h2>本次演练轨迹 <span>仅内存 / 非审计事件</span></h2><ol id="events"><li>01 · 打开固定合成场景；无真实主体或审批记录。</li><li>02 · 切换固定拒绝视图；不读取受限事实。</li><li>03 · 切换固定拒绝视图；不读取受限事实。</li><li>04 · 切换固定拒绝视图；不读取受限事实。</li><li>05 · 切换固定拒绝视图；不读取受限事实。</li></ol></section>
+    <footer><strong>Owner 后续分享：NOT IMPLEMENTED</strong><p>此原型没有分享、导出、发送或批准接口。浏览器摘要只演示内容变化，不能证明身份、可信来源或服务端权限。Human Gold 0/26；实际人工决定 0。</p><button type="button" id="reset">重置当前场景演练</button></footer>
+  </main>
+  <dialog id="confirmation" aria-labelledby="confirm-title"><h2 id="confirm-title">确认本次模拟操作</h2><div id="confirm-body"><p>合成任务 sim-report-contact-01 / v1</p><p>仅检查模拟前提；未形成真实 APPROVE。</p><pre>{"version":1,"source":"faa4e76ff478f4cd3f4a521e0ad4cf9c91cc16da8233343e4e3381ea924daa54","html":"illustrative-html-v1","citation":"sim-binding-404-01:[124,163)","tenant":"sim-tenant-a","guard":"SOURCE_FACT_BINDING_VERIFIED","summary":"1-source-bound-issue","footer":"private-not-approved","layout":"desktop-mobile-0.5.1"}</pre><p class="notice">没有真人签署、持久提交或 Owner 分享授权。</p></div><div class="actions"><button type="button" id="cancel-confirm">返回核对</button><button type="button" id="commit-simulation" class="primary">确认模拟，不产生真实决定</button></div></dialog>
+
+</body></html>
