@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Projects\VRAE\.worktrees\ra4a-p1-postgres-rls-queue\infra\ra4a\lab.py", line 247, in <module>
+    stop(args.output, args.startup_output)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\VRAE\.worktrees\ra4a-p1-postgres-rls-queue\infra\ra4a\lab.py", line 231, in stop
+    cleanup(s, output)
+    ~~~~~~~^^^^^^^^^^^
+  File "D:\Projects\VRAE\.worktrees\ra4a-p1-postgres-rls-queue\infra\ra4a\lab.py", line 123, in cleanup
+    assert all(r["absent_after"] and "error" not in r for r in results), "OWNED_CLEANUP_FAILED"
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OWNED_CLEANUP_FAILED

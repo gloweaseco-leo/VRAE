@@ -1,0 +1,237 @@
+"""Disposable dedicated-network PG16 lab; publish only host loopback."""
+
+import argparse
+import json
+from pathlib import Path
+import secrets
+import subprocess
+import tempfile
+import time
+import uuid
+
+HERE = Path(__file__).resolve().parent
+STATE = HERE / ".venv" / "lab-state.json"
+DIAGNOSTIC = None
+REDACTIONS = []
+
+
+def record(event, **values):
+    if DIAGNOSTIC is None:
+        return
+    def clean(value):
+        if isinstance(value, bytes):
+            value = value.decode('utf-8', errors='replace')
+        if isinstance(value, str):
+            for secret in REDACTIONS:
+                value = value.replace(secret, '[REDACTED]')
+            return value[-8000:]
+        return value
+    row = {'event': event, 'monotonic': time.monotonic(),
+           **{key: clean(value) for key, value in values.items()}}
+    with DIAGNOSTIC.open('a', encoding='utf-8') as stream:
+        stream.write(json.dumps(row) + '\n')
+
+
+def snapshot(ident):
+    # Deliberately query selected non-secret fields, never full inspect/Env.
+    for label, args in (
+        ('postgres_log_tail', ['logs', '--tail', '60', ident]),
+        ('container_state_image', ['inspect', '--format',
+         '{{json .State}} {{json .Image}} {{json .Config.Image}}', ident]),
+    ):
+        result = subprocess.run(['docker', *args], capture_output=True, timeout=15)
+        record(label, returncode=result.returncode, stdout=result.stdout, stderr=result.stderr)
+
+
+def docker(*args, data=None):
+    result = subprocess.run(["docker", *args], input=data, capture_output=True, timeout=30)
+    if result.returncode:
+        record('docker_failure', command=list(args), returncode=result.returncode,
+               stdout=result.stdout, stderr=result.stderr)
+    result.check_returncode()
+    return result.stdout.decode("utf-8")
+
+
+def start(output):
+    global DIAGNOSTIC
+    assert not STATE.exists(), "Existing owned lab: stop it explicitly first"
+    output.mkdir(parents=True, exist_ok=False)
+    DIAGNOSTIC = output / 'startup.jsonl'
+    ident = "vrae-ra4a-p1-" + uuid.uuid4().hex[:12]
+    image = (HERE / "image.txt").read_text().strip()
+    network = ident + "-local"
+    volume = ident + "-data"
+    password = secrets.token_urlsafe(32)
+    REDACTIONS.append(password)
+    record('owned_resources', container=ident, network=network, volume=volume, image=image)
+    docker("network", "create", "--label", "vrae.ra4a.p1=TEST_ONLY", network)
+    docker("volume", "create", "--label", "vrae.ra4a.p1=TEST_ONLY", volume)
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", delete=False) as cfg:
+            cfg.write(
+                "POSTGRES_PASSWORD=" + password + "\nPOSTGRES_DB=vrae_ra4a_p1\n"
+                "POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256\n"
+            )
+            cfg_path = Path(cfg.name)
+        try:
+            docker(
+                "run",
+                "-d",
+                "--name",
+                ident,
+                "--network",
+                network,
+                "--label",
+                "vrae.ra4a.p1=TEST_ONLY",
+                "--env-file",
+                str(cfg_path),
+                "-p",
+                "127.0.0.1::5432",
+                "--mount",
+                "type=volume,src=" + volume + ",dst=/var/lib/postgresql/data",
+                "--memory",
+                "512m",
+                "--cpus",
+                "1",
+                "--pids-limit",
+                "128",
+                image,
+            )
+        finally:
+            cfg_path.unlink()
+        for _ in range(80):
+            check = subprocess.run(
+                ["docker", "exec", ident, "pg_isready", "-U", "postgres", "-d", "vrae_ra4a_p1"],
+                capture_output=True,
+            )
+            record('pg_isready', returncode=check.returncode, stdout=check.stdout, stderr=check.stderr)
+            if check.returncode == 0:
+                break
+            time.sleep(0.25)
+        else:
+            raise RuntimeError("REAL_PG_BLOCKED")
+        port = int(docker("port", ident, "5432/tcp").strip().rsplit(":", 1)[1])
+        version = docker(
+            "exec",
+            ident,
+            "psql",
+            "-U",
+            "postgres",
+            "-d",
+            "vrae_ra4a_p1",
+            "-Atc",
+            "show server_version_num",
+        ).strip()
+        assert 160000 <= int(version) < 170000
+        STATE.parent.mkdir(parents=True, exist_ok=True)
+        STATE.write_text(
+            json.dumps(
+                {
+                    "container": ident,
+                    "network": network,
+                    "image": image,
+                    "data_volume": volume,
+                    "host": "127.0.0.1",
+                    "port": port,
+                    "dbname": "vrae_ra4a_p1",
+                    "admin_password": password,
+                    "server_version_num": version,
+                    "runtime_passwords": {
+                        n: secrets.token_urlsafe(24)
+                        for n in (
+                            "ra4a_test_a_app",
+                            "ra4a_test_b_app",
+                            "ra4a_test_a_worker",
+                            "ra4a_test_b_worker",
+                            "ra4a_test_unassigned",
+                        )
+                    },
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        print(
+            json.dumps(
+                {
+                    "container": ident,
+                    "network": network,
+                    "port": port,
+                    "image": image,
+                    "server_version_num": version,
+                    "loopback_publication_only": True,
+                    "kernel_egress_denial": False,
+                }
+            )
+        )
+    except BaseException:
+        snapshot(ident)
+        subprocess.run(["docker", "rm", "-f", ident], capture_output=True)
+        subprocess.run(["docker", "network", "rm", network], capture_output=True)
+        subprocess.run(["docker", "volume", "rm", volume], capture_output=True)
+        raise
+
+
+def stop(output):
+    s = json.loads(STATE.read_text())
+    assert s["container"].startswith("vrae-ra4a-p1-") and s["network"].endswith("-local")
+    output.mkdir(parents=True, exist_ok=True)
+    (output / "postgres.log").write_text(docker("logs", s["container"]), encoding="utf-8")
+    inspect = json.loads(docker("inspect", s["container"]))[0]
+    # Never export admin/runtime passwords or full environment.
+    (output / "lab-isolation.json").write_text(
+        json.dumps(
+            {
+                "container": s["container"],
+                "image": inspect["Image"],
+                "network": json.loads(docker("network", "inspect", s["network"]))[0]["Internal"],
+                "ports": inspect["NetworkSettings"]["Ports"],
+                "tmpfs": inspect["HostConfig"].get("Tmpfs", {}),
+                "mounts": inspect["Mounts"],
+            },
+            indent=2,
+        )
+    )
+    docker("rm", "-f", s["container"])
+    docker("network", "rm", s["network"])
+    if s.get("data_volume"):
+        assert s["data_volume"] == s["container"] + "-data"
+        assert (
+            json.loads(docker("volume", "inspect", s["data_volume"]))[0]["Labels"]["vrae.ra4a.p1"]
+            == "TEST_ONLY"
+        )
+        docker("volume", "rm", s["data_volume"])
+    for kind, name in [("container", s["container"]), ("network", s["network"])]:
+        p = subprocess.run(["docker", kind, "inspect", name], capture_output=True)
+        assert p.returncode != 0
+    if s.get("data_volume"):
+        assert (
+            subprocess.run(
+                ["docker", "volume", "inspect", s["data_volume"]], capture_output=True
+            ).returncode
+            != 0
+        )
+    (output / "teardown.json").write_text(
+        json.dumps(
+            {
+                "owned_container_removed": True,
+                "owned_network_removed": True,
+                "owned_volume_removed": bool(s.get("data_volume")),
+                "container": s["container"],
+                "network": s["network"],
+                "data_volume": s.get("data_volume"),
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    STATE.unlink()
+    print("OWNED_PG_CONTAINER_AND_NETWORK_REMOVED")
+
+
+if __name__ == "__main__":
+    p = argparse.ArgumentParser()
+    p.add_argument("action", choices=("start", "stop"))
+    p.add_argument("--output", type=Path, default=Path("docs/03-engineering/ra4a-p1/teardown"))
+    a = p.parse_args()
+    start(a.output) if a.action == "start" else stop(a.output)
