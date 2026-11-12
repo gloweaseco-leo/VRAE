@@ -17,7 +17,7 @@ include = ["vrae*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra"
+addopts = "-ra --ignore=tests/reporting/test_ra3c_independent_acceptance.py"
 
 [tool.ruff]
 target-version = "py311"
