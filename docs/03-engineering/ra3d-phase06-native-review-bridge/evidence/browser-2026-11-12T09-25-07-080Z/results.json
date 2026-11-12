@@ -1,0 +1,157 @@
+{
+  "status": "NOT_PASS",
+  "scope": "NATIVE_READONLY_SYNTHETIC_UI_NOT_PRODUCTION",
+  "runId": "2026-11-12T09-25-07-080Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.4",
+    "revision": "@f842f52ef39fd97b449eb27cff414bf05a98ddce",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75"
+  },
+  "chromiumExecutable": "C:/Users/liu/AppData/Local/ms-playwright/chromium-1248/chrome-win64/chrome.exe",
+  "chromiumArgs": [
+    "--headless=new",
+    "--disable-gpu",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "--disable-background-networking",
+    "--disable-component-update",
+    "--disable-sync",
+    "--disable-default-apps",
+    "--disable-extensions",
+    "--disable-domain-reliability",
+    "--disable-features=MediaRouter,OptimizationHints",
+    "--disable-crash-reporter",
+    "--proxy-server=http://127.0.0.1:9",
+    "--proxy-bypass-list=<-loopback>",
+    "--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE localhost",
+    "--remote-debugging-address=127.0.0.1",
+    "--remote-debugging-port=0",
+    "--user-data-dir=<run-profile>",
+    "--disk-cache-dir=<run-profile>/cache",
+    "about:blank"
+  ],
+  "inputs": {
+    "index.html": {
+      "sha256": "f964165755a11a8ff941d9de87232cbc66a70dd5815cde760cf9ee6d19284e52",
+      "bytes": 3344
+    },
+    "bridge.css": {
+      "sha256": "9f86bf5cbaa1c8ae1429cb6352aa64e1f9a1c1ca61b6e1e83897ab70e91ef728",
+      "bytes": 956
+    },
+    "bridge-fixture.js": {
+      "sha256": "e13a5296b68930da04ae45d37644799c0a35fb198ca5fae537fa4c221a230a12",
+      "bytes": 2040
+    },
+    "bridge-view.js": {
+      "sha256": "56fca1e578f2cb17565efdffe4470b4a4326bcb2b85e647ff8a7451fbeaf652b",
+      "bytes": 7167
+    },
+    "dossier-data.js": {
+      "sha256": "5e97f397da8965a8201cc83b4a958560003f3bde411c1ee07b2b5b5dc698c462",
+      "bytes": 105695
+    },
+    "browser-test.mjs": {
+      "sha256": "05558c6a1007332f28b7884dd744350162f795062e2747b11729d90f74b47669",
+      "bytes": 15905
+    }
+  },
+  "counts": {
+    "PASS": 4,
+    "FAIL": 1,
+    "ERROR": 1,
+    "SKIP": 0
+  },
+  "assertions": [
+    {
+      "id": "1280-404-layout",
+      "status": "PASS",
+      "observed": true,
+      "detail": {
+        "width": 1280,
+        "scrollWidth": 1265,
+        "lang": "zh-CN",
+        "banner": {
+          "text": "真实 RA3C 合成证据重放 / 离线只读演练\nPRIVATE · NOT APPROVED · 不可客户外发",
+          "minFont": 12,
+          "top": 0,
+          "bottom": 39.1875
+        },
+        "context": "联系路径 · 一个有来源支持的问题\n\nreport-ra3c-404 · tenant-test · 原生 v1 · 捕获 2026-11-10T12:00:00+00:00\n\nPRIVATE / NOT APPROVED"
+      },
+      "ui": {
+        "feedback": "先打开原始证据，再逐项核对。所有模拟不会保存。",
+        "events": "01 · 打开固定合成场景；无真实主体或审批记录。",
+        "focused": ""
+      }
+    },
+    {
+      "id": "1280-404-native-context",
+      "status": "PASS",
+      "observed": true,
+      "detail": {},
+      "ui": {
+        "feedback": "先打开原始证据，再逐项核对。所有模拟不会保存。",
+        "events": "01 · 打开固定合成场景；无真实主体或审批记录。",
+        "focused": ""
+      }
+    },
+    {
+      "id": "1280-404-fact-and-proposals",
+      "status": "PASS",
+      "observed": true,
+      "detail": {},
+      "ui": {
+        "feedback": "先打开原始证据，再逐项核对。所有模拟不会保存。",
+        "events": "01 · 打开固定合成场景；无真实主体或审批记录。",
+        "focused": ""
+      }
+    },
+    {
+      "id": "1280-initial-positive-disabled",
+      "status": "PASS",
+      "observed": true,
+      "detail": {},
+      "ui": {
+        "feedback": "先打开原始证据，再逐项核对。所有模拟不会保存。",
+        "events": "01 · 打开固定合成场景；无真实主体或审批记录。",
+        "focused": ""
+      }
+    },
+    {
+      "id": "1280-404-main-source-click",
+      "status": "FAIL",
+      "observed": false,
+      "detail": {},
+      "ui": {
+        "feedback": "原文已打开。查阅不等于核实商业解释，也不形成审批。",
+        "events": "01 · 打开固定合成场景；无真实主体或审批记录。\n02 · 打开原始证据：ev-3520a7b5a496709c7e415be1dd2d279dca03f71df59e1ef5d7ac3242aa94d9d5，UTF-8 [158, 177)；404 捕获。",
+        "focused": "evidence-panel"
+      }
+    },
+    {
+      "id": "execution-error",
+      "status": "ERROR",
+      "error": {
+        "message": "ASSERTION_FAILED_1280-404-main-source-click",
+        "stack": "Error: ASSERTION_FAILED_1280-404-main-source-click\n    at check (file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase06/docs/03-engineering/ra3d-phase06-native-review-bridge/browser-test.mjs:28:481)\n    at async file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase06/docs/03-engineering/ra3d-phase06-native-review-bridge/browser-test.mjs:58:7"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "native-404-1280.png",
+      "sha256": "672eeae38c344b288e4bb5623c73138ca482b37f06a6ecb991636055b02db73c",
+      "width": 1280,
+      "height": 5218
+    }
+  ],
+  "observedExternalPageRequests": [],
+  "runtimeExceptions": [],
+  "infrastructureError": {
+    "message": "ASSERTION_FAILED_1280-404-main-source-click",
+    "stack": "Error: ASSERTION_FAILED_1280-404-main-source-click\n    at check (file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase06/docs/03-engineering/ra3d-phase06-native-review-bridge/browser-test.mjs:28:481)\n    at async file:///D:/Projects/VRAE-Codex2/.worktrees/ra3d-phase06/docs/03-engineering/ra3d-phase06-native-review-bridge/browser-test.mjs:58:7"
+  }
+}
