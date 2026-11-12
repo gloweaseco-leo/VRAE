@@ -14,9 +14,9 @@ const head=git('rev-parse','HEAD').toString().trim();
 assert.equal(git('status','--porcelain','--untracked-files=all').toString(),'','DELIVERY_TREE_NOT_CLEAN');
 const entries=new Map(git('ls-tree','-r','--full-tree','HEAD').toString().trim().split('\n').map(l=>{const [meta,file]=l.split('\t');return[file,meta]}));
 for(const row of m.mainProtection.originalFiles)assert.equal(entries.get(row.file),row.mode_type_blob);
-assert.equal(m.mainProtection.originalFiles.length,1416);
+assert.equal(m.mainProtection.originalFiles.length,1611);
 for(const row of m.files){const blob=git('show',`${head}:${prefix}${row.file}`);assert.equal(sha(blob),row.sha256,`COMMITTED_BYTES_DIFFER ${row.file}`);assert.equal(blob.length,row.bytes);assert.equal(sha(await readFile(path.join(here,row.file))),row.sha256)}
 for(const row of m.sourceFiles){assert(row.matches_head_git_blob);assert.equal(sha(git('show',`${m.sourceCommit}:${prefix}${row.file}`)),row.sha256);assert.equal(sha(git('show',`${head}:${prefix}${row.file}`)),row.sha256)}
 const changed=git('diff','--name-status',m.acceptedMain,'HEAD','--',':/').toString().trim().split('\n');
 assert(changed.every(l=>l.startsWith('A\t'+prefix)),JSON.stringify(changed));
-console.log(JSON.stringify({status:'CLEAN_DELIVERY_VERIFIED',head,acceptedMain:m.acceptedMain,sourceCommit:m.sourceCommit,mainBlobsAndModesPreserved:1416,addedFilesOnlyInAuthorizedDirectory:changed.length,manifestFilesVerifiedAgainstGit: m.files.length,browserCounts:m.finalBrowserCounts,sourceMatchesFinalHead:true,cleanTree:true}));
+console.log(JSON.stringify({status:'CLEAN_DELIVERY_VERIFIED',head,acceptedMain:m.acceptedMain,sourceCommit:m.sourceCommit,mainBlobsAndModesPreserved:m.mainProtection.originalFiles.length,addedFilesOnlyInAuthorizedDirectory:changed.length,manifestFilesVerifiedAgainstGit: m.files.length,browserCounts:m.finalBrowserCounts,sourceMatchesFinalHead:true,cleanTree:true}));

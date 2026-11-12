@@ -15,7 +15,9 @@
 
 范围限制明确显示 403 / WAF / UNKNOWN 和未检查部分；没有把访问受限变成缺陷。所有四个场景使用新写的 `sim-*` 夹具；这些标签不是实际 RA-2、Guard 或 ReportVersion 的产出。
 
-输入基线是已验收 main `60dbe1e1acfc84ad0849e84f3abe3712ad8ebccd`。已完整阅读冻结 V1.1 产品纲领、总计划及已合并 Phase 0 六份设计，并补读采购商/运营旅程。[fixtures.json](fixtures.json) 保留各原始 Git 文档的精确 SHA-256。PR #47 的 `e2f9466f06bb3e7afbaf2e55575562d9d6fb453e` 仅以只读 pins 作为暂定兼容参考，未导入该分支、源码、报告 HTML 或 API；原先 Phase 0 的历史引用不改。
+开工基线是已验收 main `60dbe1e1acfc84ad0849e84f3abe3712ad8ebccd`。已完整阅读冻结 V1.1 产品纲领、总计划及已合并 Phase 0 六份设计，并补读采购商/运营旅程。[fixtures.json](fixtures.json) 保留当时原始 Git 文档的精确 SHA-256。开工时 PR #47 的 `e2f9466f06bb3e7afbaf2e55575562d9d6fb453e` 仅以只读 pins 作为暂定兼容参考，原型没有导入它的 API、报告 HTML 或生成器；原先 Phase 0 的历史引用不改。
+
+交付前 Owner 对 PR #47 发出 [FINAL PASS](https://github.com/gloweaseco-leo/VRAE/pull/47#issuecomment-6818626466) 并正式合并。随后本分支普通 merge 最新已验收 main **`61b88eb31d1dec668e7e05495b88fe2d8a5b25fe`**，无冲突。新 main 的 1611 个原始文件 blob/mode 全保留；原型六份浏览器输入字节不变，不因功能已合并而调用其 API 或解锁真实人审。PR #48 仍由 Codex-1 负责。
 
 入口和交付导航：
 

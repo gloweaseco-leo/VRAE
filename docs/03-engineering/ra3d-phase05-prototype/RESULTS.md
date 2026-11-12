@@ -44,6 +44,6 @@
 
 网络观测限于被测页面的 Network.requestWillBeSent，不声称测量操作系统所有后台流量。Chromium 禁止背景更新/扩展、黑洞代理与 DNS；页面另有 CSP 和 CDP blocklist。CDP loopback 连接只用于测试控制，没有应用 API 或服务端。本地 profile 是隔离测试浏览器的运行数据，被排除出交付；原型没有 local/sessionStorage、cookie、IndexedDB 或 Service Worker。
 
-[seal-evidence.mjs](seal-evidence.mjs) 逐一验证合成来源 SHA/quote 字节、全部截图 SHA、最终应用输入与浏览器固定值一致、JavaScript 语法，以及 main 原始 1416 文件 mode/type/blob 全保留。manifest 自身排除以避免循环哈希。最终 PR 精确 head 与 clean-tree 读取在 PR 描述中记录；不在自指文件中伪造最终提交 SHA。
+[seal-evidence.mjs](seal-evidence.mjs) 逐一验证合成来源 SHA/quote 字节、全部截图 SHA、最终应用输入与浏览器固定值一致、JavaScript 语法。最初保护开工 main 的 1416 个文件；Owner 合并 PR #47 后，普通 merge 最新已验收 `61b88eb31d1dec668e7e05495b88fe2d8a5b25fe`，扩展为 **1611 个 main 原始文件 mode/type/blob 全保留**。没有扩大原型权限或修改被测六份输入。manifest 自身排除以避免循环哈希。[audit-delivery.mjs](audit-delivery.mjs) 在最终提交后只读核对 clean-tree、全部清单文件的 Git 原始字节、代码 SHA 与最终 head 输入一致。最终 PR 精确 head 与实际 audit 输出在 PR 描述中记录；不在自指文件中伪造最终提交 SHA。
 
 GitHub CI 若触发，仅为未修改的 main/doc 回归；它不能认证 126 项独立本地 UI 结果，不能将 Phase 0 的未来 48 项标为已执行，更不能证明真实人审、事务、跨租户安全或客户可用性。实际 CI 链接、状态和精确 head 以 Draft PR 描述为准。

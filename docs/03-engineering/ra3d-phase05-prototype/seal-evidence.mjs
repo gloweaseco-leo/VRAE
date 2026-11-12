@@ -7,13 +7,13 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 const here=path.dirname(fileURLToPath(import.meta.url));
 const prefix='docs/03-engineering/ra3d-phase05-prototype/';
-const base='60dbe1e1acfc84ad0849e84f3abe3712ad8ebccd';
+const base='61b88eb31d1dec668e7e05495b88fe2d8a5b25fe';
 const git=(...args)=>execFileSync('git',args,{cwd:here,encoding:'utf8'}).trim();
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const head=git('rev-parse','HEAD');
 const tree=ref=>new Map(git('ls-tree','-r','--full-tree',ref).split('\n').filter(Boolean).map(line=>{const [meta,file]=line.split('\t');return[file,meta]}));
 const original=tree(base),current=tree('HEAD');
-assert.equal(original.size,1416,'EXPECTED_ACCEPTED_MAIN_FILE_COUNT');
+assert.equal(original.size,1611,'EXPECTED_ACCEPTED_MAIN_FILE_COUNT');
 const preserved=[];for(const [file,meta]of original){assert.equal(current.get(file),meta,`MAIN_BLOB_OR_MODE_CHANGED ${file}`);preserved.push({file,mode_type_blob:meta})}
 const changed=git('diff','--name-only',base,'--','.');
 assert(!changed.split('\n').filter(Boolean).some(p=>!p.startsWith(prefix)),changed);

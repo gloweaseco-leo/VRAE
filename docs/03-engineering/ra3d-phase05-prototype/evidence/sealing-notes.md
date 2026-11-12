@@ -11,3 +11,5 @@
 浏览器各轮的 ERROR、原始截图、断言、stderr 与网络/CDP 日志均保留。临时 `profile-*` 为工具运行数据且不属于 UI 状态，被 `.gitignore` 排除。没有删除或修改已有 main 工件。
 
 原始 Chromium stderr 为 CRLF，默认 `git diff --cached --check` 将 CR 判为行尾空白（exit 1）；为保留日志精确字节未裁剪。使用单次 `git -c core.whitespace=cr-at-eol diff --cached --check` 验证其余空白后 exit 0，未修改仓库配置或 CI。原始 stderr 中的 Chromium 启动/网络服务诊断仍保留；浏览器 PASS 限于实测页面交互、DOM 和请求观测，不声称浏览器进程无任何诊断信息。
+
+初始封存验证了开工 main `60dbe1e…` 的 1416 个文件。交付刷新时 Owner 已 FINAL PASS/合并 PR #47，main 为 `61b88eb31d1dec668e7e05495b88fe2d8a5b25fe`。本分支普通 merge，无冲突，随后将封存基线与固定文件数同步为 1611，逐个保留新 main 的 blob/mode；六份实际浏览器输入未变。旧基线封存和代码 SHA 在既有本分支提交中保留，没有重写历史或复用 PR #47 分支。
