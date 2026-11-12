@@ -1,0 +1,17 @@
+{
+  "oldFeature": "151cdac7d31580afac4c5624f675cb2915c2f5e2",
+  "file": "docs/03-engineering/ra3d-phase06-native-review-bridge/reviewer-p1/compat-170-plus.mjs",
+  "original_sha256": "dcfe682820d718776fbdb71ab9eb4f3432638797336293589cb3d5e3faa47a8f",
+  "executed_sha256": "ad68fbe3932409378a045b782367cbdfb04fc5a99409819d452ca31bb0e29b56",
+  "exact_reconstruction": true,
+  "replacements": [
+    [
+      "const own=path.dirname(fileURLToPath(import.meta.url));",
+      "const own=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');"
+    ],
+    [
+      "const out=path.join(own,'evidence',(baseline?'baseline-browser-':'reviewer-browser-')+runId);",
+      "const out=path.join(path.dirname(fileURLToPath(import.meta.url)),'evidence','browser-'+runId);"
+    ]
+  ]
+}
