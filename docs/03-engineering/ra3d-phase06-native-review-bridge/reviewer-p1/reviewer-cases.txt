@@ -1,0 +1,53 @@
+  // Added UX assertions run only on amended UI; no baseline 170 assertion is removed.
+  if(!baseline){
+    for(const width of [1280,375,320]){
+      const height=width===1280?1000:812;
+      const {targetId}=await call('Target.createTarget',{url:'about:blank'});({sessionId:sid}=await call('Target.attachToTarget',{targetId,flatten:true}));
+      await call('Page.enable',{},sid);await call('Runtime.enable',{},sid);await call('Network.enable',{},sid);
+      await call('Network.setBlockedURLs',{urls:['http://*','https://*','ws://*','wss://*','ftp://*']},sid);
+      await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<740},sid);
+      await call('Page.navigate',{url:pathToFileURL(path.join(here,'index.html')).href},sid);
+      for(let i=0;i<200;i++){if(await ev(`document.readyState==='complete'&&!!document.querySelector('#summary-evidence')`))break;await new Promise(r=>setTimeout(r,25))}
+      for(const c of ['404','200']){
+        if(c==='200')await scenario('coverage');
+        await ev('window.scrollTo(0,0)');
+        const snapshot=await ev(`(()=>{const s=document.querySelector('#reviewer-summary'),f=s.querySelector('.summary-fact'),p=document.querySelector('.private-bar'),r=p.getBoundingClientRect();return{width:innerWidth,scrollWidth:document.documentElement.scrollWidth,summaryTop:s.getBoundingClientRect().top,factTop:f.getBoundingClientRect().top,privacy:{top:r.top,bottom:r.bottom,font:Math.min(...[p,...p.querySelectorAll('*')].map(e=>parseFloat(getComputedStyle(e).fontSize)))},summary:s.innerText}})()`);
+        await check(`P1-${width}-${c}-first-screen`,snapshot.summaryTop<height&&snapshot.factTop<height&&snapshot.scrollWidth<=width&&snapshot.summary.includes('采购任务｜从产品页联系供应商'),snapshot);
+        await check(`P1-${width}-${c}-privacy`,snapshot.privacy.font>=12&&snapshot.privacy.top>=0&&snapshot.privacy.bottom<=height,snapshot.privacy);
+        await check(`P1-${width}-${c}-evidence-action-above-fold`,'document.querySelector("#summary-evidence").getBoundingClientRect().bottom<=innerHeight');
+        await check(`P1-${width}-${c}-reading-aid-marked`,`(()=>{const s=document.querySelector('[data-reading-aid]');return s.innerText.includes('中文阅读辅助 · 不是原生 Guard 陈述')&&!s.hasAttribute('data-binding-ref')&&s.innerText.includes('HTTP ${c}')})()`);
+        await check(`P1-${width}-${c}-visible-capture-record`,`(()=>{const s=document.querySelector('.review-record'),x=window.NATIVE_DOSSIERS['${c}'];return [x.source.sourceUrl,x.source.targetUrl,x.source.capturedAt,'HTTP ${c}'].every(v=>s.innerText.includes(v))&&s.getClientRects().length>0})()`);
+        await check(`P1-${width}-${c}-technical-default-closed`,'!document.querySelector("#native-details").open&&!document.querySelector("#source-disclosure").open');
+        await check(`P1-${width}-${c}-raw-hashes-not-default`,'!document.querySelector("#native-hashes pre").checkVisibility({contentVisibilityAuto:true,visibilityProperty:true})&&!document.querySelector("#native-hashes").open&&!document.querySelector("#native-details").open');
+        await check(`P1-${width}-${c}-native-count-unchanged`,`window.NATIVE_DOSSIERS['${c}'].shownClaims.length===document.querySelectorAll('.native-claim').length`);
+        if(c==='404')await check(`P1-${width}-exact-native-candidate-copy`,`(()=>{const i=window.NATIVE_DOSSIERS['404'].native_document.issues[0];return ['impact','action','recheck'].every(k=>document.querySelector('.summary-'+k+' p').textContent===i.proposals[k].text)&&document.querySelector('.summary-impact').innerText.includes('假设')&&document.querySelector('.summary-action').innerText.includes('候选')})()`);
+        else await check(`P1-${width}-zero-scope-caveats`,'document.querySelector(".zero-caveat").innerText.includes("不代表全站健康")&&document.querySelector(".zero-caveat").innerText.includes("不证明表单有效或邮件送达")&&document.querySelector(".zero-caveat").innerText.includes("null")&&!document.querySelector("#positive")');
+        await check(`P1-${width}-${c}-unknown-limit`,'document.querySelector(".reviewer-limits").innerText.includes("UNKNOWN")&&document.querySelector(".reviewer-limits").innerText.includes("未验证表单提交")');
+        await screenshot(`P1-first-viewport-${c}-${width}.png`,false);
+        const before=await ev(`JSON.stringify(window.NATIVE_DOSSIERS['${c}'])`);
+        await click('#summary-evidence');
+        await check(`P1-${width}-${c}-summary-original-source`,`document.querySelector('#source-disclosure').open&&document.querySelector('#evidence-panel > pre').textContent===window.NATIVE_DOSSIERS['${c}'].source.quote`);
+        await click('#return-issue');
+        await check(`P1-${width}-${c}-return-to-summary`,'document.activeElement.id==="summary-evidence"&&!document.querySelector("#source-disclosure").open');
+        await check(`P1-${width}-${c}-no-auto-checks`,'[...document.querySelectorAll("#review input[type=checkbox],.native-ack")].every(i=>!i.checked)');
+        await check(`P1-${width}-${c}-all-preconditions-still-blocked`,c==='404'?'document.querySelector("#positive").disabled':'document.querySelector("#ack-coverage").disabled');
+        await ev('document.querySelector("#summary-evidence").focus()');
+        await key('Enter',{code:'Enter',windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,text:'\r',unmodifiedText:'\r'});
+        await check(`P1-${width}-${c}-keyboard-evidence`,'document.querySelector("#source-disclosure").open&&document.activeElement.id==="evidence-panel"');
+        await click('#return-issue');
+        const focus=await ev('({style:getComputedStyle(document.activeElement).outlineStyle,width:getComputedStyle(document.activeElement).outlineWidth})');
+        await check(`P1-${width}-${c}-visible-focus`,focus.style!=='none'&&parseFloat(focus.width)>=3,focus);
+        const targets=await ev('[...document.querySelectorAll("#summary-evidence,.reviewer-actions button,.technical-panel>summary")].map(e=>({id:e.id,height:e.getBoundingClientRect().height}))');
+        await check(`P1-${width}-${c}-touch-targets`,targets.every(t=>t.height>=44),targets);
+        await click('#native-details > summary');await click('#native-hashes > summary');
+        await check(`P1-${width}-${c}-full-evidence-expandable`,`(()=>{const d=window.NATIVE_DOSSIERS['${c}'].native_document,t=document.querySelector('#native-hashes').innerText;return document.querySelector('#native-details').open&&[d.draft_ref,d.html_sha256,d.editorial_content_sha256,d.renderer_asset_sha256,...d.pins.expected_guard_refs].every(v=>t.includes(v))})()`);
+        await ev('document.querySelector("#native-hashes").scrollIntoView({block:"start"})');
+        const shot=await call('Page.captureScreenshot',{format:'png'},sid);const bytes=Buffer.from(shot.data,'base64'),file=`P1-expanded-technical-${c}-${width}.png`;await writeFile(path.join(out,file),bytes);shots.push({file,sha256:sha(bytes),width,height});
+        await check(`P1-${width}-${c}-native-dossier-immutable`,await ev(`JSON.stringify(window.NATIVE_DOSSIERS['${c}'])===${JSON.stringify(before)}`));
+        await check(`P1-${width}-${c}-no-active-delivery`,'![...document.querySelectorAll("button,a")].some(e=>/分享|导出|发送/.test(e.textContent))');
+      }
+      await call('Page.reload',{},sid);for(let i=0;i<200;i++){if(await ev('!!document.querySelector("#summary-evidence")'))break;await new Promise(r=>setTimeout(r,25))}
+      await check(`P1-${width}-refresh-resets`,'!document.querySelector(".result")&&document.querySelector("#positive").disabled&&[...document.querySelectorAll(".native-ack")].every(i=>!i.checked)&&!document.querySelector("#native-details").open');
+      await call('Target.closeTarget',{targetId});sid=null;
+    }
+  }
