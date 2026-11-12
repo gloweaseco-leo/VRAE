@@ -6,6 +6,7 @@ COPY requirements-ra1a.lock ./
 RUN python -m pip install --no-cache-dir -r requirements-ra1a.lock
 COPY pyproject.toml ./
 COPY vrae ./vrae
+COPY apps/operator_console ./apps/operator_console
 COPY contracts ./contracts
 COPY industry-packs ./industry-packs
 COPY tests ./tests
