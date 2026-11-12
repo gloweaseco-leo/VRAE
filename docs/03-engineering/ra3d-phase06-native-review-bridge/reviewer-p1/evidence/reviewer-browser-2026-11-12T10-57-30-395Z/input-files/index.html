@@ -1,0 +1,28 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; frame-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>VEYFRONT · 采购商联系路径审核</title>
+<link rel="stylesheet" href="../ra3d-phase05-prototype/workbench.css"><link rel="stylesheet" href="bridge.css">
+<script src="dossier-data.js" defer></script><script src="bridge-fixture.js" defer></script>
+<script src="../ra3d-phase05-prototype/workbench.js" defer></script><script src="bridge-view.js" defer></script>
+</head><body>
+<div class="private-bar"><strong>真实 RA3C 合成证据重放 / 离线只读演练</strong><span>PRIVATE · NOT APPROVED · 不可客户外发</span></div>
+<header class="masthead reviewer-masthead"><a href="#workspace" class="brand">VEYFRONT<span>采购商体验 · 内部审核演练</span></a><span class="badge">合成资料 · 只读</span></header>
+<main id="workspace">
+<section class="intro reviewer-intro"><div><h1>先看采购商遇到什么，再核对原文。</h1><p>内部只读演练；没有真实审批，刷新即清空。</p></div></section>
+<nav class="scenarios" aria-label="固定原生合成 dossier">
+<button type="button" data-scenario="contact" aria-pressed="true"><span>01 / 联系目标 404</span><strong>1 项可复核问题</strong></button>
+<button type="button" data-scenario="coverage" aria-pressed="false"><span>02 / 联系目标 200</span><strong>0 项问题，仅核对范围</strong></button>
+</nav>
+<section id="reviewer-summary" aria-label="中文业务审核摘要"></section>
+<div id="live" class="feedback" role="status" aria-live="polite">等待只读原生数据校验。</div>
+<section id="context" aria-label="原生版本上下文"></section>
+<h2 class="review-section-title">逐项核对 · 保留原生表述与七项确认</h2>
+<div class="work-grid"><section id="review" aria-label="原生逐项核对"></section><aside><details id="source-disclosure" class="technical-panel"><summary>查看原始证据与精确定位</summary><div id="inspector" aria-label="原生来源与定位"></div></details></aside></div>
+<details id="native-details" class="technical-panel"><summary>全部原生陈述与逐条确认 · Guard / 完整哈希 / 原始 HTML</summary><section id="native-dossier" class="card" aria-label="完整原生内容绑定"></section></details>
+<section class="history"><h2>本次演练轨迹 <span>仅内存 / 非审批或审计事件</span></h2><ol id="events"></ol></section>
+<footer><strong>Owner 分享：NOT IMPLEMENTED · 实际人工决定 0</strong><p>此静态包仅用于内部合成演练。SHA 与来源重放不证明身份或真实性；没有发送、导出、分享、认证、数据库或客户访问。Human Gold 0/26。</p><button type="button" id="reset">重置当前场景演练</button></footer>
+</main>
+<dialog id="confirmation" aria-labelledby="confirm-title"><h2 id="confirm-title">确认本次内存演练</h2><div id="confirm-body"></div><div class="actions"><button type="button" id="cancel-confirm">返回核对</button><button type="button" id="commit-simulation" class="primary">确认演练，不产生真实决定</button></div></dialog>
+<dialog id="native-source-dialog" aria-labelledby="source-title"><p class="native-dialog-label">离线只读演练 · NOT APPROVED · 不可客户外发</p><h2 id="source-title" tabindex="-1">已保留原文 / 精确字节</h2><div id="native-source-content"></div><button type="button" id="close-native-source">返回这条陈述</button></dialog>
+</body></html>

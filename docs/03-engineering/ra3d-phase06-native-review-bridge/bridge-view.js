@@ -2,7 +2,7 @@
 'use strict';
 (() => {
   const $=s=>document.querySelector(s),node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
-  const data=window.NATIVE_DOSSIERS,acks=new Set();let activeCase='',returnFocus=null;
+  const data=window.NATIVE_DOSSIERS,acks=new Set();let activeCase='',returnFocus=null,summaryCase='',summaryOrigin=false;
   const which=()=>document.querySelector('[data-scenario][aria-pressed="true"]').dataset.scenario==='coverage'?'200':'404';
   const decode=s=>{const b=Uint8Array.from(atob(s.bodyBase64),c=>c.charCodeAt(0));const quote=new TextDecoder('utf-8',{fatal:true}).decode(b.slice(...s.byteRange));if(quote!==s.quote)throw Error('BRIDGE_QUOTE_MISMATCH');return{quote,body:new TextDecoder('utf-8',{fatal:true}).decode(b)}};
   function details(x){const d=x.native_document;return{report_id:d.metadata.report_id,version:d.metadata.version,scope:d.scope,
@@ -19,9 +19,28 @@
     const full=node('details');full.append(node('summary','完整已保留原文（惰性文本）'),node('pre',r.body));c.append(full);
     returnFocus=button;$('#native-source-dialog').showModal();$('#native-source-dialog').scrollTop=0;$('#source-title').focus({preventScroll:true});
     const li=node('li',`只读查阅原生 ${item.claim.binding_ref} / UTF-8 [${item.source.byteRange.join(', ')})`);$('#events').append(li)}
+  function reviewerSummary(c,x){
+    if(summaryCase===c&&$('#reviewer-summary').firstChild)return;
+    summaryCase=c;const d=x.native_document,issue=d.issues[0],box=$('#reviewer-summary');box.replaceChildren();
+    const card=node('article',undefined,'reviewer-card');
+    const heading=node('div',undefined,'reviewer-heading');heading.append(node('p','采购任务｜从产品页联系供应商','buyer-task'),node('span',`第 ${d.metadata.version} 版 · 未批准`,'pill'));
+    card.append(heading,node('h2',c==='404'?'联系目标返回 404，需核对联系路径':'0 项可报告问题，先确认本次检查范围'));
+    const aid=node('div',undefined,'reading-aid');aid.dataset.readingAid='true';
+    aid.append(node('p','中文阅读辅助 · 不是原生 Guard 陈述','aid-label'),node('p',`本次合成捕获中，产品页链接 ${x.source.href} 的目标返回 HTTP ${x.source.targetHttp}。`, 'summary-fact'));card.append(aid);
+    if(issue){
+      const grid=node('div',undefined,'reviewer-copy');
+      for(const [role,title,key]of [['impact','可能影响 · 假设','impact'],['action','建议动作 · 候选','action'],['recheck','如何复验 · 候选','recheck']]){
+        const part=node('section',undefined,'summary-'+role);part.append(node('h3',title),node('p',issue.proposals[key].text));part.dataset.nativePointer='/issues/0/proposals/'+key;grid.append(part)}card.append(grid);
+    }else card.append(node('p','0 项问题不代表全站健康，也不证明表单有效或邮件送达。没有生成正式报告版本（native ReportVersion = null），只能内部核对范围。','zero-caveat'));
+    const limits=node('p','范围限制｜仅本次保留的静态页面与响应。UNKNOWN 和未检查部分仍未知；未验证表单提交、送达或真实采购行为。','reviewer-limits');card.append(limits);
+    const record=node('dl',undefined,'review-record');for(const [key,value]of [['产品页',x.source.sourceUrl],['联系目标',`${x.source.targetUrl} · HTTP ${x.source.targetHttp}`],['原始捕获时间',x.source.capturedAt]])record.append(node('dt',key),node('dd',value));card.append(record);
+    const actions=node('div',undefined,'reviewer-actions');const evidence=node('button','核对这条联系路径的原始证据 ↗','primary');evidence.id='summary-evidence';evidence.type='button';evidence.addEventListener('click',()=>{summaryOrigin=true;$('#source-disclosure').open=true;$('#open-evidence').click()});
+    const checks=node('button','进入逐项核对');checks.id='summary-checks';checks.type='button';checks.addEventListener('click',()=>{const h=$('#review h2');h.tabIndex=-1;h.focus();h.scrollIntoView({block:'start'})});actions.append(checks);card.append(actions,node('p','仍须完成七项核对与全部原生陈述确认；任何内存演练都不是批准或分享。','reviewer-next'));evidence.classList.add('summary-evidence-action');aid.after(evidence);box.append(card);
+  }
   function sync(){
     const c=which(),x=data[c],d=x.native_document;
     if(!$('#context').textContent)return;
+    reviewerSummary(c,x);
     // Correct fixed illustrative labels while retaining all native content verbatim.
     $('#context p').textContent=`${d.metadata.report_id} · ${d.scope.tenant_id} · 原生 v${d.metadata.version} · 捕获 ${x.source.capturedAt}`;
     const result=$('.result p');if(result?.textContent.includes('没有真实决定、原生报告或分享授权'))result.textContent=`原生 native_report_version ${d.native_report_version?'保持 REVIEW_REQUIRED':'保持 null'}，原始内容和 NOT_APPROVED 不变；未产生新的报告版本、真实审批或分享授权。`;
@@ -50,7 +69,12 @@
   function syncPositive(){const b=$('#positive')||$('#ack-coverage');if(!b)return;const c=which();const complete=[...document.querySelectorAll('#review input[type=checkbox]')].every(i=>i.checked)&&!!$('#return-issue')&&data[c].shownClaims.every((_,i)=>acks.has(c+':'+i));b.disabled=!complete;}
   new MutationObserver(sync).observe($('#context'),{childList:true});
   document.addEventListener('change',()=>queueMicrotask(syncPositive));
-  document.addEventListener('click',event=>{if(event.target.closest('[data-scenario],#reset')){acks.clear();activeCase='';}queueMicrotask(syncPositive)},true);
+  document.addEventListener('click',event=>{
+    if(event.target.closest('[data-scenario],#reset')){acks.clear();activeCase='';summaryCase='';summaryOrigin=false;$('#source-disclosure').open=false;$('#native-details').open=false;}
+    if(event.target.closest('#open-evidence'))$('#source-disclosure').open=true;
+    queueMicrotask(syncPositive)
+  },true);
+  document.addEventListener('click',event=>{if(event.target.closest('#return-issue')){$('#source-disclosure').open=false;if(summaryOrigin){summaryOrigin=false;$('#summary-evidence').focus();$('#summary-evidence').scrollIntoView({block:'center'})}}});
   $('#close-native-source').addEventListener('click',()=>{$('#native-source-dialog').close();returnFocus?.focus()});
   sync();
 })();
