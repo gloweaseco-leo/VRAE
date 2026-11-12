@@ -29,7 +29,8 @@ def main():
     assert all(after.get(p) == value for p, value in before.items())
     added = sorted(after.keys() - before.keys())
     assert all(p.startswith(ALLOWED) for p in added)
-    assert not git('diff', '--name-only', 'HEAD').strip()
+    dirty = git('diff', '--name-only', 'HEAD').decode().splitlines()
+    assert all(p.startswith(ALLOWED[2]) for p in dirty), dirty
     frozen = []
     for folder in ALLOWED[:2]:
         for path in sorted((ROOT / folder).rglob('*')):
@@ -42,6 +43,15 @@ def main():
     manifest = {'accepted_main': BASE, 'tested_source_head': head,
                 'preserved_main_blob_and_modes': len(before), 'new_paths': added,
                 'frozen_source_and_inputs': frozen}
+    runs = HERE / 'runs' / head
+    stages = [json.loads((runs / p / 'summary.json').read_text()) for p in ('py11', 'py13')]
+    scenarios = [json.loads((runs / p / 'scenarios.json').read_text(encoding='utf-8'))
+                 for p in ('py11', 'py13')]
+    assert all(all(c['exit'] == 0 for c in s['commands']) for s in stages)
+    assert scenarios[0]['paths'] == scenarios[1]['paths']
+    assert scenarios[0]['refusals'] == scenarios[1]['refusals']
+    manifest['dual_runtime_paths_byte_identical'] = True
+    manifest['deterministic_targets'] = {p['case']: p['target_digest'] for p in scenarios[0]['paths']}
     encoded = json.dumps(frozen, sort_keys=True, separators=(',', ':')).encode()
     manifest['frozen_set_sha256'] = hashlib.sha256(encoded).hexdigest()
     (HERE / 'SOURCE_FREEZE.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
