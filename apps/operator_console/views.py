@@ -106,6 +106,7 @@ def review(prefix, task, dossier):
             positives += '<li>'+e(ev['claim']['text'])+link(evidence_base+str(i)+'?'+query,'回查来源',key='positive-evidence')+'</li>'
     content = ('<p class="eyebrow">READ-ONLY REVIEW / 原生报告只读核对</p>'+badge(task)
         +f'<h1>采购商能否从产品页找到联系路径？</h1><p class="lead">{len(d["issues"])} 条来源支持的问题 · 版本 {e(task["report_version"])} · 不记录审批</p>'
+        +target_summary(prefix,task,dossier)
         +blocks+'<section class="card"><h2>已采集的其他静态线索</h2><p>网站自述仅证明来源存在该文字，不证明认证、资质或商业效果真实。</p><ul>'+positives+'</ul></section>'
         '<section class="notice"><h2>覆盖边界</h2><p>只涉及固定合成采集的静态链接与响应；没有表单提交、投递、流量、排名、收入或销售损失验证。未覆盖规则不等于通过。</p></section>'
         '<details><summary>展开原生完整报告 / Guard / 内容与 HTML 哈希</summary>'+dump(d)+dump(dossier['held'])+'</details>'
@@ -113,7 +114,7 @@ def review(prefix, task, dossier):
     return frame(prefix, '只读核对',content,'原生报告')
 
 
-def evidence(prefix, task, dossier, ev):
+def evidence(prefix, task, dossier, ev, *, target_mode=False):
     c = ev['citation']
     content = ('<p class="eyebrow">NATIVE EVIDENCE / 原始证据回查</p><h1>回到原始采集片段</h1>'
         '<p>下列 URL 仅作为来源文字展示，页面不会连接原网站。原始内容始终以转义文本呈现。</p>'
@@ -125,7 +126,7 @@ def evidence(prefix, task, dossier, ev):
         '<details><summary>完整原始来源字节（UTF-8 文本）与校验</summary>'
         f'<p>SHA-256 <code>{e(ev["body_sha256"])}</code></p><pre>{e(ev["body"])}</pre></details>'
         '<details><summary>完整 Claim、来源定位、响应与版本绑定</summary>'+dump(ev['claim'])+dump(ev['evidence'])+dump(dossier['held'])+'</details></section>'
-        +link(review_url(prefix,task),'返回只读核对区',key='back-review'))
+        +source_return(prefix,task,dossier,target_mode))
     return frame(prefix,'原始证据',content,'来源回查')
 
 
@@ -134,7 +135,7 @@ def error(prefix, code):
         f'<p>{e(code)}</p><p>未验证、越界、版本或来源不一致的请求会停止显示报告。请由内部负责人核对任务上下文。</p></section>')
 
 
-def capture(prefix, task, dossier):
+def capture(prefix, task, dossier, *, target_mode=False):
     s = dossier['capture_source']
     c = s['citation']
     row = dossier['contact_capture']
@@ -147,5 +148,55 @@ def capture(prefix, task, dossier):
         '<p>URL 仅为文字，不连接原网站。完整原文保留，引用位置以原生行列定位为准。</p>'
         '<details><summary>展开完整原始来源</summary>'+f'<pre>{e(s["body"])}</pre><p>SHA-256 <code>{e(s["body_sha256"])}</code></p></details>'
         '<details><summary>原生定位、目标响应与报告版本 / 哈希</summary>'+dump(row)+dump(s['evidence'])+dump(dossier['held'])+'</details></section>'
-        +link(review_url(prefix,task),'返回只读核对区',key='back-review'))
+        +source_return(prefix,task,dossier,target_mode))
     return frame(prefix,'静态路径来源',content,'来源回查')
+
+
+def target_url(prefix, task, dossier):
+    return review_url(prefix,task).replace('/review?','/target?')+'&'+urlencode({
+        'target':dossier['review_target']['target_digest']})
+
+
+def source_return(prefix, task, dossier, target_mode):
+    if target_mode:
+        return link(target_url(prefix,task,dossier),'返回精确核对对象',key='back-target')
+    return link(review_url(prefix,task),'返回只读核对区',key='back-review')
+
+
+def target_summary(prefix, task, dossier):
+    v=dossier['review_target']
+    note='1 条静态路径问题；影响及行动仍待人工判断。' if v['native_h0'] else '0 条问题 · native H0 = null；仅内部范围摘要，不能升级为已审核报告。'
+    return ('<section class="card" id="target-summary"><h2>精确核对对象</h2>'
+        '<p class="neutral">审核条件尚未满足 · 已绑定来源，不代表真实人工批准。</p>'
+        f'<p>{e(note)}</p><p>对象指纹 <code>{e(v["target_digest"][:12])}…</code></p>'
+        +link(target_url(prefix,task,dossier),'查看完整核对对象与逐条来源',key='target')+'</section>')
+
+
+def target(prefix, task, dossier):
+    v=dossier['review_target']
+    t=v['target']
+    query=urlencode({'version':task['report_version'],'draft':t['draft_ref'],'target':v['target_digest']})
+    source_base=prefix+'tasks/'+task['task_id']+'/evidence/'
+    labels={'ACK_LITERAL_FACT':'仅核对字面来源事实 · 不证明企业或资质真实',
+            'ACCEPT_AS_HYPOTHESIS':'HUMAN_REVIEW_REQUIRED · 仅假设，不升级为事实',
+            'ACCEPT_AS_PROPOSED_ACTION':'HUMAN_REVIEW_REQUIRED · 仅候选行动，未批准'}
+    rows=''
+    for i,claim in enumerate(t['claims']):
+        # Accepted native manifest pointer, not a parallel set of claims.
+        ev=next(ev for ev in dossier['evidence'] if ev['pointer']==claim['document_pointer'])
+        index=dossier['evidence'].index(ev)
+        rows+=(f'<li><h3>{e(labels[claim["allowed_acceptance"]])}</h3>'
+               f'<p>{e(ev["claim"]["text"])}</p><small>{e(claim["document_pointer"])}</small>'
+               +link(source_base+str(index)+'?'+query,'回查该项的精确原始字节',key='target-source')+'</li>')
+    coverage=('<p>404 单问题；native H0 已保留，完整内容与 HTML、布局资产、来源和策略一起绑定。</p>'
+              if v['native_h0'] else '<p>200 零问题；native H0 = null，native ReportVersion = null。仅内部覆盖核对，不证明询盘成功或网站全面健康。</p>')
+    content=('<p class="eyebrow">SOURCE-BOUND TARGET / 只读</p><h1>精确核对对象</h1>'
+        '<section class="notice"><h2>审核条件尚未满足</h2><p>这是已验收离线 D1/D2 对象的来源核验，不是审核会话、决定或分享授权。</p>'
+        +coverage+'<ul>'+''.join('<li>'+e(c)+'</li>' for c in v['missing_conditions'])+'</ul></section>'
+        '<section class="card"><h2>逐项事实与条件性提议</h2><p>下列处置类型只是原生允许的语义上限；没有任何项目被人工接受或批准。网站文字仍仅是网站自述。</p><ol>'+rows+'</ol>'
+        +link(source_base+'capture?'+query,'回查静态联系路径记录（不补造 CTA Guard）',key='target-capture')+'</section>'
+        '<details id="target-pins"><summary>完整 target digest、H0 / null、HTML / 布局 / 来源 / 策略 / Guard 绑定</summary>'
+        +f'<p>Target digest <code>{e(v["target_digest"])}</code></p>'+dump(v)+'</details>'
+        '<details id="target-limits"><summary>完整原生覆盖与限制</summary>'+dump(v['limitations'])+dump(v['recorded_coverage'])+dump(v['examined_pages'])+'</details>'
+        +link(review_url(prefix,task),'返回原生只读核对区',key='target-back-review'))
+    return frame(prefix,'精确核对对象',content,'核对对象')
