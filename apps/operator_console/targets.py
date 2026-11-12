@@ -39,6 +39,13 @@ class ReviewTargetBridge:
         return SyntheticTrust(self._pins['authority'],canonical(row['held']),
                               canonical(row['policy']),row['artifact_ref'])
 
+    def verify_assignment(self, task):
+        held=self._pins['assigned_tasks'].get(task['task_id'])
+        if (held is None or task['report_case']!=held['case']
+                or task['owner_scope']!=held['owner_scope']):
+            refuse('SOURCE_INTEGRITY')
+        return held['case']
+
     def _projection(self, task, target, document):
         t=target.document
         if (task['source_kind']!=TEST_ONLY or task['audit_run']['tenant_id']!=t['tenant_id']
@@ -58,7 +65,8 @@ class ReviewTargetBridge:
 
     def prepare(self, task, document, html, source):
         try:
-            target=build_target(document,html,source,trust=self._trust(task['report_case']))
+            case=self.verify_assignment(task)
+            target=build_target(document,html,source,trust=self._trust(case))
             projection=self._projection(task,target,document)
             return self.load(task,canonical(projection),document,html,source)
         except ConsoleError:
@@ -73,10 +81,11 @@ class ReviewTargetBridge:
         not trusted. Original held target, policy and object pins remain outside it.
         """
         try:
+            case=self.verify_assignment(task)
             value=parse(payload)
             target=validate_target(ReviewTarget(canonical(value['target'])),document,html,source,
-                                   trust=self._trust(task['report_case']))
-            row=self._held(task['report_case'])
+                                   trust=self._trust(case))
+            row=self._held(case)
             if target.target_digest!=row['expected_target_digest'] or target.document!=row['expected_target']:
                 refuse('SOURCE_INTEGRITY')
             expected=self._projection(task,target,document)

@@ -51,6 +51,7 @@ class ConsoleService:
             refuse('NOT_READY')
         if type(version) is not int or version != task['report_version'] or draft_ref != task['report_pins']['expected_draft_ref']:
             refuse('STALE_VERSION')
+        self.targets.verify_assignment(task)
         source = self.repository.report_source(task['report_case'])
         dossier = self.native.prepare(task['report_case'], source)
         d = dossier['document']

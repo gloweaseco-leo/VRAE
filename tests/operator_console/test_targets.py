@@ -190,6 +190,16 @@ def test_zero_finding_cannot_escalate_or_cross_case(samples):
         wording[field]='全站 PASS，真实资质及询盘效果已验证，可对客户开放'
         with pytest.raises(ConsoleError,match='SOURCE_INTEGRITY'):
             ReviewTargetBridge().load(t,dcanonical(wording),document,html,source)
+    # Full DTO substitution including pins/run/stage still cannot choose its trust case.
+    swapped=deepcopy(samples['200'][0])
+    swapped['task_id']='task-404'
+    with pytest.raises(ConsoleError,match='SOURCE_INTEGRITY'):
+        ReviewTargetBridge().prepare(swapped,document,html,source)
+    s,c=make_fixture()
+    s.repository.tasks['task-404']=swapped
+    s.repository.report_source=lambda _:pytest.fail('No source lookup for forged task association')
+    with pytest.raises(ConsoleError,match='SOURCE_INTEGRITY'):
+        s.review(c,'task-404',1,swapped['report_pins']['expected_draft_ref'])
 
 
 @pytest.mark.parametrize('actor',[None,{}, {'role':'OWNER','verified':True,'trusted':True}])

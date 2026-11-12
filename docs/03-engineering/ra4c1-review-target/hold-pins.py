@@ -1,4 +1,5 @@
 """One-time extraction from Owner-accepted Git objects, not supplied requests."""
+import ast
 import json
 from pathlib import Path
 import subprocess
@@ -18,6 +19,11 @@ def accepted(path):
 records=accepted('docs/03-engineering/ra3d-d1d2-offline/runs/190c17d3651e5de9070df0709b2177a6ea3c345b/py11/scenarios.json')
 other=accepted('docs/03-engineering/ra3d-d1d2-offline/runs/190c17d3651e5de9070df0709b2177a6ea3c345b/py13/scenarios.json')
 result={'accepted_main':BASE,'authority':'TEST_ONLY_ACCEPTED_SYNTHETIC_SOURCE','cases':{}}
+fixture_code=subprocess.check_output(['git','show',BASE+':apps/operator_console/fixtures.py'],cwd=ROOT)
+scenarios=next(ast.literal_eval(n.value) for n in ast.walk(ast.parse(fixture_code))
+    if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='scenarios' for t in n.targets))
+result['assigned_tasks']={row[0]:{'case':row[4],'owner_scope':'ops-synthetic'}
+                          for row in scenarios if row[4] is not None}
 for case in ('404','200'):
     fixture=accepted('tests/reviewing/fixtures/'+case+'.json')
     original=next(p for p in records['paths'] if p['case']==case)

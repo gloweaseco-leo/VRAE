@@ -10,6 +10,8 @@ Owner Issue #64，起始已验收 main `9d138ba57e0b442b9dace1a2247d7aaa46ca38ac
 
 `review-target-pins.json` 来自已验收 Git 对象的 D1/D2 fixture 和双 Python 历史 scenarios 记录；`hold-pins.py` 一次性提取并拒绝覆盖。目标摘要直接从原记录持有，不从当前报告/请求/DTO重新计算期望值。合成策略、对象地址及 source/payload/HTML pins 与当前输入分离；D1/D2 成功的完整不可变字节重放缓存不缓存身份、授权或版本账本。
 
+同一独立 holds 还从已验收 C0 fixture 提取 task→case/owner 绑定。即使整条 DTO 的 run/stage/pins 都换成另一有效案例，也在读取 source 前拒绝，不能由 DTO 选择自己的信任案例。这是明确合成 fixture 绑定，不能充当真实身份、RLS 或生产任务账本。
+
 | 固定案例 | 原生含义 | 已验收 target digest |
 |---|---|---|
 | 404 | 1 个静态路径问题；H0 保留，假设/行动仍条件性 | `5705ac9e45e5118bc162bdece42f040a61360cf090b09500f7e9de5c89a9d256` |
