@@ -1,0 +1,58 @@
+{
+  "checks": [
+    {
+      "command": [
+        "-m",
+        "compileall",
+        "-q",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "log": "py311-check-0.log",
+      "seconds": 0.89
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "exit_code": 0,
+      "log": "py311-check-1.log",
+      "seconds": 0.828
+    },
+    {
+      "command": [
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "exit_code": 0,
+      "log": "py311-check-2.log",
+      "seconds": 2.5
+    },
+    {
+      "command": [
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": "py311-check-3.log",
+      "seconds": 4.579
+    },
+    {
+      "command": [
+        "scripts/verify_ra3b.py"
+      ],
+      "exit_code": 0,
+      "log": "py311-check-4.log",
+      "seconds": 34.671
+    }
+  ],
+  "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]"
+}

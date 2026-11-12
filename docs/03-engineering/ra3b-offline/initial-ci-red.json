@@ -1,0 +1,14 @@
+{
+  "head_sha": "b3182a9421d71f0cd198b4265458c394fedc138e",
+  "run": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43128282563",
+  "failed_job": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43128282563/job/130885814887",
+  "test": "tests/interpretation/test_fixed_replay.py::test_archived_fixed_replay",
+  "reason": "FileNotFoundError: /work/docs/03-engineering/ra3b-offline/preserved-history.json",
+  "passed_jobs": [
+    "contracts-domain (3.11)",
+    "contracts-domain (3.13)",
+    "isolated-browser"
+  ],
+  "isolated_http_result": "1 failed, 1553 passed, 1 skipped",
+  "fix": "Move history manifest consumption into new test fixtures. Explicit minimal-isolated-layout test reports unavailable docs only; full-repository CLI still requires all historical files. No CI/security/image changes."
+}
