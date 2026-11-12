@@ -1,0 +1,65 @@
+"""Supplementary malformed-inner/ref valid-outer proof, not extra suite cases."""
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+CANDIDATE = ROOT.parent/'ra3b-qa-v2-candidate-d9d4e234a01a'
+
+
+def child():
+    sys.path.insert(0,str(Path.cwd()))
+    spec = importlib.util.spec_from_file_location('codex1_qa_v2_attack_proof',
+        'tests/interpretation/test_ra3b_independent_adversarial.py')
+    qa = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(qa)
+    def canonical(b):
+        return json.dumps(b,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode('utf-8')
+    args = qa.proposal()
+    b = args[1][0]
+    before = canonical(b)
+    original_inner = b['fact']['fact_ref']
+    original_outer = b['binding_ref']
+    b['fact']['fact_ref'] = 'forged-codex1'
+    b['binding_ref'] = 'cb-' + qa.document_hash({k:v for k,v in b.items() if k != 'binding_ref'})
+    after = canonical(b)
+    inner_correct = 'cf-' + qa.document_hash({k:v for k,v in b['fact'].items() if k != 'fact_ref'})
+    outer_correct = 'cb-' + qa.document_hash({k:v for k,v in b.items() if k != 'binding_ref'})
+    assert before != after and b['fact']['fact_ref'] == 'forged-codex1'
+    assert b['fact']['fact_ref'] != inner_correct and b['binding_ref'] == outer_correct
+    result = qa.run(args)
+    assert result['claims'][0]['status'] == 'REJECTED'
+    proof = dict(version='OWNER_ADJUDICATED_QA_V2',candidate_head='d9d4e234a01a27a4543404b7060c8867e60d0309',
+        python=sys.version,guard_import=sys.modules['vrae.interpretation.guard'].__file__,qa_import=qa.__file__,
+        before_sha256=hashlib.sha256(before).hexdigest(),after_sha256=hashlib.sha256(after).hexdigest(),
+        full_binding_bytes_changed=before != after,original_inner_ref=original_inner,
+        forged_inner_ref=b['fact']['fact_ref'],correct_inner_ref=inner_correct,
+        original_outer_ref=original_outer,recomputed_outer_ref=b['binding_ref'],outer_wrapper_hash_valid=True,
+        retained_malformed_inner=True,actual_claim=result['claims'][0],
+        approval_status=result['approval_status'],shareable=result['shareable'],semantic_approval=result['semantic_approval'])
+    print(json.dumps(proof,indent=2))
+
+
+def main():
+    if sys.argv[1] == '--child':
+        child()
+        return
+    out = HERE/('attack-proof-'+sys.argv[1])
+    out.mkdir(exist_ok=False)
+    command = [sys.executable,str(Path(__file__).resolve()),'--child']
+    r = subprocess.run(command,cwd=CANDIDATE,capture_output=True)
+    (out/'stdout.json').write_bytes(r.stdout)
+    (out/'stderr.log').write_bytes(r.stderr)
+    (out/'command.json').write_text(json.dumps(dict(command=command,cwd=str(CANDIDATE),exit_code=r.returncode),indent=2)+'\n')
+    assert r.returncode == 0
+    proof = json.loads(r.stdout)
+    assert Path(proof['guard_import']).resolve().is_relative_to(CANDIDATE)
+    print(json.dumps(proof))
+
+
+if __name__ == '__main__':
+    main()
