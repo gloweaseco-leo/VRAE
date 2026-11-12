@@ -145,7 +145,7 @@ def stop(output):
                 "image": inspect["Image"],
                 "network": json.loads(docker("network", "inspect", s["network"]))[0]["Internal"],
                 "ports": inspect["NetworkSettings"]["Ports"],
-                "tmpfs": inspect["HostConfig"]["Tmpfs"],
+                "tmpfs": inspect["HostConfig"].get("Tmpfs", {}),
                 "mounts": inspect["Mounts"],
             },
             indent=2,
