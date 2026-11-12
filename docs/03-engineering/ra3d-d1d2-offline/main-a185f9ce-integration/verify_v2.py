@@ -15,7 +15,7 @@ for job in jobs:
         assert len(lines) == 1, (job['name'], marker, len(lines))
         return json.loads(lines[0].split(marker, 1)[1])
     collection = one('OWNER_RA3C_V2_ACTUAL_COLLECTION ')
-    reports = one('OWNER_RA3C_V2_ACTUAL_REPORTS ')
+    reports = one('OWNER_RA3C_V2_ACTUAL_CALL_REPORTS ')
     assert collection['primary_collected'] == reports['primary_count'] == 64
     assert collection['denials_collected'] == reports['denial_count'] == 54
     assert len(reports['actual_call_reports']) == 118
