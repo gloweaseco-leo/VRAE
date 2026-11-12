@@ -1,0 +1,229 @@
+{
+  "status": "DESIGN_ONLY",
+  "review_decisions_executed": 0,
+  "share_grants_created": 0,
+  "cases": [
+    {
+      "kind": "L1_REPORT_DRAFT",
+      "metadata": {
+        "created_at": "2026-11-12T02:30:00Z",
+        "created_by": "offline-review-operator",
+        "finding_selection": null,
+        "mode": "SYNTHETIC_PRIVATE_PREVIEW",
+        "report_id": "report-ra3c-404",
+        "version": 1
+      },
+      "scope": {
+        "policy_id": "pol-001",
+        "policy_version": 1,
+        "run_id": "run-ra3b-404base",
+        "tenant_id": "tenant-test"
+      },
+      "draft_ref": "rd-46fc19844ad6713b6a5e76797f43a967572217ce1bee9820c6795461e7c1de6a",
+      "editorial_content_sha256": "12c12b2d5810fac5f1b943bc0b7fe5b9e24be13ace6a1d2808eeab936d457cc2",
+      "html_sha256": "6a1dd633260554bd0c1b84f276bed0784fd7c3e27d39d3764cc3fdb9aa42bdca",
+      "renderer_asset_sha256": "8caa7fc2ca1fb4e7e60dbfcd9cc9a7f94c5e7fa7ae31d9c49a98c85641d4b14e",
+      "native_report_version": {
+        "approved_at": null,
+        "approved_by": null,
+        "audit_mode": "L1",
+        "content_hash": "afa83c8fca1e4d40150352643a0545c17c2a410c23ccc075d7968ef3fcb4fb81",
+        "created_at": "2026-11-12T02:30:00Z",
+        "created_by": "offline-review-operator",
+        "finding_ids": [
+          "finding-1985ef832a6662b0b8e4905fce8f70b4603503a545d492949a3e1b14cdd4dc2f"
+        ],
+        "report_id": "report-ra3c-404",
+        "report_version_id": "rv-b086a81002ec22a57d5c0703cbf50ee7f955d9fe3af4b80204c9c56b52db738c",
+        "run_id": "run-ra3b-404base",
+        "schema_version": "1.0",
+        "status": "REVIEW_REQUIRED",
+        "tenant_id": "tenant-test",
+        "version": 1
+      },
+      "pins": {
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_execution_ref": "rx-6adfc5ceb141665de578c151df983eb7ebb5b66b3f7eb54a16633de6b8beedf7",
+        "expected_guard_refs": [
+          "cg-fe8317a7b4ef7823e081d0287851f25b0f48dba9aec6ff16aa625d4649cd56e0",
+          "cg-10b0c8b2a2151bb63c7f9adce4d4f3ece478c411ed4ee52058597b242bae0956"
+        ],
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_metadata_sha256": "e7e278abd05197582c76496bc9317e00c5b62924b1f86e678760fdd67fc27f76",
+        "expected_pack_ref": "ep-4031d8172a013486684569f646ffc8653e05140598e1012e652e6b59dc436906",
+        "expected_package_ref": "fp-a9d16cc8ddf3902fa26d062e9422a62eb2441a5579959db9642741ce3cb7fba2",
+        "expected_renderer_version": "ra3c-html-1.0.1",
+        "expected_reporting_version": "ra3c-1.0.0",
+        "expected_scope": {
+          "policy_id": "pol-001",
+          "policy_version": 1,
+          "run_id": "run-ra3b-404base",
+          "tenant_id": "tenant-test"
+        }
+      },
+      "guard_inputs_sha256": "011cbd0f7cd73de4410da5bd414c8f69d579be35d2839db281d4a531b1c0674e",
+      "reporting_version": "ra3c-1.0.0",
+      "editorial_version": "ra3c-zh-editorial-1.0.0",
+      "renderer_version": "ra3c-html-1.0.1",
+      "model_limitation": "SYNTHETIC_PROPOSALS_NO_PROVIDER_CALL_NO_SEMANTIC_APPROVAL",
+      "private": true,
+      "approval_status": "NOT_APPROVED",
+      "shareable": false,
+      "semantic_approval": false,
+      "case": "404",
+      "source_commit": "6a7a3d3aa5f4341059b04567157f7fc58d6bf6d2",
+      "source_path": "docs/03-engineering/ra3c-offline/preview/contact-404.draft.json",
+      "issue_count": 1,
+      "is_actual_approval": false,
+      "design_status": "REFERENCE_INPUT_ONLY_NO_REVIEW_EXECUTION",
+      "one_issue_reference": {
+        "fact_claim": {
+          "binding_ref": "cb-9eb90595b8d960a038320f719c9ad7012057e513305a2cf8921b965ea0149a02",
+          "claim_type": "OBJECTIVE_SOURCE_FACT",
+          "fact": {
+            "citation_index": 0,
+            "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+            "fact_ref": "cf-8d3e00996c85d96c2d35adf97f83dc4bf1054111bab9d739bd071bc60f625ee5",
+            "observation_id": "obs-2710ebf70845e0e18282b036448bb77dff0eac0585ceb890d9ea44a27a680378",
+            "observation_result": "FAIL_WITH_EVIDENCE",
+            "proof_kind": "CAPTURED_CTA_HTTP_FAILURE",
+            "rule_id": "CTA-02",
+            "rule_version": "1.0.0",
+            "source": {
+              "byte_end": 177,
+              "byte_start": 158,
+              "citation": {
+                "anchor_index": 0,
+                "column": 0,
+                "evidence_ref": "ev-3520a7b5a496709c7e415be1dd2d279dca03f71df59e1ef5d7ac3242aa94d9d5",
+                "line": 6,
+                "locator": "/pages/2/evidence",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "raw_href": "/contact",
+                "snapshot_ref": "page-1e1f112545b7072d32bb97b55441eed4e98de3cbab1c896eea7b1e1a1ce55ec7",
+                "source_ref": "src-528065aca1bdf7d120e9738c02a3d690cda0f300f66348a05c8cd50f0694b5d9",
+                "url": "https://example.org/products/mp-25"
+              },
+              "coverage_status": "OBSERVED",
+              "quote": "<a href=\"/contact\">",
+              "target_response": {
+                "error": {
+                  "code": "HTTP_ERROR",
+                  "retryable": false,
+                  "safe_message": "HTTP_ERROR",
+                  "schema_version": "1.0"
+                },
+                "final_url": "https://example.org/contact",
+                "http_status": 404,
+                "locator": "/pages/3",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "redirect_trace": [
+                  {
+                    "location": null,
+                    "peer_ip": "93.184.216.20",
+                    "status": 404,
+                    "url": "https://example.org/contact"
+                  }
+                ],
+                "snapshot_ref": "page-f5184c704ccf39bfe4420386c5d2aa0f6e6f3f754e024f7c192f2f20ea1e90ab",
+                "source_ref": "src-528065aca1bdf7d120e9738c02a3d690cda0f300f66348a05c8cd50f0694b5d9",
+                "url": "https://example.org/contact"
+              }
+            },
+            "statement": "Captured static href \"/contact\" returned HTTP 404 at capture time only."
+          },
+          "guard_ref": "cg-fe8317a7b4ef7823e081d0287851f25b0f48dba9aec6ff16aa625d4649cd56e0",
+          "pointer": "/hypotheses/0",
+          "status": "SOURCE_FACT_BINDING_VERIFIED",
+          "text": "Captured static href \"/contact\" returned HTTP 404 at capture time only."
+        },
+        "proposals": [
+          {
+            "binding_ref": "cb-753df57378cbf144d12d844472aa2e0dcf601a6ef2b64d1f25858c21d10232e3",
+            "claim_type": "RECOMMENDATION",
+            "guard_ref": "cg-10b0c8b2a2151bb63c7f9adce4d4f3ece478c411ed4ee52058597b242bae0956",
+            "pointer": "/recommendations/0",
+            "status": "HUMAN_REVIEW_REQUIRED",
+            "text": "建议先确认该联系页面是否仍在使用，再修正产品页链接或恢复对应页面；实施前须人工批准。"
+          },
+          {
+            "binding_ref": "cb-945613931d15ff6a38549948f4b87c925038d026853573cdbd5f6f7c3fbac983",
+            "claim_type": "HYPOTHESIS",
+            "guard_ref": "cg-10b0c8b2a2151bb63c7f9adce4d4f3ece478c411ed4ee52058597b242bae0956",
+            "pointer": "/hypotheses/0",
+            "status": "HUMAN_REVIEW_REQUIRED",
+            "text": "采购商从产品页继续寻找联系入口时，可能需要额外绕行。是否影响实际询盘，仍需人工核实。"
+          },
+          {
+            "binding_ref": "cb-1a5f08407e8d6cb8f87472bf8895b92f36839a1eaed1afcae60cd94d1a9698d2",
+            "claim_type": "RECOMMENDATION",
+            "guard_ref": "cg-10b0c8b2a2151bb63c7f9adce4d4f3ece478c411ed4ee52058597b242bae0956",
+            "pointer": "/recommendations/1",
+            "status": "HUMAN_REVIEW_REQUIRED",
+            "text": "在获准环境中从同一产品页重新访问该 href，核对目标 HTTP 状态与跳转；表单送达需另行授权验证。"
+          }
+        ],
+        "finding_id": "finding-1985ef832a6662b0b8e4905fce8f70b4603503a545d492949a3e1b14cdd4dc2f",
+        "native_bridge_kind": "EXACT_NATIVE_HTTP_ID_MAPPING"
+      }
+    },
+    {
+      "kind": "PRIVATE_COVERAGE_SUMMARY",
+      "metadata": {
+        "created_at": "2026-11-12T02:30:00Z",
+        "created_by": "offline-review-operator",
+        "finding_selection": null,
+        "mode": "SYNTHETIC_PRIVATE_PREVIEW",
+        "report_id": "report-ra3c-200",
+        "version": 1
+      },
+      "scope": {
+        "policy_id": "pol-001",
+        "policy_version": 1,
+        "run_id": "run-ra3b-200base",
+        "tenant_id": "tenant-test"
+      },
+      "draft_ref": "rd-6e01a60789ce80d40b949eb7bc68e41584dc1d7fd89001ca14d643cd1d8bce52",
+      "editorial_content_sha256": "a982c7a5a85b96d573d587af2390bb76bccd48c7b40bb43f9317f11dcd1d285a",
+      "html_sha256": "968fb166644da29bea9cafac300bc2fdb26ffa9642a02b6460ad4130f7c9c8ca",
+      "renderer_asset_sha256": "8caa7fc2ca1fb4e7e60dbfcd9cc9a7f94c5e7fa7ae31d9c49a98c85641d4b14e",
+      "native_report_version": null,
+      "pins": {
+        "expected_builder_version": "ra2c3-1.0.0",
+        "expected_evaluator_version": "ra2b6-1.0.0",
+        "expected_execution_ref": "rx-8eb00007328c590ac418cdda53ec89c1103a35ef76e64325780a72877f4ce3cc",
+        "expected_guard_refs": [
+          "cg-a9d3347242e8480cd4f71d64a67440b387f01411e5c64b82409972b0f561632f"
+        ],
+        "expected_guard_version": "ra3b-1.0.0",
+        "expected_metadata_sha256": "2d9d83e05d5f72cd17b7debdb9dc74ffacce28ac4158eb27448000696782891a",
+        "expected_pack_ref": "ep-47656e4dee3c5cfdacab34ceebf8685f2d1d250a429a15360b22223063da1bca",
+        "expected_package_ref": "fp-9e7ff40540652069a5a29763eebcb7b8bd5b90a93f3bf4c2c640eb663f48007c",
+        "expected_renderer_version": "ra3c-html-1.0.1",
+        "expected_reporting_version": "ra3c-1.0.0",
+        "expected_scope": {
+          "policy_id": "pol-001",
+          "policy_version": 1,
+          "run_id": "run-ra3b-200base",
+          "tenant_id": "tenant-test"
+        }
+      },
+      "guard_inputs_sha256": "528459d9ed096d59c79f368d1ca7512959e1982090d8a1739df0f65703c2c387",
+      "reporting_version": "ra3c-1.0.0",
+      "editorial_version": "ra3c-zh-editorial-1.0.0",
+      "renderer_version": "ra3c-html-1.0.1",
+      "model_limitation": "SYNTHETIC_PROPOSALS_NO_PROVIDER_CALL_NO_SEMANTIC_APPROVAL",
+      "private": true,
+      "approval_status": "NOT_APPROVED",
+      "shareable": false,
+      "semantic_approval": false,
+      "case": "200",
+      "source_commit": "6a7a3d3aa5f4341059b04567157f7fc58d6bf6d2",
+      "source_path": "docs/03-engineering/ra3c-offline/preview/contact-200.draft.json",
+      "issue_count": 0,
+      "is_actual_approval": false,
+      "design_status": "REFERENCE_INPUT_ONLY_NO_REVIEW_EXECUTION"
+    }
+  ]
+}
