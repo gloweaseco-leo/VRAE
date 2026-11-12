@@ -13,11 +13,16 @@ No reuse/access of the Codex-2 worktree and no changes to its branch or tests.
 ## Independent freeze and inputs
 
 Matrix was committed first at `fe73cea79e87b8b2f8085e0b554fcca055ab1a2f`,
-before reading the functional interface. Read-only production API declarations
-were then inspected from remote Git objects at development head
+before reading the functional interface. The read-only production module
+was then inspected from remote Git objects at development head
 `336bad8cd3a4573dbd18d360cefbff80fd33a979`; that SHA is **not** claimed ready,
 executed, reviewed or accepted. No candidate tests/helper/fixtures were read or
 imported. Oracles come from V1.1 and Issues #40/#43, not candidate expectations.
+Independence exception: the matrix intended an API-declarations-only read, but
+`git show` returned the full `guard.py` module including implementation logic.
+This broader read is disclosed rather than claimed as API-only blindness. The
+acceptance matrix was already committed; no candidate tests/fixtures/helpers
+were used and no candidate was executed to tune tests or expected results.
 
 `MATRIX.md` is the normative independent scenario/oracle freeze.
 `CASE_INVENTORY.json` statically expands **224 planned cases**, not passed tests.
