@@ -48,16 +48,20 @@ class ConsoleInterface:
                 task_id = parts[1]
                 if len(parts) == 2 and not q:
                     body = views.detail(self.prefix,self.service.detail(context,task_id))
-                elif len(parts) in (3,4) and set(q)=={'version','draft'}:
+                elif len(parts) in (3,4) and set(q) in ({'version','draft'},{'version','draft','target'}):
                     if not q['version'].isascii() or not q['version'].isdigit() or len(q['version'])>4:
                         refuse('INVALID_INPUT')
                     args = (context,task_id,int(q['version']),q['draft'])
-                    if len(parts)==3 and parts[2]=='review':
+                    pinned = 'target' in q
+                    if len(parts)==3 and parts[2]=='target' and pinned:
+                        body = views.target(self.prefix,*self.service.target(*args,q['target']))
+                    elif len(parts)==3 and parts[2]=='review' and not pinned:
                         body = views.review(self.prefix,*self.service.review(*args))
                     elif len(parts)==4 and parts[2:] == ['evidence','capture']:
-                        body = views.capture(self.prefix,*self.service.review(*args))
+                        scoped = self.service.target(*args,q['target']) if pinned else self.service.review(*args)
+                        body = views.capture(self.prefix,*scoped,target_mode=pinned)
                     elif len(parts)==4 and parts[2]=='evidence' and parts[3].isascii() and parts[3].isdigit() and len(parts[3])<=2:
-                        body = views.evidence(self.prefix,*self.service.evidence(*args,int(parts[3])))
+                        body = views.evidence(self.prefix,*self.service.evidence(*args,int(parts[3]),q.get('target')),target_mode=pinned)
                     else:
                         refuse('NOT_IMPLEMENTED')
                 else:

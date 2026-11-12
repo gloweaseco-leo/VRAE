@@ -79,6 +79,7 @@ class NativeVerifier:
                 'body': captured['content'].decode('utf-8'),
                 'body_sha256': hashlib.sha256(captured['content']).hexdigest()}
             return {'dto_version':'operator-console-dossier-0.1','document':d,'held':held,
+                    '_artifacts':{'document':loaded._payload,'html':raw},
                     'evidence':evidence,'contact_capture':row,'capture_source':capture_source,
                     'public_calls':['EvidencePack.load','FindingPackage.load','GuardResult.load',
                                     'build_draft','ReportDraft.load','render']}
