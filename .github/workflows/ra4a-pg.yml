@@ -20,23 +20,23 @@ jobs:
         run: |
           python -m pip install -e '.[dev]' -c requirements-ra1a.lock
           python -m pip install -r requirements-ra4a.lock -c requirements-ra1a.lock
+      - name: Actual startup failure before STATE and idempotent owned cleanup
+        run: python infra/ra4a/check_start_failure.py docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-failure
       - name: Start owned synthetic PG16 lab on host loopback
-        run: python infra/ra4a/lab.py start
+        run: python infra/ra4a/lab.py start --output docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-startup
       - name: Real migrations RLS transactions leases backup and restore
         run: python infra/ra4a/run.py docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}
       - name: Remove only owned lab and record teardown
         if: always()
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import subprocess
-          import sys
-          if Path('infra/ra4a/.venv/lab-state.json').exists():
-              subprocess.run([sys.executable, 'infra/ra4a/lab.py', 'stop', '--output',
-                              'docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}/teardown'], check=True)
-          PY
+        run: >-
+          python infra/ra4a/lab.py stop
+          --output docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}/teardown
+          --startup-output docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-startup
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ra4a-pg16-${{ matrix.python-version }}
-          path: docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}/
+          path: |
+            docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}/
+            docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-startup/
+            docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-failure/
