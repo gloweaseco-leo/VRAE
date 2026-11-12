@@ -1,11 +1,13 @@
 """Read-only use cases behind trusted-call authority and repository ports."""
-from .contracts import STAGES, TEST_ONLY, TaskRecord, filters, identifier, refuse
+from .contracts import STAGES, TEST_ONLY, TaskRecord, canonical, filters, identifier, refuse
 from .ports import NativePreparation, ReadAuthority, TaskRepository
+from .targets import ReviewTargetBridge
 
 
 class ConsoleService:
     def __init__(self, authority: ReadAuthority, repository: TaskRepository, native: NativePreparation):
         self.authority, self.repository, self.native = authority, repository, native
+        self.targets = ReviewTargetBridge()
 
     def _scope(self, context):
         scope = self.authority.require(context)
@@ -49,16 +51,29 @@ class ConsoleService:
             refuse('NOT_READY')
         if type(version) is not int or version != task['report_version'] or draft_ref != task['report_pins']['expected_draft_ref']:
             refuse('STALE_VERSION')
-        dossier = self.native.prepare(task['report_case'], self.repository.report_source(task['report_case']))
+        source = self.repository.report_source(task['report_case'])
+        dossier = self.native.prepare(task['report_case'], source)
         d = dossier['document']
         if (task['report_pins'] != dossier['held'] or d['metadata']['version'] != version
                 or d['scope']['tenant_id'] != scope.tenant_id or d['scope']['run_id'] != task['audit_run']['run_id']
                 or d['draft_ref'] != draft_ref):
             refuse('SOURCE_INTEGRITY')
+        artifacts = dossier['_artifacts']
+        if canonical(d) != artifacts['document']:
+            refuse('SOURCE_INTEGRITY')
+        dossier['review_target'] = self.targets.prepare(task,artifacts['document'],artifacts['html'],
+                                                       canonical(source)).document
         return task, dossier
 
-    def evidence(self, context, task_id, version, draft_ref, index):
-        task, dossier = self.review(context,task_id,version,draft_ref)
+    def target(self, context, task_id, version, draft_ref, expected_digest):
+        task,dossier = self.review(context,task_id,version,draft_ref)
+        if expected_digest != dossier['review_target']['target_digest']:
+            refuse('STALE_VERSION')
+        return task,dossier
+
+    def evidence(self, context, task_id, version, draft_ref, index, expected_digest=None):
+        task, dossier = (self.target(context,task_id,version,draft_ref,expected_digest)
+                         if expected_digest is not None else self.review(context,task_id,version,draft_ref))
         if type(index) is not int or not 0 <= index < len(dossier['evidence']):
             refuse('INVALID_INPUT')
         return task, dossier, dossier['evidence'][index]
