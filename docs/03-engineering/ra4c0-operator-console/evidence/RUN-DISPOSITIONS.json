@@ -1,0 +1,19 @@
+{
+  "purpose": "Retain failed and interrupted attempts; only validated actual outcomes may satisfy gates.",
+  "regress-20261112T134051-860215-11": "Full pytest 2119 passed/25 skipped, 19 historical commands and 8 native sealed cases valid. Its first V1 invocation lacked the frozen adapter: 64 setup errors, NOT the expected 53 RED. Replaced only as a gate by separately retained historical-replay-20261112T143024-120336-11 with 53 failed/11 passed and exact original error types.",
+  "regress-20261112T134118-775985-13": "Full pytest 2119 passed/25 skipped, 19 historical commands and 8 native sealed cases valid. Its first V1 invocation lacked the frozen adapter: 64 setup errors, NOT the expected 53 RED. Replaced only as a gate by separately retained historical-replay-20261112T143024-920638-13 with 53 failed/11 passed and exact original error types.",
+  "browser-2026-11-12T13-16-06-381Z": "INFRA_FAILURE: sandbox Chromium GPU/CDP startup; zero assertions, not a product pass.",
+  "browser-2026-11-12T13-17-51-132Z": "FAIL: final URL-input assertion observed 501, expected 400. Route fixed, expectation unchanged. All raw records retained.",
+  "browser-2026-11-12T13-22-00-164Z": "PASS: 75/75; later repeated with explicit application hashes after final strict pin-envelope validation.",
+  "regress-20261112T131813-574697-11": "INTERRUPTED: default pytest temp fixture WinError 5; no full pass claimed.",
+  "regress-20261112T131832-260601-13": "INTERRUPTED: default pytest temp fixture WinError 5; no full pass claimed.",
+  "regress-20261112T133134-233451-11": "INTERRUPTED: same default pytest temp fixture WinError 5; no full pass claimed.",
+  "regress-20261112T133133-845807-13": "INTERRUPTED: same default pytest temp fixture WinError 5; no full pass claimed.",
+  "regress-20261112T133650-673449-11": "DIAGNOSTIC_FAIL: one unchanged original tmp_path test proves denied C:/Users/liu/AppData/Local/Temp/pytest-of-liu access, raw traceback retained.",
+  "regress-20261112T133958-659301-11": "DIAGNOSTIC_PASS: exact same test outside sandbox passed; does not substitute for full suite.",
+  "local-first-error.log": "INTERRUPTED diagnostic run, not counted as full regression. Tests passed until stopped; default temp access differs by execution context.",
+  "hosted-43226486962-20261112T132459": "NETWORK_INFRA_FAILURE: sandbox blocked read-only gh API before logs downloaded; empty output directory is not CI evidence.",
+  "hosted-43226486962-20261112T132717": "PARTIAL_SNAPSHOT: 3.13 was still running, not final CI receipt.",
+  "hosted-43226486962-20261112T133214": "COMPLETE initial-head receipt: three jobs passed, HTTP failed for missing apps source. Not four green.",
+  "hosted-43227963343-20261112T134426": "COMPLETE frozen-feature-head receipt: three jobs passed, HTTP failed for missing apps source. Not four green."
+}

@@ -1,0 +1,289 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "buyer_journey": [
+    {
+      "label": "找到产品",
+      "observations": [
+        {
+          "observation_id": "obs-7554e37c6874db842854cb9c94595c3bf0b2b85980a84c7eeb6f79c8517c4d00",
+          "result": "ACCESS_BLOCKED",
+          "rule_id": "DISC-01"
+        },
+        {
+          "observation_id": "obs-2ac16b9be8e6b8f17daf0cfeb579b904761ef2df972e1bc3c975e3a7f7f17898",
+          "result": "UNKNOWN",
+          "rule_id": "DISC-02"
+        },
+        {
+          "observation_id": "obs-6d056eda26e892e4a03f47bacafc64e911ab4b7e6b700b87ff882f205882921b",
+          "result": "UNKNOWN",
+          "rule_id": "DISC-03"
+        }
+      ],
+      "task": "DISCOVER"
+    },
+    {
+      "label": "理解产品",
+      "observations": [
+        {
+          "observation_id": "obs-09cf9f787182b3d157d6afb63cd84de17ce24d419a06fde36a749ecdaef440fe",
+          "result": "UNKNOWN",
+          "rule_id": "INFO-01"
+        },
+        {
+          "observation_id": "obs-8e77f7d70b67ac0853855406d5fee3f6e9ecfc4fe41b8b4a7d6ee4d2a84fcfb7",
+          "result": "UNKNOWN",
+          "rule_id": "INFO-02"
+        },
+        {
+          "observation_id": "obs-b38c809725b74af00e8d9def879a5131651a6385bcb9a8421baedfc401259e15",
+          "result": "UNKNOWN",
+          "rule_id": "INFO-03"
+        }
+      ],
+      "task": "UNDERSTAND"
+    },
+    {
+      "label": "核对企业",
+      "observations": [
+        {
+          "observation_id": "obs-d73085a7b9efbff9e20daa6fd0a275bc7e0b9db633ebf0870e7f59f0eed38746",
+          "result": "ACCESS_BLOCKED",
+          "rule_id": "TRUST-01"
+        },
+        {
+          "observation_id": "obs-c2f88252dff67eb5abea8e91c99e7d2809c6ae6265357aaf6065ee03b69d49d1",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-02"
+        },
+        {
+          "observation_id": "obs-5d2a1028a5efece417fb689a50ca0f8fc70730ef12fbd7fb90d7a42e878e895d",
+          "result": "UNKNOWN",
+          "rule_id": "TRUST-03"
+        }
+      ],
+      "task": "TRUST"
+    },
+    {
+      "label": "联系咨询",
+      "observations": [
+        {
+          "observation_id": "obs-f60fd74fd7ea121e4c9e88f5066a6d200a2002e963e937fd06cc6c121e449e37",
+          "result": "UNKNOWN",
+          "rule_id": "CTA-01"
+        },
+        {
+          "observation_id": "obs-8c19b588fea17fd84dbb79749bac24f21b3dd9b2f8b6fb24779fb51cb45a2b72",
+          "result": "UNKNOWN",
+          "rule_id": "CTA-02"
+        },
+        {
+          "observation_id": "obs-567f743bdf77eaf86a6cf0c9a40ae6111be5ff60a74494796bed0ca93772fa9b",
+          "result": "UNKNOWN",
+          "rule_id": "CTA-03"
+        }
+      ],
+      "task": "INQUIRE"
+    },
+    {
+      "label": "搜索基础",
+      "observations": [
+        {
+          "observation_id": "obs-e32d6df5edf06f6e8573105cf252e15286076f2bc136cf7ec9f7875a4f2aace9",
+          "result": "ACCESS_BLOCKED",
+          "rule_id": "SEO-01"
+        },
+        {
+          "observation_id": "obs-82b7fc0c17cba0e54408235ff41006e071ce46cd513574ce3667baf37ee7601f",
+          "result": "UNKNOWN",
+          "rule_id": "SEO-02"
+        },
+        {
+          "observation_id": "obs-6d458f35a9999970227ff6d9a0e523ea5cd3206e7ee7038e21d3ec71efc8649b",
+          "result": "UNKNOWN",
+          "rule_id": "TECH-01"
+        },
+        {
+          "observation_id": "obs-5307330ad2630a439fd82ec17dd482f9923cdf3217e8c365755e5112183b0c28",
+          "result": "UNKNOWN",
+          "rule_id": "TECH-02"
+        }
+      ],
+      "task": "SEARCH_TECHNICAL"
+    }
+  ],
+  "content_basis": "C3_FIELDS_AND_REPLAYED_PER_CLAIM_GUARD_NOT_EXTERNAL_AUTHENTICITY",
+  "draft_ref": "rd-dced769168834c37aa10cfb56f90d2f3ba5e2befd58933dd1303cd06f99c6fb2",
+  "editorial_content_sha256": "58daf1aec631d25af5af2106e5f681c8a2771c8ff3dd666af14bf3ba02452056",
+  "editorial_version": "ra3c-zh-editorial-1.0.0",
+  "examined_pages": [
+    {
+      "captured_at": "2026-11-10T12:00:00+00:00",
+      "error_code": "ACCESS_BLOCKED",
+      "final_url": "https://example.org/",
+      "http_status": 200,
+      "role": "HOME",
+      "status": "ACCESS_BLOCKED",
+      "url": "https://example.org/"
+    }
+  ],
+  "guard_inputs_sha256": "36844314cad3abd1758e9580151749d90ed4486f932007e25738892b61fb0e00",
+  "html_sha256": "a684e4acf2116553ecfe614878d50502bba50481762ccc9baf249ff870ffd268",
+  "issues": [],
+  "kind": "PRIVATE_COVERAGE_SUMMARY",
+  "limitations": [
+    "仅限本次保留的静态 HTML、原始标签与已记录 HTTP 响应，不代表全站或实时状态。",
+    "产品规格、公司自述仅为网站原文；未核实真实性、法律主体、工厂、证书或资质。",
+    "未验证页面实际可见性、表单提交与送达、询盘转化、销售损失或 Google 排名。",
+    "未检查部分不代表没有问题；受限、未知及缺失证据不作为缺陷。",
+    "合成工业样本；无真实模型调用。Human Gold 0/26 尚未评估，不提供准确率结论。",
+    "本页仅供内部复核；NOT_APPROVED，不可客户外发，不产生 E2/E3 或报价承诺。"
+  ],
+  "metadata": {
+    "created_at": "2026-11-12T02:30:00Z",
+    "created_by": "offline-review-operator",
+    "finding_selection": null,
+    "mode": "SYNTHETIC_PRIVATE_PREVIEW",
+    "report_id": "report-ra3c-waf",
+    "version": 1
+  },
+  "model_limitation": "SYNTHETIC_PROPOSALS_NO_PROVIDER_CALL_NO_SEMANTIC_APPROVAL",
+  "native_report_version": null,
+  "omitted_eligible_issues": 0,
+  "pins": {
+    "expected_builder_version": "ra2c3-1.0.0",
+    "expected_evaluator_version": "ra2b6-1.0.0",
+    "expected_execution_ref": "rx-e8756533eca11f2d6d2f2b68f26b9c5e63231d3df967c5e0888d54267bad005b",
+    "expected_guard_refs": [
+      "cg-593f1d1ca158912eb32b61e4f98748ba9f6f45d25fcdd21d69a69b07c6284a47"
+    ],
+    "expected_guard_version": "ra3b-1.0.0",
+    "expected_metadata_sha256": "0c4e821f21e86fd11a681d40c47f792dc0d588aaf798c5be676b9f2b82a0a838",
+    "expected_pack_ref": "ep-4e1873c7797731afee5a0e7b0c061c40cd92fbefe27628322079a919d0901faf",
+    "expected_package_ref": "fp-466d0b312c328239d0bb9e5a71f1403273e9e46f7a3692f80bba46981bbcf0fb",
+    "expected_renderer_version": "ra3c-html-1.0.2",
+    "expected_reporting_version": "ra3c-1.0.0",
+    "expected_scope": {
+      "policy_id": "pol-001",
+      "policy_version": 1,
+      "run_id": "run-ra3c-waf-1",
+      "tenant_id": "tenant-example"
+    }
+  },
+  "positive_source_claims": [],
+  "private": true,
+  "recorded_coverage": [
+    {
+      "locator": "/coverage/unverified_roles/0",
+      "reason": "ROLE_NOT_VERIFIED",
+      "role": "ABOUT",
+      "scope": "ROLE",
+      "snapshot_ref": null,
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "UNKNOWN",
+      "url": null,
+      "viewport": null
+    },
+    {
+      "locator": "/coverage/unverified_roles/1",
+      "reason": "ROLE_NOT_VERIFIED",
+      "role": "APPLICATION",
+      "scope": "ROLE",
+      "snapshot_ref": null,
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "UNKNOWN",
+      "url": null,
+      "viewport": null
+    },
+    {
+      "locator": "/coverage/unverified_roles/2",
+      "reason": "ROLE_NOT_VERIFIED",
+      "role": "CATALOG",
+      "scope": "ROLE",
+      "snapshot_ref": null,
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "UNKNOWN",
+      "url": null,
+      "viewport": null
+    },
+    {
+      "locator": "/coverage/unverified_roles/3",
+      "reason": "ROLE_NOT_VERIFIED",
+      "role": "CATEGORY",
+      "scope": "ROLE",
+      "snapshot_ref": null,
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "UNKNOWN",
+      "url": null,
+      "viewport": null
+    },
+    {
+      "locator": "/coverage/unverified_roles/4",
+      "reason": "ROLE_NOT_VERIFIED",
+      "role": "CONTACT",
+      "scope": "ROLE",
+      "snapshot_ref": null,
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "UNKNOWN",
+      "url": null,
+      "viewport": null
+    },
+    {
+      "locator": "/coverage/unverified_roles/5",
+      "reason": "ROLE_NOT_VERIFIED",
+      "role": "HOME",
+      "scope": "ROLE",
+      "snapshot_ref": null,
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "UNKNOWN",
+      "url": null,
+      "viewport": null
+    },
+    {
+      "locator": "/coverage/unverified_roles/6",
+      "reason": "ROLE_NOT_VERIFIED",
+      "role": "OTHER",
+      "scope": "ROLE",
+      "snapshot_ref": null,
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "UNKNOWN",
+      "url": null,
+      "viewport": null
+    },
+    {
+      "locator": "/coverage/unverified_roles/7",
+      "reason": "ROLE_NOT_VERIFIED",
+      "role": "PRODUCT",
+      "scope": "ROLE",
+      "snapshot_ref": null,
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "UNKNOWN",
+      "url": null,
+      "viewport": null
+    },
+    {
+      "locator": "/pages/0/snapshot",
+      "reason": "ACCESS_BLOCKED",
+      "role": null,
+      "scope": "PAGE",
+      "snapshot_ref": "page-0c83449bb8a7daaebbee8c4041c9263c0a7b765883377f62aafe13473337ab7e",
+      "source_ref": "src-14eceece5f50949488d0a4fae641719cca722a262b6e627ad4c7ca90c831dc36",
+      "status": "ACCESS_BLOCKED",
+      "url": "https://example.org/",
+      "viewport": null
+    }
+  ],
+  "renderer_asset_sha256": "313db6e2ec6f640b6b5d058c2da683873015e5aaedfbd5bcf462365393780e19",
+  "renderer_version": "ra3c-html-1.0.2",
+  "reporting_version": "ra3c-1.0.0",
+  "scope": {
+    "policy_id": "pol-001",
+    "policy_version": 1,
+    "run_id": "run-ra3c-waf-1",
+    "tenant_id": "tenant-example"
+  },
+  "semantic_approval": false,
+  "shareable": false,
+  "site_host": "example.org",
+  "unsupported_rule_findings": 0
+}

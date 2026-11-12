@@ -1,0 +1,351 @@
+﻿2026-11-12T13:30:39.0147400Z Current runner version: '2.338.2'
+2026-11-12T13:30:39.0168796Z ##[group]Runner Image Provisioner
+2026-11-12T13:30:39.0169527Z Hosted Compute Agent
+2026-11-12T13:30:39.0170120Z Version: 20261028.624
+2026-11-12T13:30:39.0170642Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-12T13:30:39.0171223Z Build Date: 2026-10-28T21:51:42Z
+2026-11-12T13:30:39.0171814Z Worker ID: {0c16532f-ab93-480b-9f63-a7d54faae789}
+2026-11-12T13:30:39.0172380Z Region: eastus2
+2026-11-12T13:30:39.0172813Z Cloud: Azure
+2026-11-12T13:30:39.0173328Z ##[endgroup]
+2026-11-12T13:30:39.0174652Z ##[group]Operating System
+2026-11-12T13:30:39.0175203Z Ubuntu
+2026-11-12T13:30:39.0175637Z 26.04.1
+2026-11-12T13:30:39.0176096Z LTS
+2026-11-12T13:30:39.0176597Z ##[endgroup]
+2026-11-12T13:30:39.0177050Z ##[group]Runner Image
+2026-11-12T13:30:39.0177579Z Image: ubuntu-26.04
+2026-11-12T13:30:39.0178054Z Version: 20261101.186.1
+2026-11-12T13:30:39.0179253Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-12T13:30:39.0180605Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+2026-11-12T13:30:39.0181825Z ##[endgroup]
+2026-11-12T13:30:39.0183150Z ##[group]GITHUB_TOKEN Permissions
+2026-11-12T13:30:39.0185276Z Contents: read
+2026-11-12T13:30:39.0185967Z Metadata: read
+2026-11-12T13:30:39.0186597Z ##[endgroup]
+2026-11-12T13:30:39.0189171Z Secret source: Actions
+2026-11-12T13:30:39.0190292Z Cache mode: write
+2026-11-12T13:30:39.0191207Z Prepare workflow directory
+2026-11-12T13:30:39.0554884Z Prepare all required actions
+2026-11-12T13:30:39.0611022Z Getting action download info
+2026-11-12T13:30:39.2752793Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-12T13:30:39.3777348Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-12T13:30:39.5539124Z Complete job name: contracts-domain (3.13)
+2026-11-12T13:30:39.6233488Z ##[group]Run actions/checkout@v4
+2026-11-12T13:30:39.6234223Z with:
+2026-11-12T13:30:39.6234589Z   repository: gloweaseco-leo/VRAE
+2026-11-12T13:30:39.6237908Z   token: ***
+2026-11-12T13:30:39.6238260Z   ssh-strict: true
+2026-11-12T13:30:39.6238760Z   ssh-user: git
+2026-11-12T13:30:39.6239118Z   persist-credentials: true
+2026-11-12T13:30:39.6239506Z   clean: true
+2026-11-12T13:30:39.6239863Z   sparse-checkout-cone-mode: true
+2026-11-12T13:30:39.6240281Z   fetch-depth: 1
+2026-11-12T13:30:39.6240629Z   fetch-tags: false
+2026-11-12T13:30:39.6241013Z   show-progress: true
+2026-11-12T13:30:39.6241380Z   lfs: false
+2026-11-12T13:30:39.6241711Z   submodules: false
+2026-11-12T13:30:39.6242073Z   set-safe-directory: true
+2026-11-12T13:30:39.6242471Z   allow-unsafe-pr-checkout: false
+2026-11-12T13:30:39.6243037Z ##[endgroup]
+2026-11-12T13:30:39.8228244Z Syncing repository: gloweaseco-leo/VRAE
+2026-11-12T13:30:39.8230755Z ##[group]Getting Git version info
+2026-11-12T13:30:39.8231507Z Working directory is '/home/runner/work/VRAE/VRAE'
+2026-11-12T13:30:39.8232554Z [command]/usr/bin/git version
+2026-11-12T13:30:39.8235695Z git version 2.56.0
+2026-11-12T13:30:39.8251632Z ##[endgroup]
+2026-11-12T13:30:39.8263575Z Temporarily overriding HOME='/home/runner/work/_temp/ad667092-866b-49d9-bf33-8057d14008bb' before making global git config changes
+2026-11-12T13:30:39.8265759Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-12T13:30:39.8268024Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-12T13:30:39.8322990Z Deleting the contents of '/home/runner/work/VRAE/VRAE'
+2026-11-12T13:30:39.8326006Z ##[group]Initializing the repository
+2026-11-12T13:30:39.8330521Z [command]/usr/bin/git init /home/runner/work/VRAE/VRAE
+2026-11-12T13:30:39.8470543Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-12T13:30:39.8471747Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-12T13:30:39.8473092Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-12T13:30:39.8474467Z hint: call:
+2026-11-12T13:30:39.8475137Z hint:
+2026-11-12T13:30:39.8475764Z hint: 	git config --global init.defaultBranch <name>
+2026-11-12T13:30:39.8476406Z hint:
+2026-11-12T13:30:39.8477259Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-12T13:30:39.8478643Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-12T13:30:39.8479811Z hint:
+2026-11-12T13:30:39.8480492Z hint: 	git branch -m <name>
+2026-11-12T13:30:39.8481237Z hint:
+2026-11-12T13:30:39.8482213Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-12T13:30:39.8483607Z Initialized empty Git repository in /home/runner/work/VRAE/VRAE/.git/
+2026-11-12T13:30:39.8486096Z [command]/usr/bin/git remote add origin https://github.com/gloweaseco-leo/VRAE
+2026-11-12T13:30:39.8528813Z ##[endgroup]
+2026-11-12T13:30:39.8530502Z ##[group]Disabling automatic garbage collection
+2026-11-12T13:30:39.8531882Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-12T13:30:39.8561933Z ##[endgroup]
+2026-11-12T13:30:39.8562978Z ##[group]Setting up auth
+2026-11-12T13:30:39.8567578Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-12T13:30:39.8601263Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-12T13:30:39.8972106Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-12T13:30:39.9001494Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-12T13:30:39.9232822Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-12T13:30:39.9261415Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-12T13:30:39.9494458Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-12T13:30:39.9530055Z ##[endgroup]
+2026-11-12T13:30:39.9537792Z ##[group]Fetching the repository
+2026-11-12T13:30:39.9540072Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e5907a8f5f386fc2413c697936757eac49405c28:refs/remotes/pull/61/merge
+2026-11-12T13:30:43.1672693Z From https://github.com/gloweaseco-leo/VRAE
+2026-11-12T13:30:43.1674326Z  * [new ref]         e5907a8f5f386fc2413c697936757eac49405c28 -> pull/61/merge
+2026-11-12T13:30:43.1676973Z ##[endgroup]
+2026-11-12T13:30:43.1677981Z ##[group]Determining the checkout info
+2026-11-12T13:30:43.1679647Z ##[endgroup]
+2026-11-12T13:30:43.1683441Z [command]/usr/bin/git sparse-checkout disable
+2026-11-12T13:30:43.1726857Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-12T13:30:43.1753222Z ##[group]Checking out the ref
+2026-11-12T13:30:43.1755760Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/61/merge
+2026-11-12T13:30:43.4609320Z Note: switching to 'refs/remotes/pull/61/merge'.
+2026-11-12T13:30:43.4609910Z 
+2026-11-12T13:30:43.4610197Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-12T13:30:43.4610651Z changes and commit them, and you can discard any commits you make in this
+2026-11-12T13:30:43.4611116Z state without impacting any branches by switching back to a branch.
+2026-11-12T13:30:43.4611391Z 
+2026-11-12T13:30:43.4611598Z If you want to create a new branch to retain commits you create, you may
+2026-11-12T13:30:43.4612004Z do so (now or later) by using -c with the switch command. Example:
+2026-11-12T13:30:43.4612233Z 
+2026-11-12T13:30:43.4612345Z   git switch -c <new-branch-name>
+2026-11-12T13:30:43.4612594Z 
+2026-11-12T13:30:43.4612709Z Or undo this operation with:
+2026-11-12T13:30:43.4613259Z 
+2026-11-12T13:30:43.4613352Z   git switch -
+2026-11-12T13:30:43.4613491Z 
+2026-11-12T13:30:43.4613697Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-12T13:30:43.4614000Z 
+2026-11-12T13:30:43.4614296Z HEAD is now at e5907a8 Merge f54c0882c24e0e44168cce3a67d63b45ae08776a into a185f9ce7e67904f2c0aef854716ca9844144592
+2026-11-12T13:30:43.4699865Z ##[endgroup]
+2026-11-12T13:30:43.4764682Z [command]/usr/bin/git log -1 --format=%H
+2026-11-12T13:30:43.4786096Z e5907a8f5f386fc2413c697936757eac49405c28
+2026-11-12T13:30:43.5098764Z ##[group]Run actions/setup-python@v5
+2026-11-12T13:30:43.5099066Z with:
+2026-11-12T13:30:43.5099284Z   python-version: 3.13
+2026-11-12T13:30:43.5099507Z   check-latest: false
+2026-11-12T13:30:43.5101791Z   token: ***
+2026-11-12T13:30:43.5102005Z   update-environment: true
+2026-11-12T13:30:43.5102241Z   allow-prereleases: false
+2026-11-12T13:30:43.5102501Z   freethreaded: false
+2026-11-12T13:30:43.5102737Z ##[endgroup]
+2026-11-12T13:30:43.6170569Z ##[group]Installed versions
+2026-11-12T13:30:43.6252132Z (node:2212) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-12T13:30:43.6252937Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-12T13:30:43.6253528Z Successfully set up CPython (3.13.18)
+2026-11-12T13:30:43.6254198Z ##[endgroup]
+2026-11-12T13:30:43.6417399Z ##[group]Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+2026-11-12T13:30:43.6418049Z [36;1mpython -m pip install -e '.[dev]' -c requirements-ra1a.lock[0m
+2026-11-12T13:30:43.6563232Z shell: /usr/bin/bash -e {0}
+2026-11-12T13:30:43.6563547Z env:
+2026-11-12T13:30:43.6563838Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:43.6564300Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T13:30:43.6564697Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:43.6565066Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:43.6565402Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:43.6565739Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T13:30:43.6566032Z ##[endgroup]
+2026-11-12T13:30:46.1345813Z Obtaining file:///home/runner/work/VRAE/VRAE
+2026-11-12T13:30:46.1358208Z   Installing build dependencies: started
+2026-11-12T13:30:46.8244987Z   Installing build dependencies: finished with status 'done'
+2026-11-12T13:30:46.8249787Z   Checking if build backend supports build_editable: started
+2026-11-12T13:30:47.1506951Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-11-12T13:30:47.1513724Z   Getting requirements to build editable: started
+2026-11-12T13:30:47.4362012Z   Getting requirements to build editable: finished with status 'done'
+2026-11-12T13:30:47.4368700Z   Preparing editable metadata (pyproject.toml): started
+2026-11-12T13:30:47.6014273Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-11-12T13:30:47.6552901Z Collecting jsonschema<5,>=4.23 (from vrae==0.1.0)
+2026-11-12T13:30:47.7290673Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-11-12T13:30:47.7429209Z Collecting h11==0.16.0 (from vrae==0.1.0)
+2026-11-12T13:30:47.7564922Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-11-12T13:30:47.7715333Z Collecting dnspython==2.8.0 (from vrae==0.1.0)
+2026-11-12T13:30:47.7845924Z   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+2026-11-12T13:30:47.8182543Z Collecting pytest<10,>=8 (from vrae==0.1.0)
+2026-11-12T13:30:47.8313974Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+2026-11-12T13:30:47.8621663Z Collecting PyYAML<7,>=6 (from vrae==0.1.0)
+2026-11-12T13:30:47.8756392Z   Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-12T13:30:48.0999412Z Collecting ruff<1,>=0.9 (from vrae==0.1.0)
+2026-11-12T13:30:48.1143930Z   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+2026-11-12T13:30:48.1918755Z Collecting mypy<2,>=1.14 (from vrae==0.1.0)
+2026-11-12T13:30:48.2067619Z   Downloading mypy-1.20.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-12T13:30:48.2224207Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T13:30:48.2390290Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-11-12T13:30:48.2718612Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T13:30:48.2856210Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-11-12T13:30:48.3039430Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T13:30:48.3181667Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-11-12T13:30:48.4919922Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T13:30:48.5056630Z   Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-11-12T13:30:48.5215700Z Collecting typing_extensions>=4.6.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T13:30:48.5349916Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-12T13:30:48.5470006Z Collecting mypy_extensions>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T13:30:48.5603999Z   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+2026-11-12T13:30:48.5757845Z Collecting pathspec>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T13:30:48.5891588Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-11-12T13:30:48.6768740Z Collecting librt>=0.8.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T13:30:48.7018239Z   Downloading librt-0.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-11-12T13:30:48.7173669Z Collecting iniconfig>=2 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T13:30:48.7307522Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-12T13:30:48.7452711Z Collecting packaging>=24 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T13:30:48.7588020Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-11-12T13:30:48.7742844Z Collecting pluggy<2,>=1.6 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T13:30:48.7975772Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-12T13:30:48.8158029Z Collecting pygments>=2.15 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T13:30:48.8301945Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-11-12T13:30:48.8504408Z Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+2026-11-12T13:30:48.9995010Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-11-12T13:30:49.0155118Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-11-12T13:30:49.0329215Z Downloading mypy-1.20.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.7 MB)
+2026-11-12T13:30:49.2598084Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.7/14.7 MB 65.2 MB/s  0:00:00
+2026-11-12T13:30:49.2732072Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+2026-11-12T13:30:49.2918366Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-12T13:30:49.3074009Z Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+2026-11-12T13:30:49.3164090Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 74.8 MB/s  0:00:00
+2026-11-12T13:30:49.3297655Z Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+2026-11-12T13:30:49.4153765Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 123.3 MB/s  0:00:00
+2026-11-12T13:30:49.4286678Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-11-12T13:30:49.4438564Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-12T13:30:49.4595615Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-11-12T13:30:49.4749147Z Downloading librt-0.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (531 kB)
+2026-11-12T13:30:49.4799490Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 531.7/531.7 kB 92.8 MB/s  0:00:00
+2026-11-12T13:30:49.4960462Z Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+2026-11-12T13:30:49.5125076Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-11-12T13:30:49.5293907Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-11-12T13:30:49.5781981Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-11-12T13:30:49.5914550Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 94.7 MB/s  0:00:00
+2026-11-12T13:30:49.6061531Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-11-12T13:30:49.6242496Z Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (370 kB)
+2026-11-12T13:30:49.6494665Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-12T13:30:49.7060190Z Building wheels for collected packages: vrae
+2026-11-12T13:30:49.7066130Z   Building editable for vrae (pyproject.toml): started
+2026-11-12T13:30:49.9012966Z   Building editable for vrae (pyproject.toml): finished with status 'done'
+2026-11-12T13:30:49.9017172Z   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2752 sha256=91c005715f38298f33080c97347d294190eab124fce9ac0a6bd8af9a2379b3ab
+2026-11-12T13:30:49.9018224Z   Stored in directory: /tmp/pip-ephem-wheel-cache-pgc2w7p7/wheels/23/da/fa/2e5dca0e1b5e3248780677eb713062300223b606adc0296629
+2026-11-12T13:30:49.9030198Z Successfully built vrae
+2026-11-12T13:30:49.9377178Z Installing collected packages: typing_extensions, ruff, rpds-py, PyYAML, pygments, pluggy, pathspec, packaging, mypy_extensions, librt, iniconfig, h11, dnspython, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema, vrae
+2026-11-12T13:30:52.9502302Z 
+2026-11-12T13:30:52.9522731Z Successfully installed PyYAML-6.0.3 attrs-26.1.0 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 packaging-26.3 pathspec-1.1.1 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 typing_extensions-4.16.0 vrae-0.1.0
+2026-11-12T13:30:52.9529192Z 
+2026-11-12T13:30:52.9529467Z [notice] A new release of pip is available: 26.2.2 -> 26.3
+2026-11-12T13:30:52.9529796Z [notice] To update, run: pip install --upgrade pip
+2026-11-12T13:30:53.0493603Z ##[group]Run python -m compileall -q vrae
+2026-11-12T13:30:53.0493900Z [36;1mpython -m compileall -q vrae[0m
+2026-11-12T13:30:53.0540053Z shell: /usr/bin/bash -e {0}
+2026-11-12T13:30:53.0540259Z env:
+2026-11-12T13:30:53.0540483Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.0540824Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T13:30:53.0541151Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.0541459Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.0541744Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.0542032Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T13:30:53.0542283Z ##[endgroup]
+2026-11-12T13:30:53.1519659Z ##[group]Run ruff check vrae tests --select E4,E7,E9,F
+2026-11-12T13:30:53.1519984Z [36;1mruff check vrae tests --select E4,E7,E9,F[0m
+2026-11-12T13:30:53.1565586Z shell: /usr/bin/bash -e {0}
+2026-11-12T13:30:53.1565794Z env:
+2026-11-12T13:30:53.1566020Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.1566356Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T13:30:53.1566694Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.1566998Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.1567290Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.1567756Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T13:30:53.1568022Z ##[endgroup]
+2026-11-12T13:30:53.1780280Z All checks passed!
+2026-11-12T13:30:53.1819440Z ##[group]Run mypy vrae
+2026-11-12T13:30:53.1819652Z [36;1mmypy vrae[0m
+2026-11-12T13:30:53.1865128Z shell: /usr/bin/bash -e {0}
+2026-11-12T13:30:53.1865338Z env:
+2026-11-12T13:30:53.1865565Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.1865907Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T13:30:53.1866228Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.1866522Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.1866826Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:53.1867134Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T13:30:53.1867385Z ##[endgroup]
+2026-11-12T13:30:55.4834238Z Success: no issues found in 57 source files
+2026-11-12T13:30:55.5031370Z ##[group]Run python -m pytest -q
+2026-11-12T13:30:55.5031625Z [36;1mpython -m pytest -q[0m
+2026-11-12T13:30:55.5075793Z shell: /usr/bin/bash -e {0}
+2026-11-12T13:30:55.5075995Z env:
+2026-11-12T13:30:55.5076216Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:55.5076555Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T13:30:55.5076890Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:55.5077191Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:55.5077483Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:30:55.5077770Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T13:30:55.5078024Z ##[endgroup]
+2026-11-12T13:31:03.9651215Z ........................................................................ [  3%]
+2026-11-12T13:31:04.8954563Z .......................s.....................................sssssssssss [  6%]
+2026-11-12T13:31:05.6944409Z sssssssssssss........................................................... [ 10%]
+2026-11-12T13:31:07.0511739Z ........................................................................ [ 13%]
+2026-11-12T13:31:17.3837658Z ........................................................................ [ 16%]
+2026-11-12T13:31:28.2318857Z ........................................................................ [ 20%]
+2026-11-12T13:31:48.3611748Z ........................................................................ [ 23%]
+2026-11-12T13:32:02.8251211Z ........................................................................ [ 26%]
+2026-11-12T13:32:11.1106071Z ........................................................................ [ 30%]
+2026-11-12T13:32:22.5754653Z ........................................................................ [ 33%]
+2026-11-12T13:32:24.9092007Z ........................................................................ [ 36%]
+2026-11-12T13:32:48.7577398Z ........................................................................ [ 40%]
+2026-11-12T13:33:22.4061921Z ........................................................................ [ 43%]
+2026-11-12T13:33:37.7905400Z ........................................................................ [ 47%]
+2026-11-12T13:33:47.8055241Z ........................................................................ [ 50%]
+2026-11-12T13:34:00.0665828Z ........................................................................ [ 53%]
+2026-11-12T13:34:12.7499430Z ........................................................................ [ 57%]
+2026-11-12T13:34:54.5431824Z ........................................................................ [ 60%]
+2026-11-12T13:35:07.7437712Z ........OWNER_RA3C_V2_ACTUAL_COLLECTION {"approved_browser_receipt_sha256": "0b0c1ae1470710982f1b0867d5d31673d37ac2098b0cc2b3e64f6b96dbc31a6e", "browser_run_during_collection": false, "denial_ids": ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T12", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10", "C01", "C02", "C03", "C04", "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10", "D11", "D12", "E01", "E02", "E09", "E10", "E11", "E12", "E13", "E14", "F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08", "M08_INCOMPLETE"], "denials_collected": 54, "frozen_code_identity": "e2f9466f06bb3e7afbaf2e55575562d9d6fb453e", "frozen_oracles_modified": false, "github_checkout_sha": "e5907a8f5f386fc2413c697936757eac49405c28", "historical_v1_omitted_from_default": 64, "observation_stage": "OWNER_ACCEPTED_PHASE_B_EXACT_RENDERER_EVIDENCE", "primary_collected": 64, "primary_ids": ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10", "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10", "D11", "D12", "E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10", "E11", "E12", "E13", "E14", "F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08"], "profile_sha256": "f6d9f5432314e567016b3e09a84d753cc54fa6d6bd4543492fc1ee692b781294", "source_path": "docs/03-engineering/ra3c-independent-qa/owner-adjudicated-v2/test_acceptance_v2.py", "source_sha256": "9e60d3e307d3a4726adca62b79319b6a85f11a65453390b68a5003bd6a643e62", "transported_json_pointers": ["/viewports/375/screenshot_path", "/viewports/1280/screenshot_path", "/business_review/value_memo/comparison/zero_screenshot_path"], "verified_evidence_members": 24, "version": "OWNER_AUTHORIZED_RA3C_PHASE_C_MINIMAL_COLLECTION_V2"}
+2026-11-12T13:36:28.1565500Z ........................................................................ [ 64%]
+2026-11-12T13:36:54.6391387Z ..............................................OWNER_RA3C_V2_ACTUAL_CALL_REPORTS {"actual_call_reports": {"tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B05]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B06]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B07]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B08]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B09]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B10]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[C01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[C02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[C03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[C04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D05]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D06]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D07]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D08]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D09]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D10]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D11]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D12]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E09]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E10]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E11]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E12]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E13]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E14]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F05]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F06]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F07]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F08]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[M08_INCOMPLETE]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T05]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T06]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T07]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T08]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T09]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T10]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T12]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B01-Four layers are distinguishable in structured and rendered output]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B02-Potential impact stays provisional human review]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B03-Suggested action remains proposed, not approved delivery]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B04-Recheck names the recorded path and observable status]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B05-Verified INQUIRE buyer task preserved]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B06-Capture date/pages/unchecked scope visible]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B07-Chinese-first fact wording has no unsupported certainty]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B08-VEYFRONT action is scoped discussion, not complex-platform commitment]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B09-No invented severity, confidence, whole-site score or ROI]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B10-Next step does not claim a lead, sale or consultation occurred]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C01-Every issue points to original verified native Finding]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C02-Quoted source bytes/positions and individual guard binding match]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C03-URL/href/status/time/scope all trace exact captured edge]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C04-TRUST/SEO/INFO positives are never repackaged as defects]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C05-Real refs do not prove legal registration, ISO or factory ownership]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C06-Real refs do not prove search rank, uplift, loss or causality]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C07-Contact 200 does not prove delivery or customer case]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C08-Caller-held guard/package pins are not replaced from output]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D01-Deterministic build-load-verify round trip includes exact HTML]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D02-Editorial fact wording changed after hash fails closed]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D03-HTML bytes changed after hash fails closed]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D04-Citation ID or URL changed after hash fails closed]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D05-Cross tenant/run/policy cannot inherit report identity]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D06-Source timestamp, coverage and version are hash-bound]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D07-Language/layout/asset versions are content-bound]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D08-Claim status/guard ref alteration is rejected]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D09-New valid version cannot load under old independent digest]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D10-APPROVED/by/time/shareable forgery fails closed]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D11-Fabricated ReviewDecision/ShareGrant cannot authorize native draft]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D12-Native ReportVersion, when included, validates exact RA0 finding hash]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E01-Standalone HTML has no executable or remote dependency]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E02-Source/evidence links remain internal anchors]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E03-Captured script-shaped text remains inert]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E04-Image/onerror source remains inert]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E05-javascript/data/encoded href cannot become active navigation]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E06-Model role delimiters and tool commands cannot change authority]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E07-Long untrusted title remains bounded, not a debug dump]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E08-Bidi/RTL text cannot impersonate privacy controls]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E09-PII may be bounded reviewer text, never public href/token]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E10-All evidence anchors are unique and resolvable]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E11-Primary report is not the full raw evidence/guard JSON]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E12-No unsupported customer photograph/testimonial/case claim]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E13-No active send/share/contact form or enabled lead action]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E14-UTF-8 Chinese page and legible private synthetic state]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F01-Actual 375px mobile reading: no horizontal overflow]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F02-Actual 1280px desktop: one-page hierarchy readable]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F03-Actual citation click/expand reaches correct recorded source]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F04-Private/not-approved badge visible above fold on both sizes]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F05-Genuine screenshots bind exact HTML/candidate, zero external requests]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F06-Source-bound QA reading memo separates four business layers]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F07-Actual review states what VEYFRONT can offer and cannot promise]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F08-Compare 0/1-issue drafts for honest commercial usefulness]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T01-404: one captured product-contact failure, TRUST unknown]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T02-410: independent capture, one issue not combined with 404]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T03-200: truthful zero issues, no native empty ReportVersion]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T04-403: inaccessible is not a business defect]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T05-WAF challenge: honest restricted coverage]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T06-Robots denied contact: no invented FAIL]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T07-Unretained raw source: no unsupported objective report]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T08-Unvisited contact: no assertion of broken inquiry]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T09-500: transient source failure is not proven 404 defect]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T10-Repeated contact edge is one buyer problem]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T11-200/404 pack mix cannot launder a finding]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T12-Padding one issue to four cannot load as the original draft]": "passed"}, "denial_count": 54, "primary_count": 64, "setup_or_call_problems": [], "source_sha256": "9e60d3e307d3a4726adca62b79319b6a85f11a65453390b68a5003bd6a643e62"}
+2026-11-12T13:37:00.4073270Z ........................................................................ [ 69%]
+2026-11-12T13:37:07.8218144Z ........................................................................ [ 73%]
+2026-11-12T13:37:13.1506227Z ........................................................................ [ 76%]
+2026-11-12T13:37:17.5196664Z ........................................................................ [ 79%]
+2026-11-12T13:37:27.2730110Z ........................................................................ [ 83%]
+2026-11-12T13:37:30.7343013Z ........................................................................ [ 86%]
+2026-11-12T13:37:32.0593895Z ........................................................................ [ 89%]
+2026-11-12T13:37:32.1028200Z ........................................................................ [ 93%]
+2026-11-12T13:37:32.1439877Z ........................................................................ [ 96%]
+2026-11-12T13:37:32.1795541Z ........................................................................ [ 99%]
+2026-11-12T13:37:32.2559753Z ..                                                                       [100%]
+2026-11-12T13:37:32.2560227Z =========================== short test summary info ============================
+2026-11-12T13:37:32.2560842Z SKIPPED [1] tests/browser/test_isolated_browser.py:60: Requires separate sandboxed Chromium and Worker containers
+2026-11-12T13:37:32.2561672Z SKIPPED [1] tests/collection/test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2563025Z SKIPPED [5] tests/collection/test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2563920Z SKIPPED [2] tests/collection/test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2564493Z SKIPPED [5] tests/collection/test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2565061Z SKIPPED [1] tests/collection/test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2565607Z SKIPPED [5] tests/collection/test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2566152Z SKIPPED [3] tests/collection/test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2566840Z SKIPPED [1] tests/collection/test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2567396Z SKIPPED [1] tests/collection/test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+2026-11-12T13:37:32.2567801Z 2119 passed, 25 skipped in 396.27s (0:06:36)
+2026-11-12T13:37:32.3624178Z ##[group]Run python -m pip check
+2026-11-12T13:37:32.3624457Z [36;1mpython -m pip check[0m
+2026-11-12T13:37:32.3669257Z shell: /usr/bin/bash -e {0}
+2026-11-12T13:37:32.3669462Z env:
+2026-11-12T13:37:32.3669681Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:37:32.3670028Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T13:37:32.3670360Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:37:32.3670653Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:37:32.3670939Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T13:37:32.3671225Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T13:37:32.3671517Z ##[endgroup]
+2026-11-12T13:37:32.5497194Z No broken requirements found.
+2026-11-12T13:37:32.6471279Z Post job cleanup.
+2026-11-12T13:37:32.7472631Z (node:2423) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-12T13:37:32.7474328Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-12T13:37:32.7716647Z Post job cleanup.
+2026-11-12T13:37:32.8481116Z [command]/usr/bin/git version
+2026-11-12T13:37:32.8517864Z git version 2.56.0
+2026-11-12T13:37:32.8547148Z Temporarily overriding HOME='/home/runner/work/_temp/33f8a4ec-4d65-4c81-b99e-d4b34237f7f4' before making global git config changes
+2026-11-12T13:37:32.8548146Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-12T13:37:32.8552322Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-12T13:37:32.8593677Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-12T13:37:32.8623307Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-12T13:37:32.8899561Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-12T13:37:32.8935214Z http.https://github.com/.extraheader
+2026-11-12T13:37:32.8944185Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-12T13:37:32.8980153Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-12T13:37:32.9242519Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-12T13:37:32.9271712Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-12T13:37:32.9639536Z Cleaning up orphan processes
+2026-11-12T13:37:32.9998770Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

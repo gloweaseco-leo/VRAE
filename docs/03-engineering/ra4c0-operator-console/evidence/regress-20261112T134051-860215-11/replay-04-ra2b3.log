@@ -1,0 +1,179 @@
+{
+  "status": "PASS_BOUNDED_OFFLINE_STATIC_INFO01",
+  "pack_ref": "ep-d82d81820bee4be72d9dccac7be6c0b687d07d8a447cc785774815e46c03ff2b",
+  "facts_ref": "pf-af2fd180675f61a550f60e6dbaf84c2d88e460d7ba98e1cbd4511213e2357251",
+  "execution_ref": "rx-d72a3d2419b79606fe7d27a3a442af34a44c293fe88709741a862605d713b31b",
+  "evaluator_version": "ra2b3-1.0.0",
+  "observation": {
+    "schema_version": "1.0",
+    "tenant_id": "tenant-example",
+    "run_id": "run-product-info",
+    "rule_id": "INFO-01",
+    "rule_version": "1.0.0",
+    "evidence_ids": [
+      "ev-af5eb610839575395c9aa76336a329e7dd4ebb629d2b63aa555977f31cacb539"
+    ],
+    "result": "PASS",
+    "kind": "OBJECTIVE",
+    "statement": "A product display name and at least one label-value specification were observed in this captured static HTML.",
+    "coverage_note": "One captured product-path page, URL role heuristic only; original static h1 and TH/TD text only. No rendered visibility, SKU identity, specification accuracy, authenticity, engineering fit, completeness, buyer comprehension or business impact. Missing, empty or ambiguous information is not a website defect.",
+    "observation_id": "obs-81892aecd845a1f703c51174b0a1de4ad1bf590d8be3a21775c8cb2af57e37d6"
+  },
+  "source_page": {
+    "source_ref": "src-71b87b9f660c16fd7d01f7cc534e02f4b1ee5b94252f511abdb9fb904e004198",
+    "locator": "/pages/1",
+    "snapshot_ref": "page-cd2bda3f28255a7d49f0f2ceed89f69a88a90e48b8c0ee6b096b3eada033301b",
+    "url": "https://example.org/products/sv-40",
+    "final_url": "https://example.org/products/sv-40",
+    "observed_at": "2026-11-10T12:00:00+00:00",
+    "http_status": 200,
+    "redirect_trace": [
+      {
+        "location": null,
+        "peer_ip": "93.184.216.20",
+        "status": 200,
+        "url": "https://example.org/products/sv-40"
+      }
+    ],
+    "error": null
+  },
+  "citations": [
+    {
+      "text": "SV-40 flanged isolation valve",
+      "element": {
+        "path": "/html[1]/body[2]/main[1]/h1[1]",
+        "line": 6,
+        "column": 0,
+        "start_tag": "<h1>"
+      },
+      "evidence_ref": "ev-af5eb610839575395c9aa76336a329e7dd4ebb629d2b63aa555977f31cacb539",
+      "source_ref": "src-71b87b9f660c16fd7d01f7cc534e02f4b1ee5b94252f511abdb9fb904e004198",
+      "snapshot_ref": "page-cd2bda3f28255a7d49f0f2ceed89f69a88a90e48b8c0ee6b096b3eada033301b",
+      "locator": "/pages/1/evidence",
+      "content_sha256": "97bfeb78f406de410178175115cde9cd5a23e18114ff6005a2efd3e61ed87b79",
+      "url": "https://example.org/products/sv-40",
+      "final_url": "https://example.org/products/sv-40",
+      "observed_at": "2026-11-10T12:00:00+00:00",
+      "fact_role": "NAME",
+      "field_index": null
+    },
+    {
+      "text": "Body material",
+      "element": {
+        "path": "/html[1]/body[2]/main[1]/table[3]/tr[1]/th[1]",
+        "line": 9,
+        "column": 4,
+        "start_tag": "<th>"
+      },
+      "evidence_ref": "ev-af5eb610839575395c9aa76336a329e7dd4ebb629d2b63aa555977f31cacb539",
+      "source_ref": "src-71b87b9f660c16fd7d01f7cc534e02f4b1ee5b94252f511abdb9fb904e004198",
+      "snapshot_ref": "page-cd2bda3f28255a7d49f0f2ceed89f69a88a90e48b8c0ee6b096b3eada033301b",
+      "locator": "/pages/1/evidence",
+      "content_sha256": "97bfeb78f406de410178175115cde9cd5a23e18114ff6005a2efd3e61ed87b79",
+      "url": "https://example.org/products/sv-40",
+      "final_url": "https://example.org/products/sv-40",
+      "observed_at": "2026-11-10T12:00:00+00:00",
+      "fact_role": "SPEC_LABEL",
+      "field_index": 0
+    },
+    {
+      "text": "Stainless steel 316L",
+      "element": {
+        "path": "/html[1]/body[2]/main[1]/table[3]/tr[1]/td[2]",
+        "line": 9,
+        "column": 26,
+        "start_tag": "<td>"
+      },
+      "evidence_ref": "ev-af5eb610839575395c9aa76336a329e7dd4ebb629d2b63aa555977f31cacb539",
+      "source_ref": "src-71b87b9f660c16fd7d01f7cc534e02f4b1ee5b94252f511abdb9fb904e004198",
+      "snapshot_ref": "page-cd2bda3f28255a7d49f0f2ceed89f69a88a90e48b8c0ee6b096b3eada033301b",
+      "locator": "/pages/1/evidence",
+      "content_sha256": "97bfeb78f406de410178175115cde9cd5a23e18114ff6005a2efd3e61ed87b79",
+      "url": "https://example.org/products/sv-40",
+      "final_url": "https://example.org/products/sv-40",
+      "observed_at": "2026-11-10T12:00:00+00:00",
+      "fact_role": "SPEC_VALUE",
+      "field_index": 0
+    },
+    {
+      "text": "Nominal pressure",
+      "element": {
+        "path": "/html[1]/body[2]/main[1]/table[3]/tr[2]/th[1]",
+        "line": 10,
+        "column": 4,
+        "start_tag": "<th>"
+      },
+      "evidence_ref": "ev-af5eb610839575395c9aa76336a329e7dd4ebb629d2b63aa555977f31cacb539",
+      "source_ref": "src-71b87b9f660c16fd7d01f7cc534e02f4b1ee5b94252f511abdb9fb904e004198",
+      "snapshot_ref": "page-cd2bda3f28255a7d49f0f2ceed89f69a88a90e48b8c0ee6b096b3eada033301b",
+      "locator": "/pages/1/evidence",
+      "content_sha256": "97bfeb78f406de410178175115cde9cd5a23e18114ff6005a2efd3e61ed87b79",
+      "url": "https://example.org/products/sv-40",
+      "final_url": "https://example.org/products/sv-40",
+      "observed_at": "2026-11-10T12:00:00+00:00",
+      "fact_role": "SPEC_LABEL",
+      "field_index": 1
+    },
+    {
+      "text": "PN 40 (4.0 MPa)",
+      "element": {
+        "path": "/html[1]/body[2]/main[1]/table[3]/tr[2]/td[2]",
+        "line": 10,
+        "column": 29,
+        "start_tag": "<td>"
+      },
+      "evidence_ref": "ev-af5eb610839575395c9aa76336a329e7dd4ebb629d2b63aa555977f31cacb539",
+      "source_ref": "src-71b87b9f660c16fd7d01f7cc534e02f4b1ee5b94252f511abdb9fb904e004198",
+      "snapshot_ref": "page-cd2bda3f28255a7d49f0f2ceed89f69a88a90e48b8c0ee6b096b3eada033301b",
+      "locator": "/pages/1/evidence",
+      "content_sha256": "97bfeb78f406de410178175115cde9cd5a23e18114ff6005a2efd3e61ed87b79",
+      "url": "https://example.org/products/sv-40",
+      "final_url": "https://example.org/products/sv-40",
+      "observed_at": "2026-11-10T12:00:00+00:00",
+      "fact_role": "SPEC_VALUE",
+      "field_index": 1
+    },
+    {
+      "text": "Nominal diameter",
+      "element": {
+        "path": "/html[1]/body[2]/main[1]/table[3]/tr[3]/th[1]",
+        "line": 11,
+        "column": 4,
+        "start_tag": "<th>"
+      },
+      "evidence_ref": "ev-af5eb610839575395c9aa76336a329e7dd4ebb629d2b63aa555977f31cacb539",
+      "source_ref": "src-71b87b9f660c16fd7d01f7cc534e02f4b1ee5b94252f511abdb9fb904e004198",
+      "snapshot_ref": "page-cd2bda3f28255a7d49f0f2ceed89f69a88a90e48b8c0ee6b096b3eada033301b",
+      "locator": "/pages/1/evidence",
+      "content_sha256": "97bfeb78f406de410178175115cde9cd5a23e18114ff6005a2efd3e61ed87b79",
+      "url": "https://example.org/products/sv-40",
+      "final_url": "https://example.org/products/sv-40",
+      "observed_at": "2026-11-10T12:00:00+00:00",
+      "fact_role": "SPEC_LABEL",
+      "field_index": 2
+    },
+    {
+      "text": "DN 50",
+      "element": {
+        "path": "/html[1]/body[2]/main[1]/table[3]/tr[3]/td[2]",
+        "line": 11,
+        "column": 29,
+        "start_tag": "<td>"
+      },
+      "evidence_ref": "ev-af5eb610839575395c9aa76336a329e7dd4ebb629d2b63aa555977f31cacb539",
+      "source_ref": "src-71b87b9f660c16fd7d01f7cc534e02f4b1ee5b94252f511abdb9fb904e004198",
+      "snapshot_ref": "page-cd2bda3f28255a7d49f0f2ceed89f69a88a90e48b8c0ee6b096b3eada033301b",
+      "locator": "/pages/1/evidence",
+      "content_sha256": "97bfeb78f406de410178175115cde9cd5a23e18114ff6005a2efd3e61ed87b79",
+      "url": "https://example.org/products/sv-40",
+      "final_url": "https://example.org/products/sv-40",
+      "observed_at": "2026-11-10T12:00:00+00:00",
+      "fact_role": "SPEC_VALUE",
+      "field_index": 2
+    }
+  ],
+  "historical_execution_refs": {
+    "ra2b0-1.0.0": "rx-76b0f12247a60610f3c7523eace3baa34a2e3af5cb1db6b341f8267132c8fc95",
+    "ra2b1-1.0.0": "rx-48255b6ec24abfb3b6017a60d59f2e64c3d8603c3abd04a588f94fe23933ab1f"
+  }
+}

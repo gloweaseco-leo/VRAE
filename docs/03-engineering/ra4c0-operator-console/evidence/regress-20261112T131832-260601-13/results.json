@@ -1,0 +1,48 @@
+{
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "baseline": "f54c0882c24e0e44168cce3a67d63b45ae08776a",
+  "rows": [
+    {
+      "name": "ruff",
+      "argv": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "apps/operator_console",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0
+    },
+    {
+      "name": "mypy",
+      "argv": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "actual_exit": 0,
+      "expected_exit": 0
+    },
+    {
+      "name": "full",
+      "argv": [
+        "D:\\Projects\\VRAE-Codex2\\.worktrees\\ra2b3\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "-p",
+        "no:cacheprovider",
+        "--junitxml=D:\\Projects\\VRAE-Codex2\\.worktrees\\ra4c0\\docs\\03-engineering\\ra4c0-operator-console\\evidence\\regress-20261112T131832-260601-13\\full.xml"
+      ],
+      "actual_exit": 1,
+      "expected_exit": 0
+    }
+  ]
+}
