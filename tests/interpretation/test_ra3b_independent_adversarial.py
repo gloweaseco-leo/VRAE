@@ -169,11 +169,22 @@ def test_relabeling_false_semantics_never_auto_verifies(kind, text):
 @pytest.mark.parametrize('rehash_attack', [False, True])
 def test_fact_tamper_even_with_recomputed_hashes(part, rehash_attack):
     args = proposal()
+    if part == 'fact_ref' and rehash_attack:
+        original_binding_bytes = json.dumps(args[1][0], sort_keys=True, ensure_ascii=False,
+                                            separators=(',', ':')).encode('utf-8')
     f = args[1][0]['fact']
     target = f['source'] if part in ('quote', 'byte_start', 'byte_end', 'coverage_status') else f
     target[part] = target[part] + 1 if isinstance(target[part], int) else 'forged-codex1'
     if rehash_attack:
-        rehash(args[1][0])
+        if part == 'fact_ref':
+            # OWNER_ADJUDICATED_QA_V2: keep the forged inner ref; reseal only its wrapper.
+            b = args[1][0]
+            b['binding_ref'] = 'cb-' + document_hash({k: v for k, v in b.items() if k != 'binding_ref'})
+            assert b['fact']['fact_ref'] == 'forged-codex1'
+            assert json.dumps(b, sort_keys=True, ensure_ascii=False,
+                              separators=(',', ':')).encode('utf-8') != original_binding_bytes
+        else:
+            rehash(args[1][0])
     rejected(args)
 
 
