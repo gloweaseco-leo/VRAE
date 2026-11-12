@@ -1,0 +1,134 @@
+{
+  "phase": "A_PREREQUISITE_RED",
+  "base_sha": "2429be6dc5d7dcb48221ab179f063b93ce4b1956",
+  "qa_source_sha": "fa645b58549dfd21a6b80656d403f672b790acd8",
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+  "started_at": "2026-11-12T04:20:41.672290+00:00",
+  "reporting_feature_pass": false,
+  "visual": "VISUAL_NOT_VERIFIED",
+  "adapter": "NOT_BOUND",
+  "gold": "OWNER_AUTHORIZED_GOLD_DEFERRED_0_OF_26",
+  "jobs": [
+    {
+      "name": "input-audit",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "D:\\Projects\\VRAE\\.worktrees\\ra3c-independent-qa\\docs\\03-engineering\\ra3c-independent-qa\\audit_inputs.py"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "seconds": 49.999,
+      "log_sha256": "ef8c9c50b6f7f938f6817181849642cadddb67b055347fa4124cf8773ca2e51c"
+    },
+    {
+      "name": "ruff",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "tests/reporting/test_ra3c_independent_acceptance.py",
+        "D:\\Projects\\VRAE\\.worktrees\\ra3c-independent-qa\\docs\\03-engineering\\ra3c-independent-qa\\audit_inputs.py",
+        "D:\\Projects\\VRAE\\.worktrees\\ra3c-independent-qa\\docs\\03-engineering\\ra3c-independent-qa\\make_inputs.py",
+        "D:\\Projects\\VRAE\\.worktrees\\ra3c-independent-qa\\docs\\03-engineering\\ra3c-independent-qa\\run_phase_a.py",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "seconds": 0.651,
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "name": "prerequisite-red",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/reporting/test_ra3c_independent_acceptance.py",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra3c-independent-qa\\docs\\03-engineering\\ra3c-independent-qa\\phase-a\\py313\\prerequisite-red.xml",
+        "-o",
+        "junit_family=legacy"
+      ],
+      "returncode": 1,
+      "expected_returncode": 1,
+      "seconds": 13.555,
+      "log_sha256": "bf26928dcc047ea0fa25d4c71879fe0c7f2cc3951e01e77bf7ef47a5db634ed3",
+      "junit": {
+        "tests": 64,
+        "errors": 64,
+        "failures": 0,
+        "skipped": 0,
+        "passed": 0
+      },
+      "junit_sha256": "85127c219e21bc6b28d1897e5614082b2aa34b1b55a45208c8dd7f9bdb40f44e"
+    },
+    {
+      "name": "accepted-controls",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/interpretation/test_ra3b_independent_adversarial.py",
+        "tests/findings/test_ra2c3_independent_adversarial.py",
+        "tests/test_domain.py",
+        "tests/test_contracts.py",
+        "tests/test_ra0f_regressions.py",
+        "tests/collection/test_security.py",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra3c-independent-qa\\docs\\03-engineering\\ra3c-independent-qa\\phase-a\\py313\\accepted-controls.xml"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "seconds": 767.755,
+      "log_sha256": "a43348bdaa1f330c5944f20b234962e145f0516e815060de3bf4eea4b9510827",
+      "junit": {
+        "tests": 681,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "passed": 681
+      },
+      "junit_sha256": "b6ef9b705349a22fc94c9b264a9041d62a2f7ff5d4f77ea01e1f4978c057c4b5"
+    },
+    {
+      "name": "ra3a-replay",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra3a.py"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "seconds": 6.965,
+      "log_sha256": "09dad3184a186fd5b5705687daf44b4ebfe55c6b1168f49a672457dc1644f9ba"
+    },
+    {
+      "name": "ra3b-replay",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "scripts/verify_ra3b.py"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "seconds": 47.794,
+      "log_sha256": "b46325bb472575019ddd61c79511475670f20e329f47c031ff8c79efca236101"
+    },
+    {
+      "name": "pip-check",
+      "argv": [
+        "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "seconds": 2.954,
+      "log_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    }
+  ],
+  "finished_at": "2026-11-12T04:35:31.494955+00:00",
+  "expected_phase_a_outcomes": true
+}

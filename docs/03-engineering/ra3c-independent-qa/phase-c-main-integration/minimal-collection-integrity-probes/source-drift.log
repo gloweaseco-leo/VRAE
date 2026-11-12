@@ -1,0 +1,17 @@
+
+=================================== ERRORS ====================================
+_____ ERROR collecting tests/reporting/test_ra3c_owner_adjudicated_v2.py ______
+tests\reporting\test_ra3c_owner_adjudicated_v2.py:19: in <module>
+    _suite = _contract.load_frozen_suite()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+docs\03-engineering\ra3c-independent-qa\phase-c-main-integration\collection_contract_minimal.py:94: in load_frozen_suite
+    info = configure()
+           ^^^^^^^^^^^
+docs\03-engineering\ra3c-independent-qa\phase-c-main-integration\collection_contract_minimal.py:46: in configure
+    assert digest(canonical_bytes(path)) == entry['sha256'], name
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: renderer.py
+=========================== short test summary info ===========================
+ERROR tests/reporting/test_ra3c_owner_adjudicated_v2.py - AssertionError: ren...
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+no tests collected, 1 error in 1.25s

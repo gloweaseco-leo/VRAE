@@ -1,0 +1,88 @@
+{
+  "version": "OWNER_ADJUDICATED_RA3C_QA_V2",
+  "authority": "PR48 issuecomment-6815825564",
+  "original_test_sha256": "300f3a877684c3a174fec7c8e0feb2fcc7809479f4ccd201098fed6ed61afedc",
+  "original_objectives": 64,
+  "dropped_objectives": 0,
+  "companion_denials": 54,
+  "changes": [
+    {
+      "reason": "Explicit new V2 name, all 64 original IDs preserved",
+      "before": "def test_independent_product_acceptance(",
+      "after": "def test_owner_adjudicated_business_objective(",
+      "replacements": 1
+    },
+    {
+      "reason": "M02/M07/M08: explicit separate admissible request; original requests retained as companion denials",
+      "before": "ctx = prepare_context(case['scenario'],case.get('profile','truthful'))",
+      "after": "ctx = positive_context(case['scenario'])",
+      "replacements": 1
+    },
+    {
+      "reason": "Non-vacuous guard/source attack baseline",
+      "before": "    if oracle in ('cross_pack','guard_pins'):\n",
+      "after": "    if oracle in ('cross_pack','guard_pins'):\n        build(subject,ctx)  # require real valid baseline before attacking held pins\n",
+      "replacements": 1
+    },
+    {
+      "reason": "Explicit source-backed positive zero request",
+      "before": "prepare_context('healthy200')",
+      "after": "positive_context('healthy200')",
+      "replacements": 2
+    },
+    {
+      "reason": "M01 native independently held plural guard refs",
+      "before": "('expected_guard_ref','cg-')",
+      "after": "('expected_guard_refs','cg-')",
+      "replacements": 1
+    },
+    {
+      "reason": "Tamper actual native ref collection, never derive held refs",
+      "before": "bad['pins'][key] = prefix+'0'*64",
+      "after": "bad['pins'][key] = [prefix+'0'*64] if key == 'expected_guard_refs' else prefix+'0'*64",
+      "replacements": 1
+    },
+    {
+      "reason": "M02 separate real report plus genuine-ID attack; original hostile-source refusal policy unchanged",
+      "before": "    if oracle == 'false_claims' or case['id'] in ('E03','E04','E05','E07','E08'):\n        try:\n            artifact = build(subject,ctx)\n        except subject.rejection_types as error:\n            assert len(str(error)) <= 256 and SPECIAL_TEXT not in str(error)\n            record_property('acceptance_path','DEFENSIVE_REFUSAL_NOT_VISUAL_PASS')\n            return\n    else:\n        artifact = build(subject,ctx)\n",
+      "after": "    if oracle == 'false_claims':\n        artifact = build(subject,ctx)  # real admissible source-backed report required\n        attack = attack_context(case['scenario'],case['profile'])\n        assert any(c['status'] == 'REJECTED' for c in guard_claims(attack))\n        with pytest.raises(subject.rejection_types) as rejected:\n            subject.build(attack,revision=1,created_at=INPUT['report_time'])\n        assert str(rejected.value) == 'REPORT_CLAIM_REJECTED'\n        assert len(str(rejected.value)) <= 256 and SPECIAL_TEXT not in str(rejected.value)\n    elif case['id'] in ('E03','E04','E05','E07','E08'):\n        try:\n            artifact = build(subject,ctx)\n        except subject.rejection_types as error:\n            assert len(str(error)) <= 256 and SPECIAL_TEXT not in str(error)\n            record_property('acceptance_path','DEFENSIVE_REFUSAL_NOT_VISUAL_PASS')\n            return\n    else:\n        artifact = build(subject,ctx)\n",
+      "replacements": 1
+    },
+    {
+      "reason": "M06 actual native structural absence, no manufactured null; preserve no invented severity",
+      "before": "assert field(subject,artifact,'scores') in (None,[],{})",
+      "after": "assert not subject.score_fields(artifact)\n        assert all(i['finding']['severity'] is None for i in items)",
+      "replacements": 1
+    },
+    {
+      "reason": "M05 actual separately held native per-claim guard collections",
+      "before": "for c in ctx['guard'].document['claims']",
+      "after": "for c in guard_claims(ctx)",
+      "replacements": 2
+    },
+    {
+      "reason": "Deterministic and version positive requests remain separately pinned",
+      "before": "prepare_context(case['scenario'])",
+      "after": "positive_context(case['scenario'])",
+      "replacements": 2
+    },
+    {
+      "reason": "M04 mutate actual nested citation with old and resealed ref; original editorial tamper gate retained",
+      "before": "    elif oracle == 'tamper':\n        role = 'issues'\n        changed = deepcopy(items)\n        assert changed\n        field_name = 'issue.'+case['field']\n        path = subject.origins[field_name]\n        assert path['kind'] == 'json'\n        relative = path['pointer'].rsplit('/',1)\n        parent = pointer(changed[0],relative[0])\n        key = relative[1]\n        old = parent[key]\n        parent[key] = (str(old)+' 攻击性改写') if isinstance(old,str) else {'forged':'unrelated source'}\n        load_rejects(subject,artifact,ctx,mutate(subject,artifact,role,changed))\n",
+      "after": "    elif oracle == 'tamper':\n        if case['field'] == 'evidence':\n            for leaf in ('evidence_ref','url'):\n                path = '/issues/0/fact_claim/fact/source/citation/'+leaf\n                old = pointer(artifact['document'],path)\n                changed = mutate_json(artifact,path,old+'-foreign')\n                changed['draft_ref'] = 'rd-'+hashlib.sha256(canonical({k:v for k,v in changed.items() if k != 'draft_ref'})).hexdigest()\n                load_rejects(subject,artifact,ctx,changed)\n                load_rejects(subject,artifact,ctx,changed,expected_digest=changed['draft_ref'])\n        else:\n            changed = deepcopy(items)\n            assert changed\n            path = subject.origins['issue.'+case['field']]\n            assert path['kind'] == 'json'\n            head,key = path['pointer'].rsplit('/',1)\n            parent = pointer(changed[0],head)\n            old = parent[key]\n            parent[key] = str(old)+' 攻击性改写' if isinstance(old,str) else {'forged':'unrelated source'}\n            load_rejects(subject,artifact,ctx,mutate(subject,artifact,'issues',changed))\n",
+      "replacements": 1
+    },
+    {
+      "reason": "M03 real HTML language bytes; D08 real plural guard bundle and held refs, no JSON language invention",
+      "before": "        if oracle == 'guard_tamper':\n            bad = deepcopy(ctx)\n            doc = ctx['guard'].document\n            row = next(c for c in doc['claims'] if c['status'] == 'HUMAN_REVIEW_REQUIRED')\n            row['status'] = 'SOURCE_FACT_BINDING_VERIFIED'\n            doc['guard_ref'] = 'cg-'+document_hash({k:v for k,v in doc.items() if k != 'guard_ref'})\n            bad['guard'] = GuardResult(canonical(doc))\n            assert bad['guard'].ref != ctx['guard'].ref and bad['pins'] == ctx['pins']\n            with pytest.raises(subject.rejection_types):\n                subject.build(bad,revision=1,created_at=INPUT['report_time'])\n",
+      "after": "        if oracle == 'guard_tamper':\n            bad = deepcopy(ctx)\n            bundle = next(b for b in bad['guard_inputs'] if any(c['status'] == 'HUMAN_REVIEW_REQUIRED' for c in b['guard']['claims']))\n            doc = bundle['guard']\n            row = next(c for c in doc['claims'] if c['status'] == 'HUMAN_REVIEW_REQUIRED')\n            row['status'] = 'SOURCE_FACT_BINDING_VERIFIED'\n            doc['guard_ref'] = 'cg-'+document_hash({k:v for k,v in doc.items() if k != 'guard_ref'})\n            assert bad['guard_inputs'] != ctx['guard_inputs'] and bad['pins'] == ctx['pins']\n            with pytest.raises(subject.rejection_types):\n                subject.build(bad,revision=1,created_at=INPUT['report_time'])\n        if oracle == 'layout_tamper':\n            old = field(subject,artifact,'language').encode('utf-8')\n            token = b'lang=\"'+old+b'\"'\n            assert token in artifact['html']\n            changed_html = artifact['html'].replace(token,b'lang=\"en-US\"',1)\n            load_rejects(subject,artifact,ctx,html=changed_html)\n",
+      "replacements": 1
+    },
+    {
+      "reason": "M03 HTML language already attacked; actual renderer/asset JSON still attacked",
+      "before": "'layout_tamper':['language','layout_version','asset_version']",
+      "after": "'layout_tamper':['layout_version','asset_version']",
+      "replacements": 1
+    }
+  ]
+}

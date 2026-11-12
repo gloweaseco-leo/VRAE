@@ -1,0 +1,2062 @@
+﻿2026-11-12T04:21:49.3268815Z Current runner version: '2.338.2'
+2026-11-12T04:21:49.3302774Z ##[group]Runner Image Provisioner
+2026-11-12T04:21:49.3304034Z Hosted Compute Agent
+2026-11-12T04:21:49.3304820Z Version: 20261028.624
+2026-11-12T04:21:49.3305726Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-12T04:21:49.3306729Z Build Date: 2026-10-28T21:51:42Z
+2026-11-12T04:21:49.3307596Z Worker ID: {99a998a9-267a-4556-9152-84590f9e32b4}
+2026-11-12T04:21:49.3308571Z Region: eastus2
+2026-11-12T04:21:49.3309292Z Cloud: Azure
+2026-11-12T04:21:49.3310030Z ##[endgroup]
+2026-11-12T04:21:49.3312715Z ##[group]Operating System
+2026-11-12T04:21:49.3313590Z Ubuntu
+2026-11-12T04:21:49.3314356Z 26.04.1
+2026-11-12T04:21:49.3314989Z LTS
+2026-11-12T04:21:49.3315685Z ##[endgroup]
+2026-11-12T04:21:49.3316479Z ##[group]Runner Image
+2026-11-12T04:21:49.3317295Z Image: ubuntu-26.04
+2026-11-12T04:21:49.3318114Z Version: 20261101.186.1
+2026-11-12T04:21:49.3319840Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-12T04:21:49.3322728Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+2026-11-12T04:21:49.3324132Z ##[endgroup]
+2026-11-12T04:21:49.3325647Z ##[group]GITHUB_TOKEN Permissions
+2026-11-12T04:21:49.3328833Z Contents: read
+2026-11-12T04:21:49.3329751Z Metadata: read
+2026-11-12T04:21:49.3330708Z ##[endgroup]
+2026-11-12T04:21:49.3333853Z Secret source: Actions
+2026-11-12T04:21:49.3335206Z Cache mode: write
+2026-11-12T04:21:49.3336543Z Prepare workflow directory
+2026-11-12T04:21:49.3795582Z Prepare all required actions
+2026-11-12T04:21:49.3869172Z Getting action download info
+2026-11-12T04:21:49.5843870Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-12T04:21:49.7353430Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-12T04:21:49.9048587Z Complete job name: contracts-domain (3.13)
+2026-11-12T04:21:49.9893449Z ##[group]Run actions/checkout@v4
+2026-11-12T04:21:49.9894357Z with:
+2026-11-12T04:21:49.9894940Z   repository: gloweaseco-leo/VRAE
+2026-11-12T04:21:49.9899067Z   token: ***
+2026-11-12T04:21:49.9899580Z   ssh-strict: true
+2026-11-12T04:21:49.9900066Z   ssh-user: git
+2026-11-12T04:21:49.9900713Z   persist-credentials: true
+2026-11-12T04:21:49.9901325Z   clean: true
+2026-11-12T04:21:49.9901825Z   sparse-checkout-cone-mode: true
+2026-11-12T04:21:49.9902393Z   fetch-depth: 1
+2026-11-12T04:21:49.9902890Z   fetch-tags: false
+2026-11-12T04:21:49.9903384Z   show-progress: true
+2026-11-12T04:21:49.9903952Z   lfs: false
+2026-11-12T04:21:49.9904433Z   submodules: false
+2026-11-12T04:21:49.9904944Z   set-safe-directory: true
+2026-11-12T04:21:49.9905519Z   allow-unsafe-pr-checkout: false
+2026-11-12T04:21:49.9906305Z ##[endgroup]
+2026-11-12T04:21:50.3196035Z Syncing repository: gloweaseco-leo/VRAE
+2026-11-12T04:21:50.3199259Z ##[group]Getting Git version info
+2026-11-12T04:21:50.3200886Z Working directory is '/home/runner/work/VRAE/VRAE'
+2026-11-12T04:21:50.3202962Z [command]/usr/bin/git version
+2026-11-12T04:21:50.3217235Z git version 2.56.0
+2026-11-12T04:21:50.4561906Z ##[endgroup]
+2026-11-12T04:21:50.4579190Z Temporarily overriding HOME='/home/runner/work/_temp/3d5c548c-7593-4926-bb99-2d730cda6dde' before making global git config changes
+2026-11-12T04:21:50.4582090Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-12T04:21:50.4584460Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-12T04:21:50.4588260Z Deleting the contents of '/home/runner/work/VRAE/VRAE'
+2026-11-12T04:21:50.4590487Z ##[group]Initializing the repository
+2026-11-12T04:21:50.4592339Z [command]/usr/bin/git init /home/runner/work/VRAE/VRAE
+2026-11-12T04:21:50.4600333Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-12T04:21:50.4602564Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-12T04:21:50.4604663Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-12T04:21:50.4606618Z hint: call:
+2026-11-12T04:21:50.4607808Z hint:
+2026-11-12T04:21:50.4610348Z hint: 	git config --global init.defaultBranch <name>
+2026-11-12T04:21:50.4611610Z hint:
+2026-11-12T04:21:50.4612624Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-12T04:21:50.4614683Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-12T04:21:50.4615848Z hint:
+2026-11-12T04:21:50.4616392Z hint: 	git branch -m <name>
+2026-11-12T04:21:50.4617033Z hint:
+2026-11-12T04:21:50.4617806Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-12T04:21:50.4618923Z Initialized empty Git repository in /home/runner/work/VRAE/VRAE/.git/
+2026-11-12T04:21:50.4621373Z [command]/usr/bin/git remote add origin https://github.com/gloweaseco-leo/VRAE
+2026-11-12T04:21:50.4624158Z ##[endgroup]
+2026-11-12T04:21:50.4625476Z ##[group]Disabling automatic garbage collection
+2026-11-12T04:21:50.4626653Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-12T04:21:50.4629262Z ##[endgroup]
+2026-11-12T04:21:50.4630781Z ##[group]Setting up auth
+2026-11-12T04:21:50.4632007Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-12T04:21:50.4635688Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-12T04:21:50.4709078Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-12T04:21:50.4747015Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-12T04:21:50.5064077Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-12T04:21:50.5068232Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-12T04:21:50.5446895Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-12T04:21:50.5450759Z ##[endgroup]
+2026-11-12T04:21:50.5452239Z ##[group]Fetching the repository
+2026-11-12T04:21:50.5454491Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b4244c3ec8f417efebd20c0791dff96742b9bac3:refs/remotes/pull/48/merge
+2026-11-12T04:21:51.3592299Z From https://github.com/gloweaseco-leo/VRAE
+2026-11-12T04:21:51.3595505Z  * [new ref]         b4244c3ec8f417efebd20c0791dff96742b9bac3 -> pull/48/merge
+2026-11-12T04:21:51.3603131Z ##[endgroup]
+2026-11-12T04:21:51.3606053Z ##[group]Determining the checkout info
+2026-11-12T04:21:51.3609299Z ##[endgroup]
+2026-11-12T04:21:51.3611175Z [command]/usr/bin/git sparse-checkout disable
+2026-11-12T04:21:51.3636863Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-12T04:21:51.3698499Z ##[group]Checking out the ref
+2026-11-12T04:21:51.3701433Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/48/merge
+2026-11-12T04:21:51.4291925Z Note: switching to 'refs/remotes/pull/48/merge'.
+2026-11-12T04:21:51.4293447Z 
+2026-11-12T04:21:51.4294530Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-12T04:21:51.4297582Z changes and commit them, and you can discard any commits you make in this
+2026-11-12T04:21:51.4300795Z state without impacting any branches by switching back to a branch.
+2026-11-12T04:21:51.4312259Z 
+2026-11-12T04:21:51.4314173Z If you want to create a new branch to retain commits you create, you may
+2026-11-12T04:21:51.4317266Z do so (now or later) by using -c with the switch command. Example:
+2026-11-12T04:21:51.4318898Z 
+2026-11-12T04:21:51.4319844Z   git switch -c <new-branch-name>
+2026-11-12T04:21:51.4321526Z 
+2026-11-12T04:21:51.4322570Z Or undo this operation with:
+2026-11-12T04:21:51.4324317Z 
+2026-11-12T04:21:51.4324982Z   git switch -
+2026-11-12T04:21:51.4325860Z 
+2026-11-12T04:21:51.4327991Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-12T04:21:51.4330720Z 
+2026-11-12T04:21:51.4333308Z HEAD is now at b4244c3 Merge fa645b58549dfd21a6b80656d403f672b790acd8 into 2429be6dc5d7dcb48221ab179f063b93ce4b1956
+2026-11-12T04:21:51.4346373Z ##[endgroup]
+2026-11-12T04:21:51.4369480Z [command]/usr/bin/git log -1 --format=%H
+2026-11-12T04:21:51.4409274Z b4244c3ec8f417efebd20c0791dff96742b9bac3
+2026-11-12T04:21:51.4808733Z ##[group]Run actions/setup-python@v5
+2026-11-12T04:21:51.4810208Z with:
+2026-11-12T04:21:51.4811241Z   python-version: 3.13
+2026-11-12T04:21:51.4812390Z   check-latest: false
+2026-11-12T04:21:51.4823280Z   token: ***
+2026-11-12T04:21:51.4824359Z   update-environment: true
+2026-11-12T04:21:51.4825619Z   allow-prereleases: false
+2026-11-12T04:21:51.4826836Z   freethreaded: false
+2026-11-12T04:21:51.4827968Z ##[endgroup]
+2026-11-12T04:21:51.6288664Z ##[group]Installed versions
+2026-11-12T04:21:51.6428021Z (node:2149) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-12T04:21:51.6432122Z Successfully set up CPython (3.13.18)
+2026-11-12T04:21:51.6452629Z ##[endgroup]
+2026-11-12T04:21:51.6478724Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-12T04:21:51.6765786Z ##[group]Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+2026-11-12T04:21:51.6768977Z [36;1mpython -m pip install -e '.[dev]' -c requirements-ra1a.lock[0m
+2026-11-12T04:21:51.6861451Z shell: /usr/bin/bash -e {0}
+2026-11-12T04:21:51.6863285Z env:
+2026-11-12T04:21:51.6865372Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:21:51.6868643Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T04:21:51.6871573Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:21:51.6874034Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:21:51.6876336Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:21:51.6878746Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T04:21:51.6880977Z ##[endgroup]
+2026-11-12T04:21:54.2752590Z Obtaining file:///home/runner/work/VRAE/VRAE
+2026-11-12T04:21:54.2769871Z   Installing build dependencies: started
+2026-11-12T04:21:56.0818192Z   Installing build dependencies: finished with status 'done'
+2026-11-12T04:21:56.0824997Z   Checking if build backend supports build_editable: started
+2026-11-12T04:21:56.5472145Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-11-12T04:21:56.5479964Z   Getting requirements to build editable: started
+2026-11-12T04:21:56.9603322Z   Getting requirements to build editable: finished with status 'done'
+2026-11-12T04:21:56.9621949Z   Preparing editable metadata (pyproject.toml): started
+2026-11-12T04:21:57.1772309Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-11-12T04:21:57.3561943Z Collecting jsonschema<5,>=4.23 (from vrae==0.1.0)
+2026-11-12T04:21:57.4934466Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-11-12T04:21:57.5438800Z Collecting h11==0.16.0 (from vrae==0.1.0)
+2026-11-12T04:21:57.5861678Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-11-12T04:21:57.8545371Z Collecting dnspython==2.8.0 (from vrae==0.1.0)
+2026-11-12T04:21:57.8967943Z   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+2026-11-12T04:21:57.9733303Z Collecting pytest<10,>=8 (from vrae==0.1.0)
+2026-11-12T04:21:58.0158797Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+2026-11-12T04:21:58.0970371Z Collecting PyYAML<7,>=6 (from vrae==0.1.0)
+2026-11-12T04:21:58.1395972Z   Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-12T04:21:58.5131743Z Collecting ruff<1,>=0.9 (from vrae==0.1.0)
+2026-11-12T04:21:58.5546824Z   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+2026-11-12T04:21:58.6871649Z Collecting mypy<2,>=1.14 (from vrae==0.1.0)
+2026-11-12T04:21:58.7293609Z   Downloading mypy-1.20.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-12T04:21:58.7815993Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T04:21:58.8238068Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-11-12T04:21:58.8768247Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T04:21:58.9191028Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-11-12T04:21:58.9745404Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T04:21:59.0166515Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-11-12T04:21:59.2591283Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T04:21:59.3005272Z   Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-11-12T04:21:59.3528236Z Collecting typing_extensions>=4.6.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T04:21:59.3950603Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-12T04:21:59.4433378Z Collecting mypy_extensions>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T04:21:59.4861738Z   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+2026-11-12T04:21:59.5360695Z Collecting pathspec>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T04:21:59.5776281Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-11-12T04:21:59.7208034Z Collecting librt>=0.8.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T04:21:59.7632789Z   Downloading librt-0.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-11-12T04:21:59.8141899Z Collecting iniconfig>=2 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T04:21:59.8559003Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-12T04:21:59.9068382Z Collecting packaging>=24 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T04:21:59.9488403Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-11-12T04:21:59.9981113Z Collecting pluggy<2,>=1.6 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T04:22:00.0404629Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-12T04:22:00.0951936Z Collecting pygments>=2.15 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T04:22:00.1374983Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-11-12T04:22:00.1893535Z Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+2026-11-12T04:22:00.3556038Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-11-12T04:22:00.4015185Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-11-12T04:22:00.4508299Z Downloading mypy-1.20.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.7 MB)
+2026-11-12T04:22:00.8213613Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.7/14.7 MB 40.6 MB/s  0:00:00
+2026-11-12T04:22:00.8642370Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+2026-11-12T04:22:00.9100867Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-12T04:22:00.9551806Z Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+2026-11-12T04:22:00.9616234Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 139.7 MB/s  0:00:00
+2026-11-12T04:22:01.0048650Z Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+2026-11-12T04:22:01.1415479Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 78.6 MB/s  0:00:00
+2026-11-12T04:22:01.1838291Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-11-12T04:22:01.2288088Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-12T04:22:01.2742000Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-11-12T04:22:01.3185184Z Downloading librt-0.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (531 kB)
+2026-11-12T04:22:01.3267916Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 531.7/531.7 kB 56.0 MB/s  0:00:00
+2026-11-12T04:22:01.3690676Z Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+2026-11-12T04:22:01.4141427Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-11-12T04:22:01.4589965Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-11-12T04:22:01.5044153Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-11-12T04:22:01.5202882Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 73.9 MB/s  0:00:00
+2026-11-12T04:22:01.5625791Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-11-12T04:22:01.6078363Z Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (370 kB)
+2026-11-12T04:22:01.6578848Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-12T04:22:01.7276638Z Building wheels for collected packages: vrae
+2026-11-12T04:22:01.7284528Z   Building editable for vrae (pyproject.toml): started
+2026-11-12T04:22:01.9441794Z   Building editable for vrae (pyproject.toml): finished with status 'done'
+2026-11-12T04:22:01.9452105Z   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2752 sha256=7ed19155dd5300899081ee5a0028fc5369af17bcf29020d4994d544e3562f3a7
+2026-11-12T04:22:01.9453958Z   Stored in directory: /tmp/pip-ephem-wheel-cache-ft_85smr/wheels/23/da/fa/2e5dca0e1b5e3248780677eb713062300223b606adc0296629
+2026-11-12T04:22:01.9471173Z Successfully built vrae
+2026-11-12T04:22:01.9873997Z Installing collected packages: typing_extensions, ruff, rpds-py, PyYAML, pygments, pluggy, pathspec, packaging, mypy_extensions, librt, iniconfig, h11, dnspython, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema, vrae
+2026-11-12T04:22:05.2232844Z 
+2026-11-12T04:22:05.2259801Z Successfully installed PyYAML-6.0.3 attrs-26.1.0 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 packaging-26.3 pathspec-1.1.1 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 typing_extensions-4.16.0 vrae-0.1.0
+2026-11-12T04:22:05.2268232Z 
+2026-11-12T04:22:05.2268898Z [notice] A new release of pip is available: 26.2.2 -> 26.3
+2026-11-12T04:22:05.2269743Z [notice] To update, run: pip install --upgrade pip
+2026-11-12T04:22:05.4109492Z ##[group]Run python -m compileall -q vrae
+2026-11-12T04:22:05.4109949Z [36;1mpython -m compileall -q vrae[0m
+2026-11-12T04:22:05.4143689Z shell: /usr/bin/bash -e {0}
+2026-11-12T04:22:05.4144045Z env:
+2026-11-12T04:22:05.4144495Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.4145088Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T04:22:05.4145687Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.4146244Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.4146671Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.4147151Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T04:22:05.4147548Z ##[endgroup]
+2026-11-12T04:22:05.5182950Z ##[group]Run ruff check vrae tests --select E4,E7,E9,F
+2026-11-12T04:22:05.5183482Z [36;1mruff check vrae tests --select E4,E7,E9,F[0m
+2026-11-12T04:22:05.5217756Z shell: /usr/bin/bash -e {0}
+2026-11-12T04:22:05.5218126Z env:
+2026-11-12T04:22:05.5218511Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.5219036Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T04:22:05.5219545Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.5220039Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.5220726Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.5221382Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T04:22:05.5221786Z ##[endgroup]
+2026-11-12T04:22:05.5542030Z All checks passed!
+2026-11-12T04:22:05.5591167Z ##[group]Run mypy vrae
+2026-11-12T04:22:05.5591529Z [36;1mmypy vrae[0m
+2026-11-12T04:22:05.5626686Z shell: /usr/bin/bash -e {0}
+2026-11-12T04:22:05.5627166Z env:
+2026-11-12T04:22:05.5627551Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.5628129Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T04:22:05.5628643Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.5629092Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.5629630Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:05.5630087Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T04:22:05.5630665Z ##[endgroup]
+2026-11-12T04:22:08.1870590Z Success: no issues found in 52 source files
+2026-11-12T04:22:08.1975037Z ##[group]Run python -m pytest -q
+2026-11-12T04:22:08.1975422Z [36;1mpython -m pytest -q[0m
+2026-11-12T04:22:08.2007140Z shell: /usr/bin/bash -e {0}
+2026-11-12T04:22:08.2007588Z env:
+2026-11-12T04:22:08.2007957Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:08.2008518Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-12T04:22:08.2009058Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:08.2009514Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:08.2009988Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-12T04:22:08.2010691Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-12T04:22:08.2011080Z ##[endgroup]
+2026-11-12T04:22:17.8593299Z ........................................................................ [  3%]
+2026-11-12T04:22:18.8672098Z .......................s.....................................sssssssssss [  7%]
+2026-11-12T04:22:19.7157470Z sssssssssssss........................................................... [ 11%]
+2026-11-12T04:22:21.3416738Z ........................................................................ [ 14%]
+2026-11-12T04:22:33.3861043Z ........................................................................ [ 18%]
+2026-11-12T04:22:46.2236323Z ........................................................................ [ 22%]
+2026-11-12T04:23:10.0138530Z ........................................................................ [ 25%]
+2026-11-12T04:23:26.7896589Z ........................................................................ [ 29%]
+2026-11-12T04:23:36.5400799Z ........................................................................ [ 33%]
+2026-11-12T04:23:49.9384454Z ........................................................................ [ 36%]
+2026-11-12T04:23:52.7350339Z ........................................................................ [ 40%]
+2026-11-12T04:24:21.2805665Z ........................................................................ [ 44%]
+2026-11-12T04:25:01.4520587Z ........................................................................ [ 47%]
+2026-11-12T04:25:19.8836815Z ........................................................................ [ 51%]
+2026-11-12T04:25:31.8345668Z ........................................................................ [ 55%]
+2026-11-12T04:25:46.5352089Z ........................................................................ [ 58%]
+2026-11-12T04:25:49.0164965Z .......................EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 62%]
+2026-11-12T04:25:53.8935783Z EEEEEEEEEEEEEEE......................................................... [ 66%]
+2026-11-12T04:26:02.9547171Z ........................................................................ [ 69%]
+2026-11-12T04:26:09.2187169Z ........................................................................ [ 73%]
+2026-11-12T04:26:14.9984302Z ........................................................................ [ 77%]
+2026-11-12T04:26:24.0740473Z ........................................................................ [ 80%]
+2026-11-12T04:26:30.2046089Z ........................................................................ [ 84%]
+2026-11-12T04:26:32.0397406Z ........................................................................ [ 88%]
+2026-11-12T04:26:32.1051565Z ........................................................................ [ 91%]
+2026-11-12T04:26:32.1539720Z ........................................................................ [ 95%]
+2026-11-12T04:26:32.1909952Z ........................................................................ [ 99%]
+2026-11-12T04:26:32.2230243Z .................                                                        [100%]
+2026-11-12T04:26:32.2231410Z ==================================== ERRORS ====================================
+2026-11-12T04:26:32.2233506Z _ ERROR at setup of test_independent_product_acceptance[T01-404: one captured product-contact failure, TRUST unknown] _
+2026-11-12T04:26:32.2234533Z 
+2026-11-12T04:26:32.2234993Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2235731Z     def subject():
+2026-11-12T04:26:32.2236545Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2237382Z         with no_external_effects():
+2026-11-12T04:26:32.2238211Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2239061Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2239588Z 
+2026-11-12T04:26:32.2240244Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2241246Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2242346Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2243545Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2244432Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2245237Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2246028Z     ???
+2026-11-12T04:26:32.2246654Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2247435Z     ???
+2026-11-12T04:26:32.2248104Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2248683Z 
+2026-11-12T04:26:32.2249205Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2249916Z 
+2026-11-12T04:26:32.2250336Z >   ???
+2026-11-12T04:26:32.2251024Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2251628Z 
+2026-11-12T04:26:32.2252117Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2253321Z _ ERROR at setup of test_independent_product_acceptance[T02-410: independent capture, one issue not combined with 404] _
+2026-11-12T04:26:32.2254236Z 
+2026-11-12T04:26:32.2254617Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2255364Z     def subject():
+2026-11-12T04:26:32.2256131Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2257076Z         with no_external_effects():
+2026-11-12T04:26:32.2257918Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2258748Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2259311Z 
+2026-11-12T04:26:32.2259739Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2260842Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2262038Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2263191Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2264043Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2265188Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2265900Z     ???
+2026-11-12T04:26:32.2266675Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2267397Z     ???
+2026-11-12T04:26:32.2268063Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2268657Z 
+2026-11-12T04:26:32.2269150Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2269823Z 
+2026-11-12T04:26:32.2270074Z >   ???
+2026-11-12T04:26:32.2271035Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2271595Z 
+2026-11-12T04:26:32.2272044Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2273281Z _ ERROR at setup of test_independent_product_acceptance[T03-200: truthful zero issues, no native empty ReportVersion] _
+2026-11-12T04:26:32.2274214Z 
+2026-11-12T04:26:32.2274540Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2275183Z     def subject():
+2026-11-12T04:26:32.2276571Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2288727Z         with no_external_effects():
+2026-11-12T04:26:32.2289832Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2290900Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2291533Z 
+2026-11-12T04:26:32.2291956Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2292903Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2294093Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2295467Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2296396Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2297242Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2297987Z     ???
+2026-11-12T04:26:32.2299055Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2299892Z     ???
+2026-11-12T04:26:32.2300735Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2301332Z 
+2026-11-12T04:26:32.2301859Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2302670Z 
+2026-11-12T04:26:32.2302994Z >   ???
+2026-11-12T04:26:32.2303790Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2305079Z 
+2026-11-12T04:26:32.2305459Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2306163Z _ ERROR at setup of test_independent_product_acceptance[T04-403: inaccessible is not a business defect] _
+2026-11-12T04:26:32.2306676Z 
+2026-11-12T04:26:32.2306875Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2307371Z     def subject():
+2026-11-12T04:26:32.2307856Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2308412Z         with no_external_effects():
+2026-11-12T04:26:32.2308926Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2309416Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2309822Z 
+2026-11-12T04:26:32.2310451Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2311041Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2311724Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2312422Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2312947Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2313765Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2314381Z     ???
+2026-11-12T04:26:32.2315027Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2315700Z     ???
+2026-11-12T04:26:32.2316576Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2317080Z 
+2026-11-12T04:26:32.2317589Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2318132Z 
+2026-11-12T04:26:32.2318420Z >   ???
+2026-11-12T04:26:32.2319244Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2319704Z 
+2026-11-12T04:26:32.2319980Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2321128Z _ ERROR at setup of test_independent_product_acceptance[T05-WAF challenge: honest restricted coverage] _
+2026-11-12T04:26:32.2321820Z 
+2026-11-12T04:26:32.2322045Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2322552Z     def subject():
+2026-11-12T04:26:32.2323194Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2323854Z         with no_external_effects():
+2026-11-12T04:26:32.2324622Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2325159Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2325551Z 
+2026-11-12T04:26:32.2325830Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2326495Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2327407Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2328252Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2328893Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2329515Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2330039Z     ???
+2026-11-12T04:26:32.2330684Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2331226Z     ???
+2026-11-12T04:26:32.2331733Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2332124Z 
+2026-11-12T04:26:32.2332469Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2332855Z 
+2026-11-12T04:26:32.2333037Z >   ???
+2026-11-12T04:26:32.2333492Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2333868Z 
+2026-11-12T04:26:32.2334097Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2334848Z _ ERROR at setup of test_independent_product_acceptance[T06-Robots denied contact: no invented FAIL] _
+2026-11-12T04:26:32.2335481Z 
+2026-11-12T04:26:32.2336309Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2336849Z     def subject():
+2026-11-12T04:26:32.2337421Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2338083Z         with no_external_effects():
+2026-11-12T04:26:32.2338686Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2339260Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2339648Z 
+2026-11-12T04:26:32.2339946Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2340814Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2341800Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2342814Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2343501Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2344178Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2344749Z     ???
+2026-11-12T04:26:32.2345227Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2345884Z     ???
+2026-11-12T04:26:32.2346397Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2346849Z 
+2026-11-12T04:26:32.2347294Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2348105Z 
+2026-11-12T04:26:32.2348305Z >   ???
+2026-11-12T04:26:32.2348854Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2349372Z 
+2026-11-12T04:26:32.2349648Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2350830Z _ ERROR at setup of test_independent_product_acceptance[T07-Unretained raw source: no unsupported objective report] _
+2026-11-12T04:26:32.2351615Z 
+2026-11-12T04:26:32.2351846Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2352438Z     def subject():
+2026-11-12T04:26:32.2353112Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2353900Z         with no_external_effects():
+2026-11-12T04:26:32.2354543Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2355217Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2355600Z 
+2026-11-12T04:26:32.2356011Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2356707Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2357659Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2358708Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2359431Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2360292Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2360815Z     ???
+2026-11-12T04:26:32.2361515Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2362118Z     ???
+2026-11-12T04:26:32.2362592Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2363042Z 
+2026-11-12T04:26:32.2363440Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2364053Z 
+2026-11-12T04:26:32.2364252Z >   ???
+2026-11-12T04:26:32.2364803Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2365271Z 
+2026-11-12T04:26:32.2365624Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2366654Z _ ERROR at setup of test_independent_product_acceptance[T08-Unvisited contact: no assertion of broken inquiry] _
+2026-11-12T04:26:32.2367400Z 
+2026-11-12T04:26:32.2367636Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2368222Z     def subject():
+2026-11-12T04:26:32.2368883Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2369706Z         with no_external_effects():
+2026-11-12T04:26:32.2370491Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2371247Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2371628Z 
+2026-11-12T04:26:32.2371971Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2372729Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2373713Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2374661Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2375368Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2375978Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2376533Z     ???
+2026-11-12T04:26:32.2377040Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2377608Z     ???
+2026-11-12T04:26:32.2378091Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2378583Z 
+2026-11-12T04:26:32.2378918Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2379442Z 
+2026-11-12T04:26:32.2379592Z >   ???
+2026-11-12T04:26:32.2380314Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2380714Z 
+2026-11-12T04:26:32.2381282Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2382289Z _ ERROR at setup of test_independent_product_acceptance[T09-500: transient source failure is not proven 404 defect] _
+2026-11-12T04:26:32.2383083Z 
+2026-11-12T04:26:32.2383276Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2383777Z     def subject():
+2026-11-12T04:26:32.2384400Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2385121Z         with no_external_effects():
+2026-11-12T04:26:32.2385788Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2386483Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2386822Z 
+2026-11-12T04:26:32.2387151Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2387858Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2388948Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2389886Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2390710Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2391381Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2391945Z     ???
+2026-11-12T04:26:32.2392461Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2393118Z     ???
+2026-11-12T04:26:32.2393631Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2394078Z 
+2026-11-12T04:26:32.2394417Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2394924Z 
+2026-11-12T04:26:32.2395036Z >   ???
+2026-11-12T04:26:32.2395612Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2396282Z 
+2026-11-12T04:26:32.2396541Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2397540Z _ ERROR at setup of test_independent_product_acceptance[T10-Repeated contact edge is one buyer problem] _
+2026-11-12T04:26:32.2398246Z 
+2026-11-12T04:26:32.2398504Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2398978Z     def subject():
+2026-11-12T04:26:32.2399611Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2400367Z         with no_external_effects():
+2026-11-12T04:26:32.2400901Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2401517Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2401854Z 
+2026-11-12T04:26:32.2402087Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2402734Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2403591Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2404483Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2405159Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2405739Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2406532Z     ???
+2026-11-12T04:26:32.2407151Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2407897Z     ???
+2026-11-12T04:26:32.2408559Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2409169Z 
+2026-11-12T04:26:32.2409663Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2410505Z 
+2026-11-12T04:26:32.2410942Z >   ???
+2026-11-12T04:26:32.2411603Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2412211Z 
+2026-11-12T04:26:32.2412555Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2413877Z _ ERROR at setup of test_independent_product_acceptance[T11-200/404 pack mix cannot launder a finding] _
+2026-11-12T04:26:32.2415113Z 
+2026-11-12T04:26:32.2415418Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2416145Z     def subject():
+2026-11-12T04:26:32.2416951Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2417861Z         with no_external_effects():
+2026-11-12T04:26:32.2418693Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2419601Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2420293Z 
+2026-11-12T04:26:32.2420658Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2421647Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2422885Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2424240Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2425153Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2426126Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2426923Z     ???
+2026-11-12T04:26:32.2427519Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2428287Z     ???
+2026-11-12T04:26:32.2428949Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2429554Z 
+2026-11-12T04:26:32.2430009Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2430784Z 
+2026-11-12T04:26:32.2431040Z >   ???
+2026-11-12T04:26:32.2431681Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2432246Z 
+2026-11-12T04:26:32.2432646Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2434150Z _ ERROR at setup of test_independent_product_acceptance[T12-Padding one issue to four cannot load as the original draft] _
+2026-11-12T04:26:32.2435260Z 
+2026-11-12T04:26:32.2435501Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2436216Z     def subject():
+2026-11-12T04:26:32.2437063Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2438048Z         with no_external_effects():
+2026-11-12T04:26:32.2438895Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2439775Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2440447Z 
+2026-11-12T04:26:32.2440834Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2441786Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2443009Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2444424Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2445308Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2446139Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2446909Z     ???
+2026-11-12T04:26:32.2447502Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2448341Z     ???
+2026-11-12T04:26:32.2448948Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2449537Z 
+2026-11-12T04:26:32.2450007Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2450848Z 
+2026-11-12T04:26:32.2451093Z >   ???
+2026-11-12T04:26:32.2451749Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2452358Z 
+2026-11-12T04:26:32.2452762Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2454255Z _ ERROR at setup of test_independent_product_acceptance[B01-Four layers are distinguishable in structured and rendered output] _
+2026-11-12T04:26:32.2455413Z 
+2026-11-12T04:26:32.2455690Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2456368Z     def subject():
+2026-11-12T04:26:32.2457192Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2458406Z         with no_external_effects():
+2026-11-12T04:26:32.2459182Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2460062Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2460712Z 
+2026-11-12T04:26:32.2461127Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2462098Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2463355Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2464648Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2465581Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2466405Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2467180Z     ???
+2026-11-12T04:26:32.2467973Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2468750Z     ???
+2026-11-12T04:26:32.2469339Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2469988Z 
+2026-11-12T04:26:32.2470498Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2471274Z 
+2026-11-12T04:26:32.2471476Z >   ???
+2026-11-12T04:26:32.2472193Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2472743Z 
+2026-11-12T04:26:32.2473138Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2474477Z _ ERROR at setup of test_independent_product_acceptance[B02-Potential impact stays provisional human review] _
+2026-11-12T04:26:32.2475500Z 
+2026-11-12T04:26:32.2475837Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2476488Z     def subject():
+2026-11-12T04:26:32.2477272Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2478221Z         with no_external_effects():
+2026-11-12T04:26:32.2479050Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2479969Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2480544Z 
+2026-11-12T04:26:32.2480952Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2481868Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2483078Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2484318Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2485239Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2486079Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2486811Z     ???
+2026-11-12T04:26:32.2487411Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2488142Z     ???
+2026-11-12T04:26:32.2488828Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2489419Z 
+2026-11-12T04:26:32.2489815Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2490371Z 
+2026-11-12T04:26:32.2490487Z >   ???
+2026-11-12T04:26:32.2490968Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2491337Z 
+2026-11-12T04:26:32.2491604Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2492490Z _ ERROR at setup of test_independent_product_acceptance[B03-Suggested action remains proposed, not approved delivery] _
+2026-11-12T04:26:32.2493061Z 
+2026-11-12T04:26:32.2493266Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2493681Z     def subject():
+2026-11-12T04:26:32.2494243Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2494822Z         with no_external_effects():
+2026-11-12T04:26:32.2495373Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2496209Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2496489Z 
+2026-11-12T04:26:32.2496750Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2497394Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2498166Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2498991Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2499570Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2500291Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2500849Z     ???
+2026-11-12T04:26:32.2501262Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2501781Z     ???
+2026-11-12T04:26:32.2502199Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2502536Z 
+2026-11-12T04:26:32.2503022Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2503485Z 
+2026-11-12T04:26:32.2503637Z >   ???
+2026-11-12T04:26:32.2504084Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2504573Z 
+2026-11-12T04:26:32.2504776Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2505675Z _ ERROR at setup of test_independent_product_acceptance[B04-Recheck names the recorded path and observable status] _
+2026-11-12T04:26:32.2506219Z 
+2026-11-12T04:26:32.2506419Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2506876Z     def subject():
+2026-11-12T04:26:32.2507434Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2508018Z         with no_external_effects():
+2026-11-12T04:26:32.2508560Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2509136Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2509476Z 
+2026-11-12T04:26:32.2509803Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2510588Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2511335Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2512152Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2512708Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2513219Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2513711Z     ???
+2026-11-12T04:26:32.2514128Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2514680Z     ???
+2026-11-12T04:26:32.2515087Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2515416Z 
+2026-11-12T04:26:32.2515760Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2516283Z 
+2026-11-12T04:26:32.2516423Z >   ???
+2026-11-12T04:26:32.2516850Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2517202Z 
+2026-11-12T04:26:32.2517439Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2518272Z _ ERROR at setup of test_independent_product_acceptance[B05-Verified INQUIRE buyer task preserved] _
+2026-11-12T04:26:32.2518843Z 
+2026-11-12T04:26:32.2519071Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2519578Z     def subject():
+2026-11-12T04:26:32.2520275Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2520932Z         with no_external_effects():
+2026-11-12T04:26:32.2521458Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2521998Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2522394Z 
+2026-11-12T04:26:32.2522640Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2523493Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2524297Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2525083Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2525621Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2526243Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2526719Z     ???
+2026-11-12T04:26:32.2527147Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2527639Z     ???
+2026-11-12T04:26:32.2528093Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2528485Z 
+2026-11-12T04:26:32.2528823Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2529209Z 
+2026-11-12T04:26:32.2529386Z >   ???
+2026-11-12T04:26:32.2529974Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2530623Z 
+2026-11-12T04:26:32.2530855Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2531692Z _ ERROR at setup of test_independent_product_acceptance[B06-Capture date/pages/unchecked scope visible] _
+2026-11-12T04:26:32.2532293Z 
+2026-11-12T04:26:32.2532530Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2532980Z     def subject():
+2026-11-12T04:26:32.2533510Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2534128Z         with no_external_effects():
+2026-11-12T04:26:32.2534691Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2535277Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2535637Z 
+2026-11-12T04:26:32.2535878Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2536452Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2537351Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2538167Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2538757Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2539271Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2539863Z     ???
+2026-11-12T04:26:32.2540483Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2540987Z     ???
+2026-11-12T04:26:32.2541399Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2541791Z 
+2026-11-12T04:26:32.2542097Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2542490Z 
+2026-11-12T04:26:32.2542639Z >   ???
+2026-11-12T04:26:32.2543098Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2543496Z 
+2026-11-12T04:26:32.2543731Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2544565Z _ ERROR at setup of test_independent_product_acceptance[B07-Chinese-first fact wording has no unsupported certainty] _
+2026-11-12T04:26:32.2545204Z 
+2026-11-12T04:26:32.2545373Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2545813Z     def subject():
+2026-11-12T04:26:32.2546365Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2546950Z         with no_external_effects():
+2026-11-12T04:26:32.2547446Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2548015Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2548337Z 
+2026-11-12T04:26:32.2548569Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2549203Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2549981Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2551192Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2551765Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2552283Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2552808Z     ???
+2026-11-12T04:26:32.2553216Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2553707Z     ???
+2026-11-12T04:26:32.2554174Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2554547Z 
+2026-11-12T04:26:32.2554824Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2555227Z 
+2026-11-12T04:26:32.2555468Z >   ???
+2026-11-12T04:26:32.2555900Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2556234Z 
+2026-11-12T04:26:32.2556483Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2557605Z _ ERROR at setup of test_independent_product_acceptance[B08-VEYFRONT action is scoped discussion, not complex-platform commitment] _
+2026-11-12T04:26:32.2558286Z 
+2026-11-12T04:26:32.2558453Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2558929Z     def subject():
+2026-11-12T04:26:32.2559612Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2560282Z         with no_external_effects():
+2026-11-12T04:26:32.2560822Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2561327Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2561592Z 
+2026-11-12T04:26:32.2561904Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2562470Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2563177Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2563998Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2564532Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2565046Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2565507Z     ???
+2026-11-12T04:26:32.2565891Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2566359Z     ???
+2026-11-12T04:26:32.2566744Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2567117Z 
+2026-11-12T04:26:32.2567370Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2567837Z 
+2026-11-12T04:26:32.2568009Z >   ???
+2026-11-12T04:26:32.2568425Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2568740Z 
+2026-11-12T04:26:32.2569033Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2569887Z _ ERROR at setup of test_independent_product_acceptance[B09-No invented severity, confidence, whole-site score or ROI] _
+2026-11-12T04:26:32.2570795Z 
+2026-11-12T04:26:32.2570948Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2571423Z     def subject():
+2026-11-12T04:26:32.2571933Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2572561Z         with no_external_effects():
+2026-11-12T04:26:32.2573047Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2573577Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2573866Z 
+2026-11-12T04:26:32.2574161Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2574716Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2575443Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2576188Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2576827Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2577568Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2578028Z     ???
+2026-11-12T04:26:32.2578428Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2578946Z     ???
+2026-11-12T04:26:32.2579350Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2579730Z 
+2026-11-12T04:26:32.2580014Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2580613Z 
+2026-11-12T04:26:32.2580741Z >   ???
+2026-11-12T04:26:32.2581231Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2581563Z 
+2026-11-12T04:26:32.2581855Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2582674Z _ ERROR at setup of test_independent_product_acceptance[B10-Next step does not claim a lead, sale or consultation occurred] _
+2026-11-12T04:26:32.2583316Z 
+2026-11-12T04:26:32.2583501Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2584100Z     def subject():
+2026-11-12T04:26:32.2584790Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2585412Z         with no_external_effects():
+2026-11-12T04:26:32.2585943Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2586517Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2586791Z 
+2026-11-12T04:26:32.2587057Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2587627Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2588381Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2589123Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2589693Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2590405Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2590940Z     ???
+2026-11-12T04:26:32.2591347Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2591800Z     ???
+2026-11-12T04:26:32.2592221Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2592580Z 
+2026-11-12T04:26:32.2592841Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2593263Z 
+2026-11-12T04:26:32.2593369Z >   ???
+2026-11-12T04:26:32.2593864Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2594280Z 
+2026-11-12T04:26:32.2594543Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2595358Z _ ERROR at setup of test_independent_product_acceptance[C01-Every issue points to original verified native Finding] _
+2026-11-12T04:26:32.2595905Z 
+2026-11-12T04:26:32.2596106Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2596529Z     def subject():
+2026-11-12T04:26:32.2597094Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2597687Z         with no_external_effects():
+2026-11-12T04:26:32.2598183Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2598764Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2599037Z 
+2026-11-12T04:26:32.2599324Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2599957Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2600921Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2601743Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2602337Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2602955Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2603567Z     ???
+2026-11-12T04:26:32.2604025Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2604832Z     ???
+2026-11-12T04:26:32.2605284Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2605693Z 
+2026-11-12T04:26:32.2606053Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2606526Z 
+2026-11-12T04:26:32.2606685Z >   ???
+2026-11-12T04:26:32.2607140Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2607544Z 
+2026-11-12T04:26:32.2607829Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2608800Z _ ERROR at setup of test_independent_product_acceptance[C02-Quoted source bytes/positions and individual guard binding match] _
+2026-11-12T04:26:32.2609509Z 
+2026-11-12T04:26:32.2609739Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2610407Z     def subject():
+2026-11-12T04:26:32.2611008Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2611776Z         with no_external_effects():
+2026-11-12T04:26:32.2612407Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2612997Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2613307Z 
+2026-11-12T04:26:32.2613649Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2614255Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2615000Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2615930Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2616508Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2617070Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2617575Z     ???
+2026-11-12T04:26:32.2618020Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2618578Z     ???
+2026-11-12T04:26:32.2619040Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2619401Z 
+2026-11-12T04:26:32.2619758Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2620396Z 
+2026-11-12T04:26:32.2620529Z >   ???
+2026-11-12T04:26:32.2620985Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2621393Z 
+2026-11-12T04:26:32.2621675Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2622608Z _ ERROR at setup of test_independent_product_acceptance[C03-URL/href/status/time/scope all trace exact captured edge] _
+2026-11-12T04:26:32.2623215Z 
+2026-11-12T04:26:32.2623447Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2623932Z     def subject():
+2026-11-12T04:26:32.2624462Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2625132Z         with no_external_effects():
+2026-11-12T04:26:32.2625690Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2626236Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2626614Z 
+2026-11-12T04:26:32.2626910Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2627516Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2628341Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2629234Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2629818Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2630667Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2631171Z     ???
+2026-11-12T04:26:32.2631661Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2632216Z     ???
+2026-11-12T04:26:32.2632624Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2633199Z 
+2026-11-12T04:26:32.2633586Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2634012Z 
+2026-11-12T04:26:32.2634189Z >   ???
+2026-11-12T04:26:32.2634663Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2635068Z 
+2026-11-12T04:26:32.2635286Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2636130Z _ ERROR at setup of test_independent_product_acceptance[C04-TRUST/SEO/INFO positives are never repackaged as defects] _
+2026-11-12T04:26:32.2636776Z 
+2026-11-12T04:26:32.2637008Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2637477Z     def subject():
+2026-11-12T04:26:32.2638013Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2638619Z         with no_external_effects():
+2026-11-12T04:26:32.2639154Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2639855Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2640359Z 
+2026-11-12T04:26:32.2640647Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2641452Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2642231Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2643013Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2643601Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2644136Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2644586Z     ???
+2026-11-12T04:26:32.2645022Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2645493Z     ???
+2026-11-12T04:26:32.2645992Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2646362Z 
+2026-11-12T04:26:32.2646698Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2647131Z 
+2026-11-12T04:26:32.2647291Z >   ???
+2026-11-12T04:26:32.2647778Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2648154Z 
+2026-11-12T04:26:32.2648376Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2649268Z _ ERROR at setup of test_independent_product_acceptance[C05-Real refs do not prove legal registration, ISO or factory ownership] _
+2026-11-12T04:26:32.2650010Z 
+2026-11-12T04:26:32.2650352Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2650801Z     def subject():
+2026-11-12T04:26:32.2651349Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2651937Z         with no_external_effects():
+2026-11-12T04:26:32.2652449Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2653026Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2653347Z 
+2026-11-12T04:26:32.2653597Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2654200Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2654956Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2655715Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2656290Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2656780Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2657249Z     ???
+2026-11-12T04:26:32.2657649Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2658097Z     ???
+2026-11-12T04:26:32.2658577Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2658963Z 
+2026-11-12T04:26:32.2659282Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2659649Z 
+2026-11-12T04:26:32.2660020Z >   ???
+2026-11-12T04:26:32.2660624Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2660959Z 
+2026-11-12T04:26:32.2661246Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2662123Z _ ERROR at setup of test_independent_product_acceptance[C06-Real refs do not prove search rank, uplift, loss or causality] _
+2026-11-12T04:26:32.2662771Z 
+2026-11-12T04:26:32.2662942Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2663391Z     def subject():
+2026-11-12T04:26:32.2663951Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2664541Z         with no_external_effects():
+2026-11-12T04:26:32.2665119Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2665669Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2665988Z 
+2026-11-12T04:26:32.2666255Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2666992Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2667743Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2668503Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2669012Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2669490Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2669941Z     ???
+2026-11-12T04:26:32.2670536Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2670998Z     ???
+2026-11-12T04:26:32.2671367Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2671718Z 
+2026-11-12T04:26:32.2671955Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2672390Z 
+2026-11-12T04:26:32.2672549Z >   ???
+2026-11-12T04:26:32.2672980Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2673286Z 
+2026-11-12T04:26:32.2673572Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2674304Z _ ERROR at setup of test_independent_product_acceptance[C07-Contact 200 does not prove delivery or customer case] _
+2026-11-12T04:26:32.2674845Z 
+2026-11-12T04:26:32.2674983Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2675424Z     def subject():
+2026-11-12T04:26:32.2675935Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2676579Z         with no_external_effects():
+2026-11-12T04:26:32.2677073Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2677581Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2677902Z 
+2026-11-12T04:26:32.2678193Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2678808Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2679546Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2680467Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2681033Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2681598Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2682047Z     ???
+2026-11-12T04:26:32.2682454Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2682939Z     ???
+2026-11-12T04:26:32.2683328Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2683694Z 
+2026-11-12T04:26:32.2683977Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2684443Z 
+2026-11-12T04:26:32.2684624Z >   ???
+2026-11-12T04:26:32.2685040Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2685383Z 
+2026-11-12T04:26:32.2685627Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2686619Z _ ERROR at setup of test_independent_product_acceptance[C08-Caller-held guard/package pins are not replaced from output] _
+2026-11-12T04:26:32.2687251Z 
+2026-11-12T04:26:32.2687467Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2687880Z     def subject():
+2026-11-12T04:26:32.2688363Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2688977Z         with no_external_effects():
+2026-11-12T04:26:32.2689516Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2690254Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2690547Z 
+2026-11-12T04:26:32.2690809Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2691345Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2692101Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2693011Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2693587Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2694116Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2694537Z     ???
+2026-11-12T04:26:32.2694965Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2695401Z     ???
+2026-11-12T04:26:32.2695820Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2696192Z 
+2026-11-12T04:26:32.2696450Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2696845Z 
+2026-11-12T04:26:32.2696969Z >   ???
+2026-11-12T04:26:32.2697444Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2697757Z 
+2026-11-12T04:26:32.2698039Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2698849Z _ ERROR at setup of test_independent_product_acceptance[D01-Deterministic build-load-verify round trip includes exact HTML] _
+2026-11-12T04:26:32.2699458Z 
+2026-11-12T04:26:32.2699658Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2700249Z     def subject():
+2026-11-12T04:26:32.2700806Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2701375Z         with no_external_effects():
+2026-11-12T04:26:32.2701870Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2702471Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2702743Z 
+2026-11-12T04:26:32.2702995Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2703571Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2704378Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2705087Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2705694Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2706186Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2706691Z     ???
+2026-11-12T04:26:32.2707114Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2707589Z     ???
+2026-11-12T04:26:32.2708267Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2708856Z 
+2026-11-12T04:26:32.2709293Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2709922Z 
+2026-11-12T04:26:32.2710245Z >   ???
+2026-11-12T04:26:32.2710912Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2711492Z 
+2026-11-12T04:26:32.2711874Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2713213Z _ ERROR at setup of test_independent_product_acceptance[D02-Editorial fact wording changed after hash fails closed] _
+2026-11-12T04:26:32.2714362Z 
+2026-11-12T04:26:32.2714647Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2715268Z     def subject():
+2026-11-12T04:26:32.2716121Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2717077Z         with no_external_effects():
+2026-11-12T04:26:32.2717874Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2718747Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2719272Z 
+2026-11-12T04:26:32.2719698Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2720798Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2721995Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2723273Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2724151Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2725008Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2725728Z     ???
+2026-11-12T04:26:32.2726488Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2727232Z     ???
+2026-11-12T04:26:32.2727775Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2728243Z 
+2026-11-12T04:26:32.2728707Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2729489Z 
+2026-11-12T04:26:32.2729655Z >   ???
+2026-11-12T04:26:32.2730449Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2731068Z 
+2026-11-12T04:26:32.2731461Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2732837Z _ ERROR at setup of test_independent_product_acceptance[D03-HTML bytes changed after hash fails closed] _
+2026-11-12T04:26:32.2733807Z 
+2026-11-12T04:26:32.2734104Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2734791Z     def subject():
+2026-11-12T04:26:32.2735564Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2736547Z         with no_external_effects():
+2026-11-12T04:26:32.2737318Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2738204Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2738781Z 
+2026-11-12T04:26:32.2739232Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2740384Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2741724Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2743040Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2744002Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2744862Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2745675Z     ???
+2026-11-12T04:26:32.2746210Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2747088Z     ???
+2026-11-12T04:26:32.2747784Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2748375Z 
+2026-11-12T04:26:32.2748940Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2749674Z 
+2026-11-12T04:26:32.2749938Z >   ???
+2026-11-12T04:26:32.2750693Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2751393Z 
+2026-11-12T04:26:32.2751763Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2753234Z _ ERROR at setup of test_independent_product_acceptance[D04-Citation ID or URL changed after hash fails closed] _
+2026-11-12T04:26:32.2754310Z 
+2026-11-12T04:26:32.2754670Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2755374Z     def subject():
+2026-11-12T04:26:32.2756180Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2757551Z         with no_external_effects():
+2026-11-12T04:26:32.2758254Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2758938Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2759382Z 
+2026-11-12T04:26:32.2759655Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2760553Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2761668Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2762685Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2763429Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2764145Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2764773Z     ???
+2026-11-12T04:26:32.2765322Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2766009Z     ???
+2026-11-12T04:26:32.2766755Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2767290Z 
+2026-11-12T04:26:32.2767724Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2768270Z 
+2026-11-12T04:26:32.2768474Z >   ???
+2026-11-12T04:26:32.2769142Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2769641Z 
+2026-11-12T04:26:32.2769950Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2771249Z _ ERROR at setup of test_independent_product_acceptance[D05-Cross tenant/run/policy cannot inherit report identity] _
+2026-11-12T04:26:32.2772203Z 
+2026-11-12T04:26:32.2772451Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2773001Z     def subject():
+2026-11-12T04:26:32.2773761Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2774535Z         with no_external_effects():
+2026-11-12T04:26:32.2775225Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2776024Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2776436Z 
+2026-11-12T04:26:32.2776730Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2777526Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2778593Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2779658Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2780614Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2781253Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2781904Z     ???
+2026-11-12T04:26:32.2782410Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2782973Z     ???
+2026-11-12T04:26:32.2783497Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2784022Z 
+2026-11-12T04:26:32.2784451Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2784970Z 
+2026-11-12T04:26:32.2785183Z >   ???
+2026-11-12T04:26:32.2785711Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2786207Z 
+2026-11-12T04:26:32.2786575Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2787856Z _ ERROR at setup of test_independent_product_acceptance[D06-Source timestamp, coverage and version are hash-bound] _
+2026-11-12T04:26:32.2788550Z 
+2026-11-12T04:26:32.2788704Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2789200Z     def subject():
+2026-11-12T04:26:32.2789725Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2790523Z         with no_external_effects():
+2026-11-12T04:26:32.2791154Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2791847Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2792222Z 
+2026-11-12T04:26:32.2792445Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2793175Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2794143Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2795239Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2796030Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2796667Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2797315Z     ???
+2026-11-12T04:26:32.2797774Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2798446Z     ???
+2026-11-12T04:26:32.2798971Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2799491Z 
+2026-11-12T04:26:32.2799988Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2800759Z 
+2026-11-12T04:26:32.2800973Z >   ???
+2026-11-12T04:26:32.2801482Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2801909Z 
+2026-11-12T04:26:32.2802258Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2803284Z _ ERROR at setup of test_independent_product_acceptance[D07-Language/layout/asset versions are content-bound] _
+2026-11-12T04:26:32.2803872Z 
+2026-11-12T04:26:32.2804058Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2804781Z     def subject():
+2026-11-12T04:26:32.2805462Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2806234Z         with no_external_effects():
+2026-11-12T04:26:32.2806897Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2807585Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2807944Z 
+2026-11-12T04:26:32.2808405Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2809257Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2810452Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2811676Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2812501Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2813239Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2814052Z     ???
+2026-11-12T04:26:32.2814579Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2815325Z     ???
+2026-11-12T04:26:32.2815881Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2816398Z 
+2026-11-12T04:26:32.2816821Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2817461Z 
+2026-11-12T04:26:32.2817701Z >   ???
+2026-11-12T04:26:32.2818263Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2818801Z 
+2026-11-12T04:26:32.2819198Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2820502Z _ ERROR at setup of test_independent_product_acceptance[D08-Claim status/guard ref alteration is rejected] _
+2026-11-12T04:26:32.2821395Z 
+2026-11-12T04:26:32.2821654Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2822255Z     def subject():
+2026-11-12T04:26:32.2822955Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2823852Z         with no_external_effects():
+2026-11-12T04:26:32.2824606Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2825378Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2825808Z 
+2026-11-12T04:26:32.2826175Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2827023Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2828326Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2829451Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2830296Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2831114Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2831798Z     ???
+2026-11-12T04:26:32.2832366Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2833040Z     ???
+2026-11-12T04:26:32.2833576Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2834157Z 
+2026-11-12T04:26:32.2834557Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2835186Z 
+2026-11-12T04:26:32.2835390Z >   ???
+2026-11-12T04:26:32.2836031Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2836532Z 
+2026-11-12T04:26:32.2837014Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2838236Z _ ERROR at setup of test_independent_product_acceptance[D09-New valid version cannot load under old independent digest] _
+2026-11-12T04:26:32.2839180Z 
+2026-11-12T04:26:32.2839456Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2840205Z     def subject():
+2026-11-12T04:26:32.2840935Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2841803Z         with no_external_effects():
+2026-11-12T04:26:32.2842520Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2843353Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2843801Z 
+2026-11-12T04:26:32.2844172Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2845007Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2846118Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2847241Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2848430Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2849171Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2849893Z     ???
+2026-11-12T04:26:32.2850580Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2851246Z     ???
+2026-11-12T04:26:32.2851820Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2852381Z 
+2026-11-12T04:26:32.2852779Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2853407Z 
+2026-11-12T04:26:32.2853566Z >   ???
+2026-11-12T04:26:32.2854182Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2854713Z 
+2026-11-12T04:26:32.2855063Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2856274Z _ ERROR at setup of test_independent_product_acceptance[D10-APPROVED/by/time/shareable forgery fails closed] _
+2026-11-12T04:26:32.2857082Z 
+2026-11-12T04:26:32.2857300Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2857740Z     def subject():
+2026-11-12T04:26:32.2858336Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2858981Z         with no_external_effects():
+2026-11-12T04:26:32.2859521Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2860310Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2860689Z 
+2026-11-12T04:26:32.2860967Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2861659Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2862459Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2863362Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2864052Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2864840Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2865584Z     ???
+2026-11-12T04:26:32.2866212Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2866982Z     ???
+2026-11-12T04:26:32.2867586Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2868135Z 
+2026-11-12T04:26:32.2868623Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2869355Z 
+2026-11-12T04:26:32.2869565Z >   ???
+2026-11-12T04:26:32.2870305Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2870921Z 
+2026-11-12T04:26:32.2871267Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2873028Z _ ERROR at setup of test_independent_product_acceptance[D11-Fabricated ReviewDecision/ShareGrant cannot authorize native draft] _
+2026-11-12T04:26:32.2874168Z 
+2026-11-12T04:26:32.2874452Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2875125Z     def subject():
+2026-11-12T04:26:32.2875895Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2876841Z         with no_external_effects():
+2026-11-12T04:26:32.2877660Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2878490Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2878966Z 
+2026-11-12T04:26:32.2879413Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2880475Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2881708Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2883018Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2883907Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2884684Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2885409Z     ???
+2026-11-12T04:26:32.2886016Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2886817Z     ???
+2026-11-12T04:26:32.2887405Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2887953Z 
+2026-11-12T04:26:32.2888451Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2889125Z 
+2026-11-12T04:26:32.2889358Z >   ???
+2026-11-12T04:26:32.2890018Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2890907Z 
+2026-11-12T04:26:32.2891264Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2892867Z _ ERROR at setup of test_independent_product_acceptance[D12-Native ReportVersion, when included, validates exact RA0 finding hash] _
+2026-11-12T04:26:32.2894116Z 
+2026-11-12T04:26:32.2894436Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2895152Z     def subject():
+2026-11-12T04:26:32.2895909Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2896726Z         with no_external_effects():
+2026-11-12T04:26:32.2897239Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2897778Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2898152Z 
+2026-11-12T04:26:32.2898406Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2899010Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2899769Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2900678Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2901217Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2901966Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2902440Z     ???
+2026-11-12T04:26:32.2902849Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2903346Z     ???
+2026-11-12T04:26:32.2903783Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2904154Z 
+2026-11-12T04:26:32.2904597Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2905000Z 
+2026-11-12T04:26:32.2905176Z >   ???
+2026-11-12T04:26:32.2905611Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2906005Z 
+2026-11-12T04:26:32.2906227Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2907020Z _ ERROR at setup of test_independent_product_acceptance[E01-Standalone HTML has no executable or remote dependency] _
+2026-11-12T04:26:32.2907668Z 
+2026-11-12T04:26:32.2907888Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2908342Z     def subject():
+2026-11-12T04:26:32.2909013Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2909648Z         with no_external_effects():
+2026-11-12T04:26:32.2910375Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2911692Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2912007Z 
+2026-11-12T04:26:32.2912252Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2912822Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2913647Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2914459Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2915063Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2915564Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2916046Z     ???
+2026-11-12T04:26:32.2916485Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2916965Z     ???
+2026-11-12T04:26:32.2917379Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2917771Z 
+2026-11-12T04:26:32.2918072Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2918452Z 
+2026-11-12T04:26:32.2918601Z >   ???
+2026-11-12T04:26:32.2919081Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2919469Z 
+2026-11-12T04:26:32.2919722Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2920739Z _ ERROR at setup of test_independent_product_acceptance[E02-Source/evidence links remain internal anchors] _
+2026-11-12T04:26:32.2921368Z 
+2026-11-12T04:26:32.2921540Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2922043Z     def subject():
+2026-11-12T04:26:32.2922615Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2923259Z         with no_external_effects():
+2026-11-12T04:26:32.2923772Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2924339Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2924687Z 
+2026-11-12T04:26:32.2924921Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2925549Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2926326Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2927160Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2927749Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2928279Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2928785Z     ???
+2026-11-12T04:26:32.2929223Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2929836Z     ???
+2026-11-12T04:26:32.2930426Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2930804Z 
+2026-11-12T04:26:32.2931099Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2931533Z 
+2026-11-12T04:26:32.2931748Z >   ???
+2026-11-12T04:26:32.2932224Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2932570Z 
+2026-11-12T04:26:32.2932827Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2933643Z _ ERROR at setup of test_independent_product_acceptance[E03-Captured script-shaped text remains inert] _
+2026-11-12T04:26:32.2934208Z 
+2026-11-12T04:26:32.2934368Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2934815Z     def subject():
+2026-11-12T04:26:32.2935353Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2935995Z         with no_external_effects():
+2026-11-12T04:26:32.2936703Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2937271Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2937553Z 
+2026-11-12T04:26:32.2937863Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2938467Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2939214Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2940008Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2940742Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2941293Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2941769Z     ???
+2026-11-12T04:26:32.2942167Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2942654Z     ???
+2026-11-12T04:26:32.2943055Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2943437Z 
+2026-11-12T04:26:32.2943737Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2944196Z 
+2026-11-12T04:26:32.2944361Z >   ???
+2026-11-12T04:26:32.2944775Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2945072Z 
+2026-11-12T04:26:32.2945365Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2946091Z _ ERROR at setup of test_independent_product_acceptance[E04-Image/onerror source remains inert] _
+2026-11-12T04:26:32.2946645Z 
+2026-11-12T04:26:32.2946802Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2947276Z     def subject():
+2026-11-12T04:26:32.2947775Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2948363Z         with no_external_effects():
+2026-11-12T04:26:32.2948940Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2949488Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2949803Z 
+2026-11-12T04:26:32.2950331Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2950957Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2951680Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2952443Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2953325Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2953892Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2954319Z     ???
+2026-11-12T04:26:32.2954763Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2955232Z     ???
+2026-11-12T04:26:32.2955608Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2955970Z 
+2026-11-12T04:26:32.2956247Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2956786Z 
+2026-11-12T04:26:32.2956902Z >   ???
+2026-11-12T04:26:32.2957361Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2957697Z 
+2026-11-12T04:26:32.2957931Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2958728Z _ ERROR at setup of test_independent_product_acceptance[E05-javascript/data/encoded href cannot become active navigation] _
+2026-11-12T04:26:32.2959295Z 
+2026-11-12T04:26:32.2959496Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2959886Z     def subject():
+2026-11-12T04:26:32.2960535Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2961096Z         with no_external_effects():
+2026-11-12T04:26:32.2961620Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2962127Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2962377Z 
+2026-11-12T04:26:32.2962792Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2963422Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2964144Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2964901Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2965483Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2966025Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2966531Z     ???
+2026-11-12T04:26:32.2966915Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2967352Z     ???
+2026-11-12T04:26:32.2967790Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2968154Z 
+2026-11-12T04:26:32.2968415Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2968830Z 
+2026-11-12T04:26:32.2968984Z >   ???
+2026-11-12T04:26:32.2969442Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2969803Z 
+2026-11-12T04:26:32.2970057Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2971136Z _ ERROR at setup of test_independent_product_acceptance[E06-Model role delimiters and tool commands cannot change authority] _
+2026-11-12T04:26:32.2971714Z 
+2026-11-12T04:26:32.2971924Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2972369Z     def subject():
+2026-11-12T04:26:32.2972885Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2973466Z         with no_external_effects():
+2026-11-12T04:26:32.2973998Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2974580Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2974858Z 
+2026-11-12T04:26:32.2975170Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2975768Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2976486Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2977274Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2977790Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2978278Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2978793Z     ???
+2026-11-12T04:26:32.2979173Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2979637Z     ???
+2026-11-12T04:26:32.2980021Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2980501Z 
+2026-11-12T04:26:32.2980817Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2981279Z 
+2026-11-12T04:26:32.2981398Z >   ???
+2026-11-12T04:26:32.2981803Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2982287Z 
+2026-11-12T04:26:32.2982509Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2983328Z _ ERROR at setup of test_independent_product_acceptance[E07-Long untrusted title remains bounded, not a debug dump] _
+2026-11-12T04:26:32.2983899Z 
+2026-11-12T04:26:32.2984083Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2984516Z     def subject():
+2026-11-12T04:26:32.2984983Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2985549Z         with no_external_effects():
+2026-11-12T04:26:32.2986057Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2986594Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2986909Z 
+2026-11-12T04:26:32.2987191Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2987745Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2988574Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2989387Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2989938Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2990335Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2990496Z     ???
+2026-11-12T04:26:32.2990745Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2990884Z     ???
+2026-11-12T04:26:32.2991149Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2991158Z 
+2026-11-12T04:26:32.2991595Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2991604Z 
+2026-11-12T04:26:32.2991749Z >   ???
+2026-11-12T04:26:32.2992049Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2992057Z 
+2026-11-12T04:26:32.2992278Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2992787Z _ ERROR at setup of test_independent_product_acceptance[E08-Bidi/RTL text cannot impersonate privacy controls] _
+2026-11-12T04:26:32.2992795Z 
+2026-11-12T04:26:32.2993022Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2993182Z     def subject():
+2026-11-12T04:26:32.2993507Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2993667Z         with no_external_effects():
+2026-11-12T04:26:32.2993948Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2994165Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2994172Z 
+2026-11-12T04:26:32.2994428Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.2994705Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2995094Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.2995395Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.2995616Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2995825Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.2995993Z     ???
+2026-11-12T04:26:32.2996203Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.2996376Z     ???
+2026-11-12T04:26:32.2996646Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.2996654Z 
+2026-11-12T04:26:32.2996985Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.2996992Z 
+2026-11-12T04:26:32.2997161Z >   ???
+2026-11-12T04:26:32.2997391Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.2997398Z 
+2026-11-12T04:26:32.2997656Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.2998196Z _ ERROR at setup of test_independent_product_acceptance[E09-PII may be bounded reviewer text, never public href/token] _
+2026-11-12T04:26:32.2998346Z 
+2026-11-12T04:26:32.2998526Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.2998712Z     def subject():
+2026-11-12T04:26:32.2999009Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.2999203Z         with no_external_effects():
+2026-11-12T04:26:32.2999515Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.2999694Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.2999700Z 
+2026-11-12T04:26:32.2999964Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3000326Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3000755Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3001037Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3001342Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3001584Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3001723Z     ???
+2026-11-12T04:26:32.3002013Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3002124Z     ???
+2026-11-12T04:26:32.3002420Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3002428Z 
+2026-11-12T04:26:32.3002768Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3002775Z 
+2026-11-12T04:26:32.3002904Z >   ???
+2026-11-12T04:26:32.3003168Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3003176Z 
+2026-11-12T04:26:32.3003391Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3005356Z _ ERROR at setup of test_independent_product_acceptance[E10-All evidence anchors are unique and resolvable] _
+2026-11-12T04:26:32.3005371Z 
+2026-11-12T04:26:32.3005599Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3005748Z     def subject():
+2026-11-12T04:26:32.3006106Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3006243Z         with no_external_effects():
+2026-11-12T04:26:32.3006577Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3006787Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3006794Z 
+2026-11-12T04:26:32.3007027Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3007289Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3007657Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3007984Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3008197Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3008887Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3009055Z     ???
+2026-11-12T04:26:32.3009301Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3009477Z     ???
+2026-11-12T04:26:32.3009688Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3009737Z 
+2026-11-12T04:26:32.3010014Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3010022Z 
+2026-11-12T04:26:32.3010305Z >   ???
+2026-11-12T04:26:32.3010563Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3010572Z 
+2026-11-12T04:26:32.3010863Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3011423Z _ ERROR at setup of test_independent_product_acceptance[E11-Primary report is not the full raw evidence/guard JSON] _
+2026-11-12T04:26:32.3011431Z 
+2026-11-12T04:26:32.3011589Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3011750Z     def subject():
+2026-11-12T04:26:32.3012254Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3012485Z         with no_external_effects():
+2026-11-12T04:26:32.3012713Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3012934Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3012940Z 
+2026-11-12T04:26:32.3013199Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3013436Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3013913Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3014216Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3014437Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3014663Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3014820Z     ???
+2026-11-12T04:26:32.3015219Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3015371Z     ???
+2026-11-12T04:26:32.3015650Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3015658Z 
+2026-11-12T04:26:32.3015959Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3015967Z 
+2026-11-12T04:26:32.3016130Z >   ???
+2026-11-12T04:26:32.3016449Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3016456Z 
+2026-11-12T04:26:32.3016669Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3017196Z _ ERROR at setup of test_independent_product_acceptance[E12-No unsupported customer photograph/testimonial/case claim] _
+2026-11-12T04:26:32.3017204Z 
+2026-11-12T04:26:32.3017381Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3017555Z     def subject():
+2026-11-12T04:26:32.3017926Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3018100Z         with no_external_effects():
+2026-11-12T04:26:32.3018382Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3018561Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3018595Z 
+2026-11-12T04:26:32.3018850Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3019162Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3019532Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3019812Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3019986Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3020406Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3020600Z     ???
+2026-11-12T04:26:32.3020804Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3020994Z     ???
+2026-11-12T04:26:32.3021228Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3021237Z 
+2026-11-12T04:26:32.3021563Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3021571Z 
+2026-11-12T04:26:32.3021789Z >   ???
+2026-11-12T04:26:32.3022014Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3022020Z 
+2026-11-12T04:26:32.3022282Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3022755Z _ ERROR at setup of test_independent_product_acceptance[E13-No active send/share/contact form or enabled lead action] _
+2026-11-12T04:26:32.3022762Z 
+2026-11-12T04:26:32.3022981Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3023181Z     def subject():
+2026-11-12T04:26:32.3023464Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3023669Z         with no_external_effects():
+2026-11-12T04:26:32.3024043Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3024295Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3024302Z 
+2026-11-12T04:26:32.3024612Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3024836Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3025274Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3025523Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3025749Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3025999Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3026134Z     ???
+2026-11-12T04:26:32.3026379Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3026545Z     ???
+2026-11-12T04:26:32.3026910Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3026928Z 
+2026-11-12T04:26:32.3027238Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3027295Z 
+2026-11-12T04:26:32.3027419Z >   ???
+2026-11-12T04:26:32.3027685Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3027692Z 
+2026-11-12T04:26:32.3027919Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3028477Z _ ERROR at setup of test_independent_product_acceptance[E14-UTF-8 Chinese page and legible private synthetic state] _
+2026-11-12T04:26:32.3028484Z 
+2026-11-12T04:26:32.3028700Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3028840Z     def subject():
+2026-11-12T04:26:32.3029223Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3029387Z         with no_external_effects():
+2026-11-12T04:26:32.3029669Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3029868Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3029921Z 
+2026-11-12T04:26:32.3030313Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3030584Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3030989Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3031285Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3031474Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3031721Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3031922Z     ???
+2026-11-12T04:26:32.3032120Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3032304Z     ???
+2026-11-12T04:26:32.3032523Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3032532Z 
+2026-11-12T04:26:32.3032876Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3032887Z 
+2026-11-12T04:26:32.3033055Z >   ???
+2026-11-12T04:26:32.3033293Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3033299Z 
+2026-11-12T04:26:32.3033563Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3034037Z _ ERROR at setup of test_independent_product_acceptance[F01-Actual 375px mobile reading: no horizontal overflow] _
+2026-11-12T04:26:32.3034044Z 
+2026-11-12T04:26:32.3034241Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3034448Z     def subject():
+2026-11-12T04:26:32.3034743Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3034946Z         with no_external_effects():
+2026-11-12T04:26:32.3035195Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3035407Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3035414Z 
+2026-11-12T04:26:32.3035823Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3036026Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3036465Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3036715Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3036945Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3037141Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3037304Z     ???
+2026-11-12T04:26:32.3037547Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3037688Z     ???
+2026-11-12T04:26:32.3037929Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3037936Z 
+2026-11-12T04:26:32.3038215Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3038222Z 
+2026-11-12T04:26:32.3038390Z >   ???
+2026-11-12T04:26:32.3038748Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3038756Z 
+2026-11-12T04:26:32.3039009Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3039488Z _ ERROR at setup of test_independent_product_acceptance[F02-Actual 1280px desktop: one-page hierarchy readable] _
+2026-11-12T04:26:32.3039496Z 
+2026-11-12T04:26:32.3039656Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3039831Z     def subject():
+2026-11-12T04:26:32.3040329Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3040518Z         with no_external_effects():
+2026-11-12T04:26:32.3040798Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3040975Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3040982Z 
+2026-11-12T04:26:32.3041265Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3041544Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3041973Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3042244Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3042417Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3042651Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3042838Z     ???
+2026-11-12T04:26:32.3043051Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3043222Z     ???
+2026-11-12T04:26:32.3043442Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3043450Z 
+2026-11-12T04:26:32.3043781Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3043790Z 
+2026-11-12T04:26:32.3043898Z >   ???
+2026-11-12T04:26:32.3044253Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3044273Z 
+2026-11-12T04:26:32.3044548Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3045064Z _ ERROR at setup of test_independent_product_acceptance[F03-Actual citation click/expand reaches correct recorded source] _
+2026-11-12T04:26:32.3045072Z 
+2026-11-12T04:26:32.3045285Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3045399Z     def subject():
+2026-11-12T04:26:32.3045767Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3045960Z         with no_external_effects():
+2026-11-12T04:26:32.3046209Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3046427Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3046434Z 
+2026-11-12T04:26:32.3046647Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3046986Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3047577Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3047829Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3048040Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3048230Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3048452Z     ???
+2026-11-12T04:26:32.3048699Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3048829Z     ???
+2026-11-12T04:26:32.3049109Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3049117Z 
+2026-11-12T04:26:32.3049362Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3049368Z 
+2026-11-12T04:26:32.3049571Z >   ???
+2026-11-12T04:26:32.3049831Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3049839Z 
+2026-11-12T04:26:32.3050296Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3050838Z _ ERROR at setup of test_independent_product_acceptance[F04-Private/not-approved badge visible above fold on both sizes] _
+2026-11-12T04:26:32.3050847Z 
+2026-11-12T04:26:32.3050980Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3051197Z     def subject():
+2026-11-12T04:26:32.3051528Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3051709Z         with no_external_effects():
+2026-11-12T04:26:32.3051968Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3052110Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3052116Z 
+2026-11-12T04:26:32.3052433Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3052677Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3053039Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3053312Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3053459Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3053724Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3053846Z     ???
+2026-11-12T04:26:32.3054103Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3054262Z     ???
+2026-11-12T04:26:32.3054433Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3054440Z 
+2026-11-12T04:26:32.3054787Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3054793Z 
+2026-11-12T04:26:32.3054912Z >   ???
+2026-11-12T04:26:32.3055163Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3055170Z 
+2026-11-12T04:26:32.3055425Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3055902Z _ ERROR at setup of test_independent_product_acceptance[F05-Genuine screenshots bind exact HTML/candidate, zero external requests] _
+2026-11-12T04:26:32.3055914Z 
+2026-11-12T04:26:32.3056146Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3056284Z     def subject():
+2026-11-12T04:26:32.3056636Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3056845Z         with no_external_effects():
+2026-11-12T04:26:32.3057056Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3057306Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3057313Z 
+2026-11-12T04:26:32.3057554Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3057810Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3058253Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3058487Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3058878Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3059099Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3059389Z     ???
+2026-11-12T04:26:32.3059601Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3059751Z     ???
+2026-11-12T04:26:32.3060040Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3060047Z 
+2026-11-12T04:26:32.3060461Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3060473Z 
+2026-11-12T04:26:32.3060647Z >   ???
+2026-11-12T04:26:32.3060876Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3060882Z 
+2026-11-12T04:26:32.3061114Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3061727Z _ ERROR at setup of test_independent_product_acceptance[F06-Source-bound QA reading memo separates four business layers] _
+2026-11-12T04:26:32.3061852Z 
+2026-11-12T04:26:32.3062020Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3062211Z     def subject():
+2026-11-12T04:26:32.3062497Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3062678Z         with no_external_effects():
+2026-11-12T04:26:32.3063000Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3063167Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3063174Z 
+2026-11-12T04:26:32.3063443Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3063650Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3064056Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3064446Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3064619Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3064870Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3065005Z     ???
+2026-11-12T04:26:32.3065238Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3065442Z     ???
+2026-11-12T04:26:32.3065649Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3065656Z 
+2026-11-12T04:26:32.3065976Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3065983Z 
+2026-11-12T04:26:32.3066118Z >   ???
+2026-11-12T04:26:32.3066370Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3066377Z 
+2026-11-12T04:26:32.3066713Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3067216Z _ ERROR at setup of test_independent_product_acceptance[F07-Actual review states what VEYFRONT can offer and cannot promise] _
+2026-11-12T04:26:32.3067225Z 
+2026-11-12T04:26:32.3067444Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3067603Z     def subject():
+2026-11-12T04:26:32.3067916Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3068160Z         with no_external_effects():
+2026-11-12T04:26:32.3068379Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3068590Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3068598Z 
+2026-11-12T04:26:32.3068825Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3069088Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3069561Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3069803Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3070018Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3070356Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3070656Z     ???
+2026-11-12T04:26:32.3070897Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3071082Z     ???
+2026-11-12T04:26:32.3071332Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3071341Z 
+2026-11-12T04:26:32.3071649Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3071655Z 
+2026-11-12T04:26:32.3071801Z >   ???
+2026-11-12T04:26:32.3072064Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3072071Z 
+2026-11-12T04:26:32.3072352Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3072862Z _ ERROR at setup of test_independent_product_acceptance[F08-Compare 0/1-issue drafts for honest commercial usefulness] _
+2026-11-12T04:26:32.3072871Z 
+2026-11-12T04:26:32.3073026Z     @pytest.fixture(scope='module')
+2026-11-12T04:26:32.3073188Z     def subject():
+2026-11-12T04:26:32.3073582Z         # Genuine Phase-A RED: main has no reporting; no fake module or fallback.
+2026-11-12T04:26:32.3073805Z         with no_external_effects():
+2026-11-12T04:26:32.3074095Z >           reporting = importlib.import_module('vrae.reporting')
+2026-11-12T04:26:32.3074263Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3074270Z 
+2026-11-12T04:26:32.3074516Z tests/reporting/test_ra3c_independent_acceptance.py:231: 
+2026-11-12T04:26:32.3074743Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3075174Z /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/importlib/__init__.py:88: in import_module
+2026-11-12T04:26:32.3075436Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-11-12T04:26:32.3075605Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-12T04:26:32.3075815Z <frozen importlib._bootstrap>:1404: in _gcd_import
+2026-11-12T04:26:32.3075963Z     ???
+2026-11-12T04:26:32.3076224Z <frozen importlib._bootstrap>:1369: in _find_and_load
+2026-11-12T04:26:32.3076384Z     ???
+2026-11-12T04:26:32.3076628Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-12T04:26:32.3076634Z 
+2026-11-12T04:26:32.3076926Z name = 'vrae.reporting', import_ = <function _gcd_import at 0x7473a19d04a0>
+2026-11-12T04:26:32.3076932Z 
+2026-11-12T04:26:32.3077080Z >   ???
+2026-11-12T04:26:32.3077355Z E   ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3077361Z 
+2026-11-12T04:26:32.3077569Z <frozen importlib._bootstrap>:1333: ModuleNotFoundError
+2026-11-12T04:26:32.3077824Z =========================== short test summary info ============================
+2026-11-12T04:26:32.3078278Z SKIPPED [1] tests/browser/test_isolated_browser.py:60: Requires separate sandboxed Chromium and Worker containers
+2026-11-12T04:26:32.3261500Z SKIPPED [1] tests/collection/test_isolated.py:125: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3262308Z SKIPPED [5] tests/collection/test_isolated.py:144: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3262785Z SKIPPED [2] tests/collection/test_isolated.py:156: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3263208Z SKIPPED [5] tests/collection/test_isolated.py:167: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3263652Z SKIPPED [1] tests/collection/test_isolated.py:182: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3264082Z SKIPPED [5] tests/collection/test_isolated.py:197: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3264524Z SKIPPED [3] tests/collection/test_isolated.py:228: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3264933Z SKIPPED [1] tests/collection/test_isolated.py:244: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3265711Z SKIPPED [1] tests/collection/test_isolated.py:265: Requires disposable --network none firewall lab; never run on host
+2026-11-12T04:26:32.3266762Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T01-404: one captured product-contact failure, TRUST unknown] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3267552Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T02-410: independent capture, one issue not combined with 404] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3268355Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T03-200: truthful zero issues, no native empty ReportVersion] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3269349Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T04-403: inaccessible is not a business defect] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3270310Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T05-WAF challenge: honest restricted coverage] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3271056Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T06-Robots denied contact: no invented FAIL] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3271861Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T07-Unretained raw source: no unsupported objective report] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3272659Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T08-Unvisited contact: no assertion of broken inquiry] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3273482Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T09-500: transient source failure is not proven 404 defect] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3274250Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T10-Repeated contact edge is one buyer problem] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3274989Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T11-200/404 pack mix cannot launder a finding] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3275822Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[T12-Padding one issue to four cannot load as the original draft] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3276683Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B01-Four layers are distinguishable in structured and rendered output] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3277445Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B02-Potential impact stays provisional human review] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3278240Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B03-Suggested action remains proposed, not approved delivery] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3278996Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B04-Recheck names the recorded path and observable status] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3279727Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B05-Verified INQUIRE buyer task preserved] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3301307Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B06-Capture date/pages/unchecked scope visible] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3302297Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B07-Chinese-first fact wording has no unsupported certainty] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3303200Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B08-VEYFRONT action is scoped discussion, not complex-platform commitment] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3304013Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B09-No invented severity, confidence, whole-site score or ROI] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3305216Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[B10-Next step does not claim a lead, sale or consultation occurred] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3306044Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C01-Every issue points to original verified native Finding] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3306917Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C02-Quoted source bytes/positions and individual guard binding match] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3307692Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C03-URL/href/status/time/scope all trace exact captured edge] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3308507Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C04-TRUST/SEO/INFO positives are never repackaged as defects] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3309463Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C05-Real refs do not prove legal registration, ISO or factory ownership] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3310529Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C06-Real refs do not prove search rank, uplift, loss or causality] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3311367Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C07-Contact 200 does not prove delivery or customer case] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3312267Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[C08-Caller-held guard/package pins are not replaced from output] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3313145Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D01-Deterministic build-load-verify round trip includes exact HTML] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3313981Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D02-Editorial fact wording changed after hash fails closed] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3314676Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D03-HTML bytes changed after hash fails closed] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3315492Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D04-Citation ID or URL changed after hash fails closed] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3316545Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D05-Cross tenant/run/policy cannot inherit report identity] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3317311Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D06-Source timestamp, coverage and version are hash-bound] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3318088Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D07-Language/layout/asset versions are content-bound] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3318773Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D08-Claim status/guard ref alteration is rejected] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3319654Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D09-New valid version cannot load under old independent digest] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3337187Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D10-APPROVED/by/time/shareable forgery fails closed] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3338215Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D11-Fabricated ReviewDecision/ShareGrant cannot authorize native draft] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3339064Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[D12-Native ReportVersion, when included, validates exact RA0 finding hash] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3339875Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E01-Standalone HTML has no executable or remote dependency] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3341039Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E02-Source/evidence links remain internal anchors] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3341938Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E03-Captured script-shaped text remains inert] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3342673Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E04-Image/onerror source remains inert] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3343477Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E05-javascript/data/encoded href cannot become active navigation] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3344267Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E06-Model role delimiters and tool commands cannot change authority] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3345027Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E07-Long untrusted title remains bounded, not a debug dump] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3345774Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E08-Bidi/RTL text cannot impersonate privacy controls] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3346530Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E09-PII may be bounded reviewer text, never public href/token] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3347536Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E10-All evidence anchors are unique and resolvable] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3348310Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E11-Primary report is not the full raw evidence/guard JSON] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3349092Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E12-No unsupported customer photograph/testimonial/case claim] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3349839Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E13-No active send/share/contact form or enabled lead action] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3350875Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[E14-UTF-8 Chinese page and legible private synthetic state] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3351656Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F01-Actual 375px mobile reading: no horizontal overflow] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3352412Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F02-Actual 1280px desktop: one-page hierarchy readable] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3353179Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F03-Actual citation click/expand reaches correct recorded source] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3353959Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F04-Private/not-approved badge visible above fold on both sizes] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3354896Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F05-Genuine screenshots bind exact HTML/candidate, zero external requests] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3355738Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F06-Source-bound QA reading memo separates four business layers] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3356649Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F07-Actual review states what VEYFRONT can offer and cannot promise] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3357521Z ERROR tests/reporting/test_ra3c_independent_acceptance.py::test_independent_product_acceptance[F08-Compare 0/1-issue drafts for honest commercial usefulness] - ModuleNotFoundError: No module named 'vrae.reporting'
+2026-11-12T04:26:32.3357722Z 1872 passed, 25 skipped, 64 errors in 263.36s (0:04:23)
+2026-11-12T04:26:32.4499737Z ##[error]Process completed with exit code 1.
+2026-11-12T04:26:32.4644117Z Post job cleanup.
+2026-11-12T04:26:32.5641032Z [command]/usr/bin/git version
+2026-11-12T04:26:32.5726891Z git version 2.56.0
+2026-11-12T04:26:32.5877019Z Temporarily overriding HOME='/home/runner/work/_temp/711ca0e1-009a-41dc-b9b6-15ca9563eb01' before making global git config changes
+2026-11-12T04:26:32.5911086Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-12T04:26:32.5925219Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-12T04:26:32.5927124Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-12T04:26:32.5983132Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-12T04:26:32.6514123Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-12T04:26:32.6574042Z http.https://github.com/.extraheader
+2026-11-12T04:26:32.6605166Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-12T04:26:32.6706784Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-12T04:26:32.7054639Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-12T04:26:32.7089327Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-12T04:26:32.7476204Z Cleaning up orphan processes
+2026-11-12T04:26:32.7761270Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
