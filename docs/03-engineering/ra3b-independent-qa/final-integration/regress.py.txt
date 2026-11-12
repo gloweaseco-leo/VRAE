@@ -1,0 +1,84 @@
+"""Final integration recorder, never edits old freezes or production/history."""
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+
+from source_proof import audit, ROOT, MAIN, MERGE
+
+
+def status(c):
+    return 'failed' if c.find('failure') is not None else 'error' if c.find('error') is not None else 'skipped' if c.find('skipped') is not None else 'passed'
+
+
+def main():
+    out = Path(__file__).parent/sys.argv[1]
+    out.mkdir(exist_ok=False)
+    before = audit()
+    assert before['verified_head'] == MERGE
+    env = dict(os.environ,PYTHONDONTWRITEBYTECODE='1')
+    commands = [(['docs/03-engineering/ra3b-independent-qa/audit_inputs.py'],0),
+        (['-m','compileall','-q','vrae'],0),
+        (['-m','ruff','check','vrae','tests','scripts/verify_ra3a.py','scripts/verify_ra3b.py',
+          '--select','E4,E7,E9,F'],0),
+        (['-m','mypy','vrae'],0),
+        (['-m','pytest','-q','--tb=short','--junitxml='+str(out/'full.xml'),
+          '--basetemp='+str(out/'pytest-tmp')],0),
+        (['-m','pytest','-q','tests/interpretation/test_ra3b_independent_adversarial.py',
+          '--tb=short','--junitxml='+str(out/'qa.xml'),'--basetemp='+str(out/'qa-pytest-tmp')],0),
+        (['-m','pip','check'],0),
+        *[([f'scripts/verify_{s}.py'],0) for s in (
+            'ra2a','ra2b0','ra2b1','ra2b2','ra2b3','ra2b4','ra2b5','ra2b6','ra2b6_execution',
+            'ra2c0','ra2c1','ra2c2','ra2c3','ra2d0','ra2d1','ra3a','ra3b')],
+        (['scripts/verify_ra2d1.py','--reviews','docs/03-engineering/ra2d1-review/SIMULATED_NOT_HUMAN_GOLD.json'],0),
+        (['scripts/verify_ra2d1.py','--reviews','docs/03-engineering/ra2d1-review/negative-forged-gold.json'],1)]
+    results = []
+    for i,(args,expected) in enumerate(commands,1):
+        start = datetime.now(timezone.utc).isoformat()
+        r = subprocess.run([sys.executable,*args],cwd=ROOT,env=env,capture_output=True)
+        name = f'{i:02}.log'
+        raw = r.stdout+r.stderr
+        (out/name).write_bytes(raw)
+        results.append(dict(command=[sys.executable,*args],cwd=str(ROOT),expected_exit=expected,
+            exit_code=r.returncode,matches=r.returncode == expected,log=name,
+            started_utc=start,ended_utc=datetime.now(timezone.utc).isoformat(),
+            sha256=hashlib.sha256(raw).hexdigest()))
+        print(i,args[:4],r.returncode,'expected',expected,flush=True)
+    cases = ET.parse(out/'full.xml').findall('.//testcase')
+    qa = ET.parse(out/'qa.xml').findall('.//testcase')
+    qa_in_full = [c for c in cases if c.get('classname') == 'tests.interpretation.test_ra3b_independent_adversarial']
+    prior = [c for c in cases if c.get('classname') == 'tests.findings.test_ra2c3_independent_adversarial']
+    security = [c for c in cases if c.get('classname') in (
+        'tests.collection.test_security','tests.test_domain','tests.test_contracts')]
+    counts = {s:sum(status(c) == s for c in cases) for s in ('passed','failed','error','skipped')}
+    counts['collected'] = len(cases)
+    skipped = [dict(classname=c.get('classname'),name=c.get('name'),reason=c.find('skipped').get('message'))
+               for c in cases if status(c) == 'skipped']
+    assert len(qa) == len(qa_in_full) == 224 and all(status(c) == 'passed' for c in qa+qa_in_full)
+    assert len(prior) == 139 and all(status(c) == 'passed' for c in prior)
+    assert security and all(status(c) == 'passed' for c in security)
+    assert len(skipped) == 25 and all(s['classname'] in (
+        'tests.collection.test_isolated','tests.browser.test_isolated_browser') for s in skipped)
+    after = audit()
+    assert before == after
+    ok = all(r['matches'] for r in results) and counts['failed'] == counts['error'] == 0
+    summary = dict(python=sys.version,head=MERGE,accepted_main=MAIN,source_root=str(ROOT),
+        outcome='LOCAL_INTEGRATION_GREEN' if ok else 'UNEXPECTED_FAILURE',full_counts=counts,
+        dedicated_qa=dict(collected=len(qa),passed=sum(status(c) == 'passed' for c in qa),
+                          failed=sum(status(c) == 'failed' for c in qa),skipped=sum(status(c) == 'skipped' for c in qa)),
+        full_frozen_qa_passed=len(qa_in_full),prior_frozen_qa_passed=len(prior),
+        security_domain_contract_passed=len(security),skips=skipped,commands=results,
+        before_source_head=before['verified_head'],after_source_head=after['verified_head'],
+        unchanged_main_files=before['main_file_count'],unchanged_qa_exclusive=len(before['preserved_exclusive_qa_files']),
+        source_and_archives_verified=True,basetemp_note='Fresh per-runtime workspace-owned temp; no test/policy relaxation')
+    (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps({k:v for k,v in summary.items() if k not in ('skips','commands')}),flush=True)
+    return int(not ok)
+
+
+if __name__ == '__main__':
+    sys.exit(main())

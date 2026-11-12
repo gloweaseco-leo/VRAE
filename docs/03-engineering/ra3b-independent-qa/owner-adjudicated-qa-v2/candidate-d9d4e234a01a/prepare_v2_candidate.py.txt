@@ -1,0 +1,40 @@
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+
+ROOT = Path.cwd()
+SOURCE = 'd9d4e234a01a27a4543404b7060c8867e60d0309'
+QA = 'f2996b2a61511453d37a0796d018ab6a4a74539d'
+TARGET = ROOT.parent/'ra3b-qa-v2-candidate-d9d4e234a01a'
+PATHS = ('tests/interpretation/test_ra3b_independent_adversarial.py',
+         'tests/interpretation/fixtures/ra3b_codex1_inputs.json')
+
+def git(*args,cwd=ROOT):
+    return subprocess.check_output(['git',*args],cwd=cwd)
+
+assert git('rev-parse','HEAD').decode().strip() == QA
+assert not git('status','--porcelain').strip()
+manifest = json.loads(git('show',QA+':docs/03-engineering/ra3b-independent-qa/owner-adjudicated-qa-v2/manifest.json'))
+assert manifest['candidate_head'] == SOURCE and not TARGET.exists()
+assert not git('ls-tree','--name-only',SOURCE,'--',*PATHS).strip()
+git('worktree','add','--detach',str(TARGET),SOURCE)
+records = {}
+for name in PATHS:
+    raw = git('show',QA+':'+name)
+    dest = TARGET/name
+    assert not dest.exists()
+    dest.parent.mkdir(parents=True,exist_ok=True)
+    dest.write_bytes(raw)
+    assert hashlib.sha256(raw).hexdigest() == manifest['files'][name]['sha256']
+    assert git('hash-object',name,cwd=TARGET).decode().strip() == manifest['files'][name]['git_blob']
+    records[name] = manifest['files'][name]
+assert not git('diff','--name-only',SOURCE,cwd=TARGET).strip()
+assert git('rev-parse','HEAD',cwd=TARGET).decode().strip() == SOURCE
+proof = dict(version='OWNER_ADJUDICATED_QA_V2',candidate=SOURCE,qa_head=QA,
+    source_commit=manifest['source_commit'],workspace=str(TARGET),overlay=records,
+    candidate_status=git('status','--porcelain','--untracked-files=all',cwd=TARGET).decode(),
+    tracked_candidate_changes=0,source_tree=git('rev-parse','HEAD^{tree}',cwd=TARGET).decode().strip())
+assert proof['source_tree'] == manifest['candidate_tree']
+Path(__file__).with_name('setup-proof.json').write_text(json.dumps(proof,indent=2)+'\n')
+print(json.dumps(proof))

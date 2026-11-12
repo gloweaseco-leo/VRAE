@@ -1,0 +1,86 @@
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import zipfile
+
+ROOT = Path(__file__).resolve().parents[3]
+MAIN = '1d9d08ec3b99fc10ff7ea181d210250841ee39a3'
+QA = '5e34075b671106ad37a034b76e01b8aa8eaa5de7'
+MERGE = '6846fbe2eea46611758bb661de8ecc62f679f9d2'
+
+
+def git(*args):
+    return subprocess.check_output(['git', *args], cwd=ROOT)
+
+
+def tree(ref):
+    result = {}
+    for row in git('ls-tree', '-rz', '--full-tree', ref).split(b'\0'):
+        if row:
+            meta,path = row.split(b'\t',1)
+            mode,kind,blob = meta.decode().split()
+            assert kind == 'blob'
+            result[path.decode()] = dict(mode=mode,blob=blob)
+    return result
+
+
+def added(start,end,count):
+    rows = git('diff','--name-status',start,end).decode().splitlines()
+    assert len(rows) == count and all(r.startswith('A\t') for r in rows)
+    return [r[2:] for r in rows]
+
+
+def audit():
+    head = git('rev-parse','HEAD').decode().strip()
+    assert git('rev-parse','origin/main').decode().strip() == MAIN
+    assert git('show','-s','--format=%P',MERGE).decode().split() == [QA,MAIN]
+    assert not git('status','--porcelain').strip()
+    main,qa,current = tree(MAIN),tree(QA),tree(head)
+    assert all(current.get(p) == record for p,record in main.items())
+    assert all(current.get(p) == record for p,record in qa.items())
+    paths = sorted(current)
+    p = subprocess.run(['git','hash-object','--stdin-paths'],cwd=ROOT,
+                       input=('\n'.join(paths)+'\n').encode(),capture_output=True,check=True)
+    working = p.stdout.decode().splitlines()
+    assert len(working) == len(paths)
+    assert all(current[path]['blob'] == blob for path,blob in zip(paths,working))
+    ra3b = added('8379e5f63d3feaa66a646d8a19d866a693162c99',MAIN,35)
+    ra3a = added('91d408bcdbe0a6667c1e356723e3385465cdd6ae','27262ae37603d08310232edb5adf5b57f03178da',19)
+    priorqa = added('91d408bcdbe0a6667c1e356723e3385465cdd6ae','7e62bfcd1a900630b80b02850a0086cc950e4138',177)
+    exclusive = {p:v for p,v in qa.items() if p not in main}
+    assert len(exclusive) == 80
+    assert all(p.startswith('docs/03-engineering/ra3b-independent-qa/') or p in (
+        'tests/interpretation/test_ra3b_independent_adversarial.py',
+        'tests/interpretation/fixtures/ra3b_codex1_inputs.json') for p in exclusive)
+    assert current['tests/interpretation/test_ra3b_independent_adversarial.py']['blob'] == '84dcb51e794310d5bfa6426042e50c1d785bcef6'
+    assert current['tests/interpretation/fixtures/ra3b_codex1_inputs.json']['blob'] == '7fa3a75e3001ad9c95abee2aff66a2b73a32e740'
+    assert current['docs/03-engineering/ra3b-independent-qa/owner-adjudicated-qa-v2/original-test.py.txt']['blob'] == 'e2f188fe234db3131d6ea1604b05d25f4ffd8e61'
+    archives = []
+    for index_path,archive_key,digest_key in (
+        ('docs/03-engineering/ra3a-offline/evidence-index.json','archive','sha256'),
+        ('docs/03-engineering/ra3b-independent-qa/evidence-index.json','archive','sha256'),
+        ('docs/03-engineering/ra3b-independent-qa/phase-b-d9d4e234a01a/index.json','raw_archive','raw_archive_sha256'),
+        ('docs/03-engineering/ra3b-independent-qa/owner-adjudicated-qa-v2/candidate-d9d4e234a01a/index.json','archive','archive_sha256')):
+        index = json.loads((ROOT/index_path).read_text(encoding='utf-8-sig'))
+        archive = ROOT/Path(index_path).parent/index[archive_key]
+        digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+        assert digest == index[digest_key]
+        with zipfile.ZipFile(archive) as z:
+            assert len(z.namelist()) == len(index['files'])
+            for record in index['files']:
+                raw = z.read(record['path'])
+                assert len(raw) == record['size'] and hashlib.sha256(raw).hexdigest() == record['sha256']
+        archives.append(dict(path=str(archive.relative_to(ROOT)),sha256=digest,entries=len(index['files'])))
+    return dict(verified_head=head,accepted_main=MAIN,original_qa_head=QA,normal_merge=MERGE,
+        merge_parents=[QA,MAIN],worktree_clean=True,main_file_count=len(main),original_qa_files=len(qa),
+        preserved_main_files=main,preserved_exclusive_qa_files=exclusive,
+        verified_working_git_blobs=len(paths),ra3b_paths=ra3b,ra3a_paths=ra3a,prior_qa_paths=priorqa,
+        historical_archive_checks=archives,verified_original_archive_entries=sum(r['entries'] for r in archives))
+
+
+if __name__ == '__main__':
+    result = audit()
+    Path(__file__).with_name('source-proof.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps({k:v for k,v in result.items() if k not in (
+        'preserved_main_files','preserved_exclusive_qa_files','ra3b_paths','ra3a_paths','prior_qa_paths')}))

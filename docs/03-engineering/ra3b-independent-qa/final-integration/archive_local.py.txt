@@ -1,0 +1,65 @@
+"""Append only final integration raw records; old QA and production untouched."""
+import hashlib
+import json
+from pathlib import Path
+import xml.etree.ElementTree as ET
+import zipfile
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+DOC = ROOT/'docs/03-engineering/ra3b-independent-qa/final-integration'
+
+
+def main():
+    DOC.mkdir(exist_ok=False)
+    records,results = [],{}
+    payloads = {}
+    for runtime in ('python311','python313'):
+        folder = HERE/runtime
+        result = json.loads((folder/'summary.json').read_text())
+        assert result['outcome'] == 'LOCAL_INTEGRATION_GREEN'
+        assert len(result['commands']) == 26 and all(r['matches'] for r in result['commands'])
+        assert result['dedicated_qa']['passed'] == result['dedicated_qa']['collected'] == 224
+        assert result['prior_frozen_qa_passed'] == 139
+        results[runtime] = result
+        dest = DOC/runtime
+        dest.mkdir()
+        for name in ('full.xml','qa.xml','summary.json'):
+            raw = (folder/name).read_bytes()
+            (dest/name).write_bytes(raw)
+        for name in ('full.xml','qa.xml','summary.json',*[f'{i:02}.log' for i in range(1,27)]):
+            raw = (folder/name).read_bytes()
+            payloads[runtime+'/'+name] = raw
+    assert results['python311']['full_counts'] == results['python313']['full_counts']
+    assert {c.get('name') for c in ET.parse(HERE/'python311/qa.xml').findall('.//testcase')} == {
+        c.get('name') for c in ET.parse(HERE/'python313/qa.xml').findall('.//testcase')}
+    for name in ('source-proof.json','source_proof.py','regress.py','archive_local.py'):
+        raw = (HERE/name).read_bytes()
+        path = name if name.endswith('.json') else name+'.txt'
+        payloads[path] = raw
+        (DOC/path).write_bytes(raw)
+    archive = DOC/'local-raw.zip'
+    with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
+        for path,raw in payloads.items():
+            z.writestr(path,raw)
+            records.append(dict(path=path,size=len(raw),sha256=hashlib.sha256(raw).hexdigest()))
+    with zipfile.ZipFile(archive) as z:
+        assert len(z.namelist()) == len(records)
+        for r in records:
+            raw = z.read(r['path'])
+            assert len(raw) == r['size'] and hashlib.sha256(raw).hexdigest() == r['sha256']
+    index = dict(authority='https://github.com/gloweaseco-leo/VRAE/pull/44#issuecomment-6812567914',
+        local_test_head='6846fbe2eea46611758bb661de8ecc62f679f9d2',
+        accepted_main='1d9d08ec3b99fc10ff7ea181d210250841ee39a3',
+        prior_qa_head='5e34075b671106ad37a034b76e01b8aa8eaa5de7',
+        results=results,files=records,archive=archive.name,
+        archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),
+        byte_note='Authoritative original bytes in lossless ZIP; readable Git text copies may normalize CRLF',
+        hosted_final_head_and_run='Recorded after final evidence commit in PR audit comment')
+    (DOC/'evidence-index.json').write_text(json.dumps(index,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps(dict(raw_files=len(records),archive_sha256=index['archive_sha256'],
+                         counts=results['python311']['full_counts'])))
+
+
+if __name__ == '__main__':
+    main()

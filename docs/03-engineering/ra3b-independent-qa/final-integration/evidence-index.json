@@ -1,0 +1,1428 @@
+{
+  "authority": "https://github.com/gloweaseco-leo/VRAE/pull/44#issuecomment-6812567914",
+  "local_test_head": "6846fbe2eea46611758bb661de8ecc62f679f9d2",
+  "accepted_main": "1d9d08ec3b99fc10ff7ea181d210250841ee39a3",
+  "prior_qa_head": "5e34075b671106ad37a034b76e01b8aa8eaa5de7",
+  "results": {
+    "python311": {
+      "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+      "head": "6846fbe2eea46611758bb661de8ecc62f679f9d2",
+      "accepted_main": "1d9d08ec3b99fc10ff7ea181d210250841ee39a3",
+      "source_root": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+      "outcome": "LOCAL_INTEGRATION_GREEN",
+      "full_counts": {
+        "passed": 1872,
+        "failed": 0,
+        "error": 0,
+        "skipped": 25,
+        "collected": 1897
+      },
+      "dedicated_qa": {
+        "collected": 224,
+        "passed": 224,
+        "failed": 0,
+        "skipped": 0
+      },
+      "full_frozen_qa_passed": 224,
+      "prior_frozen_qa_passed": 139,
+      "security_domain_contract_passed": 286,
+      "skips": [
+        {
+          "classname": "tests.browser.test_isolated_browser",
+          "name": "test_real_chromium_synthetic_case",
+          "reason": "Requires separate sandboxed Chromium and Worker containers"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_tls_peer_host_and_evidence",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[127.0.0.1]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[169.254.169.254]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[10.77.0.2]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[93.184.216.21]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[::1]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_tls_untrusted_or_wrong_hostname_has_no_http[factory.test-False]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_tls_untrusted_or_wrong_hostname_has_no_http[wrong.test-True]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[http://127.0.0.1/]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[http://169.254.169.254/]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[https://other.test/]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[http://factory.test/]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[/a/%252e%252e/private]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_rebinding_on_redirect_is_blocked",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[chunked]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[no-length]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[huge-length]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[slow-headers]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[slow-chunk]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_mixed_or_ipv6_denial_has_zero_http[values0-A]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_mixed_or_ipv6_denial_has_zero_http[values1-AAAA]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_mixed_or_ipv6_denial_has_zero_http[values2-AAAA]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_cancel_during_stream_closes_socket",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_head_has_no_body_and_no_hidden_resolution",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "docs/03-engineering/ra3b-independent-qa/audit_inputs.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "01.log",
+          "started_utc": "2026-11-12T02:39:39.321278+00:00",
+          "ended_utc": "2026-11-12T02:39:45.745207+00:00",
+          "sha256": "3789af58d02ee1e7c6b9377ddc3d29dc77cc6c8eac748ade22fc865ee75a4c32"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "-m",
+            "compileall",
+            "-q",
+            "vrae"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "02.log",
+          "started_utc": "2026-11-12T02:39:45.746228+00:00",
+          "ended_utc": "2026-11-12T02:39:46.402135+00:00",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "-m",
+            "ruff",
+            "check",
+            "vrae",
+            "tests",
+            "scripts/verify_ra3a.py",
+            "scripts/verify_ra3b.py",
+            "--select",
+            "E4,E7,E9,F"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "03.log",
+          "started_utc": "2026-11-12T02:39:46.403147+00:00",
+          "ended_utc": "2026-11-12T02:39:46.998336+00:00",
+          "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "-m",
+            "mypy",
+            "vrae"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "04.log",
+          "started_utc": "2026-11-12T02:39:46.999238+00:00",
+          "ended_utc": "2026-11-12T02:39:52.841059+00:00",
+          "sha256": "5b7719d776158805d48502fa63fafddaa81ec23574853bf8e45b4e33ec46ac1b"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--tb=short",
+            "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa\\.venv\\ra3b-independent\\final-integration\\python311\\full.xml",
+            "--basetemp=D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa\\.venv\\ra3b-independent\\final-integration\\python311\\pytest-tmp"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "05.log",
+          "started_utc": "2026-11-12T02:39:52.841059+00:00",
+          "ended_utc": "2026-11-12T02:53:09.382678+00:00",
+          "sha256": "5cf4829ff8519ba6453d2c86c001fce8462d3ff0f2c0b7e1e66039d746abb3fa"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "tests/interpretation/test_ra3b_independent_adversarial.py",
+            "--tb=short",
+            "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa\\.venv\\ra3b-independent\\final-integration\\python311\\qa.xml",
+            "--basetemp=D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa\\.venv\\ra3b-independent\\final-integration\\python311\\qa-pytest-tmp"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "06.log",
+          "started_utc": "2026-11-12T02:53:09.382678+00:00",
+          "ended_utc": "2026-11-12T02:55:32.145539+00:00",
+          "sha256": "5743bafbce7fc609c8f7452589300864ec1900caf7e8ef09d48e446682f298ec"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "-m",
+            "pip",
+            "check"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "07.log",
+          "started_utc": "2026-11-12T02:55:32.145539+00:00",
+          "ended_utc": "2026-11-12T02:55:34.851310+00:00",
+          "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2a.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "08.log",
+          "started_utc": "2026-11-12T02:55:34.851310+00:00",
+          "ended_utc": "2026-11-12T02:55:36.492346+00:00",
+          "sha256": "d00864e01e0fb000d6433320d247b212d4cf856340f0f1e94f4b6c0532bcc6ee"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2b0.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "09.log",
+          "started_utc": "2026-11-12T02:55:36.492346+00:00",
+          "ended_utc": "2026-11-12T02:55:38.178410+00:00",
+          "sha256": "ac1e6d8bad775007b022d82eb48f1e097ee002f4dfdebcaea8ccd3fbf73b19d7"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2b1.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "10.log",
+          "started_utc": "2026-11-12T02:55:38.178410+00:00",
+          "ended_utc": "2026-11-12T02:55:40.484654+00:00",
+          "sha256": "cad9c030e55eb8f0a81259be912229342235cda9b9cb13c51047f2c91abb3956"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2b2.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "11.log",
+          "started_utc": "2026-11-12T02:55:40.485541+00:00",
+          "ended_utc": "2026-11-12T02:55:41.898844+00:00",
+          "sha256": "e9f0ae9a1d4ab116f371d0a63d04735b0542a4feaf850a2ce9da7f3bbbeccc9d"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2b3.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "12.log",
+          "started_utc": "2026-11-12T02:55:41.898844+00:00",
+          "ended_utc": "2026-11-12T02:55:43.447678+00:00",
+          "sha256": "8b714bbee31984846accd9e95fbe18282c5e3100da3490cae626335db9de0228"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2b4.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "13.log",
+          "started_utc": "2026-11-12T02:55:43.447678+00:00",
+          "ended_utc": "2026-11-12T02:55:47.355826+00:00",
+          "sha256": "51014ff1899dabd78943459545e84d04087e5ea8f99c60823cb19ca3161bbfb5"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2b5.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "14.log",
+          "started_utc": "2026-11-12T02:55:47.355826+00:00",
+          "ended_utc": "2026-11-12T02:55:50.161777+00:00",
+          "sha256": "2daacae122b5e34f6cf2d2fe680b4cc69ccd51564e16a462f3fe804471662ff8"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2b6.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "15.log",
+          "started_utc": "2026-11-12T02:55:50.161777+00:00",
+          "ended_utc": "2026-11-12T02:55:54.873486+00:00",
+          "sha256": "05d5cc5d53d0a64bd1cfbb77a18ff3345fb1d5d3e4d59c91cff27f86345592dc"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2b6_execution.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "16.log",
+          "started_utc": "2026-11-12T02:55:54.873486+00:00",
+          "ended_utc": "2026-11-12T02:56:03.588586+00:00",
+          "sha256": "661bb621b2294c84ef0cf025e9836b3811ed32716045d06043eab8ec194ca042"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2c0.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "17.log",
+          "started_utc": "2026-11-12T02:56:03.589479+00:00",
+          "ended_utc": "2026-11-12T02:56:06.481475+00:00",
+          "sha256": "9aa327e9fd5ab2d4421ced08dd488f7838ee1e2161ff91045bde7b49c398c492"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2c1.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "18.log",
+          "started_utc": "2026-11-12T02:56:06.481475+00:00",
+          "ended_utc": "2026-11-12T02:56:10.990341+00:00",
+          "sha256": "1a0d917d7a69dcc6da038a173d78de9d0a23a80a2926d2a48346e35dffb02310"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2c2.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "19.log",
+          "started_utc": "2026-11-12T02:56:10.990341+00:00",
+          "ended_utc": "2026-11-12T02:56:14.995171+00:00",
+          "sha256": "344a8569293a9c75261c05673a9970505d01598444f1b62b89331103bcde4660"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2c3.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "20.log",
+          "started_utc": "2026-11-12T02:56:14.995171+00:00",
+          "ended_utc": "2026-11-12T02:56:25.259929+00:00",
+          "sha256": "d7ba0d69d819b4bd076657e391846f2e55ae89d1a86f6dbdb76193c84fd96fc9"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2d0.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "21.log",
+          "started_utc": "2026-11-12T02:56:25.259929+00:00",
+          "ended_utc": "2026-11-12T02:56:29.873218+00:00",
+          "sha256": "042e1bda8effcb20c3fcfbfc5d25890559f41e0f91ec9d877bbf94f5282908db"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2d1.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "22.log",
+          "started_utc": "2026-11-12T02:56:29.881455+00:00",
+          "ended_utc": "2026-11-12T02:56:34.133867+00:00",
+          "sha256": "8e32006caa57777d785a346448c07a24b53a6b06c7c27be07e7ba84523232fac"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra3a.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "23.log",
+          "started_utc": "2026-11-12T02:56:34.133867+00:00",
+          "ended_utc": "2026-11-12T02:56:39.038170+00:00",
+          "sha256": "09dad3184a186fd5b5705687daf44b4ebfe55c6b1168f49a672457dc1644f9ba"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra3b.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "24.log",
+          "started_utc": "2026-11-12T02:56:39.038170+00:00",
+          "ended_utc": "2026-11-12T02:57:10.146380+00:00",
+          "sha256": "b46325bb472575019ddd61c79511475670f20e329f47c031ff8c79efca236101"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2d1.py",
+            "--reviews",
+            "docs/03-engineering/ra2d1-review/SIMULATED_NOT_HUMAN_GOLD.json"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "25.log",
+          "started_utc": "2026-11-12T02:57:10.146380+00:00",
+          "ended_utc": "2026-11-12T02:57:14.983586+00:00",
+          "sha256": "9af295f143112319be9cfbcb378cdecfc14197d2ef23fe6dac4ec6c81af2bdf2"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a311\\Scripts\\python.exe",
+            "scripts/verify_ra2d1.py",
+            "--reviews",
+            "docs/03-engineering/ra2d1-review/negative-forged-gold.json"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 1,
+          "exit_code": 1,
+          "matches": true,
+          "log": "26.log",
+          "started_utc": "2026-11-12T02:57:14.983586+00:00",
+          "ended_utc": "2026-11-12T02:57:20.073912+00:00",
+          "sha256": "140098a87ea7884133fa9aace67b41d6d81553369128ab47b57f611dbe47e741"
+        }
+      ],
+      "before_source_head": "6846fbe2eea46611758bb661de8ecc62f679f9d2",
+      "after_source_head": "6846fbe2eea46611758bb661de8ecc62f679f9d2",
+      "unchanged_main_files": 1307,
+      "unchanged_qa_exclusive": 80,
+      "source_and_archives_verified": true,
+      "basetemp_note": "Fresh per-runtime workspace-owned temp; no test/policy relaxation"
+    },
+    "python313": {
+      "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+      "head": "6846fbe2eea46611758bb661de8ecc62f679f9d2",
+      "accepted_main": "1d9d08ec3b99fc10ff7ea181d210250841ee39a3",
+      "source_root": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+      "outcome": "LOCAL_INTEGRATION_GREEN",
+      "full_counts": {
+        "passed": 1872,
+        "failed": 0,
+        "error": 0,
+        "skipped": 25,
+        "collected": 1897
+      },
+      "dedicated_qa": {
+        "collected": 224,
+        "passed": 224,
+        "failed": 0,
+        "skipped": 0
+      },
+      "full_frozen_qa_passed": 224,
+      "prior_frozen_qa_passed": 139,
+      "security_domain_contract_passed": 286,
+      "skips": [
+        {
+          "classname": "tests.browser.test_isolated_browser",
+          "name": "test_real_chromium_synthetic_case",
+          "reason": "Requires separate sandboxed Chromium and Worker containers"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_tls_peer_host_and_evidence",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[127.0.0.1]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[169.254.169.254]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[10.77.0.2]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[93.184.216.21]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_kernel_blocks_direct_socket_bypassing_application[::1]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_tls_untrusted_or_wrong_hostname_has_no_http[factory.test-False]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_tls_untrusted_or_wrong_hostname_has_no_http[wrong.test-True]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[http://127.0.0.1/]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[http://169.254.169.254/]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[https://other.test/]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[http://factory.test/]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_redirect_denied_before_second_connection[/a/%252e%252e/private]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_rebinding_on_redirect_is_blocked",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[chunked]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[no-length]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[huge-length]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[slow-headers]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_unbounded_response_stops[slow-chunk]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_mixed_or_ipv6_denial_has_zero_http[values0-A]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_mixed_or_ipv6_denial_has_zero_http[values1-AAAA]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_dns_mixed_or_ipv6_denial_has_zero_http[values2-AAAA]",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_cancel_during_stream_closes_socket",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        },
+        {
+          "classname": "tests.collection.test_isolated",
+          "name": "test_real_head_has_no_body_and_no_hidden_resolution",
+          "reason": "Requires disposable --network none firewall lab; never run on host"
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "docs/03-engineering/ra3b-independent-qa/audit_inputs.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "01.log",
+          "started_utc": "2026-11-12T03:00:17.678666+00:00",
+          "ended_utc": "2026-11-12T03:00:22.730348+00:00",
+          "sha256": "3789af58d02ee1e7c6b9377ddc3d29dc77cc6c8eac748ade22fc865ee75a4c32"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "-m",
+            "compileall",
+            "-q",
+            "vrae"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "02.log",
+          "started_utc": "2026-11-12T03:00:22.730503+00:00",
+          "ended_utc": "2026-11-12T03:00:23.253598+00:00",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "-m",
+            "ruff",
+            "check",
+            "vrae",
+            "tests",
+            "scripts/verify_ra3a.py",
+            "scripts/verify_ra3b.py",
+            "--select",
+            "E4,E7,E9,F"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "03.log",
+          "started_utc": "2026-11-12T03:00:23.253738+00:00",
+          "ended_utc": "2026-11-12T03:00:25.611162+00:00",
+          "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "-m",
+            "mypy",
+            "vrae"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "04.log",
+          "started_utc": "2026-11-12T03:00:25.611311+00:00",
+          "ended_utc": "2026-11-12T03:00:31.345389+00:00",
+          "sha256": "5b7719d776158805d48502fa63fafddaa81ec23574853bf8e45b4e33ec46ac1b"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "--tb=short",
+            "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa\\.venv\\ra3b-independent\\final-integration\\python313\\full.xml",
+            "--basetemp=D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa\\.venv\\ra3b-independent\\final-integration\\python313\\pytest-tmp"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "05.log",
+          "started_utc": "2026-11-12T03:00:31.345582+00:00",
+          "ended_utc": "2026-11-12T03:16:18.915482+00:00",
+          "sha256": "60c3eedf711a5027a6a92f6e2191cd194a0ca9d1298937da62884dc3d4475890"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "-m",
+            "pytest",
+            "-q",
+            "tests/interpretation/test_ra3b_independent_adversarial.py",
+            "--tb=short",
+            "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa\\.venv\\ra3b-independent\\final-integration\\python313\\qa.xml",
+            "--basetemp=D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa\\.venv\\ra3b-independent\\final-integration\\python313\\qa-pytest-tmp"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "06.log",
+          "started_utc": "2026-11-12T03:16:18.915620+00:00",
+          "ended_utc": "2026-11-12T03:18:11.958521+00:00",
+          "sha256": "973ce4e190d05e8596043708edad4977d9d6d6bd27914114327d76d117215839"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "-m",
+            "pip",
+            "check"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "07.log",
+          "started_utc": "2026-11-12T03:18:11.958647+00:00",
+          "ended_utc": "2026-11-12T03:18:14.133074+00:00",
+          "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2a.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "08.log",
+          "started_utc": "2026-11-12T03:18:14.133261+00:00",
+          "ended_utc": "2026-11-12T03:18:16.125400+00:00",
+          "sha256": "d00864e01e0fb000d6433320d247b212d4cf856340f0f1e94f4b6c0532bcc6ee"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2b0.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "09.log",
+          "started_utc": "2026-11-12T03:18:16.125507+00:00",
+          "ended_utc": "2026-11-12T03:18:18.075413+00:00",
+          "sha256": "ac1e6d8bad775007b022d82eb48f1e097ee002f4dfdebcaea8ccd3fbf73b19d7"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2b1.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "10.log",
+          "started_utc": "2026-11-12T03:18:18.075566+00:00",
+          "ended_utc": "2026-11-12T03:18:19.936007+00:00",
+          "sha256": "cad9c030e55eb8f0a81259be912229342235cda9b9cb13c51047f2c91abb3956"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2b2.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "11.log",
+          "started_utc": "2026-11-12T03:18:19.936292+00:00",
+          "ended_utc": "2026-11-12T03:18:22.000994+00:00",
+          "sha256": "e9f0ae9a1d4ab116f371d0a63d04735b0542a4feaf850a2ce9da7f3bbbeccc9d"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2b3.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "12.log",
+          "started_utc": "2026-11-12T03:18:22.001207+00:00",
+          "ended_utc": "2026-11-12T03:18:23.678968+00:00",
+          "sha256": "8b714bbee31984846accd9e95fbe18282c5e3100da3490cae626335db9de0228"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2b4.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "13.log",
+          "started_utc": "2026-11-12T03:18:23.679095+00:00",
+          "ended_utc": "2026-11-12T03:18:28.608864+00:00",
+          "sha256": "51014ff1899dabd78943459545e84d04087e5ea8f99c60823cb19ca3161bbfb5"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2b5.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "14.log",
+          "started_utc": "2026-11-12T03:18:28.609105+00:00",
+          "ended_utc": "2026-11-12T03:18:31.102463+00:00",
+          "sha256": "2daacae122b5e34f6cf2d2fe680b4cc69ccd51564e16a462f3fe804471662ff8"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2b6.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "15.log",
+          "started_utc": "2026-11-12T03:18:31.102608+00:00",
+          "ended_utc": "2026-11-12T03:18:34.918712+00:00",
+          "sha256": "05d5cc5d53d0a64bd1cfbb77a18ff3345fb1d5d3e4d59c91cff27f86345592dc"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2b6_execution.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "16.log",
+          "started_utc": "2026-11-12T03:18:34.919117+00:00",
+          "ended_utc": "2026-11-12T03:18:41.645623+00:00",
+          "sha256": "661bb621b2294c84ef0cf025e9836b3811ed32716045d06043eab8ec194ca042"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2c0.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "17.log",
+          "started_utc": "2026-11-12T03:18:41.645754+00:00",
+          "ended_utc": "2026-11-12T03:18:43.537345+00:00",
+          "sha256": "9aa327e9fd5ab2d4421ced08dd488f7838ee1e2161ff91045bde7b49c398c492"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2c1.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "18.log",
+          "started_utc": "2026-11-12T03:18:43.537438+00:00",
+          "ended_utc": "2026-11-12T03:18:45.684375+00:00",
+          "sha256": "1a0d917d7a69dcc6da038a173d78de9d0a23a80a2926d2a48346e35dffb02310"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2c2.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "19.log",
+          "started_utc": "2026-11-12T03:18:45.684469+00:00",
+          "ended_utc": "2026-11-12T03:18:49.632043+00:00",
+          "sha256": "344a8569293a9c75261c05673a9970505d01598444f1b62b89331103bcde4660"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2c3.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "20.log",
+          "started_utc": "2026-11-12T03:18:49.632287+00:00",
+          "ended_utc": "2026-11-12T03:18:57.819344+00:00",
+          "sha256": "d7ba0d69d819b4bd076657e391846f2e55ae89d1a86f6dbdb76193c84fd96fc9"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2d0.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "21.log",
+          "started_utc": "2026-11-12T03:18:57.819447+00:00",
+          "ended_utc": "2026-11-12T03:19:04.657258+00:00",
+          "sha256": "042e1bda8effcb20c3fcfbfc5d25890559f41e0f91ec9d877bbf94f5282908db"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2d1.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "22.log",
+          "started_utc": "2026-11-12T03:19:04.657358+00:00",
+          "ended_utc": "2026-11-12T03:19:08.978455+00:00",
+          "sha256": "8e32006caa57777d785a346448c07a24b53a6b06c7c27be07e7ba84523232fac"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra3a.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "23.log",
+          "started_utc": "2026-11-12T03:19:08.978583+00:00",
+          "ended_utc": "2026-11-12T03:19:13.203531+00:00",
+          "sha256": "09dad3184a186fd5b5705687daf44b4ebfe55c6b1168f49a672457dc1644f9ba"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra3b.py"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "24.log",
+          "started_utc": "2026-11-12T03:19:13.203844+00:00",
+          "ended_utc": "2026-11-12T03:19:42.716348+00:00",
+          "sha256": "b46325bb472575019ddd61c79511475670f20e329f47c031ff8c79efca236101"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2d1.py",
+            "--reviews",
+            "docs/03-engineering/ra2d1-review/SIMULATED_NOT_HUMAN_GOLD.json"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 0,
+          "exit_code": 0,
+          "matches": true,
+          "log": "25.log",
+          "started_utc": "2026-11-12T03:19:42.716494+00:00",
+          "ended_utc": "2026-11-12T03:19:48.869400+00:00",
+          "sha256": "9af295f143112319be9cfbcb378cdecfc14197d2ef23fe6dac4ec6c81af2bdf2"
+        },
+        {
+          "command": [
+            "D:\\Projects\\VRAE\\.venv\\ra1a313\\Scripts\\python.exe",
+            "scripts/verify_ra2d1.py",
+            "--reviews",
+            "docs/03-engineering/ra2d1-review/negative-forged-gold.json"
+          ],
+          "cwd": "D:\\Projects\\VRAE\\.worktrees\\ra3b-independent-qa",
+          "expected_exit": 1,
+          "exit_code": 1,
+          "matches": true,
+          "log": "26.log",
+          "started_utc": "2026-11-12T03:19:48.869545+00:00",
+          "ended_utc": "2026-11-12T03:19:56.082335+00:00",
+          "sha256": "55c08c4287e1edb5afb398a397b07c9d07bce88140029b0b9b639ba2bb0702cb"
+        }
+      ],
+      "before_source_head": "6846fbe2eea46611758bb661de8ecc62f679f9d2",
+      "after_source_head": "6846fbe2eea46611758bb661de8ecc62f679f9d2",
+      "unchanged_main_files": 1307,
+      "unchanged_qa_exclusive": 80,
+      "source_and_archives_verified": true,
+      "basetemp_note": "Fresh per-runtime workspace-owned temp; no test/policy relaxation"
+    }
+  },
+  "files": [
+    {
+      "path": "python311/full.xml",
+      "size": 290897,
+      "sha256": "be9e7409845247c2c90ee8a792eec04a045361b0af691fbe6c5bc61fa5b121c3"
+    },
+    {
+      "path": "python311/qa.xml",
+      "size": 42983,
+      "sha256": "8780c2739b7ed1192bd9beef4c88f06b7d2301357b757a2936bade5d80f95c95"
+    },
+    {
+      "path": "python311/summary.json",
+      "size": 21327,
+      "sha256": "40e2dded960e83e90d4c4b162357bc7bba69be6125ae0970fbd454c6ac82baff"
+    },
+    {
+      "path": "python311/01.log",
+      "size": 10783,
+      "sha256": "3789af58d02ee1e7c6b9377ddc3d29dc77cc6c8eac748ade22fc865ee75a4c32"
+    },
+    {
+      "path": "python311/02.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "python311/03.log",
+      "size": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "python311/04.log",
+      "size": 45,
+      "sha256": "5b7719d776158805d48502fa63fafddaa81ec23574853bf8e45b4e33ec46ac1b"
+    },
+    {
+      "path": "python311/05.log",
+      "size": 3500,
+      "sha256": "5cf4829ff8519ba6453d2c86c001fce8462d3ff0f2c0b7e1e66039d746abb3fa"
+    },
+    {
+      "path": "python311/06.log",
+      "size": 357,
+      "sha256": "5743bafbce7fc609c8f7452589300864ec1900caf7e8ef09d48e446682f298ec"
+    },
+    {
+      "path": "python311/07.log",
+      "size": 31,
+      "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "path": "python311/08.log",
+      "size": 163,
+      "sha256": "d00864e01e0fb000d6433320d247b212d4cf856340f0f1e94f4b6c0532bcc6ee"
+    },
+    {
+      "path": "python311/09.log",
+      "size": 664,
+      "sha256": "ac1e6d8bad775007b022d82eb48f1e097ee002f4dfdebcaea8ccd3fbf73b19d7"
+    },
+    {
+      "path": "python311/10.log",
+      "size": 668,
+      "sha256": "cad9c030e55eb8f0a81259be912229342235cda9b9cb13c51047f2c91abb3956"
+    },
+    {
+      "path": "python311/11.log",
+      "size": 2740,
+      "sha256": "e9f0ae9a1d4ab116f371d0a63d04735b0542a4feaf850a2ce9da7f3bbbeccc9d"
+    },
+    {
+      "path": "python311/12.log",
+      "size": 8081,
+      "sha256": "8b714bbee31984846accd9e95fbe18282c5e3100da3490cae626335db9de0228"
+    },
+    {
+      "path": "python311/13.log",
+      "size": 41532,
+      "sha256": "51014ff1899dabd78943459545e84d04087e5ea8f99c60823cb19ca3161bbfb5"
+    },
+    {
+      "path": "python311/14.log",
+      "size": 51815,
+      "sha256": "2daacae122b5e34f6cf2d2fe680b4cc69ccd51564e16a462f3fe804471662ff8"
+    },
+    {
+      "path": "python311/15.log",
+      "size": 307469,
+      "sha256": "05d5cc5d53d0a64bd1cfbb77a18ff3345fb1d5d3e4d59c91cff27f86345592dc"
+    },
+    {
+      "path": "python311/16.log",
+      "size": 51007,
+      "sha256": "661bb621b2294c84ef0cf025e9836b3811ed32716045d06043eab8ec194ca042"
+    },
+    {
+      "path": "python311/17.log",
+      "size": 684,
+      "sha256": "9aa327e9fd5ab2d4421ced08dd488f7838ee1e2161ff91045bde7b49c398c492"
+    },
+    {
+      "path": "python311/18.log",
+      "size": 15783,
+      "sha256": "1a0d917d7a69dcc6da038a173d78de9d0a23a80a2926d2a48346e35dffb02310"
+    },
+    {
+      "path": "python311/19.log",
+      "size": 17566,
+      "sha256": "344a8569293a9c75261c05673a9970505d01598444f1b62b89331103bcde4660"
+    },
+    {
+      "path": "python311/20.log",
+      "size": 40136,
+      "sha256": "d7ba0d69d819b4bd076657e391846f2e55ae89d1a86f6dbdb76193c84fd96fc9"
+    },
+    {
+      "path": "python311/21.log",
+      "size": 1143,
+      "sha256": "042e1bda8effcb20c3fcfbfc5d25890559f41e0f91ec9d877bbf94f5282908db"
+    },
+    {
+      "path": "python311/22.log",
+      "size": 1528,
+      "sha256": "8e32006caa57777d785a346448c07a24b53a6b06c7c27be07e7ba84523232fac"
+    },
+    {
+      "path": "python311/23.log",
+      "size": 149795,
+      "sha256": "09dad3184a186fd5b5705687daf44b4ebfe55c6b1168f49a672457dc1644f9ba"
+    },
+    {
+      "path": "python311/24.log",
+      "size": 4567,
+      "sha256": "b46325bb472575019ddd61c79511475670f20e329f47c031ff8c79efca236101"
+    },
+    {
+      "path": "python311/25.log",
+      "size": 1793,
+      "sha256": "9af295f143112319be9cfbcb378cdecfc14197d2ef23fe6dac4ec6c81af2bdf2"
+    },
+    {
+      "path": "python311/26.log",
+      "size": 912,
+      "sha256": "140098a87ea7884133fa9aace67b41d6d81553369128ab47b57f611dbe47e741"
+    },
+    {
+      "path": "python313/full.xml",
+      "size": 290899,
+      "sha256": "4d528abc6b94b64eb59b21b88514ce92b264fe27db423a6550978a27e928e29c"
+    },
+    {
+      "path": "python313/qa.xml",
+      "size": 42983,
+      "sha256": "4f99351f3e05cde1e843d5ea178c130bb9a6cd5192b35fb2ec95b853ccedf982"
+    },
+    {
+      "path": "python313/summary.json",
+      "size": 21327,
+      "sha256": "e0e56e933f3856bbe049cba979e67b86af2006dfee2bd58b706de3d6826ff188"
+    },
+    {
+      "path": "python313/01.log",
+      "size": 10783,
+      "sha256": "3789af58d02ee1e7c6b9377ddc3d29dc77cc6c8eac748ade22fc865ee75a4c32"
+    },
+    {
+      "path": "python313/02.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "python313/03.log",
+      "size": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "python313/04.log",
+      "size": 45,
+      "sha256": "5b7719d776158805d48502fa63fafddaa81ec23574853bf8e45b4e33ec46ac1b"
+    },
+    {
+      "path": "python313/05.log",
+      "size": 3500,
+      "sha256": "60c3eedf711a5027a6a92f6e2191cd194a0ca9d1298937da62884dc3d4475890"
+    },
+    {
+      "path": "python313/06.log",
+      "size": 357,
+      "sha256": "973ce4e190d05e8596043708edad4977d9d6d6bd27914114327d76d117215839"
+    },
+    {
+      "path": "python313/07.log",
+      "size": 31,
+      "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "path": "python313/08.log",
+      "size": 163,
+      "sha256": "d00864e01e0fb000d6433320d247b212d4cf856340f0f1e94f4b6c0532bcc6ee"
+    },
+    {
+      "path": "python313/09.log",
+      "size": 664,
+      "sha256": "ac1e6d8bad775007b022d82eb48f1e097ee002f4dfdebcaea8ccd3fbf73b19d7"
+    },
+    {
+      "path": "python313/10.log",
+      "size": 668,
+      "sha256": "cad9c030e55eb8f0a81259be912229342235cda9b9cb13c51047f2c91abb3956"
+    },
+    {
+      "path": "python313/11.log",
+      "size": 2740,
+      "sha256": "e9f0ae9a1d4ab116f371d0a63d04735b0542a4feaf850a2ce9da7f3bbbeccc9d"
+    },
+    {
+      "path": "python313/12.log",
+      "size": 8081,
+      "sha256": "8b714bbee31984846accd9e95fbe18282c5e3100da3490cae626335db9de0228"
+    },
+    {
+      "path": "python313/13.log",
+      "size": 41532,
+      "sha256": "51014ff1899dabd78943459545e84d04087e5ea8f99c60823cb19ca3161bbfb5"
+    },
+    {
+      "path": "python313/14.log",
+      "size": 51815,
+      "sha256": "2daacae122b5e34f6cf2d2fe680b4cc69ccd51564e16a462f3fe804471662ff8"
+    },
+    {
+      "path": "python313/15.log",
+      "size": 307469,
+      "sha256": "05d5cc5d53d0a64bd1cfbb77a18ff3345fb1d5d3e4d59c91cff27f86345592dc"
+    },
+    {
+      "path": "python313/16.log",
+      "size": 51007,
+      "sha256": "661bb621b2294c84ef0cf025e9836b3811ed32716045d06043eab8ec194ca042"
+    },
+    {
+      "path": "python313/17.log",
+      "size": 684,
+      "sha256": "9aa327e9fd5ab2d4421ced08dd488f7838ee1e2161ff91045bde7b49c398c492"
+    },
+    {
+      "path": "python313/18.log",
+      "size": 15783,
+      "sha256": "1a0d917d7a69dcc6da038a173d78de9d0a23a80a2926d2a48346e35dffb02310"
+    },
+    {
+      "path": "python313/19.log",
+      "size": 17566,
+      "sha256": "344a8569293a9c75261c05673a9970505d01598444f1b62b89331103bcde4660"
+    },
+    {
+      "path": "python313/20.log",
+      "size": 40136,
+      "sha256": "d7ba0d69d819b4bd076657e391846f2e55ae89d1a86f6dbdb76193c84fd96fc9"
+    },
+    {
+      "path": "python313/21.log",
+      "size": 1143,
+      "sha256": "042e1bda8effcb20c3fcfbfc5d25890559f41e0f91ec9d877bbf94f5282908db"
+    },
+    {
+      "path": "python313/22.log",
+      "size": 1528,
+      "sha256": "8e32006caa57777d785a346448c07a24b53a6b06c7c27be07e7ba84523232fac"
+    },
+    {
+      "path": "python313/23.log",
+      "size": 149795,
+      "sha256": "09dad3184a186fd5b5705687daf44b4ebfe55c6b1168f49a672457dc1644f9ba"
+    },
+    {
+      "path": "python313/24.log",
+      "size": 4567,
+      "sha256": "b46325bb472575019ddd61c79511475670f20e329f47c031ff8c79efca236101"
+    },
+    {
+      "path": "python313/25.log",
+      "size": 1793,
+      "sha256": "9af295f143112319be9cfbcb378cdecfc14197d2ef23fe6dac4ec6c81af2bdf2"
+    },
+    {
+      "path": "python313/26.log",
+      "size": 875,
+      "sha256": "55c08c4287e1edb5afb398a397b07c9d07bce88140029b0b9b639ba2bb0702cb"
+    },
+    {
+      "path": "source-proof.json",
+      "size": 238095,
+      "sha256": "235e78472e7086a9cdc3089d941cf65d397be15a5b0e85b0e9e6f9648e95b195"
+    },
+    {
+      "path": "source_proof.py.txt",
+      "size": 4731,
+      "sha256": "2e3012793f41a7d5bd807bb529a8025f24fb89c413efaead608fd842a69933d9"
+    },
+    {
+      "path": "regress.py.txt",
+      "size": 4961,
+      "sha256": "6c2bb1c44917d07606a39ff0bb72c56041e6f31032d13a71b9a99379ebe208c2"
+    },
+    {
+      "path": "archive_local.py.txt",
+      "size": 3270,
+      "sha256": "bca60dff6980a8d87243d8cd149be6aa990a59b4f1644d35b72d0eff523d48df"
+    }
+  ],
+  "archive": "local-raw.zip",
+  "archive_sha256": "cc13edeb2e3152e3c8987d6817a6f3c2639f22004cf685c696d0cec323b24335",
+  "byte_note": "Authoritative original bytes in lossless ZIP; readable Git text copies may normalize CRLF",
+  "hosted_final_head_and_run": "Recorded after final evidence commit in PR audit comment"
+}

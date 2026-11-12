@@ -1,0 +1,98 @@
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import xml.etree.ElementTree as ET
+import zipfile
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+DOC = ROOT/'docs/03-engineering/ra3b-independent-qa/owner-adjudicated-qa-v2'
+OLD = ROOT/'docs/03-engineering/ra3b-independent-qa/phase-b-d9d4e234a01a'
+SPECIAL = 'test_fact_tamper_even_with_recomputed_hashes[True-fact_ref]'
+
+
+def cases(path):
+    rows = ET.parse(path).findall('.//testcase')
+    result = {}
+    for c in rows:
+        key = c.get('classname')+'::'+c.get('name')
+        assert key not in result
+        result[key] = 'FAIL' if c.find('failure') is not None else 'ERROR' if c.find('error') is not None else 'SKIP' if c.find('skipped') is not None else 'PASS'
+    return result
+
+
+def main():
+    target = DOC/'candidate-d9d4e234a01a'
+    target.mkdir(exist_ok=False)
+    results,comparison,files = {},{},[]
+    for runtime,old_runtime in (('python311','python311'),('python313','python313-rerun')):
+        folder = HERE/runtime
+        summary = json.loads((folder/'summary.json').read_text(encoding='utf-8'))
+        assert summary['version'] == 'OWNER_ADJUDICATED_QA_V2'
+        assert summary['outcome'] == 'INDEPENDENT_QA_V2_CANDIDATE_GREEN'
+        assert summary['exit_code'] == 0 and summary['counts']['passed'] == summary['counts']['collected'] == 224
+        assert summary['counts']['failures'] == summary['counts']['errors'] == summary['counts']['skipped'] == summary['counts']['xfail'] == 0
+        assert not summary['counts']['xpass_summary_present'] and summary['before'] == summary['after']
+        assert summary['before']['candidate'] == 'd9d4e234a01a27a4543404b7060c8867e60d0309'
+        v1,v2 = cases(OLD/old_runtime/'qa.xml'),cases(folder/'qa.xml')
+        assert len(v1) == len(v2) == 224 and v1.keys() == v2.keys()
+        changed = [k for k in v1 if v1[k] != v2[k]]
+        assert len(changed) == 1 and changed[0].endswith('::'+SPECIAL)
+        assert v1[changed[0]] == 'FAIL' and v2[changed[0]] == 'PASS'
+        comparison[runtime] = dict(v1_collected=224,v1_passed=223,v1_failed=1,
+            v2_collected=224,v2_passed=224,v2_failed=0,unchanged_passing_nodes=223,
+            identical_node_inventory=True,changed_outcome=changed)
+        results[runtime] = summary
+        dest = target/runtime
+        dest.mkdir()
+        for name in ('summary.json','qa.xml','stdout.log','stderr.log','import-stdout.json','import-stderr.log'):
+            raw = (folder/name).read_bytes()
+            (dest/name).write_bytes(raw)
+            files.append(dict(path=runtime+'/'+name,size=len(raw),sha256=hashlib.sha256(raw).hexdigest()))
+        proof = json.loads((HERE/('attack-proof-'+runtime)/'stdout.json').read_text())
+        assert proof['full_binding_bytes_changed'] and proof['retained_malformed_inner'] and proof['outer_wrapper_hash_valid']
+        assert proof['actual_claim']['status'] == 'REJECTED'
+        dest = target/('attack-proof-'+runtime)
+        dest.mkdir()
+        for name in ('stdout.json','stderr.log','command.json'):
+            raw = (HERE/('attack-proof-'+runtime)/name).read_bytes()
+            (dest/name).write_bytes(raw)
+            files.append(dict(path=dest.name+'/'+name,size=len(raw),sha256=hashlib.sha256(raw).hexdigest()))
+    for name in ('setup-proof.json',):
+        raw = (HERE/name).read_bytes()
+        (target/name).write_bytes(raw)
+        files.append(dict(path=name,size=len(raw),sha256=hashlib.sha256(raw).hexdigest()))
+    for name in ('run_qa_v2.py','prepare_v2_candidate.py','prove_attack.py','archive_v2.py'):
+        raw = (HERE/name).read_bytes()
+        dest = name+'.txt'
+        (target/dest).write_bytes(raw)
+        files.append(dict(path=dest,size=len(raw),sha256=hashlib.sha256(raw).hexdigest()))
+    archive = target/'raw-evidence.zip'
+    with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
+        for entry in files:
+            raw = (target/entry['path']).read_bytes()
+            assert hashlib.sha256(raw).hexdigest() == entry['sha256']
+            z.writestr(entry['path'],raw)
+    with zipfile.ZipFile(archive) as z:
+        assert len(z.namelist()) == len(files)
+        for entry in files:
+            raw = z.read(entry['path'])
+            assert hashlib.sha256(raw).hexdigest() == entry['sha256'] and len(raw) == entry['size']
+    index = dict(version='OWNER_ADJUDICATED_QA_V2',outcome='INDEPENDENT_QA_V2_CANDIDATE_GREEN',
+        authority='https://github.com/gloweaseco-leo/VRAE/pull/44#issuecomment-6812189251',
+        candidate_head='d9d4e234a01a27a4543404b7060c8867e60d0309',
+        qa_run_head='f2996b2a61511453d37a0796d018ab6a4a74539d',
+        v2_source_commit='c8d32ea3719c709332e5aba921ba5612a5ec1600',
+        original_red_evidence_head='6d81b46313102d47799cead08f89b565a2eafc0d',
+        original_red_preserved=True,results=results,red_green_comparison=comparison,files=files,
+        archive=archive.name,archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),
+        raw_byte_note='Per-file hashes refer to authoritative lossless ZIP members; readable Git text copies may normalize CRLF.',
+        no_owner_final_pass_claimed=True,no_main_integration_or_deployment=True)
+    (target/'index.json').write_text(json.dumps(index,indent=2)+'\n',encoding='utf-8')
+    (target/'red-green-comparison.json').write_text(json.dumps(comparison,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps(dict(verdict=index['outcome'],archive_sha256=index['archive_sha256'],raw_files=len(files),comparison=comparison)))
+
+
+if __name__ == '__main__':
+    main()
