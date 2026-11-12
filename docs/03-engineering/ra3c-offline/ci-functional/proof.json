@@ -1,0 +1,1995 @@
+{
+  "run": {
+    "conclusion": "success",
+    "databaseId": 43152015757,
+    "event": "pull_request",
+    "headSha": "d238e8e4b3ec97787ec0016f7669aba7af04c6cd",
+    "jobs": [
+      {
+        "completedAt": "2026-11-12T04:05:00Z",
+        "conclusion": "success",
+        "databaseId": 130963158169,
+        "name": "contracts-domain (3.11)",
+        "startedAt": "2026-11-12T04:01:21Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-12T04:01:23Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-12T04:01:22Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:25Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-12T04:01:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:25Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-12T04:01:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:34Z",
+            "conclusion": "success",
+            "name": "Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock",
+            "number": 4,
+            "startedAt": "2026-11-12T04:01:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:34Z",
+            "conclusion": "success",
+            "name": "Run python -m compileall -q vrae",
+            "number": 5,
+            "startedAt": "2026-11-12T04:01:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:34Z",
+            "conclusion": "success",
+            "name": "Run ruff check vrae tests --select E4,E7,E9,F",
+            "number": 6,
+            "startedAt": "2026-11-12T04:01:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:36Z",
+            "conclusion": "success",
+            "name": "Run mypy vrae",
+            "number": 7,
+            "startedAt": "2026-11-12T04:01:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:04:58Z",
+            "conclusion": "success",
+            "name": "Run python -m pytest -q",
+            "number": 8,
+            "startedAt": "2026-11-12T04:01:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:04:58Z",
+            "conclusion": "success",
+            "name": "Run python -m pip check",
+            "number": 9,
+            "startedAt": "2026-11-12T04:04:58Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:04:58Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 17,
+            "startedAt": "2026-11-12T04:04:58Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:04:58Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 18,
+            "startedAt": "2026-11-12T04:04:58Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:04:58Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 19,
+            "startedAt": "2026-11-12T04:04:58Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757/job/130963158169"
+      },
+      {
+        "completedAt": "2026-11-12T04:07:52Z",
+        "conclusion": "success",
+        "databaseId": 130963158381,
+        "name": "isolated-http",
+        "startedAt": "2026-11-12T04:01:21Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-12T04:01:23Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-12T04:01:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:25Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-12T04:01:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:51Z",
+            "conclusion": "success",
+            "name": "Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .",
+            "number": 3,
+            "startedAt": "2026-11-12T04:01:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:07:50Z",
+            "conclusion": "success",
+            "name": "Real sockets, verified TLS and kernel egress denial",
+            "number": 4,
+            "startedAt": "2026-11-12T04:01:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:07:50Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 8,
+            "startedAt": "2026-11-12T04:07:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:07:50Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 9,
+            "startedAt": "2026-11-12T04:07:50Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757/job/130963158381"
+      },
+      {
+        "completedAt": "2026-11-12T04:05:30Z",
+        "conclusion": "success",
+        "databaseId": 130963158386,
+        "name": "isolated-browser",
+        "startedAt": "2026-11-12T04:01:22Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-12T04:01:25Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-12T04:01:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:28Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-12T04:01:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:29Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-12T04:01:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:52Z",
+            "conclusion": "success",
+            "name": "Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock",
+            "number": 4,
+            "startedAt": "2026-11-12T04:01:29Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:03:18Z",
+            "conclusion": "success",
+            "name": "Run docker build -f infra/ra1b/Dockerfile -t vrae-ra1b-browser:local .",
+            "number": 5,
+            "startedAt": "2026-11-12T04:01:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:03:38Z",
+            "conclusion": "success",
+            "name": "Run docker build -f infra/ra1b/Worker.Dockerfile -t vrae-ra1b-worker:local .",
+            "number": 6,
+            "startedAt": "2026-11-12T04:03:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:05:28Z",
+            "conclusion": "success",
+            "name": "Real sandbox, broker and adversarial container lifecycle",
+            "number": 7,
+            "startedAt": "2026-11-12T04:03:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:05:29Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-12T04:05:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:05:29Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-12T04:05:29Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:05:30Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-12T04:05:29Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:05:30Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-12T04:05:30Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757/job/130963158386"
+      },
+      {
+        "completedAt": "2026-11-12T04:06:20Z",
+        "conclusion": "success",
+        "databaseId": 130963158470,
+        "name": "contracts-domain (3.13)",
+        "startedAt": "2026-11-12T04:01:22Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-12T04:01:24Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-12T04:01:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:26Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-12T04:01:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:26Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-12T04:01:26Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:37Z",
+            "conclusion": "success",
+            "name": "Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock",
+            "number": 4,
+            "startedAt": "2026-11-12T04:01:26Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:37Z",
+            "conclusion": "success",
+            "name": "Run python -m compileall -q vrae",
+            "number": 5,
+            "startedAt": "2026-11-12T04:01:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:37Z",
+            "conclusion": "success",
+            "name": "Run ruff check vrae tests --select E4,E7,E9,F",
+            "number": 6,
+            "startedAt": "2026-11-12T04:01:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:01:40Z",
+            "conclusion": "success",
+            "name": "Run mypy vrae",
+            "number": 7,
+            "startedAt": "2026-11-12T04:01:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:06:18Z",
+            "conclusion": "success",
+            "name": "Run python -m pytest -q",
+            "number": 8,
+            "startedAt": "2026-11-12T04:01:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:06:18Z",
+            "conclusion": "success",
+            "name": "Run python -m pip check",
+            "number": 9,
+            "startedAt": "2026-11-12T04:06:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:06:18Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 17,
+            "startedAt": "2026-11-12T04:06:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:06:19Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 18,
+            "startedAt": "2026-11-12T04:06:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-12T04:06:19Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 19,
+            "startedAt": "2026-11-12T04:06:19Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757/job/130963158470"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757"
+  },
+  "pr": {
+    "baseRefOid": "2429be6dc5d7dcb48221ab179f063b93ce4b1956",
+    "headRefOid": "d238e8e4b3ec97787ec0016f7669aba7af04c6cd",
+    "isDraft": true,
+    "mergeCommit": null,
+    "state": "OPEN",
+    "url": "https://github.com/gloweaseco-leo/VRAE/pull/47"
+  },
+  "jobs": [
+    {
+      "name": "contracts-domain (3.11)",
+      "id": 130963158169,
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757/job/130963158169",
+      "conclusion": "success",
+      "checkout": "fa92a4e7a23ea510cb8198a92fa37f61564efdec",
+      "raw_log": "3_contracts-domain (3.11).txt",
+      "pytest_summaries": [
+        "1942 passed, 25 skipped in 201.55s (0:03:21)"
+      ],
+      "log_sha256": "a8dc064b68ffe79a29ac2c6d6e1317f0073bbc56e7c9564f77849ae7703f6d04"
+    },
+    {
+      "name": "isolated-http",
+      "id": 130963158381,
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757/job/130963158381",
+      "conclusion": "success",
+      "checkout": "fa92a4e7a23ea510cb8198a92fa37f61564efdec",
+      "raw_log": "1_isolated-http.txt",
+      "pytest_summaries": [
+        "1966 passed, 1 skipped in 350.54s (0:05:50)"
+      ],
+      "log_sha256": "de6bcd3504a10a7a0e5e67050e8ca18c716e759396e14bc89a2ffd82231cafe4"
+    },
+    {
+      "name": "isolated-browser",
+      "id": 130963158386,
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757/job/130963158386",
+      "conclusion": "success",
+      "checkout": "fa92a4e7a23ea510cb8198a92fa37f61564efdec",
+      "raw_log": "2_isolated-browser.txt",
+      "pytest_summaries": [],
+      "log_sha256": "1255d14d961c1fc6bbfb41e0fd241e06b44c9a3b17d1d295530b063d306f93fc"
+    },
+    {
+      "name": "contracts-domain (3.13)",
+      "id": 130963158470,
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/43152015757/job/130963158470",
+      "conclusion": "success",
+      "checkout": "fa92a4e7a23ea510cb8198a92fa37f61564efdec",
+      "raw_log": "0_contracts-domain (3.13).txt",
+      "pytest_summaries": [
+        "1942 passed, 25 skipped in 277.56s (0:04:37)"
+      ],
+      "log_sha256": "73ff1f7885977bbafa89a3213a03a84368c53273e6d60db36be16f1dc77a1394"
+    }
+  ],
+  "test_merge": {
+    "sha": "fa92a4e7a23ea510cb8198a92fa37f61564efdec",
+    "node_id": "C_kwDOVpXt49oAKGZhOTJhNGU3YTIzZWE1MTBjYjgxOThhOTJmYTM3ZjYxNTY0ZWZkZWM",
+    "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/git/commits/fa92a4e7a23ea510cb8198a92fa37f61564efdec",
+    "html_url": "https://github.com/gloweaseco-leo/VRAE/commit/fa92a4e7a23ea510cb8198a92fa37f61564efdec",
+    "author": {
+      "name": "gloweaseco-leo",
+      "email": "gloweaseco@gmail.com",
+      "date": "2026-11-12T04:01:17Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-11-12T04:01:17Z"
+    },
+    "tree": {
+      "sha": "91026a3f9417c9b9e352eb45cca67057ea596c39",
+      "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/git/trees/91026a3f9417c9b9e352eb45cca67057ea596c39"
+    },
+    "message": "Merge d238e8e4b3ec97787ec0016f7669aba7af04c6cd into 2429be6dc5d7dcb48221ab179f063b93ce4b1956",
+    "parents": [
+      {
+        "sha": "2429be6dc5d7dcb48221ab179f063b93ce4b1956",
+        "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/git/commits/2429be6dc5d7dcb48221ab179f063b93ce4b1956",
+        "html_url": "https://github.com/gloweaseco-leo/VRAE/commit/2429be6dc5d7dcb48221ab179f063b93ce4b1956"
+      },
+      {
+        "sha": "d238e8e4b3ec97787ec0016f7669aba7af04c6cd",
+        "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/git/commits/d238e8e4b3ec97787ec0016f7669aba7af04c6cd",
+        "html_url": "https://github.com/gloweaseco-leo/VRAE/commit/d238e8e4b3ec97787ec0016f7669aba7af04c6cd"
+      }
+    ],
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq9ToNCRC1aQ7uu5UhlAAAVDAQAEtRzHYBsx371F0byZ9r7KPF\nDD/dJy/7Z/ZB5cZ1XfSZX34Ut3JJuj9pouYHrfHwLf2KIZ3qD5JvMEOEQ/Jg6Ii6\n5sHela67PPCsHp3XGwk2ZFu61+c/ewMIo6eMDLqDg8+hg/fpZ+ukYzURHdvqONq9\n8Y22t8IEezEBN86BORViJtkPE73FxVn3PNQbSqmgYIrIjMjSclTFJjbCCGbgyvw1\nTzQ/EFoSf4ooMtqCCFXkS9sWOkhjh1BBm+RcttkRZx7PCSl8GkqFMqEkD1ZphSn0\n4ytjTgMQKUv3JQBKNbjJp8fIDwdxy9YJkdieFp2xOFiZHnv5o3w5CZsrge/blOSP\nsiNIlq2aYap3EKf6+ceDHU26w3tH1sEPigyWYkUNSGprhSWc7gJGsbVK/4ypARLW\nEYkMxLg22FTfOHIB9h2LPjEIiDbhH0tUR8p5OS+glmVOj5HaS13gH4VndbA/YXqD\n2hka40Fpmi8sZPSSA3zb1+U7rzGaeS1H7BRG3dInUhHwXCol6CGH8/ZMSlBupwwG\nqm8JT4GwXjzimphqbShh5Hcc1jC6RdAepAK7jkycN3zEMU4wFRlOiAV0hIaAQGv1\nmUrLQA3SZvcOWn02BQakkOKd9LmEYb9CNXH6rI3mPWfHjnIlRmU+xxdr6ix2qksV\n3AgmKDa0CJwl6n01WnP2\n=Kurw\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 91026a3f9417c9b9e352eb45cca67057ea596c39\nparent 2429be6dc5d7dcb48221ab179f063b93ce4b1956\nparent d238e8e4b3ec97787ec0016f7669aba7af04c6cd\nauthor gloweaseco-leo <gloweaseco@gmail.com> 1794456077 -0800\ncommitter GitHub <noreply@github.com> 1794456077 -0800\n\nMerge d238e8e4b3ec97787ec0016f7669aba7af04c6cd into 2429be6dc5d7dcb48221ab179f063b93ce4b1956\n",
+      "verified_at": "2026-11-12T04:01:18Z"
+    }
+  },
+  "head_tree": {
+    "sha": "91026a3f9417c9b9e352eb45cca67057ea596c39",
+    "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/git/trees/91026a3f9417c9b9e352eb45cca67057ea596c39"
+  },
+  "raw_zip_sha256": "a8b736fbcbd3a50382c768dca1d08acc9cdd5fabe5bf484863af92f956e98e39",
+  "entries": [
+    {
+      "path": "0_contracts-domain (3.13).txt",
+      "bytes": 30711,
+      "sha256": "73ff1f7885977bbafa89a3213a03a84368c53273e6d60db36be16f1dc77a1394"
+    },
+    {
+      "path": "1_isolated-http.txt",
+      "bytes": 60134,
+      "sha256": "de6bcd3504a10a7a0e5e67050e8ca18c716e759396e14bc89a2ffd82231cafe4"
+    },
+    {
+      "path": "2_isolated-browser.txt",
+      "bytes": 187536,
+      "sha256": "1255d14d961c1fc6bbfb41e0fd241e06b44c9a3b17d1d295530b063d306f93fc"
+    },
+    {
+      "path": "3_contracts-domain (3.11).txt",
+      "bytes": 30523,
+      "sha256": "a8dc064b68ffe79a29ac2c6d6e1317f0073bbc56e7c9564f77849ae7703f6d04"
+    },
+    {
+      "path": "contracts-domain (3.11)/17_Post Run actions_setup-python@v5.txt",
+      "bytes": 305,
+      "sha256": "774d8d035a50aa9ec053d7d07805d4e619fc9c1f0156c1ee3540d6ad188eb847"
+    },
+    {
+      "path": "contracts-domain (3.11)/18_Post Run actions_checkout@v4.txt",
+      "bytes": 1703,
+      "sha256": "71241f9757fd3c6a7e7173b6ba66c6449f66f41155fcf8dcd213ab5c8a610024"
+    },
+    {
+      "path": "contracts-domain (3.11)/19_Complete job.txt",
+      "bytes": 373,
+      "sha256": "8e603cbb0e27d855e4f0f5d59aa81eab311ded6e7eb8459725baa4dd27edad00"
+    },
+    {
+      "path": "contracts-domain (3.11)/1_Set up job.txt",
+      "bytes": 2041,
+      "sha256": "3444363573a8b0340e6bad2bdcebbee7b9d0fb71186b19d32d351611dbc5cca8"
+    },
+    {
+      "path": "contracts-domain (3.11)/2_Run actions_checkout@v4.txt",
+      "bytes": 6782,
+      "sha256": "d3f7eac4dae93f3222d67ccfff92137d66b44df03e8851366847b4a6d660ef51"
+    },
+    {
+      "path": "contracts-domain (3.11)/3_Run actions_setup-python@v5.txt",
+      "bytes": 875,
+      "sha256": "2f20fb48693e187a1582769f7d5d466b12f26dcc0ff2ac2a5a6aec4fb25ca867"
+    },
+    {
+      "path": "contracts-domain (3.11)/4_Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock.txt",
+      "bytes": 9528,
+      "sha256": "6c6a9a4a54f9cbac04e728d7e467d01f7f1ad608086b7d36447bd81a30a568b4"
+    },
+    {
+      "path": "contracts-domain (3.11)/5_Run python -m compileall -q vrae.txt",
+      "bytes": 823,
+      "sha256": "4a5a18ffaa84351ae1e796a58acdcfd7d6a15a005aead4740f394f98ba0a1789"
+    },
+    {
+      "path": "contracts-domain (3.11)/6_Run ruff check vrae tests --select E4,E7,E9,F.txt",
+      "bytes": 897,
+      "sha256": "1b101fdcec8817528f17efd953fbce864068e02ea74ae2e3cfa401b71d5130d0"
+    },
+    {
+      "path": "contracts-domain (3.11)/7_Run mypy vrae.txt",
+      "bytes": 858,
+      "sha256": "82daa8b030195709c59e7a69cbb15c1588d2f3c0d2ed807c8b24ecfd255e2b80"
+    },
+    {
+      "path": "contracts-domain (3.11)/8_Run python -m pytest -q.txt",
+      "bytes": 5507,
+      "sha256": "c553063484e9b04fae56c935ab586d466647a86836c36c32ee91ad0a749485f4"
+    },
+    {
+      "path": "contracts-domain (3.11)/9_Run python -m pip check.txt",
+      "bytes": 864,
+      "sha256": "4d7f9392ea94fceba7a67fc88a503c9d0feb2926e7dc7be83ccdd8e011b432f3"
+    },
+    {
+      "path": "contracts-domain (3.11)/system.txt",
+      "bytes": 586,
+      "sha256": "461a7ee863c1d1abba61210ead36ee3e6ad2c95a5327741c84fecb84226c26cc"
+    },
+    {
+      "path": "contracts-domain (3.13)/17_Post Run actions_setup-python@v5.txt",
+      "bytes": 305,
+      "sha256": "ff1e51149324354ac35121a9b19b1afea8f0b57b05ed499c21239179298dd3e3"
+    },
+    {
+      "path": "contracts-domain (3.13)/18_Post Run actions_checkout@v4.txt",
+      "bytes": 1703,
+      "sha256": "9115981d66ff809bbcbfe358f898b4f26c8b592dcbcfa35ca2575b4e4605e60a"
+    },
+    {
+      "path": "contracts-domain (3.13)/19_Complete job.txt",
+      "bytes": 373,
+      "sha256": "6fbf145b7f2a28c3ed5430082b129e918236a16b4c799c6948d21c92f5fcf8ae"
+    },
+    {
+      "path": "contracts-domain (3.13)/1_Set up job.txt",
+      "bytes": 2041,
+      "sha256": "bb4e914a54f230a51e1c3398a6821d4c3fa00c7f88f07b13de873c3b607c5921"
+    },
+    {
+      "path": "contracts-domain (3.13)/2_Run actions_checkout@v4.txt",
+      "bytes": 6782,
+      "sha256": "8d37f368cec0c4b082297bde431879347ad4bef1eed0dd3c6ba5b8f34cd35274"
+    },
+    {
+      "path": "contracts-domain (3.13)/3_Run actions_setup-python@v5.txt",
+      "bytes": 875,
+      "sha256": "5183d92798d398a6e47903c62240e281aa947d459829349b300efdc3b69ffc9d"
+    },
+    {
+      "path": "contracts-domain (3.13)/4_Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock.txt",
+      "bytes": 9716,
+      "sha256": "6d801513789d0e067c1e4e7c5f9126b37f4e84e5e89b3a7041b4a052906719ca"
+    },
+    {
+      "path": "contracts-domain (3.13)/5_Run python -m compileall -q vrae.txt",
+      "bytes": 823,
+      "sha256": "4269f339e7f83ed6e7e0bef4e507d89ae14d530e4fb5c6faf7bf13bff0a58569"
+    },
+    {
+      "path": "contracts-domain (3.13)/6_Run ruff check vrae tests --select E4,E7,E9,F.txt",
+      "bytes": 897,
+      "sha256": "bb2b9fbde6f30e02011699ca949a457dea3206a2d7d55ea26d13bbdf42ca3150"
+    },
+    {
+      "path": "contracts-domain (3.13)/7_Run mypy vrae.txt",
+      "bytes": 858,
+      "sha256": "d426e4606e5eef1f778ca9f517844425b0935a48f0fedf2d5c5a6076e5e01442"
+    },
+    {
+      "path": "contracts-domain (3.13)/8_Run python -m pytest -q.txt",
+      "bytes": 5507,
+      "sha256": "255972133e8e8be4bd07c18c65253ee19a93a4c6749246af5401eb9ab48a96c5"
+    },
+    {
+      "path": "contracts-domain (3.13)/9_Run python -m pip check.txt",
+      "bytes": 864,
+      "sha256": "71d399b6f6782816e477c2e3e465d3e77d68be0536dc86577290ed6fa74b8d32"
+    },
+    {
+      "path": "contracts-domain (3.13)/system.txt",
+      "bytes": 586,
+      "sha256": "9385febbe984140e8f11d02962eec82ec98edf8d30061f8b7189bda540d34702"
+    },
+    {
+      "path": "isolated-browser/15_Post Run actions_setup-python@v5.txt",
+      "bytes": 306,
+      "sha256": "56feeb9fa6a9568120b91b7d7d7c31a8b02abf43f10776b5f768f1e9e674c182"
+    },
+    {
+      "path": "isolated-browser/16_Post Run actions_checkout@v4.txt",
+      "bytes": 1703,
+      "sha256": "33d36bbeaf220d922b6bac611a558221664af831107ecf87bfcd2da0d14e551b"
+    },
+    {
+      "path": "isolated-browser/17_Complete job.txt",
+      "bytes": 401,
+      "sha256": "9b9c0ab63bf9f0a22bad3bee83a69fea323945ad3a203132972ada14ddf2b7af"
+    },
+    {
+      "path": "isolated-browser/1_Set up job.txt",
+      "bytes": 2161,
+      "sha256": "b1c7e5506023510c3ed8f9a4495da6b84696d6edf420d21ab0a6a689fa175896"
+    },
+    {
+      "path": "isolated-browser/2_Run actions_checkout@v4.txt",
+      "bytes": 6782,
+      "sha256": "19d2191e002267a70ee666c7d1d336df0bc9c3b2c3ea507dc910b9e3b938b9e0"
+    },
+    {
+      "path": "isolated-browser/3_Run actions_setup-python@v5.txt",
+      "bytes": 875,
+      "sha256": "60edb25a65c4859426b608afd62e212bc206e0560705907e12edeac33e284785"
+    },
+    {
+      "path": "isolated-browser/4_Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock.txt",
+      "bytes": 9523,
+      "sha256": "78d2a65522b3ae46c9883813dbfe0c822a351c3d980bbe546552bccdcd352523"
+    },
+    {
+      "path": "isolated-browser/5_Run docker build -f infra_ra1b_Dockerfile -t vrae-ra1b-browserlocal ..txt",
+      "bytes": 116217,
+      "sha256": "57d950b2bdbcab504d3669584f3832cf462f293f354b5a4e129d359b1184130c"
+    },
+    {
+      "path": "isolated-browser/6_Run docker build -f infra_ra1b_Worker.Dockerfile -t vrae-ra1b-workerlocal ..txt",
+      "bytes": 30676,
+      "sha256": "a0ea4b0ef263a836f257b9318ab46cbb050ad8125318801d72c808210b33d76e"
+    },
+    {
+      "path": "isolated-browser/7_Real sandbox, broker and adversarial container lifecycle.txt",
+      "bytes": 16316,
+      "sha256": "3748ab79a399e7412789d7556289f2b286e092a2a0dcef62be3975c79639f4f8"
+    },
+    {
+      "path": "isolated-browser/8_Run actions_upload-artifact@v4.txt",
+      "bytes": 2606,
+      "sha256": "afcd8b7c1abc1d44480f48f907d92497bffa92e96e5dda6574ad38812845ad4e"
+    },
+    {
+      "path": "isolated-browser/system.txt",
+      "bytes": 586,
+      "sha256": "ce28a479f5930c681d6f4ed77d9398dc6ef32ff96e5cbaef096794715190ab61"
+    },
+    {
+      "path": "isolated-http/1_Set up job.txt",
+      "bytes": 1900,
+      "sha256": "4bd44b0aab8bcfc9e33ac85cca282a110c74fddec2356957d8fb238456b7ba1e"
+    },
+    {
+      "path": "isolated-http/2_Run actions_checkout@v4.txt",
+      "bytes": 6782,
+      "sha256": "6713c50e2a5096424807eb0e40fc1474e20ecfd7574d2ed220daaad37144e862"
+    },
+    {
+      "path": "isolated-http/3_Run docker build -f infra_ra1a_Dockerfile -t vrae-ra1a-labci ..txt",
+      "bytes": 32557,
+      "sha256": "afc751da48771d9fd20e6af5ea79553f78e37a2462204130feed37f2aae0ce83"
+    },
+    {
+      "path": "isolated-http/4_Real sockets, verified TLS and kernel egress denial.txt",
+      "bytes": 16859,
+      "sha256": "c0d103344a81d1f455aaf3e77d1f280f95b7c779eb395451535c39fddd7df98d"
+    },
+    {
+      "path": "isolated-http/8_Post Run actions_checkout@v4.txt",
+      "bytes": 1703,
+      "sha256": "039ecea572e57f0cfb2315dec3e6bae576436624004b2632ed862f3821777ab1"
+    },
+    {
+      "path": "isolated-http/9_Complete job.txt",
+      "bytes": 348,
+      "sha256": "0d1bc8927b4ef88f10ad714a563759d9a93de5467876ecebe0de64f38479e4a2"
+    },
+    {
+      "path": "isolated-http/system.txt",
+      "bytes": 583,
+      "sha256": "874a19bd6d7b42669be264788c4199e23c5710c351d6802d9a8657a90c30ff41"
+    }
+  ],
+  "browser_artifacts": [
+    {
+      "metadata": {
+        "id": 13914112628,
+        "node_id": "MDg6QXJ0aWZhY3QxMzkxNDExMjYyOA==",
+        "name": "ra1b-synthetic-security-evidence",
+        "size_in_bytes": 312884,
+        "url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/artifacts/13914112628",
+        "archive_download_url": "https://api.github.com/repos/gloweaseco-leo/VRAE/actions/artifacts/13914112628/zip",
+        "expired": false,
+        "digest": "sha256:5865e9fd97286eb466125ee2e47535cd0fc5ac0cf9c2ced1bca8fba5bf352125",
+        "created_at": "2026-11-12T04:05:29Z",
+        "updated_at": "2026-11-12T04:05:29Z",
+        "expires_at": "2027-02-10T04:01:20Z",
+        "workflow_run": {
+          "id": 43152015757,
+          "repository_id": 1452666339,
+          "head_repository_id": 1452666339,
+          "head_branch": "codex2/ra3c-private-l1-report",
+          "head_sha": "d238e8e4b3ec97787ec0016f7669aba7af04c6cd"
+        }
+      },
+      "downloaded_zip_sha256": "5865e9fd97286eb466125ee2e47535cd0fc5ac0cf9c2ced1bca8fba5bf352125",
+      "entries": [
+        {
+          "path": "channels-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "f9b0db739458c4aaf010755b43bc7351f213c0a8fd8587e9916fb646eef989e8"
+        },
+        {
+          "path": "channels-browser-config.log",
+          "bytes": 19137,
+          "sha256": "8402a807bdded17ead39b9d573b10e573345cbd817249f557e1fb01ca813d1be"
+        },
+        {
+          "path": "channels-browser-final-state.log",
+          "bytes": 18981,
+          "sha256": "5b7cf48f7477970d4ee00c51a69b3c191853113a9d886eed3c2e288466522fc9"
+        },
+        {
+          "path": "channels-browser-log.log",
+          "bytes": 8086,
+          "sha256": "cef68b76558a2dd13c9721d93e456914731ad04595f54d06a737e0659bdadab4"
+        },
+        {
+          "path": "channels-browser-start.log",
+          "bytes": 523,
+          "sha256": "df5371b8b17045ec70c884ba8a728baae85887adb1b2efbc4ee3c8c6047daeba"
+        },
+        {
+          "path": "channels-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "8ec26672af6fe7c40d688ed1c52e4088d2643779b6ad7c3ace6ad85add8925e1"
+        },
+        {
+          "path": "channels-process-absence.log",
+          "bytes": 189,
+          "sha256": "bb62a02db77d3db015fd4f17683ec4f5cda524d9453b944e46dad7ea1069ef68"
+        },
+        {
+          "path": "channels-ready.log",
+          "bytes": 226,
+          "sha256": "74589f9ec797897d1706a2ae38587b4148567b75a5f2044b865b6e9c1c3f5b1a"
+        },
+        {
+          "path": "channels-remove.log",
+          "bytes": 164,
+          "sha256": "16a32905b08d99bb6d28aba9e9e4e6cbe8ce928f3f6455e0f825f202fcdede96"
+        },
+        {
+          "path": "channels-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "a36661a4cccc48378d0cf8d21d2a573bf5568b53b929a2aface8cdd4a27daeb2"
+        },
+        {
+          "path": "channels-volume-config.log",
+          "bytes": 491,
+          "sha256": "ab7002f99598c90ebe0823a6a08de306898288a97d984d65f6442fd79c57932a"
+        },
+        {
+          "path": "channels-volume-remove.log",
+          "bytes": 101,
+          "sha256": "e113ba7dedc2af26b14a55c94fd659cc3c8c92ed8696aba1bf96012928057909"
+        },
+        {
+          "path": "channels-volume.log",
+          "bytes": 226,
+          "sha256": "832375e6e6accb4ddf3c49d5462e8d92cb81f547d9628ed3924256ffda4d4a97"
+        },
+        {
+          "path": "channels-worker-config.log",
+          "bytes": 7721,
+          "sha256": "6a6fdeaa90d48cdb27e847410eaf7a6656409513883ec8c86dd8a1903052746a"
+        },
+        {
+          "path": "channels-worker.log",
+          "bytes": 6606,
+          "sha256": "4ce19dcb53d44d76a87be7deaae51391bc3d8cc85f8a01a98957188f13dde0b7"
+        },
+        {
+          "path": "crash-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "c690a809a611469ec32445048757c91aa7c0d67f313c7f118d1bcb455761a4b6"
+        },
+        {
+          "path": "crash-browser-config.log",
+          "bytes": 19138,
+          "sha256": "55c38c3d144ea51f844d928f2c7803f7f9f3217c3b3ab159509ed2ea517f0abf"
+        },
+        {
+          "path": "crash-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "22f75c695dcbc616cdcd8ec9630f03d1b88ec7b66740801ea8605edf395f7b8d"
+        },
+        {
+          "path": "crash-browser-log.log",
+          "bytes": 7918,
+          "sha256": "8e6b68dc1ddccded96a82b9ff26e27f15ddea30b2884acda87531e18f8578996"
+        },
+        {
+          "path": "crash-browser-start.log",
+          "bytes": 523,
+          "sha256": "79fdb9d77d4547ace05c0eb79683c8dde878199ce18630cefea525d2faafc876"
+        },
+        {
+          "path": "crash-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "f00f4c4b700bce4274b2fdd42533ee8232126de9e69c8fbed6550ab4e57f7940"
+        },
+        {
+          "path": "crash-process-absence.log",
+          "bytes": 189,
+          "sha256": "ff9e187e470794f60e18a092d482f961298e20385cadb750577d75a30b962ecf"
+        },
+        {
+          "path": "crash-ready.log",
+          "bytes": 226,
+          "sha256": "99cefde2524b3f0a698382113cc5f031a9ac7c172cbdb129e4b6eee604222a3f"
+        },
+        {
+          "path": "crash-remove.log",
+          "bytes": 164,
+          "sha256": "ac8ce3740fa2660f07f56929fc716e9bf0aa20f11b55487b269496e2d6393e36"
+        },
+        {
+          "path": "crash-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "f4719c99f4aff806cb4f8e00c55ef0f97ecde5f652a7b3062e9f058e212d7522"
+        },
+        {
+          "path": "crash-volume-config.log",
+          "bytes": 491,
+          "sha256": "909b5f42afa9597a52ed9f462b5c8d9aabe25ac59c5476176e6cd635e3befff7"
+        },
+        {
+          "path": "crash-volume-remove.log",
+          "bytes": 101,
+          "sha256": "5b3b40de4497fa78e9c735b3c0fbeddaf4e06f48a0e6c45d97b18a0f44e47ea0"
+        },
+        {
+          "path": "crash-volume.log",
+          "bytes": 226,
+          "sha256": "d1a28cd0a1eab6bfce0028843a446d4f68d53fbc0ff4d4c15f656b6656a831ed"
+        },
+        {
+          "path": "crash-worker-config.log",
+          "bytes": 7718,
+          "sha256": "d465eb4d43b59b410c18fc703288628b45aea0d943c3ad65af454457bcbdfddf"
+        },
+        {
+          "path": "crash-worker.log",
+          "bytes": 3069,
+          "sha256": "a18f6260c4a32a5e0e3b5ecc1ea9e32586de61b0ac5e7b40118d1cad6c23f553"
+        },
+        {
+          "path": "escape-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "161a67df25aab625819f217e9c91418a0672bae557f362687213a4b463f72833"
+        },
+        {
+          "path": "escape-browser-config.log",
+          "bytes": 19136,
+          "sha256": "6d48719f2e866dc431e89514fe08429d3b35ba0d4784c6d4b05ea14c6e6d1150"
+        },
+        {
+          "path": "escape-browser-final-state.log",
+          "bytes": 18981,
+          "sha256": "624d81a422de20b31b38c4261be16b9240cebf9308ea9ab1a59be91b94c6a2c5"
+        },
+        {
+          "path": "escape-browser-log.log",
+          "bytes": 7624,
+          "sha256": "a811edf36acdf60f0c0c86db2311a0fb99b490b466561c387fa22b843c5d68bf"
+        },
+        {
+          "path": "escape-browser-start.log",
+          "bytes": 523,
+          "sha256": "69acd08998c24da2acf45742c65a2366259274f23bca2c6edf83cb4dce6e0833"
+        },
+        {
+          "path": "escape-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "80e8a13208341301ed7fff0eaea2bcb98bd5549a66eaa05bf1fb1ec09fca9d21"
+        },
+        {
+          "path": "escape-process-absence.log",
+          "bytes": 189,
+          "sha256": "517ef27d3412ba1952f55fcf77072c23a48cf68533aa6c1078ebd24565930a83"
+        },
+        {
+          "path": "escape-ready.log",
+          "bytes": 226,
+          "sha256": "6cadf65495b724823be9303655a20ec80f3c6acd8ae333f0686b695e74ee8f91"
+        },
+        {
+          "path": "escape-remove.log",
+          "bytes": 164,
+          "sha256": "aac38da67c269c6ca3029d7824645fdb8351c8cc92fbf04ad917a1f123712ab6"
+        },
+        {
+          "path": "escape-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "143bda66c9f55a765f41665a51240f8d6ac7ddb215dae9a6323af9bcdc1d179a"
+        },
+        {
+          "path": "escape-volume-config.log",
+          "bytes": 491,
+          "sha256": "299dfdc29835541f5ed84941f9c98ae6412ac6dd99e29e60aba8d6db99b8bb83"
+        },
+        {
+          "path": "escape-volume-remove.log",
+          "bytes": 101,
+          "sha256": "ec428490d33a73dcc3323a443a442c978efc098f500465c4d92452594fec1b8a"
+        },
+        {
+          "path": "escape-volume.log",
+          "bytes": 226,
+          "sha256": "1457e5611305556f4c500564b3f927a5897d18eda620be85e2d9ae161f10fdd0"
+        },
+        {
+          "path": "escape-worker-config.log",
+          "bytes": 7718,
+          "sha256": "256ea6b545ffd8835fa71bd33f0f6da20d8e027a5ad8db9fda53485f87bb000b"
+        },
+        {
+          "path": "escape-worker.log",
+          "bytes": 6100,
+          "sha256": "06b65c4dffe8d30134ccf3b4551087f29c3a11c03dcf9eb94b7ae737b1470af5"
+        },
+        {
+          "path": "infinite-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "af2964ebd1a5c8c55ced6ecbf914cb30ceee69ed5c51d29c68b8e8b0cf56e767"
+        },
+        {
+          "path": "infinite-browser-config.log",
+          "bytes": 19138,
+          "sha256": "3878b2619e53d68c062b401c3e38c22a360c22885dbce777d24df3cf65f5d090"
+        },
+        {
+          "path": "infinite-browser-final-state.log",
+          "bytes": 18981,
+          "sha256": "59d04073351c3b9fae4c3097d0ab3df42c7ee167cf7ae0b0677d0086ee8982ee"
+        },
+        {
+          "path": "infinite-browser-log.log",
+          "bytes": 7624,
+          "sha256": "5055ade7eba6970d068a279b12831e0072424859e3a0c42674de632ff75db11d"
+        },
+        {
+          "path": "infinite-browser-start.log",
+          "bytes": 523,
+          "sha256": "5a871aff7c983e223cb7868d5dae8061180aad68452c8f5ad801f03127ae7cd9"
+        },
+        {
+          "path": "infinite-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "9413ee8ce6ea8eaccbd68c05eb2ec9b489150cb84c4167ebb4f1c427df648575"
+        },
+        {
+          "path": "infinite-process-absence.log",
+          "bytes": 189,
+          "sha256": "2679e94dc233b4a4ced39ecd96a3792364976566d7c1013e49da6b5b4871cbaf"
+        },
+        {
+          "path": "infinite-ready.log",
+          "bytes": 226,
+          "sha256": "b429329742232aaa574b6257f9d6affe7c475066bfacbe14a71d956eeb42b7e9"
+        },
+        {
+          "path": "infinite-remove.log",
+          "bytes": 164,
+          "sha256": "c6c8ed02c11b2d45439ce7148f543901e7cada2bfa50feee9db83c8317a35283"
+        },
+        {
+          "path": "infinite-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "bb41f1ca8fa5cc69c28b633d8c525e843eb2a65319d9e3e79ae879f5d5662423"
+        },
+        {
+          "path": "infinite-volume-config.log",
+          "bytes": 491,
+          "sha256": "d719ffb7d99035db178b3f1f0ee624111a0e5735d870d1b1cb2f7b3c680d6e03"
+        },
+        {
+          "path": "infinite-volume-remove.log",
+          "bytes": 101,
+          "sha256": "f6ac3243fa93a0d57bfe672179fa30431c979c5ecb1c4c792c3f540c55d70a3f"
+        },
+        {
+          "path": "infinite-volume.log",
+          "bytes": 226,
+          "sha256": "65eb536e1cb5842891cbb06c1017722a4ebfcb03721cfd5b2740ca7308d0ef13"
+        },
+        {
+          "path": "infinite-worker-config.log",
+          "bytes": 7721,
+          "sha256": "73855bc8590f0683bf5720669db54367b1ff74e441d8660b50990a7d72f73010"
+        },
+        {
+          "path": "infinite-worker.log",
+          "bytes": 5059,
+          "sha256": "4717b492dee3c68bc7fdde5eae3e9f9f0f1c39d1ea9d452e85e54e71cf2628ca"
+        },
+        {
+          "path": "kernel-control.log",
+          "bytes": 599,
+          "sha256": "aa85488a696647006f9a6834475124e28b2f8ae58ad7d43949dc26dc67d59458"
+        },
+        {
+          "path": "kernel-deny.log",
+          "bytes": 729,
+          "sha256": "1a7e08588cdd10191b5e1e43498e232d47d6fa3843afa2168393d894bd2b6a8f"
+        },
+        {
+          "path": "lifecycle.json",
+          "bytes": 64319,
+          "sha256": "086ff81f875d0fa2a6071c07e96561b01d8a0a53beadfffbdf39a0fb5e8ccb34"
+        },
+        {
+          "path": "memory-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "290b80f98afd9a90d95c9715b2afdafc38cac191947a580508d33678c4a13ff5"
+        },
+        {
+          "path": "memory-browser-config.log",
+          "bytes": 19138,
+          "sha256": "fe831c12c20532b7eea72d32868ed191b5b98d5a076484070ac62b5b7398cbc9"
+        },
+        {
+          "path": "memory-browser-final-state.log",
+          "bytes": 18981,
+          "sha256": "ef2be3adff77e81216ff6f73202337fe5e2cffa2425d6bd4408027eef3c82afe"
+        },
+        {
+          "path": "memory-browser-log.log",
+          "bytes": 7624,
+          "sha256": "b8daf4739ecfa6abc745c44b77523ee9e6d43fadbe160b308037e2f48813cfb7"
+        },
+        {
+          "path": "memory-browser-start.log",
+          "bytes": 523,
+          "sha256": "a368cf86cc81dcaae967a196560cb38024ee50ce5817415b1ea8c43d21114b72"
+        },
+        {
+          "path": "memory-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "de371b6f33eba86c69f7e50607ccec6d4a51d19fa4ccc945c1f203c44fc17881"
+        },
+        {
+          "path": "memory-process-absence.log",
+          "bytes": 189,
+          "sha256": "d3aa724cfa04e14d2fa717807e5fcbcbfa76b90970b648a02e00b78e6bed1706"
+        },
+        {
+          "path": "memory-ready.log",
+          "bytes": 226,
+          "sha256": "be3669b8fc162f6a51ece42bca8101d3a4df7db1a996a11baea1807ea18906bd"
+        },
+        {
+          "path": "memory-remove.log",
+          "bytes": 164,
+          "sha256": "8497fa9bc2ae945c55705c756095cff362a3c35a13e196737c9f466d509853a0"
+        },
+        {
+          "path": "memory-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "487b8a9426906910d7757f31ba3747edc707dc69e9a5c963732a435140867805"
+        },
+        {
+          "path": "memory-volume-config.log",
+          "bytes": 491,
+          "sha256": "0ea8c5fb3559198519cbc45bb7b9c1f4fb18f6e4a8ae92b81c2036fc5d9a41b7"
+        },
+        {
+          "path": "memory-volume-remove.log",
+          "bytes": 101,
+          "sha256": "b12241eadc25abc48a19b73c0265706a94274177255a783a10e05eb82eecdc69"
+        },
+        {
+          "path": "memory-volume.log",
+          "bytes": 226,
+          "sha256": "63593e7bc2a755b964f2e94fc8ba9cee39251f9f359b503f18747954490e6170"
+        },
+        {
+          "path": "memory-worker-config.log",
+          "bytes": 7717,
+          "sha256": "b97f51a146bcbb67cddd6f893f7808ff1667f5e0fa91e13d08d33323d2854ae8"
+        },
+        {
+          "path": "memory-worker.log",
+          "bytes": 5105,
+          "sha256": "ec50de79a422220e39c4541d1a80b440da88a1371505c1d32c7912ea5c1bd923"
+        },
+        {
+          "path": "private-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "1e82e57fb12092cb938778eb4d43e4e2510b18715095f0ba3ec462091a633e89"
+        },
+        {
+          "path": "private-browser-config.log",
+          "bytes": 19137,
+          "sha256": "ea4696ebf681f20fde6697a2f2aa25b53067191569c0b325351631e7e1886994"
+        },
+        {
+          "path": "private-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "e1867341adb6538aae72dc9cf02cc8000be41058c05f1435b8ad947c95296748"
+        },
+        {
+          "path": "private-browser-log.log",
+          "bytes": 7624,
+          "sha256": "daebc2d16ad5764a75ae011c0197646c208c075c8c3f9ffd619640c517c92792"
+        },
+        {
+          "path": "private-browser-start.log",
+          "bytes": 523,
+          "sha256": "4b8646b4e32156f7f3dc62945bf25e9bf74dcb326ade2a99f7a15d303598c7c4"
+        },
+        {
+          "path": "private-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "85f99ec7dcab709a527bdf61bfd57f648262216f52187d8ee35a88335667e4ed"
+        },
+        {
+          "path": "private-process-absence.log",
+          "bytes": 189,
+          "sha256": "306199ae75656630ac3831b148bca272f261284c516859947f8fa0c81a76afa3"
+        },
+        {
+          "path": "private-ready.log",
+          "bytes": 226,
+          "sha256": "d89e7fe12c271b8716e5ea3378ceb9aac49192df8653a23612baf1fc6a2fd328"
+        },
+        {
+          "path": "private-remove.log",
+          "bytes": 164,
+          "sha256": "30e803671f98be82e316c483a1e95755dc4d19667834b3d145f378107b0e49ed"
+        },
+        {
+          "path": "private-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "7fd47c1f4a42a955e68fbf184b05a8bb5305d7e392bcb7bd5ec9364eebe753af"
+        },
+        {
+          "path": "private-volume-config.log",
+          "bytes": 491,
+          "sha256": "b763fa9c8e847a6e08050182d72cdb57bfb0e78e56e106132568a523857d4ee2"
+        },
+        {
+          "path": "private-volume-remove.log",
+          "bytes": 101,
+          "sha256": "44239696e5b410a99c28e9b8702035cfe9596ab504c592705470aac1cb46dea8"
+        },
+        {
+          "path": "private-volume.log",
+          "bytes": 226,
+          "sha256": "0ce883ffa8a15b684ec1d4fda5245adde2b40fdb8750c33babae2928c872f2f6"
+        },
+        {
+          "path": "private-worker-config.log",
+          "bytes": 7720,
+          "sha256": "e50fdec4fec63a824f2d06e68b4549f4f4f3ec0f2edceebc02c7506dcdd01d9a"
+        },
+        {
+          "path": "private-worker.log",
+          "bytes": 6104,
+          "sha256": "eaa79be0c3b418efdd93cbc1597fccc4874f4e27fc8a4b1af66587180df0998b"
+        },
+        {
+          "path": "readonly-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "5545a9a41ba768d7de7c1d528f9a605cc054876d6b69b3128260ed347ecc4ddc"
+        },
+        {
+          "path": "readonly-browser-config.log",
+          "bytes": 19137,
+          "sha256": "5d871e2e07b9b5686757a0490a944aa2809eaef4b39ea8b9c8b917e9dd1a0a19"
+        },
+        {
+          "path": "readonly-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "97f7f755c3a62d61c64ad3cda05e9fdf22eeb0e46d7d36efa10df39b936263af"
+        },
+        {
+          "path": "readonly-browser-log.log",
+          "bytes": 7624,
+          "sha256": "cceb9b1718c0565e68dd27ff66caa9a30a1546cf84079bbe2f021b5f69016e41"
+        },
+        {
+          "path": "readonly-browser-start.log",
+          "bytes": 523,
+          "sha256": "31d4e4dfb5f326d6ed7b8313aa502f8162b9ffc6527eb413cd680bfd41835a5c"
+        },
+        {
+          "path": "readonly-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "c278666a8026472c871dd7460c3aacb6bd739b0ba148f615b26166ef8d656ba9"
+        },
+        {
+          "path": "readonly-process-absence.log",
+          "bytes": 189,
+          "sha256": "5c439f55fdbdbde6afa913f9afbb86263f4f244daeb91234b369d85409dec8f0"
+        },
+        {
+          "path": "readonly-ready.log",
+          "bytes": 226,
+          "sha256": "5ac99beba76954970d5a48c8f7490e80e1ae931a3cbcd21623ead0c79ac91ae7"
+        },
+        {
+          "path": "readonly-remove.log",
+          "bytes": 164,
+          "sha256": "7174a2b2851c218ae68d0ef560b6dfe09b655ac2cf15f9df826894425a3e1f86"
+        },
+        {
+          "path": "readonly-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "34ba0d737d0cc31aec136dc08e15f113a6060995c2e193ee4090144fce0faca4"
+        },
+        {
+          "path": "readonly-volume-config.log",
+          "bytes": 491,
+          "sha256": "adffd9180b9a853eb6134784676cebbaa743bbed73c6dbb34d0dc9ca8b51275a"
+        },
+        {
+          "path": "readonly-volume-remove.log",
+          "bytes": 101,
+          "sha256": "4c6a2107c2d893e61dcaa55b620b5514d3c1554e59b1a65eb555064572319179"
+        },
+        {
+          "path": "readonly-volume.log",
+          "bytes": 226,
+          "sha256": "005fe78c0ec350457996bc92f77d2f5b2ac00db8e83ac4f9cf83f5a5fe6b590e"
+        },
+        {
+          "path": "readonly-worker-config.log",
+          "bytes": 7721,
+          "sha256": "af51a0fb87acf97471c616a57b4c0257f7e316ed4e73740fd29d16aec1566e54"
+        },
+        {
+          "path": "readonly-worker.log",
+          "bytes": 6108,
+          "sha256": "29cf5048774638135a1cb7d4380b66437871e1a4cf7488562c8a82806f6f5781"
+        },
+        {
+          "path": "rebinding-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "ccee886e1951c2188ce89f94e5c95e5244ad20bff4f4305303605896148905d0"
+        },
+        {
+          "path": "rebinding-browser-config.log",
+          "bytes": 19138,
+          "sha256": "119fee395f63e6ce9de2bedd1128f8f1cada659e793584191d8b3f48c761502b"
+        },
+        {
+          "path": "rebinding-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "80f57b2d72fba6c6e0a04978730ec904cb5fc242eb1c1107e7f66e8636781e37"
+        },
+        {
+          "path": "rebinding-browser-log.log",
+          "bytes": 7696,
+          "sha256": "05125dbeaf06f748c4db3e783a0a793da5ad71eae6d12693fccc5e4165a2b36a"
+        },
+        {
+          "path": "rebinding-browser-start.log",
+          "bytes": 523,
+          "sha256": "00e21e7ceda07faa7c154b691bbc22003b270eaaac08b4b9c35cf3f111a5dd03"
+        },
+        {
+          "path": "rebinding-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "317e8b9ab8221b3b22aec20a7556bd979ab4b641f504b21cd02fd83883f0fc6c"
+        },
+        {
+          "path": "rebinding-process-absence.log",
+          "bytes": 189,
+          "sha256": "6318c114ec8d762b9dbbe0363b53724a477b3c8e13c4a0fcac6f8b81ed9d751b"
+        },
+        {
+          "path": "rebinding-ready.log",
+          "bytes": 226,
+          "sha256": "1cbd935a8eb0f8f94d738aa8e788725bcb715e03bc699754ad78adfab2fea573"
+        },
+        {
+          "path": "rebinding-remove.log",
+          "bytes": 164,
+          "sha256": "976fc0faef0081bb889cf2334bf8bbffc267d842892973418b4421c68051cbdf"
+        },
+        {
+          "path": "rebinding-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "5394b060854894b637dc978844864c0a1913f0e0db1f6ec090d839a6f427a48a"
+        },
+        {
+          "path": "rebinding-volume-config.log",
+          "bytes": 491,
+          "sha256": "02bfbed31246ddb302d17866c8546aca85639645d2f9d7bf8f413dc2dc4dccd2"
+        },
+        {
+          "path": "rebinding-volume-remove.log",
+          "bytes": 101,
+          "sha256": "64b77b5b96bf90b478512726d7358dba86ac6fa2d93cb746fe65bc875baf1592"
+        },
+        {
+          "path": "rebinding-volume.log",
+          "bytes": 226,
+          "sha256": "7e324408c2b9ba572d982aa5c1a65bdddcef35b8edb6acf3384ba1deace340ac"
+        },
+        {
+          "path": "rebinding-worker-config.log",
+          "bytes": 7722,
+          "sha256": "e9adf0dd34a857a87333649abea2d089433bd8ae1e07ae0d8c8ffb7bf08aa6f0"
+        },
+        {
+          "path": "rebinding-worker.log",
+          "bytes": 5713,
+          "sha256": "93c37c8ac0f2cb23e623ef8c61520196d31af6948ce181ab6932717c2a2a2c76"
+        },
+        {
+          "path": "redirect-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "c68aa4aeaf04a137b7ba8a4881742e197ff6e3e105eb25c7b28d13b100df7291"
+        },
+        {
+          "path": "redirect-browser-config.log",
+          "bytes": 19137,
+          "sha256": "78102c0099bed2ead40c95a332d6f83182ff6fa91166ee56b5b23f1337bc8f1e"
+        },
+        {
+          "path": "redirect-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "f1277db8261367bedc9a74fcec3059fa4d0cf542ebeade091edcf7a31ecca0c8"
+        },
+        {
+          "path": "redirect-browser-log.log",
+          "bytes": 7624,
+          "sha256": "f675baf3892ed62306d7eb599740057d5d8064d0ffdf2d42916395ce27cf9843"
+        },
+        {
+          "path": "redirect-browser-start.log",
+          "bytes": 523,
+          "sha256": "4f2de7fc693ed4a90490787fcc25ae876c1d449dffb5bfe4704464c13392c917"
+        },
+        {
+          "path": "redirect-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "b6f7e180a134580cd69f151e52a78f708bba84f74edb990f0edf393213e38ec7"
+        },
+        {
+          "path": "redirect-process-absence.log",
+          "bytes": 189,
+          "sha256": "c49dddc280bbdbdebafffb38284bbc289c0ca070eebdf657b2a37582e12d0928"
+        },
+        {
+          "path": "redirect-ready.log",
+          "bytes": 226,
+          "sha256": "529ca571b26ad62b939cba56e5dde6a8046ce212b758a7cab083c0f32f5581d5"
+        },
+        {
+          "path": "redirect-remove.log",
+          "bytes": 164,
+          "sha256": "77c8c64afbad0d183cbe8717d5e298d880f8c401af68372aeb66ec7aead843c7"
+        },
+        {
+          "path": "redirect-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "b5da5dc0b53a7f55b41aac61f4f26b5075b6a986333fc646d1493eaafd404690"
+        },
+        {
+          "path": "redirect-volume-config.log",
+          "bytes": 491,
+          "sha256": "5b6976d96b91c456b64a51dc50afe8447c9c3c51296f41047923b77752055e67"
+        },
+        {
+          "path": "redirect-volume-remove.log",
+          "bytes": 101,
+          "sha256": "2236da46c57f4fbd898ad58a34cdd4e9a582ca7c02c5c37e4c78bf4eed4eea7d"
+        },
+        {
+          "path": "redirect-volume.log",
+          "bytes": 226,
+          "sha256": "3fdbe628d105def11295d7f80d124dc98f94658fbc7c5317a9e77553eb0083cc"
+        },
+        {
+          "path": "redirect-worker-config.log",
+          "bytes": 7721,
+          "sha256": "046477bdf825395acfc30cc8f6d2ec1f729bb023cf8fea43a66c58b7341bfed4"
+        },
+        {
+          "path": "redirect-worker.log",
+          "bytes": 7088,
+          "sha256": "8ab5f2ca6dd76cdae5847816a7ab191fc4977b009744fa4c3487774550df9489"
+        },
+        {
+          "path": "redirect_private-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "b8450987545ca8ba7f1b0c480c4f51b2fedfd78a8e51cfbf2bf126ea940bdcbd"
+        },
+        {
+          "path": "redirect_private-browser-config.log",
+          "bytes": 19138,
+          "sha256": "0656fa21890c0fb446b8dac6f33d781fe563a26c5c04b580b0edc7fdaddac9bd"
+        },
+        {
+          "path": "redirect_private-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "0e1bd35855bf5ab2eedcf116e59d8992ea4435ba05d61db2ddb833f5149e63f9"
+        },
+        {
+          "path": "redirect_private-browser-log.log",
+          "bytes": 7624,
+          "sha256": "0430b3325af1ca0b4566677caa3ab335a876357257799e83f92e96504a1b45a3"
+        },
+        {
+          "path": "redirect_private-browser-start.log",
+          "bytes": 523,
+          "sha256": "8d785dc10223d491409cba112da90e1d1b10e97fe93fcf390d55d8e3920f78d4"
+        },
+        {
+          "path": "redirect_private-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "9803fdd0c5df3d2bf2d4a76f80bb80f84ab63179449d5694a8b6512e1ebc60c6"
+        },
+        {
+          "path": "redirect_private-process-absence.log",
+          "bytes": 189,
+          "sha256": "760ae975684ca81747b0565dfd46ca7f1ba43c719846d1ae4847398b95be3b05"
+        },
+        {
+          "path": "redirect_private-ready.log",
+          "bytes": 226,
+          "sha256": "6dfa97cab51da60b11cd4ab949351bb11102332bff94410cc793382e419b6ead"
+        },
+        {
+          "path": "redirect_private-remove.log",
+          "bytes": 164,
+          "sha256": "961ca0e9e8d55b6eb3826203c6d39f60e3db0e83a5a92c5199be1767789b012e"
+        },
+        {
+          "path": "redirect_private-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "1a5e39e23673f19d9f1096338e59fcbdc46a1d99afee5cb9b496c37964f5cd63"
+        },
+        {
+          "path": "redirect_private-volume-config.log",
+          "bytes": 491,
+          "sha256": "32a83dde84b8803058353b627f70c655e8dee8672fcf0629612ad24e78679e8b"
+        },
+        {
+          "path": "redirect_private-volume-remove.log",
+          "bytes": 101,
+          "sha256": "123602661458edfd90cab155d13c42aa0d92cebbde6e2c9a4a02dbb6f52b92fc"
+        },
+        {
+          "path": "redirect_private-volume.log",
+          "bytes": 226,
+          "sha256": "646c014b3e505477bcae3df87c6071732de03c69c50b9efc085d300a5b1bcf33"
+        },
+        {
+          "path": "redirect_private-worker-config.log",
+          "bytes": 7729,
+          "sha256": "138822a27503a93d5ceaf570b4ee53dbdf39a713c893097fe2e9ad2706ebea2c"
+        },
+        {
+          "path": "redirect_private-worker.log",
+          "bytes": 7120,
+          "sha256": "bd874d5cea1c1c95b6767e3eb8d32e612275337ffd72ed3a40b9ef4c7c35f93e"
+        },
+        {
+          "path": "resources-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "6a8be3a887bca5ef08ef14ff822dcecee6d2a446608ca7c9adfa192b9befa898"
+        },
+        {
+          "path": "resources-browser-config.log",
+          "bytes": 19136,
+          "sha256": "fabc8bf954af9b37901433e24a798d269c6ddb8aef9a71b16af593fe4547e4f0"
+        },
+        {
+          "path": "resources-browser-final-state.log",
+          "bytes": 18981,
+          "sha256": "9bcf3815b502102c35ed85ac17e754c2b976cb20c73ee8ddfb2f02f4ce26efaf"
+        },
+        {
+          "path": "resources-browser-log.log",
+          "bytes": 7768,
+          "sha256": "6f7a240e16a5be1ca9564547fda4672ce0bfb9254397dc53dc5c321b8f97f74b"
+        },
+        {
+          "path": "resources-browser-start.log",
+          "bytes": 523,
+          "sha256": "8a7cf13c76e718ad6928a936073b9fdc4ff616b7be5c16a4ab0994d3a2598ef0"
+        },
+        {
+          "path": "resources-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "e49c655e3fdde73f87c463f65a277ea33044ad844b501b60748eaa5d1f7954ee"
+        },
+        {
+          "path": "resources-process-absence.log",
+          "bytes": 189,
+          "sha256": "35a1073cb3042e3cf06113768be7a03bf635a621107db1e873c018bb7552c0de"
+        },
+        {
+          "path": "resources-ready.log",
+          "bytes": 226,
+          "sha256": "e452f770c4b9411218b03a56f10e7e99319c8f3a38c3379a3548c0188598fae1"
+        },
+        {
+          "path": "resources-remove.log",
+          "bytes": 164,
+          "sha256": "1308ceea7117906a5a8c6908119b13d27fdaca096c929a19c5b1d4ff389f633c"
+        },
+        {
+          "path": "resources-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "521bb8ff1f6aab1c13799644bf724db52680b06c6524357597941fcaad826715"
+        },
+        {
+          "path": "resources-volume-remove.log",
+          "bytes": 101,
+          "sha256": "692d772dcbc6865dc1a4e4ae11eb9d72ff041b3eaaf33e1d5efc912304da9a18"
+        },
+        {
+          "path": "resources-volume-config.log",
+          "bytes": 491,
+          "sha256": "9a50303f62bbb0d51320276243bd99e5425fd40c6812d77fd48094e18af45aae"
+        },
+        {
+          "path": "resources-volume.log",
+          "bytes": 226,
+          "sha256": "adf70ffa80696d3662a11f9055b5c59aa1c8d89a0e028e98b1b3702b22015af3"
+        },
+        {
+          "path": "resources-worker-config.log",
+          "bytes": 7722,
+          "sha256": "47ab04d747be17891280322777ce6d02e824b8fb97dbe20a3c3df3f85b358a54"
+        },
+        {
+          "path": "resources-worker.log",
+          "bytes": 6001,
+          "sha256": "169c1287431c8a818e3a1d8d60b923e2cfa6002cbe131157e32a09cc7c90b417"
+        },
+        {
+          "path": "revocation-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "befbb5155fccab597019dfac3a6bb0fc4977e41de6fbe685bf4e66a9cdd8444b"
+        },
+        {
+          "path": "revocation-browser-config.log",
+          "bytes": 19138,
+          "sha256": "56d3dc54e4a7a1b5cecf2d619e7d4a78772de12073cf2e74a0a17c049483a583"
+        },
+        {
+          "path": "revocation-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "bf0a9e3b3723613fe1fe29fd0d4b6eb25de8e1351b456d358af4a2b187476a90"
+        },
+        {
+          "path": "revocation-browser-log.log",
+          "bytes": 7624,
+          "sha256": "86c5af52eef4f2c8f92c2a05a775a7224367f85b3c82b214ea980ef0580aaba5"
+        },
+        {
+          "path": "revocation-browser-start.log",
+          "bytes": 523,
+          "sha256": "1e469afe1ef4ae5f6dca8053555e5a994a63f98a8396e868e7987aa1b8544eb4"
+        },
+        {
+          "path": "revocation-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "167dc656c89aa271de9f5b7df3f084dcad25f08515f2497ec17ad92d99ef35cb"
+        },
+        {
+          "path": "revocation-process-absence.log",
+          "bytes": 189,
+          "sha256": "7c0567f0ae685e06e019a84c4e146965dd311da27d22ccd19add7ae29fe86b25"
+        },
+        {
+          "path": "revocation-ready.log",
+          "bytes": 226,
+          "sha256": "ddd910f1ca077b0d01bc39be3a241744b49b9856e60f6d04f341bdf9dbed96ca"
+        },
+        {
+          "path": "revocation-remove.log",
+          "bytes": 164,
+          "sha256": "4f988b75ccaef2d65a3da8ffcaea97801ca2b2848d547f9aacda5cf2fbb2fd4a"
+        },
+        {
+          "path": "revocation-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "4efc7cf54e9c4fe0e6c67fddafc530dc1d2d6f145a058103843f10cb58e01667"
+        },
+        {
+          "path": "revocation-volume-config.log",
+          "bytes": 491,
+          "sha256": "9b25cfa8ac1f34ed856a95b886a0bbe56a675093f273dfd498a292a4f9d7190a"
+        },
+        {
+          "path": "revocation-volume-remove.log",
+          "bytes": 101,
+          "sha256": "df1b87152b8969622c8d458f558d3535a8d12953665a8536eded0b44aab87175"
+        },
+        {
+          "path": "revocation-volume.log",
+          "bytes": 226,
+          "sha256": "0c0728b9a15015183a6d32018fcf9778e50aa49de86ef1f500177f55595c6de2"
+        },
+        {
+          "path": "revocation-worker-config.log",
+          "bytes": 7722,
+          "sha256": "bbee78bbb9b95122e12fe853ad5b02f3c6a5392eff36f9f8bc783d565bb1b549"
+        },
+        {
+          "path": "revocation-worker.log",
+          "bytes": 3084,
+          "sha256": "2ccdcfac8007e23965111a649c22fe67469d1e23964a5d3697e9263a6643a999"
+        },
+        {
+          "path": "sandbox.log",
+          "bytes": 8909,
+          "sha256": "f6615757d5ae02b1927542e5aa7eeb2b89e3dfa64db634ef1ba1b5b79e6d4a5e"
+        },
+        {
+          "path": "sigkill-automatic-exit.log",
+          "bytes": 76,
+          "sha256": "fba28cddc459d876ac4047b4448fbfd13f16fca28e7ae56f1982225418fd7731"
+        },
+        {
+          "path": "sigkill-browser-config.log",
+          "bytes": 19138,
+          "sha256": "e9f44928381348301eeca3f7cb3ea90a8f69978d5b71184906d8e5708e9c7f98"
+        },
+        {
+          "path": "sigkill-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "6522b15c77dab335eabcfd365824d2aee7e7f9ac36b7b47f8f25748fea6a060f"
+        },
+        {
+          "path": "sigkill-browser-log.log",
+          "bytes": 7263,
+          "sha256": "a08f29c145553d0c0865fe19c061b2a196f29a6ec2bce10baba415e2b559ca56"
+        },
+        {
+          "path": "sigkill-browser-start.log",
+          "bytes": 523,
+          "sha256": "a9ab87ba43b590c8a7d2694a1e3fe8fa0ec572e6443d1023909d79b7570c2db2"
+        },
+        {
+          "path": "sigkill-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "bfe4c5c29dfd932240e1e540f1857f3a05c6f82a71627560e7b0409183bc86a7"
+        },
+        {
+          "path": "sigkill-kill.log",
+          "bytes": 121,
+          "sha256": "8cdc23eeab6d746b73ec5f515cb2811a19e11e3815997b0768a1b4a49ae4b36a"
+        },
+        {
+          "path": "sigkill-process-absence.log",
+          "bytes": 189,
+          "sha256": "1143fcbcc920bb61d9fd74e32c8918fe12890e88b1afa5d751b5e086da567f7d"
+        },
+        {
+          "path": "sigkill-ready.log",
+          "bytes": 226,
+          "sha256": "7d9827489aa3c97707c9d07c061b9eb024ecbcd01175488083307dc4520f553c"
+        },
+        {
+          "path": "sigkill-remove.log",
+          "bytes": 164,
+          "sha256": "afd3cc1de45740913624ec40e9bc51f5dfc4e4465029ebf1d8e8ad731cf43252"
+        },
+        {
+          "path": "sigkill-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "850c8fb28efe1d2c7efa80188b666c77b900a8a74ce4ace1d8bf90fe8eabf661"
+        },
+        {
+          "path": "sigkill-volume-config.log",
+          "bytes": 491,
+          "sha256": "1f7662b15b9ea161a357123bb92f8bcf58eb574a2271da162caafa695168cd0b"
+        },
+        {
+          "path": "sigkill-volume-remove.log",
+          "bytes": 101,
+          "sha256": "98076673e289b760db4a16f11b0da7810cf8495314be59950799f34505d386de"
+        },
+        {
+          "path": "sigkill-volume.log",
+          "bytes": 226,
+          "sha256": "8802cfa7867bc80047cb0e2085afb17f13ae0e64e923a82b6062403d57ec15fe"
+        },
+        {
+          "path": "sigkill-worker-config.log",
+          "bytes": 7720,
+          "sha256": "bbd40478edbaa728da0ebaeb7b3d1932836ae980cc73e2c85bd98c182bc2cfdb"
+        },
+        {
+          "path": "sigkill-worker.log",
+          "bytes": 3129,
+          "sha256": "3f6e0ad574e77790096f6f208beb49e0abab968e912871523a5b9559a55ce6e2"
+        },
+        {
+          "path": "storage-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "a221f448d1a9dbffb9d792683c03c269043e051bd51647da47f7dcb083d3ba31"
+        },
+        {
+          "path": "storage-browser-config.log",
+          "bytes": 19137,
+          "sha256": "118b44e6b8946de74f88e512760b12ea5e85df4a3d3f871c829bdefa9ae0f925"
+        },
+        {
+          "path": "storage-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "de004bf63900e06e6e152944dc94700759ce12dab4be5bf9c2c1f90ca12b43e2"
+        },
+        {
+          "path": "storage-browser-log.log",
+          "bytes": 7624,
+          "sha256": "65005c608946f3ae78cf173b7af90654e0f3b38917920e21ebbcc0fb4120a0f9"
+        },
+        {
+          "path": "storage-browser-start.log",
+          "bytes": 523,
+          "sha256": "2759ac7a1ca20534ca29d970b2868f9861fdc58cb8fba188ae23a2a223593622"
+        },
+        {
+          "path": "storage-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "2b633777d6ea2a19de72c694a710023471db0025defd7bd3d6cb64f920e9943b"
+        },
+        {
+          "path": "storage-process-absence.log",
+          "bytes": 189,
+          "sha256": "134cb339cc5bdeb24046abbc29c840677d6d9a1a7dc43043b0d19ca30406396f"
+        },
+        {
+          "path": "storage-ready.log",
+          "bytes": 226,
+          "sha256": "462af1984808dda9abbc3a898120c4c79323d7ff6aede2f38c62fc880fff8769"
+        },
+        {
+          "path": "storage-remove.log",
+          "bytes": 164,
+          "sha256": "ab82c5e90d7416a0afe35ef4daef095682bdae87cbfe65dc84fa3dab0ad9e805"
+        },
+        {
+          "path": "storage-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "4f61338bcd71500ef60c5b842e082b9ea00542f61fc0cf6d007cdf1be0d92494"
+        },
+        {
+          "path": "storage-volume-config.log",
+          "bytes": 491,
+          "sha256": "5a4927095a51bf22532d87988a1b30a62f6a0bd3d4e62cfa1fb677d4a707af5a"
+        },
+        {
+          "path": "storage-volume-remove.log",
+          "bytes": 101,
+          "sha256": "bfe0c7889ba56c8405ecd6afa5d50f8ee9c3229b86e98452b814c5ab29a75887"
+        },
+        {
+          "path": "storage-volume.log",
+          "bytes": 226,
+          "sha256": "cbd500694fc29d5570bbc63c2543f7235b39b71d72a86c638979777f3faba47b"
+        },
+        {
+          "path": "storage-worker-config.log",
+          "bytes": 7720,
+          "sha256": "e7e69165cd9e11fce9644893d1037e053ea3aefef51f02afae342d71f2cc76fb"
+        },
+        {
+          "path": "storage-worker.log",
+          "bytes": 6360,
+          "sha256": "f2a1857ac4afac4d5948b50e745f55c702ed35c2fedc7fc3ac985302e62dc627"
+        },
+        {
+          "path": "summary.json",
+          "bytes": 72098,
+          "sha256": "38e108c605dd9361b2007850620260f2b50646de6a02443c8df29afd3d522fd8"
+        },
+        {
+          "path": "worker_kill-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "0fc77287a5532c5966943414073f9071581bfb9b404e9b4c3cff7bd87a07d165"
+        },
+        {
+          "path": "worker_kill-browser-config.log",
+          "bytes": 19138,
+          "sha256": "f6fbfd1267c999c37903258f727e8caec72a2e3dd008b20e2e0a9263cb90ad68"
+        },
+        {
+          "path": "worker_kill-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "9b893d6d560486797a3cee71559de1e6af5e6b5a910485d803dac5e55ac0997e"
+        },
+        {
+          "path": "worker_kill-browser-log.log",
+          "bytes": 7624,
+          "sha256": "335df7afc24c64417d12e71434d6858529840e45e8772d0ed9c8def61abea0f1"
+        },
+        {
+          "path": "worker_kill-browser-start.log",
+          "bytes": 523,
+          "sha256": "07b57a27ff5df5347d724f3b70d9ca2235c0690cde1256a7adebb41593563514"
+        },
+        {
+          "path": "worker_kill-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "7c6b3db38b1bc7d156a73daa584fec58f4acb9f50cc2eb34f676acb3b1813386"
+        },
+        {
+          "path": "worker_kill-kill.log",
+          "bytes": 119,
+          "sha256": "fa415704305cd2c443b34c88d65d53446d41982074fc4a22d8d7709067e03fc9"
+        },
+        {
+          "path": "worker_kill-process-absence.log",
+          "bytes": 189,
+          "sha256": "fcdd46bcdadfc49d1565fe6edabc4780f26c069f737aab4b22cb2560845d94d7"
+        },
+        {
+          "path": "worker_kill-ready.log",
+          "bytes": 226,
+          "sha256": "d03c8fa714f3b16184c6d34b5c65547c6189cd9a301d7026ba065d8184394a03"
+        },
+        {
+          "path": "worker_kill-remove.log",
+          "bytes": 164,
+          "sha256": "33aa9f3350bc9188814570ac8eb5f00126696133d998dfda8935b43e1e3912bc"
+        },
+        {
+          "path": "worker_kill-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "953d605e9b4815e25142f0f66493aa03766474c7d859ec96dd0bdad86981fa9e"
+        },
+        {
+          "path": "worker_kill-volume-config.log",
+          "bytes": 491,
+          "sha256": "51a32904a8e3dbd3085f8124833d8da56f973d4c22e95182caedeb8a11abe70a"
+        },
+        {
+          "path": "worker_kill-volume-remove.log",
+          "bytes": 101,
+          "sha256": "023b86b3d7676434ef71b3a9b6a2f0ffd21e7c38e1b3612e27bd11cc8ae931db"
+        },
+        {
+          "path": "worker_kill-volume.log",
+          "bytes": 226,
+          "sha256": "253919aa8366a0c1052f13c68d367ae2517356046b933cf266060f012f7d9cfb"
+        },
+        {
+          "path": "worker_kill-worker-config.log",
+          "bytes": 7726,
+          "sha256": "47eb1043bed7195cd63d4aeae315f5201b7d5625ffc5c9fd50c1a659055d01d3"
+        },
+        {
+          "path": "worker_kill-worker.log",
+          "bytes": 2175,
+          "sha256": "d6598eaf3beae3e59be1a18af2b1295e45f98105d2c6b4706395ef03992f7a2e"
+        },
+        {
+          "path": "writes-automatic-exit.log",
+          "bytes": 74,
+          "sha256": "0984c25cb1376d43470e1ef00c47d95b6fc958431b2b6b9e9d7e50880b49b53a"
+        },
+        {
+          "path": "writes-browser-config.log",
+          "bytes": 19137,
+          "sha256": "5a025cc5f6e3beeef1066d0c6a3f1c93b61b08105eed20de62fe348fb572dd6f"
+        },
+        {
+          "path": "writes-browser-final-state.log",
+          "bytes": 18982,
+          "sha256": "9cd474cfa9361887b22ecabdb1e957d4841f09076bdc3d8c1b637245abcc9c33"
+        },
+        {
+          "path": "writes-browser-log.log",
+          "bytes": 7624,
+          "sha256": "cda94ca49e97270f4afe78da93bddf4e38a4095e97ef031beb56fd64ada98454"
+        },
+        {
+          "path": "writes-browser-start.log",
+          "bytes": 523,
+          "sha256": "dbf9e04cf10017bee056fef7787e880b5f31a27e165444bc388a50336508d1c7"
+        },
+        {
+          "path": "writes-cleanup-proof.log",
+          "bytes": 212,
+          "sha256": "98e994864ab1b9a6fd7e279d04984f2074ad935ff51e61644ce4312aab47f49b"
+        },
+        {
+          "path": "writes-process-absence.log",
+          "bytes": 189,
+          "sha256": "9d81df51644df42a6be2798789eb332aee8c16a50d99583cce4e215d63e52b43"
+        },
+        {
+          "path": "writes-ready.log",
+          "bytes": 226,
+          "sha256": "d14f5375de10da885d0c62cd6d8ad6e7360e63e56bcf93216b46765eab20270a"
+        },
+        {
+          "path": "writes-remove.log",
+          "bytes": 164,
+          "sha256": "e514d4f3d8525a8275550ab7bf4b5263b33f2c7dc71f6bfbb9920408952dc7b8"
+        },
+        {
+          "path": "writes-volume-cleanup-proof.log",
+          "bytes": 157,
+          "sha256": "849012649812ac7041cdc3a2055761fc36b8f26bed3665342eaab83d72a3d54f"
+        },
+        {
+          "path": "writes-volume-config.log",
+          "bytes": 491,
+          "sha256": "be54f56a62d157598d7f8cfd128dfa8ef9e58adbc82e82df61b45ad56d7c2531"
+        },
+        {
+          "path": "writes-volume-remove.log",
+          "bytes": 101,
+          "sha256": "ebbd8cfb628d0cb0816bea9fb8b807dd2f85381c600d7e686b5531d9b03d12f4"
+        },
+        {
+          "path": "writes-volume.log",
+          "bytes": 226,
+          "sha256": "269ac345c6b1d505f4a3072b14cf58279def49229b31467791d47ca27b53006b"
+        },
+        {
+          "path": "writes-worker-config.log",
+          "bytes": 7719,
+          "sha256": "4b5cba4eb02385d58002f81aa2e32b6135762cd25f033106d1e3d83cb1f27fd0"
+        },
+        {
+          "path": "writes-worker.log",
+          "bytes": 9108,
+          "sha256": "6fa48a80cd89a2d5d383bc09293ead7b6cadccb02d3147ad6d70be52c9ed856d"
+        }
+      ]
+    }
+  ],
+  "checkout_parents_and_tree_verified": true
+}

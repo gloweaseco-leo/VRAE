@@ -26,6 +26,10 @@ EvidencePack、RuleExecution、FindingPackage 及 native bridge；返回链接�
 
 在仓库根目录、已按原有锁文件配置的 Python 环境中执行：
 
+Windows 中文系统请设置 `PYTHONUTF8=1`；原有全仓源码扫描使用默认文本编码，
+否则会用 GBK 读取新增中文 UTF-8 源码。此项只配置进程编码，不改测试或证据预期。
+本目录 `regress.py` 为子进程显式设置该变量。
+
 ```text
 python scripts/verify_ra3c.py
 python scripts/verify_ra3c.py --security-preview
@@ -71,3 +75,16 @@ main `2429be6dc5d7dcb48221ab179f063b93ce4b1956` 已通过正常 `git merge --no-
 集成（当时尚无功能提交，因此 fast-forward），完整保留 QA44 原文件。
 所有新增内容限定 Issue #45 四个授权路径；工程/产品/合同/旧版本/安全/Gold/CI/依赖均保留。
 独立 Draft PR 提交后停止，等待 Owner 功能、业务和 UI 独立验收。
+
+最终本地验证见 [LOCAL_RESULTS.md](LOCAL_RESULTS.md)，完整原始记录及 JUnit、逐文件
+摘要分别见 `archive-index.json`、`artifact-index.json`。开发期 RED 与编码处理见
+[DEVELOPMENT_RECORD.md](DEVELOPMENT_RECORD.md)。最终精确 HEAD 与四项新 hosted CI
+记录以 [Draft PR #47](https://github.com/gloweaseco-leo/VRAE/pull/47) 的封存交付段为准。
+
+字节核验：`artifact-index.json` 记录 Windows 原始工作文件字节，对应
+`current-artifacts-raw.zip` 内的精确条目。`source-fixtures-raw.zip` 保留首次封存的
+source/Guard JSON 容器及最终 caller pins 的精确原始字节；上述 `3189…26b` 为该
+Windows JSON 容器 SHA。Git 的文本换行规范化可能改变仓库显示的 JSON 容器字节，
+不改变解码后的原始对象字节、Guard/pack refs、报告规范化清单或 HTML 字节哈希。
+需逐字节核验时使用 ZIP 内条目和 archive-index.json；Git blob/mode 证明另列，
+不会把换行规范化误报为证据或内容篡改。

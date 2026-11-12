@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[3]
 OUT = Path(__file__).resolve().parent / '.checks' / sys.argv[1]
 OUT.mkdir(parents=True, exist_ok=True)
 env = dict(os.environ)
+env['PYTHONUTF8'] = '1'
 env['PYTEST_ADDOPTS'] = ('--basetemp=' + (OUT / 'tmp').as_posix()
     + ' --junitxml=' + (OUT / 'full.xml').as_posix())
 commands = [
