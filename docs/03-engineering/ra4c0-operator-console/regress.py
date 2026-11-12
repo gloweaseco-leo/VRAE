@@ -1,6 +1,7 @@
 """Authorized-output-only full gates + unchanged sealed historical replays."""
 from datetime import datetime, timezone
 import importlib.util
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -15,15 +16,19 @@ out.mkdir(parents=True)
 env = dict(os.environ,PYTHONPATH=str(ROOT),PYTHONUTF8='1',PYTHONDONTWRITEBYTECODE='1',
            RUFF_CACHE_DIR=str(out/'runtime/ruff'),MYPY_CACHE_DIR=str(out/'runtime/mypy'))
 rows=[]
+start_head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+source_files=[p for folder in ('vrae','contracts','tests','apps/operator_console')
+              for p in (ROOT/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+start_hashes={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in source_files}
 
 
 def run(name,args,expected=0):
     argv=[sys.executable,*args]
-    r=subprocess.run(argv,cwd=ROOT,env=env,capture_output=True)
-    (out/(name+'.log')).write_bytes(r.stdout+r.stderr)
+    with (out/(name+'.log')).open('wb') as log:
+        r=subprocess.run(argv,cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT)
     rows.append({'name':name,'argv':argv,'actual_exit':r.returncode,'expected_exit':expected})
-    (out/'results.json').write_text(json.dumps({'python':sys.version,'baseline':subprocess.check_output(
-        ['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'rows':rows},indent=2)+'\n',encoding='utf-8')
+    (out/'results.json').write_text(json.dumps({'python':sys.version,'start_head':start_head,
+        'source_sha256':start_hashes,'rows':rows},indent=2)+'\n',encoding='utf-8')
     print(name,r.returncode,'expected',expected,flush=True)
     if r.returncode != expected:
         raise SystemExit('FAILED '+name+' (raw log retained)')
@@ -49,4 +54,5 @@ for case in module.CASES:
     draft=module.replay(case)
     (native/(str(case)+'.html')).write_bytes(draft.html_bytes)
     (native/(str(case)+'.json')).write_text(json.dumps(draft.document,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-print('ALL GATES MATCHED; historical V1 remains RED; Gold remains 0/26',out,flush=True)
+assert all(hashlib.sha256((ROOT/p).read_bytes()).hexdigest()==value for p,value in start_hashes.items())
+print('ALL GATES MATCHED; source hashes unchanged; historical V1 remains RED; Gold remains 0/26',out,flush=True)
