@@ -1,0 +1,97 @@
+{
+  "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+  "github_checkout": null,
+  "commands": [
+    {
+      "name": "compile",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "vrae/persistence"
+      ],
+      "exit": 0,
+      "seconds": 0.4219999999986612,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ruff",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "integration/ra4a",
+        "infra/ra4a",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "exit": 0,
+      "seconds": 1.5,
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "mypy",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "-m",
+        "mypy",
+        "vrae"
+      ],
+      "exit": 0,
+      "seconds": 3.0310000000026776,
+      "stdout_sha256": "e04dda67e13c977a876daa03065b4ccf3c68383ce2545a6fb85f03149e4ae89f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pure",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/persistence",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\docs\\03-engineering\\ra4a-p1\\final-source-81bac74\\py311\\pure.xml"
+      ],
+      "exit": 0,
+      "seconds": 4.202999999994063,
+      "stdout_sha256": "7f050ea150f244a829d395c01a6d70ee40f7e4231bbf9e05095309a2a1723775",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "postgres",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-x",
+        "integration/ra4a",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\docs\\03-engineering\\ra4a-p1\\final-source-81bac74\\py311\\postgres.xml"
+      ],
+      "exit": 0,
+      "seconds": 40.14100000000326,
+      "stdout_sha256": "a23b2b1a9d5523e6f5bf86180bfabaa7295ce20cf58d08d1d40dec75cab74c9b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pip",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p1-postgres-rls-queue\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit": 0,
+      "seconds": 1.9530000000013388,
+      "stdout_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

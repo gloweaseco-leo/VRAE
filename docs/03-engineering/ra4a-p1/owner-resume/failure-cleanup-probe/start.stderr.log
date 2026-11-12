@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "D:\Projects\VRAE\.worktrees\ra4a-p1-postgres-rls-queue\infra\ra4a\lab.py", line 189, in start
+    version = wait_target(ident, password, seconds)
+  File "D:\Projects\VRAE\.worktrees\ra4a-p1-postgres-rls-queue\infra\ra4a\lab.py", line 153, in wait_target
+    raise RuntimeError("REAL_PG_STARTUP_DEADLINE")
+RuntimeError: REAL_PG_STARTUP_DEADLINE
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Projects\VRAE\.worktrees\ra4a-p1-postgres-rls-queue\infra\ra4a\lab.py", line 245, in <module>
+    start(args.output, args.startup_timeout)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\VRAE\.worktrees\ra4a-p1-postgres-rls-queue\infra\ra4a\lab.py", line 210, in start
+    cleanup(s, output / "failure-cleanup")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\VRAE\.worktrees\ra4a-p1-postgres-rls-queue\infra\ra4a\lab.py", line 123, in cleanup
+    assert all(r["absent_after"] and "error" not in r for r in results), "OWNED_CLEANUP_FAILED"
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OWNED_CLEANUP_FAILED
