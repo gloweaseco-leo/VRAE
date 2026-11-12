@@ -79,6 +79,16 @@ class TaskRecord:
             if ready:
                 if type(value['report_version']) is not int or value['report_version'] < 1 or type(value['report_pins']) is not dict:
                     refuse('INVALID_DTO')
+                held = value['report_pins']
+                if (set(held) != {'pins','expected_draft_ref','expected_html_sha256','expected_issue_count'}
+                        or type(held['pins']) is not dict
+                        or type(held['expected_issue_count']) is not int
+                        or not 0 <= held['expected_issue_count'] <= 3
+                        or type(held['expected_draft_ref']) is not str
+                        or not re.fullmatch(r'rd-[0-9a-f]{64}',held['expected_draft_ref'])
+                        or type(held['expected_html_sha256']) is not str
+                        or not re.fullmatch(r'[0-9a-f]{64}',held['expected_html_sha256'])):
+                    refuse('INVALID_DTO')
                 if (value['report_case'] == '200') != (value['stage'] == 'COVERAGE_ONLY'):
                     refuse('INVALID_DTO')
             elif value['report_pins'] is not None or value['report_version'] is not None:

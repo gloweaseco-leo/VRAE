@@ -245,9 +245,28 @@ def test_duplicate_fields_wrong_route_bad_index(env):
     _,c,ui=env
     for path in ('/?q=a&q=b','/?stage=APPROVED','/tasks/../../etc','/tasks/task-404/evidence/-1?version=1&draft=x'):
         assert ui.dispatch(c,'GET',path).status in (400,501)
+    assert ui.dispatch(c,'GET','/?url=https://evil.example').status==400
 
 
 def test_loopback_requires_both_explicit_test_guards():
     for kwargs in ({},{'test_only':True},{'test_only':True,'synthetic_fixtures':True,'host':'0.0.0.0'}):
         with pytest.raises(ValueError,match='TEST_ONLY_LOOPBACK_REQUIRED'):
             serve(**kwargs)
+
+
+@pytest.mark.parametrize('change', [{'unexpected':True},{'expected_issue_count':True},
+    {'expected_html_sha256':'bad'},{'expected_draft_ref':None}])
+def test_malformed_report_pin_envelope_fails_closed(env,change):
+    s,c,_=env
+    s.repository.tasks['task-404']['report_pins'].update(change)
+    with pytest.raises(ConsoleError,match='INVALID_DTO'):
+        s.detail(c,'task-404')
+
+
+def test_native_output_html_cannot_be_substituted(env,monkeypatch):
+    s,c,_=env
+    import apps.operator_console.native as native
+    original=native.render
+    monkeypatch.setattr(native,'render',lambda *args,**kwargs:original(*args,**kwargs)+b'<!-- changed -->')
+    with pytest.raises(ConsoleError,match='SOURCE_INTEGRITY'):
+        review(s,c)

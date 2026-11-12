@@ -34,6 +34,8 @@ class ConsoleInterface:
             if any(len(v) != 1 for v in values.values()):
                 refuse('INVALID_INPUT')
             q = {k:v[0] for k,v in values.items()}
+            if path == '' and set(q)-{'stage','q'}:
+                refuse('INVALID_INPUT')
             if path == 'style.css' and not q:
                 return Response(200, Path(__file__).with_name('style.css').read_bytes(),'text/css; charset=utf-8')
             if path == '' and not (set(q)-{'stage','q'}):
