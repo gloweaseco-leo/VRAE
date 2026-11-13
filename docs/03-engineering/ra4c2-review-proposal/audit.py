@@ -4,12 +4,11 @@ import json
 from pathlib import Path
 import subprocess
 import sys
-import zipfile
-import xml.etree.ElementTree as ET
+from verify_pg import verify
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[2]
-BASE='cf11278ba4c9b62b3645cdbd6fd2cd8bb2f1838b'
+BASE='558d183624a0a36d1f4eaf9d3d75af73b9c88547'
 
 
 def load(p):
@@ -20,7 +19,8 @@ def sha(p):
     return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-python=[]
+python_by_minor={}
+historical=[]
 for folder in sorted((HERE/'evidence').glob('python-*')):
     if not (folder/'receipt.json').exists():
         continue
@@ -29,7 +29,11 @@ for folder in sorted((HERE/'evidence').glob('python-*')):
         continue
     assert r['passed']==324 and r['baseline_app']==58 and r['baseline_c1']==43 and r['new_app']==96
     assert r['actual_reviewing_receipt']['collected']==r['actual_reviewing_receipt']['called']==r['actual_reviewing_receipt']['passed']==127
-    python.append({'directory':folder.name,'head':r['head'],'python':r['python'],'passed':324})
+    minor=r['python'].split()[0].split('.')[1]
+    if minor in python_by_minor:
+        historical.append(python_by_minor[minor])
+    python_by_minor[minor]={'directory':folder.name,'head':r['head'],'python':r['python'],'passed':324}
+python=[python_by_minor[k] for k in sorted(python_by_minor)]
 assert len(python)==2
 browser=[]
 for folder in sorted((HERE/'evidence').glob('browser-*')):
@@ -46,7 +50,7 @@ for folder in sorted((HERE/'evidence').glob('browser-*')):
     assert len([x for x in raw['network'] if x['request']['method']=='POST'])==21
     browser.append({'directory':folder.name,'head':r['sourceHead'],'assertions':75,'screenshots':24})
 assert browser
-result={'state':'LOCAL_COMPLETE_FINAL_CI_PENDING','python':python,'browser':browser,
+result={'state':'LOCAL_COMPLETE_FINAL_CI_PENDING','python':python,'browser':browser,'same_source_older_main':historical,
         'real_decisions':0,'share_grants':0,'human_gold':'0/26'}
 if len(sys.argv)>1:
     normal_dir,pg_dir=map(Path,sys.argv[1:])
@@ -65,6 +69,7 @@ if len(sys.argv)>1:
                                             'tests/operator_console/test_targets.py'))
     seal=load(HERE/'SOURCE-SEAL.json')
     assert seal['apps_and_tests']=={p:v for p,v in current.items() if p.startswith(allowed[:2])}
+    assert all(p['head']==seal['head'] for p in python)
     for folder,r,count in ((normal_dir,normal,4),(pg_dir,pg,2)):
         assert r['run_head']==r['pr_head']==head and r['accepted_main']==BASE and r['draft']
         assert r['merge_parents']==[BASE,head] and r['head_tree']==r['merge_tree']==normal['merge_tree']
@@ -84,21 +89,9 @@ if len(sys.argv)>1:
         assert receipt['collected']==receipt['called']==receipt['passed']==127
     assert len(normal['artifacts'])==1 and len(pg['artifacts'])==2
     assert len(load(normal_dir/'browser-summary-0.json'))==245
-    pg_calls=[]
-    for a in pg['artifacts']:
-        with zipfile.ZipFile(pg_dir/a['file']) as z:
-            for name,count in [('pure.xml',54),('postgres.xml',11)]:
-                member=next(n for n in z.namelist() if n.endswith('/'+name))
-                nodes=ET.fromstring(z.read(member)).findall('.//testcase')
-                assert len(nodes)==count and not any(n.find(k) is not None for n in nodes for k in ('failure','error','skipped'))
-            source=json.loads(z.read(next(n for n in z.namelist() if n.endswith('/source-manifest.json'))))
-            assert source['actual_git_head']==normal['merge_commit']
-            commands=json.loads(z.read(next(n for n in z.namelist() if n.endswith('/commands.json'))))
-            assert len(commands['commands'])==6 and all(c['exit']==0 for c in commands['commands'])
-            restore=json.loads(z.read(next(n for n in z.namelist() if n.endswith('/backup-restore.json'))))
-            assert restore['source_data_sha256']==restore['restored_data_sha256']
-            assert restore['data_equal_before_and_after_idempotent_replay'] and restore['restored_tenant_isolation_and_write_denial']
-            pg_calls.append({'artifact':a['name'],'pure':54,'pg':11,'restore_equal':True})
+    pg_calls=verify(pg_dir,head,BASE,normal['merge_commit'])
+    assert len(pg_calls)==2 and all(p['p1_v1']==54 and p['p1_v2_compat']==54 and p['p1_pure']==11
+                                  and p['p2a_pure']==14 and p['p2a_pg']==86 for p in pg_calls)
     result.update(state='SIX_CI_GREEN_ENGINEERING_CANDIDATE_NOT_OWNER_FINAL_PASS',final_sha=head,normal_ci=normal,pg_ci=pg,pg_calls=pg_calls)
 destination=(Path(sys.argv[1]) if len(sys.argv)>1 else HERE)/'ACCEPTANCE.json'
 destination.write_bytes(json.dumps(result,ensure_ascii=False,indent=2).encode()+b'\n')

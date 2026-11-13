@@ -2,6 +2,8 @@
 
 Issue #67 / Draft PR #68。入口 main `cf11278ba4c9b62b3645cdbd6fd2cd8bb2f1838b`；新 worktree `ra4c2` / 分支 `codex2/ra4c2-offline-review-proposal-ux`。已正常 fetch + merge 最新 main（Already up to date），无 rebase/强推。最终精确 SHA、真实 CI merge-ref 的顺序父 SHA/tree、六项实际日志与 artifact 哈希在 PR body 及最终 post-CI 回执公开；本文件不冒充 Owner FINAL PASS。
 
+最终 accepted main 已推进 `558d183624a0a36d1f4eaf9d3d75af73b9c88547`（Owner FINAL PASS 合并 PR69）。普通集成 merge `0f4acc2cb9922d857b51abc247b2541ed42a8b37` 顺序父为旧5c9候选、新main；无冲突。旧5c9六绿只作历史；在此新main上重新双Python324及最终六CI。P2A全源/SQL/CI/QA保持不变，未接线UI，artifact审计复用新main已验收脚本（P1原54+11、新14pure/P2A86与54兼容重放分别核验）。
+
 ## 变更与证明
 
 - 产品 app 源码冻结 `c5789e01b206d683be115d026b87a0f939db5503`：现有 SSR Console 逐 Claim 表单 / 404 三种候选提议 / 200 独立覆盖 ACK，实际复用 accepted ReviewCommandProposal / CoverageAcknowledgementProposal / validate_proposal。原 target/source/Guard/pins 未变，mutate / production prepare 仍拒绝。

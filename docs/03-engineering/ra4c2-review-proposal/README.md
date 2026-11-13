@@ -2,6 +2,12 @@
 
 Issue #67；冻结 V1.1；入口已取回并核实 accepted main `cf11278ba4c9b62b3645cdbd6fd2cd8bb2f1838b`。新独立 worktree `ra4c2`，分支 `codex2/ra4c2-offline-review-proposal-ux`。仅改 app、其测试、新建本目录。未读取或导入 Codex1 未合并 P2A。
 
+**最终 main 集成**：Owner 之后正式合并 PR #69，accepted main 推进至 `558d183624a0a36d1f4eaf9d3d75af73b9c88547`。普通 merge `0f4acc2cb9922d857b51abc247b2541ed42a8b37` 的顺序父为旧候选 `5c9d018d5fc76b4df265c1d518d836c463e7c7bf`、新 main。P2A 生产/测试/SQL/CI/QA 全部保持原 blob/mode，未接入UI；只有在 Owner FINAL PASS 合并后，才只读使用其已验收 artifact auditor。入口CF封存保存在 SOURCE-SEAL-cf-entry.json；最新封存以新main为基线。
+
+旧候选 5c9 的六CI实际已全绿，但启动时 main 已推进，真实 merge-ref 父为新main，和该候选自己的tree不同，不能代替正常集成后的最终CI。其完整原始日志/产物只作历史。PG XML 的 pure25 = 原11 + 新14；新main还执行P1-v1 54、v2兼容重放54、P2A86。最终 `verify_pg.py` 只在本授权post-CI目录复制原始产物别名并调用**原样保留的** accepted main `ra4a-p2a/audit_hosted_pg.py`，检查实际调用、独立原始字节、schema/RLS/备份恢复/清理/源码与artifact digest。原生11与54不减少，兼容54不冒充108独立案例。锁定驱动只安装本授权 runtime（忽略目录）供只读核验，不改依赖、不连接数据库。
+
+复核 PG 产物前，可运行 `python -m pip install --no-cache-dir --target docs/03-engineering/ra4c2-review-proposal/runtime/pg-driver -r requirements-ra4a.lock -c requirements-ra1a.lock`。完整最终核验命令为 `python -B docs/03-engineering/ra4c2-review-proposal/audit.py <标准CI原始目录> <PG原始目录>`。GitHub原始目录由本目录 `hosted-ci.py <run_id>` 下载，需仓库读取权限；最终run_id和ZIP哈希在PR body。所有写入都在本授权目录，不修改原样的main核验脚本。
+
 ## 实际操作
 
 在仓库目录运行 `python -B -m apps.operator_console.preview --test-only --synthetic-fixtures`，仅监听 127.0.0.1；打开 stdout 中本次启动的随机 fixture URL。无参数或外部 host 启动拒绝。
