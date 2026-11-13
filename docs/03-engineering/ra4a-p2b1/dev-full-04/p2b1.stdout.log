@@ -1,0 +1,23 @@
+...FRA4A_P2B1_ACTUAL_RECEIPT={"calls": 4, "passed": 3, "session_exit": 1, "checkout": null, "native_approvals": 0, "share_grants": 0}
+
+================================== FAILURES ===================================
+__________________ test_b02_zero_is_only_internal_scope_ack ___________________
+
+isolated = ('vrae_p2b1_dd4f4f730912', <psycopg.Connection [IDLE] (host=127.0.0.1 port=51092 user=postgres database=vrae_p2b1_dd4f4f730912) at 0x2395d22f890>)
+
+    def test_b02_zero_is_only_internal_scope_ack(isolated):
+        name, admin = isolated
+        g = graph("200")
+        r = submit(name, g).document
+        assert r["status"] == "SIMULATED_INTERNAL_SCOPE_ACK" and r["native_decision"] is None
+>       assert ReviewTarget(g.target).document["claims"] == []
+E       AssertionError: assert [{'allowed_ac...rt': 14, ...}] == []
+E         
+E         Left contains 3 more items, first extra item: {'allowed_acceptance': 'ACK_LITERAL_FACT', 'binding_ref': 'cb-39f4c151d523d1dacba8ac4549ab22e9a3dee4e1ba232f544a6c6a6f25b1ebb8', 'byte_end': 40, 'byte_start': 13, ...}
+E         Use -v to get more diff
+
+integration\ra4a\p2b1\cases.py:116: AssertionError
+=========================== short test summary info ===========================
+FAILED integration/ra4a/p2b1/cases.py::test_b02_zero_is_only_internal_scope_ack
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 3 passed in 26.67s

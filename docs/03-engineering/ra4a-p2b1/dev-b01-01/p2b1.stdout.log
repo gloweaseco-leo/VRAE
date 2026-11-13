@@ -1,0 +1,73 @@
+FRA4A_P2B1_ACTUAL_RECEIPT={"calls": 1, "passed": 0, "session_exit": 1, "checkout": null, "native_approvals": 0, "share_grants": 0}
+
+================================== FAILURES ===================================
+__ test_b01_native_claims_sections_and_no_native_approval[APPROVE_CANDIDATE] __
+
+isolated = ('vrae_p2b1_5085cfb6d15f', <psycopg.Connection [IDLE] (host=127.0.0.1 port=57880 user=postgres database=vrae_p2b1_5085cfb6d15f) at 0x216dd3e3850>)
+action = 'APPROVE_CANDIDATE'
+
+    @pytest.mark.parametrize("action", ACTIONS)
+    def test_b01_native_claims_sections_and_no_native_approval(isolated, action):
+        name, admin = isolated
+        g = graph()
+        before = admin.execute(
+            "SELECT kind,object_key,raw FROM ra4a_bytes.objects ORDER BY kind,object_key"
+        ).fetchall()
+        cmd = proposal(g, action)
+>       r = submit(name, g, cmd).document
+            ^^^^^^^^^^^^^^^^^^^^
+
+integration\ra4a\p2b1\cases.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2b1_support.py:134: in submit
+    return api.submit(locator(g), proposal(g) if cmd is None else cmd, provenance=g)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\persistence\review_cas.py:93: in submit
+    self.connection.execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Connection [BAD] at 0x216dd29f850>
+query = 'SELECT ra4a_review_test.submit(%s,%s,%s,%s,%s,%s,%s)'
+params = ('tenant-test', 'accepted-404', 'run-ra3b-404base', 'report-ra3c-404', 1, '5705ac9e45e5118bc162bdece42f040a61360cf090b09500f7e9de5c89a9d256', ...)
+prepare = None, binary = False
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool = False,
+    ) -> Cursor[Row]:
+        """Execute a query and return a cursor to read its results."""
+        try:
+            cur = self.cursor()
+            if binary:
+                cur.format = BINARY
+    
+            if isinstance(query, Template):
+                if params is not None:
+                    raise TypeError(
+                        "'execute()' with string template query doesn't support parameters"
+                    )
+                return cur.execute(query, prepare=prepare)
+            else:
+                return cur.execute(query, params, prepare=prepare)
+        except e._NO_TRACEBACK as ex:
+>           raise ex.with_traceback(None)
+E           psycopg.errors.AmbiguousColumn: column reference "x" is ambiguous
+E           LINE 3:   OR (SELECT count(*) FROM (SELECT x->'guard_ref',x->'bindin...
+E                                                      ^
+E           DETAIL:  It could refer to either a PL/pgSQL variable or a table column.
+E           QUERY:  jsonb_typeof(c->'dispositions') IS DISTINCT FROM 'array'
+E             OR jsonb_array_length(c->'dispositions')<>jsonb_array_length(t->'claims')
+E             OR (SELECT count(*) FROM (SELECT x->'guard_ref',x->'binding_ref',x->'pointer'
+E                 FROM jsonb_array_elements(c->'dispositions') x GROUP BY 1,2,3) s)<>jsonb_array_length(t->'claims')
+E           CONTEXT:  PL/pgSQL function validate_command(jsonb,jsonb,text) line 32 at IF
+E           PL/pgSQL function submit(text,text,text,text,integer,text,bytea) line 15 at assignment
+
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\connection.py:304: AmbiguousColumn
+=========================== short test summary info ===========================
+FAILED integration/ra4a/p2b1/cases.py::test_b01_native_claims_sections_and_no_native_approval[APPROVE_CANDIDATE]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 94 deselected in 15.95s

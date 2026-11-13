@@ -72,7 +72,7 @@ def snapshot(ident):
 def output_path(path):
     path = path.resolve()
     assert any(path.is_relative_to((ROOT / ('docs/03-engineering/' + name)).resolve())
-               for name in ('ra4a-p1', 'ra4a-p2a'))
+               for name in ('ra4a-p1', 'ra4a-p2a', 'ra4a-p2b1'))
     return path
 
 

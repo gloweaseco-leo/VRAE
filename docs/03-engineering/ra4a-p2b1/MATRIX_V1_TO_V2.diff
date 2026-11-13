@@ -1,0 +1,41 @@
+--- development-V1
++++ frozen-V2
+@@ -78,6 +78,9 @@
+     assert r["external_visibility"] is False and r["durable"] is True
+     assert r["command_digest"] == validate_proposal(cmd, ReviewTarget(g.target))
+     assert r["db_actor"] == "p2b1_test_a_reviewer" and r["review_seq"] == r["report_event_seq"] == 1
++    assert admin.execute(
++        "SELECT issue_count FROM ra4a.references WHERE ref_id='accepted-404'"
++    ).fetchone() == (1,)
+     one(admin)
+     rows = admin.execute(
+         "SELECT guard_ref,binding_ref,pointer,disposition,machine_status,allowed_acceptance FROM ra4a_review_test.claims ORDER BY ordinal"
+@@ -539,9 +542,16 @@
+ @pytest.mark.parametrize(
+     "fake", ({"actor": "owner", "verified": True}, {"cookie": "approved"}, {"oidc": "unsigned"})
+ )
+-def test_b24_production_always_denies_fake_authority(fake):
++def test_b24_production_always_denies_fake_authority(isolated, fake):
++    name, admin = isolated
+     with pytest.raises(PersistenceError, match="P2B1_REAL_IDENTITY_NATIVE_REVIEW_SHARE_DENIED"):
+         production_review_port(**fake)
++    cmd = changed(proposal(), lambda d: d.update(fake))
++    with pytest.raises(ReviewError):
++        submit(name, cmd=cmd)
++    with connect("p2b1_test_a_reviewer", dbname=name) as c, pytest.raises(psycopg.Error):
++        raw_submit(c, graph(), cmd)
++    empty(admin)
+ 
+ 
+ def test_b26_policy_expires_during_open_transaction_no_commit(isolated):
+@@ -552,8 +562,9 @@
+         admin.execute(
+             "UPDATE ra4a.policies SET expires_at=clock_timestamp()+interval '750 milliseconds'"
+         )
+-        with pytest.raises(psycopg.errors.InsufficientPrivilege):
++        with pytest.raises(psycopg.errors.InsufficientPrivilege) as error:
+             raw_submit(c, g, cmd)
++        assert "complete_proposal" in error.value.diag.context
+     empty(admin)
+ 
+ 
