@@ -21,7 +21,9 @@ def run(output, *, browser=False):
         return subprocess.check_output(['git',*args],cwd=lab.ROOT).decode().strip()
     source_files=[]
     for line in git('ls-tree','-r','HEAD','--','apps/operator_console','integration/ra4c3',
-                    'vrae','db','infra','tests','.github/workflows').splitlines():
+                    'vrae','db','infra','tests','.github/workflows',
+                    'docs/03-engineering/ra4c3-pg-read/browser-test.mjs',
+                    'docs/03-engineering/ra4c3-pg-read/browser-input.mjs').splitlines():
         identity,name=line.split('\t',1)
         mode,kind,blob=identity.split()
         file=lab.ROOT/name

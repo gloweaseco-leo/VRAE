@@ -5,11 +5,13 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
+import {pointerPosition} from './browser-input.mjs';
 const own=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(own,'../../..');
 const out=path.join(own,'evidence','browser-'+new Date().toISOString().replace(/[:.]/g,'-'));
 await mkdir(out,{recursive:true});
 const sourceHead=execFileSync('git',['rev-parse','HEAD'],{cwd:root,windowsHide:true}).toString().trim();
 const app=path.join(root,'apps/operator_console'),sourceHashes={};
+const browserHashes={};for(const name of ['browser-test.mjs','browser-input.mjs'])browserHashes[name]=createHash('sha256').update(await readFile(path.join(own,name))).digest('hex');
 for(const name of await readdir(app)){if(/\.(py|css|json)$/.test(name))sourceHashes[name]=createHash('sha256').update(await readFile(path.join(app,name))).digest('hex')}
 await mkdir(path.join(own,'runtime'),{recursive:true});
 const profile=await mkdtemp(path.join(own,'runtime','browser-profile-'));
@@ -33,7 +35,7 @@ async function waitReady(fragment){for(let i=0;i<150;i++){if(await ev(`document.
 async function waitLoad(before){for(let i=0;i<1500;i++){if((loaded.get(sid)||0)>before)return;await new Promise(r=>setTimeout(r,20))}throw Error('DOCUMENT_LOAD_TIMEOUT')}
 async function navigate(url){const before=loaded.get(sid)||0;await call('Page.navigate',{url},sid);await waitLoad(before);await waitReady(new URL(url).pathname)}
 async function key(key,code,virtual,extra={}){await call('Input.dispatchKeyEvent',{type:'keyDown',key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual,...extra},sid);await call('Input.dispatchKeyEvent',{type:'keyUp',key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual},sid)}
-async function click(selector,fragment){await ev(`(()=>{document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center'});return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))})()`);const p=await ev(`(()=>{const e=document.querySelector(${JSON.stringify(selector)}),r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);const before=loaded.get(sid)||0;await call('Input.dispatchMouseEvent',{type:'mousePressed',...p,button:'left',clickCount:1},sid);await call('Input.dispatchMouseEvent',{type:'mouseReleased',...p,button:'left',clickCount:1},sid);if(fragment){await waitLoad(before);await waitReady(fragment)}}
+async function click(selector,fragment){const p=await pointerPosition(ev,selector);const before=loaded.get(sid)||0;await call('Input.dispatchMouseEvent',{type:'mousePressed',...p,button:'left',clickCount:1},sid);await call('Input.dispatchMouseEvent',{type:'mouseReleased',...p,button:'left',clickCount:1},sid);if(fragment){await waitLoad(before);await waitReady(fragment)}}
 async function screenshot(name,full=false){await ev('window.scrollTo(0,0)');const width=await ev('innerWidth'),height=full?await ev('document.documentElement.scrollHeight'):await ev('innerHeight');const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:full,...(full?{clip:{x:0,y:0,width,height,scale:1}}:{})},sid);const b=Buffer.from(r.data,'base64');await writeFile(path.join(out,name),b);shots.push({file:name,width,height,sha256:createHash('sha256').update(b).digest('hex')})}
 async function metrics(id){const result=await ev(`({width:innerWidth,scroll:document.documentElement.scrollWidth,bannerSize:parseFloat(getComputedStyle(document.querySelector('.private-bar')).fontSize),banner:document.querySelector('.private-bar').innerText,actions:[...document.querySelectorAll('.action,button,input,select,summary')].map(e=>({text:e.innerText||e.name,height:e.getBoundingClientRect().height})),external:[...document.querySelectorAll('[src],[href]')].map(e=>e.src||e.href).filter(u=>u.startsWith('http')&&!u.startsWith(location.origin)),scripts:document.scripts.length})`);await check(id,result.scroll<=result.width&&result.bannerSize>=12&&result.banner.includes('NOT APPROVED')&&result.external.length===0&&result.scripts===0&&result.actions.every(a=>a.height>=44),result)}
 try{
@@ -107,8 +109,15 @@ try{
     await navigate(base);await click('[data-key="task-200"]','/tasks/task-200');await click('[data-key="review"]','/review?');await click('[data-key="target"]','/target?');await click('[data-key="proposal"]','/proposal?');
     await check(`${width}-zero-distinct-contract`,`document.querySelectorAll('.claim-card').length===3&&!document.querySelector('#proposal-action [value=APPROVE_CANDIDATE]')&&document.body.innerText.includes('在已检查的范围内未发现可确认问题')&&document.body.innerText.includes('native H0 = null')`);
     await fill();await click('#preview-proposal','/proposal-preview');await formMetrics(`${width}-zero-preview-layout`);
+    await writeFile(path.join(out,`coverage-before-${width}.html`),await ev('document.documentElement.outerHTML'));
     await click('#checked-command > summary');
+    await writeFile(path.join(out,`coverage-state-${width}.json`),JSON.stringify(await ev(`({outcome:document.querySelector('[data-outcome]')?.dataset.outcome,action:document.querySelector('#proposal-action')?.value,open:document.querySelector('#checked-command')?.open,text:document.querySelector('#checked-command')?.innerText,content:document.querySelector('#checked-command')?.textContent,active:document.activeElement?.outerHTML})`),null,2));
+    await writeFile(path.join(out,`coverage-after-${width}.html`),await ev('document.documentElement.outerHTML'));
+    await screenshot(`coverage-after-${width}.png`,true);
     await check(`${width}-zero-ack-not-approval`,`document.querySelector('[data-outcome]').dataset.outcome==='CONTRACT_VALID_ONLY'&&document.querySelector('#proposal-action').value==='SIMULATED_INTERNAL_SCOPE_ACK'&&document.querySelector('#checked-command').innerText.includes('COVERAGE_ACK_PROPOSAL')`);await screenshot(`coverage-ack-200-${width}.png`,true);
+    await check(`${width}-disclosure-mouse-open`,`document.querySelector('#checked-command').open`);
+    await key(' ','Space',32);await check(`${width}-disclosure-keyboard-close`,`!document.querySelector('#checked-command').open`);
+    await key('Enter','Enter',13);await check(`${width}-disclosure-keyboard-open`,`document.querySelector('#checked-command').open&&document.querySelector('#checked-command').innerText.includes('COVERAGE_ACK_PROPOSAL')`);
     await writeFile(path.join(out,`coverage-ack-${width}.html`),await ev('document.documentElement.outerHTML'));
     await navigate(base+'tasks/task-403');await check(`${width}-403-no-composer`,`document.body.innerText.includes('不能据此判断网站缺陷')&&!document.querySelector('[data-key=proposal]')`);
     await navigate(base+'tasks/task-unknown');await check(`${width}-unknown-no-composer`,`document.body.innerText.includes('不能据此判断网站缺陷')&&!document.querySelector('[data-key=proposal]')`);
@@ -136,12 +145,17 @@ try{
     await call('Target.closeTarget',{targetId});
   }
   for(const [name,hash] of Object.entries(sourceHashes))assert.equal(createHash('sha256').update(await readFile(path.join(app,name))).digest('hex'),hash,'SOURCE_CHANGED_'+name);
-}catch(error){await writeFile(path.join(out,'failure.txt'),error.stack);process.exitCode=1}
+  for(const [name,hash] of Object.entries(browserHashes))assert.equal(createHash('sha256').update(await readFile(path.join(own,name))).digest('hex'),hash,'BROWSER_SOURCE_CHANGED_'+name);
+}catch(error){await writeFile(path.join(out,'failure.txt'),error.stack);process.exitCode=1;
+  if(ws&&sid){try{await writeFile(path.join(out,'failure.html'),await ev('document.documentElement.outerHTML'));await screenshot('failure.png',true)}catch(captureError){await writeFile(path.join(out,'failure-capture.txt'),captureError.stack)}}
+}
 finally{
   await writeFile(path.join(out,'fixture-actions.json'),JSON.stringify(fixtureActions,null,2));
   await writeFile(path.join(out,'raw-cdp.json'),JSON.stringify({commands,network,responses,exceptions},null,2));
-  await writeFile(path.join(out,'receipt.json'),JSON.stringify({version,sourceHead,sourceHashes,mode:'PG16_TEST_ONLY_READ',assertions:records.length,passed:records.filter(r=>r.pass).length,screenshots:shots,networkCount:network.length,actualDbReads:await reads(),serverError},null,2));
+  await writeFile(path.join(out,'receipt.json'),JSON.stringify({version,sourceHead,sourceHashes,browserHashes,mode:'PG16_TEST_ONLY_READ',assertions:records.length,passed:records.filter(r=>r.pass).length,screenshots:shots,networkCount:network.length,actualDbReads:await reads(),serverError},null,2));
   await writeFile(path.join(out,'chromium-stderr.txt'),stderr);await writeFile(path.join(out,'server-stderr.txt'),serverError);
+  const hashes={};for(const name of await readdir(out)){if(/\.(json|jsonl|html|png|txt)$/.test(name))hashes[name]=createHash('sha256').update(await readFile(path.join(out,name))).digest('hex')}
+  await writeFile(path.join(out,'artifact-hashes.json'),JSON.stringify(hashes,null,2));
   if(ws)ws.close();if(chrome)chrome.kill();server.kill();
   console.log(JSON.stringify({out,assertions:records.length,failures:records.filter(r=>!r.pass),exitCode:process.exitCode||0}));
 }
