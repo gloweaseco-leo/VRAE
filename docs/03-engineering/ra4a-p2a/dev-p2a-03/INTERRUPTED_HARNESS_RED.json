@@ -1,0 +1,12 @@
+{
+  "status": "FAILED_HARNESS_RESTART_PORT_STALE",
+  "actual_completed_calls": 75,
+  "completed_pass": 74,
+  "failed_call": 1,
+  "full_p2a_pass": false,
+  "held_port": 57880,
+  "observed_docker_loopback_port_after_restart": 64628,
+  "recovery_case_completed": false,
+  "action": "Planned abort of own PID4852 was not performed: process already naturally failed after stale-port timeout and Stop-Process reported not found. Original stdout/stderr/JUnit/call records preserved. Session-finish/teardown also could not reconnect to stale port. Fresh final rerun required.",
+  "fix": "Refresh actual docker port after restart as original P1 already does; bound readiness by monotonic deadline. No business oracle relaxed."
+}

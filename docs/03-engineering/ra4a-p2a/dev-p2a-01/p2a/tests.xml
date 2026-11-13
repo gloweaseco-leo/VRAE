@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="12.227" timestamp="2026-11-12T17:45:31.486763-05:00" hostname="dong"><testcase classname="integration.ra4a.p2a.cases" name="test_exact_complete_native_bytes_and_idempotent_registration[404]" time="11.785"><failure message="psycopg.errors.InsufficientPrivilege: permission denied for table graphs&#10;CONTEXT:  SQL statement &quot;SELECT *               FROM ra4a_bytes.graphs WHERE tenant_id=NEW.tenant_id AND source_run_id=NEW.source_run_id&#10;  AND report_id=NEW.report_id AND report_version=NEW.report_version&quot;&#10;PL/pgSQL function complete_graph() line 4 at SQL statement">isolated = ('vrae_p2a_a30dedb066ef', &lt;psycopg.Connection [IDLE] (host=127.0.0.1 port=53348 user=postgres database=vrae_p2a_a30dedb066ef) at 0x2cd08b746b0&gt;)
+case = '404'
+
+    @pytest.mark.parametrize("case", ["404", "200"])
+    def test_exact_complete_native_bytes_and_idempotent_registration(isolated, case):
+        name, admin = isolated
+        g = graph(case)
+&gt;       first = register(name, g)
+                ^^^^^^^^^^^^^^^^^
+
+integration\ra4a\p2a\cases.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:88: in register
+    return api.register(g, provenance=g)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\persistence\private_postgres.py:35: in register
+    with self.connection.transaction():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\contextlib.py:148: in __exit__
+    next(self.gen)
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+         ^^
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;psycopg.Connection [BAD] at 0x2cd08b745a0&gt;, command = b'COMMIT'
+result_format = &lt;Format.TEXT: 0&gt;
+
+    def _exec_command(
+        self, command: QueryNoTemplate, result_format: pq.Format = TEXT
+    ) -&gt; PQGen[PGresult | None]:
+        """
+        Generator to send a command and receive the result to the backend.
+    
+        Only used to implement internal commands such as "commit", with eventual
+        arguments bound client-side. The cursor can do more complex stuff.
+        """
+        self._check_connection_ok()
+    
+        if isinstance(command, str):
+            command = command.encode(self.pgconn._encoding)
+        elif isinstance(command, Composable):
+            command = command.as_bytes(self)
+    
+        if self._pipeline:
+            cmd = partial(
+                self.pgconn.send_query_params,
+                command,
+                None,
+                result_format=result_format,
+            )
+            self._pipeline.command_queue.append(cmd)
+            self._pipeline.result_queue.append(None)
+            return None
+    
+        # Unless needed, use the simple query protocol, e.g. to interact with
+        # pgbouncer. In pipeline mode we always use the advanced query protocol
+        # instead, see #350
+        if result_format == TEXT:
+            self.pgconn.send_query(command)
+        else:
+            self.pgconn.send_query_params(command, None, result_format=result_format)
+    
+        results: list[PGresult] = (yield from generators.execute(self.pgconn))
+        if len(results) != 1:
+            raise e.InternalError(
+                f"received {len(results)} results from command {command.decode()!r}"
+            )
+    
+        result = results[0]
+        if result.status != COMMAND_OK and result.status != TUPLES_OK:
+            if result.status == FATAL_ERROR:
+&gt;               raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E               psycopg.errors.InsufficientPrivilege: permission denied for table graphs
+E               CONTEXT:  SQL statement "SELECT *               FROM ra4a_bytes.graphs WHERE tenant_id=NEW.tenant_id AND source_run_id=NEW.source_run_id
+E                 AND report_id=NEW.report_id AND report_version=NEW.report_version"
+E               PL/pgSQL function complete_graph() line 4 at SQL statement
+
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\_connection_base.py:487: InsufficientPrivilege</failure></testcase></testsuite></testsuites>

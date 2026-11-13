@@ -1,0 +1,40 @@
+{
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "checkout": null,
+  "actual_source_head": "e9ec1bd7f36a0446af14f04b66b71e4d45ebfb97",
+  "phase": "p2a",
+  "commands": [
+    {
+      "stage": "migration",
+      "exit": 0,
+      "seconds": 3.962933700007852,
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2a-private-bytes\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "integration.ra4a.p2a_support"
+      ],
+      "stdout_sha256": "3ea26858266fe32334f23f115c6e1cac4c94661e737c43c9c0f2a03cfc5236ae",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "p2a",
+      "exit": 1,
+      "seconds": 446.5351679000014,
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2a-private-bytes\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-x",
+        "-p",
+        "integration.ra4a.p2a_plugin",
+        "--confcutdir=integration/ra4a/p2a",
+        "integration/ra4a/p2a/cases.py",
+        "integration/ra4a/p2a/security_cases.py",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra4a-p2a-private-bytes\\docs\\03-engineering\\ra4a-p2a\\dev-p2a-03\\p2a\\tests.xml"
+      ],
+      "stdout_sha256": "0443e6f5872f63d58b2c787020466bfc81d1849bb00737254ab01d8b77cc0840",
+      "stderr_sha256": "f21e92c77d54e403b65ec1c979bd2bbc7e7d3a7ad2c965be03e35f8b5a6457d2"
+    }
+  ]
+}
