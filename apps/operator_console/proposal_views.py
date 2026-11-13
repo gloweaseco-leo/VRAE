@@ -2,7 +2,7 @@
 
 from urllib.parse import urlencode
 
-from .views import e, dump, link, frame, target_url, review_url
+from .views import e, dump, link, frame, target_url, review_url, origin_info
 
 ACCEPT_LABELS = {
     "ACK_LITERAL_FACT": "仅确认字面来源 · 不证明资质或经营事实",
@@ -137,7 +137,8 @@ def composer(prefix, task, dossier, command=None, outcome=None):
         acknowledged = command and any(s["section_id"] == section for s in command["sections"])
         content += (
             f'<div class="ack-section" id="{e(section)}"><h3>{e(SECTION_LABELS[section])}</h3>'
-            + sections[section]
+            + ('<details><summary>展开本项完整原生核对材料</summary>' + sections[section] + '</details>'
+               if dossier.get('origin') and section in ('coverage.v1','limitations.v1') else sections[section])
             + f'<label class="check"><input type="checkbox" name="section.{e(section)}" value="{e(v["target_digest"])}"'
             + (" checked" if acknowledged else "")
             + f" required><span>仅确认已核对「{e(SECTION_LABELS[section])}」· 非真实人工签署</span></label></div>"
@@ -170,4 +171,4 @@ def composer(prefix, task, dossier, command=None, outcome=None):
     content += link(
         target_url(prefix, task, dossier), "返回精确核对对象", key="proposal-back-target"
     )
-    return frame(prefix, "TEST_ONLY 逐 Claim 提议", content, "离线提议预览")
+    return frame(prefix, "TEST_ONLY 逐 Claim 提议", content+origin_info(dossier), "离线提议预览")

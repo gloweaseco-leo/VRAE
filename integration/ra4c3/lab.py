@@ -41,12 +41,15 @@ def wire(state_path):
     return original,p2a
 
 
-def start(state_path, output):
+def start(state_path, output, *, option_a_local_trial=False):
     state_path, output = bounded(state_path), bounded(output)
     # Never adopt an earlier run or delete its state on a failed new invocation.
     assert not state_path.exists() and not output.exists()
     try:
-        _start(state_path, output)
+        if option_a_local_trial:
+            _start(state_path, output, option_a_local_trial=True)
+        else:
+            _start(state_path, output)
     except BaseException:
         receipt = output / 'ownership.json'
         if receipt.exists():
@@ -57,7 +60,7 @@ def start(state_path, output):
         raise
 
 
-def _start(state_path, output):
+def _start(state_path, output, *, option_a_local_trial=False):
     state_path,output=bounded(state_path),bounded(output)
     assert not state_path.exists()
     output.mkdir(parents=True,exist_ok=False)
@@ -73,7 +76,11 @@ def _start(state_path, output):
     # Ownership receipt contains no credentials; partial startup is cleanable.
     public={k:state[k] for k in ('container','network','volume','image')}
     (output/'ownership.json').write_text(json.dumps(public,indent=2)+'\n',encoding='utf-8')
-    docker('network','create','--internal','--label',LABEL+'=TEST_ONLY',state['network'])
+    # Owner comment 6843166796: one disposable synthetic local transport trial.
+    # Ordinary bridge does NOT enforce kernel egress isolation.
+    state['option_a_local_trial'] = option_a_local_trial
+    network_args = [] if option_a_local_trial else ['--internal']
+    docker('network','create',*network_args,'--label',LABEL+'=TEST_ONLY',state['network'])
     docker('volume','create','--label',LABEL+'=TEST_ONLY',state['volume'])
     with tempfile.NamedTemporaryFile(mode='w',delete=False) as f:
         f.write('POSTGRES_PASSWORD='+state['admin_password']+'\nPOSTGRES_DB=vrae_ra4a_p1\nPOSTGRES_INITDB_ARGS=--auth-host=scram-sha-256\n')
@@ -198,9 +205,10 @@ if __name__=='__main__':
     parser.add_argument('--state',required=True)
     parser.add_argument('--output')
     parser.add_argument('--profile')
+    parser.add_argument('--option-a-local-trial', action='store_true')
     args=parser.parse_args()
     if args.action=='start':
-        start(args.state,args.output)
+        start(args.state,args.output,option_a_local_trial=args.option_a_local_trial)
     elif args.action in ('migrate', 'seed'):
         assert args.output is not None
         bootstrap_action(args.action, args.state, args.output, args.profile)

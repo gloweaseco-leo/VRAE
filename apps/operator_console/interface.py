@@ -83,7 +83,7 @@ class ConsoleInterface:
             return Response(200,body.encode('utf-8'))
         except ConsoleError as exc:
             code = str(exc)
-            status = 403 if code=='UNAUTHORIZED' else 501 if code=='NOT_IMPLEMENTED' else 409 if code in ('STALE_VERSION','SOURCE_INTEGRITY','NOT_READY') else 400
+            status = 503 if code=='DB_UNAVAILABLE' else 403 if code=='UNAUTHORIZED' else 501 if code=='NOT_IMPLEMENTED' else 409 if code in ('STALE_VERSION','SOURCE_INTEGRITY','NOT_READY') else 400
             return Response(status,views.error(self.prefix,code).encode('utf-8'))
         except (ValueError, UnicodeError, TypeError, KeyError):
             return Response(400,views.error(self.prefix,'INVALID_INPUT').encode('utf-8'))

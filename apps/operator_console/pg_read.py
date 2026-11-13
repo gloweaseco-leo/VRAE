@@ -115,6 +115,29 @@ class _Request:
         self.connection = None
         self.snapshots = {}
 
+    def _runtime_current(self):
+        row = self.connection.execute(
+            "SELECT session_user,current_user,rolcanlogin,rolsuper,rolbypassrls,rolcreaterole,rolcreatedb,"
+            "pg_has_role(session_user,'p2a_fixture_writer','MEMBER') FROM pg_roles WHERE rolname=session_user"
+        ).fetchone()
+        if (row is None or row[0] != self.repository.settings.user or row[1] != row[0]
+                or not row[2] or any(row[3:])):
+            raise PersistenceError('P2A_RUNTIME_ROLE_DENIED')
+
+    def _no_object_writer(self):
+        # The runtime has no raw-table privileges. Public lock metadata lets the
+        # read seam fail closed during even a fixture-admin mutation/rollback;
+        # it does not grant access or replace original byte verification.
+        active = self.connection.execute(
+            "SELECT EXISTS(SELECT 1 FROM pg_locks l JOIN pg_class c ON c.oid=l.relation "
+            "JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='ra4a_bytes' "
+            "AND c.relname IN ('graphs','objects') AND l.pid<>pg_backend_pid() "
+            "AND l.database=(SELECT oid FROM pg_database WHERE datname=current_database()) "
+            "AND l.mode IN ('RowExclusiveLock','ShareRowExclusiveLock','ExclusiveLock','AccessExclusiveLock'))"
+        ).fetchone()[0]
+        if active:
+            raise PersistenceError('P2A_SOURCE_MUTATION_INTEGRITY')
+
     def _rows(self, provenance):
         point = locator(provenance)
         return self.connection.execute(
@@ -158,13 +181,10 @@ class _Request:
         if self.connection is None:
             self.connection = self.repository.settings.connect()
             api = TestOnlyPrivateBytes(self.connection, mode=MODE)
-            row = self.connection.execute(
-                "SELECT session_user,current_user,pg_has_role(session_user,'p2a_fixture_writer','MEMBER'),rolcanlogin FROM pg_roles WHERE rolname=session_user"
-            ).fetchone()
-            if row is None or row[0] != self.repository.settings.user or row[1] != row[0] or row[2] or not row[3]:
-                raise PersistenceError("P2A_RUNTIME_ROLE_DENIED")
+            self._runtime_current()
             if _schema_identity(self.connection) != self.repository._schema_pin:
                 raise PersistenceError("P2A_SCHEMA_INTEGRITY")
+            self._no_object_writer()
             # Real approved API call, with independent accepted-main provenance.
             api.read(locator(provenance), provenance=provenance)
             self.repository._event("approved_read", case=case)
@@ -184,6 +204,8 @@ class _Request:
 
     def finish(self):
         if self.connection is not None:
+            self._runtime_current()
+            self._no_object_writer()
             # Policy expiration uses clock_timestamp, not an old tx timestamp.
             # Verify fresh rows at the response boundary under the existing locks.
             for case, snapshot in self.snapshots.items():
