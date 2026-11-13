@@ -157,6 +157,14 @@ def test_database_failure_never_uses_fixture_fallback(sample, monkeypatch):
     assert b'password' not in r.body.lower() and b'postgres' not in r.body.lower()
 
 
+@pytest.mark.parametrize('path',['/tasks/task-403','/tasks/task-unknown','/?q=not-present'])
+def test_no_database_fallback_for_neutral_or_empty_metadata(sample, path, monkeypatch):
+    service,context,_=sample
+    monkeypatch.setattr(service.repository,'settings',replace(service.repository.settings,port=1))
+    r=interface(sample).dispatch(context,'GET',path)
+    assert r.status == 503
+
+
 def test_current_report_version_blocks_old_target(sample):
     original, p2a = wire(os.environ['RA4C3_STATE'])
     with admin(sample) as c:

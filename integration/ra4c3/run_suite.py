@@ -17,6 +17,20 @@ def run(output, *, browser=False):
     state = output.parent.parent / 'runtime' / (output.name + '-state.json')
     profile = output.parent.parent / 'runtime' / (output.name + '-profile.json')
     records = []
+    def git(*args):
+        return subprocess.check_output(['git',*args],cwd=lab.ROOT).decode().strip()
+    source_files=[]
+    for line in git('ls-tree','-r','HEAD','--','apps/operator_console','integration/ra4c3',
+                    'vrae','db','infra','tests','.github/workflows').splitlines():
+        identity,name=line.split('\t',1)
+        mode,kind,blob=identity.split()
+        file=lab.ROOT/name
+        source_files.append({'path':name,'mode':mode,'git_blob':blob,
+            'lf_sha256':hashlib.sha256(file.read_bytes().replace(b'\r\n',b'\n')).hexdigest()})
+    (output/'source.json').write_bytes(json.dumps({'actual_head':git('rev-parse','HEAD'),
+        'head_and_ordered_parents':git('log','-1','--format=%H %P'),
+        'github_sha':os.environ.get('GITHUB_SHA'),'github_run_id':os.environ.get('GITHUB_RUN_ID'),
+        'python':sys.version,'sources':source_files},indent=2).encode()+b'\n')
 
     def command(name, argv, extra=None):
         folder = output / name

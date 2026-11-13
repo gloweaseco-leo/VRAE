@@ -57,13 +57,16 @@ class ConsoleService:
             if ready is not None:
                 self.targets.verify_assignment(ready)
                 self.repository.probe(scope,ready)
+            else:
+                self.repository.authorize_metadata(scope)
         return sorted(tasks, key=lambda t:(order.index(t['stage']),t['task_id']))[:40]
 
     def detail(self, context, task_id):
         scope = self._scope(context)
         task=self._task(scope, task_id)
-        if self._pg() and task['report_case'] is not None:
-            self.targets.verify_assignment(task)
+        if self._pg():
+            if task['report_case'] is not None:
+                self.targets.verify_assignment(task)
             self.repository.probe(scope,task)
         return task
 

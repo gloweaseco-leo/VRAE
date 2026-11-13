@@ -174,17 +174,30 @@ class _Request:
         verify(candidate, provenance=provenance)
         return candidate
 
-    def load(self, case):
-        if case in self.snapshots:
-            return self.snapshots[case]
-        provenance = self.repository._provenance[case]
+    def _open(self):
         if self.connection is None:
             self.connection = self.repository.settings.connect()
-            api = TestOnlyPrivateBytes(self.connection, mode=MODE)
+            TestOnlyPrivateBytes(self.connection, mode=MODE)
             self._runtime_current()
             if _schema_identity(self.connection) != self.repository._schema_pin:
                 raise PersistenceError("P2A_SCHEMA_INTEGRITY")
             self._no_object_writer()
+
+    def authorize_metadata(self):
+        self._open()
+        if self.connection.info.transaction_status == 0:
+            self.connection.execute('BEGIN')
+        self.connection.execute('SELECT ra4a.require_scope(%s,%s)',(self.scope.tenant_id,'APP'))
+
+    def load(self, case):
+        if case in self.snapshots:
+            return self.snapshots[case]
+        provenance = self.repository._provenance[case]
+        self._open()
+        if not self.snapshots:
+            # An earlier metadata check cannot become a stale authorization.
+            self.connection.rollback()
+            api = TestOnlyPrivateBytes(self.connection, mode=MODE)
             # Real approved API call, with independent accepted-main provenance.
             api.read(locator(provenance), provenance=provenance)
             self.repository._event("approved_read", case=case)
@@ -206,6 +219,7 @@ class _Request:
         if self.connection is not None:
             self._runtime_current()
             self._no_object_writer()
+            self.connection.execute('SELECT ra4a.require_scope(%s,%s)',(self.scope.tenant_id,'APP'))
             # Policy expiration uses clock_timestamp, not an old tx timestamp.
             # Verify fresh rows at the response boundary under the existing locks.
             for case, snapshot in self.snapshots.items():
@@ -319,9 +333,19 @@ class PgReadRepository:
         state = self._state(scope, task)
         case = task["report_case"]
         if case is None:
-            return  # No private graph belongs to a neutral/no-report task.
+            self.authorize_metadata(scope)
+            return  # No unrelated private graph is fetched for a neutral task.
         try:
             state.load(case)
+        except Exception as exc:
+            _deny(exc)
+
+    def authorize_metadata(self, scope):
+        state=self._request.get()
+        if state is None or state.scope != scope:
+            refuse('UNAUTHORIZED')
+        try:
+            state.authorize_metadata()
         except Exception as exc:
             _deny(exc)
 

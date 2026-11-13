@@ -1,8 +1,36 @@
-# RA4C3 — BLOCKED checkpoint, not an acceptance submission
+# RA4C3 — TEST_ONLY actual PostgreSQL read-side
 
 Authority: [Issue #73](https://github.com/gloweaseco-leo/VRAE/issues/73), accepted entry main `51e2ff3f592c206fddf8193ad7346efbd2a70136`.
 
-**Status: implementation incomplete; real-PG startup HARD STOP.** This checkpoint preserves work and genuine failure evidence. It is not a functional, security, browser or CI PASS. No real human review or release is implemented or authorized.
+**Current status: Owner Option A transport/role gate passed; final verification pending.** [Owner continuation 6843166796](https://github.com/gloweaseco-leo/VRAE/pull/74#issuecomment-6843166796) explicitly authorizes the disposable ordinary-bridge trial and continuation of Issue #73 after its security gate. Actual host listener, non-loopback probes, authenticated SQL, wrong password rejection and restricted-role/RLS/assignment denials are recorded in `evidence/option-a-02`. This is not production isolation or a real reviewer session.
+
+The accepted main `a17d02f16a16acd7214815fce02747509c31f7bd` was normally merged in `41a155b678cabe48d6508975eb10ba95102a8a9b`, ordered parents `c36fc696cd72ce68f9e5d97e1d56d25cda38a912`, `a17d02f16a16acd7214815fce02747509c31f7bd`. C3 does not use P2B1's CAS port.
+
+## Read path and boundary
+
+Existing console/task metadata → explicit trusted local restricted profile → accepted `TestOnlyPrivateBytes.read` → actual verified ByteGraph rows → native `ReportDraft.load`, Guard and ReviewTarget verification → existing SSR views and native `validate_proposal` → currentness check before delivering the response. Raw database bytes, not a rebuilt draft or in-memory source, feed the report. Accepted-main provenance and catalog pins are held separately from the database and HTTP input. Runtime has no writer/admin credential, raw-table privileges, native decision or proposal persistence. The default fixture preview still requires no DB.
+
+The request retains native tenant/version/assignment locks; it checks raw byte hashes/lengths and outside-held provenance, policy currentness, runtime-role currentness and catalog identity before response. Concurrent raw-object write locks cause refusal, including a privileged fixture-admin mutation that later rolls back. Database failures return 503 with no fixture fallback; stale/source errors cannot deliver the partially rendered report. None of this confers real site permission or genuine identity.
+
+Business facts/hypotheses and native H0/null semantics are preserved. PG-mode pages add expandable original-source/manifest hashes and collapse verbose coverage material; native content, selections and required acknowledgements stay intact. 403/UNKNOWN remain neutral. There is no second UI.
+
+## Reproduce in the authorized synthetic lab
+
+Install only the already-accepted locked dependencies (`requirements-ra1a.lock`, `requirements-ra4a.lock`). On an environment with Docker and these dependencies:
+
+```
+python -B -m integration.ra4c3.run_suite docs/03-engineering/ra4c3-pg-read/evidence/my-fresh-run --browser
+```
+
+Set `RA4C0_CHROMIUM` to the existing Chromium executable. The runner starts an exact-labeled PG16 fixture, executes original P1-v1/P1-v2/P2A suites and C3/full tests, runs actual PG-backed Chromium at 1280/375/320, and removes the owned container/network/volume and credential profile. It records exact Git head, ordered parents, source blob/mode/hash, commands, JUnit and raw logs. The browser records independent real API invocation/return spies, DOM/network/CDP, SHA-bound screenshots, policy revoke/restore and actual DB-stop refusal. The HTTP child is separate and never opens bootstrap/admin state.
+
+Bootstrap state/profile and browser profiles remain ignored. The optional explicit `--option-a-local-trial` flag is confined to this synthetic C3 lab; default lab mode retains internal isolation. Ordinary bridge does **not** enforce egress denial and must not be copied to production or collection/browser sandbox topology. No daemon/global firewall, protected original lab, backend migration or original QA/Gold is edited.
+
+The new isolated workflow runs two genuine C3-PG jobs in addition to the unchanged four standard and two original PG jobs. Hosted artifacts provide the exact checkout/head and merge-ref evidence; do not read an older run as final-head proof.
+
+## Historical checkpoints and retained RED
+
+The sections below describe the earlier blocked checkpoint. They remain as history, superseded only by the bounded continuation above. None of the historical failures is overwritten or relabeled GREEN. An initial Option A diagnostic assertion incorrectly equated the empty requested random port with the assigned effective port; it was corrected to check the two documented fields separately. Original RED and actual cleanup are retained in `option-a-01`. Initial DB tests exposed a fixture column-name mistake and a 400-versus-503 response mapping defect; original JUnit is retained. The first Chromium run completed 85 interaction assertions but ended RED because source changed during the run; its consistency check was preserved, requiring a frozen-source rerun.
 
 Update after Owner bounded continuation: see [actual loopback comparison and network decision](LOOPBACK-COMPARISON.md). Random and explicit loopback port requests both yielded no effective host port while container password-authenticated SQL succeeded. Isolation was retained, all new owned resources cleaned, and no network-model change was made. Owner's specific network-change STOP now governs the next step; the original startup RED is preserved.
 
