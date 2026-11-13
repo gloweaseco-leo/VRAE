@@ -64,6 +64,11 @@ try{
     await call('Emulation.setDeviceMetricsOverride',{width,height:width===1280?1000:812,deviceScaleFactor:1,mobile:width<640},sid);
     const beforeReads=(await reads()).length;
     await navigate(base);await check(`${width}-original-eleven-tasks`,`document.querySelectorAll('.task').length===11`);
+    await call('DOM.enable',{},sid);await call('CSS.enable',{},sid);
+    const dom=await call('DOM.getDocument',{},sid);
+    const heading=await call('DOM.querySelector',{nodeId:dom.root.nodeId,selector:'h1'},sid);
+    const fonts=await call('CSS.getPlatformFontsForNode',{nodeId:heading.nodeId},sid);
+    await check(`${width}-actual-chinese-glyph-font`,fonts.fonts.some(f=>f.glyphCount>0&&/CJK|YaHei|PingFang|SimSun|Heiti|Noto Sans SC|Source Han|WenQuanYi|DengXian|JhengHei/i.test(f.familyName)),fonts);
     await check(`${width}-actual-db-read`,(await reads()).slice(beforeReads).some(e=>e.event==='spy_actual_p2a_read_returned'));
     await check(`${width}-explicit-db-mode`,`document.body.innerText.includes('PG16 TEST_ONLY')`);
     await key('Tab','Tab',9);await check(`${width}-keyboard-focus`,`document.activeElement.className==='skip'&&getComputedStyle(document.activeElement).outlineStyle!=='none'`);
