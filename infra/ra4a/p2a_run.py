@@ -18,7 +18,8 @@ def main():
     p.add_argument("--phase", choices=("full", "p2a"), default="full")
     a = p.parse_args()
     out = a.output.resolve()
-    assert out.is_relative_to((ROOT / "docs/03-engineering/ra4a-p2a").resolve())
+    assert any(out.is_relative_to((ROOT / ('docs/03-engineering/' + name)).resolve())
+               for name in ('ra4a-p2a','ra4a-p2b1'))
     out.mkdir(parents=True, exist_ok=False)
     record = {
         "python": sys.version,

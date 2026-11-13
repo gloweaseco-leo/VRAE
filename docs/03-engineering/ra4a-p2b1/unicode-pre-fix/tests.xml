@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="12" time="39.262" timestamp="2026-11-12T20:43:03.690244-05:00" hostname="dong"><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U0009]" time="13.854" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U000A]" time="1.725" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U000B]" time="1.571" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U000C]" time="1.701" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U000D]" time="2.522" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U001C]" time="1.880" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U001D]" time="1.778" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U001E]" time="2.230" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U001F]" time="3.819" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U0020]" time="2.255" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U0085]" time="1.938" /><testcase classname="integration.ra4a.p2b1.parity_cases" name="test_b27_unicode_blank_reason_native_and_sql_both_refuse[U00A0]" time="2.771"><failure message="AssertionError: Raw SQL committed a reason rejected by frozen native validate_proposal&#10;assert False">isolated = ('vrae_p2b1_df22931b18a1', &lt;psycopg.Connection [IDLE] (host=127.0.0.1 port=51094 user=postgres database=vrae_p2b1_df22931b18a1) at 0x25c605ecb50&gt;)
+point = 160
+
+    @pytest.mark.parametrize("point", WHITESPACE, ids=lambda p: "U%04X" % p)
+    def test_b27_unicode_blank_reason_native_and_sql_both_refuse(isolated, point):
+        name, admin = isolated
+        char = chr(point)
+        assert char.isspace() and not char.strip()
+        cmd = changed(proposal(), lambda d: d.update(reason=char))
+        with pytest.raises(ReviewError):
+            submit(name, cmd=cmd)
+        denied = False
+        with connect("p2b1_test_a_reviewer", dbname=name) as c:
+            try:
+                receipt = raw_submit(c, graph(), cmd)
+            except psycopg.Error:
+                denied = True
+        if not denied:
+            proof = {
+                "point": hex(point),
+                "native": "D_UNTRUSTED_TEXT",
+                "raw_sql_receipt": json.loads(receipt),
+                "actual_ledger_counts": counts(admin),
+            }
+            (
+                Path(os.environ["RA4A_P2B1_EVIDENCE_DIR"])
+                / ("unexpected-blank-reason-%04X.json" % point)
+            ).write_text(json.dumps(proof, indent=2) + "\n", encoding="utf-8")
+&gt;       assert denied, "Raw SQL committed a reason rejected by frozen native validate_proposal"
+E       AssertionError: Raw SQL committed a reason rejected by frozen native validate_proposal
+E       assert False
+
+integration\ra4a\p2b1\parity_cases.py:63: AssertionError</failure></testcase></testsuite></testsuites>
