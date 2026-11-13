@@ -1,0 +1,47 @@
+{
+  "status": "ACTUAL_ISOLATED_KERNEL_HTTP_AND_CHROMIUM_WORKER_PASS",
+  "http_cases": 24,
+  "browser_worker_scenarios": 16,
+  "automatic_browser_exit_observed": 16,
+  "source_files_modified": false,
+  "image_config_mapping_only": true,
+  "image_ids": {
+    "vrae-b5a-legacy-http:20261113": "sha256:849db86b40b5326c1deadd45f58e628dcdd33b80338304eb1e402533db3403be",
+    "vrae-b5a-legacy-browser:20261113": "sha256:125c48d18259255edd3a3345c07b842370663a8c51b8583873e4373290a47569",
+    "vrae-b5a-legacy-worker:20261113": "sha256:49f064bd3d305cc934e11e22ceccca76514b74fc101ad82e2923669b0c3178a9"
+  },
+  "stages": [
+    {
+      "stage": "build-http",
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "38b0aac3bd571ebd10b4c80bbe094dfe70d119bd5bc8d356e743ff233d1bf728"
+    },
+    {
+      "stage": "actual-kernel-http",
+      "returncode": 0,
+      "stdout_sha256": "b0e3c660dd149df349fdb97180f5c3568f1e5bcded238b16bb13d7324d241349",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "build-browser",
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c7f5376625580fd18451594e357e255e17f0cb9689618f52fa03691477c50187"
+    },
+    {
+      "stage": "build-worker",
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8ea120e2a5f12738a7781017550df0cbb7050a581902c0dffbbc58e15663c0a1"
+    },
+    {
+      "stage": "actual-isolated-chromium-worker",
+      "returncode": 0,
+      "stdout_sha256": "9341140a05a9952661b439192035142c76dfd24bbfa6a4854bc89de137f7d980",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "native_supervisor_summary_sha256": "cfe3143e9443b01d129d48ff3e1a814d0c8bcbbd2bb463b53d1f83f3b6c44e00",
+  "native_lifecycle_sha256": "3c3860059fc98ef06db2efc0c7c9b5e495087cc1514ac94ee8f419df4741d99e"
+}
