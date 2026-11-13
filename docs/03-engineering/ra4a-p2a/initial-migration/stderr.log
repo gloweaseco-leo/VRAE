@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Projects\VRAE\.worktrees\ra4a-p2a-private-bytes\integration\ra4a\p2a_support.py", line 122, in <module>
+    migrate_p2a()
+    ~~~~~~~~~~~^^
+  File "D:\Projects\VRAE\.worktrees\ra4a-p2a-private-bytes\integration\ra4a\p2a_support.py", line 31, in migrate_p2a
+    c.execute(raw.decode())
+    ~~~~~~~~~^^^^^^^^^^^^^^
+  File "D:\Projects\VRAE\.worktrees\ra4a-p2a-private-bytes\infra\ra4a\.venv\py313\Lib\site-packages\psycopg\connection.py", line 304, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.InvalidObjectDefinition: generation expression is not immutable

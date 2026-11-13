@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="1" skipped="0" tests="29" time="70.172" timestamp="2026-11-12T18:18:53.144491-05:00" hostname="dong"><testcase classname="integration.ra4a.p2a.cases" name="test_exact_complete_native_bytes_and_idempotent_registration[404]" time="20.446" /><testcase classname="integration.ra4a.p2a.cases" name="test_exact_complete_native_bytes_and_idempotent_registration[200]" time="1.788" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_a_app]" time="1.259" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_b_app]" time="1.804" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_unassigned]" time="1.607" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_a_worker]" time="1.177" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_a_app]" time="1.292" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_b_app]" time="1.266" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_unassigned]" time="1.192" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_a_worker]" time="1.304" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[UPDATE-ra4a_test_a_app]" time="2.065" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[UPDATE-ra4a_test_b_app]" time="1.448" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[UPDATE-ra4a_test_unassigned]" time="1.055" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[UPDATE-ra4a_test_a_worker]" time="1.184" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_a_app]" time="1.269" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_b_app]" time="1.178" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_unassigned]" time="1.105" /><testcase classname="integration.ra4a.p2a.cases" name="test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_a_worker]" time="2.180" /><testcase classname="integration.ra4a.p2a.cases" name="test_cross_tenant_and_unassigned_gated_reads_refused[ra4a_test_b_app]" time="1.549" /><testcase classname="integration.ra4a.p2a.cases" name="test_cross_tenant_and_unassigned_gated_reads_refused[ra4a_test_unassigned]" time="1.710" /><testcase classname="integration.ra4a.p2a.cases" name="test_cross_tenant_and_unassigned_gated_reads_refused[p2a_test_b_writer]" time="2.123" /><testcase classname="integration.ra4a.p2a.cases" name="test_exact_locator_not_just_naked_digest[tenant-tenant-beta]" time="2.350" /><testcase classname="integration.ra4a.p2a.cases" name="test_exact_locator_not_just_naked_digest[source_run-foreign-run]" time="2.985" /><testcase classname="integration.ra4a.p2a.cases" name="test_exact_locator_not_just_naked_digest[report-foreign-report]" time="1.697" /><testcase classname="integration.ra4a.p2a.cases" name="test_exact_locator_not_just_naked_digest[version-2]" time="1.384" /><testcase classname="integration.ra4a.p2a.cases" name="test_exact_locator_not_just_naked_digest[target_digest-0000000000000000000000000000000000000000000000000000000000000000]" time="1.245" /><testcase classname="integration.ra4a.p2a.cases" name="test_exact_locator_not_just_naked_digest[ref_id-accepted-200]" time="1.214" /><testcase classname="integration.ra4a.p2a.cases" name="test_spoofs_do_not_grant_store_authority[tenant_guc]" time="0.948"><failure message="psycopg.OperationalError: consuming input failed: server closed the connection unexpectedly&#10;&#09;This probably means the server terminated abnormally&#10;&#09;before or while processing the request.">isolated = ('vrae_p2a_d2418391a733', &lt;psycopg.Connection [IDLE] (host=127.0.0.1 port=57126 user=postgres database=vrae_p2a_d2418391a733) at 0x2780400fcd0&gt;)
+spoof = 'tenant_guc'
+
+    @pytest.mark.parametrize("spoof", ["tenant_guc", "actor_guc", "set_role", "owner", "writer"])
+    def test_spoofs_do_not_grant_store_authority(isolated, spoof):
+        name, _ = isolated
+&gt;       register(name)
+
+integration\ra4a\p2a\cases.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:126: in register
+    return api.register(g, provenance=g)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\persistence\private_postgres.py:35: in register
+    with self.connection.transaction():
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+infra\ra4a\.venv\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+infra\ra4a\.venv\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+infra\ra4a\.venv\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+infra\ra4a\.venv\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+infra\ra4a\.venv\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+infra\ra4a\.venv\py311\Lib\site-packages\psycopg\_connection_base.py:478: in _exec_command
+    results: list[PGresult] = (yield from generators.execute(self.pgconn))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg_binary/_psycopg/generators.pyx:116: in execute
+    ???
+psycopg_binary/_psycopg/generators.pyx:180: in fetch_many
+    ???
+psycopg_binary/_psycopg/generators.pyx:171: in psycopg_binary._psycopg.fetch_many
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+&gt;   ???
+E   psycopg.OperationalError: consuming input failed: server closed the connection unexpectedly
+E   	This probably means the server terminated abnormally
+E   	before or while processing the request.
+
+psycopg_binary/_psycopg/generators.pyx:235: OperationalError</failure></testcase><testcase classname="integration.ra4a.p2a.cases" name="test_spoofs_do_not_grant_store_authority[tenant_guc]" time="5.005"><error message="failed on teardown with &quot;psycopg.errors.ConnectionTimeout: connection timeout expired&quot;">@pytest.fixture
+    def isolated():
+        seed_base()
+        name = "vrae_p2a_" + uuid.uuid4().hex[:12]
+        with connect(dbname="postgres") as c:
+            c.execute(sql.SQL("CREATE DATABASE {} TEMPLATE vrae_ra4a_p1").format(sql.Identifier(name)))
+        try:
+            with connect(dbname=name) as c:
+                c.execute(sql.SQL("REVOKE ALL ON DATABASE {} FROM PUBLIC").format(sql.Identifier(name)))
+                c.execute(
+                    sql.SQL(
+                        "GRANT CONNECT ON DATABASE {} TO ra4a_app,ra4a_worker,p2a_fixture_writer"
+                    ).format(sql.Identifier(name))
+                )
+                yield name, c
+        finally:
+&gt;           with connect(dbname="postgres") as c:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+integration\ra4a\p2a_plugin.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\support.py:23: in connect
+    return psycopg.connect(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cls = &lt;class 'psycopg.Connection'&gt;
+conninfo = 'host=127.0.0.1 port=57126 dbname=postgres user=postgres password=owKGPWvfVhswV_QgeKARAjMoZzsFwy5o3mRQdFZ49ig connect_timeout=5 hostaddr=127.0.0.1'
+autocommit = True, prepare_threshold = 5, context = None, row_factory = None
+cursor_factory = None
+kwargs = {'host': '127.0.0.1', 'port': 57126, 'dbname': 'postgres', 'user': 'postgres', ...}
+
+    @classmethod
+    def connect(
+        cls,
+        conninfo: str = "",
+        *,
+        autocommit: bool = False,
+        prepare_threshold: int | None = 5,
+        context: AdaptContext | None = None,
+        row_factory: RowFactory[Row] | None = None,
+        cursor_factory: type[Cursor[Row]] | None = None,
+        **kwargs: ConnParam,
+    ) -&gt; Self:
+        """
+        Connect to a database server and return a new `Connection` instance.
+        """
+    
+        params = cls._get_connection_params(conninfo, **kwargs)
+        timeout = timeout_from_conninfo(params)
+        rv = None
+        attempts = conninfo_attempts(params)
+        conn_errors: list[tuple[e.Error, str]] = []
+        for attempt in attempts:
+            tdescr = (attempt.get("host"), attempt.get("port"), attempt.get("hostaddr"))
+            descr = "host: %r, port: %r, hostaddr: %r" % tdescr
+            logger.debug("connection attempt: %s", descr)
+            try:
+                conninfo = make_conninfo("", **attempt)
+                gen = cls._connect_gen(conninfo)
+                rv = waiting.wait_conn(gen, interval=_WAIT_INTERVAL, timeout=timeout)
+            except e._WaitTimeout:
+                tex = e.ConnectionTimeout("connection timeout expired")
+                logger.debug("connection failed: %s: %s", descr, str(tex))
+                conn_errors.append((tex, descr))
+            except e.Error as ex:
+                logger.debug("connection failed: %s: %s", descr, str(ex))
+                conn_errors.append((ex, descr))
+            except e._NO_TRACEBACK as ex:
+                raise ex.with_traceback(None)
+            else:
+                logger.debug("connection succeeded: %s", descr)
+                break
+    
+        if not rv:
+            last_ex = conn_errors[-1][0]
+            if len(conn_errors) == 1:
+&gt;               raise last_ex.with_traceback(None)
+E               psycopg.errors.ConnectionTimeout: connection timeout expired
+
+infra\ra4a\.venv\py311\Lib\site-packages\psycopg\connection.py:126: ConnectionTimeout</error></testcase></testsuite></testsuites>
