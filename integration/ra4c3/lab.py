@@ -42,6 +42,22 @@ def wire(state_path):
 
 
 def start(state_path, output):
+    state_path, output = bounded(state_path), bounded(output)
+    # Never adopt an earlier run or delete its state on a failed new invocation.
+    assert not state_path.exists() and not output.exists()
+    try:
+        _start(state_path, output)
+    except BaseException:
+        receipt = output / 'ownership.json'
+        if receipt.exists():
+            cleanup_owned(json.loads(receipt.read_text(encoding='utf-8')),
+                          output / 'failure-cleanup')
+        if state_path.exists():
+            state_path.unlink()
+        raise
+
+
+def _start(state_path, output):
     state_path,output=bounded(state_path),bounded(output)
     assert not state_path.exists()
     output.mkdir(parents=True,exist_ok=False)
@@ -128,9 +144,8 @@ def seed(state_path, profile, role='ra4a_test_a_app'):
     return name
 
 
-def stop(state_path, output):
-    state_path,output=bounded(state_path),bounded(output)
-    state=json.loads(state_path.read_text(encoding='utf-8'))
+def cleanup_owned(state, output):
+    output=bounded(output)
     assert re.fullmatch(r'vrae-ra4c3-[0-9a-f]{12}',state['container'])
     assert state['network']==state['container']+'-local' and state['volume']==state['container']+'-data'
     output.mkdir(parents=True,exist_ok=True)
@@ -143,13 +158,38 @@ def stop(state_path, output):
             assert json.loads(probe.stdout)[LABEL]=='TEST_ONLY'
             docker(*(['rm','-f',name] if kind=='container' else [kind,'rm',name]))
         else:
-            assert b'No such' in probe.stderr or b'not found' in probe.stderr.lower()
+            assert b'no such' in probe.stderr.lower() or b'not found' in probe.stderr.lower()
         absent=subprocess.run(['docker',kind,'inspect',name],capture_output=True)
-        assert absent.returncode and (b'No such' in absent.stderr or b'not found' in absent.stderr.lower())
+        assert absent.returncode and (b'no such' in absent.stderr.lower() or b'not found' in absent.stderr.lower())
         rows.append({'kind':kind,'name':name,'absent_after':True})
-    state_path.unlink()
     (output/'teardown.json').write_text(json.dumps({'owned_only':True,'resources':rows},indent=2)+'\n',encoding='utf-8')
     print('OWNED_RA4C3_CONTAINER_NETWORK_VOLUME_ABSENT',flush=True)
+
+
+def stop(state_path, output):
+    state_path = bounded(state_path)
+    cleanup_owned(json.loads(state_path.read_text(encoding='utf-8')), output)
+    state_path.unlink()
+
+
+def bootstrap_action(action, state_path, output, profile=None):
+    """Migration/seed CLI failures tear down only this run's verified resources."""
+    state_path = bounded(state_path)
+    assert state_path.exists()
+    try:
+        if action == 'migrate':
+            migrate(state_path)
+        else:
+            assert action == 'seed'
+            seed(state_path, profile)
+    except BaseException:
+        stop(state_path, output)
+        # Failed credential profile must not survive a partial bootstrap.
+        if profile is not None:
+            profile = bounded(profile)
+            if profile.exists():
+                profile.unlink()
+        raise
 
 
 if __name__=='__main__':
@@ -161,9 +201,8 @@ if __name__=='__main__':
     args=parser.parse_args()
     if args.action=='start':
         start(args.state,args.output)
-    elif args.action=='migrate':
-        migrate(args.state)
-    elif args.action=='seed':
-        seed(args.state,args.profile)
+    elif args.action in ('migrate', 'seed'):
+        assert args.output is not None
+        bootstrap_action(args.action, args.state, args.output, args.profile)
     else:
         stop(args.state,args.output)

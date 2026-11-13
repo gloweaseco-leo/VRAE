@@ -4,6 +4,8 @@ Authority: [Issue #73](https://github.com/gloweaseco-leo/VRAE/issues/73), accept
 
 **Status: implementation incomplete; real-PG startup HARD STOP.** This checkpoint preserves work and genuine failure evidence. It is not a functional, security, browser or CI PASS. No real human review or release is implemented or authorized.
 
+Update after Owner bounded continuation: see [actual loopback comparison and network decision](LOOPBACK-COMPARISON.md). Random and explicit loopback port requests both yielded no effective host port while container password-authenticated SQL succeeded. Isolation was retained, all new owned resources cleaned, and no network-model change was made. Owner's specific network-change STOP now governs the next step; the original startup RED is preserved.
+
 ## Implemented, not yet integration-verified
 
 The existing console has an explicit trusted local profile seam for a restricted synthetic PostgreSQL role, an original-byte read adapter using the accepted P2A API, native draft reconstruction from stored bytes, and request-scoped verification before response delivery. Default fixture mode remains selected without the explicit profile. An owned integration bootstrap was added because the original protected lab's output paths cannot be changed under this issue.

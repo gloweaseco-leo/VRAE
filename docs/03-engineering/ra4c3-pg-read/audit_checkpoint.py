@@ -31,6 +31,30 @@ result = {'accepted_entry_main': BASE, 'changed_paths': paths,
           'raw_diagnostic_hashes_verified': True,
           'owned_cleanup_receipt_verified': True,
           'functional_or_ci_pass': False}
+comparisons = []
+for name in ('loopback-diag-03', 'loopback-diag-04-explicit'):
+    folder = proof.parent / name
+    actual = json.loads((folder / 'receipt.json').read_text(encoding='utf-8'))
+    assert actual['internal_network_unchanged']
+    assert actual['outcome'] == 'INTERNAL_PG_AUTHENTICATED_BUT_NO_HOST_PUBLICATION'
+    assert all(row['absent_after'] for row in actual['cleanup'])
+    for row in actual['events']:
+        assert hashlib.sha256((folder / row['file']).read_bytes()).hexdigest() == row['sha256']
+    comparisons.append({'folder': name, 'raw_hashes_verified': True,
+                        'owned_resources_absent': True, 'host_sql_verified': False})
+result['bounded_comparisons'] = comparisons
+result['protected_lab_blob'] = git('rev-parse', BASE + ':infra/ra4a/lab.py')[0]
+actual_cleanup = []
+for name in ('startup-05-auto-cleanup/recovered-cleanup',
+             'startup-06-auto-cleanup/failure-cleanup'):
+    file = proof.parent / name / 'teardown.json'
+    actual = json.loads(file.read_text(encoding='utf-8'))
+    assert actual['owned_only'] and len(actual['resources']) == 3
+    assert all(row['absent_after'] for row in actual['resources'])
+    actual_cleanup.append({'file': str(file.relative_to(ROOT)).replace('\\', '/'),
+                           'sha256': hashlib.sha256(file.read_bytes()).hexdigest()})
+assert not (proof.parent.parent / 'runtime/auto-cleanup-state-06.json').exists()
+result['actual_cleanup_receipts'] = actual_cleanup
 (proof.parent / 'checkpoint-audit.json').write_text(
     json.dumps(result, indent=2) + '\n', encoding='utf-8')
 print(json.dumps(result, indent=2))
