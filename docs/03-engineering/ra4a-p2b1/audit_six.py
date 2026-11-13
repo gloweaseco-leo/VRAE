@@ -12,7 +12,11 @@ head,main=sys.argv[2:4]
 def load(name):
     return json.loads((folder/name).read_text(encoding="utf-8-sig"))
 pr,merge=load("pr.json"),load("merge.json")
-assert pr["head"]["sha"]==head and pr["base"]["sha"]==main
+assert pr["head"]["sha"]==head
+if pr["base"]["sha"]!=main:
+    live=load("base-ref.json")
+    assert live["ref"]=="refs/heads/main" and live["object"]["sha"]==main
+    assert (folder/"main-ls-remote.stdout.log").read_text().strip().split()==[main,"refs/heads/main"]
 assert pr["draft"] is True and pr["merged"] is False and pr["auto_merge"] is None
 assert [p["sha"] for p in merge["parents"]]==[main,head]
 assert pr["merge_commit_sha"]==merge["sha"]
@@ -51,7 +55,7 @@ for j in jobs:
     assert all(s in log for s in (head,main,merge["sha"]))
     receipts.append({"job":j["name"],"url":j["html_url"],"conclusion":j["conclusion"],
                      "actual_checkout":merge["sha"],"decoded_log_sha256":hashlib.sha256(raw).hexdigest()})
-out={"final_head":head,"accepted_main":main,"actual_merge_ref":merge["sha"],"ordered_parents":[main,head],
+out={"final_head":head,"accepted_main":main,"reported_pr_base_sha":pr["base"]["sha"],"actual_merge_ref":merge["sha"],"ordered_parents":[main,head],
      "jobs":receipts,"legacy_receipt":"FINAL_CI_RECEIPT.json","ra3c_v2_receipt":"RA3C_V2_AND_HTTP_ACTUAL_PROOF.json",
      "real_pg_receipt":"PG_P2B1_ACTUAL_RECEIPT.json","draft":True,"merged":False,"auto_merge":None,
      "authority":"TEST_ONLY_SYNTHETIC_DECISIONS_NOT_HUMAN_APPROVAL"}

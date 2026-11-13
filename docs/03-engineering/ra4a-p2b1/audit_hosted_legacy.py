@@ -16,7 +16,11 @@ def main():
     run, jobs, pr, merge = read('run.json'), read('jobs.json')['jobs'], read('pr.json'), read('merge.json')
     assert run['head_sha'] == expected_head and run['event'] == 'pull_request'
     assert run['status'] == 'completed' and run['conclusion'] == 'success'
-    assert pr['head']['sha'] == expected_head and pr['base']['sha'] == expected_main
+    assert pr['head']['sha'] == expected_head
+    if pr['base']['sha'] != expected_main:
+        live = read('base-ref.json')
+        assert live['ref'] == 'refs/heads/main' and live['object']['sha'] == expected_main
+        assert (directory/'main-ls-remote.stdout.log').read_text().strip().split()==[expected_main,'refs/heads/main']
     assert pr['draft'] is True and pr['merged'] is False and pr['auto_merge'] is None
     assert [p['sha'] for p in merge['parents']] == [expected_main, expected_head]
     assert pr['merge_commit_sha'] == merge['sha']
@@ -41,7 +45,9 @@ def main():
             assert {r['path']: r['lf_bytes_sha256'] for r in receipt['source_hashes']} == expected_sources
             assert receipt['native_approvals'] == receipt['share_grants'] == receipt['real_human_decisions'] == 0
             summaries = [(int(p), int(s)) for p, s in re.findall(r'(\d+) passed, (\d+) skipped', log)]
-            expected = (2348, 1) if job['name'] == 'isolated-http' else (2324, 25)
+            assert expected_main in ('558d183624a0a36d1f4eaf9d3d75af73b9c88547','51e2ff3f592c206fddf8193ad7346efbd2a70136')
+            added_console = 96 if expected_main == '51e2ff3f592c206fddf8193ad7346efbd2a70136' else 0
+            expected = (2348 + added_console, 1) if job['name'] == 'isolated-http' else (2324 + added_console, 25)
             assert expected in summaries, (job['name'], summaries)
             row['pytest_pass_skip'] = expected
             row['actual_offline_call_receipt'] = receipt
@@ -95,6 +101,7 @@ def main():
                     'positive_control': positive, 'negative_control': negative, 'cases': security_cases}
     result = {'run': run['id'], 'final_head': expected_head, 'accepted_main': expected_main,
               'actual_merge': merge['sha'], 'ordered_parents': [expected_main, expected_head],
+              'reported_pr_base_sha': pr['base']['sha'], 'authoritative_main_sha': expected_main,
               'jobs': proofs, 'security': security, 'draft': True, 'merged': False}
     (directory / 'FINAL_CI_RECEIPT.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({k: result[k] for k in ('run', 'final_head', 'accepted_main', 'actual_merge')}))

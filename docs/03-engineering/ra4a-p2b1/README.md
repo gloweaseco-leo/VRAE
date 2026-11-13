@@ -1,5 +1,11 @@
 # RA4A P2B1 — private TEST_ONLY proposal transaction
 
+Current acceptance generation is **V3 / 131 live PG cases**. Candidate 292b030
+was withdrawn after a real raw-SQL/native Unicode blank-reason discrepancy.
+See `UNICODE_NATIVE_PARITY_REPAIR.md`, `FROZEN_MATRIX_V3.json` and the V3
+source/scope/result/archive files. Older 98-case results and the original local
+archive remain historical evidence; their PASS is not a waiver of this repair.
+
 Refs Issue #70. Entry main: `558d183624a0a36d1f4eaf9d3d75af73b9c88547`.
 
 Every persisted outcome carries `TEST_ONLY_SYNTHETIC_DECISIONS_NOT_HUMAN_APPROVAL`.

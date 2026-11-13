@@ -77,7 +77,8 @@ def freeze():
 
 def results():
     held=load(HERE/"SOURCE_SCOPE_V3.json")
-    _,current=scope(held["accepted_main"])
+    integrated=load(HERE/"INTEGRATION_SCOPE_V3.json") if (HERE/"INTEGRATION_SCOPE_V3.json").exists() else held
+    _,current=scope(integrated["accepted_main"])
     assert current==held["frozen_sources"]
     all_results=[]
     for label in ("local313-v3-fresh","local311-v3-fresh"):
@@ -137,17 +138,99 @@ def results():
 
 def verify_head():
     held=load(HERE/"SOURCE_SCOPE_V3.json")
-    before,current=scope(held["accepted_main"])
+    integrated=load(HERE/"INTEGRATION_SCOPE_V3.json") if (HERE/"INTEGRATION_SCOPE_V3.json").exists() else held
+    before,current=scope(integrated["accepted_main"])
     assert current==held["frozen_sources"]
     head=git("rev-parse","HEAD").decode().strip()
     out=Path(sys.argv[2])
     out.mkdir(parents=True,exist_ok=True)
     (out/"FINAL_SOURCE_CHAIN.json").write_text(json.dumps({"final_head":head,"functional_head":held["functional_head"],
-       "accepted_main":held["accepted_main"],"main_blob_modes_preserved":len(before)-len(EXCEPT),
+       "accepted_main":integrated["accepted_main"],"main_blob_modes_preserved":len(before)-len(EXCEPT),
        "existing_exceptions":sorted(EXCEPT),"all_frozen_runtime_and_test_blobs_unchanged":True,
        "source_set_sha256":held["source_set_sha256"]},indent=2)+"\n",encoding="utf-8")
     print("VERIFIED_FINAL_HEAD_PROTECTED_MAIN_AND_FROZEN_RUNTIME_GIT_BLOBS "+head)
 
 
+def integrate_audit():
+    held=load(HERE/"SOURCE_SCOPE_V3.json")
+    main=sys.argv[2]
+    assert main=="51e2ff3f592c206fddf8193ad7346efbd2a70136"
+    before,current=scope(main)
+    assert current==held["frozen_sources"]
+    head=git("rev-parse","HEAD").decode().strip()
+    parents=git("show","-s","--format=%P",head).decode().strip().split()
+    assert parents==[held["functional_head"],main]
+    out=HERE/"INTEGRATION_SCOPE_V3.json"
+    assert not out.exists()
+    data={"integration_head":head,"ordered_merge_parents":parents,"accepted_main":main,
+          "accepted_main_blobs":len(before),"preserved_main_blob_modes":len(before)-len(EXCEPT),
+          "existing_exceptions":sorted(EXCEPT),"functional_head":held["functional_head"],
+          "all_frozen_p2b1_runtime_and_test_blob_modes_unchanged":True,"source_set_sha256":held["source_set_sha256"],
+          "ra4c2_main_app_and_tests_preserved":True,"final_ci_must_cover_additional_96_console_cases":True}
+    out.write_text(json.dumps(data,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps(data))
+
+
+def hosted_results():
+    """Full actual hosted gate, with local ERROR kept as ERROR, never PASS."""
+    held=load(HERE/"SOURCE_SCOPE_V3.json")
+    integrated=load(HERE/"INTEGRATION_SCOPE_V3.json")
+    _,current=scope(integrated["accepted_main"])
+    assert current==held["frozen_sources"]
+    hosted=HERE/"source-v3-ci-8e99cb5"
+    six=load(hosted/"SIX_CI_ACTUAL_RECEIPT.json")
+    assert six["final_head"]==held["functional_head"] and six["accepted_main"]==integrated["accepted_main"]
+    assert len(six["jobs"])==6 and all(j["conclusion"]=="success" for j in six["jobs"])
+    pg=load(hosted/"PG_P2B1_ACTUAL_RECEIPT.json")
+    assert len(pg)==2 and all(p["p2b1_pg"]==131 for p in pg)
+    assert {p["job"] for p in pg}=={"postgres-16 (3.11)","postgres-16 (3.13)"}
+    local=[]
+    for label in ("local313-v3-fresh","local311-v3-fresh"):
+        folder=HERE/label
+        cmd=load(folder/"commands.json")
+        assert cmd["phase"]=="full" and cmd["commands"][-1]["exit"]!=0
+        assert all(c["exit"]==0 for c in cmd["commands"][:-1])
+        assert {r["path"]:r["sha256"] for r in load(folder/"source-manifest.json")}=={r["path"]:r["sha256"] for r in held["runtime_sources"]}
+        pre=folder/"accepted-prelude"
+        for phase,xml in (("p1-v1","postgres.xml"),("p1-v2","tests.xml")):
+            junit(pre/phase/xml,54)
+        junit(pre/"p2a/tests.xml",86)
+        junit(pre/"p1-v1/pure.xml",35)
+        calls=load(folder/"p2b1/p2b1-catalog-and-calls.json")
+        assert calls["session_exit"]!=0 and all(c["outcome"]=="passed" for c in calls["calls"])
+        suite=ET.parse(folder/"p2b1/tests.xml").getroot().find("testsuite")
+        assert int(suite.attrib["errors"])==1 and int(suite.attrib["failures"])==int(suite.attrib["skipped"])==0
+        assert "connection timeout expired" in (folder/"p2b1.stdout.log").read_text()
+        cleanup=load(HERE/(label+"-cleanup")/"scan-and-cleanup.json")
+        assert cleanup["actual_credential_scan"]=="NO_MATCHES" and cleanup["cleanup_exit"]==0
+        local.append({"label":label,"python":cmd["python"],"source_head":cmd["source_head"],
+          "p1_v1":54,"p1_v2_compat":54,"p2a":86,"pure":35,"actual_p2b1_call_passes":len(calls["calls"]),
+          "errors":1,"remaining_not_executed":131-len(calls["calls"]),"full_local_pass":False,
+          "error":"ConnectionTimeout at setup/teardown; root cause unconfirmed; diagnostics subsequently reconnected",
+          "junit_attributes":suite.attrib})
+    result=HERE/"V3_ACTUAL_RESULTS.json"
+    assert not result.exists()
+    result.write_text(json.dumps({"functional_head":held["functional_head"],"integration":integrated,
+       "primary_full_dual_python_gate":"ACTUAL_HOSTED_FRESH_PG_BOTH_131_PASS",
+       "hosted_dual_pg":pg,"hosted_six":six,"local_runs":local,
+       "local_errors_not_converted_to_pass":True,"real_identity_native_approval_share_deploy":False},indent=2)+"\n",encoding="utf-8")
+    assert not (ROOT/"infra/ra4a/.venv/lab-state.json").exists()
+    archive=HERE/"P2B1_V3_ENGINEERING_EVIDENCE.zip"
+    assert not archive.exists()
+    paths=[p for p in sorted(HERE.rglob("*")) if p.is_file() and "__pycache__" not in p.parts and p!=archive]
+    manifest=[{"path":p.relative_to(HERE).as_posix(),"bytes":p.stat().st_size,"sha256":digest(p.read_bytes())} for p in paths]
+    (HERE/"RAW_MANIFEST_V3.json").write_text(json.dumps(manifest,indent=2)+"\n",encoding="utf-8")
+    with zipfile.ZipFile(archive,"x",compression=zipfile.ZIP_DEFLATED) as z:
+        for p in paths: z.write(p,p.relative_to(HERE).as_posix())
+        z.write(HERE/"RAW_MANIFEST_V3.json","RAW_MANIFEST_V3.json")
+    with zipfile.ZipFile(archive) as z: assert z.testzip() is None
+    receipt={"archive":archive.name,"sha256":digest(archive.read_bytes()),"bytes":archive.stat().st_size,
+        "members":len(paths)+1,"manifest_sha256":digest((HERE/"RAW_MANIFEST_V3.json").read_bytes()),
+        "source_set_sha256":held["source_set_sha256"],"primary_full_gate":"HOSTED_BOTH_PYTHON_131_PASS",
+        "local_error_evidence_preserved":True,"private_unredacted_failure_bytes_not_published":True}
+    (HERE/"ARCHIVE_RECEIPT_V3.json").write_text(json.dumps(receipt,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps(receipt))
+
+
 if __name__=="__main__":
-    {"freeze":freeze,"results":results,"verify":verify_head}[sys.argv[1]]()
+    {"freeze":freeze,"results":results,"verify":verify_head,"integrate":integrate_audit,"hosted":hosted_results}[sys.argv[1]]()

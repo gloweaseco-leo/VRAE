@@ -1,0 +1,52 @@
+{
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "checkout": null,
+  "source_head": "8e99cb522a5c80faa3696a828fb199d4635e6407",
+  "phase": "full",
+  "commands": [
+    {
+      "stage": "accepted-prelude",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "infra/ra4a/p2a_run.py",
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\docs\\03-engineering\\ra4a-p2b1\\local313-v3-fresh\\accepted-prelude"
+      ],
+      "exit": 0,
+      "seconds": 525.7560473000049,
+      "stdout_sha256": "efdd4f97cf28bfd98b055b66b9ad6930274d5087a89aa8da0610adb577b5b7fc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "migration-v3",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "integration.ra4a.p2b1_support"
+      ],
+      "exit": 0,
+      "seconds": 9.758369400005904,
+      "stdout_sha256": "2f8e871bb3b0bfe1d55ff7f8a511136d7a68100e2d965a9102aec541c511eeec",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "p2b1",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-x",
+        "-p",
+        "integration.ra4a.p2b1_plugin",
+        "--confcutdir=integration/ra4a/p2b1",
+        "integration/ra4a/p2b1/cases.py",
+        "integration/ra4a/p2b1/parity_cases.py",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\docs\\03-engineering\\ra4a-p2b1\\local313-v3-fresh\\p2b1\\tests.xml"
+      ],
+      "exit": 1,
+      "seconds": 2072.5121515000064,
+      "stdout_sha256": "86a621ba12d79c1510b81f17930ace17f53fdf8b9ae353e3f9fc0b7dce07814c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
