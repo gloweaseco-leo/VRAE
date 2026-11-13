@@ -1,0 +1,25 @@
+CREATE FUNCTION ra4b_test.require_run(t text,rid uuid,k text) RETURNS void LANGUAGE plpgsql SECURITY DEFINER
+SET search_path=pg_catalog,ra4b_test,pg_temp AS $$
+DECLARE r ra4a.requests%ROWTYPE; ref ra4a.references%ROWTYPE;
+BEGIN
+ PERFORM ra4b_test.require_actor(t,k);
+ SELECT q.* INTO r FROM ra4a.requests q JOIN ra4a.runs s USING(tenant_id,request_id)
+  JOIN ra4a.jobs j USING(tenant_id,run_id) WHERE q.tenant_id=t AND s.run_id=rid;
+ IF NOT FOUND OR r.principal NOT IN ('ra4b_test_a_app','ra4b_test_b_app')
+  OR (k='APP' AND r.principal<>SESSION_USER)
+ THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='RA4B_PROVENANCE_DENIED'; END IF;
+ PERFORM 1 FROM ra4a_private.principals p JOIN ra4a_private.assignments a USING(db_role,tenant_id)
+  WHERE p.db_role=r.principal AND p.tenant_id=t AND p.kind='APP' AND p.enabled
+   AND p.authority='TEST_ONLY' AND a.active FOR SHARE OF p,a;
+ IF NOT FOUND OR NOT pg_has_role(r.principal,'ra4b_app','MEMBER')
+ OR NOT EXISTS(SELECT 1 FROM pg_roles WHERE rolname=r.principal AND rolcanlogin
+   AND NOT (rolsuper OR rolbypassrls OR rolcreaterole OR rolcreatedb))
+ THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='RA4B_ORIGIN_APP_DENIED'; END IF;
+ SELECT * INTO ref FROM ra4a.references WHERE tenant_id=t AND ref_id=r.source_ref;
+ PERFORM ra4b_test.require_source(t,r.policy_id,r.policy_version,r.source_ref,ref.ref_sha256);
+ IF r.canonical_payload::jsonb IS DISTINCT FROM jsonb_build_object(
+   'mode','SYNTHETIC_INTERNAL_ONLY','source_ref',r.source_ref,'expected_ref_sha256',ref.ref_sha256)
+ OR r.payload_hash<>encode(sha256(convert_to(r.canonical_payload,'UTF8')),'hex')
+ THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='RA4B_PAYLOAD_DENIED'; END IF;
+END $$;
+

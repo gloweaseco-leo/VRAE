@@ -1,0 +1,24 @@
+{
+  "separate_app_worker_and_admin_connections": true,
+  "policy_invalidation_committed_before_finish": true,
+  "fresh_claim_denied": true,
+  "finish_denied": false,
+  "persisted_run_job": [
+    "TEST_ONLY_CONSUMED",
+    "TEST_ONLY_DONE",
+    1
+  ],
+  "private_outbox": [
+    [
+      "TEST_ONLY_ADMITTED",
+      true
+    ],
+    [
+      "TEST_ONLY_CONSUMED",
+      true
+    ]
+  ],
+  "authority": "TEST_ONLY_CONTRACT_PREFLIGHT_NOT_RUNTIME_ACCEPTANCE",
+  "native_approval": false,
+  "external_delivery": false
+}

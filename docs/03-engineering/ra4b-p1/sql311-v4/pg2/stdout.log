@@ -1,0 +1,22 @@
+F.....................................................                   [100%]RA4A_P1_REAL_PG_RECEIPT={"calls": 54, "checkout": null, "passed": 53, "server_version": "PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit", "session_exit": 1}
+
+================================== FAILURES ===================================
+________________ test_real_version_catalog_and_owner_force_rls ________________
+
+db = <psycopg.Connection [IDLE] (host=127.0.0.1 port=50939 user=postgres database=vrae_ra4a_p1) at 0x22965c6d110>
+
+    def test_real_version_catalog_and_owner_force_rls(db):
+        assert (
+            db.execute("SELECT current_setting('server_version_num')::int").fetchone()[0] // 10000 == 16
+        )
+        roles = db.execute(
+            "SELECT rolname,rolsuper,rolbypassrls,rolcreaterole,rolcreatedb FROM pg_roles WHERE rolname LIKE 'ra4a_%'"
+        ).fetchall()
+>       assert len(roles) == 8 and all(not any(r[1:]) for r in roles)
+E       AssertionError: assert (12 == 8)
+E        +  where 12 = len([('ra4a_owner', False, False, False, False), ('ra4a_app', False, False, False, False), ('ra4a_worker', False, False, F...alse, False), ('ra4a_test_b_app', False, False, False, False), ('ra4a_test_a_worker', False, False, False, False), ...])
+
+integration\ra4a\test_pg.py:44: AssertionError
+=========================== short test summary info ===========================
+FAILED integration/ra4a/test_pg.py::test_real_version_catalog_and_owner_force_rls
+1 failed, 53 passed in 56.02s

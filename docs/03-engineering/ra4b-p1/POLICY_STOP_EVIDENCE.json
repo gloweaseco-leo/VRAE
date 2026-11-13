@@ -1,0 +1,117 @@
+{
+  "status": "STOPPED_FROZEN_P1_POLICY_REGRESSION_NOT_ACCEPTED",
+  "entry": "f9c64dacafffa08806890fcacf04f3da5723c040",
+  "owner_decision": "RA4B_P1_ROLE_PREFIX_COMPAT_GO",
+  "protected_diff": "EMPTY",
+  "role_mapping": {
+    "ra4a_test_b4_a_app": "ra4b_test_a_app",
+    "ra4a_test_b4_b_app": "ra4b_test_b_app",
+    "ra4a_test_b4_a_worker": "ra4b_test_a_worker",
+    "ra4a_test_b4_b_worker": "ra4b_test_b_worker"
+  },
+  "actual_original_role_count": 8,
+  "actual_original_policy_count": 12,
+  "expected_original_policy_count": 10,
+  "suites": {
+    "tests.xml": {
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0
+    },
+    "pg2/tests.xml": {
+      "passed": 53,
+      "failed": 1,
+      "skipped": 0
+    }
+  },
+  "retained_prior_evidence_files_verified": 52,
+  "python313_hardening": "NOT_RUN",
+  "runtime_http": "NOT_RUN",
+  "push": false,
+  "new_pr": false,
+  "new_hosted_ci": false,
+  "merge": false,
+  "deployment": false,
+  "evidence": [
+    {
+      "path": "db/migrations/0004_ra4b_test_only_api.sql",
+      "sha256": "24754380ca27b146ea38665e174b8047901f9793542185cf88c72d259df9fc27"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/pg2/backup-restore.json",
+      "sha256": "fc8ec9d2b7b78d383725545c3a2cc9b11fbc8d802cc6820d09c41135145aa91e"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/pg2/module-state-paths.json",
+      "sha256": "422725679d0ce14f0dda449bb4a98d3029e037e03cf8ce5b78a73636d4bad57e"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/pg2/pg-catalog-and-calls.json",
+      "sha256": "083fb544fff21f1eb34a595eb029c7aabd5f7c83a9f9b6076c55e473bde4a7b4"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/pg2/real-restart.json",
+      "sha256": "983dc7607f82ed0316de9613ca9a8e9a1ec3f087b1f17469287c80325f8d6f59"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/pg2/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/pg2/stdout.log",
+      "sha256": "529bbc943f9b5a40cd31ddfbe62a96f47c480f29f9752632fbf05011d8de3eda"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/pg2/synthetic-metadata.dump",
+      "sha256": "19bfc587de825bc070e329623751f803d7576743efc27bdadf299e85b5474056"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/pg2/tests.xml",
+      "sha256": "2622a38488ee41b00b559e156794083a2d86fe978bbce8896dbea94de5eeffce"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/startup/ownership.json",
+      "sha256": "21ea46d095be203b307580224d6eb557b598263b9e1baed7fb280c9ab28f19d8"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/startup/startup.jsonl",
+      "sha256": "64a031a256abce60d99bbdd50d30fc9fe58909087610811d827e4c407b145b6b"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/teardown/cleanup.jsonl",
+      "sha256": "4320a0a148621ea5999e3e13b05c676a1a3709f5d4c5fcd6612fbb4ec3ecac55"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/teardown/teardown.json",
+      "sha256": "2bce3b3ffe6b9c61c871e6023f9e20ea6beadbb364d36f3cd71c743fdac82392"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/compat311-v1/tests.xml",
+      "sha256": "a4a3424311732ee4de22987fb26bcc0c1045afa9395b6db10446db4aedcf5fd3"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/MINIMAL_POLICY_CAUSE.diff",
+      "sha256": "cfe260d8581eec54adfbfa99a68c8fcbf05ef09541550e78030473a7510662bc"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/STOP_EVIDENCE.json",
+      "sha256": "3a4b17443c79d27dd774264d72f475068c9ff92dc3398c03e3022fb7c09b88f5"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/STOP_FROZEN_P1_POLICY_COUNT.md",
+      "sha256": "2fa5445f253f9df257db125c203f17d7f84250bc194e46b9771492a926233d52"
+    },
+    {
+      "path": "integration/ra4b/security_cases.py",
+      "sha256": "87cb5f46b57c19c12dca17c510d838fdd48beb35be21d002cf0a535140379dce"
+    },
+    {
+      "path": "integration/ra4b/support.py",
+      "sha256": "eba9783cd77cae9a055fc48680eae750674b7cbc67d4218959611267748d45cc"
+    },
+    {
+      "path": "vrae/application/ra4b/store.py",
+      "sha256": "c2ebaf058701202cc0aa796d2b15b9e609ba5008f23e737c0e1c0db8d70e4eb9"
+    }
+  ]
+}

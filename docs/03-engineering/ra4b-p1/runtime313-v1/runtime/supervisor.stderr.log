@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/work/integration/ra4b/runtime_check.py", line 345, in <module>
+    main()
+    ~~~~^^
+  File "/work/integration/ra4b/runtime_check.py", line 330, in main
+    wait_for(lambda: (OUT / "pg-paused.json").exists(), 30)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/integration/ra4b/runtime_check.py", line 41, in wait_for
+    raise AssertionError("BOUNDED_RUNTIME_WAIT_FAILED")
+AssertionError: BOUNDED_RUNTIME_WAIT_FAILED
