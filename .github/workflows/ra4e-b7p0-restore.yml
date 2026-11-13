@@ -1,0 +1,49 @@
+name: B7-P0 disposable cross-environment PostgreSQL restore
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  restore-pg16:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Accepted locked dependencies
+        run: |
+          python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+          python -m pip install -r requirements-ra4a-p2b2a.lock -c requirements-ra1a.lock
+      - name: Restore code static checks
+        run: python -m ruff check integration/ra4e --select E4,E7,E9,F
+      - name: Publication failure-path checks
+        run: python -m pytest -q tests/operations/ra4e/publication_checks.py
+      - name: Two real isolated environments and standalone empty-destination replay
+        run: >-
+          python -B -m integration.ra4e.run
+          docs/03-engineering/ra4e-b7p0-restore/hosted-${{ matrix.python-version }}
+      - name: Publish only verified sanitized recovery evidence
+        id: publication
+        if: always()
+        run: >-
+          python -c "import json; from pathlib import Path;
+          p=Path('docs/03-engineering/ra4e-b7p0-restore/hosted-${{ matrix.python-version }}/public-artifact');
+          gate=json.loads((p/'publication.json').read_text());
+          import hashlib;
+          assert gate['publication_allowed'] and gate['actual_fixture_credentials_compared'] > 0;
+          assert {f.relative_to(p).as_posix() for f in p.rglob('*') if f.is_file()} == set(gate['artifact_file_sha256']) | {'publication.json'};
+          assert all(hashlib.sha256((p/n).read_bytes()).hexdigest()==s for n,s in gate['artifact_file_sha256'].items())"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.publication.outcome == 'success'
+        with:
+          name: ra4e-b7p0-restore-${{ matrix.python-version }}
+          retention-days: 3
+          path: docs/03-engineering/ra4e-b7p0-restore/hosted-${{ matrix.python-version }}/public-artifact/
