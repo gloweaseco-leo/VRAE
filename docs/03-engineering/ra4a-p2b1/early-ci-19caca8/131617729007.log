@@ -1,0 +1,566 @@
+﻿2026-11-13T01:16:33.1917709Z Current runner version: '2.338.2'
+2026-11-13T01:16:33.1933764Z ##[group]Runner Image Provisioner
+2026-11-13T01:16:33.1934265Z Hosted Compute Agent
+2026-11-13T01:16:33.1934642Z Version: 20261028.624
+2026-11-13T01:16:33.1935046Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-13T01:16:33.1935456Z Build Date: 2026-10-28T21:51:42Z
+2026-11-13T01:16:33.1935873Z Worker ID: {9fe116e8-f6bf-413f-939b-e8d075300748}
+2026-11-13T01:16:33.1936270Z Region: centralus
+2026-11-13T01:16:33.1936578Z Cloud: Azure
+2026-11-13T01:16:33.1936965Z ##[endgroup]
+2026-11-13T01:16:33.1937859Z ##[group]Operating System
+2026-11-13T01:16:33.1938244Z Ubuntu
+2026-11-13T01:16:33.1938546Z 26.04.1
+2026-11-13T01:16:33.1938830Z LTS
+2026-11-13T01:16:33.1939442Z ##[endgroup]
+2026-11-13T01:16:33.1939761Z ##[group]Runner Image
+2026-11-13T01:16:33.1940132Z Image: ubuntu-26.04
+2026-11-13T01:16:33.1940471Z Version: 20261101.186.1
+2026-11-13T01:16:33.1941255Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-13T01:16:33.1942078Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+2026-11-13T01:16:33.1942632Z ##[endgroup]
+2026-11-13T01:16:33.1943277Z ##[group]GITHUB_TOKEN Permissions
+2026-11-13T01:16:33.1944647Z Contents: read
+2026-11-13T01:16:33.1944997Z Metadata: read
+2026-11-13T01:16:33.1945314Z ##[endgroup]
+2026-11-13T01:16:33.1946581Z Secret source: Actions
+2026-11-13T01:16:33.1947113Z Cache mode: write
+2026-11-13T01:16:33.1947747Z Prepare workflow directory
+2026-11-13T01:16:33.2220046Z Prepare all required actions
+2026-11-13T01:16:33.2261315Z Getting action download info
+2026-11-13T01:16:33.4400575Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-13T01:16:33.5970611Z Complete job name: isolated-http
+2026-11-13T01:16:33.6479529Z ##[group]Run actions/checkout@v4
+2026-11-13T01:16:33.6480035Z with:
+2026-11-13T01:16:33.6480276Z   repository: gloweaseco-leo/VRAE
+2026-11-13T01:16:33.6482416Z   token: ***
+2026-11-13T01:16:33.6482652Z   ssh-strict: true
+2026-11-13T01:16:33.6482919Z   ssh-user: git
+2026-11-13T01:16:33.6483204Z   persist-credentials: true
+2026-11-13T01:16:33.6483469Z   clean: true
+2026-11-13T01:16:33.6483764Z   sparse-checkout-cone-mode: true
+2026-11-13T01:16:33.6484135Z   fetch-depth: 1
+2026-11-13T01:16:33.6484370Z   fetch-tags: false
+2026-11-13T01:16:33.6484677Z   show-progress: true
+2026-11-13T01:16:33.6484921Z   lfs: false
+2026-11-13T01:16:33.6485145Z   submodules: false
+2026-11-13T01:16:33.6485455Z   set-safe-directory: true
+2026-11-13T01:16:33.6485731Z   allow-unsafe-pr-checkout: false
+2026-11-13T01:16:33.6486159Z ##[endgroup]
+2026-11-13T01:16:33.8688016Z Syncing repository: gloweaseco-leo/VRAE
+2026-11-13T01:16:33.8690048Z ##[group]Getting Git version info
+2026-11-13T01:16:33.8690724Z Working directory is '/home/runner/work/VRAE/VRAE'
+2026-11-13T01:16:33.8691587Z [command]/usr/bin/git version
+2026-11-13T01:16:33.8701424Z git version 2.56.0
+2026-11-13T01:16:33.8712500Z ##[endgroup]
+2026-11-13T01:16:33.8720850Z Temporarily overriding HOME='/home/runner/work/_temp/0eedb3ce-8fef-4df2-8dbf-75863031ac0f' before making global git config changes
+2026-11-13T01:16:33.8721980Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-13T01:16:33.8739813Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-13T01:16:33.8780906Z Deleting the contents of '/home/runner/work/VRAE/VRAE'
+2026-11-13T01:16:33.8782725Z ##[group]Initializing the repository
+2026-11-13T01:16:33.8785936Z [command]/usr/bin/git init /home/runner/work/VRAE/VRAE
+2026-11-13T01:16:33.8885478Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-13T01:16:33.8886119Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-13T01:16:33.8886747Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-13T01:16:33.8887161Z hint: call:
+2026-11-13T01:16:33.8887554Z hint:
+2026-11-13T01:16:33.8887849Z hint: 	git config --global init.defaultBranch <name>
+2026-11-13T01:16:33.8888185Z hint:
+2026-11-13T01:16:33.8888495Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-13T01:16:33.8889106Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-13T01:16:33.8889605Z hint:
+2026-11-13T01:16:33.8889830Z hint: 	git branch -m <name>
+2026-11-13T01:16:33.8890081Z hint:
+2026-11-13T01:16:33.8890411Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-13T01:16:33.8898154Z Initialized empty Git repository in /home/runner/work/VRAE/VRAE/.git/
+2026-11-13T01:16:33.8906581Z [command]/usr/bin/git remote add origin https://github.com/gloweaseco-leo/VRAE
+2026-11-13T01:16:33.8948383Z ##[endgroup]
+2026-11-13T01:16:33.8948831Z ##[group]Disabling automatic garbage collection
+2026-11-13T01:16:33.8951638Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-13T01:16:33.8978622Z ##[endgroup]
+2026-11-13T01:16:33.8979458Z ##[group]Setting up auth
+2026-11-13T01:16:33.8983340Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-13T01:16:33.9010000Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-13T01:16:33.9366830Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-13T01:16:33.9392849Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-13T01:16:33.9596942Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-13T01:16:33.9621528Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-13T01:16:33.9819838Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-13T01:16:33.9850500Z ##[endgroup]
+2026-11-13T01:16:33.9851108Z ##[group]Fetching the repository
+2026-11-13T01:16:33.9856894Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +be56eb0eb789d69a2695903172b02b91d5beee11:refs/remotes/pull/71/merge
+2026-11-13T01:16:35.7970547Z From https://github.com/gloweaseco-leo/VRAE
+2026-11-13T01:16:35.7971517Z  * [new ref]         be56eb0eb789d69a2695903172b02b91d5beee11 -> pull/71/merge
+2026-11-13T01:16:35.7973858Z ##[endgroup]
+2026-11-13T01:16:35.7974636Z ##[group]Determining the checkout info
+2026-11-13T01:16:35.7975545Z ##[endgroup]
+2026-11-13T01:16:35.7979895Z [command]/usr/bin/git sparse-checkout disable
+2026-11-13T01:16:35.8019477Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-13T01:16:35.8043783Z ##[group]Checking out the ref
+2026-11-13T01:16:35.8045161Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/71/merge
+2026-11-13T01:16:36.1456641Z Note: switching to 'refs/remotes/pull/71/merge'.
+2026-11-13T01:16:36.1457086Z 
+2026-11-13T01:16:36.1457305Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-13T01:16:36.1457781Z changes and commit them, and you can discard any commits you make in this
+2026-11-13T01:16:36.1458264Z state without impacting any branches by switching back to a branch.
+2026-11-13T01:16:36.1458547Z 
+2026-11-13T01:16:36.1458751Z If you want to create a new branch to retain commits you create, you may
+2026-11-13T01:16:36.1459241Z do so (now or later) by using -c with the switch command. Example:
+2026-11-13T01:16:36.1459395Z 
+2026-11-13T01:16:36.1459486Z   git switch -c <new-branch-name>
+2026-11-13T01:16:36.1459678Z 
+2026-11-13T01:16:36.1459785Z Or undo this operation with:
+2026-11-13T01:16:36.1459890Z 
+2026-11-13T01:16:36.1459969Z   git switch -
+2026-11-13T01:16:36.1460075Z 
+2026-11-13T01:16:36.1460561Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-13T01:16:36.1469330Z 
+2026-11-13T01:16:36.1469637Z HEAD is now at be56eb0 Merge 19caca8d3ebfcafda6e088a29fd6611f96214c24 into 558d183624a0a36d1f4eaf9d3d75af73b9c88547
+2026-11-13T01:16:36.1514261Z ##[endgroup]
+2026-11-13T01:16:36.1554946Z [command]/usr/bin/git log -1 --format=%H
+2026-11-13T01:16:36.1574837Z be56eb0eb789d69a2695903172b02b91d5beee11
+2026-11-13T01:16:36.1753107Z ##[group]Run docker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .
+2026-11-13T01:16:36.1753464Z [36;1mdocker build -f infra/ra1a/Dockerfile -t vrae-ra1a-lab:ci .[0m
+2026-11-13T01:16:36.1802490Z shell: /usr/bin/bash -e {0}
+2026-11-13T01:16:36.1802672Z ##[endgroup]
+2026-11-13T01:16:36.6974580Z #0 building with "default" instance using docker driver
+2026-11-13T01:16:36.6974873Z 
+2026-11-13T01:16:36.6975007Z #1 [internal] load build definition from Dockerfile
+2026-11-13T01:16:36.6975316Z #1 transferring dockerfile: 1.06kB done
+2026-11-13T01:16:36.6975584Z #1 DONE 0.0s
+2026-11-13T01:16:36.6975652Z 
+2026-11-13T01:16:36.6975746Z #2 [auth] library/python:pull token for registry-1.docker.io
+2026-11-13T01:16:36.8484931Z #2 DONE 0.0s
+2026-11-13T01:16:36.8485079Z 
+2026-11-13T01:16:36.8485470Z #3 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-13T01:16:37.1824000Z #3 DONE 0.6s
+2026-11-13T01:16:37.3774633Z 
+2026-11-13T01:16:37.3775491Z #4 [internal] load .dockerignore
+2026-11-13T01:16:37.3776480Z #4 transferring context: 4.06kB done
+2026-11-13T01:16:37.3776892Z #4 DONE 0.0s
+2026-11-13T01:16:37.3777210Z 
+2026-11-13T01:16:37.3777485Z #5 [internal] load build context
+2026-11-13T01:16:37.3777883Z #5 transferring context: 14.24MB 0.0s done
+2026-11-13T01:16:37.3778291Z #5 DONE 0.1s
+2026-11-13T01:16:37.3778503Z 
+2026-11-13T01:16:37.3779235Z #6 [ 1/16] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-13T01:16:37.3780243Z #6 resolve docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89 done
+2026-11-13T01:16:37.3781060Z #6 sha256:f9b274ee4fbe248a842b5b75ee2e2e2db298596c140c7febbb6e987c77d1d246 249B / 249B 0.1s done
+2026-11-13T01:16:37.3781780Z #6 sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 4.19MB / 18.32MB 0.2s
+2026-11-13T01:16:37.5295002Z #6 sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 18.32MB / 18.32MB 0.3s done
+2026-11-13T01:16:37.5296165Z #6 sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 0B / 3.34MB 0.2s
+2026-11-13T01:16:37.5296516Z #6 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 0B / 28.25MB 0.2s
+2026-11-13T01:16:37.6840392Z #6 sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 3.34MB / 3.34MB 0.3s done
+2026-11-13T01:16:37.6841095Z #6 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 13.63MB / 28.25MB 0.3s
+2026-11-13T01:16:37.6841540Z #6 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 28.25MB / 28.25MB 0.5s
+2026-11-13T01:16:37.8609981Z #6 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 28.25MB / 28.25MB 0.5s done
+2026-11-13T01:16:37.8610621Z #6 extracting sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39
+2026-11-13T01:16:38.1756042Z #6 extracting sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 0.5s done
+2026-11-13T01:16:38.1756455Z #6 DONE 1.0s
+2026-11-13T01:16:38.3958540Z 
+2026-11-13T01:16:38.3959587Z #6 [ 1/16] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-13T01:16:38.3960284Z #6 extracting sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 0.1s done
+2026-11-13T01:16:38.3960813Z #6 extracting sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704
+2026-11-13T01:16:38.5837862Z #6 extracting sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 0.3s done
+2026-11-13T01:16:38.5838347Z #6 DONE 1.4s
+2026-11-13T01:16:38.7390393Z 
+2026-11-13T01:16:38.7391117Z #6 [ 1/16] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-13T01:16:38.7391866Z #6 extracting sha256:f9b274ee4fbe248a842b5b75ee2e2e2db298596c140c7febbb6e987c77d1d246 done
+2026-11-13T01:16:38.7392309Z #6 DONE 1.4s
+2026-11-13T01:16:38.7392383Z 
+2026-11-13T01:16:38.7392639Z #7 [ 2/16] RUN apt-get update && apt-get install -y --no-install-recommends iproute2 iptables openssl util-linux     && rm -rf /var/lib/apt/lists/*
+2026-11-13T01:16:38.7465581Z #7 0.158 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+2026-11-13T01:16:38.8694264Z #7 0.203 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+2026-11-13T01:16:38.8694975Z #7 0.245 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+2026-11-13T01:16:38.8695742Z #7 0.281 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+2026-11-13T01:16:39.1191857Z #7 0.378 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+2026-11-13T01:16:39.1192374Z #7 0.380 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [368 kB]
+2026-11-13T01:16:39.5108834Z #7 0.922 Fetched 9407 kB in 1s (11.7 MB/s)
+2026-11-13T01:16:39.7483855Z #7 0.922 Reading package lists...
+2026-11-13T01:16:40.0002061Z #7 1.174 Reading package lists...
+2026-11-13T01:16:40.1205903Z #7 1.421 Building dependency tree...
+2026-11-13T01:16:40.1206209Z #7 1.471 Reading state information...
+2026-11-13T01:16:40.1206496Z #7 1.532 util-linux is already the newest version (2.38.1-5+deb12u3).
+2026-11-13T01:16:40.1206811Z #7 1.532 util-linux set to manually installed.
+2026-11-13T01:16:40.1207099Z #7 1.532 The following additional packages will be installed:
+2026-11-13T01:16:40.1207459Z #7 1.532   libbpf1 libbsd0 libcap2-bin libelf1 libip4tc2 libip6tc2 libmnl0
+2026-11-13T01:16:40.2453659Z #7 1.532   libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libssl3 libxtables12
+2026-11-13T01:16:40.2454113Z #7 1.533 Suggested packages:
+2026-11-13T01:16:40.2454933Z #7 1.533   iproute2-doc python3:any firewalld kmod
+2026-11-13T01:16:40.2455264Z #7 1.533 Recommended packages:
+2026-11-13T01:16:40.2455482Z #7 1.533   libatm1 nftables libpam-cap
+2026-11-13T01:16:40.2455876Z #7 1.569 The following NEW packages will be installed:
+2026-11-13T01:16:40.2456287Z #7 1.570   iproute2 iptables libbpf1 libbsd0 libcap2-bin libelf1 libip4tc2 libip6tc2
+2026-11-13T01:16:40.2456716Z #7 1.570   libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libxtables12
+2026-11-13T01:16:40.2457068Z #7 1.570 The following packages will be upgraded:
+2026-11-13T01:16:40.2457359Z #7 1.570   libssl3 openssl
+2026-11-13T01:16:40.2457635Z #7 1.620 2 upgraded, 13 newly installed, 0 to remove and 4 not upgraded.
+2026-11-13T01:16:40.2457866Z #7 1.620 Need to get 5558 kB of archives.
+2026-11-13T01:16:40.2458073Z #7 1.620 After this operation, 8585 kB of additional disk space will be used.
+2026-11-13T01:16:40.2458371Z #7 1.620 Get:1 http://deb.debian.org/debian bookworm/main amd64 libelf1 amd64 0.188-2.1 [174 kB]
+2026-11-13T01:16:40.2458689Z #7 1.657 Get:2 http://deb.debian.org/debian bookworm/main amd64 libbpf1 amd64 1:1.1.2-0+deb12u1 [145 kB]
+2026-11-13T01:16:40.3571478Z #7 1.660 Get:3 http://deb.debian.org/debian bookworm/main amd64 libbsd0 amd64 0.11.7-2 [117 kB]
+2026-11-13T01:16:40.3571900Z #7 1.669 Get:4 http://deb.debian.org/debian bookworm/main amd64 libmnl0 amd64 1.0.4-3 [12.5 kB]
+2026-11-13T01:16:40.3572224Z #7 1.669 Get:5 http://deb.debian.org/debian bookworm/main amd64 libxtables12 amd64 1.8.9-2 [30.8 kB]
+2026-11-13T01:16:40.3572566Z #7 1.670 Get:6 http://deb.debian.org/debian bookworm/main amd64 libcap2-bin amd64 1:2.66-4+deb12u3+b1 [35.2 kB]
+2026-11-13T01:16:40.3572902Z #7 1.671 Get:7 http://deb.debian.org/debian bookworm/main amd64 iproute2 amd64 6.1.0-3 [1046 kB]
+2026-11-13T01:16:40.3573430Z #7 1.686 Get:8 http://deb.debian.org/debian bookworm/main amd64 libip4tc2 amd64 1.8.9-2 [19.0 kB]
+2026-11-13T01:16:40.3573733Z #7 1.686 Get:9 http://deb.debian.org/debian bookworm/main amd64 libip6tc2 amd64 1.8.9-2 [19.4 kB]
+2026-11-13T01:16:40.3574049Z #7 1.686 Get:10 http://deb.debian.org/debian bookworm/main amd64 libnfnetlink0 amd64 1.0.2-2 [15.1 kB]
+2026-11-13T01:16:40.3574499Z #7 1.686 Get:11 http://deb.debian.org/debian bookworm/main amd64 libnetfilter-conntrack3 amd64 1.0.9-3 [40.7 kB]
+2026-11-13T01:16:40.3574835Z #7 1.687 Get:12 http://deb.debian.org/debian bookworm/main amd64 libnftnl11 amd64 1.2.4-2 [61.6 kB]
+2026-11-13T01:16:40.3575138Z #7 1.691 Get:13 http://deb.debian.org/debian bookworm/main amd64 iptables amd64 1.8.9-2 [360 kB]
+2026-11-13T01:16:40.3575492Z #7 1.693 Get:14 http://deb.debian.org/debian-security bookworm-security/main amd64 libssl3 amd64 3.0.22-1~deb12u2 [2040 kB]
+2026-11-13T01:16:40.3575920Z #7 1.705 Get:15 http://deb.debian.org/debian-security bookworm-security/main amd64 openssl amd64 3.0.22-1~deb12u2 [1442 kB]
+2026-11-13T01:16:40.3576269Z #7 1.768 debconf: delaying package configuration, since apt-utils is not installed
+2026-11-13T01:16:40.4585809Z #7 1.784 Fetched 5558 kB in 0s (41.3 MB/s)
+2026-11-13T01:16:40.4586376Z #7 1.795 Selecting previously unselected package libelf1:amd64.
+2026-11-13T01:16:40.4586909Z #7 1.795 (Reading database ... 
+2026-11-13T01:16:40.4587168Z (Reading database ... 5%
+2026-11-13T01:16:40.4587375Z (Reading database ... 10%
+2026-11-13T01:16:40.4587576Z (Reading database ... 15%
+2026-11-13T01:16:40.4587771Z (Reading database ... 20%
+2026-11-13T01:16:40.4587964Z (Reading database ... 25%
+2026-11-13T01:16:40.4588153Z (Reading database ... 30%
+2026-11-13T01:16:40.4588346Z (Reading database ... 35%
+2026-11-13T01:16:40.4588538Z (Reading database ... 40%
+2026-11-13T01:16:40.4588733Z (Reading database ... 45%
+2026-11-13T01:16:40.4589024Z (Reading database ... 50%
+2026-11-13T01:16:40.4589214Z (Reading database ... 55%
+2026-11-13T01:16:40.4648633Z (Reading database ... 60%
+2026-11-13T01:16:40.4649011Z (Reading database ... 65%
+2026-11-13T01:16:40.4649190Z (Reading database ... 70%
+2026-11-13T01:16:40.4649373Z (Reading database ... 75%
+2026-11-13T01:16:40.4649560Z (Reading database ... 80%
+2026-11-13T01:16:40.4649748Z (Reading database ... 85%
+2026-11-13T01:16:40.4649968Z (Reading database ... 90%
+2026-11-13T01:16:40.4650188Z (Reading database ... 95%
+2026-11-13T01:16:40.4650423Z (Reading database ... 100%
+2026-11-13T01:16:40.4650754Z (Reading database ... 6704 files and directories currently installed.)
+2026-11-13T01:16:40.4651161Z #7 1.800 Preparing to unpack .../00-libelf1_0.188-2.1_amd64.deb ...
+2026-11-13T01:16:40.4651458Z #7 1.801 Unpacking libelf1:amd64 (0.188-2.1) ...
+2026-11-13T01:16:40.4651754Z #7 1.821 Selecting previously unselected package libbpf1:amd64.
+2026-11-13T01:16:40.4652116Z #7 1.822 Preparing to unpack .../01-libbpf1_1%3a1.1.2-0+deb12u1_amd64.deb ...
+2026-11-13T01:16:40.4652459Z #7 1.823 Unpacking libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+2026-11-13T01:16:40.4652804Z #7 1.852 Selecting previously unselected package libbsd0:amd64.
+2026-11-13T01:16:40.4653149Z #7 1.853 Preparing to unpack .../02-libbsd0_0.11.7-2_amd64.deb ...
+2026-11-13T01:16:40.4653451Z #7 1.854 Unpacking libbsd0:amd64 (0.11.7-2) ...
+2026-11-13T01:16:40.4653743Z #7 1.870 Selecting previously unselected package libmnl0:amd64.
+2026-11-13T01:16:40.5660869Z #7 1.871 Preparing to unpack .../03-libmnl0_1.0.4-3_amd64.deb ...
+2026-11-13T01:16:40.5661260Z #7 1.872 Unpacking libmnl0:amd64 (1.0.4-3) ...
+2026-11-13T01:16:40.5661588Z #7 1.885 Selecting previously unselected package libxtables12:amd64.
+2026-11-13T01:16:40.5661884Z #7 1.887 Preparing to unpack .../04-libxtables12_1.8.9-2_amd64.deb ...
+2026-11-13T01:16:40.5662088Z #7 1.887 Unpacking libxtables12:amd64 (1.8.9-2) ...
+2026-11-13T01:16:40.5662358Z #7 1.899 Selecting previously unselected package libcap2-bin.
+2026-11-13T01:16:40.5662598Z #7 1.900 Preparing to unpack .../05-libcap2-bin_1%3a2.66-4+deb12u3+b1_amd64.deb ...
+2026-11-13T01:16:40.5663078Z #7 1.900 Unpacking libcap2-bin (1:2.66-4+deb12u3+b1) ...
+2026-11-13T01:16:40.5663268Z #7 1.914 Selecting previously unselected package iproute2.
+2026-11-13T01:16:40.5663540Z #7 1.915 Preparing to unpack .../06-iproute2_6.1.0-3_amd64.deb ...
+2026-11-13T01:16:40.5663769Z #7 1.916 Unpacking iproute2 (6.1.0-3) ...
+2026-11-13T01:16:40.5664048Z #7 1.978 Selecting previously unselected package libip4tc2:amd64.
+2026-11-13T01:16:40.7999280Z #7 1.979 Preparing to unpack .../07-libip4tc2_1.8.9-2_amd64.deb ...
+2026-11-13T01:16:40.7999519Z #7 1.980 Unpacking libip4tc2:amd64 (1.8.9-2) ...
+2026-11-13T01:16:40.7999734Z #7 1.991 Selecting previously unselected package libip6tc2:amd64.
+2026-11-13T01:16:40.7999960Z #7 1.992 Preparing to unpack .../08-libip6tc2_1.8.9-2_amd64.deb ...
+2026-11-13T01:16:40.8000170Z #7 1.993 Unpacking libip6tc2:amd64 (1.8.9-2) ...
+2026-11-13T01:16:40.8000367Z #7 2.005 Selecting previously unselected package libnfnetlink0:amd64.
+2026-11-13T01:16:40.8000615Z #7 2.006 Preparing to unpack .../09-libnfnetlink0_1.0.2-2_amd64.deb ...
+2026-11-13T01:16:40.8000829Z #7 2.006 Unpacking libnfnetlink0:amd64 (1.0.2-2) ...
+2026-11-13T01:16:40.8001058Z #7 2.018 Selecting previously unselected package libnetfilter-conntrack3:amd64.
+2026-11-13T01:16:40.8001326Z #7 2.019 Preparing to unpack .../10-libnetfilter-conntrack3_1.0.9-3_amd64.deb ...
+2026-11-13T01:16:40.8001573Z #7 2.020 Unpacking libnetfilter-conntrack3:amd64 (1.0.9-3) ...
+2026-11-13T01:16:40.8001789Z #7 2.044 Selecting previously unselected package libnftnl11:amd64.
+2026-11-13T01:16:40.8002008Z #7 2.045 Preparing to unpack .../11-libnftnl11_1.2.4-2_amd64.deb ...
+2026-11-13T01:16:40.8002199Z #7 2.046 Unpacking libnftnl11:amd64 (1.2.4-2) ...
+2026-11-13T01:16:40.8002380Z #7 2.059 Selecting previously unselected package iptables.
+2026-11-13T01:16:40.8002588Z #7 2.060 Preparing to unpack .../12-iptables_1.8.9-2_amd64.deb ...
+2026-11-13T01:16:40.8002776Z #7 2.061 Unpacking iptables (1.8.9-2) ...
+2026-11-13T01:16:40.8921023Z #7 2.303 Preparing to unpack .../13-libssl3_3.0.22-1~deb12u2_amd64.deb ...
+2026-11-13T01:16:41.0192947Z #7 2.431 Unpacking libssl3:amd64 (3.0.22-1~deb12u2) over (3.0.22-1~deb12u1) ...
+2026-11-13T01:16:41.3986008Z #7 2.810 Preparing to unpack .../14-openssl_3.0.22-1~deb12u2_amd64.deb ...
+2026-11-13T01:16:41.5871089Z #7 2.848 Unpacking openssl (3.0.22-1~deb12u2) over (3.0.22-1~deb12u1) ...
+2026-11-13T01:16:41.7945402Z #7 3.206 Setting up libip4tc2:amd64 (1.8.9-2) ...
+2026-11-13T01:16:41.8946008Z #7 3.218 Setting up libip6tc2:amd64 (1.8.9-2) ...
+2026-11-13T01:16:41.8946340Z #7 3.219 Setting up libssl3:amd64 (3.0.22-1~deb12u2) ...
+2026-11-13T01:16:41.8946638Z #7 3.221 Setting up libcap2-bin (1:2.66-4+deb12u3+b1) ...
+2026-11-13T01:16:41.8946847Z #7 3.223 Setting up libmnl0:amd64 (1.0.4-3) ...
+2026-11-13T01:16:41.8947018Z #7 3.224 Setting up libxtables12:amd64 (1.8.9-2) ...
+2026-11-13T01:16:41.8947194Z #7 3.226 Setting up libnfnetlink0:amd64 (1.0.2-2) ...
+2026-11-13T01:16:41.8947377Z #7 3.227 Setting up openssl (3.0.22-1~deb12u2) ...
+2026-11-13T01:16:41.8947563Z #7 3.230 Setting up libbsd0:amd64 (0.11.7-2) ...
+2026-11-13T01:16:41.8947729Z #7 3.232 Setting up libelf1:amd64 (0.188-2.1) ...
+2026-11-13T01:16:41.8947907Z #7 3.234 Setting up libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+2026-11-13T01:16:41.8948078Z #7 3.236 Setting up iproute2 (6.1.0-3) ...
+2026-11-13T01:16:41.8948246Z #7 3.278 debconf: unable to initialize frontend: Dialog
+2026-11-13T01:16:41.8948464Z #7 3.278 debconf: (TERM is not set, so the dialog frontend is not usable.)
+2026-11-13T01:16:41.8948675Z #7 3.278 debconf: falling back to frontend: Readline
+2026-11-13T01:16:41.8948858Z #7 3.278 debconf: unable to initialize frontend: Readline
+2026-11-13T01:16:41.8953494Z #7 3.278 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+2026-11-13T01:16:41.8954474Z #7 3.278 debconf: falling back to frontend: Teletype
+2026-11-13T01:16:41.8954655Z #7 3.306 Setting up libnftnl11:amd64 (1.2.4-2) ...
+2026-11-13T01:16:42.0685470Z #7 3.315 Setting up libnetfilter-conntrack3:amd64 (1.0.9-3) ...
+2026-11-13T01:16:42.0685879Z #7 3.317 Setting up iptables (1.8.9-2) ...
+2026-11-13T01:16:42.0686180Z #7 3.320 update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) in auto mode
+2026-11-13T01:16:42.0686587Z #7 3.322 update-alternatives: using /usr/sbin/ip6tables-legacy to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+2026-11-13T01:16:42.0686967Z #7 3.323 update-alternatives: using /usr/sbin/iptables-nft to provide /usr/sbin/iptables (iptables) in auto mode
+2026-11-13T01:16:42.0687343Z #7 3.325 update-alternatives: using /usr/sbin/ip6tables-nft to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+2026-11-13T01:16:42.0687721Z #7 3.326 update-alternatives: using /usr/sbin/arptables-nft to provide /usr/sbin/arptables (arptables) in auto mode
+2026-11-13T01:16:42.0688083Z #7 3.328 update-alternatives: using /usr/sbin/ebtables-nft to provide /usr/sbin/ebtables (ebtables) in auto mode
+2026-11-13T01:16:42.0688374Z #7 3.330 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+2026-11-13T01:16:45.6462481Z #7 DONE 7.1s
+2026-11-13T01:16:45.8177686Z 
+2026-11-13T01:16:45.8178169Z #8 [ 3/16] WORKDIR /work
+2026-11-13T01:16:45.8178432Z #8 DONE 0.0s
+2026-11-13T01:16:45.8178534Z 
+2026-11-13T01:16:45.8178630Z #9 [ 4/16] COPY requirements-ra1a.lock ./
+2026-11-13T01:16:45.8178856Z #9 DONE 0.0s
+2026-11-13T01:16:45.8179046Z 
+2026-11-13T01:16:45.8179230Z #10 [ 5/16] RUN python -m pip install --no-cache-dir -r requirements-ra1a.lock
+2026-11-13T01:16:46.6404266Z #10 0.973 Collecting attrs==26.1.0 (from -r requirements-ra1a.lock (line 2))
+2026-11-13T01:16:46.7483110Z #10 1.040   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-11-13T01:16:46.7483530Z #10 1.066 Collecting colorama==0.4.6 (from -r requirements-ra1a.lock (line 3))
+2026-11-13T01:16:46.7483801Z #10 1.081   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+2026-11-13T01:16:46.8513811Z #10 1.110 Collecting dnspython==2.8.0 (from -r requirements-ra1a.lock (line 4))
+2026-11-13T01:16:46.8514307Z #10 1.126   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+2026-11-13T01:16:46.8514734Z #10 1.147 Collecting h11==0.16.0 (from -r requirements-ra1a.lock (line 5))
+2026-11-13T01:16:46.8515119Z #10 1.163   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-11-13T01:16:46.8515548Z #10 1.184 Collecting iniconfig==2.3.1 (from -r requirements-ra1a.lock (line 6))
+2026-11-13T01:16:46.9603978Z #10 1.199   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-13T01:16:46.9604376Z #10 1.228 Collecting jsonschema-specifications==2025.9.1 (from -r requirements-ra1a.lock (line 7))
+2026-11-13T01:16:46.9604726Z #10 1.243   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-11-13T01:16:46.9605028Z #10 1.278 Collecting jsonschema==4.26.0 (from -r requirements-ra1a.lock (line 8))
+2026-11-13T01:16:46.9605303Z #10 1.293   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-11-13T01:16:47.0755726Z #10 1.408 Collecting librt==0.16.0 (from -r requirements-ra1a.lock (line 9))
+2026-11-13T01:16:47.1976733Z #10 1.424   Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-11-13T01:16:47.1977280Z #10 1.504 Collecting mypy==1.20.2 (from -r requirements-ra1a.lock (line 10))
+2026-11-13T01:16:47.1978009Z #10 1.530   Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-13T01:16:47.3117210Z #10 1.550 Collecting mypy_extensions==1.2.0 (from -r requirements-ra1a.lock (line 11))
+2026-11-13T01:16:47.3117811Z #10 1.565   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+2026-11-13T01:16:47.3119038Z #10 1.567 Requirement already satisfied: packaging==26.3 in /usr/local/lib/python3.11/site-packages (from -r requirements-ra1a.lock (line 12)) (26.3)
+2026-11-13T01:16:47.3119769Z #10 1.587 Collecting pathspec==1.1.1 (from -r requirements-ra1a.lock (line 13))
+2026-11-13T01:16:47.3120487Z #10 1.603   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-11-13T01:16:47.3120887Z #10 1.644 Collecting pluggy==1.7.0 (from -r requirements-ra1a.lock (line 14))
+2026-11-13T01:16:47.4254093Z #10 1.660   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-13T01:16:47.4254647Z #10 1.686 Collecting Pygments==2.21.0 (from -r requirements-ra1a.lock (line 15))
+2026-11-13T01:16:47.4255075Z #10 1.702   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-11-13T01:16:47.4255510Z #10 1.743 Collecting pytest==9.2.0 (from -r requirements-ra1a.lock (line 16))
+2026-11-13T01:16:47.4255896Z #10 1.758   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+2026-11-13T01:16:47.6739897Z #10 1.793 Collecting PyYAML==6.0.3 (from -r requirements-ra1a.lock (line 17))
+2026-11-13T01:16:47.6740319Z #10 1.808   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-13T01:16:47.6740687Z #10 1.841 Collecting referencing==0.37.0 (from -r requirements-ra1a.lock (line 18))
+2026-11-13T01:16:47.6740992Z #10 1.856   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-11-13T01:16:47.6904196Z #10 2.023 Collecting rpds-py==2026.9.1 (from -r requirements-ra1a.lock (line 19))
+2026-11-13T01:16:47.8567232Z #10 2.039   Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-11-13T01:16:47.9576755Z #10 2.290 Collecting ruff==0.17.4 (from -r requirements-ra1a.lock (line 20))
+2026-11-13T01:16:48.1509144Z #10 2.306   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+2026-11-13T01:16:48.1509751Z #10 2.336 Collecting typing_extensions==4.16.0 (from -r requirements-ra1a.lock (line 21))
+2026-11-13T01:16:48.1510237Z #10 2.351   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-13T01:16:48.1510876Z #10 2.353 Requirement already satisfied: setuptools==79.0.1 in /usr/local/lib/python3.11/site-packages (from -r requirements-ra1a.lock (line 22)) (79.0.1)
+2026-11-13T01:16:48.1511765Z #10 2.483 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-11-13T01:16:48.2561082Z #10 2.500    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.5/67.5 kB 4.1 MB/s eta 0:00:00
+2026-11-13T01:16:48.2561671Z #10 2.515 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+2026-11-13T01:16:48.2562068Z #10 2.531 Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+2026-11-13T01:16:48.2562631Z #10 2.559    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.1/331.1 kB 11.9 MB/s eta 0:00:00
+2026-11-13T01:16:48.2562999Z #10 2.574 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-11-13T01:16:48.2563348Z #10 2.589 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-13T01:16:48.3942837Z #10 2.604 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-11-13T01:16:48.3943321Z #10 2.619 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-11-13T01:16:48.3944014Z #10 2.621    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 198.3 MB/s eta 0:00:00
+2026-11-13T01:16:48.3944555Z #10 2.636 Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (515 kB)
+2026-11-13T01:16:48.3944997Z #10 2.651    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 516.0/516.0 kB 36.3 MB/s eta 0:00:00
+2026-11-13T01:16:48.3945314Z #10 2.666 Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.6 MB)
+2026-11-13T01:16:48.4944775Z #10 2.727    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.6/14.6 MB 438.5 MB/s eta 0:00:00
+2026-11-13T01:16:48.4945460Z #10 2.742 Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+2026-11-13T01:16:48.4945844Z #10 2.758 Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-11-13T01:16:48.4946314Z #10 2.759    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.3/57.3 kB 531.2 MB/s eta 0:00:00
+2026-11-13T01:16:48.4946694Z #10 2.774 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-13T01:16:48.4947230Z #10 2.789 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-11-13T01:16:48.4947698Z #10 2.793    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 516.7 MB/s eta 0:00:00
+2026-11-13T01:16:48.4948060Z #10 2.808 Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+2026-11-13T01:16:48.4948492Z #10 2.810    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 411.8/411.8 kB 650.1 MB/s eta 0:00:00
+2026-11-13T01:16:48.4949177Z #10 2.825 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-11-13T01:16:48.6650141Z #10 2.827    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 664.3 MB/s eta 0:00:00
+2026-11-13T01:16:48.6650463Z #10 2.842 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-11-13T01:16:48.6650773Z #10 2.858 Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (375 kB)
+2026-11-13T01:16:48.6651121Z #10 2.859    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 375.4/375.4 kB 678.8 MB/s eta 0:00:00
+2026-11-13T01:16:48.6651417Z #10 2.875 Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+2026-11-13T01:16:48.6651737Z #10 2.895    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 550.9 MB/s eta 0:00:00
+2026-11-13T01:16:48.6651971Z #10 2.913 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-13T01:16:48.6652247Z #10 2.914    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.6/45.6 kB 218.6 MB/s eta 0:00:00
+2026-11-13T01:16:48.6652760Z #10 2.998 Installing collected packages: typing_extensions, ruff, rpds-py, PyYAML, Pygments, pluggy, pathspec, mypy_extensions, librt, iniconfig, h11, dnspython, colorama, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema
+2026-11-13T01:16:50.3525295Z #10 4.685 Successfully installed PyYAML-6.0.3 Pygments-2.21.0 attrs-26.1.0 colorama-0.4.6 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 pathspec-1.1.1 pluggy-1.7.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 typing_extensions-4.16.0
+2026-11-13T01:16:50.5817301Z #10 4.685 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+2026-11-13T01:16:50.5817831Z #10 4.764 
+2026-11-13T01:16:50.5817992Z #10 4.764 [notice] A new release of pip is available: 24.0 -> 26.3
+2026-11-13T01:16:50.5818215Z #10 4.764 [notice] To update, run: pip install --upgrade pip
+2026-11-13T01:16:51.4939024Z #10 DONE 5.8s
+2026-11-13T01:16:51.6815193Z 
+2026-11-13T01:16:51.6815714Z #11 [ 6/16] COPY pyproject.toml ./
+2026-11-13T01:16:51.6816018Z #11 DONE 0.0s
+2026-11-13T01:16:51.6816124Z 
+2026-11-13T01:16:51.6816204Z #12 [ 7/16] COPY vrae ./vrae
+2026-11-13T01:16:51.6816404Z #12 DONE 0.0s
+2026-11-13T01:16:51.6816508Z 
+2026-11-13T01:16:51.6816642Z #13 [ 8/16] COPY apps/operator_console ./apps/operator_console
+2026-11-13T01:16:51.6816925Z #13 DONE 0.0s
+2026-11-13T01:16:51.6817031Z 
+2026-11-13T01:16:51.6817157Z #14 [ 9/16] COPY contracts ./contracts
+2026-11-13T01:16:51.6817370Z #14 DONE 0.0s
+2026-11-13T01:16:51.6817458Z 
+2026-11-13T01:16:51.6817566Z #15 [10/16] COPY industry-packs ./industry-packs
+2026-11-13T01:16:51.6817805Z #15 DONE 0.0s
+2026-11-13T01:16:51.6817897Z 
+2026-11-13T01:16:51.6817981Z #16 [11/16] COPY tests ./tests
+2026-11-13T01:16:51.6818171Z #16 DONE 0.1s
+2026-11-13T01:16:51.8636566Z 
+2026-11-13T01:16:51.8637047Z #17 [12/16] COPY scripts ./scripts
+2026-11-13T01:16:51.8637350Z #17 DONE 0.0s
+2026-11-13T01:16:51.8637455Z 
+2026-11-13T01:16:51.8638056Z #18 [13/16] COPY docs/03-engineering/ra3c-independent-qa ./docs/03-engineering/ra3c-independent-qa
+2026-11-13T01:16:51.8639287Z #18 DONE 0.0s
+2026-11-13T01:16:51.8640767Z 
+2026-11-13T01:16:52.0011816Z #19 [14/16] RUN python -m pip install --no-deps --no-build-isolation -e '.[dev]' && mkdir /lab
+2026-11-13T01:16:52.0012095Z #19 0.288 Obtaining file:///work
+2026-11-13T01:16:52.1525268Z #19 0.289   Checking if build backend supports build_editable: started
+2026-11-13T01:16:52.1662025Z #19 0.453   Checking if build backend supports build_editable: finished with status 'done'
+2026-11-13T01:16:52.3171869Z #19 0.454   Preparing editable metadata (pyproject.toml): started
+2026-11-13T01:16:52.3797809Z #19 0.667   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-11-13T01:16:52.5959588Z #19 0.673 Checking if build backend supports build_editable: started
+2026-11-13T01:16:52.5960065Z #19 0.749 Checking if build backend supports build_editable: finished with status 'done'
+2026-11-13T01:16:52.5960503Z #19 0.749 Building wheels for collected packages: vrae
+2026-11-13T01:16:52.5960835Z #19 0.750   Building editable for vrae (pyproject.toml): started
+2026-11-13T01:16:52.5961232Z #19 0.883   Building editable for vrae (pyproject.toml): finished with status 'done'
+2026-11-13T01:16:52.7197609Z #19 0.884   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2739 sha256=d85e44c6ee8b98a1688b126935eaf38680e770d0b41b2f31863bd9e95766e195
+2026-11-13T01:16:52.7198582Z #19 0.884   Stored in directory: /tmp/pip-ephem-wheel-cache-dc80964p/wheels/ab/b8/c0/a9ba31bee702e5eb1c32d648f0503425e03b81d5dafe8f0dd3
+2026-11-13T01:16:52.7199217Z #19 0.885 Successfully built vrae
+2026-11-13T01:16:52.7199459Z #19 0.885 Installing collected packages: vrae
+2026-11-13T01:16:52.7199712Z #19 0.897 Successfully installed vrae-0.1.0
+2026-11-13T01:16:52.7200490Z #19 0.897 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+2026-11-13T01:16:52.7201312Z #19 1.007 
+2026-11-13T01:16:52.7201551Z #19 1.007 [notice] A new release of pip is available: 24.0 -> 26.3
+2026-11-13T01:16:52.7201876Z #19 1.007 [notice] To update, run: pip install --upgrade pip
+2026-11-13T01:16:52.8221441Z #19 DONE 1.1s
+2026-11-13T01:16:52.8221621Z 
+2026-11-13T01:16:52.8221810Z #20 [15/16] COPY infra/ra1a/entrypoint.sh /lab/entrypoint.sh
+2026-11-13T01:16:52.8222105Z #20 DONE 0.0s
+2026-11-13T01:16:52.9378730Z 
+2026-11-13T01:16:52.9379551Z #21 [16/16] RUN sed -i 's/\r$//' /lab/entrypoint.sh && chmod 755 /lab/entrypoint.sh
+2026-11-13T01:16:52.9379909Z #21 DONE 0.1s
+2026-11-13T01:16:53.0904288Z 
+2026-11-13T01:16:53.0904807Z #22 exporting to image
+2026-11-13T01:16:53.0905078Z #22 exporting layers
+2026-11-13T01:16:56.0099954Z #22 exporting layers 3.1s done
+2026-11-13T01:16:56.1771782Z #22 exporting manifest sha256:7e070e7281aa70514fa2fbf0fb785b6e0f62a1d4a84a940312e0209ad7573a36 done
+2026-11-13T01:16:56.1772243Z #22 exporting config sha256:77fdda98e6a478410f73ae64eead16212bf3db48fb89c07975f6a1a211a23f6b done
+2026-11-13T01:16:56.1772608Z #22 exporting attestation manifest sha256:a57ed697a5a37ac2d191b0bf828485b24ed0ef12ae5a6996460fe66eeca844e9 done
+2026-11-13T01:16:56.1772982Z #22 exporting manifest list sha256:a56d6beb04c6042f28135a902e4614f347449afa1f6ae9b07b6738927a423aa0 done
+2026-11-13T01:16:56.1773262Z #22 naming to docker.io/library/vrae-ra1a-lab:ci done
+2026-11-13T01:16:56.1773453Z #22 unpacking to docker.io/library/vrae-ra1a-lab:ci
+2026-11-13T01:16:56.8122520Z #22 unpacking to docker.io/library/vrae-ra1a-lab:ci 0.8s done
+2026-11-13T01:16:56.8650818Z #22 DONE 3.9s
+2026-11-13T01:16:56.8743979Z ##[group]Run docker run --rm --network none --cap-add NET_ADMIN --read-only --tmpfs /tmp:rw,nosuid,nodev,size=128m --memory 512m --cpus 1 --pids-limit 128 --security-opt no-new-privileges vrae-ra1a-lab:ci
+2026-11-13T01:16:56.8744686Z [36;1mdocker run --rm --network none --cap-add NET_ADMIN --read-only --tmpfs /tmp:rw,nosuid,nodev,size=128m --memory 512m --cpus 1 --pids-limit 128 --security-opt no-new-privileges vrae-ra1a-lab:ci[0m
+2026-11-13T01:16:56.8786408Z shell: /usr/bin/bash -e {0}
+2026-11-13T01:16:56.8786548Z ##[endgroup]
+2026-11-13T01:16:58.2310377Z === ISOLATED NAMESPACE AND FIREWALL ===
+2026-11-13T01:16:58.2316161Z 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+2026-11-13T01:16:58.2316659Z     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2026-11-13T01:16:58.2317237Z     inet 127.0.0.1/8 scope host lo
+2026-11-13T01:16:58.2317661Z        valid_lft forever preferred_lft forever
+2026-11-13T01:16:58.2318187Z     inet 93.184.216.20/32 scope global lo
+2026-11-13T01:16:58.2318574Z        valid_lft forever preferred_lft forever
+2026-11-13T01:16:58.2319049Z     inet 93.184.216.21/32 scope global lo
+2026-11-13T01:16:58.2319430Z        valid_lft forever preferred_lft forever
+2026-11-13T01:16:58.2319782Z     inet 93.184.216.53/32 scope global lo
+2026-11-13T01:16:58.2320031Z        valid_lft forever preferred_lft forever
+2026-11-13T01:16:58.2320280Z     inet 169.254.169.254/32 scope global lo
+2026-11-13T01:16:58.2320524Z        valid_lft forever preferred_lft forever
+2026-11-13T01:16:58.2320757Z     inet 10.77.0.2/32 scope global lo
+2026-11-13T01:16:58.2320986Z        valid_lft forever preferred_lft forever
+2026-11-13T01:16:58.2321303Z     inet6 ::1/128 scope host 
+2026-11-13T01:16:58.2321518Z        valid_lft forever preferred_lft forever
+2026-11-13T01:16:58.2337969Z # Generated by iptables-save v1.8.9 (nf_tables) on Fri Nov 13 01:16:58 2026
+2026-11-13T01:16:58.2338198Z *filter
+2026-11-13T01:16:58.2338308Z :INPUT DROP [0:0]
+2026-11-13T01:16:58.2338505Z :FORWARD DROP [0:0]
+2026-11-13T01:16:58.2338678Z :OUTPUT DROP [0:0]
+2026-11-13T01:16:58.2339027Z -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+2026-11-13T01:16:58.2339393Z -A INPUT -d 93.184.216.20/32 -p tcp -m multiport --dports 80,443 -j ACCEPT
+2026-11-13T01:16:58.2339631Z -A INPUT -d 93.184.216.53/32 -p udp -m udp --dport 53 -j ACCEPT
+2026-11-13T01:16:58.2339838Z -A INPUT -d 93.184.216.53/32 -p tcp -m tcp --dport 53 -j ACCEPT
+2026-11-13T01:16:58.2340050Z -A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+2026-11-13T01:16:58.2340279Z -A OUTPUT -d 93.184.216.20/32 -p tcp -m multiport --dports 80,443 -j ACCEPT
+2026-11-13T01:16:58.2340504Z -A OUTPUT -d 93.184.216.53/32 -p udp -m udp --dport 53 -j ACCEPT
+2026-11-13T01:16:58.2340707Z -A OUTPUT -d 93.184.216.53/32 -p tcp -m tcp --dport 53 -j ACCEPT
+2026-11-13T01:16:58.2340874Z COMMIT
+2026-11-13T01:16:58.2340990Z # Completed on Fri Nov 13 01:16:58 2026
+2026-11-13T01:16:58.2345966Z # Generated by ip6tables-save v1.8.9 (nf_tables) on Fri Nov 13 01:16:58 2026
+2026-11-13T01:16:58.2346277Z *filter
+2026-11-13T01:16:58.2346835Z :INPUT DROP [0:0]
+2026-11-13T01:16:58.2347011Z :FORWARD DROP [0:0]
+2026-11-13T01:16:58.2347197Z :OUTPUT DROP [0:0]
+2026-11-13T01:16:58.2347362Z COMMIT
+2026-11-13T01:16:58.2347557Z # Completed on Fri Nov 13 01:16:58 2026
+2026-11-13T01:16:58.5275366Z 1-compileall.log EXIT_CODE 0
+2026-11-13T01:16:58.5275547Z  
+2026-11-13T01:16:58.6125406Z 2-ruff.log EXIT_CODE 0
+2026-11-13T01:16:58.6125895Z All checks passed!
+2026-11-13T01:16:58.6126097Z  
+2026-11-13T01:16:59.8482900Z 3-mypy.log EXIT_CODE 0
+2026-11-13T01:16:59.8483119Z Success: no issues found in 68 source files
+2026-11-13T01:16:59.8483289Z  
+2026-11-13T01:21:38.4026109Z 4-pytest.log EXIT_CODE 0
+2026-11-13T01:21:38.4028355Z ...............................................................................................s.....................................NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28], ["factory.test.", 1], ["factory.test.", 28], ["factory.test.", 1], ["factory.test.", 28], ["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET /robots.txt HTTP/1.1", "GET / HTTP/1.1", "GET /products HTTP/1.1", "GET /contact HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test", "factory.test", "factory.test", "factory.test"], "test": "tests/collection/test_isolated.py::test_real_dns_tls_peer_host_and_evidence (call)", "uid": 65532}
+2026-11-13T01:21:38.4031454Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[127.0.0.1] (call)", "uid": 65532}
+2026-11-13T01:21:38.4032975Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[169.254.169.254] (call)", "uid": 65532}
+2026-11-13T01:21:38.4034475Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[10.77.0.2] (call)", "uid": 65532}
+2026-11-13T01:21:38.4036156Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[93.184.216.21] (call)", "uid": 65532}
+2026-11-13T01:21:38.4039152Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_kernel_blocks_direct_socket_bypassing_application[::1] (call)", "uid": 65532}
+2026-11-13T01:21:38.4040700Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_tls_untrusted_or_wrong_hostname_has_no_http[factory.test-False] (call)", "uid": 65532}
+2026-11-13T01:21:38.4042392Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["wrong.test.", 1], ["wrong.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": ["wrong.test"], "test": "tests/collection/test_isolated.py::test_tls_untrusted_or_wrong_hostname_has_no_http[wrong.test-True] (call)", "uid": 65532}
+2026-11-13T01:21:38.4044185Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[http://127.0.0.1/] (call)", "uid": 65532}
+2026-11-13T01:21:38.4046022Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[http://169.254.169.254/] (call)", "uid": 65532}
+2026-11-13T01:21:38.4047913Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[https://other.test/] (call)", "uid": 65532}
+2026-11-13T01:21:38.4049977Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[http://factory.test/] (call)", "uid": 65532}
+2026-11-13T01:21:38.4051767Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_redirect_denied_before_second_connection[/a/%252e%252e/private] (call)", "uid": 65532}
+2026-11-13T01:21:38.4053687Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28], ["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_dns_rebinding_on_redirect_is_blocked (call)", "uid": 65532}
+2026-11-13T01:21:38.4055404Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[chunked] (call)", "uid": 65532}
+2026-11-13T01:21:38.4057062Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[no-length] (call)", "uid": 65532}
+2026-11-13T01:21:38.4058726Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[huge-length] (call)", "uid": 65532}
+2026-11-13T01:21:38.4061058Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[slow-headers] (call)", "uid": 65532}
+2026-11-13T01:21:38.4062685Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_unbounded_response_stops[slow-chunk] (call)", "uid": 65532}
+2026-11-13T01:21:38.4064320Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_real_dns_mixed_or_ipv6_denial_has_zero_http[values0-A] (call)", "uid": 65532}
+2026-11-13T01:21:38.4065874Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_real_dns_mixed_or_ipv6_denial_has_zero_http[values1-AAAA] (call)", "uid": 65532}
+2026-11-13T01:21:38.4067418Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": [], "interfaces": ["lo"], "sni": [], "test": "tests/collection/test_isolated.py::test_real_dns_mixed_or_ipv6_denial_has_zero_http[values2-AAAA] (call)", "uid": 65532}
+2026-11-13T01:21:38.4069371Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["GET / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_cancel_during_stream_closes_socket (call)", "uid": 65532}
+2026-11-13T01:21:38.4071132Z .NETWORK_EVIDENCE {"bait_connections": 0, "dns_queries": [["factory.test.", 1], ["factory.test.", 28]], "external_routes": false, "http_request_lines": ["HEAD / HTTP/1.1"], "interfaces": ["lo"], "sni": ["factory.test"], "test": "tests/collection/test_isolated.py::test_real_head_has_no_body_and_no_hidden_resolution (call)", "uid": 65532}
+2026-11-13T01:21:38.4078452Z ..........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................OWNER_RA3C_V2_ACTUAL_COLLECTION {"approved_browser_receipt_sha256": "0b0c1ae1470710982f1b0867d5d31673d37ac2098b0cc2b3e64f6b96dbc31a6e", "browser_run_during_collection": false, "denial_ids": ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T12", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10", "C01", "C02", "C03", "C04", "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10", "D11", "D12", "E01", "E02", "E09", "E10", "E11", "E12", "E13", "E14", "F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08", "M08_INCOMPLETE"], "denials_collected": 54, "frozen_code_identity": "e2f9466f06bb3e7afbaf2e55575562d9d6fb453e", "frozen_oracles_modified": false, "github_checkout_sha": null, "historical_v1_omitted_from_default": 64, "observation_stage": "OWNER_ACCEPTED_PHASE_B_EXACT_RENDERER_EVIDENCE", "primary_collected": 64, "primary_ids": ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10", "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10", "D11", "D12", "E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10", "E11", "E12", "E13", "E14", "F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08"], "profile_sha256": "f6d9f5432314e567016b3e09a84d753cc54fa6d6bd4543492fc1ee692b781294", "source_path": "docs/03-engineering/ra3c-independent-qa/owner-adjudicated-v2/test_acceptance_v2.py", "source_sha256": "9e60d3e307d3a4726adca62b79319b6a85f11a65453390b68a5003bd6a643e62", "transported_json_pointers": ["/viewports/375/screenshot_path", "/viewports/1280/screenshot_path", "/business_review/value_memo/comparison/zero_screenshot_path"], "verified_evidence_members": 24, "version": "OWNER_AUTHORIZED_RA3C_PHASE_C_MINIMAL_COLLECTION_V2"}
+2026-11-13T01:21:38.4134882Z ......................................................................................................................OWNER_RA3C_V2_ACTUAL_CALL_REPORTS {"actual_call_reports": {"tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B05]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B06]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B07]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B08]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B09]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[B10]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[C01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[C02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[C03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[C04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D05]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D06]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D07]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D08]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D09]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D10]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D11]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[D12]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E09]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E10]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E11]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E12]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E13]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[E14]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F05]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F06]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F07]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[F08]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[M08_INCOMPLETE]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T01]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T02]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T03]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T04]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T05]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T06]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T07]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T08]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T09]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T10]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_companion_original_invalid_request_denial[T12]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B01-Four layers are distinguishable in structured and rendered output]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B02-Potential impact stays provisional human review]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B03-Suggested action remains proposed, not approved delivery]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B04-Recheck names the recorded path and observable status]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B05-Verified INQUIRE buyer task preserved]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B06-Capture date/pages/unchecked scope visible]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B07-Chinese-first fact wording has no unsupported certainty]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B08-VEYFRONT action is scoped discussion, not complex-platform commitment]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B09-No invented severity, confidence, whole-site score or ROI]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[B10-Next step does not claim a lead, sale or consultation occurred]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C01-Every issue points to original verified native Finding]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C02-Quoted source bytes/positions and individual guard binding match]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C03-URL/href/status/time/scope all trace exact captured edge]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C04-TRUST/SEO/INFO positives are never repackaged as defects]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C05-Real refs do not prove legal registration, ISO or factory ownership]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C06-Real refs do not prove search rank, uplift, loss or causality]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C07-Contact 200 does not prove delivery or customer case]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[C08-Caller-held guard/package pins are not replaced from output]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D01-Deterministic build-load-verify round trip includes exact HTML]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D02-Editorial fact wording changed after hash fails closed]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D03-HTML bytes changed after hash fails closed]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D04-Citation ID or URL changed after hash fails closed]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D05-Cross tenant/run/policy cannot inherit report identity]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D06-Source timestamp, coverage and version are hash-bound]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D07-Language/layout/asset versions are content-bound]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D08-Claim status/guard ref alteration is rejected]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D09-New valid version cannot load under old independent digest]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D10-APPROVED/by/time/shareable forgery fails closed]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D11-Fabricated ReviewDecision/ShareGrant cannot authorize native draft]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[D12-Native ReportVersion, when included, validates exact RA0 finding hash]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E01-Standalone HTML has no executable or remote dependency]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E02-Source/evidence links remain internal anchors]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E03-Captured script-shaped text remains inert]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E04-Image/onerror source remains inert]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E05-javascript/data/encoded href cannot become active navigation]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E06-Model role delimiters and tool commands cannot change authority]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E07-Long untrusted title remains bounded, not a debug dump]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E08-Bidi/RTL text cannot impersonate privacy controls]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E09-PII may be bounded reviewer text, never public href/token]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E10-All evidence anchors are unique and resolvable]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E11-Primary report is not the full raw evidence/guard JSON]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E12-No unsupported customer photograph/testimonial/case claim]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E13-No active send/share/contact form or enabled lead action]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[E14-UTF-8 Chinese page and legible private synthetic state]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F01-Actual 375px mobile reading: no horizontal overflow]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F02-Actual 1280px desktop: one-page hierarchy readable]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F03-Actual citation click/expand reaches correct recorded source]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F04-Private/not-approved badge visible above fold on both sizes]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F05-Genuine screenshots bind exact HTML/candidate, zero external requests]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F06-Source-bound QA reading memo separates four business layers]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F07-Actual review states what VEYFRONT can offer and cannot promise]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[F08-Compare 0/1-issue drafts for honest commercial usefulness]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T01-404: one captured product-contact failure, TRUST unknown]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T02-410: independent capture, one issue not combined with 404]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T03-200: truthful zero issues, no native empty ReportVersion]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T04-403: inaccessible is not a business defect]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T05-WAF challenge: honest restricted coverage]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T06-Robots denied contact: no invented FAIL]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T07-Unretained raw source: no unsupported objective report]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T08-Unvisited contact: no assertion of broken inquiry]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T09-500: transient source failure is not proven 404 defect]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T10-Repeated contact edge is one buyer problem]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T11-200/404 pack mix cannot launder a finding]": "passed", "tests/reporting/test_ra3c_owner_adjudicated_v2.py::test_owner_adjudicated_business_objective[T12-Padding one issue to four cannot load as the original draft]": "passed"}, "denial_count": 54, "primary_count": 64, "setup_or_call_problems": [], "source_sha256": "9e60d3e307d3a4726adca62b79319b6a85f11a65453390b68a5003bd6a643e62"}
+2026-11-13T01:21:38.4249821Z .................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................RA3D_D1D2_ACTUAL_RECEIPT={"called": 127, "calls": [{"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_source_cannot_bypass_native_guard[quote]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_source_cannot_bypass_native_guard[range]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_source_cannot_bypass_native_guard[fake_fact]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_source_cannot_bypass_native_guard[guard_status]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_source_cannot_bypass_native_guard[cross_pack]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_source_cannot_bypass_native_guard[unsupported_prose]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_source_cannot_bypass_native_guard[model]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_source_cannot_bypass_native_guard[missing_claim]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_draft_cannot_replace_replayed_original[html]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_draft_cannot_replace_replayed_original[h0]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_draft_cannot_replace_replayed_original[approval]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_draft_cannot_replace_replayed_original[missing_claim]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_rehashing_draft_cannot_replace_replayed_original[fake_source]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_memo_never_caches_failed_source_or_current_round", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_no_native_approval_or_share_helper_invoked", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_free_form_actor_not_an_identity[None]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_free_form_actor_not_an_identity[bad1]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_free_form_actor_not_an_identity[{}]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_free_form_actor_not_an_identity[bad3]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_malformed_commands_cannot_escape_as_success[null]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_malformed_commands_cannot_escape_as_success[[]]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_malformed_commands_cannot_escape_as_success[{}]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_malformed_commands_cannot_escape_as_success[{\"action\":true}]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_malformed_commands_cannot_escape_as_success[{\"idempotency_key\":[]}]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_malformed_commands_cannot_escape_as_success[{\"a\":1,\"a\":2}]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_reason_prompt_injection_is_inert_data", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_changes_need_specific_claim_location", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_expected_seq_collision_without_partial_receipt", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_clock_high_water_on_observation_and_no_tz_offset", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_deep_refusals.py::test_target_direct_construction_is_never_ledger_authority", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_native_end_to_end_simulation[404-APPROVE_CANDIDATE-SIMULATED_APPROVE_CANDIDATE]", "outcome": "passed", "properties": [["target_digest", "5705ac9e45e5118bc162bdece42f040a61360cf090b09500f7e9de5c89a9d256"], ["receipt_digest", "2fe52b81bbcdaf26a5f55d54131065609048394a782a31c4b39cc3ba25e7791c"]]}, {"id": "tests/reviewing/test_offline_contract.py::test_native_end_to_end_simulation[404-REQUEST_CHANGES-SIMULATED_CHANGES_REQUESTED]", "outcome": "passed", "properties": [["target_digest", "5705ac9e45e5118bc162bdece42f040a61360cf090b09500f7e9de5c89a9d256"], ["receipt_digest", "1082ce304a87deb018c55f51134b753d6f6fa6e2f30e2c3d54832d79c0849c43"]]}, {"id": "tests/reviewing/test_offline_contract.py::test_native_end_to_end_simulation[404-REJECT-SIMULATED_REJECTED]", "outcome": "passed", "properties": [["target_digest", "5705ac9e45e5118bc162bdece42f040a61360cf090b09500f7e9de5c89a9d256"], ["receipt_digest", "02d4b1e5b90d9b279ba9c922e8c7082ab7f8c50138171addf89143fd40ab8ba8"]]}, {"id": "tests/reviewing/test_offline_contract.py::test_native_end_to_end_simulation[200-None-SIMULATED_INTERNAL_SCOPE_ACK]", "outcome": "passed", "properties": [["target_digest", "c309bb1878103fdcb71200de644a685a52a04ab38d29325571cbc3a7f2bb4050"], ["receipt_digest", "368b13d72e7d57655cf8aca093324a5b1aae9bbe48446ef7447da9bf12490500"]]}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[{\"a\":1,\"a\":2}-D_JSON_DUPLICATE_KEY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[{\"x\":{\"k\":1,\"k\":2}}-D_JSON_DUPLICATE_KEY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[{\"x\":NaN}-D_JSON_NONFINITE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[{\"x\":Infinity}-D_JSON_NONFINITE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[{\"x\":-Infinity}-D_JSON_NONFINITE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[{\"x\":1.2}-D_JSON_TYPE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[{\"x\":9007199254740992}-D_JSON_BOUND]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[\\xff-D_JSON_INVALID]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[{\"x\":\"\\ud800\"}-D_JSON_INVALID]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[0]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]-D_JSON_BOUND]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_strict_json[raw10-D_JSON_BOUND]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_domain_separation_no_normalization", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[html-D_ARTIFACT_TAMPER]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[css-D_ARTIFACT_TAMPER]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[footer-D_ARTIFACT_TAMPER]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[h0-D_ARTIFACT_TAMPER]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[native_approval-D_ARTIFACT_TAMPER]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[zero_to_finding-D_ARTIFACT_TAMPER]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[source_quote-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[byte_range-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[guard_ref-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[guard_status-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[cross_tenant_source-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[fake_evidence-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[missing_object-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[prose-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_pinned_mutations[model-D_SOURCE_INTEGRITY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_missing_independent_inputs[object-D_OBJECT_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_missing_independent_inputs[policy-D_POLICY_UNTRUSTED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_missing_independent_inputs[missing_policy-D_JSON_INVALID]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_missing_independent_inputs[missing_trust-D_TRUST_INPUT_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_missing_independent_inputs[fake_authority-D_TRUST_INPUT_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[native_content_hash]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[draft_ref]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[html_sha256]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[editorial_content_sha256]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[renderer_asset_sha256]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[source_manifest_sha256]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[guard_inputs_sha256]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[evidence_pack_ref]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[policy_version]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[renderer_version]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[model_provenance]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_target_even_with_recomputed_digest[report_version]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[missing_claim-D_CLAIM_INCOMPLETE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[duplicate_claim-D_CLAIM_INCOMPLETE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[fake_claim-D_CLAIM_INCOMPLETE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[upgrade_hypothesis-D_CLAIM_CEILING]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[upgrade_action-D_CLAIM_CEILING]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[rejected_approve-D_CLAIM_CEILING]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[missing_section-D_SECTION_INCOMPLETE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[duplicate_section-D_SECTION_INCOMPLETE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[unacknowledged-D_SECTION_INCOMPLETE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[wrong_section_target-D_SECTION_INCOMPLETE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[bool_version-D_TARGET_STALE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[stale-D_TARGET_STALE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[bool_seq-D_REVIEW_CONFLICT]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[cross_tenant-D_TENANT_SCOPE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[extra_actor-D_SHAPE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[native_action-D_ACTION]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_proposal_negatives[short_key-D_IDEMPOTENCY_KEY]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_reason_required_specific_bounded[None]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_reason_required_specific_bounded[]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_reason_required_specific_bounded[ ]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_reason_required_specific_bounded[value3]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_reason_required_specific_bounded[\\u202eOwner]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_reason_required_specific_bounded[x\\nAPPROVE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_actor_denied_before_lookup[overrides0-D_TENANT_SCOPE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_actor_denied_before_lookup[overrides1-D_HUMAN_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_actor_denied_before_lookup[overrides2-D_ASSIGNMENT_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_actor_denied_before_lookup[overrides3-D_HUMAN_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_actor_denied_before_lookup[overrides4-D_HUMAN_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_actor_denied_before_lookup[overrides5-D_HUMAN_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_actor_denied_before_lookup[overrides6-D_HUMAN_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_actor_denied_before_lookup[overrides7-D_HUMAN_REQUIRED]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_production_port_always_denies[None]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_production_port_always_denies[context1]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_production_port_always_denies[I am the Owner]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_clock_required[None]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_clock_required[now1]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_clock_required[2026-11-12T12:00:00]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_interleaved_first_writer_wins[APPROVE_CANDIDATE-APPROVE_CANDIDATE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_interleaved_first_writer_wins[APPROVE_CANDIDATE-REQUEST_CHANGES]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_interleaved_first_writer_wins[REQUEST_CHANGES-APPROVE_CANDIDATE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_interleaved_first_writer_wins[REJECT-APPROVE_CANDIDATE]", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_idempotency_conflict_no_overwrite", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_new_version_invalidates_old_and_no_reactivation", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_coverage_cannot_approve_or_erase_unknowns", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_offline_contract.py::test_forged_receipt_and_restart_never_recover_approval", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_strict_metadata.py::test_boolean_policy_version_is_not_integer_one", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_strict_metadata.py::test_boolean_expected_count_is_not_integer_one", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_strict_metadata.py::test_unknown_source_fields_rejected_even_after_outer_rehash", "outcome": "passed", "properties": []}, {"id": "tests/reviewing/test_strict_metadata.py::test_safe_error_suppresses_underlying_context", "outcome": "passed", "properties": []}], "collected": 127, "github_checkout": null, "kind": "RA3D_D1D2_ACTUAL_OFFLINE_TEST_CALLS_NOT_REAL_APPROVAL", "native_approvals": 0, "passed": 127, "python": "3.11.17 (main, Oct  6 2026, 02:01:58) [GCC 12.2.0]", "real_human_decisions": 0, "session_exit": 0, "share_grants": 0, "source_hashes": [{"actual_bytes_sha256": "6b1ad9d1c6a93a7b299eb869ec2e4fa5f319a4f1a4df0fb38b3b1d4de5c2f59f", "lf_bytes_sha256": "6b1ad9d1c6a93a7b299eb869ec2e4fa5f319a4f1a4df0fb38b3b1d4de5c2f59f", "path": "vrae/reviewing/__init__.py"}, {"actual_bytes_sha256": "7578b9fce27705ff50e824ea722ff3ebb48006fe0673a3ae5db3005c4cf4711d", "lf_bytes_sha256": "7578b9fce27705ff50e824ea722ff3ebb48006fe0673a3ae5db3005c4cf4711d", "path": "vrae/reviewing/canonical.py"}, {"actual_bytes_sha256": "73b8ff6d7719a2ee41fd138edb58cbbd9764b0b5a1f6810971feccca43b1ce4b", "lf_bytes_sha256": "73b8ff6d7719a2ee41fd138edb58cbbd9764b0b5a1f6810971feccca43b1ce4b", "path": "vrae/reviewing/proposals.py"}, {"actual_bytes_sha256": "1815c95b4731f30bf9ed7e77c142a73f2be02a850c425b31749d2253406d9122", "lf_bytes_sha256": "1815c95b4731f30bf9ed7e77c142a73f2be02a850c425b31749d2253406d9122", "path": "vrae/reviewing/simulation.py"}, {"actual_bytes_sha256": "16c1fb59ed2cc5cb6cb93c5a1416b88ba7832789d9533f3cf20a65cda51b0219", "lf_bytes_sha256": "16c1fb59ed2cc5cb6cb93c5a1416b88ba7832789d9533f3cf20a65cda51b0219", "path": "vrae/reviewing/target.py"}, {"actual_bytes_sha256": "9d158008fe8b891cf02baa41e77dd1dc869351c946b77884631b28c779003174", "lf_bytes_sha256": "9d158008fe8b891cf02baa41e77dd1dc869351c946b77884631b28c779003174", "path": "tests/reviewing/__init__.py"}, {"actual_bytes_sha256": "08c7c72bda11421b0f86d0bd8ddb7f5d6fc87a73ea6b85e1f97fbd3d547b584c", "lf_bytes_sha256": "08c7c72bda11421b0f86d0bd8ddb7f5d6fc87a73ea6b85e1f97fbd3d547b584c", "path": "tests/reviewing/conftest.py"}, {"actual_bytes_sha256": "9529b7eb4a56cbaf7e644706c9d077e68bd3edf8fd78c2cf7afd08d05e723c36", "lf_bytes_sha256": "9529b7eb4a56cbaf7e644706c9d077e68bd3edf8fd78c2cf7afd08d05e723c36", "path": "tests/reviewing/fixtures/200.json"}, {"actual_bytes_sha256": "8421355fa0351d2901fffa08c82a23bfed379980e5e7ba192c3e6ecf525f3b66", "lf_bytes_sha256": "8421355fa0351d2901fffa08c82a23bfed379980e5e7ba192c3e6ecf525f3b66", "path": "tests/reviewing/fixtures/404.json"}, {"actual_bytes_sha256": "d1b767f83ace22af42b059425fab957697e7d8cb004c86a0c479d520720b7327", "lf_bytes_sha256": "d1b767f83ace22af42b059425fab957697e7d8cb004c86a0c479d520720b7327", "path": "tests/reviewing/synthetic.py"}, {"actual_bytes_sha256": "f3275fe2997e714aa31e2f084afb18776860689512be787752adf0e52efe9b2f", "lf_bytes_sha256": "f3275fe2997e714aa31e2f084afb18776860689512be787752adf0e52efe9b2f", "path": "tests/reviewing/test_deep_refusals.py"}, {"actual_bytes_sha256": "0d675428d52e3982e9203e6b62dd284e6ed45c6178242d670c7bbd3360c23170", "lf_bytes_sha256": "0d675428d52e3982e9203e6b62dd284e6ed45c6178242d670c7bbd3360c23170", "path": "tests/reviewing/test_offline_contract.py"}, {"actual_bytes_sha256": "3c285c060a5b0e31d8a0a00223532a46aefeb81fc3e2a1f8b7aceea4cb2db414", "lf_bytes_sha256": "3c285c060a5b0e31d8a0a00223532a46aefeb81fc3e2a1f8b7aceea4cb2db414", "path": "tests/reviewing/test_strict_metadata.py"}]}
+2026-11-13T01:21:38.4289700Z 
+2026-11-13T01:21:38.4289799Z =========================== short test summary info ============================
+2026-11-13T01:21:38.4290112Z SKIPPED [1] tests/browser/test_isolated_browser.py:60: Requires separate sandboxed Chromium and Worker containers
+2026-11-13T01:21:38.4290390Z 2348 passed, 1 skipped in 278.04s (0:04:38)
+2026-11-13T01:21:38.4290536Z  
+2026-11-13T01:21:39.1597889Z 5-pip.log EXIT_CODE 0
+2026-11-13T01:21:39.1598169Z No broken requirements found.
+2026-11-13T01:21:39.1599154Z  WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+2026-11-13T01:21:39.1599630Z 
+2026-11-13T01:21:39.8730986Z ENVIRONMENT={"python": "3.11.17 (main, Oct  6 2026, 02:01:58) [GCC 12.2.0]", "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.36", "prefix": "/usr/local", "base_prefix": "/usr/local", "isolated_lab": true, "versions": {"pytest": "9.2.0", "jsonschema": "4.26.0", "ruff": "0.17.4", "mypy": "1.20.2", "PyYAML": "6.0.3", "h11": "0.16.0", "dnspython": "2.8.0"}, "results": [{"command": ["/usr/local/bin/python", "-m", "compileall", "-q", "vrae"], "started": "2026-11-13T01:16:58.401279+00:00", "ended": "2026-11-13T01:16:58.527279+00:00", "exit_code": 0, "log": "1-compileall.log"}, {"command": ["/usr/local/bin/python", "-m", "ruff", "check", "vrae", "tests", "--select", "E4,E7,E9,F"], "started": "2026-11-13T01:16:58.527301+00:00", "ended": "2026-11-13T01:16:58.612333+00:00", "exit_code": 0, "log": "2-ruff.log"}, {"command": ["/usr/local/bin/python", "-m", "mypy", "vrae"], "started": "2026-11-13T01:16:58.612353+00:00", "ended": "2026-11-13T01:16:59.847966+00:00", "exit_code": 0, "log": "3-mypy.log"}, {"command": ["/usr/local/bin/python", "-m", "pytest", "-q", "-s", "-p", "no:cacheprovider"], "started": "2026-11-13T01:16:59.847996+00:00", "ended": "2026-11-13T01:21:38.401870+00:00", "exit_code": 0, "log": "4-pytest.log"}, {"command": ["/usr/local/bin/python", "-m", "pip", "check"], "started": "2026-11-13T01:21:38.401933+00:00", "ended": "2026-11-13T01:21:39.159405+00:00", "exit_code": 0, "log": "5-pip.log"}]}
+2026-11-13T01:21:39.9270557Z Post job cleanup.
+2026-11-13T01:21:39.9807100Z [command]/usr/bin/git version
+2026-11-13T01:21:39.9832609Z git version 2.56.0
+2026-11-13T01:21:39.9855213Z Temporarily overriding HOME='/home/runner/work/_temp/0b0ecc7d-f7b5-41cb-988d-6504451d922f' before making global git config changes
+2026-11-13T01:21:39.9855851Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-13T01:21:39.9858415Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-13T01:21:39.9888363Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-13T01:21:39.9914406Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-13T01:21:40.0142627Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-13T01:21:40.0169250Z http.https://github.com/.extraheader
+2026-11-13T01:21:40.0176218Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-13T01:21:40.0204891Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-13T01:21:40.0451846Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-13T01:21:40.0480221Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-13T01:21:40.0829386Z Cleaning up orphan processes
+2026-11-13T01:21:40.1072456Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

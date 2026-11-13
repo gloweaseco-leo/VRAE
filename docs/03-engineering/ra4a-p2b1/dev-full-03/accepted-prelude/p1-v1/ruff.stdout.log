@@ -1,0 +1,41 @@
+E701 Multiple statements on one line (colon)
+  --> tests\persistence\test_p2b1_contracts.py:34:26
+   |
+32 |     p=command(target)
+33 |     d=p.document
+34 |     if attack=="approved": d["native_approval"]="APPROVED"
+   |                          ^
+35 |     if attack=="actor": d["actor"]={"verified":True}
+36 |     if attack=="hypothesis":
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests\persistence\test_p2b1_contracts.py:35:23
+   |
+33 |     d=p.document
+34 |     if attack=="approved": d["native_approval"]="APPROVED"
+35 |     if attack=="actor": d["actor"]={"verified":True}
+   |                       ^
+36 |     if attack=="hypothesis":
+37 |         next(x for x in d["dispositions"] if x["disposition"]=="ACCEPT_AS_HYPOTHESIS")["disposition"]="ACCEPT_AS_FACT"
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests\persistence\test_p2b1_contracts.py:38:29
+   |
+36 |     if attack=="hypothesis":
+37 |         next(x for x in d["dispositions"] if x["disposition"]=="ACCEPT_AS_HYPOTHESIS")["disposition"]="ACCEPT_AS_FACT"
+38 |     if attack=="zero-review": d["kind"]="REVIEW_COMMAND_PROPOSAL"
+   |                             ^
+39 |     with pytest.raises(ReviewError): validate_proposal(type(p)(canonical(d,limit=131072)),target)
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests\persistence\test_p2b1_contracts.py:39:36
+   |
+37 |         next(x for x in d["dispositions"] if x["disposition"]=="ACCEPT_AS_HYPOTHESIS")["disposition"]="ACCEPT_AS_FACT"
+38 |     if attack=="zero-review": d["kind"]="REVIEW_COMMAND_PROPOSAL"
+39 |     with pytest.raises(ReviewError): validate_proposal(type(p)(canonical(d,limit=131072)),target)
+   |                                    ^
+
+Found 4 errors.

@@ -1,0 +1,40 @@
+{
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+  "github_checkout": null,
+  "commands": [
+    {
+      "name": "compile",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "vrae/persistence"
+      ],
+      "exit": 0,
+      "seconds": 0.28675480000674725,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ruff",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "vrae",
+        "tests",
+        "integration/ra4a",
+        "infra/ra4a",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "exit": 1,
+      "seconds": 0.8643835000111721,
+      "stdout_sha256": "2a0ab1468a2dcb8a79e0e3e5b0e056433fc3c6d861073288eb283c3e5cba6a3a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

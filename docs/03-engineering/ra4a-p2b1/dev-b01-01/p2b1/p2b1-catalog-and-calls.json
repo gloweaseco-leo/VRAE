@@ -1,0 +1,782 @@
+{
+  "checkout": null,
+  "session_exit": 1,
+  "calls": [
+    {
+      "id": "integration/ra4a/p2b1/cases.py::test_b01_native_claims_sections_and_no_native_approval[APPROVE_CANDIDATE]",
+      "outcome": "failed"
+    }
+  ],
+  "server": "PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+  "schema_sha256": "88d65b9793180a63894093d8416a27163bbfd0ecafc086afe70b37449dd31513",
+  "migrations": [
+    [
+      1,
+      "0557738e22e83a6f1c991e8c2a796749ce43845ad80fec44d8dc4c891fd9b5e2"
+    ],
+    [
+      2,
+      "bffca8c3c205f018ea0ba87cfdb19c3d0bc0d919b3e5d9178be0cc7a434c9ba9"
+    ],
+    [
+      3,
+      "ab9d350e1b82a5b70757709c0dcf0760729946c33f8ef8f6fc8d555c58f5f6d8"
+    ]
+  ],
+  "roles": [
+    [
+      "p2b1_review",
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      "p2b1_test_a_peer",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "p2b1_test_a_reviewer",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "p2b1_test_b_reviewer",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_owner",
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  ],
+  "tables": [
+    [
+      "assignments",
+      true,
+      true,
+      "ra4a_owner"
+    ],
+    [
+      "audit",
+      true,
+      true,
+      "ra4a_owner"
+    ],
+    [
+      "claims",
+      true,
+      true,
+      "ra4a_owner"
+    ],
+    [
+      "outbox",
+      true,
+      true,
+      "ra4a_owner"
+    ],
+    [
+      "proposals",
+      true,
+      true,
+      "ra4a_owner"
+    ],
+    [
+      "sections",
+      true,
+      true,
+      "ra4a_owner"
+    ],
+    [
+      "states",
+      true,
+      true,
+      "ra4a_owner"
+    ]
+  ],
+  "policies": [
+    [
+      "assignments",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "audit",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "claims",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "outbox",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "proposals",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "sections",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "states",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ]
+  ],
+  "grants": [
+    [
+      "ra4a_owner",
+      "assignments",
+      "DELETE"
+    ],
+    [
+      "ra4a_owner",
+      "assignments",
+      "INSERT"
+    ],
+    [
+      "ra4a_owner",
+      "assignments",
+      "REFERENCES"
+    ],
+    [
+      "ra4a_owner",
+      "assignments",
+      "SELECT"
+    ],
+    [
+      "ra4a_owner",
+      "assignments",
+      "TRIGGER"
+    ],
+    [
+      "ra4a_owner",
+      "assignments",
+      "TRUNCATE"
+    ],
+    [
+      "ra4a_owner",
+      "assignments",
+      "UPDATE"
+    ],
+    [
+      "ra4a_owner",
+      "audit",
+      "DELETE"
+    ],
+    [
+      "ra4a_owner",
+      "audit",
+      "INSERT"
+    ],
+    [
+      "ra4a_owner",
+      "audit",
+      "REFERENCES"
+    ],
+    [
+      "ra4a_owner",
+      "audit",
+      "SELECT"
+    ],
+    [
+      "ra4a_owner",
+      "audit",
+      "TRIGGER"
+    ],
+    [
+      "ra4a_owner",
+      "audit",
+      "TRUNCATE"
+    ],
+    [
+      "ra4a_owner",
+      "audit",
+      "UPDATE"
+    ],
+    [
+      "ra4a_owner",
+      "claims",
+      "DELETE"
+    ],
+    [
+      "ra4a_owner",
+      "claims",
+      "INSERT"
+    ],
+    [
+      "ra4a_owner",
+      "claims",
+      "REFERENCES"
+    ],
+    [
+      "ra4a_owner",
+      "claims",
+      "SELECT"
+    ],
+    [
+      "ra4a_owner",
+      "claims",
+      "TRIGGER"
+    ],
+    [
+      "ra4a_owner",
+      "claims",
+      "TRUNCATE"
+    ],
+    [
+      "ra4a_owner",
+      "claims",
+      "UPDATE"
+    ],
+    [
+      "ra4a_owner",
+      "outbox",
+      "DELETE"
+    ],
+    [
+      "ra4a_owner",
+      "outbox",
+      "INSERT"
+    ],
+    [
+      "ra4a_owner",
+      "outbox",
+      "REFERENCES"
+    ],
+    [
+      "ra4a_owner",
+      "outbox",
+      "SELECT"
+    ],
+    [
+      "ra4a_owner",
+      "outbox",
+      "TRIGGER"
+    ],
+    [
+      "ra4a_owner",
+      "outbox",
+      "TRUNCATE"
+    ],
+    [
+      "ra4a_owner",
+      "outbox",
+      "UPDATE"
+    ],
+    [
+      "ra4a_owner",
+      "proposals",
+      "DELETE"
+    ],
+    [
+      "ra4a_owner",
+      "proposals",
+      "INSERT"
+    ],
+    [
+      "ra4a_owner",
+      "proposals",
+      "REFERENCES"
+    ],
+    [
+      "ra4a_owner",
+      "proposals",
+      "SELECT"
+    ],
+    [
+      "ra4a_owner",
+      "proposals",
+      "TRIGGER"
+    ],
+    [
+      "ra4a_owner",
+      "proposals",
+      "TRUNCATE"
+    ],
+    [
+      "ra4a_owner",
+      "proposals",
+      "UPDATE"
+    ],
+    [
+      "ra4a_owner",
+      "sections",
+      "DELETE"
+    ],
+    [
+      "ra4a_owner",
+      "sections",
+      "INSERT"
+    ],
+    [
+      "ra4a_owner",
+      "sections",
+      "REFERENCES"
+    ],
+    [
+      "ra4a_owner",
+      "sections",
+      "SELECT"
+    ],
+    [
+      "ra4a_owner",
+      "sections",
+      "TRIGGER"
+    ],
+    [
+      "ra4a_owner",
+      "sections",
+      "TRUNCATE"
+    ],
+    [
+      "ra4a_owner",
+      "sections",
+      "UPDATE"
+    ],
+    [
+      "ra4a_owner",
+      "states",
+      "DELETE"
+    ],
+    [
+      "ra4a_owner",
+      "states",
+      "INSERT"
+    ],
+    [
+      "ra4a_owner",
+      "states",
+      "REFERENCES"
+    ],
+    [
+      "ra4a_owner",
+      "states",
+      "SELECT"
+    ],
+    [
+      "ra4a_owner",
+      "states",
+      "TRIGGER"
+    ],
+    [
+      "ra4a_owner",
+      "states",
+      "TRUNCATE"
+    ],
+    [
+      "ra4a_owner",
+      "states",
+      "UPDATE"
+    ]
+  ],
+  "constraints": [
+    [
+      "ra4a_review_test.assignments",
+      "c",
+      "CHECK ((authority = 'TEST_ONLY'::text))"
+    ],
+    [
+      "ra4a_review_test.assignments",
+      "p",
+      "PRIMARY KEY (tenant_id, report_id, db_role)"
+    ],
+    [
+      "ra4a_review_test.assignments",
+      "f",
+      "FOREIGN KEY (tenant_id) REFERENCES ra4a.tenants(tenant_id)"
+    ],
+    [
+      "ra4a_review_test.audit",
+      "c",
+      "CHECK ((authority = 'TEST_ONLY_SYNTHETIC_DECISIONS_NOT_HUMAN_APPROVAL'::text))"
+    ],
+    [
+      "ra4a_review_test.audit",
+      "p",
+      "PRIMARY KEY (tenant_id, entry_id)"
+    ],
+    [
+      "ra4a_review_test.audit",
+      "f",
+      "FOREIGN KEY (tenant_id, proposal_id) REFERENCES ra4a_review_test.proposals(tenant_id, proposal_id)"
+    ],
+    [
+      "ra4a_review_test.audit",
+      "u",
+      "UNIQUE (tenant_id, proposal_id)"
+    ],
+    [
+      "ra4a_review_test.claims",
+      "c",
+      "CHECK ((ordinal > 0))"
+    ],
+    [
+      "ra4a_review_test.claims",
+      "p",
+      "PRIMARY KEY (tenant_id, proposal_id, ordinal)"
+    ],
+    [
+      "ra4a_review_test.claims",
+      "f",
+      "FOREIGN KEY (tenant_id, proposal_id) REFERENCES ra4a_review_test.proposals(tenant_id, proposal_id)"
+    ],
+    [
+      "ra4a_review_test.claims",
+      "u",
+      "UNIQUE (tenant_id, proposal_id, guard_ref, binding_ref, pointer)"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "t",
+      "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    ],
+    [
+      "ra4a_review_test.outbox",
+      "c",
+      "CHECK ((authority = 'TEST_ONLY_SYNTHETIC_DECISIONS_NOT_HUMAN_APPROVAL'::text))"
+    ],
+    [
+      "ra4a_review_test.outbox",
+      "p",
+      "PRIMARY KEY (tenant_id, event_id)"
+    ],
+    [
+      "ra4a_review_test.outbox",
+      "f",
+      "FOREIGN KEY (tenant_id, proposal_id) REFERENCES ra4a_review_test.proposals(tenant_id, proposal_id)"
+    ],
+    [
+      "ra4a_review_test.outbox",
+      "u",
+      "UNIQUE (tenant_id, proposal_id)"
+    ],
+    [
+      "ra4a_review_test.outbox",
+      "c",
+      "CHECK (undelivered)"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "c",
+      "CHECK ((authority = 'TEST_ONLY_SYNTHETIC_DECISIONS_NOT_HUMAN_APPROVAL'::text))"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "c",
+      "CHECK ((octet_length(canonical_command) <= 131072))"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "c",
+      "CHECK ((idempotency_key ~ '^[A-Za-z0-9_.-]{8,128}$'::text))"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "p",
+      "PRIMARY KEY (tenant_id, proposal_id)"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "c",
+      "CHECK ((octet_length(receipt) <= 262144))"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "c",
+      "CHECK ((report_event_seq > 0))"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "c",
+      "CHECK ((review_seq = 1))"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "c",
+      "CHECK ((status = ANY (ARRAY['SIMULATED_APPROVE_CANDIDATE'::text, 'SIMULATED_CHANGES_REQUESTED'::text, 'SIMULATED_REJECTED'::text, 'SIMULATED_INTERNAL_SCOPE_ACK'::text])))"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "f",
+      "FOREIGN KEY (tenant_id, ref_id) REFERENCES ra4a_bytes.graphs(tenant_id, ref_id)"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "u",
+      "UNIQUE (tenant_id, report_id, idempotency_key)"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "u",
+      "UNIQUE (tenant_id, report_id, report_event_seq)"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "u",
+      "UNIQUE (tenant_id, report_id, report_version)"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "u",
+      "UNIQUE (tenant_id, report_id, report_version, review_seq)"
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "f",
+      "FOREIGN KEY (tenant_id, source_run_id, report_id, report_version) REFERENCES ra4a_bytes.graphs(tenant_id, source_run_id, report_id, report_version)"
+    ],
+    [
+      "ra4a_review_test.sections",
+      "c",
+      "CHECK (acknowledged)"
+    ],
+    [
+      "ra4a_review_test.sections",
+      "c",
+      "CHECK ((ordinal > 0))"
+    ],
+    [
+      "ra4a_review_test.sections",
+      "p",
+      "PRIMARY KEY (tenant_id, proposal_id, ordinal)"
+    ],
+    [
+      "ra4a_review_test.sections",
+      "f",
+      "FOREIGN KEY (tenant_id, proposal_id) REFERENCES ra4a_review_test.proposals(tenant_id, proposal_id)"
+    ],
+    [
+      "ra4a_review_test.sections",
+      "u",
+      "UNIQUE (tenant_id, proposal_id, section_id)"
+    ],
+    [
+      "ra4a_review_test.states",
+      "c",
+      "CHECK ((last_closed_version >= 0))"
+    ],
+    [
+      "ra4a_review_test.states",
+      "p",
+      "PRIMARY KEY (tenant_id, report_id)"
+    ],
+    [
+      "ra4a_review_test.states",
+      "c",
+      "CHECK ((report_event_seq >= 0))"
+    ],
+    [
+      "ra4a_review_test.states",
+      "f",
+      "FOREIGN KEY (tenant_id) REFERENCES ra4a.tenants(tenant_id)"
+    ]
+  ],
+  "triggers": [
+    [
+      "ra4a_review_test.claims",
+      "claim_no_append",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "complete_proposal",
+      true,
+      true
+    ],
+    [
+      "ra4a_review_test.sections",
+      "immutable_review",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.audit",
+      "immutable_review",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.outbox",
+      "immutable_review",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "immutable_review",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.claims",
+      "immutable_review",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.states",
+      "review_no_truncate",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.proposals",
+      "review_no_truncate",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.claims",
+      "review_no_truncate",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.sections",
+      "review_no_truncate",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.audit",
+      "review_no_truncate",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.outbox",
+      "review_no_truncate",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.sections",
+      "section_no_append",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.states",
+      "state_no_delete",
+      false,
+      false
+    ],
+    [
+      "ra4a_review_test.states",
+      "state_transaction",
+      false,
+      false
+    ]
+  ],
+  "functions": [
+    [
+      "check_bytes",
+      false,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog, ra4a_review_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "complete_proposal",
+      true,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog, ra4a_review_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "load_target",
+      true,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog, ra4a_review_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,p2b1_review=X/ra4a_owner}"
+    ],
+    [
+      "no_append",
+      false,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog, ra4a_review_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "no_truncate",
+      false,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog, ra4a_review_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "protect_state",
+      false,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "require_reviewer",
+      false,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog, ra4a_review_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "submit",
+      true,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog, ra4a_review_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,p2b1_review=X/ra4a_owner}"
+    ],
+    [
+      "validate_command",
+      false,
+      "ra4a_owner",
+      [
+        "search_path=pg_catalog, ra4a_review_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ]
+  ],
+  "authority": "TEST_ONLY_SYNTHETIC_DECISIONS_NOT_HUMAN_APPROVAL",
+  "native_human_approvals": 0,
+  "share_grants": 0
+}

@@ -1,0 +1,41 @@
+{
+  "python": "3.13.13 (main, May 10 2026, 19:31:06) [MSC v.1944 64 bit (AMD64)]",
+  "checkout": null,
+  "source_head": "558d183624a0a36d1f4eaf9d3d75af73b9c88547",
+  "phase": "p2b1",
+  "commands": [
+    {
+      "stage": "migration-v3",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "integration.ra4a.p2b1_support"
+      ],
+      "exit": 0,
+      "seconds": 1.8350765999930445,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "p2b1",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py313\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-x",
+        "-p",
+        "integration.ra4a.p2b1_plugin",
+        "--confcutdir=integration/ra4a/p2b1",
+        "integration/ra4a/p2b1/cases.py",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\docs\\03-engineering\\ra4a-p2b1\\dev-strengthened-06\\p2b1\\tests.xml",
+        "-k",
+        "b01 or b24 or b26"
+      ],
+      "exit": 0,
+      "seconds": 43.64909569999145,
+      "stdout_sha256": "72fcd78f29628931161f0d4af2a787164f1aa936f773d5198819ad44ce852017",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

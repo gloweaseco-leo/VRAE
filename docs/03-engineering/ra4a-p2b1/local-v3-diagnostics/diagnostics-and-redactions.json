@@ -1,0 +1,82 @@
+{
+  "worktree": "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly",
+  "cached_host": "127.0.0.1",
+  "cached_port": 53880,
+  "container": "vrae-ra4a-p1-75fe2e2bc685",
+  "commands": [
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "vrae-ra4a-p1-75fe2e2bc685"
+      ],
+      "exit": 0,
+      "seconds": 0.385246100006043,
+      "sha256": "3c8fe4b49e377c884c105f70d698b2996483b2c036f7ddc71e7cb3655a1bd697"
+    },
+    {
+      "argv": [
+        "docker",
+        "port",
+        "vrae-ra4a-p1-75fe2e2bc685",
+        "5432/tcp"
+      ],
+      "exit": 0,
+      "seconds": 0.6766790999972727,
+      "sha256": "1b5ef0d890aefca5cb44ccc4798f7b9f4c27c3a667169ec6e047b97b947a6d42"
+    },
+    {
+      "argv": [
+        "docker",
+        "logs",
+        "--tail",
+        "100",
+        "vrae-ra4a-p1-75fe2e2bc685"
+      ],
+      "exit": 0,
+      "seconds": 0.20254339999519289,
+      "sha256": "6f83108e6644d83bb0164db3675f479e9a18346717422cdb3dde5695555426d1"
+    },
+    {
+      "argv": [
+        "docker",
+        "stats",
+        "--no-stream",
+        "--format",
+        "{{.Name}} {{.CPUPerc}} {{.MemUsage}} {{.PIDs}}",
+        "vrae-ra4a-p1-75fe2e2bc685"
+      ],
+      "exit": 0,
+      "seconds": 1.4886112000094727,
+      "sha256": "2fa17061cf1c10545ed311e4ff6a6a0c632eda083e3ae4a36ac30bd149bdf163"
+    }
+  ],
+  "redactions": [
+    {
+      "path": "local313-v3-fresh/p2b1.stdout.log",
+      "original_sha256": "86a621ba12d79c1510b81f17930ace17f53fdf8b9ae353e3f9fc0b7dce07814c",
+      "public_sha256": "84dc0088f24b8f480cc84dd830bbc0a6bc9afdcfc459ec3636a814e88fb58a34",
+      "replacement_count": 1,
+      "private_original_relative_path": "infra/ra4a/.venv/v3-local-failure-originals/local313-v3-fresh/p2b1.stdout.log"
+    },
+    {
+      "path": "local313-v3-fresh/p2b1/tests.xml",
+      "original_sha256": "0c0707bbebb9f2519650666a63eeb20ee933a5dbb0470777ba79b74d29c82811",
+      "public_sha256": "28df03be8d1d19c8268d885f4c27e9ef3f0f288c885e1de88283eb76180a9de1",
+      "replacement_count": 1,
+      "private_original_relative_path": "infra/ra4a/.venv/v3-local-failure-originals/local313-v3-fresh/p2b1/tests.xml"
+    }
+  ],
+  "connection_probe": {
+    "current_cached_port_works": true,
+    "server": [
+      "PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+      "2026-11-13 01:59:31.513286+00"
+    ]
+  },
+  "root_cause": "UNCONFIRMED_LOCAL_CONNECTION_TIMEOUT",
+  "test_outcomes_unchanged": true,
+  "raw_failure_bytes_retained_privately_not_for_publication": true
+}

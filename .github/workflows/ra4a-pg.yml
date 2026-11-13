@@ -6,7 +6,7 @@ permissions:
 jobs:
   postgres-16:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -24,8 +24,8 @@ jobs:
         run: python infra/ra4a/check_start_failure.py docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-failure
       - name: Start owned synthetic PG16 lab on host loopback
         run: python infra/ra4a/lab.py start --output docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-startup
-      - name: Real migrations RLS transactions leases backup and restore
-        run: python infra/ra4a/p2a_run.py docs/03-engineering/ra4a-p2a/ci-${{ matrix.python-version }}
+      - name: Accepted P1 P2A then P2B1 real CAS concurrency and recovery
+        run: python infra/ra4a/p2b1_run.py docs/03-engineering/ra4a-p2b1/ci-${{ matrix.python-version }}
       - name: Remove only owned lab and record teardown
         if: always()
         run: >-
@@ -41,3 +41,4 @@ jobs:
             docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-startup/
             docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-failure/
             docs/03-engineering/ra4a-p2a/ci-${{ matrix.python-version }}/
+            docs/03-engineering/ra4a-p2b1/ci-${{ matrix.python-version }}/

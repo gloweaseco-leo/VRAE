@@ -1,0 +1,100 @@
+2026-11-13 02:05:20.867 UTC [932] CONTEXT:  PL/pgSQL function submit(text,text,text,text,integer,text,bytea) line 33 at RAISE
+2026-11-13 02:05:20.867 UTC [932] STATEMENT:  SELECT ra4a_review_test.submit($1,$2,$3,$4,$5,$6,$7)
+2026-11-13 02:05:21.349 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:21.608 UTC [27] LOG:  checkpoint complete: wrote 53 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.020 s, sync=0.191 s, total=0.260 s; sync files=108, longest=0.012 s, average=0.002 s; distance=5445 kB, estimate=5464 kB; lsn=0/387DF280, redo lsn=0/387DF248
+2026-11-13 02:05:24.520 UTC [940] ERROR:  canceling statement due to lock timeout
+2026-11-13 02:05:24.520 UTC [940] CONTEXT:  while updating tuple (0,1) in relation "assignments"
+2026-11-13 02:05:24.520 UTC [940] STATEMENT:  UPDATE ra4a_review_test.assignments SET active=false WHERE db_role='p2b1_test_a_reviewer'
+2026-11-13 02:05:24.879 UTC [942] ERROR:  P2B1_REPORT_ASSIGNMENT
+2026-11-13 02:05:24.879 UTC [942] CONTEXT:  PL/pgSQL function require_reviewer(text,text) line 8 at RAISE
+	SQL statement "SELECT ra4a_review_test.require_reviewer(t,report)"
+	PL/pgSQL function load_target(text,text,text,text,integer,text) line 3 at PERFORM
+2026-11-13 02:05:24.879 UTC [942] STATEMENT:  SELECT * FROM ra4a_review_test.load_target($1,$2,$3,$4,$5,$6)
+2026-11-13 02:05:25.137 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:25.260 UTC [27] LOG:  checkpoint complete: wrote 52 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.014 s, sync=0.083 s, total=0.124 s; sync files=107, longest=0.005 s, average=0.001 s; distance=5450 kB, estimate=5462 kB; lsn=0/38D31CB0, redo lsn=0/38D31C78
+2026-11-13 02:05:28.555 UTC [950] ERROR:  canceling statement due to lock timeout
+2026-11-13 02:05:28.555 UTC [950] CONTEXT:  while locking tuple (0,1) in relation "tenants"
+	SQL statement "SELECT 1 FROM ra4a.tenants WHERE tenant_id=COALESCE(NEW.tenant_id,OLD.tenant_id) FOR UPDATE"
+	PL/pgSQL function ra4a_private.revision_lock() line 2 at PERFORM
+2026-11-13 02:05:28.555 UTC [950] STATEMENT:  UPDATE ra4a.policies SET status='REVOKED'
+2026-11-13 02:05:28.913 UTC [952] ERROR:  P2A_CURRENT_SCOPE_DENIED
+2026-11-13 02:05:28.913 UTC [952] CONTEXT:  PL/pgSQL function ra4a_bytes.current_reference(text,text) line 11 at RAISE
+	SQL statement "SELECT ra4a_bytes.current_reference(t,ref)"
+	PL/pgSQL function read_graph(text,text,text,text,integer,text) line 3 at PERFORM
+	SQL statement "SELECT * FROM ra4a_bytes.read_graph(t,ref,run,report,ver,digest)"
+	PL/pgSQL function load_target(text,text,text,text,integer,text) line 4 at RETURN QUERY
+2026-11-13 02:05:28.913 UTC [952] STATEMENT:  SELECT * FROM ra4a_review_test.load_target($1,$2,$3,$4,$5,$6)
+2026-11-13 02:05:29.063 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:29.177 UTC [27] LOG:  checkpoint complete: wrote 52 buffers (0.3%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.012 s, sync=0.074 s, total=0.114 s; sync files=106, longest=0.005 s, average=0.001 s; distance=5452 kB, estimate=5461 kB; lsn=0/39284CC8, redo lsn=0/39284C90
+2026-11-13 02:05:31.003 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:31.118 UTC [27] LOG:  checkpoint complete: wrote 55 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.008 s, sync=0.088 s, total=0.116 s; sync files=108, longest=0.013 s, average=0.001 s; distance=5453 kB, estimate=5460 kB; lsn=0/397D80D8, redo lsn=0/397D80A0
+2026-11-13 02:05:33.104 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:33.200 UTC [27] LOG:  checkpoint complete: wrote 52 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.015 s, sync=0.058 s, total=0.097 s; sync files=107, longest=0.013 s, average=0.001 s; distance=5438 kB, estimate=5458 kB; lsn=0/39D27CB0, redo lsn=0/39D27C78
+2026-11-13 02:05:35.054 UTC [976] ERROR:  P2B1_STATE_TRANSACTION_ONLY
+2026-11-13 02:05:35.054 UTC [976] CONTEXT:  PL/pgSQL function ra4a_review_test.protect_state() line 4 at RAISE
+2026-11-13 02:05:35.054 UTC [976] STATEMENT:  UPDATE "ra4a_review_test"."states" SET tenant_id=tenant_id
+2026-11-13 02:05:35.057 UTC [976] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:35.057 UTC [976] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:35.057 UTC [976] STATEMENT:  DELETE FROM "ra4a_review_test"."states"
+2026-11-13 02:05:35.060 UTC [976] ERROR:  P2B1_APPEND_ONLY
+2026-11-13 02:05:35.060 UTC [976] CONTEXT:  PL/pgSQL function no_truncate() line 5 at RAISE
+2026-11-13 02:05:35.060 UTC [976] STATEMENT:  TRUNCATE "ra4a_review_test"."states" CASCADE
+2026-11-13 02:05:35.117 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:35.179 UTC [27] LOG:  checkpoint complete: wrote 55 buffers (0.3%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.006 s, sync=0.039 s, total=0.062 s; sync files=107, longest=0.003 s, average=0.001 s; distance=5470 kB, estimate=5470 kB; lsn=0/3A27F6B0, redo lsn=0/3A27F678
+2026-11-13 02:05:38.484 UTC [986] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:38.484 UTC [986] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:38.484 UTC [986] STATEMENT:  UPDATE "ra4a_review_test"."proposals" SET tenant_id=tenant_id
+2026-11-13 02:05:38.487 UTC [986] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:38.487 UTC [986] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:38.487 UTC [986] STATEMENT:  DELETE FROM "ra4a_review_test"."proposals"
+2026-11-13 02:05:38.490 UTC [986] ERROR:  P2B1_APPEND_ONLY
+2026-11-13 02:05:38.490 UTC [986] CONTEXT:  PL/pgSQL function no_truncate() line 5 at RAISE
+2026-11-13 02:05:38.490 UTC [986] STATEMENT:  TRUNCATE "ra4a_review_test"."proposals" CASCADE
+2026-11-13 02:05:38.553 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:38.629 UTC [27] LOG:  checkpoint complete: wrote 59 buffers (0.4%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.005 s, sync=0.056 s, total=0.076 s; sync files=109, longest=0.006 s, average=0.001 s; distance=5486 kB, estimate=5486 kB; lsn=0/3A7DB158, redo lsn=0/3A7DB120
+2026-11-13 02:05:40.936 UTC [995] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:40.936 UTC [995] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:40.936 UTC [995] STATEMENT:  UPDATE "ra4a_review_test"."claims" SET tenant_id=tenant_id
+2026-11-13 02:05:40.939 UTC [995] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:40.939 UTC [995] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:40.939 UTC [995] STATEMENT:  DELETE FROM "ra4a_review_test"."claims"
+2026-11-13 02:05:40.943 UTC [995] ERROR:  P2B1_APPEND_ONLY
+2026-11-13 02:05:40.943 UTC [995] CONTEXT:  PL/pgSQL function no_truncate() line 5 at RAISE
+2026-11-13 02:05:40.943 UTC [995] STATEMENT:  TRUNCATE "ra4a_review_test"."claims" CASCADE
+2026-11-13 02:05:41.012 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:41.134 UTC [27] LOG:  checkpoint complete: wrote 55 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.088 s, total=0.122 s; sync files=109, longest=0.004 s, average=0.001 s; distance=5458 kB, estimate=5483 kB; lsn=0/3AD2FD08, redo lsn=0/3AD2FCD0
+2026-11-13 02:05:43.327 UTC [1004] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:43.327 UTC [1004] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:43.327 UTC [1004] STATEMENT:  UPDATE "ra4a_review_test"."sections" SET tenant_id=tenant_id
+2026-11-13 02:05:43.330 UTC [1004] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:43.330 UTC [1004] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:43.330 UTC [1004] STATEMENT:  DELETE FROM "ra4a_review_test"."sections"
+2026-11-13 02:05:43.332 UTC [1004] ERROR:  P2B1_APPEND_ONLY
+2026-11-13 02:05:43.332 UTC [1004] CONTEXT:  PL/pgSQL function no_truncate() line 5 at RAISE
+2026-11-13 02:05:43.332 UTC [1004] STATEMENT:  TRUNCATE "ra4a_review_test"."sections" CASCADE
+2026-11-13 02:05:43.408 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:43.472 UTC [27] LOG:  checkpoint complete: wrote 53 buffers (0.3%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.009 s, sync=0.037 s, total=0.064 s; sync files=107, longest=0.003 s, average=0.001 s; distance=5463 kB, estimate=5481 kB; lsn=0/3B285B70, redo lsn=0/3B285B38
+2026-11-13 02:05:45.494 UTC [1013] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:45.494 UTC [1013] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:45.494 UTC [1013] STATEMENT:  UPDATE "ra4a_review_test"."audit" SET tenant_id=tenant_id
+2026-11-13 02:05:45.498 UTC [1013] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:45.498 UTC [1013] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:45.498 UTC [1013] STATEMENT:  DELETE FROM "ra4a_review_test"."audit"
+2026-11-13 02:05:45.502 UTC [1013] ERROR:  P2B1_APPEND_ONLY
+2026-11-13 02:05:45.502 UTC [1013] CONTEXT:  PL/pgSQL function no_truncate() line 5 at RAISE
+2026-11-13 02:05:45.502 UTC [1013] STATEMENT:  TRUNCATE "ra4a_review_test"."audit" CASCADE
+2026-11-13 02:05:45.556 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:45.647 UTC [27] LOG:  checkpoint complete: wrote 53 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.055 s, total=0.091 s; sync files=107, longest=0.007 s, average=0.001 s; distance=5457 kB, estimate=5479 kB; lsn=0/3B7D9F70, redo lsn=0/3B7D9F38
+2026-11-13 02:05:48.111 UTC [1022] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:48.111 UTC [1022] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:48.111 UTC [1022] STATEMENT:  UPDATE "ra4a_review_test"."outbox" SET tenant_id=tenant_id
+2026-11-13 02:05:48.115 UTC [1022] ERROR:  RA4A_IMMUTABLE_METADATA
+2026-11-13 02:05:48.115 UTC [1022] CONTEXT:  PL/pgSQL function ra4a_private.immutable() line 2 at RAISE
+2026-11-13 02:05:48.115 UTC [1022] STATEMENT:  DELETE FROM "ra4a_review_test"."outbox"
+2026-11-13 02:05:48.122 UTC [1022] ERROR:  P2B1_APPEND_ONLY
+2026-11-13 02:05:48.122 UTC [1022] CONTEXT:  PL/pgSQL function no_truncate() line 5 at RAISE
+2026-11-13 02:05:48.122 UTC [1022] STATEMENT:  TRUNCATE "ra4a_review_test"."outbox" CASCADE
+2026-11-13 02:05:48.210 UTC [27] LOG:  checkpoint starting: immediate force wait
+2026-11-13 02:05:48.270 UTC [27] LOG:  checkpoint complete: wrote 55 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.006 s, sync=0.040 s, total=0.060 s; sync files=109, longest=0.003 s, average=0.001 s; distance=5473 kB, estimate=5478 kB; lsn=0/3BD323C0, redo lsn=0/3BD32388
+2026-11-13 02:39:24.543 UTC [27] LOG:  checkpoint starting: time
+2026-11-13 02:39:34.650 UTC [27] LOG:  checkpoint complete: wrote 100 buffers (0.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=10.037 s, sync=0.034 s, total=10.107 s; sync files=115, longest=0.004 s, average=0.001 s; distance=396 kB, estimate=4970 kB; lsn=0/3BD95778, redo lsn=0/3BD95740
