@@ -24,11 +24,12 @@ CONTENT_TYPE = "application/x-www-form-urlencoded"
 
 class ProposalPreview:
     def __init__(self, service, context, *, test_only=False, synthetic_fixtures=False):
+        from .pg_read import PgReadRepository
         if (
             test_only is not True
             or synthetic_fixtures is not True
             or type(service.authority) is not FixtureAuthority
-            or type(service.repository) is not FixtureRepository
+            or type(service.repository) not in (FixtureRepository, PgReadRepository)
             or type(service.native) is not NativeVerifier
         ):
             raise ValueError("TEST_ONLY_FIXTURE_REQUIRED")

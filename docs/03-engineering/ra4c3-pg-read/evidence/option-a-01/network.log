@@ -1,0 +1,54 @@
+[
+    {
+        "Name": "vrae-ra4c3-7d6baedda44d-local",
+        "Id": "56f296ade51a323c15d6074b9e30617c377a0950633173bf8806d6daaa16f29c",
+        "Created": "2026-11-13T03:56:01.770037172Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.25.0.0/16",
+                    "Gateway": "172.25.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {
+            "com.docker.network.enable_ipv4": "true",
+            "com.docker.network.enable_ipv6": "false"
+        },
+        "Labels": {
+            "vrae.ra4c3": "TEST_ONLY"
+        },
+        "Containers": {
+            "9eaa32452beb1e8b9d748fbb117cde227b0e58c67124589c0428ad73b490ea54": {
+                "Name": "vrae-ra4c3-7d6baedda44d",
+                "EndpointID": "c3cd2718979b9308b73d185679c00af5bd4c1c1e361bee26f5171a12856d3d4e",
+                "MacAddress": "9e:e0:d5:2f:d8:22",
+                "IPv4Address": "172.25.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.25.0.0/16": {
+                        "IPsInUse": 4,
+                        "DynamicIPsAvailable": 65532
+                    }
+                }
+            }
+        }
+    }
+]

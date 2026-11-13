@@ -16,10 +16,15 @@ from . import views
 from .proposal_views import composer
 
 
-def serve(*, test_only=False, synthetic_fixtures=False, host='127.0.0.1', port=0):
+def serve(*, test_only=False, synthetic_fixtures=False, host='127.0.0.1', port=0, pg_read_profile=None, audit_sink=None):
     if test_only is not True or synthetic_fixtures is not True or host != '127.0.0.1':
         raise ValueError('TEST_ONLY_LOOPBACK_REQUIRED')
-    service, context = make_fixture()
+    if pg_read_profile is None:
+        service, context = make_fixture()
+    else:
+        from .pg_read import make_pg_fixture
+        service,context=make_pg_fixture(pg_read_profile,test_only=test_only,
+            synthetic_fixtures=synthetic_fixtures,audit_sink=audit_sink)
     prefix = '/__fixture__/' + secrets.token_urlsafe(24) + '/'
     proposals = ProposalPreview(service,context,test_only=test_only,synthetic_fixtures=synthetic_fixtures)
     interface = ConsoleInterface(service,prefix=prefix,proposal_preview=proposals)
@@ -52,16 +57,21 @@ def serve(*, test_only=False, synthetic_fixtures=False, host='127.0.0.1', port=0
                         raw = self.rfile.read(int(length))
                         if len(raw) != int(length):
                             raise ValueError('INCOMPLETE_BODY')
-                        result = proposals.post(context,self.path,raw,CONTENT_TYPE,prefix=prefix)
-                        response = Response(200,composer(prefix,*result).encode('utf-8'))
+                        with service.request(context):
+                            result = proposals.post(context,self.path,raw,CONTENT_TYPE,prefix=prefix)
+                            response = Response(200,composer(prefix,*result).encode('utf-8'))
                     except ConsoleError as exc:
                         code = str(exc)
-                        status = 403 if code == 'UNAUTHORIZED' else 501 if code == 'NOT_IMPLEMENTED' else 409 if code in ('STALE_VERSION','SOURCE_INTEGRITY','NOT_READY') else 400
+                        status = 503 if code=='DB_UNAVAILABLE' else 403 if code == 'UNAUTHORIZED' else 501 if code == 'NOT_IMPLEMENTED' else 409 if code in ('STALE_VERSION','SOURCE_INTEGRITY','NOT_READY') else 400
                         response = Response(status,views.error(prefix,code).encode('utf-8'))
                     except (ValueError, UnicodeError, TypeError, TimeoutError):
                         response = Response(400,b'INVALID_INPUT','text/plain; charset=utf-8')
             else:
                 response = interface.dispatch(context,self.command,self.path)
+            if pg_read_profile is not None and response.content_type.startswith('text/html'):
+                marker='<section class="notice pg-mode"><strong>PG16 TEST_ONLY · 数据库原文字节只读模式</strong><p>合成来源，不代表真实网站许可、身份认证或人工审批。</p></section>'
+                response=Response(response.status,response.body.replace(b'<main id="main" tabindex="-1">',
+                    b'<main id="main" tabindex="-1">'+marker.encode('utf-8')),response.content_type)
             self.send_response(response.status)
             self.send_header('Content-Type',response.content_type)
             self.send_header('Content-Length',str(len(response.body)))
@@ -90,7 +100,8 @@ def serve(*, test_only=False, synthetic_fixtures=False, host='127.0.0.1', port=0
             pass
 
     server = ThreadingHTTPServer((host,port),Handler)
-    print(json.dumps({'mode':'SYNTHETIC_TEST_ONLY','url':f'http://127.0.0.1:{server.server_port}{prefix}'}),flush=True)
+    print(json.dumps({'mode':'PG16_TEST_ONLY_READ' if pg_read_profile is not None else 'SYNTHETIC_TEST_ONLY',
+        'url':f'http://127.0.0.1:{server.server_port}{prefix}'}),flush=True)
     try:
         server.serve_forever()
     finally:
@@ -101,5 +112,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--test-only',action='store_true')
     parser.add_argument('--synthetic-fixtures',action='store_true')
+    parser.add_argument('--pg-read-profile',type=str)
     args = parser.parse_args()
-    serve(test_only=args.test_only,synthetic_fixtures=args.synthetic_fixtures)
+    serve(test_only=args.test_only,synthetic_fixtures=args.synthetic_fixtures,pg_read_profile=args.pg_read_profile)

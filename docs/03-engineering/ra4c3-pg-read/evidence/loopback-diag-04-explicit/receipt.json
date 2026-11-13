@@ -1,0 +1,358 @@
+{
+  "authority": "PR74 issuecomment-6842716924 bounded diagnosis GO",
+  "internal_network_unchanged": true,
+  "events": [
+    {
+      "event": "engine",
+      "command": [
+        "docker",
+        "version",
+        "--format",
+        "{{json .}}"
+      ],
+      "returncode": 0,
+      "file": "000-engine.log",
+      "sha256": "28f3a39e619dabd2e2942b3421a8a68d91fbe0254df6fbd829fa76de4bcdb9f2"
+    },
+    {
+      "event": "engine-os",
+      "command": [
+        "docker",
+        "info",
+        "--format",
+        "{{json .OSType}} {{json .OperatingSystem}} {{json .KernelVersion}} {{json .ServerVersion}}"
+      ],
+      "returncode": 0,
+      "file": "001-engine-os.log",
+      "sha256": "940955489621309a4cc5bfe35ac2f64daf0953022b16502dc956e88d7c7fb999"
+    },
+    {
+      "event": "network-create",
+      "command": [
+        "docker",
+        "network",
+        "create",
+        "--internal",
+        "--label",
+        "vrae.ra4c3=TEST_ONLY",
+        "vrae-ra4c3-ef982709779a-local"
+      ],
+      "returncode": 0,
+      "file": "002-network-create.log",
+      "sha256": "24eceb391a7b872c3b2b41776a1e3736b47634ed99fc51bddae881e1bf692bde"
+    },
+    {
+      "event": "network-inspect",
+      "command": [
+        "docker",
+        "network",
+        "inspect",
+        "vrae-ra4c3-ef982709779a-local"
+      ],
+      "returncode": 0,
+      "file": "003-network-inspect.log",
+      "sha256": "c0ccd78b1999d9403e3da91ba799180361f34ef0461ba24f5122610c52ff478b"
+    },
+    {
+      "event": "volume-create",
+      "command": [
+        "docker",
+        "volume",
+        "create",
+        "--label",
+        "vrae.ra4c3=TEST_ONLY",
+        "vrae-ra4c3-ef982709779a-data"
+      ],
+      "returncode": 0,
+      "file": "004-volume-create.log",
+      "sha256": "e1de61a77c43d9f7fcacdb028b2c5a2943870e74b966aab53bcd914057c7b9dc"
+    },
+    {
+      "event": "container-run",
+      "command": [
+        "docker",
+        "run",
+        "-d",
+        "--name",
+        "vrae-ra4c3-ef982709779a",
+        "--network",
+        "vrae-ra4c3-ef982709779a-local",
+        "--label",
+        "vrae.ra4c3=TEST_ONLY",
+        "--env-file",
+        "C:\\Users\\liu\\AppData\\Local\\Temp\\tmplp183jup",
+        "-p",
+        "127.0.0.1:65184:5432",
+        "--mount",
+        "type=volume,src=vrae-ra4c3-ef982709779a-data,dst=/var/lib/postgresql/data",
+        "--memory",
+        "512m",
+        "--cpus",
+        "1",
+        "--pids-limit",
+        "128",
+        "postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea"
+      ],
+      "returncode": 0,
+      "file": "005-container-run.log",
+      "sha256": "30f1f473ea53194f7b98a27fe73297700dfa1ffd5c0551033bdd95be0a0b10e8"
+    },
+    {
+      "event": "host-port-bindings",
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .HostConfig.PortBindings}}",
+        "vrae-ra4c3-ef982709779a"
+      ],
+      "returncode": 0,
+      "file": "006-host-port-bindings.log",
+      "sha256": "7c9446a18835199276fd9b6e8bfedd7d8a8c0ceaa45e8af3dd3887f859c816cd"
+    },
+    {
+      "event": "effective-published-ports",
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .NetworkSettings.Ports}}",
+        "vrae-ra4c3-ef982709779a"
+      ],
+      "returncode": 0,
+      "file": "007-effective-published-ports.log",
+      "sha256": "18d78eb69a219cfcd5be0156027df9c980b8a61b41bbe6e0d9ac0b1fa401cc95"
+    },
+    {
+      "event": "docker-port",
+      "command": [
+        "docker",
+        "port",
+        "vrae-ra4c3-ef982709779a",
+        "5432/tcp"
+      ],
+      "returncode": 1,
+      "file": "008-docker-port.log",
+      "sha256": "d3931bdc8fbba6ccd64d1d1c277dc4b739ef416f7f624490e53e6c4cf4a5a405"
+    },
+    {
+      "event": "authenticated-target-sql",
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "vrae-ra4c3-ef982709779a",
+        "sh",
+        "-c",
+        "IFS= read -r PGPASSWORD; export PGPASSWORD; exec \"$@\"",
+        "ra4c3-readiness",
+        "psql",
+        "-h",
+        "127.0.0.1",
+        "-U",
+        "postgres",
+        "-d",
+        "vrae_ra4a_p1",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At",
+        "-c",
+        "SELECT current_database(),current_setting('server_version_num'),current_user"
+      ],
+      "returncode": 0,
+      "file": "009-authenticated-target-sql.log",
+      "sha256": "4dcc6a7c61df33f89f64ebe4bac7db5940fbc091a426a63e6d0cac365c881271"
+    },
+    {
+      "event": "wrong-password-negative",
+      "command": [
+        "docker",
+        "exec",
+        "-i",
+        "vrae-ra4c3-ef982709779a",
+        "sh",
+        "-c",
+        "IFS= read -r PGPASSWORD; export PGPASSWORD; exec \"$@\"",
+        "ra4c3-readiness",
+        "psql",
+        "-h",
+        "127.0.0.1",
+        "-U",
+        "postgres",
+        "-d",
+        "vrae_ra4a_p1",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At",
+        "-c",
+        "SELECT current_database(),current_setting('server_version_num'),current_user"
+      ],
+      "returncode": 2,
+      "file": "010-wrong-password-negative.log",
+      "sha256": "01eda38d70b5d1310b59af69fe2d715becc37c94bf1caade46a40c610e57d4ef"
+    },
+    {
+      "event": "final-published-ports",
+      "command": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .NetworkSettings.Ports}}",
+        "vrae-ra4c3-ef982709779a"
+      ],
+      "returncode": 0,
+      "file": "011-final-published-ports.log",
+      "sha256": "18d78eb69a219cfcd5be0156027df9c980b8a61b41bbe6e0d9ac0b1fa401cc95"
+    },
+    {
+      "event": "final-docker-port",
+      "command": [
+        "docker",
+        "port",
+        "vrae-ra4c3-ef982709779a",
+        "5432/tcp"
+      ],
+      "returncode": 1,
+      "file": "012-final-docker-port.log",
+      "sha256": "d3931bdc8fbba6ccd64d1d1c277dc4b739ef416f7f624490e53e6c4cf4a5a405"
+    },
+    {
+      "event": "cleanup-inspect-container",
+      "command": [
+        "docker",
+        "container",
+        "inspect",
+        "--format",
+        "{{json .Config.Labels}}",
+        "vrae-ra4c3-ef982709779a"
+      ],
+      "returncode": 0,
+      "file": "013-cleanup-inspect-container.log",
+      "sha256": "a01735c1c7d0000affd2ff4afe8ab11414550d5e50e828a931e6c4a8be73767b"
+    },
+    {
+      "event": "cleanup-remove-container",
+      "command": [
+        "docker",
+        "rm",
+        "-f",
+        "vrae-ra4c3-ef982709779a"
+      ],
+      "returncode": 0,
+      "file": "014-cleanup-remove-container.log",
+      "sha256": "a019870810e72a512483ba1415603b790edad36ed695357bb6f52afc7c99383c"
+    },
+    {
+      "event": "cleanup-absence-container",
+      "command": [
+        "docker",
+        "container",
+        "inspect",
+        "vrae-ra4c3-ef982709779a"
+      ],
+      "returncode": 1,
+      "file": "015-cleanup-absence-container.log",
+      "sha256": "97c3ce93e17efc64c605a2e5e59c6f32ddbc1deb418842818f759e9093c4bcfa"
+    },
+    {
+      "event": "cleanup-inspect-network",
+      "command": [
+        "docker",
+        "network",
+        "inspect",
+        "--format",
+        "{{json .Labels}}",
+        "vrae-ra4c3-ef982709779a-local"
+      ],
+      "returncode": 0,
+      "file": "016-cleanup-inspect-network.log",
+      "sha256": "a01735c1c7d0000affd2ff4afe8ab11414550d5e50e828a931e6c4a8be73767b"
+    },
+    {
+      "event": "cleanup-remove-network",
+      "command": [
+        "docker",
+        "network",
+        "rm",
+        "vrae-ra4c3-ef982709779a-local"
+      ],
+      "returncode": 0,
+      "file": "017-cleanup-remove-network.log",
+      "sha256": "5198500aced7efc9217a67f58d40ea262baf9e7f5ab6ad417142f192b2b02503"
+    },
+    {
+      "event": "cleanup-absence-network",
+      "command": [
+        "docker",
+        "network",
+        "inspect",
+        "vrae-ra4c3-ef982709779a-local"
+      ],
+      "returncode": 1,
+      "file": "018-cleanup-absence-network.log",
+      "sha256": "b3bcc5a85fc7561bb3463b2fa612acf0b7c4e65dcd142798ae4f971a8ddeaa2e"
+    },
+    {
+      "event": "cleanup-inspect-volume",
+      "command": [
+        "docker",
+        "volume",
+        "inspect",
+        "--format",
+        "{{json .Labels}}",
+        "vrae-ra4c3-ef982709779a-data"
+      ],
+      "returncode": 0,
+      "file": "019-cleanup-inspect-volume.log",
+      "sha256": "a01735c1c7d0000affd2ff4afe8ab11414550d5e50e828a931e6c4a8be73767b"
+    },
+    {
+      "event": "cleanup-remove-volume",
+      "command": [
+        "docker",
+        "volume",
+        "rm",
+        "vrae-ra4c3-ef982709779a-data"
+      ],
+      "returncode": 0,
+      "file": "020-cleanup-remove-volume.log",
+      "sha256": "e1de61a77c43d9f7fcacdb028b2c5a2943870e74b966aab53bcd914057c7b9dc"
+    },
+    {
+      "event": "cleanup-absence-volume",
+      "command": [
+        "docker",
+        "volume",
+        "inspect",
+        "vrae-ra4c3-ef982709779a-data"
+      ],
+      "returncode": 1,
+      "file": "021-cleanup-absence-volume.log",
+      "sha256": "e5d14ba8379445c79703315740d2bc403b956cce5b8fedb3583a82be74b2e7df"
+    }
+  ],
+  "requested_host_ip": "127.0.0.1",
+  "requested_host_port": "65184",
+  "outcome": "INTERNAL_PG_AUTHENTICATED_BUT_NO_HOST_PUBLICATION",
+  "cleanup": [
+    {
+      "kind": "container",
+      "name": "vrae-ra4c3-ef982709779a",
+      "absent_after": true
+    },
+    {
+      "kind": "network",
+      "name": "vrae-ra4c3-ef982709779a-local",
+      "absent_after": true
+    },
+    {
+      "kind": "volume",
+      "name": "vrae-ra4c3-ef982709779a-data",
+      "absent_after": true
+    }
+  ],
+  "migrations_executed": false,
+  "host_authenticated_sql_verified": false,
+  "restricted_principal_verified": false,
+  "http_started": false
+}
