@@ -5,8 +5,8 @@ Issue #67 / Draft PR #68。入口 main `cf11278ba4c9b62b3645cdbd6fd2cd8bb2f1838b
 ## 变更与证明
 
 - 产品 app 源码冻结 `c5789e01b206d683be115d026b87a0f939db5503`：现有 SSR Console 逐 Claim 表单 / 404 三种候选提议 / 200 独立覆盖 ACK，实际复用 accepted ReviewCommandProposal / CoverageAcknowledgementProposal / validate_proposal。原 target/source/Guard/pins 未变，mutate / production prepare 仍拒绝。
-- 测试源码冻结 `79c4599c3f7aa4df6421c30757737b9b316f453e`：worker 冻结防火墙继续拒绝 loopback；隔离环境用 AF_UNIX 驱动原始 HTTP parser/Handler，同一组32项请求断言全部保留，新增1项真实监听 socket 的内核拒绝验证。普通 CI/本地仍真实 TCP，浏览器不模拟请求。
-- 最终双 Python 要求各 **324 passed**：原58 + C1原43 + 新96 + 原D1/D2 127实际调用。源前后哈希、XML、stdout与 native marker 见 source-matching ACCEPTANCE.json。旧323轮次保留为测试源历史，不当作新测试源通过。
+- 最终测试源码冻结 `47964b714a458d9b4e8d31ade4b5b4b35e6ab6f1`：包含 `79c4599c3f7aa4df6421c30757737b9b316f453e` 的 AF_UNIX 协议适配与 loopback 内核拒绝验证；仅另复用原生构建的输入模板（逐例深拷贝），所有真正被测来源重放/validate_proposal 调用及96项断言不变。普通 CI/本地仍真实 TCP，浏览器不模拟请求。
+- 最终双 Python 实际各 **324 passed**：原58 + C1原43 + 新96 + 原D1/D2 127实际调用。源前后哈希、XML、stdout与 native marker 见 source-matching ACCEPTANCE.json。旧323轮次保留为测试源历史，不当作新测试源通过。
 - 浏览器 `browser-2026-11-12T23-22-38-056Z`：Chromium 156，**75/75、24张PNG**，1280/375/320 真click/keyboard/中文原因/form POST，三动作、200/null、来源back/forward、重开未提交、stale/语义升级/HTML注入。原始DOM/CDP/网络/截图哈希均保留；app源码哈希需与最终一致。无外部页面请求、脚本异常或 server错误。
 - 原58+43测试文件与其余所有受保护源/QA/SQL/infra/CI 原 Git blob/mode 不变，仅4个既有app文件修改。SOURCE-SEAL.json 与 seal.py 可独立复核；ARTIFACT-MANIFEST.json 封存已提交证据。
 

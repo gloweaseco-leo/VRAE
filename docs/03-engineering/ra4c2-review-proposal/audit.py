@@ -52,6 +52,19 @@ if len(sys.argv)>1:
     normal_dir,pg_dir=map(Path,sys.argv[1:])
     normal,pg=load(normal_dir/'receipt.json'),load(pg_dir/'receipt.json')
     head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+    def tree(ref):
+        raw=subprocess.check_output(['git','ls-tree','-r','-z',ref],cwd=ROOT)
+        return {r.split(b'\t',1)[1].decode():r.split(b'\t',1)[0].decode().split()[::2]
+                for r in raw.split(b'\0') if r}
+    base,current=tree(BASE),tree(head)
+    allowed=('apps/operator_console/','tests/operator_console/',
+             'docs/03-engineering/ra4c2-review-proposal/')
+    assert all(current.get(p)==v for p,v in base.items() if not p.startswith(allowed))
+    assert all(p in base or p.startswith(allowed) for p in current)
+    assert all(current[p]==base[p] for p in ('tests/operator_console/test_console.py',
+                                            'tests/operator_console/test_targets.py'))
+    seal=load(HERE/'SOURCE-SEAL.json')
+    assert seal['apps_and_tests']=={p:v for p,v in current.items() if p.startswith(allowed[:2])}
     for folder,r,count in ((normal_dir,normal,4),(pg_dir,pg,2)):
         assert r['run_head']==r['pr_head']==head and r['accepted_main']==BASE and r['draft']
         assert r['merge_parents']==[BASE,head] and r['head_tree']==r['merge_tree']==normal['merge_tree']
