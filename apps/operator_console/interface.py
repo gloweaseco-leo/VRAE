@@ -22,6 +22,15 @@ class ConsoleInterface:
 
     def dispatch(self, context, method, target):
         try:
+            with self.service.request(context):
+                return self._dispatch(context,method,target)
+        except ConsoleError as exc:
+            code=str(exc)
+            status=503 if code=='DB_UNAVAILABLE' else 409 if code in ('SOURCE_INTEGRITY','STALE_VERSION') else 403
+            return Response(status,views.error(self.prefix,code).encode('utf-8'))
+
+    def _dispatch(self, context, method, target):
+        try:
             self.service._scope(context)
             if method not in ('GET', 'HEAD'):
                 refuse('NOT_IMPLEMENTED')
@@ -74,7 +83,7 @@ class ConsoleInterface:
             return Response(200,body.encode('utf-8'))
         except ConsoleError as exc:
             code = str(exc)
-            status = 403 if code=='UNAUTHORIZED' else 501 if code=='NOT_IMPLEMENTED' else 409 if code in ('STALE_VERSION','SOURCE_INTEGRITY','NOT_READY') else 400
+            status = 503 if code=='DB_UNAVAILABLE' else 403 if code=='UNAUTHORIZED' else 501 if code=='NOT_IMPLEMENTED' else 409 if code in ('STALE_VERSION','SOURCE_INTEGRITY','NOT_READY') else 400
             return Response(status,views.error(self.prefix,code).encode('utf-8'))
         except (ValueError, UnicodeError, TypeError, KeyError):
             return Response(400,views.error(self.prefix,'INVALID_INPUT').encode('utf-8'))

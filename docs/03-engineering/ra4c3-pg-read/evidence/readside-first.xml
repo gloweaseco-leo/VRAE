@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="83.738" timestamp="2026-11-12T23:03:40.067600-05:00" hostname="dong"><testcase classname="integration.ra4c3.test_readside" name="test_actual_pg_pool_reads_original_bytes" time="27.493" /><testcase classname="integration.ra4c3.test_readside" name="test_exact_original_target_source_proposal_and_no_new_draft[404]" time="30.678" /><testcase classname="integration.ra4c3.test_readside" name="test_exact_original_target_source_proposal_and_no_new_draft[200]" time="22.552" /><testcase classname="integration.ra4c3.test_readside" name="test_unauthorized_request_has_zero_reads[/tasks/not-assigned]" time="0.007" /><testcase classname="integration.ra4c3.test_readside" name="test_unauthorized_request_has_zero_reads[/?tenant=tenant-beta]" time="0.006" /><testcase classname="integration.ra4c3.test_readside" name="test_unauthorized_request_has_zero_reads[/?dsn=postgres://evil]" time="0.008" /><testcase classname="integration.ra4c3.test_readside" name="test_unauthorized_request_has_zero_reads[/tasks/task-404?trusted=true]" time="0.008" /><testcase classname="integration.ra4c3.test_readside" name="test_committed_revocation_blocks_at_request[ra4a_private.principals-active-db_role='ra4a_test_a_app'-False]" time="0.236"><failure message="psycopg.errors.UndefinedColumn: column &quot;active&quot; does not exist&#10;LINE 1: SELECT active FROM ra4a_private.principals WHERE db_role='ra...&#10;               ^">sample = (&lt;apps.operator_console.service.ConsoleService object at 0x0000023D85EB8850&gt;, &lt;object object at 0x0000023D821C72A0&gt;, [])
+table = 'ra4a_private.principals', column = 'active'
+where = "db_role='ra4a_test_a_app'", new_value = False
+
+    @pytest.mark.parametrize('table,column,where,new_value', [
+        ('ra4a_private.principals','active',"db_role='ra4a_test_a_app'",False),
+        ('ra4a_private.assignments','active',"db_role='ra4a_test_a_app'",False),
+        ('ra4a.policies','status',"tenant_id='tenant-test'",'REVOKED'),
+    ])
+    def test_committed_revocation_blocks_at_request(sample, table, column, where, new_value):
+        # All query identifiers/where clauses are fixed source literals, never inputs.
+        with admin(sample) as c:
+&gt;           old = c.execute(f'SELECT {column} FROM {table} WHERE {where}').fetchone()[0]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+integration\ra4c3\test_readside.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;psycopg.Connection [BAD] at 0x23d87737dd0&gt;
+query = "SELECT active FROM ra4a_private.principals WHERE db_role='ra4a_test_a_app'"
+params = None, prepare = None, binary = False
+
+    def execute(
+        self,
+        query: Query,
+        params: Params | None = None,
+        *,
+        prepare: bool | None = None,
+        binary: bool = False,
+    ) -&gt; Cursor[Row]:
+        """Execute a query and return a cursor to read its results."""
+        try:
+            cur = self.cursor()
+            if binary:
+                cur.format = BINARY
+    
+            if isinstance(query, Template):
+                if params is not None:
+                    raise TypeError(
+                        "'execute()' with string template query doesn't support parameters"
+                    )
+                return cur.execute(query, prepare=prepare)
+            else:
+                return cur.execute(query, params, prepare=prepare)
+        except e._NO_TRACEBACK as ex:
+&gt;           raise ex.with_traceback(None)
+E           psycopg.errors.UndefinedColumn: column "active" does not exist
+E           LINE 1: SELECT active FROM ra4a_private.principals WHERE db_role='ra...
+E                          ^
+
+docs\03-engineering\ra4c3-pg-read\runtime\driver311\psycopg\connection.py:304: UndefinedColumn</failure></testcase></testsuite></testsuites>

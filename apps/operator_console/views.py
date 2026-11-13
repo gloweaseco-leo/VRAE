@@ -111,7 +111,7 @@ def review(prefix, task, dossier):
         '<section class="notice"><h2>覆盖边界</h2><p>只涉及固定合成采集的静态链接与响应；没有表单提交、投递、流量、排名、收入或销售损失验证。未覆盖规则不等于通过。</p></section>'
         '<details><summary>展开原生完整报告 / Guard / 内容与 HTML 哈希</summary>'+dump(d)+dump(dossier['held'])+'</details>'
         +link(prefix+'tasks/'+task['task_id'],'返回任务详情',key='back-detail'))
-    return frame(prefix, '只读核对',content,'原生报告')
+    return frame(prefix, '只读核对',content+origin_info(dossier),'原生报告')
 
 
 def evidence(prefix, task, dossier, ev, *, target_mode=False):
@@ -204,4 +204,15 @@ def target(prefix, task, dossier, *, test_composer=False):
             '<p>仅验证提议合同，不保存、不产生审批或分享。</p>'
             +link(target_url(prefix,task,dossier).replace('/target?','/proposal?'),
                   '进入逐 Claim 提议预览',key='proposal')+'</section>')
-    return frame(prefix,'精确核对对象',content,'核对对象')
+    return frame(prefix,'精确核对对象',content+origin_info(dossier),'核对对象')
+
+
+def origin_info(dossier):
+    origin=dossier.get('origin')
+    if origin is None:
+        return ''
+    return ('<details class="card" data-key="pg-origin"><summary>数据库原文校验与只读边界</summary>'
+        '<p>PG16 TEST_ONLY · 本请求读取并校验合成原文字节；不是网站许可或人工审批。</p>'
+        f'<p>原文集合：{e(origin["objects"])} 个对象</p>'
+        f'<p>来源 SHA-256 <code>{e(origin["source_sha256"])}</code></p>'
+        f'<p>原文清单 SHA-256 <code>{e(origin["manifest_sha256"])}</code></p></details>')

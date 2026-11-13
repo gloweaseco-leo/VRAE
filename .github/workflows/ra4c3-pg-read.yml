@@ -1,0 +1,46 @@
+name: RA4C3 TEST_ONLY actual PG read UI
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  pg-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Existing locked runtime and PG driver
+        run: |
+          python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+          python -m pip install -r requirements-ra4a.lock -c requirements-ra1a.lock
+      - name: New read-seam static checks
+        run: python -m ruff check apps/operator_console integration/ra4c3 --select E4,E7,E9,F
+      - name: Chinese glyphs for actual screenshot acceptance
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-cjk
+          fc-match sans-serif:lang=zh-cn
+      - name: Actual fresh PG16 originals, read UI and Chromium
+        env:
+          RA4C0_CHROMIUM: /usr/bin/google-chrome
+        run: >-
+          python -B -m integration.ra4c3.run_suite
+          docs/03-engineering/ra4c3-pg-read/evidence/hosted-${{ matrix.python-version }}
+          --browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ra4c3-pg-read-${{ matrix.python-version }}
+          path: |
+            docs/03-engineering/ra4c3-pg-read/evidence/
+            !docs/03-engineering/ra4c3-pg-read/evidence/**/profile-*/**
