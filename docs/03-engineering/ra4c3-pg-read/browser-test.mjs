@@ -117,7 +117,7 @@ try{
     await check(`${width}-zero-ack-not-approval`,`document.querySelector('[data-outcome]').dataset.outcome==='CONTRACT_VALID_ONLY'&&document.querySelector('#proposal-action').value==='SIMULATED_INTERNAL_SCOPE_ACK'&&document.querySelector('#checked-command').innerText.includes('COVERAGE_ACK_PROPOSAL')`);await screenshot(`coverage-ack-200-${width}.png`,true);
     await check(`${width}-disclosure-mouse-open`,`document.querySelector('#checked-command').open`);
     await key(' ','Space',32);await check(`${width}-disclosure-keyboard-close`,`!document.querySelector('#checked-command').open`);
-    await key('Enter','Enter',13);await check(`${width}-disclosure-keyboard-open`,`document.querySelector('#checked-command').open&&document.querySelector('#checked-command').innerText.includes('COVERAGE_ACK_PROPOSAL')`);
+    await key('Enter','Enter',13,{text:'\r',unmodifiedText:'\r'});await check(`${width}-disclosure-keyboard-open`,`document.querySelector('#checked-command').open&&document.querySelector('#checked-command').innerText.includes('COVERAGE_ACK_PROPOSAL')`);
     await writeFile(path.join(out,`coverage-ack-${width}.html`),await ev('document.documentElement.outerHTML'));
     await navigate(base+'tasks/task-403');await check(`${width}-403-no-composer`,`document.body.innerText.includes('不能据此判断网站缺陷')&&!document.querySelector('[data-key=proposal]')`);
     await navigate(base+'tasks/task-unknown');await check(`${width}-unknown-no-composer`,`document.body.innerText.includes('不能据此判断网站缺陷')&&!document.querySelector('[data-key=proposal]')`);

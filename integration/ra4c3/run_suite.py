@@ -11,7 +11,7 @@ import time
 from integration.ra4c3 import lab
 
 
-def run(output, *, browser=False):
+def run(output, *, browser=False, browser_first=False):
     output = lab.bounded(output)
     output.mkdir(parents=True, exist_ok=False)
     state = output.parent.parent / 'runtime' / (output.name + '-state.json')
@@ -32,7 +32,8 @@ def run(output, *, browser=False):
     (output/'source.json').write_bytes(json.dumps({'actual_head':git('rev-parse','HEAD'),
         'head_and_ordered_parents':git('log','-1','--format=%H %P'),
         'github_sha':os.environ.get('GITHUB_SHA'),'github_run_id':os.environ.get('GITHUB_RUN_ID'),
-        'python':sys.version,'sources':source_files},indent=2).encode()+b'\n')
+        'python':sys.version,'runner_argv':sys.argv,'browser_first':browser_first,
+        'sources':source_files},indent=2).encode()+b'\n')
 
     def command(name, argv, extra=None):
         folder = output / name
@@ -79,10 +80,14 @@ def run(output, *, browser=False):
             '--profile',str(profile),'--output',str(output/'seed-failure-cleanup')])
         pytest('c3',['integration/ra4c3/test_readside.py','integration/ra4c3/test_lab_cleanup.py',
                      'integration/ra4c3/test_restart_read.py'])
-        pytest('full',['tests'])
-        if browser:
+        def chromium():
             command('browser',['node','docs/03-engineering/ra4c3-pg-read/browser-test.mjs'],
                     {'RA4C0_PYTHON':sys.executable})
+        if browser and browser_first:
+            chromium()
+        pytest('full',['tests'])
+        if browser and not browser_first:
+            chromium()
     finally:
         if state.exists():
             held=json.loads(state.read_text())
@@ -101,5 +106,9 @@ if __name__ == '__main__':
     p=argparse.ArgumentParser()
     p.add_argument('output')
     p.add_argument('--browser',action='store_true')
+    p.add_argument('--browser-first',action='store_true',
+                   help='Local: run actual Chromium before the full pure suite')
     a=p.parse_args()
-    run(a.output,browser=a.browser)
+    if a.browser_first and not a.browser:
+        p.error('--browser-first requires --browser')
+    run(a.output,browser=a.browser,browser_first=a.browser_first)
