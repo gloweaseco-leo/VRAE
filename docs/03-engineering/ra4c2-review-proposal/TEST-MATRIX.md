@@ -31,5 +31,6 @@
 - `browser-2026-11-12T23-16-36-109Z`：真实表单 Origin:null 被403拒绝。修正仅本地表单 Referrer-Policy，不允许 null Origin；后续 HTTP 新增 null 拒绝测试。
 - `browser-2026-11-12T23-18-17-817Z`：21项处因读取折叠合同的 innerText 失败；改为真实点击展开后核对，未改业务预期。此前404动作/篡改检查记录保留，不作为完整三视口通过。
 - 首轮 hosted `43328389718`：标准 Python 3.11/3.13 与隔离浏览器成功，isolated-http 15m14s 超时取消；原始日志/API/Git/artifact 在 `hosted-43328389718-20261113T000234`。冻结防火墙禁止 IPv4 loopback；测试适配器改用 AF_UNIX 驱动原 Handler，并新增真实 loopback 内核拒绝测试。普通环境/浏览器保留真实 TCP，不跳过32项HTTP断言、不修改安全规则或CI。旧双Python323是旧测试源历史，最终要求双324。
+- 第二轮 hosted `43334310380`：isolated-http 10m7s 成功，3.13 8m19s 成功，3.11 固定12m14s超时取消；复用新测试的原生输入模板，逐用例深拷贝，所有真正被测的 native replay/validate_proposal 调用与断言不变，未改生产源码或超时。`python-*-20261113T000607`因准备此测试修复主动中止，不作通过。
 
 最终绿轮必须源哈希匹配、全部断言通过；不覆盖失败记录。历史 RA3C V1 RED53 和 Human Gold 0/26 保持封存，不重新标记通过。

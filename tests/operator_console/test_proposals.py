@@ -9,6 +9,7 @@ from apps.operator_console.proposal_views import composer
 from vrae.reviewing import ReviewCommandProposal, CoverageAcknowledgementProposal, ReviewError
 from vrae.reviewing.canonical import canonical
 from copy import deepcopy
+from functools import lru_cache
 from urllib.parse import urlencode
 import pytest
 
@@ -19,8 +20,11 @@ def sample():
     return s, c, ProposalPreview(s, c, test_only=True, synthetic_fixtures=True)
 
 
-def form(sample, case="404"):
-    s, c, _ = sample
+@lru_cache(maxsize=2)
+def _input_template(s, c, case):
+    # Only fixture INPUT preparation is reused. The subject under test (call ->
+    # ProposalPreview.validate -> service.target/native replay/native validator)
+    # is never mocked, memoized or skipped by this cache.
     task = s.detail(c, "task-" + case)
     _, d = s.review(c, task["task_id"], 1, task["report_pins"]["expected_draft_ref"])
     v = d["review_target"]
@@ -43,6 +47,10 @@ def form(sample, case="404"):
         )
     f.update({"section." + section: v["target_digest"] for section in t["required_sections"]})
     return task, d, f
+
+
+def form(sample, case="404"):
+    return deepcopy(_input_template(sample[0], sample[1], case))
 
 
 def call(sample, f, case="404", context=None):

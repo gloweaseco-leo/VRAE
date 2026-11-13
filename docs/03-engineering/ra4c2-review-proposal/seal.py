@@ -36,6 +36,7 @@ assert fingerprint(protected)==fingerprint({p:current[p] for p in protected})
 record={'head':head,'accepted_main':BASE,'baseline_entries':len(base),'owned_existing_changed':changed,
         'new_paths':new,'protected_blobs_modes_sha256':fingerprint(protected),
         'all_protected_blobs_modes_retained':True,'original_58_test_blob':base['tests/operator_console/test_console.py'],
+        'protected_entries':len(protected),'original_43_test_blob':base['tests/operator_console/test_targets.py'],
         'apps_and_tests':{p:v for p,v in current.items() if p.startswith(ALLOWED[:2])}}
 (HERE/'SOURCE-SEAL.json').write_bytes(json.dumps(record,indent=2).encode()+b'\n')
 prefix=HERE.relative_to(ROOT).as_posix()

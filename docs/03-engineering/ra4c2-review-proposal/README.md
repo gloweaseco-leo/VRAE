@@ -40,6 +40,8 @@ Host 必须为实际 127.0.0.1:port；POST Origin 必须精确同源（null 不�
 
 新测试保留 initial RED，实际调用原生 proposal validator、原生 replay 与真实本地 HTTP。旧101 Console、原127 reviewing、冻结 V2 64+54 及历史 V1 RED53/Gold0/26 均保留。双 Python bounded 与真实浏览器记录源 SHA、实际调用、原始日志、CDP/网络、DOM、截图哈希。失败/过期轮次明确单列，不能冒充最终通过。
 
+第二轮标准CI的3.11达到冻结12分钟上限取消（同轮3.13/隔离HTTP通过）。新测试改为仅复用一份**原生生成的测试输入模板**，每用例深拷贝；被测 ProposalPreview.validate / service.target 的真正来源重放及 validate_proposal 调用仍逐次执行、不mock、不缓存。全部96项新断言、旧测试和CI超时不变；未完成的本地324轮次因准备该测试修复而主动中止，保留日志但不签发通过receipt。
+
 最终先提交本地证据与 source/artifact seals；精确最终 HEAD 运行四项标准及两项真实 PG CI。post-CI 原始 API/Git/log/artifact、ACCEPTANCE 与 ZIP 留在本授权 evidence/hosted-*，PR body 公布精确 SHA、合并父、tree、job/artifact URL 和哈希，避免为嵌入自身 CI 而追加提交漂移 SHA。只用正常 merge 已验收 main。
 
 ## 生产接线前提 / 未完成门禁
