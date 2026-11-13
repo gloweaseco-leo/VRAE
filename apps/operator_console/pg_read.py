@@ -187,7 +187,14 @@ class _Request:
         self._open()
         if self.connection.info.transaction_status == 0:
             self.connection.execute('BEGIN')
-        self.connection.execute('SELECT ra4a.require_scope(%s,%s)',(self.scope.tenant_id,'APP'))
+        self._current_scope()
+
+    def _current_scope(self):
+        # require_scope is intentionally private to the native definer API.
+        # scope() is its existing public, RLS-aware current-principal projection.
+        row=self.connection.execute('SELECT ra4a.scope()').fetchone()
+        if row is None or row[0] != self.scope.tenant_id:
+            raise PersistenceError('P2A_CURRENT_SCOPE_DENIED')
 
     def load(self, case):
         if case in self.snapshots:
@@ -219,7 +226,7 @@ class _Request:
         if self.connection is not None:
             self._runtime_current()
             self._no_object_writer()
-            self.connection.execute('SELECT ra4a.require_scope(%s,%s)',(self.scope.tenant_id,'APP'))
+            self._current_scope()
             # Policy expiration uses clock_timestamp, not an old tx timestamp.
             # Verify fresh rows at the response boundary under the existing locks.
             for case, snapshot in self.snapshots.items():
