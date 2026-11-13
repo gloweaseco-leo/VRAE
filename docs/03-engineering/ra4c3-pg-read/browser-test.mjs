@@ -11,7 +11,8 @@ await mkdir(out,{recursive:true});
 const sourceHead=execFileSync('git',['rev-parse','HEAD'],{cwd:root,windowsHide:true}).toString().trim();
 const app=path.join(root,'apps/operator_console'),sourceHashes={};
 for(const name of await readdir(app)){if(/\.(py|css|json)$/.test(name))sourceHashes[name]=createHash('sha256').update(await readFile(path.join(app,name))).digest('hex')}
-const profile=await mkdtemp(path.join(out,'profile-'));
+await mkdir(path.join(own,'runtime'),{recursive:true});
+const profile=await mkdtemp(path.join(own,'runtime','browser-profile-'));
 const py=process.env.RA4C0_PYTHON||path.resolve(root,'../ra2b3/.venv/Scripts/python.exe');
 const audit=path.join(out,'actual-db-reads.jsonl');
 assert(process.env.RA4C3_PROFILE,'RA4C3_PROFILE_REQUIRED');

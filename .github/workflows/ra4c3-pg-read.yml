@@ -36,4 +36,6 @@ jobs:
         if: always()
         with:
           name: ra4c3-pg-read-${{ matrix.python-version }}
-          path: docs/03-engineering/ra4c3-pg-read/evidence/
+          path: |
+            docs/03-engineering/ra4c3-pg-read/evidence/
+            !docs/03-engineering/ra4c3-pg-read/evidence/**/profile-*/**
