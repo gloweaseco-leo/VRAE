@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="4" time="3.854" timestamp="2026-11-13T02:17:00.158488-05:00" hostname="dong"><testcase classname="tests.identity.crypto_cases" name="test_signature_and_duplicate_header[tamper]" time="0.040"><failure message="Failed: Rejected credential reached the database">kind = 'tamper'
+
+    @pytest.mark.parametrize("kind", ["tamper", "signature", "key", "duplicate-header"])
+    def test_signature_and_duplicate_header(kind):
+        issuer = Issuer()
+        token = issuer.token()
+        h, p, s = token[7:].split(".")
+        if kind == "tamper":
+            claims = json.loads(__import__("base64").urlsafe_b64decode(p + "=="))
+            p = encode(raw(claims | {"role": "postgres"}))
+        elif kind == "signature":
+            s = encode(b"\0" * 64)
+        elif kind == "key":
+            token = Issuer().token()
+            h, p, s = token[7:].split(".")
+        else:
+            h = encode(b'{"alg":"EdDSA","alg":"none","kid":"old"}')
+        with pytest.raises(IdentityDenied):
+&gt;           boundary(issuer).check("Bearer " + ".".join((h, p, s)), LOC, nonce=NONCE)
+
+tests\identity\crypto_cases.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\identity\boundary.py:116: in check
+    return self._check(bearer, location, nonce)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\identity\boundary.py:196: in _check
+    with self.connect(binding.db_role) as c:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+role = 'test-role'
+
+    def no_database(role):
+&gt;       pytest.fail("Rejected credential reached the database")
+E       Failed: Rejected credential reached the database
+
+tests\identity\crypto_cases.py:18: Failed</failure></testcase><testcase classname="tests.identity.crypto_cases" name="test_signature_and_duplicate_header[signature]" time="0.011"><failure message="Failed: Rejected credential reached the database">kind = 'signature'
+
+    @pytest.mark.parametrize("kind", ["tamper", "signature", "key", "duplicate-header"])
+    def test_signature_and_duplicate_header(kind):
+        issuer = Issuer()
+        token = issuer.token()
+        h, p, s = token[7:].split(".")
+        if kind == "tamper":
+            claims = json.loads(__import__("base64").urlsafe_b64decode(p + "=="))
+            p = encode(raw(claims | {"role": "postgres"}))
+        elif kind == "signature":
+            s = encode(b"\0" * 64)
+        elif kind == "key":
+            token = Issuer().token()
+            h, p, s = token[7:].split(".")
+        else:
+            h = encode(b'{"alg":"EdDSA","alg":"none","kid":"old"}')
+        with pytest.raises(IdentityDenied):
+&gt;           boundary(issuer).check("Bearer " + ".".join((h, p, s)), LOC, nonce=NONCE)
+
+tests\identity\crypto_cases.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\identity\boundary.py:116: in check
+    return self._check(bearer, location, nonce)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\identity\boundary.py:196: in _check
+    with self.connect(binding.db_role) as c:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+role = 'test-role'
+
+    def no_database(role):
+&gt;       pytest.fail("Rejected credential reached the database")
+E       Failed: Rejected credential reached the database
+
+tests\identity\crypto_cases.py:18: Failed</failure></testcase><testcase classname="tests.identity.crypto_cases" name="test_signature_and_duplicate_header[key]" time="0.015"><failure message="Failed: Rejected credential reached the database">kind = 'key'
+
+    @pytest.mark.parametrize("kind", ["tamper", "signature", "key", "duplicate-header"])
+    def test_signature_and_duplicate_header(kind):
+        issuer = Issuer()
+        token = issuer.token()
+        h, p, s = token[7:].split(".")
+        if kind == "tamper":
+            claims = json.loads(__import__("base64").urlsafe_b64decode(p + "=="))
+            p = encode(raw(claims | {"role": "postgres"}))
+        elif kind == "signature":
+            s = encode(b"\0" * 64)
+        elif kind == "key":
+            token = Issuer().token()
+            h, p, s = token[7:].split(".")
+        else:
+            h = encode(b'{"alg":"EdDSA","alg":"none","kid":"old"}')
+        with pytest.raises(IdentityDenied):
+&gt;           boundary(issuer).check("Bearer " + ".".join((h, p, s)), LOC, nonce=NONCE)
+
+tests\identity\crypto_cases.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\identity\boundary.py:116: in check
+    return self._check(bearer, location, nonce)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\identity\boundary.py:196: in _check
+    with self.connect(binding.db_role) as c:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+role = 'test-role'
+
+    def no_database(role):
+&gt;       pytest.fail("Rejected credential reached the database")
+E       Failed: Rejected credential reached the database
+
+tests\identity\crypto_cases.py:18: Failed</failure></testcase><testcase classname="tests.identity.crypto_cases" name="test_signature_and_duplicate_header[duplicate-header]" time="0.015" /></testsuite></testsuites>
