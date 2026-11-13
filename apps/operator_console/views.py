@@ -172,7 +172,7 @@ def target_summary(prefix, task, dossier):
         +link(target_url(prefix,task,dossier),'查看完整核对对象与逐条来源',key='target')+'</section>')
 
 
-def target(prefix, task, dossier):
+def target(prefix, task, dossier, *, test_composer=False):
     v=dossier['review_target']
     t=v['target']
     query=urlencode({'version':task['report_version'],'draft':t['draft_ref'],'target':v['target_digest']})
@@ -199,4 +199,9 @@ def target(prefix, task, dossier):
         +f'<p>Target digest <code>{e(v["target_digest"])}</code></p>'+dump(v)+'</details>'
         '<details id="target-limits"><summary>完整原生覆盖与限制</summary>'+dump(v['limitations'])+dump(v['recorded_coverage'])+dump(v['examined_pages'])+'</details>'
         +link(review_url(prefix,task),'返回原生只读核对区',key='target-back-review'))
+    if test_composer:
+        content += ('<section class="card"><h2>TEST_ONLY · 练习逐条处置提议</h2>'
+            '<p>仅验证提议合同，不保存、不产生审批或分享。</p>'
+            +link(target_url(prefix,task,dossier).replace('/target?','/proposal?'),
+                  '进入逐 Claim 提议预览',key='proposal')+'</section>')
     return frame(prefix,'精确核对对象',content,'核对对象')
