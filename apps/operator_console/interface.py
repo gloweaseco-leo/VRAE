@@ -15,9 +15,10 @@ class Response:
 
 
 class ConsoleInterface:
-    def __init__(self, service, *, prefix='/'):
+    def __init__(self, service, *, prefix='/', proposal_preview=None):
         self.service = service
         self.prefix = prefix
+        self.proposal_preview = proposal_preview
 
     def dispatch(self, context, method, target):
         try:
@@ -54,7 +55,11 @@ class ConsoleInterface:
                     args = (context,task_id,int(q['version']),q['draft'])
                     pinned = 'target' in q
                     if len(parts)==3 and parts[2]=='target' and pinned:
-                        body = views.target(self.prefix,*self.service.target(*args,q['target']))
+                        body = views.target(self.prefix,*self.service.target(*args,q['target']),
+                                            test_composer=self.proposal_preview is not None)
+                    elif len(parts)==3 and parts[2]=='proposal' and pinned and self.proposal_preview is not None:
+                        from .proposal_views import composer
+                        body = composer(self.prefix,*self.proposal_preview.read(*args,q['target']))
                     elif len(parts)==3 and parts[2]=='review' and not pinned:
                         body = views.review(self.prefix,*self.service.review(*args))
                     elif len(parts)==4 and parts[2:] == ['evidence','capture']:
