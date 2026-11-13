@@ -1,0 +1,40 @@
+name: RA4A P2B2A TEST_ONLY signed identity and real PG16
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  identity-pg16:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Separate pinned identity dependencies
+        run: python -m pip install -r requirements-ra1a.lock -r requirements-ra4a-p2b2a.lock
+      - name: Signed identity and actual isolated PG16 vertical
+        run: python docs/03-engineering/ra4a-p2b2a/run.py run hosted-${{ matrix.python-version }} --identity-only
+      - name: Verify owned resource teardown even after a failed stage
+        if: always()
+        env:
+          RA4A_P2B2A_STATE: hosted-${{ matrix.python-version }}
+        run: python docs/03-engineering/ra4a-p2b2a/run.py stage cleanup docs/03-engineering/ra4a-p2b2a/hosted-${{ matrix.python-version }}/stop-final
+      - name: Verify credential and token publication gate
+        id: publication
+        if: always()
+        run: python docs/03-engineering/ra4a-p2b2a/run.py stage publication docs/03-engineering/ra4a-p2b2a/hosted-${{ matrix.python-version }}
+      - name: Bounded evidence with no private runtime state
+        if: always() && steps.publication.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ra4a-p2b2a-identity-${{ matrix.python-version }}
+          retention-days: 3
+          path: docs/03-engineering/ra4a-p2b2a/hosted-${{ matrix.python-version }}/
