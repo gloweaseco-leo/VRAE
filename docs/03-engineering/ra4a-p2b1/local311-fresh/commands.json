@@ -1,0 +1,51 @@
+{
+  "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+  "checkout": null,
+  "source_head": "19caca8d3ebfcafda6e088a29fd6611f96214c24",
+  "phase": "full",
+  "commands": [
+    {
+      "stage": "accepted-prelude",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "infra/ra4a/p2a_run.py",
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\docs\\03-engineering\\ra4a-p2b1\\local311-fresh\\accepted-prelude"
+      ],
+      "exit": 0,
+      "seconds": 247.90599999998813,
+      "stdout_sha256": "3322603e7990979f68c0c8ee311b4ff95b64dda5a72cf896373cf16d99662af4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "migration-v3",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "-m",
+        "integration.ra4a.p2b1_support"
+      ],
+      "exit": 0,
+      "seconds": 3.9530000000086147,
+      "stdout_sha256": "b4190d81428db029b7372568d82bb70105a3a1a239f3fcba83bccb4b7bc561a9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "p2b1",
+      "argv": [
+        "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\infra\\ra4a\\.venv\\py311\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-x",
+        "-p",
+        "integration.ra4a.p2b1_plugin",
+        "--confcutdir=integration/ra4a/p2b1",
+        "integration/ra4a/p2b1/cases.py",
+        "--junitxml=D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b1-review-cas-testonly\\docs\\03-engineering\\ra4a-p2b1\\local311-fresh\\p2b1\\tests.xml"
+      ],
+      "exit": 0,
+      "seconds": 240.6090000000113,
+      "stdout_sha256": "17a4b043e2eb681ae2df7f0dafd8b0ab7250fc721f8744d5173c4e754b9a6f3b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

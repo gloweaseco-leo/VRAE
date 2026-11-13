@@ -123,15 +123,31 @@ def results():
     result=HERE/"LOCAL_DUAL_ACTUAL_RESULTS.json"
     assert not result.exists()
     result.write_text(json.dumps(all_results,indent=2)+"\n",encoding="utf-8")
-    paths=[p for p in sorted(HERE.rglob("*")) if p.is_file() and "__pycache__" not in p.parts and p.suffix!=".zip"]
+    paths=[p for p in sorted(HERE.rglob("*")) if p.is_file() and "__pycache__" not in p.parts and p.name!="P2B1_LOCAL_RAW_EVIDENCE.zip"]
     manifest=[{"path":p.relative_to(HERE).as_posix(),"bytes":p.stat().st_size,"sha256":digest(p.read_bytes())} for p in paths]
     (HERE/"RAW_MANIFEST.json").write_text(json.dumps(manifest,indent=2)+"\n",encoding="utf-8")
     archive=HERE/"P2B1_LOCAL_RAW_EVIDENCE.zip"
     with zipfile.ZipFile(archive,"x",compression=zipfile.ZIP_DEFLATED) as z:
         for p in paths: z.write(p,p.relative_to(HERE).as_posix())
         z.write(HERE/"RAW_MANIFEST.json","RAW_MANIFEST.json")
+    (HERE/"ARCHIVE_RECEIPT.json").write_text(json.dumps({"archive":archive.name,"sha256":digest(archive.read_bytes()),"bytes":archive.stat().st_size,
+        "members":len(paths)+1,"manifest_sha256":digest((HERE/"RAW_MANIFEST.json").read_bytes()),"source_set_sha256":held["source_set_sha256"]},indent=2)+"\n",encoding="utf-8")
     print("VERIFIED_DUAL_FRESH_FULL_RESULTS RAW_ZIP_SHA256="+digest(archive.read_bytes()))
 
 
+def verify_head():
+    held=load(HERE/"SOURCE_SCOPE.json")
+    before,current=scope(held["accepted_main"])
+    assert current==held["frozen_sources"]
+    head=git("rev-parse","HEAD").decode().strip()
+    out=Path(sys.argv[2])
+    out.mkdir(parents=True,exist_ok=True)
+    (out/"FINAL_SOURCE_CHAIN.json").write_text(json.dumps({"final_head":head,"functional_head":held["functional_head"],
+       "accepted_main":held["accepted_main"],"main_blob_modes_preserved":len(before)-len(EXCEPT),
+       "existing_exceptions":sorted(EXCEPT),"all_frozen_runtime_and_test_blobs_unchanged":True,
+       "source_set_sha256":held["source_set_sha256"]},indent=2)+"\n",encoding="utf-8")
+    print("VERIFIED_FINAL_HEAD_PROTECTED_MAIN_AND_FROZEN_RUNTIME_GIT_BLOBS "+head)
+
+
 if __name__=="__main__":
-    {"freeze":freeze,"results":results}[sys.argv[1]]()
+    {"freeze":freeze,"results":results,"verify":verify_head}[sys.argv[1]]()
