@@ -1,0 +1,7 @@
+{
+  "fresh_migration_gate": false,
+  "initial_db_version": 2,
+  "reason": "Orchestration called scan_stop with workspace-relative output outside authorized docs tree. Safety assertion refused; following PowerShell commands were not gated and reused existing STATE. Startup also safely refused existing STATE.",
+  "evidence": "Original p1-v1 catalog actually contains migrations v1+v2. Labels are preserved, but no fresh v1 claim is made for this attempt.",
+  "action": "Requested exact p1-v2 child stop found none because it had completed. Subsequent owned-lab cleanup interrupted the already-started P2A stage; its resulting errors are harness interruption evidence, not claimed business defects. Both old runner and cleanup are now confirmed exited. Preserve all outputs; fresh local311-fresh lab required. No SQL, native oracle or security rule relaxed."
+}

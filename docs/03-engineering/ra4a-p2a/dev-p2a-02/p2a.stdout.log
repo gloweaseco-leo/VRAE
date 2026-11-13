@@ -1,0 +1,86 @@
+................................................................FRA4A_P2A_ACTUAL_CALLS={"calls": 65, "passed": 64, "session_exit": 1, "checkout": null}
+
+================================== FAILURES ===================================
+____ test_registration_rollback_and_connection_termination_leave_no_graph _____
+
+isolated = ('vrae_p2a_d0a545b6ac6b', <psycopg.Connection [IDLE] (host=127.0.0.1 port=56077 user=postgres database=vrae_p2a_d0a545b6ac6b) at 0x207ab155e50>)
+
+    def test_registration_rollback_and_connection_termination_leave_no_graph(isolated):
+        name, admin = isolated
+        with connect("p2a_test_a_writer", dbname=name) as c:
+            c.execute("BEGIN")
+            raw_register(c, graph())
+            c.execute("ROLLBACK")
+        assert counts(admin) == (0, 0, 0)
+>       with connect("p2a_test_a_writer", dbname=name) as c:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+integration\ra4a\p2a\cases.py:271: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\connection.py:176: in __exit__
+    self.commit()
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\connection.py:309: in commit
+    self.wait(self._commit_gen())
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\_connection_base.py:592: in _commit_gen
+    yield from self._exec_command(b"COMMIT")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <psycopg.Connection [BAD] at 0x207ab157110>, command = b'COMMIT'
+result_format = <Format.TEXT: 0>
+
+    def _exec_command(
+        self, command: QueryNoTemplate, result_format: pq.Format = TEXT
+    ) -> PQGen[PGresult | None]:
+        """
+        Generator to send a command and receive the result to the backend.
+    
+        Only used to implement internal commands such as "commit", with eventual
+        arguments bound client-side. The cursor can do more complex stuff.
+        """
+        self._check_connection_ok()
+    
+        if isinstance(command, str):
+            command = command.encode(self.pgconn._encoding)
+        elif isinstance(command, Composable):
+            command = command.as_bytes(self)
+    
+        if self._pipeline:
+            cmd = partial(
+                self.pgconn.send_query_params,
+                command,
+                None,
+                result_format=result_format,
+            )
+            self._pipeline.command_queue.append(cmd)
+            self._pipeline.result_queue.append(None)
+            return None
+    
+        # Unless needed, use the simple query protocol, e.g. to interact with
+        # pgbouncer. In pipeline mode we always use the advanced query protocol
+        # instead, see #350
+        if result_format == TEXT:
+            self.pgconn.send_query(command)
+        else:
+            self.pgconn.send_query_params(command, None, result_format=result_format)
+    
+        results: list[PGresult] = (yield from generators.execute(self.pgconn))
+        if len(results) != 1:
+            raise e.InternalError(
+                f"received {len(results)} results from command {command.decode()!r}"
+            )
+    
+        result = results[0]
+        if result.status != COMMAND_OK and result.status != TUPLES_OK:
+            if result.status == FATAL_ERROR:
+>               raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E               psycopg.errors.AdminShutdown: terminating connection due to administrator command
+
+infra\ra4a\.venv\py313\Lib\site-packages\psycopg\_connection_base.py:487: AdminShutdown
+=========================== short test summary info ===========================
+FAILED integration/ra4a/p2a/cases.py::test_registration_rollback_and_connection_termination_leave_no_graph
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 64 passed in 96.49s (0:01:36)

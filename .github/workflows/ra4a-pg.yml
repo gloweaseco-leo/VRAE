@@ -25,7 +25,7 @@ jobs:
       - name: Start owned synthetic PG16 lab on host loopback
         run: python infra/ra4a/lab.py start --output docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-startup
       - name: Real migrations RLS transactions leases backup and restore
-        run: python infra/ra4a/run.py docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}
+        run: python infra/ra4a/p2a_run.py docs/03-engineering/ra4a-p2a/ci-${{ matrix.python-version }}
       - name: Remove only owned lab and record teardown
         if: always()
         run: >-
@@ -40,3 +40,4 @@ jobs:
             docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}/
             docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-startup/
             docs/03-engineering/ra4a-p1/ci-${{ matrix.python-version }}-failure/
+            docs/03-engineering/ra4a-p2a/ci-${{ matrix.python-version }}/
