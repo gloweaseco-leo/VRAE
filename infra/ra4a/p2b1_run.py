@@ -79,6 +79,7 @@ def main():
         "integration.ra4a.p2b1_plugin",
         "--confcutdir=integration/ra4a/p2b1",
         "integration/ra4a/p2b1/cases.py",
+        "integration/ra4a/p2b1/parity_cases.py",
         "--junitxml=" + str(out / "p2b1/tests.xml"),
     ]
     if args.case:

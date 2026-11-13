@@ -155,12 +155,15 @@ BEGIN
  THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='P2B1_COMMAND_BINDING'; END IF;
  action:=c->>'action';
  IF (review AND (t->>'kind'<>'L1_NATIVE' OR action IS NULL OR action NOT IN ('APPROVE_CANDIDATE','REQUEST_CHANGES','REJECT')))
- OR (NOT review AND (t->>'kind'<>'COVERAGE_ONLY' OR c->>'checked_scope' IS DISTINCT FROM t->>'scope_digest'
-  OR c->>'remaining_unknowns' IS DISTINCT FROM t->>'limitations_digest'))
+ OR (NOT review AND (t->>'kind'<>'COVERAGE_ONLY' OR c->'checked_scope' IS DISTINCT FROM t->'scope_digest'
+  OR c->'remaining_unknowns' IS DISTINCT FROM t->'limitations_digest'))
  THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='P2B1_KIND_OR_ACTION'; END IF;
  IF c->'reason'<>'null'::jsonb THEN
   r:=c->>'reason';
-  IF jsonb_typeof(c->'reason')<>'string' OR char_length(r)>2000 OR r !~ '[^[:space:]]'
+  -- Frozen native text() uses Python str.strip, not locale-sensitive POSIX
+  -- [:space:]. Match its complete whitespace repertoire explicitly.
+  IF jsonb_typeof(c->'reason')<>'string' OR char_length(r)>2000
+   OR btrim(r,U&'\0009\000A\000B\000C\000D\001C\001D\001E\001F\0020\0085\00A0\1680\2000\2001\2002\2003\2004\2005\2006\2007\2008\2009\200A\2028\2029\202F\205F\3000')=''
    OR EXISTS(SELECT 1 FROM regexp_split_to_table(r,'') ch
       WHERE ascii(ch)<32 OR ascii(ch) BETWEEN 8234 AND 8238 OR ascii(ch) BETWEEN 8294 AND 8297)
   THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='P2B1_REASON'; END IF;
@@ -197,7 +200,7 @@ BEGIN
    IS DISTINCT FROM ARRAY['acknowledged','section_id','target_digest']::text[]
    OR jsonb_typeof(x->'section_id') IS DISTINCT FROM 'string'
    OR NOT (t->'required_sections' ? (x->>'section_id'))
-   OR x->>'target_digest' IS DISTINCT FROM digest OR x->'acknowledged' IS DISTINCT FROM 'true'::jsonb
+   OR x->'target_digest' IS DISTINCT FROM to_jsonb(digest) OR x->'acknowledged' IS DISTINCT FROM 'true'::jsonb
   THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='P2B1_SECTIONS'; END IF;
  END LOOP;
  RETURN CASE WHEN NOT review THEN 'SIMULATED_INTERNAL_SCOPE_ACK'

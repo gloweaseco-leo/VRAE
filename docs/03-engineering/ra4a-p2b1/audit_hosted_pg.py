@@ -22,7 +22,8 @@ def main():
     folder=Path(sys.argv[1])
     head,main,merge=sys.argv[2:5]
     scope=load(HERE.parent/"ra4a-p2a/SOURCE_SCOPE.json")
-    new_scope=load(HERE/"SOURCE_SCOPE.json")
+    generation="SOURCE_SCOPE.json" if head in ("19caca8d3ebfcafda6e088a29fd6611f96214c24","292b030593c60e64c6f4e5f0a1473b113836e554") else "SOURCE_SCOPE_V3.json"
+    new_scope=load(HERE/generation)
     expected_ids=set(scope["p2a_actual_ids"])
     expected_sources={r["path"]:r["sha256"] for r in new_scope["runtime_sources"]}
     jobs=load(folder/"pg-jobs.json")["jobs"]
