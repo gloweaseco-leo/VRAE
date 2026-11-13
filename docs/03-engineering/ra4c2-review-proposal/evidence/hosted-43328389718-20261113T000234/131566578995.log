@@ -1,0 +1,2016 @@
+﻿2026-11-12T23:23:07.4399488Z Current runner version: '2.338.2'
+2026-11-12T23:23:07.4420877Z ##[group]Runner Image Provisioner
+2026-11-12T23:23:07.4421715Z Hosted Compute Agent
+2026-11-12T23:23:07.4422213Z Version: 20261028.624
+2026-11-12T23:23:07.4422731Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-12T23:23:07.4423357Z Build Date: 2026-10-28T21:51:42Z
+2026-11-12T23:23:07.4423958Z Worker ID: {9f4f67f8-7088-4ce2-8d27-e0e749d566d8}
+2026-11-12T23:23:07.4424540Z Region: westus2
+2026-11-12T23:23:07.4425048Z Cloud: Azure
+2026-11-12T23:23:07.4425493Z ##[endgroup]
+2026-11-12T23:23:07.4427277Z ##[group]Operating System
+2026-11-12T23:23:07.4427840Z Ubuntu
+2026-11-12T23:23:07.4428298Z 26.04.1
+2026-11-12T23:23:07.4428784Z LTS
+2026-11-12T23:23:07.4429221Z ##[endgroup]
+2026-11-12T23:23:07.4429701Z ##[group]Runner Image
+2026-11-12T23:23:07.4430204Z Image: ubuntu-26.04
+2026-11-12T23:23:07.4430705Z Version: 20261101.186.1
+2026-11-12T23:23:07.4431778Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-12T23:23:07.4433063Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+2026-11-12T23:23:07.4433859Z ##[endgroup]
+2026-11-12T23:23:07.4434830Z ##[group]GITHUB_TOKEN Permissions
+2026-11-12T23:23:07.4436602Z Contents: read
+2026-11-12T23:23:07.4437159Z Metadata: read
+2026-11-12T23:23:07.4437702Z ##[endgroup]
+2026-11-12T23:23:07.4439531Z Secret source: Actions
+2026-11-12T23:23:07.4440343Z Cache mode: write
+2026-11-12T23:23:07.4440912Z Prepare workflow directory
+2026-11-12T23:23:07.4707667Z Prepare all required actions
+2026-11-12T23:23:07.4747993Z Getting action download info
+2026-11-12T23:23:07.8066792Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-12T23:23:07.9498661Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-12T23:23:08.0345221Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-12T23:23:08.2464981Z Complete job name: isolated-browser
+2026-11-12T23:23:08.3191573Z ##[group]Run actions/checkout@v4
+2026-11-12T23:23:08.3192238Z with:
+2026-11-12T23:23:08.3192608Z   repository: gloweaseco-leo/VRAE
+2026-11-12T23:23:08.3195719Z   token: ***
+2026-11-12T23:23:08.3196082Z   ssh-strict: true
+2026-11-12T23:23:08.3196613Z   ssh-user: git
+2026-11-12T23:23:08.3196988Z   persist-credentials: true
+2026-11-12T23:23:08.3197385Z   clean: true
+2026-11-12T23:23:08.3197746Z   sparse-checkout-cone-mode: true
+2026-11-12T23:23:08.3198168Z   fetch-depth: 1
+2026-11-12T23:23:08.3198512Z   fetch-tags: false
+2026-11-12T23:23:08.3198873Z   show-progress: true
+2026-11-12T23:23:08.3199232Z   lfs: false
+2026-11-12T23:23:08.3199570Z   submodules: false
+2026-11-12T23:23:08.3199938Z   set-safe-directory: true
+2026-11-12T23:23:08.3200351Z   allow-unsafe-pr-checkout: false
+2026-11-12T23:23:08.3200923Z ##[endgroup]
+2026-11-12T23:23:08.7095614Z Syncing repository: gloweaseco-leo/VRAE
+2026-11-12T23:23:08.7098460Z ##[group]Getting Git version info
+2026-11-12T23:23:08.7099409Z Working directory is '/home/runner/work/VRAE/VRAE'
+2026-11-12T23:23:08.7100681Z [command]/usr/bin/git version
+2026-11-12T23:23:08.7122281Z git version 2.56.0
+2026-11-12T23:23:08.7139592Z ##[endgroup]
+2026-11-12T23:23:08.7153329Z Temporarily overriding HOME='/home/runner/work/_temp/1579220f-5910-457e-bf89-94e609ad2d74' before making global git config changes
+2026-11-12T23:23:08.7155450Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-12T23:23:08.7158202Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-12T23:23:08.7223771Z Deleting the contents of '/home/runner/work/VRAE/VRAE'
+2026-11-12T23:23:08.7226817Z ##[group]Initializing the repository
+2026-11-12T23:23:08.7231256Z [command]/usr/bin/git init /home/runner/work/VRAE/VRAE
+2026-11-12T23:23:08.7355103Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-12T23:23:08.7357307Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-12T23:23:08.7358576Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-12T23:23:08.7360058Z hint: call:
+2026-11-12T23:23:08.7361165Z hint:
+2026-11-12T23:23:08.7362104Z hint: 	git config --global init.defaultBranch <name>
+2026-11-12T23:23:08.7363220Z hint:
+2026-11-12T23:23:08.7364156Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-12T23:23:08.7365540Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-12T23:23:08.7366961Z hint:
+2026-11-12T23:23:08.7367588Z hint: 	git branch -m <name>
+2026-11-12T23:23:08.7368326Z hint:
+2026-11-12T23:23:08.7369314Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-12T23:23:08.7370792Z Initialized empty Git repository in /home/runner/work/VRAE/VRAE/.git/
+2026-11-12T23:23:08.7379664Z [command]/usr/bin/git remote add origin https://github.com/gloweaseco-leo/VRAE
+2026-11-12T23:23:08.7448793Z ##[endgroup]
+2026-11-12T23:23:08.7450069Z ##[group]Disabling automatic garbage collection
+2026-11-12T23:23:08.7451061Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-12T23:23:08.7484343Z ##[endgroup]
+2026-11-12T23:23:08.7485389Z ##[group]Setting up auth
+2026-11-12T23:23:08.7489884Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-12T23:23:08.7525931Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-12T23:23:08.8069630Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-12T23:23:08.8100213Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-12T23:23:08.8353930Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-12T23:23:08.8449337Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-12T23:23:08.8826207Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-12T23:23:08.8923714Z ##[endgroup]
+2026-11-12T23:23:08.8925131Z ##[group]Fetching the repository
+2026-11-12T23:23:08.8932983Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7c0144afdea9010952eb2fabbc7e9100320cfefa:refs/remotes/pull/68/merge
+2026-11-12T23:23:12.8191029Z From https://github.com/gloweaseco-leo/VRAE
+2026-11-12T23:23:12.8192823Z  * [new ref]         7c0144afdea9010952eb2fabbc7e9100320cfefa -> pull/68/merge
+2026-11-12T23:23:12.8196535Z ##[endgroup]
+2026-11-12T23:23:12.8197841Z ##[group]Determining the checkout info
+2026-11-12T23:23:12.8199364Z ##[endgroup]
+2026-11-12T23:23:12.8201300Z [command]/usr/bin/git sparse-checkout disable
+2026-11-12T23:23:12.8250623Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-12T23:23:12.8280228Z ##[group]Checking out the ref
+2026-11-12T23:23:12.8282971Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/68/merge
+2026-11-12T23:23:13.1750605Z Note: switching to 'refs/remotes/pull/68/merge'.
+2026-11-12T23:23:13.1751016Z 
+2026-11-12T23:23:13.1751283Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-12T23:23:13.1751929Z changes and commit them, and you can discard any commits you make in this
+2026-11-12T23:23:13.1752742Z state without impacting any branches by switching back to a branch.
+2026-11-12T23:23:13.1753131Z 
+2026-11-12T23:23:13.1753412Z If you want to create a new branch to retain commits you create, you may
+2026-11-12T23:23:13.1754020Z do so (now or later) by using -c with the switch command. Example:
+2026-11-12T23:23:13.1754360Z 
+2026-11-12T23:23:13.1755021Z   git switch -c <new-branch-name>
+2026-11-12T23:23:13.1755285Z 
+2026-11-12T23:23:13.1755459Z Or undo this operation with:
+2026-11-12T23:23:13.1755670Z 
+2026-11-12T23:23:13.1755811Z   git switch -
+2026-11-12T23:23:13.1756143Z 
+2026-11-12T23:23:13.1756680Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-12T23:23:13.1767000Z 
+2026-11-12T23:23:13.1767450Z HEAD is now at 7c0144a Merge c5789e01b206d683be115d026b87a0f939db5503 into cf11278ba4c9b62b3645cdbd6fd2cd8bb2f1838b
+2026-11-12T23:23:13.1804933Z ##[endgroup]
+2026-11-12T23:23:13.1850183Z [command]/usr/bin/git log -1 --format=%H
+2026-11-12T23:23:13.1874333Z 7c0144afdea9010952eb2fabbc7e9100320cfefa
+2026-11-12T23:23:13.2200496Z ##[group]Run actions/setup-python@v5
+2026-11-12T23:23:13.2200806Z with:
+2026-11-12T23:23:13.2201040Z   python-version: 3.11
+2026-11-12T23:23:13.2201286Z   check-latest: false
+2026-11-12T23:23:13.2203252Z   token: ***
+2026-11-12T23:23:13.2203480Z   update-environment: true
+2026-11-12T23:23:13.2203751Z   allow-prereleases: false
+2026-11-12T23:23:13.2204014Z   freethreaded: false
+2026-11-12T23:23:13.2204243Z ##[endgroup]
+2026-11-12T23:23:13.3319946Z ##[group]Installed versions
+2026-11-12T23:23:13.3449760Z (node:2200) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-12T23:23:13.3450787Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-12T23:23:13.3451341Z Successfully set up CPython (3.11.18)
+2026-11-12T23:23:13.3452023Z ##[endgroup]
+2026-11-12T23:23:13.3604488Z ##[group]Run python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+2026-11-12T23:23:13.3605050Z [36;1mpython -m pip install -e '.[dev]' -c requirements-ra1a.lock[0m
+2026-11-12T23:23:13.3680713Z shell: /usr/bin/bash -e {0}
+2026-11-12T23:23:13.3681185Z env:
+2026-11-12T23:23:13.3681594Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:23:13.3682220Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-12T23:23:13.3682821Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:23:13.3683401Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:23:13.3684055Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:23:13.3684761Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-12T23:23:13.3685344Z ##[endgroup]
+2026-11-12T23:23:15.1777441Z Obtaining file:///home/runner/work/VRAE/VRAE
+2026-11-12T23:23:15.1790229Z   Installing build dependencies: started
+2026-11-12T23:23:15.7874752Z   Installing build dependencies: finished with status 'done'
+2026-11-12T23:23:15.7879882Z   Checking if build backend supports build_editable: started
+2026-11-12T23:23:16.3124108Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-11-12T23:23:16.3131105Z   Getting requirements to build editable: started
+2026-11-12T23:23:16.5702567Z   Getting requirements to build editable: finished with status 'done'
+2026-11-12T23:23:16.5711590Z   Preparing editable metadata (pyproject.toml): started
+2026-11-12T23:23:16.7249102Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-11-12T23:23:16.7733630Z Collecting jsonschema<5,>=4.23 (from vrae==0.1.0)
+2026-11-12T23:23:16.8020823Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-11-12T23:23:16.8168535Z Collecting h11==0.16.0 (from vrae==0.1.0)
+2026-11-12T23:23:16.8238253Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-11-12T23:23:16.8389320Z Collecting dnspython==2.8.0 (from vrae==0.1.0)
+2026-11-12T23:23:16.8456726Z   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+2026-11-12T23:23:16.8806665Z Collecting pytest<10,>=8 (from vrae==0.1.0)
+2026-11-12T23:23:16.8897859Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+2026-11-12T23:23:16.9264715Z Collecting PyYAML<7,>=6 (from vrae==0.1.0)
+2026-11-12T23:23:16.9333476Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-12T23:23:17.1543486Z Collecting ruff<1,>=0.9 (from vrae==0.1.0)
+2026-11-12T23:23:17.1615981Z   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+2026-11-12T23:23:17.3705412Z Collecting mypy<2,>=1.14 (from vrae==0.1.0)
+2026-11-12T23:23:17.3775394Z   Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-12T23:23:17.3938416Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T23:23:17.4005110Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-11-12T23:23:17.4149223Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T23:23:17.4219848Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-11-12T23:23:17.4402366Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T23:23:17.4470944Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-11-12T23:23:17.6231992Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->vrae==0.1.0)
+2026-11-12T23:23:17.6306620Z   Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-11-12T23:23:17.6469098Z Collecting typing_extensions>=4.6.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T23:23:17.6572130Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-12T23:23:17.6708689Z Collecting mypy_extensions>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T23:23:17.6776927Z   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+2026-11-12T23:23:17.7248952Z Collecting pathspec>=1.0.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T23:23:17.7328470Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-11-12T23:23:17.8515994Z Collecting librt>=0.8.0 (from mypy<2,>=1.14->vrae==0.1.0)
+2026-11-12T23:23:17.8584477Z   Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-11-12T23:23:17.8721153Z Collecting iniconfig>=2 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T23:23:17.8786860Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-12T23:23:17.8945547Z Collecting packaging>=24 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T23:23:17.9014910Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-11-12T23:23:17.9310773Z Collecting pluggy<2,>=1.6 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T23:23:17.9378062Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-12T23:23:17.9551883Z Collecting pygments>=2.15 (from pytest<10,>=8->vrae==0.1.0)
+2026-11-12T23:23:17.9639101Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-11-12T23:23:17.9797158Z Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+2026-11-12T23:23:17.9997020Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-11-12T23:23:18.0100712Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-11-12T23:23:18.0237722Z Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.6 MB)
+2026-11-12T23:23:18.2448090Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.6/14.6 MB 65.8 MB/s  0:00:00
+2026-11-12T23:23:18.2521821Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+2026-11-12T23:23:18.2661276Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-12T23:23:18.2748548Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-11-12T23:23:18.2796730Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 188.1 MB/s  0:00:00
+2026-11-12T23:23:18.2875191Z Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+2026-11-12T23:23:18.5711276Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 37.3 MB/s  0:00:00
+2026-11-12T23:23:18.5803265Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-11-12T23:23:18.5892418Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-12T23:23:18.6011409Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-11-12T23:23:18.6099168Z Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (515 kB)
+2026-11-12T23:23:18.6206508Z Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+2026-11-12T23:23:18.6294424Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-11-12T23:23:18.6381123Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-11-12T23:23:18.6478065Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-11-12T23:23:18.6536653Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 257.6 MB/s  0:00:00
+2026-11-12T23:23:18.6603946Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-11-12T23:23:18.6699585Z Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (375 kB)
+2026-11-12T23:23:18.6801380Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-12T23:23:18.7324543Z Building wheels for collected packages: vrae
+2026-11-12T23:23:18.7330743Z   Building editable for vrae (pyproject.toml): started
+2026-11-12T23:23:18.9351665Z   Building editable for vrae (pyproject.toml): finished with status 'done'
+2026-11-12T23:23:18.9357117Z   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2752 sha256=5b8073c333f567c081fde59751b5c40c085a08b91f32ea6a9b009d5f81e4c1e6
+2026-11-12T23:23:18.9359028Z   Stored in directory: /tmp/pip-ephem-wheel-cache-sfx9ffgd/wheels/8d/f8/ad/4281012b20b5cd4b7fe75eee0e2db2fd275b2e89e386a21875
+2026-11-12T23:23:18.9372019Z Successfully built vrae
+2026-11-12T23:23:18.9718337Z Installing collected packages: typing_extensions, ruff, rpds-py, PyYAML, pygments, pluggy, pathspec, packaging, mypy_extensions, librt, iniconfig, h11, dnspython, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema, vrae
+2026-11-12T23:23:21.4231857Z 
+2026-11-12T23:23:21.4244765Z Successfully installed PyYAML-6.0.3 attrs-26.1.0 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 packaging-26.3 pathspec-1.1.1 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 typing_extensions-4.16.0 vrae-0.1.0
+2026-11-12T23:23:21.4251571Z 
+2026-11-12T23:23:21.4251772Z [notice] A new release of pip is available: 26.2.2 -> 26.3
+2026-11-12T23:23:21.4252171Z [notice] To update, run: pip install --upgrade pip
+2026-11-12T23:23:21.5436130Z ##[group]Run docker build -f infra/ra1b/Dockerfile -t vrae-ra1b-browser:local .
+2026-11-12T23:23:21.5436823Z [36;1mdocker build -f infra/ra1b/Dockerfile -t vrae-ra1b-browser:local .[0m
+2026-11-12T23:23:21.5484392Z shell: /usr/bin/bash -e {0}
+2026-11-12T23:23:21.5484625Z env:
+2026-11-12T23:23:21.5484860Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:23:21.5485216Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-12T23:23:21.5485576Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:23:21.5485883Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:23:21.5486171Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:23:21.5486692Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-12T23:23:21.5486951Z ##[endgroup]
+2026-11-12T23:23:22.4369846Z #0 building with "default" instance using docker driver
+2026-11-12T23:23:22.4370185Z 
+2026-11-12T23:23:22.4370593Z #1 [internal] load build definition from Dockerfile
+2026-11-12T23:23:22.4370935Z #1 transferring dockerfile: 1.01kB done
+2026-11-12T23:23:22.4371229Z #1 DONE 0.0s
+2026-11-12T23:23:22.4371351Z 
+2026-11-12T23:23:22.4371818Z #2 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-12T23:23:22.7339246Z #2 ...
+2026-11-12T23:23:22.7339415Z 
+2026-11-12T23:23:22.7340052Z #3 [auth] library/python:pull token for registry-1.docker.io
+2026-11-12T23:23:22.7340342Z #3 DONE 0.0s
+2026-11-12T23:23:22.8835419Z 
+2026-11-12T23:23:22.8836151Z #2 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-12T23:23:23.3363577Z #2 DONE 1.1s
+2026-11-12T23:23:23.4694715Z 
+2026-11-12T23:23:23.4695182Z #4 [internal] load .dockerignore
+2026-11-12T23:23:23.4695681Z #4 transferring context: 4.06kB done
+2026-11-12T23:23:23.4696043Z #4 DONE 0.0s
+2026-11-12T23:23:23.4696192Z 
+2026-11-12T23:23:23.4696447Z #5 [internal] load build context
+2026-11-12T23:23:23.4696781Z #5 transferring context: 8.26kB done
+2026-11-12T23:23:23.4697080Z #5 DONE 0.0s
+2026-11-12T23:23:23.4697206Z 
+2026-11-12T23:23:23.4697748Z #6 [stage-0 1/7] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-12T23:23:23.4698654Z #6 resolve docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89 0.0s done
+2026-11-12T23:23:23.4699299Z #6 sha256:f9b274ee4fbe248a842b5b75ee2e2e2db298596c140c7febbb6e987c77d1d246 249B / 249B 0.1s done
+2026-11-12T23:23:23.6932818Z #6 sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 18.32MB / 18.32MB 0.3s
+2026-11-12T23:23:23.6934194Z #6 sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 0B / 3.34MB 0.2s
+2026-11-12T23:23:23.6935008Z #6 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 0B / 28.25MB 0.2s
+2026-11-12T23:23:23.8420178Z #6 sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 2.10MB / 3.34MB 0.3s
+2026-11-12T23:23:23.8420786Z #6 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 4.19MB / 28.25MB 0.3s
+2026-11-12T23:23:24.0616744Z #6 sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 18.32MB / 18.32MB 0.5s done
+2026-11-12T23:23:24.0617692Z #6 sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 3.34MB / 3.34MB 0.5s done
+2026-11-12T23:23:24.0618469Z #6 sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 28.25MB / 28.25MB 0.5s done
+2026-11-12T23:23:24.0618982Z #6 extracting sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39
+2026-11-12T23:23:24.4883256Z #6 extracting sha256:7fd1ebe418b5079d4aa36f416af9b143d127bc75b0155d71cb5fd559b5e04d39 0.6s done
+2026-11-12T23:23:24.4883836Z #6 DONE 1.1s
+2026-11-12T23:23:24.7151823Z 
+2026-11-12T23:23:24.7153047Z #6 [stage-0 1/7] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-12T23:23:24.7153880Z #6 extracting sha256:f8852cf3b2aa7e17f0a15968c0f38a4836ce399ddb4097cfa823ad72eff582e7 0.1s done
+2026-11-12T23:23:24.7154391Z #6 extracting sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704
+2026-11-12T23:23:25.0298066Z #6 extracting sha256:da3de1e6d2c4711343857750e90ad16aea8a393ecbefd5bac3af4a12135fd704 0.5s done
+2026-11-12T23:23:25.0298598Z #6 DONE 1.7s
+2026-11-12T23:23:25.1898121Z 
+2026-11-12T23:23:25.1898998Z #6 [stage-0 1/7] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-12T23:23:25.1899741Z #6 extracting sha256:f9b274ee4fbe248a842b5b75ee2e2e2db298596c140c7febbb6e987c77d1d246 done
+2026-11-12T23:23:25.1900270Z #6 DONE 1.7s
+2026-11-12T23:23:25.1900403Z 
+2026-11-12T23:23:25.1902716Z #7 [stage-0 2/7] RUN --mount=type=cache,target=/var/cache/apt,sharing=locked     sed -i 's@http://deb.debian.org@https://deb.debian.org@g' /etc/apt/sources.list.d/debian.sources     && apt-get -o Acquire::Retries=1 -o Acquire::https::Timeout=30 update     && apt-get -o Acquire::Retries=1 -o Acquire::https::Timeout=30 install -y --no-install-recommends chromium chromium-sandbox iproute2 iptables util-linux     && rm -rf /var/lib/apt/lists/*     && groupadd -g 10003 vrae-ipc && useradd -u 10001 -g 10003 -M browser
+2026-11-12T23:23:25.2892822Z #7 0.250 Get:1 https://deb.debian.org/debian bookworm InRelease [151 kB]
+2026-11-12T23:23:25.4342508Z #7 0.286 Get:2 https://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+2026-11-12T23:23:25.4343280Z #7 0.295 Get:3 https://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+2026-11-12T23:23:25.4343968Z #7 0.340 Get:4 https://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+2026-11-12T23:23:25.4344696Z #7 0.394 Get:5 https://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+2026-11-12T23:23:25.6127006Z #7 0.423 Get:6 https://deb.debian.org/debian-security bookworm-security/main amd64 Packages [368 kB]
+2026-11-12T23:23:26.1047827Z #7 1.065 Fetched 9407 kB in 1s (10.8 MB/s)
+2026-11-12T23:23:26.4719910Z #7 1.065 Reading package lists...
+2026-11-12T23:23:26.8627201Z #7 1.448 Reading package lists...
+2026-11-12T23:23:26.9906901Z #7 1.834 Building dependency tree...
+2026-11-12T23:23:27.0965036Z #7 1.951 Reading state information...
+2026-11-12T23:23:27.0965622Z #7 2.057 util-linux is already the newest version (2.38.1-5+deb12u3).
+2026-11-12T23:23:27.0966085Z #7 2.057 util-linux set to manually installed.
+2026-11-12T23:23:27.0966820Z #7 2.057 The following additional packages will be installed:
+2026-11-12T23:23:27.2483116Z #7 2.057   adwaita-icon-theme at-spi2-common chromium-common dbus dbus-bin dbus-daemon
+2026-11-12T23:23:27.2483826Z #7 2.057   dbus-session-bus-common dbus-system-bus-common dbus-user-session
+2026-11-12T23:23:27.2484320Z #7 2.057   dconf-gsettings-backend dconf-service dmsetup fontconfig fontconfig-config
+2026-11-12T23:23:27.2484799Z #7 2.057   fonts-dejavu-core gtk-update-icon-cache hicolor-icon-theme libapparmor1
+2026-11-12T23:23:27.2485229Z #7 2.057   libargon2-1 libasound2 libasound2-data libasyncns0 libatk-bridge2.0-0
+2026-11-12T23:23:27.2485641Z #7 2.057   libatk1.0-0 libatspi2.0-0 libavahi-client3 libavahi-common-data
+2026-11-12T23:23:27.2486018Z #7 2.057   libavahi-common3 libbpf1 libbrotli1 libbsd0 libcairo-gobject2 libcairo2
+2026-11-12T23:23:27.2486600Z #7 2.057   libcap2-bin libcolord2 libcryptsetup12 libcups2 libdatrie1 libdav1d6
+2026-11-12T23:23:27.2487014Z #7 2.057   libdbus-1-3 libdconf1 libdeflate0 libdevmapper1.02.1 libdouble-conversion3
+2026-11-12T23:23:27.2487449Z #7 2.057   libdrm-amdgpu1 libdrm-common libdrm-intel1 libdrm-nouveau2 libdrm-radeon1
+2026-11-12T23:23:27.2487842Z #7 2.057   libdrm2 libedit2 libelf1 libepoxy0 libexpat1 libfdisk1 libflac12
+2026-11-12T23:23:27.2488608Z #7 2.057   libfontconfig1 libfontenc1 libfreetype6 libfribidi0 libgbm1
+2026-11-12T23:23:27.2489001Z #7 2.057   libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgl1 libgl1-mesa-dri
+2026-11-12T23:23:27.2489438Z #7 2.057   libglapi-mesa libglib2.0-0 libglvnd0 libglx-mesa0 libglx0 libgraphite2-3
+2026-11-12T23:23:27.2489844Z #7 2.057   libgtk-3-0 libgtk-3-common libharfbuzz-subset0 libharfbuzz0b libice6
+2026-11-12T23:23:27.2490238Z #7 2.057   libicu72 libip4tc2 libip6tc2 libjbig0 libjpeg62-turbo libjson-c5 libkmod2
+2026-11-12T23:23:27.2490638Z #7 2.057   liblcms2-2 liblerc4 libllvm15 libminizip1 libmnl0 libmp3lame0 libmpg123-0
+2026-11-12T23:23:27.2491042Z #7 2.057   libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnspr4 libnss3 libogg0
+2026-11-12T23:23:27.2491436Z #7 2.057   libopenh264-7 libopenjp2-7 libopus0 libpam-systemd libpango-1.0-0
+2026-11-12T23:23:27.2491810Z #7 2.057   libpangocairo-1.0-0 libpangoft2-1.0-0 libpciaccess0 libpixman-1-0
+2026-11-12T23:23:27.2492185Z #7 2.057   libpng16-16 libproc2-0 libpulse0 libsensors-config libsensors5 libsm6
+2026-11-12T23:23:27.2492577Z #7 2.057   libsndfile1 libsystemd-shared libthai-data libthai0 libtiff6 libvorbis0a
+2026-11-12T23:23:27.2492971Z #7 2.057   libvorbisenc2 libwayland-client0 libwayland-cursor0 libwayland-egl1
+2026-11-12T23:23:27.2493379Z #7 2.057   libwayland-server0 libwebp7 libx11-6 libx11-data libx11-xcb1 libxau6 libxaw7
+2026-11-12T23:23:27.2493794Z #7 2.058   libxcb-dri2-0 libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb-randr0
+2026-11-12T23:23:27.2494192Z #7 2.058   libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb1
+2026-11-12T23:23:27.2494753Z #7 2.058   libxcomposite1 libxcursor1 libxdamage1 libxdmcp6 libxext6 libxfixes3 libxft2
+2026-11-12T23:23:27.2495161Z #7 2.058   libxi6 libxinerama1 libxkbcommon0 libxkbfile1 libxml2 libxmu6 libxmuu1
+2026-11-12T23:23:27.2495554Z #7 2.058   libxnvctrl0 libxpm4 libxrandr2 libxrender1 libxshmfence1 libxt6 libxtables12
+2026-11-12T23:23:27.2495952Z #7 2.058   libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libz3-4 procps shared-mime-info
+2026-11-12T23:23:27.2496576Z #7 2.058   systemd systemd-sysv x11-common x11-utils xdg-utils xkb-data
+2026-11-12T23:23:27.2496878Z #7 2.059 Suggested packages:
+2026-11-12T23:23:27.2497171Z #7 2.059   chromium-l10n chromium-shell chromium-driver iproute2-doc python3:any
+2026-11-12T23:23:27.2497544Z #7 2.059   firewalld kmod libasound2-plugins alsa-utils colord cups-common
+2026-11-12T23:23:27.2497930Z #7 2.059   low-memory-monitor gvfs liblcms2-utils opus-tools pciutils pulseaudio
+2026-11-12T23:23:27.2498335Z #7 2.059   lm-sensors systemd-container systemd-homed systemd-userdbd systemd-boot
+2026-11-12T23:23:27.2498738Z #7 2.059   systemd-resolved libfido2-1 libqrencode4 libtss2-esys-3.0.2-0 libtss2-mu0
+2026-11-12T23:23:27.2499086Z #7 2.059   libtss2-rc0 polkitd | policykit-1 mesa-utils
+2026-11-12T23:23:27.2499333Z #7 2.059 Recommended packages:
+2026-11-12T23:23:27.2499609Z #7 2.059   librsvg2-common upower udev fonts-liberation notification-daemon
+2026-11-12T23:23:27.2500006Z #7 2.059   system-config-printer libatm1 nftables alsa-ucm-conf alsa-topology-conf
+2026-11-12T23:23:27.2500413Z #7 2.059   at-spi2-core libpam-cap libgdk-pixbuf2.0-bin libglib2.0-data xdg-user-dirs
+2026-11-12T23:23:27.2500814Z #7 2.059   libgtk-3-bin psmisc systemd-timesyncd | time-daemon libnss-systemd
+2026-11-12T23:23:27.2501194Z #7 2.059   libfile-mimeinfo-perl libnet-dbus-perl libx11-protocol-perl
+2026-11-12T23:23:27.2501474Z #7 2.059   x11-xserver-utils
+2026-11-12T23:23:27.6079828Z #7 2.568 The following NEW packages will be installed:
+2026-11-12T23:23:27.6081004Z #7 2.568   adwaita-icon-theme at-spi2-common chromium chromium-common chromium-sandbox
+2026-11-12T23:23:27.6081854Z #7 2.568   dbus dbus-bin dbus-daemon dbus-session-bus-common dbus-system-bus-common
+2026-11-12T23:23:27.6082684Z #7 2.568   dbus-user-session dconf-gsettings-backend dconf-service dmsetup fontconfig
+2026-11-12T23:23:27.7081800Z #7 2.568   fontconfig-config fonts-dejavu-core gtk-update-icon-cache hicolor-icon-theme
+2026-11-12T23:23:27.7084517Z #7 2.568   iproute2 iptables libapparmor1 libargon2-1 libasound2 libasound2-data
+2026-11-12T23:23:27.7085812Z #7 2.568   libasyncns0 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libavahi-client3
+2026-11-12T23:23:27.7087006Z #7 2.569   libavahi-common-data libavahi-common3 libbpf1 libbrotli1 libbsd0
+2026-11-12T23:23:27.7087678Z #7 2.569   libcairo-gobject2 libcairo2 libcap2-bin libcolord2 libcryptsetup12 libcups2
+2026-11-12T23:23:27.7088336Z #7 2.569   libdatrie1 libdav1d6 libdbus-1-3 libdconf1 libdeflate0 libdevmapper1.02.1
+2026-11-12T23:23:27.7088769Z #7 2.569   libdouble-conversion3 libdrm-amdgpu1 libdrm-common libdrm-intel1
+2026-11-12T23:23:27.7089168Z #7 2.569   libdrm-nouveau2 libdrm-radeon1 libdrm2 libedit2 libelf1 libepoxy0 libexpat1
+2026-11-12T23:23:27.7089578Z #7 2.569   libfdisk1 libflac12 libfontconfig1 libfontenc1 libfreetype6 libfribidi0
+2026-11-12T23:23:27.7089993Z #7 2.569   libgbm1 libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgl1 libgl1-mesa-dri
+2026-11-12T23:23:27.7090427Z #7 2.569   libglapi-mesa libglib2.0-0 libglvnd0 libglx-mesa0 libglx0 libgraphite2-3
+2026-11-12T23:23:27.7090822Z #7 2.569   libgtk-3-0 libgtk-3-common libharfbuzz-subset0 libharfbuzz0b libice6
+2026-11-12T23:23:27.7091513Z #7 2.569   libicu72 libip4tc2 libip6tc2 libjbig0 libjpeg62-turbo libjson-c5 libkmod2
+2026-11-12T23:23:27.7092217Z #7 2.569   liblcms2-2 liblerc4 libllvm15 libminizip1 libmnl0 libmp3lame0 libmpg123-0
+2026-11-12T23:23:27.7093167Z #7 2.569   libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libnspr4 libnss3 libogg0
+2026-11-12T23:23:27.7094918Z #7 2.569   libopenh264-7 libopenjp2-7 libopus0 libpam-systemd libpango-1.0-0
+2026-11-12T23:23:27.7095547Z #7 2.569   libpangocairo-1.0-0 libpangoft2-1.0-0 libpciaccess0 libpixman-1-0
+2026-11-12T23:23:27.7095940Z #7 2.569   libpng16-16 libproc2-0 libpulse0 libsensors-config libsensors5 libsm6
+2026-11-12T23:23:27.7096977Z #7 2.569   libsndfile1 libsystemd-shared libthai-data libthai0 libtiff6 libvorbis0a
+2026-11-12T23:23:27.7097373Z #7 2.569   libvorbisenc2 libwayland-client0 libwayland-cursor0 libwayland-egl1
+2026-11-12T23:23:27.7098060Z #7 2.569   libwayland-server0 libwebp7 libx11-6 libx11-data libx11-xcb1 libxau6 libxaw7
+2026-11-12T23:23:27.7098746Z #7 2.569   libxcb-dri2-0 libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb-randr0
+2026-11-12T23:23:27.7099601Z #7 2.569   libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb1
+2026-11-12T23:23:27.7100115Z #7 2.569   libxcomposite1 libxcursor1 libxdamage1 libxdmcp6 libxext6 libxfixes3 libxft2
+2026-11-12T23:23:27.7100830Z #7 2.569   libxi6 libxinerama1 libxkbcommon0 libxkbfile1 libxml2 libxmu6 libxmuu1
+2026-11-12T23:23:27.7101251Z #7 2.569   libxnvctrl0 libxpm4 libxrandr2 libxrender1 libxshmfence1 libxt6 libxtables12
+2026-11-12T23:23:27.7101653Z #7 2.570   libxtst6 libxv1 libxxf86dga1 libxxf86vm1 libz3-4 procps shared-mime-info
+2026-11-12T23:23:27.7102021Z #7 2.570   systemd systemd-sysv x11-common x11-utils xdg-utils xkb-data
+2026-11-12T23:23:27.7102373Z #7 2.640 0 upgraded, 177 newly installed, 0 to remove and 6 not upgraded.
+2026-11-12T23:23:27.7103061Z #7 2.640 Need to get 207 MB of archives.
+2026-11-12T23:23:27.7103357Z #7 2.640 After this operation, 736 MB of additional disk space will be used.
+2026-11-12T23:23:27.7103848Z #7 2.640 Get:1 https://deb.debian.org/debian bookworm/main amd64 libargon2-1 amd64 0~20171227-0.3+deb12u1 [19.4 kB]
+2026-11-12T23:23:27.7104376Z #7 2.648 Get:2 https://deb.debian.org/debian bookworm/main amd64 dmsetup amd64 2:1.02.185-2 [82.0 kB]
+2026-11-12T23:23:27.7104874Z #7 2.654 Get:3 https://deb.debian.org/debian bookworm/main amd64 libdevmapper1.02.1 amd64 2:1.02.185-2 [133 kB]
+2026-11-12T23:23:27.7105367Z #7 2.660 Get:4 https://deb.debian.org/debian bookworm/main amd64 libjson-c5 amd64 0.16-2 [44.1 kB]
+2026-11-12T23:23:27.7105986Z #7 2.661 Get:5 https://deb.debian.org/debian bookworm/main amd64 libcryptsetup12 amd64 2:2.6.1-4~deb12u2 [223 kB]
+2026-11-12T23:23:27.7108145Z #7 2.665 Get:6 https://deb.debian.org/debian bookworm/main amd64 libfdisk1 amd64 2.38.1-5+deb12u3 [194 kB]
+2026-11-12T23:23:27.7109312Z #7 2.667 Get:7 https://deb.debian.org/debian bookworm/main amd64 libkmod2 amd64 30+20221128-1 [57.9 kB]
+2026-11-12T23:23:27.7110608Z #7 2.668 Get:8 https://deb.debian.org/debian bookworm/main amd64 libapparmor1 amd64 3.0.8-3 [41.2 kB]
+2026-11-12T23:23:27.7111722Z #7 2.669 Get:9 https://deb.debian.org/debian bookworm/main amd64 libip4tc2 amd64 1.8.9-2 [19.0 kB]
+2026-11-12T23:23:27.8104631Z #7 2.669 Get:10 https://deb.debian.org/debian bookworm/main amd64 libsystemd-shared amd64 252.39-1~deb12u2 [1696 kB]
+2026-11-12T23:23:27.8105285Z #7 2.677 Get:11 https://deb.debian.org/debian bookworm/main amd64 systemd amd64 252.39-1~deb12u2 [3044 kB]
+2026-11-12T23:23:27.8105806Z #7 2.688 Get:12 https://deb.debian.org/debian bookworm/main amd64 systemd-sysv amd64 252.39-1~deb12u2 [42.9 kB]
+2026-11-12T23:23:27.8106491Z #7 2.688 Get:13 https://deb.debian.org/debian bookworm/main amd64 libdbus-1-3 amd64 1.14.10-1~deb12u1 [201 kB]
+2026-11-12T23:23:27.8107126Z #7 2.689 Get:14 https://deb.debian.org/debian bookworm/main amd64 dbus-bin amd64 1.14.10-1~deb12u1 [105 kB]
+2026-11-12T23:23:27.8107756Z #7 2.690 Get:15 https://deb.debian.org/debian bookworm/main amd64 dbus-session-bus-common all 1.14.10-1~deb12u1 [78.2 kB]
+2026-11-12T23:23:27.8108375Z #7 2.690 Get:16 https://deb.debian.org/debian-security bookworm-security/main amd64 libexpat1 amd64 2.5.0-1+deb12u5 [108 kB]
+2026-11-12T23:23:27.8108927Z #7 2.690 Get:17 https://deb.debian.org/debian bookworm/main amd64 dbus-daemon amd64 1.14.10-1~deb12u1 [184 kB]
+2026-11-12T23:23:27.8109685Z #7 2.691 Get:18 https://deb.debian.org/debian bookworm/main amd64 dbus-system-bus-common all 1.14.10-1~deb12u1 [79.3 kB]
+2026-11-12T23:23:27.8110205Z #7 2.692 Get:19 https://deb.debian.org/debian bookworm/main amd64 dbus amd64 1.14.10-1~deb12u1 [97.4 kB]
+2026-11-12T23:23:27.8110669Z #7 2.692 Get:20 https://deb.debian.org/debian bookworm/main amd64 libelf1 amd64 0.188-2.1 [174 kB]
+2026-11-12T23:23:27.8111142Z #7 2.694 Get:21 https://deb.debian.org/debian bookworm/main amd64 libbpf1 amd64 1:1.1.2-0+deb12u1 [145 kB]
+2026-11-12T23:23:27.8111610Z #7 2.699 Get:22 https://deb.debian.org/debian bookworm/main amd64 libbsd0 amd64 0.11.7-2 [117 kB]
+2026-11-12T23:23:27.8112055Z #7 2.699 Get:23 https://deb.debian.org/debian bookworm/main amd64 libmnl0 amd64 1.0.4-3 [12.5 kB]
+2026-11-12T23:23:27.8112510Z #7 2.700 Get:24 https://deb.debian.org/debian bookworm/main amd64 libxtables12 amd64 1.8.9-2 [30.8 kB]
+2026-11-12T23:23:27.8113001Z #7 2.700 Get:25 https://deb.debian.org/debian bookworm/main amd64 libcap2-bin amd64 1:2.66-4+deb12u3+b1 [35.2 kB]
+2026-11-12T23:23:27.8113488Z #7 2.706 Get:26 https://deb.debian.org/debian bookworm/main amd64 iproute2 amd64 6.1.0-3 [1046 kB]
+2026-11-12T23:23:27.8113934Z #7 2.711 Get:27 https://deb.debian.org/debian bookworm/main amd64 libproc2-0 amd64 2:4.0.2-3 [62.8 kB]
+2026-11-12T23:23:27.8114397Z #7 2.711 Get:28 https://deb.debian.org/debian bookworm/main amd64 procps amd64 2:4.0.2-3 [709 kB]
+2026-11-12T23:23:27.8114893Z #7 2.719 Get:29 https://deb.debian.org/debian bookworm/main amd64 libpam-systemd amd64 252.39-1~deb12u2 [226 kB]
+2026-11-12T23:23:27.8115403Z #7 2.771 Get:30 https://deb.debian.org/debian bookworm/main amd64 hicolor-icon-theme all 0.17-2 [11.4 kB]
+2026-11-12T23:23:27.9139097Z #7 2.782 Get:31 https://deb.debian.org/debian bookworm/main amd64 libgdk-pixbuf2.0-common all 2.42.10+dfsg-1+deb12u4 [307 kB]
+2026-11-12T23:23:27.9140080Z #7 2.805 Get:32 https://deb.debian.org/debian bookworm/main amd64 libglib2.0-0 amd64 2.74.6-2+deb12u9 [1403 kB]
+2026-11-12T23:23:27.9140942Z #7 2.822 Get:33 https://deb.debian.org/debian bookworm/main amd64 libicu72 amd64 72.1-3+deb12u1 [9376 kB]
+2026-11-12T23:23:27.9141745Z #7 2.865 Get:34 https://deb.debian.org/debian bookworm/main amd64 libxml2 amd64 2.9.14+dfsg-1.3~deb12u6 [689 kB]
+2026-11-12T23:23:27.9142477Z #7 2.874 Get:35 https://deb.debian.org/debian bookworm/main amd64 shared-mime-info amd64 2.2-1 [729 kB]
+2026-11-12T23:23:28.0964886Z #7 2.884 Get:36 https://deb.debian.org/debian bookworm/main amd64 libjpeg62-turbo amd64 1:2.1.5-2 [166 kB]
+2026-11-12T23:23:28.0965984Z #7 2.890 Get:37 https://deb.debian.org/debian-security bookworm-security/main amd64 libpng16-16 amd64 1.6.39-2+deb12u6 [277 kB]
+2026-11-12T23:23:28.0966786Z #7 2.897 Get:38 https://deb.debian.org/debian bookworm/main amd64 libdeflate0 amd64 1.14-1 [61.4 kB]
+2026-11-12T23:23:28.0967269Z #7 2.904 Get:39 https://deb.debian.org/debian bookworm/main amd64 libjbig0 amd64 2.1-6.1 [31.7 kB]
+2026-11-12T23:23:28.0967722Z #7 2.909 Get:40 https://deb.debian.org/debian bookworm/main amd64 liblerc4 amd64 4.0.0+ds-2 [170 kB]
+2026-11-12T23:23:28.0968522Z #7 2.917 Get:41 https://deb.debian.org/debian bookworm/main amd64 libwebp7 amd64 1.2.4-0.2+deb12u1 [286 kB]
+2026-11-12T23:23:28.0969294Z #7 2.924 Get:42 https://deb.debian.org/debian bookworm/main amd64 libtiff6 amd64 4.5.0-6+deb12u4 [316 kB]
+2026-11-12T23:23:28.0969989Z #7 2.932 Get:43 https://deb.debian.org/debian bookworm/main amd64 libgdk-pixbuf-2.0-0 amd64 2.42.10+dfsg-1+deb12u4 [139 kB]
+2026-11-12T23:23:28.0970613Z #7 2.938 Get:44 https://deb.debian.org/debian bookworm/main amd64 gtk-update-icon-cache amd64 3.24.38-2~deb12u3 [44.2 kB]
+2026-11-12T23:23:28.0971140Z #7 2.944 Get:45 https://deb.debian.org/debian bookworm/main amd64 adwaita-icon-theme all 43-1 [5124 kB]
+2026-11-12T23:23:28.0971614Z #7 3.057 Get:46 https://deb.debian.org/debian bookworm/main amd64 at-spi2-common all 2.46.0-5 [162 kB]
+2026-11-12T23:23:28.1983041Z #7 3.063 Get:47 https://deb.debian.org/debian bookworm/main amd64 libasound2-data all 1.2.8-1 [20.5 kB]
+2026-11-12T23:23:28.1984191Z #7 3.069 Get:48 https://deb.debian.org/debian bookworm/main amd64 libasound2 amd64 1.2.8-1+b1 [362 kB]
+2026-11-12T23:23:28.1984859Z #7 3.077 Get:49 https://deb.debian.org/debian bookworm/main amd64 libatk1.0-0 amd64 2.46.0-5 [49.6 kB]
+2026-11-12T23:23:28.1985521Z #7 3.083 Get:50 https://deb.debian.org/debian bookworm/main amd64 libxau6 amd64 1:1.0.9-1 [19.7 kB]
+2026-11-12T23:23:28.1986157Z #7 3.089 Get:51 https://deb.debian.org/debian bookworm/main amd64 libxdmcp6 amd64 1:1.1.2-3 [26.3 kB]
+2026-11-12T23:23:28.1987013Z #7 3.095 Get:52 https://deb.debian.org/debian bookworm/main amd64 libxcb1 amd64 1.15-1 [144 kB]
+2026-11-12T23:23:28.1987734Z #7 3.102 Get:53 https://deb.debian.org/debian bookworm/main amd64 libx11-data all 2:1.8.4-2+deb12u2 [292 kB]
+2026-11-12T23:23:28.1988510Z #7 3.109 Get:54 https://deb.debian.org/debian bookworm/main amd64 libx11-6 amd64 2:1.8.4-2+deb12u2 [760 kB]
+2026-11-12T23:23:28.1989114Z #7 3.118 Get:55 https://deb.debian.org/debian bookworm/main amd64 libxext6 amd64 2:1.3.4-1+b1 [52.9 kB]
+2026-11-12T23:23:28.1989585Z #7 3.124 Get:56 https://deb.debian.org/debian bookworm/main amd64 libxi6 amd64 2:1.8-1+b1 [84.2 kB]
+2026-11-12T23:23:28.1990054Z #7 3.136 Get:57 https://deb.debian.org/debian bookworm/main amd64 libatspi2.0-0 amd64 2.46.0-5 [75.4 kB]
+2026-11-12T23:23:28.1990555Z #7 3.142 Get:58 https://deb.debian.org/debian bookworm/main amd64 libatk-bridge2.0-0 amd64 2.46.0-5 [64.6 kB]
+2026-11-12T23:23:28.1991151Z #7 3.151 Get:59 https://deb.debian.org/debian-security bookworm-security/main amd64 libbrotli1 amd64 1.0.9-2+deb12u1 [275 kB]
+2026-11-12T23:23:28.1991733Z #7 3.159 Get:60 https://deb.debian.org/debian bookworm/main amd64 libfreetype6 amd64 2.12.1+dfsg-5+deb12u4 [398 kB]
+2026-11-12T23:23:28.3048453Z #7 3.172 Get:61 https://deb.debian.org/debian bookworm/main amd64 fonts-dejavu-core all 2.37-6 [1068 kB]
+2026-11-12T23:23:28.3049463Z #7 3.181 Get:62 https://deb.debian.org/debian bookworm/main amd64 fontconfig-config amd64 2.14.1-4 [315 kB]
+2026-11-12T23:23:28.3050444Z #7 3.188 Get:63 https://deb.debian.org/debian bookworm/main amd64 libfontconfig1 amd64 2.14.1-4 [386 kB]
+2026-11-12T23:23:28.3050972Z #7 3.196 Get:64 https://deb.debian.org/debian bookworm/main amd64 libpixman-1-0 amd64 0.42.2-1 [546 kB]
+2026-11-12T23:23:28.3051620Z #7 3.203 Get:65 https://deb.debian.org/debian bookworm/main amd64 libxcb-render0 amd64 1.15-1 [115 kB]
+2026-11-12T23:23:28.3069023Z #7 3.210 Get:66 https://deb.debian.org/debian bookworm/main amd64 libxcb-shm0 amd64 1.15-1 [105 kB]
+2026-11-12T23:23:28.3070100Z #7 3.217 Get:67 https://deb.debian.org/debian bookworm/main amd64 libxrender1 amd64 1:0.9.10-1.1 [33.2 kB]
+2026-11-12T23:23:28.3070624Z #7 3.224 Get:68 https://deb.debian.org/debian bookworm/main amd64 libcairo2 amd64 1.16.0-7 [575 kB]
+2026-11-12T23:23:28.3071136Z #7 3.232 Get:69 https://deb.debian.org/debian bookworm/main amd64 libavahi-common-data amd64 0.8-10+deb12u1 [107 kB]
+2026-11-12T23:23:28.3071715Z #7 3.238 Get:70 https://deb.debian.org/debian bookworm/main amd64 libavahi-common3 amd64 0.8-10+deb12u1 [42.1 kB]
+2026-11-12T23:23:28.3072258Z #7 3.244 Get:71 https://deb.debian.org/debian bookworm/main amd64 libavahi-client3 amd64 0.8-10+deb12u1 [45.8 kB]
+2026-11-12T23:23:28.3072783Z #7 3.251 Get:72 https://deb.debian.org/debian bookworm/main amd64 libcups2 amd64 2.4.2-3+deb12u9 [245 kB]
+2026-11-12T23:23:28.3073268Z #7 3.258 Get:73 https://deb.debian.org/debian bookworm/main amd64 libdav1d6 amd64 1.0.0-2+deb12u1 [513 kB]
+2026-11-12T23:23:28.3073771Z #7 3.265 Get:74 https://deb.debian.org/debian bookworm/main amd64 libdouble-conversion3 amd64 3.2.1-1 [41.5 kB]
+2026-11-12T23:23:28.4133986Z #7 3.271 Get:75 https://deb.debian.org/debian bookworm/main amd64 libogg0 amd64 1.3.5-3 [23.4 kB]
+2026-11-12T23:23:28.4134850Z #7 3.278 Get:76 https://deb.debian.org/debian bookworm/main amd64 libflac12 amd64 1.4.2+ds-2 [198 kB]
+2026-11-12T23:23:28.4135679Z #7 3.286 Get:77 https://deb.debian.org/debian bookworm/main amd64 libdrm-common all 2.4.114-1 [7112 B]
+2026-11-12T23:23:28.4136468Z #7 3.292 Get:78 https://deb.debian.org/debian bookworm/main amd64 libdrm2 amd64 2.4.114-1+b1 [37.5 kB]
+2026-11-12T23:23:28.4137290Z #7 3.298 Get:79 https://deb.debian.org/debian bookworm/main amd64 libwayland-server0 amd64 1.21.0-1 [35.9 kB]
+2026-11-12T23:23:28.4137826Z #7 3.304 Get:80 https://deb.debian.org/debian bookworm/main amd64 libgbm1 amd64 22.3.6-1+deb12u2 [38.1 kB]
+2026-11-12T23:23:28.4138337Z #7 3.310 Get:81 https://deb.debian.org/debian bookworm/main amd64 libgraphite2-3 amd64 1.3.14-1+deb12u1 [74.6 kB]
+2026-11-12T23:23:28.4138868Z #7 3.316 Get:82 https://deb.debian.org/debian bookworm/main amd64 libharfbuzz0b amd64 6.0.0+dfsg-3 [1945 kB]
+2026-11-12T23:23:28.4139412Z #7 3.328 Get:83 https://deb.debian.org/debian bookworm/main amd64 libharfbuzz-subset0 amd64 6.0.0+dfsg-3 [1931 kB]
+2026-11-12T23:23:28.4139935Z #7 3.340 Get:84 https://deb.debian.org/debian bookworm/main amd64 liblcms2-2 amd64 2.14-2+deb12u1 [154 kB]
+2026-11-12T23:23:28.4140421Z #7 3.347 Get:85 https://deb.debian.org/debian bookworm/main amd64 libminizip1 amd64 1.1-8+deb12u1 [20.1 kB]
+2026-11-12T23:23:28.4141119Z #7 3.358 Get:86 https://deb.debian.org/debian bookworm/main amd64 libnspr4 amd64 2:4.35-1 [113 kB]
+2026-11-12T23:23:28.4141845Z #7 3.365 Get:87 https://deb.debian.org/debian-security bookworm-security/main amd64 libnss3 amd64 2:3.87.1-1+deb12u4 [1331 kB]
+2026-11-12T23:23:28.4142785Z #7 3.374 Get:88 https://deb.debian.org/debian bookworm/main amd64 libopenh264-7 amd64 2.3.1+dfsg-3+deb12u2 [393 kB]
+2026-11-12T23:23:28.5188085Z #7 3.383 Get:89 https://deb.debian.org/debian bookworm/main amd64 libopenjp2-7 amd64 2.5.0-2+deb12u3 [189 kB]
+2026-11-12T23:23:28.5188950Z #7 3.390 Get:90 https://deb.debian.org/debian bookworm/main amd64 libopus0 amd64 1.3.1-3 [195 kB]
+2026-11-12T23:23:28.5189694Z #7 3.397 Get:91 https://deb.debian.org/debian bookworm/main amd64 fontconfig amd64 2.14.1-4 [449 kB]
+2026-11-12T23:23:28.5190390Z #7 3.405 Get:92 https://deb.debian.org/debian bookworm/main amd64 libfribidi0 amd64 1.0.8-2.1 [65.0 kB]
+2026-11-12T23:23:28.5190882Z #7 3.411 Get:93 https://deb.debian.org/debian bookworm/main amd64 libthai-data all 0.1.29-1 [176 kB]
+2026-11-12T23:23:28.5191381Z #7 3.417 Get:94 https://deb.debian.org/debian bookworm/main amd64 libdatrie1 amd64 0.2.13-2+b1 [43.3 kB]
+2026-11-12T23:23:28.5191888Z #7 3.423 Get:95 https://deb.debian.org/debian bookworm/main amd64 libthai0 amd64 0.1.29-1 [57.5 kB]
+2026-11-12T23:23:28.5192378Z #7 3.429 Get:96 https://deb.debian.org/debian bookworm/main amd64 libpango-1.0-0 amd64 1.50.12+ds-1 [212 kB]
+2026-11-12T23:23:28.5193141Z #7 3.436 Get:97 https://deb.debian.org/debian bookworm/main amd64 libasyncns0 amd64 0.8-6+b3 [12.9 kB]
+2026-11-12T23:23:28.5193618Z #7 3.444 Get:98 https://deb.debian.org/debian bookworm/main amd64 libmp3lame0 amd64 3.100-6 [365 kB]
+2026-11-12T23:23:28.5194094Z #7 3.451 Get:99 https://deb.debian.org/debian bookworm/main amd64 libmpg123-0 amd64 1.31.2-1+deb12u1 [147 kB]
+2026-11-12T23:23:28.5194712Z #7 3.458 Get:100 https://deb.debian.org/debian bookworm/main amd64 libvorbis0a amd64 1.3.7-1 [93.0 kB]
+2026-11-12T23:23:28.5195202Z #7 3.465 Get:101 https://deb.debian.org/debian bookworm/main amd64 libvorbisenc2 amd64 1.3.7-1 [80.6 kB]
+2026-11-12T23:23:28.5195697Z #7 3.472 Get:102 https://deb.debian.org/debian bookworm/main amd64 libsndfile1 amd64 1.2.0-1+deb12u1 [197 kB]
+2026-11-12T23:23:28.5196211Z #7 3.479 Get:103 https://deb.debian.org/debian bookworm/main amd64 libx11-xcb1 amd64 2:1.8.4-2+deb12u2 [192 kB]
+2026-11-12T23:23:28.6193403Z #7 3.488 Get:104 https://deb.debian.org/debian bookworm/main amd64 libpulse0 amd64 16.1+dfsg1-2+b1 [274 kB]
+2026-11-12T23:23:28.6194051Z #7 3.496 Get:105 https://deb.debian.org/debian bookworm/main amd64 libxcomposite1 amd64 1:0.4.5-1 [16.6 kB]
+2026-11-12T23:23:28.6194595Z #7 3.502 Get:106 https://deb.debian.org/debian bookworm/main amd64 libxdamage1 amd64 1:1.1.6-1 [15.1 kB]
+2026-11-12T23:23:28.6195098Z #7 3.508 Get:107 https://deb.debian.org/debian bookworm/main amd64 libxfixes3 amd64 1:6.0.0-2 [22.7 kB]
+2026-11-12T23:23:28.6195567Z #7 3.515 Get:108 https://deb.debian.org/debian bookworm/main amd64 xkb-data all 2.35.1-1 [764 kB]
+2026-11-12T23:23:28.6196289Z #7 3.524 Get:109 https://deb.debian.org/debian bookworm/main amd64 libxkbcommon0 amd64 1.5.0-1 [106 kB]
+2026-11-12T23:23:28.6197083Z #7 3.531 Get:110 https://deb.debian.org/debian bookworm/main amd64 libxnvctrl0 amd64 525.85.05-3~deb12u1 [13.5 kB]
+2026-11-12T23:23:28.6197610Z #7 3.537 Get:111 https://deb.debian.org/debian bookworm/main amd64 libxrandr2 amd64 2:1.5.2-2+b1 [39.2 kB]
+2026-11-12T23:23:28.6198131Z #7 3.544 Get:112 https://deb.debian.org/debian bookworm/main amd64 libcairo-gobject2 amd64 1.16.0-7 [112 kB]
+2026-11-12T23:23:28.6198635Z #7 3.550 Get:113 https://deb.debian.org/debian bookworm/main amd64 libcolord2 amd64 1.4.6-2.2 [137 kB]
+2026-11-12T23:23:28.6199095Z #7 3.561 Get:114 https://deb.debian.org/debian bookworm/main amd64 libepoxy0 amd64 1.5.10-1 [189 kB]
+2026-11-12T23:23:28.6199589Z #7 3.568 Get:115 https://deb.debian.org/debian bookworm/main amd64 libpangoft2-1.0-0 amd64 1.50.12+ds-1 [47.4 kB]
+2026-11-12T23:23:28.6200128Z #7 3.574 Get:116 https://deb.debian.org/debian bookworm/main amd64 libpangocairo-1.0-0 amd64 1.50.12+ds-1 [34.2 kB]
+2026-11-12T23:23:28.6200651Z #7 3.580 Get:117 https://deb.debian.org/debian bookworm/main amd64 libwayland-client0 amd64 1.21.0-1 [28.3 kB]
+2026-11-12T23:23:28.7217002Z #7 3.586 Get:118 https://deb.debian.org/debian bookworm/main amd64 libwayland-cursor0 amd64 1.21.0-1 [14.4 kB]
+2026-11-12T23:23:28.7222171Z #7 3.591 Get:119 https://deb.debian.org/debian bookworm/main amd64 libwayland-egl1 amd64 1.21.0-1 [8640 B]
+2026-11-12T23:23:28.7223191Z #7 3.597 Get:120 https://deb.debian.org/debian bookworm/main amd64 libxcursor1 amd64 1:1.2.1-1 [40.9 kB]
+2026-11-12T23:23:28.7224123Z #7 3.604 Get:121 https://deb.debian.org/debian bookworm/main amd64 libxinerama1 amd64 2:1.1.4-3 [17.8 kB]
+2026-11-12T23:23:28.7225091Z #7 3.610 Get:122 https://deb.debian.org/debian bookworm/main amd64 dbus-user-session amd64 1.14.10-1~deb12u1 [78.1 kB]
+2026-11-12T23:23:28.7226029Z #7 3.616 Get:123 https://deb.debian.org/debian bookworm/main amd64 libdconf1 amd64 0.40.0-4 [40.9 kB]
+2026-11-12T23:23:28.7227040Z #7 3.622 Get:124 https://deb.debian.org/debian bookworm/main amd64 dconf-service amd64 0.40.0-4 [31.6 kB]
+2026-11-12T23:23:28.7227942Z #7 3.628 Get:125 https://deb.debian.org/debian bookworm/main amd64 dconf-gsettings-backend amd64 0.40.0-4 [27.8 kB]
+2026-11-12T23:23:28.7228851Z #7 3.636 Get:126 https://deb.debian.org/debian bookworm/main amd64 libgtk-3-common all 3.24.38-2~deb12u3 [3895 kB]
+2026-11-12T23:23:28.7229999Z #7 3.657 Get:127 https://deb.debian.org/debian bookworm/main amd64 libgtk-3-0 amd64 3.24.38-2~deb12u3 [2847 kB]
+2026-11-12T23:23:28.7230815Z #7 3.675 Get:128 https://deb.debian.org/debian bookworm/main amd64 libfontenc1 amd64 1:1.1.4-1 [24.3 kB]
+2026-11-12T23:23:28.7231572Z #7 3.682 Get:129 https://deb.debian.org/debian bookworm/main amd64 libglvnd0 amd64 1.6.0-1 [51.8 kB]
+2026-11-12T23:23:28.8220275Z #7 3.689 Get:130 https://deb.debian.org/debian bookworm/main amd64 libglapi-mesa amd64 22.3.6-1+deb12u2 [35.9 kB]
+2026-11-12T23:23:28.8221175Z #7 3.695 Get:131 https://deb.debian.org/debian bookworm/main amd64 libxcb-dri2-0 amd64 1.15-1 [107 kB]
+2026-11-12T23:23:28.8221710Z #7 3.701 Get:132 https://deb.debian.org/debian bookworm/main amd64 libxcb-dri3-0 amd64 1.15-1 [107 kB]
+2026-11-12T23:23:28.8222241Z #7 3.710 Get:133 https://deb.debian.org/debian bookworm/main amd64 libxcb-glx0 amd64 1.15-1 [122 kB]
+2026-11-12T23:23:28.8222757Z #7 3.719 Get:134 https://deb.debian.org/debian bookworm/main amd64 libxcb-present0 amd64 1.15-1 [105 kB]
+2026-11-12T23:23:28.8223241Z #7 3.727 Get:135 https://deb.debian.org/debian bookworm/main amd64 libxcb-randr0 amd64 1.15-1 [117 kB]
+2026-11-12T23:23:28.8223704Z #7 3.733 Get:136 https://deb.debian.org/debian bookworm/main amd64 libxcb-sync1 amd64 1.15-1 [109 kB]
+2026-11-12T23:23:28.8224171Z #7 3.740 Get:137 https://deb.debian.org/debian bookworm/main amd64 libxcb-xfixes0 amd64 1.15-1 [109 kB]
+2026-11-12T23:23:28.8224635Z #7 3.746 Get:138 https://deb.debian.org/debian bookworm/main amd64 libxshmfence1 amd64 1.3-1 [8820 B]
+2026-11-12T23:23:28.8225376Z #7 3.752 Get:139 https://deb.debian.org/debian bookworm/main amd64 libxxf86vm1 amd64 1:1.1.4-1+b2 [20.8 kB]
+2026-11-12T23:23:28.8225877Z #7 3.759 Get:140 https://deb.debian.org/debian bookworm/main amd64 libdrm-amdgpu1 amd64 2.4.114-1+b1 [20.9 kB]
+2026-11-12T23:23:28.8226548Z #7 3.765 Get:141 https://deb.debian.org/debian bookworm/main amd64 libpciaccess0 amd64 0.17-2 [51.4 kB]
+2026-11-12T23:23:28.8227055Z #7 3.776 Get:142 https://deb.debian.org/debian bookworm/main amd64 libdrm-intel1 amd64 2.4.114-1+b1 [64.0 kB]
+2026-11-12T23:23:28.8227580Z #7 3.783 Get:143 https://deb.debian.org/debian bookworm/main amd64 libdrm-nouveau2 amd64 2.4.114-1+b1 [19.1 kB]
+2026-11-12T23:23:28.9766555Z #7 3.790 Get:144 https://deb.debian.org/debian bookworm/main amd64 libdrm-radeon1 amd64 2.4.114-1+b1 [21.8 kB]
+2026-11-12T23:23:28.9767237Z #7 3.796 Get:145 https://deb.debian.org/debian bookworm/main amd64 libedit2 amd64 3.1-20221030-2 [93.0 kB]
+2026-11-12T23:23:28.9767790Z #7 3.806 Get:146 https://deb.debian.org/debian bookworm/main amd64 libz3-4 amd64 4.8.12-3.1 [7216 kB]
+2026-11-12T23:23:28.9768270Z #7 3.839 Get:147 https://deb.debian.org/debian bookworm/main amd64 libllvm15 amd64 1:15.0.6-4+b1 [23.1 MB]
+2026-11-12T23:23:28.9768790Z #7 3.937 Get:148 https://deb.debian.org/debian bookworm/main amd64 libsensors-config all 1:3.6.0-7.1 [14.3 kB]
+2026-11-12T23:23:29.0943272Z #7 3.942 Get:149 https://deb.debian.org/debian bookworm/main amd64 libsensors5 amd64 1:3.6.0-7.1 [34.2 kB]
+2026-11-12T23:23:29.0943979Z #7 3.948 Get:150 https://deb.debian.org/debian bookworm/main amd64 libgl1-mesa-dri amd64 22.3.6-1+deb12u2 [7240 kB]
+2026-11-12T23:23:29.0944528Z #7 4.055 Get:151 https://deb.debian.org/debian bookworm/main amd64 libglx-mesa0 amd64 22.3.6-1+deb12u2 [148 kB]
+2026-11-12T23:23:29.1968847Z #7 4.062 Get:152 https://deb.debian.org/debian bookworm/main amd64 libglx0 amd64 1.6.0-1 [34.4 kB]
+2026-11-12T23:23:29.1970080Z #7 4.067 Get:153 https://deb.debian.org/debian bookworm/main amd64 libgl1 amd64 1.6.0-1 [88.4 kB]
+2026-11-12T23:23:29.1971372Z #7 4.073 Get:154 https://deb.debian.org/debian bookworm/main amd64 x11-common all 1:7.7+23 [252 kB]
+2026-11-12T23:23:29.1972155Z #7 4.080 Get:155 https://deb.debian.org/debian bookworm/main amd64 libice6 amd64 2:1.0.10-1 [58.5 kB]
+2026-11-12T23:23:29.1972923Z #7 4.085 Get:156 https://deb.debian.org/debian bookworm/main amd64 libsm6 amd64 2:1.2.3-1 [35.1 kB]
+2026-11-12T23:23:29.1973913Z #7 4.091 Get:157 https://deb.debian.org/debian bookworm/main amd64 libxt6 amd64 1:1.2.1-1.1 [186 kB]
+2026-11-12T23:23:29.1974704Z #7 4.097 Get:158 https://deb.debian.org/debian bookworm/main amd64 libxmu6 amd64 2:1.1.3-3 [60.1 kB]
+2026-11-12T23:23:29.1975478Z #7 4.103 Get:159 https://deb.debian.org/debian bookworm/main amd64 libxpm4 amd64 1:3.5.12-1.1+deb12u1 [48.6 kB]
+2026-11-12T23:23:29.1976261Z #7 4.109 Get:160 https://deb.debian.org/debian bookworm/main amd64 libxaw7 amd64 2:1.0.14-1 [201 kB]
+2026-11-12T23:23:29.1977193Z #7 4.115 Get:161 https://deb.debian.org/debian bookworm/main amd64 libxcb-shape0 amd64 1.15-1 [106 kB]
+2026-11-12T23:23:29.1977679Z #7 4.121 Get:162 https://deb.debian.org/debian bookworm/main amd64 libxft2 amd64 2.3.6-1 [61.8 kB]
+2026-11-12T23:23:29.1978263Z #7 4.128 Get:163 https://deb.debian.org/debian bookworm/main amd64 libxkbfile1 amd64 1:1.1.0-1 [75.2 kB]
+2026-11-12T23:23:29.1978738Z #7 4.134 Get:164 https://deb.debian.org/debian bookworm/main amd64 libxmuu1 amd64 2:1.1.3-3 [23.9 kB]
+2026-11-12T23:23:29.1979250Z #7 4.139 Get:165 https://deb.debian.org/debian bookworm/main amd64 libxtst6 amd64 2:1.2.3-1.1 [28.0 kB]
+2026-11-12T23:23:29.1979730Z #7 4.145 Get:166 https://deb.debian.org/debian bookworm/main amd64 libxv1 amd64 2:1.0.11-1.1 [24.8 kB]
+2026-11-12T23:23:29.1980204Z #7 4.150 Get:167 https://deb.debian.org/debian bookworm/main amd64 libxxf86dga1 amd64 2:1.1.5-1 [22.1 kB]
+2026-11-12T23:23:29.1980666Z #7 4.157 Get:168 https://deb.debian.org/debian bookworm/main amd64 x11-utils amd64 7.7+5 [202 kB]
+2026-11-12T23:23:29.3618795Z #7 4.164 Get:169 https://deb.debian.org/debian bookworm/main amd64 xdg-utils all 1.1.3-4.1 [75.5 kB]
+2026-11-12T23:23:29.3619497Z #7 4.172 Get:170 https://deb.debian.org/debian-security bookworm-security/main amd64 chromium-common amd64 156.0.8078.79-1~deb12u1 [31.6 MB]
+2026-11-12T23:23:29.4380653Z #7 4.398 Get:171 https://deb.debian.org/debian-security bookworm-security/main amd64 chromium amd64 156.0.8078.79-1~deb12u1 [81.2 MB]
+2026-11-12T23:23:29.9443733Z #7 4.905 Get:172 https://deb.debian.org/debian-security bookworm-security/main amd64 chromium-sandbox amd64 156.0.8078.79-1~deb12u1 [164 kB]
+2026-11-12T23:23:30.1014022Z #7 4.911 Get:173 https://deb.debian.org/debian bookworm/main amd64 libip6tc2 amd64 1.8.9-2 [19.4 kB]
+2026-11-12T23:23:30.1014899Z #7 4.917 Get:174 https://deb.debian.org/debian bookworm/main amd64 libnfnetlink0 amd64 1.0.2-2 [15.1 kB]
+2026-11-12T23:23:30.1015738Z #7 4.923 Get:175 https://deb.debian.org/debian bookworm/main amd64 libnetfilter-conntrack3 amd64 1.0.9-3 [40.7 kB]
+2026-11-12T23:23:30.1016706Z #7 4.929 Get:176 https://deb.debian.org/debian bookworm/main amd64 libnftnl11 amd64 1.2.4-2 [61.6 kB]
+2026-11-12T23:23:30.1017445Z #7 4.935 Get:177 https://deb.debian.org/debian bookworm/main amd64 iptables amd64 1.8.9-2 [360 kB]
+2026-11-12T23:23:30.1018139Z #7 5.062 debconf: delaying package configuration, since apt-utils is not installed
+2026-11-12T23:23:30.2113679Z #7 5.085 Fetched 207 MB in 2s (87.5 MB/s)
+2026-11-12T23:23:30.2114433Z #7 5.107 Selecting previously unselected package libargon2-1:amd64.
+2026-11-12T23:23:30.2114885Z #7 5.107 (Reading database ... 
+2026-11-12T23:23:30.2115166Z (Reading database ... 5%
+2026-11-12T23:23:30.2115430Z (Reading database ... 10%
+2026-11-12T23:23:30.2115667Z (Reading database ... 15%
+2026-11-12T23:23:30.2115904Z (Reading database ... 20%
+2026-11-12T23:23:30.2116172Z (Reading database ... 25%
+2026-11-12T23:23:30.2116635Z (Reading database ... 30%
+2026-11-12T23:23:30.2116885Z (Reading database ... 35%
+2026-11-12T23:23:30.2117064Z (Reading database ... 40%
+2026-11-12T23:23:30.2117257Z (Reading database ... 45%
+2026-11-12T23:23:30.2117429Z (Reading database ... 50%
+2026-11-12T23:23:30.2117607Z (Reading database ... 55%
+2026-11-12T23:23:30.2117791Z (Reading database ... 60%
+2026-11-12T23:23:30.2117976Z (Reading database ... 65%
+2026-11-12T23:23:30.2118148Z (Reading database ... 70%
+2026-11-12T23:23:30.2118319Z (Reading database ... 75%
+2026-11-12T23:23:30.2118487Z (Reading database ... 80%
+2026-11-12T23:23:30.2118662Z (Reading database ... 85%
+2026-11-12T23:23:30.2119089Z (Reading database ... 90%
+2026-11-12T23:23:30.2119270Z (Reading database ... 95%
+2026-11-12T23:23:30.2119451Z (Reading database ... 100%
+2026-11-12T23:23:30.2119715Z (Reading database ... 6704 files and directories currently installed.)
+2026-11-12T23:23:30.2120108Z #7 5.114 Preparing to unpack .../00-libargon2-1_0~20171227-0.3+deb12u1_amd64.deb ...
+2026-11-12T23:23:30.2120471Z #7 5.116 Unpacking libargon2-1:amd64 (0~20171227-0.3+deb12u1) ...
+2026-11-12T23:23:30.2120789Z #7 5.130 Selecting previously unselected package dmsetup.
+2026-11-12T23:23:30.2121120Z #7 5.132 Preparing to unpack .../01-dmsetup_2%3a1.02.185-2_amd64.deb ...
+2026-11-12T23:23:30.2121414Z #7 5.132 Unpacking dmsetup (2:1.02.185-2) ...
+2026-11-12T23:23:30.2121713Z #7 5.150 Selecting previously unselected package libdevmapper1.02.1:amd64.
+2026-11-12T23:23:30.2122092Z #7 5.152 Preparing to unpack .../02-libdevmapper1.02.1_2%3a1.02.185-2_amd64.deb ...
+2026-11-12T23:23:30.2122437Z #7 5.153 Unpacking libdevmapper1.02.1:amd64 (2:1.02.185-2) ...
+2026-11-12T23:23:30.2122759Z #7 5.172 Selecting previously unselected package libjson-c5:amd64.
+2026-11-12T23:23:30.3307483Z #7 5.174 Preparing to unpack .../03-libjson-c5_0.16-2_amd64.deb ...
+2026-11-12T23:23:30.3308011Z #7 5.175 Unpacking libjson-c5:amd64 (0.16-2) ...
+2026-11-12T23:23:30.3308499Z #7 5.190 Selecting previously unselected package libcryptsetup12:amd64.
+2026-11-12T23:23:30.3309124Z #7 5.192 Preparing to unpack .../04-libcryptsetup12_2%3a2.6.1-4~deb12u2_amd64.deb ...
+2026-11-12T23:23:30.3310020Z #7 5.192 Unpacking libcryptsetup12:amd64 (2:2.6.1-4~deb12u2) ...
+2026-11-12T23:23:30.3310514Z #7 5.218 Selecting previously unselected package libfdisk1:amd64.
+2026-11-12T23:23:30.3310923Z #7 5.220 Preparing to unpack .../05-libfdisk1_2.38.1-5+deb12u3_amd64.deb ...
+2026-11-12T23:23:30.3311264Z #7 5.221 Unpacking libfdisk1:amd64 (2.38.1-5+deb12u3) ...
+2026-11-12T23:23:30.3311579Z #7 5.243 Selecting previously unselected package libkmod2:amd64.
+2026-11-12T23:23:30.3311928Z #7 5.245 Preparing to unpack .../06-libkmod2_30+20221128-1_amd64.deb ...
+2026-11-12T23:23:30.3312231Z #7 5.246 Unpacking libkmod2:amd64 (30+20221128-1) ...
+2026-11-12T23:23:30.3312533Z #7 5.264 Selecting previously unselected package libapparmor1:amd64.
+2026-11-12T23:23:30.3312869Z #7 5.266 Preparing to unpack .../07-libapparmor1_3.0.8-3_amd64.deb ...
+2026-11-12T23:23:30.3313158Z #7 5.270 Unpacking libapparmor1:amd64 (3.0.8-3) ...
+2026-11-12T23:23:30.3313450Z #7 5.291 Selecting previously unselected package libip4tc2:amd64.
+2026-11-12T23:23:30.5261359Z #7 5.293 Preparing to unpack .../08-libip4tc2_1.8.9-2_amd64.deb ...
+2026-11-12T23:23:30.5261747Z #7 5.294 Unpacking libip4tc2:amd64 (1.8.9-2) ...
+2026-11-12T23:23:30.5262094Z #7 5.326 Selecting previously unselected package libsystemd-shared:amd64.
+2026-11-12T23:23:30.5262507Z #7 5.328 Preparing to unpack .../09-libsystemd-shared_252.39-1~deb12u2_amd64.deb ...
+2026-11-12T23:23:30.5262874Z #7 5.336 Unpacking libsystemd-shared:amd64 (252.39-1~deb12u2) ...
+2026-11-12T23:23:30.6762220Z #7 5.637 Selecting previously unselected package systemd.
+2026-11-12T23:23:30.8692654Z #7 5.639 Preparing to unpack .../10-systemd_252.39-1~deb12u2_amd64.deb ...
+2026-11-12T23:23:30.8693058Z #7 5.679 Unpacking systemd (252.39-1~deb12u2) ...
+2026-11-12T23:23:31.2124800Z #7 6.173 Setting up libargon2-1:amd64 (0~20171227-0.3+deb12u1) ...
+2026-11-12T23:23:31.3771298Z #7 6.257 Setting up libjson-c5:amd64 (0.16-2) ...
+2026-11-12T23:23:31.3771669Z #7 6.338 Setting up libfdisk1:amd64 (2.38.1-5+deb12u3) ...
+2026-11-12T23:23:31.4870866Z #7 6.366 Setting up libkmod2:amd64 (30+20221128-1) ...
+2026-11-12T23:23:31.4871238Z #7 6.396 Setting up libapparmor1:amd64 (3.0.8-3) ...
+2026-11-12T23:23:31.4871515Z #7 6.426 Setting up libip4tc2:amd64 (1.8.9-2) ...
+2026-11-12T23:23:31.4871805Z #7 6.448 Setting up libsystemd-shared:amd64 (252.39-1~deb12u2) ...
+2026-11-12T23:23:31.5973635Z #7 6.487 Setting up libdevmapper1.02.1:amd64 (2:1.02.185-2) ...
+2026-11-12T23:23:31.5974030Z #7 6.558 Setting up libcryptsetup12:amd64 (2:2.6.1-4~deb12u2) ...
+2026-11-12T23:23:31.7721708Z #7 6.607 Setting up systemd (252.39-1~deb12u2) ...
+2026-11-12T23:23:31.7722564Z #7 6.732 Created symlink /etc/systemd/system/getty.target.wants/getty@tty1.service → /lib/systemd/system/getty@.service.
+2026-11-12T23:23:31.7722916Z 
+2026-11-12T23:23:31.9789149Z #7 6.736 Created symlink /etc/systemd/system/multi-user.target.wants/remote-fs.target → /lib/systemd/system/remote-fs.target.
+2026-11-12T23:23:31.9789811Z 
+2026-11-12T23:23:31.9790550Z #7 6.741 Created symlink /etc/systemd/system/sysinit.target.wants/systemd-pstore.service → /lib/systemd/system/systemd-pstore.service.
+2026-11-12T23:23:31.9791323Z 
+2026-11-12T23:23:31.9791501Z #7 6.745 Initializing machine ID from random generator.
+2026-11-12T23:23:31.9791764Z 
+2026-11-12T23:23:31.9791947Z #7 6.789 Creating group 'systemd-journal' with GID 999.
+2026-11-12T23:23:31.9792209Z 
+2026-11-12T23:23:31.9792374Z #7 6.789 Creating group 'systemd-network' with GID 998.
+2026-11-12T23:23:31.9792631Z 
+2026-11-12T23:23:31.9792960Z #7 6.789 Creating user 'systemd-network' (systemd Network Management) with UID 998 and GID 998.
+2026-11-12T23:23:31.9793388Z 
+2026-11-12T23:23:32.1075805Z #7 7.068 Setting up dmsetup (2:1.02.185-2) ...
+2026-11-12T23:23:32.2373861Z #7 7.198 Selecting previously unselected package systemd-sysv.
+2026-11-12T23:23:32.3982979Z #7 7.198 (Reading database ... 
+2026-11-12T23:23:32.3983353Z (Reading database ... 5%
+2026-11-12T23:23:32.3983561Z (Reading database ... 10%
+2026-11-12T23:23:32.3983750Z (Reading database ... 15%
+2026-11-12T23:23:32.4407559Z (Reading database ... 20%
+2026-11-12T23:23:32.4407774Z (Reading database ... 25%
+2026-11-12T23:23:32.4407968Z (Reading database ... 30%
+2026-11-12T23:23:32.4408157Z (Reading database ... 35%
+2026-11-12T23:23:32.4408347Z (Reading database ... 40%
+2026-11-12T23:23:32.4408524Z (Reading database ... 45%
+2026-11-12T23:23:32.4408711Z (Reading database ... 50%
+2026-11-12T23:23:32.4408897Z (Reading database ... 55%
+2026-11-12T23:23:32.4409106Z (Reading database ... 60%
+2026-11-12T23:23:32.4409296Z (Reading database ... 65%
+2026-11-12T23:23:32.4409476Z (Reading database ... 70%
+2026-11-12T23:23:32.4409648Z (Reading database ... 75%
+2026-11-12T23:23:32.4409817Z (Reading database ... 80%
+2026-11-12T23:23:32.4409988Z (Reading database ... 85%
+2026-11-12T23:23:32.4410161Z (Reading database ... 90%
+2026-11-12T23:23:32.4410335Z (Reading database ... 95%
+2026-11-12T23:23:32.4410514Z (Reading database ... 100%
+2026-11-12T23:23:32.4410790Z (Reading database ... 7627 files and directories currently installed.)
+2026-11-12T23:23:32.4411195Z #7 7.204 Preparing to unpack .../000-systemd-sysv_252.39-1~deb12u2_amd64.deb ...
+2026-11-12T23:23:32.4411530Z #7 7.208 Unpacking systemd-sysv (252.39-1~deb12u2) ...
+2026-11-12T23:23:32.4411863Z #7 7.400 Selecting previously unselected package libdbus-1-3:amd64.
+2026-11-12T23:23:32.5496715Z #7 7.403 Preparing to unpack .../001-libdbus-1-3_1.14.10-1~deb12u1_amd64.deb ...
+2026-11-12T23:23:32.5497499Z #7 7.438 Unpacking libdbus-1-3:amd64 (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:32.5498270Z #7 7.509 Selecting previously unselected package dbus-bin.
+2026-11-12T23:23:32.6778384Z #7 7.511 Preparing to unpack .../002-dbus-bin_1.14.10-1~deb12u1_amd64.deb ...
+2026-11-12T23:23:32.6779008Z #7 7.518 Unpacking dbus-bin (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:32.6779706Z #7 7.549 Selecting previously unselected package dbus-session-bus-common.
+2026-11-12T23:23:32.6780393Z #7 7.551 Preparing to unpack .../003-dbus-session-bus-common_1.14.10-1~deb12u1_all.deb ...
+2026-11-12T23:23:32.6781032Z #7 7.588 Unpacking dbus-session-bus-common (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:32.6781529Z #7 7.638 Selecting previously unselected package libexpat1:amd64.
+2026-11-12T23:23:32.7796726Z #7 7.640 Preparing to unpack .../004-libexpat1_2.5.0-1+deb12u5_amd64.deb ...
+2026-11-12T23:23:32.7797311Z #7 7.641 Unpacking libexpat1:amd64 (2.5.0-1+deb12u5) ...
+2026-11-12T23:23:32.7797756Z #7 7.660 Selecting previously unselected package dbus-daemon.
+2026-11-12T23:23:32.7798408Z #7 7.662 Preparing to unpack .../005-dbus-daemon_1.14.10-1~deb12u1_amd64.deb ...
+2026-11-12T23:23:32.7798770Z #7 7.663 Unpacking dbus-daemon (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:32.7799085Z #7 7.740 Selecting previously unselected package dbus-system-bus-common.
+2026-11-12T23:23:32.9078546Z #7 7.742 Preparing to unpack .../006-dbus-system-bus-common_1.14.10-1~deb12u1_all.deb ...
+2026-11-12T23:23:32.9079268Z #7 7.743 Unpacking dbus-system-bus-common (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:32.9079906Z #7 7.763 Selecting previously unselected package dbus.
+2026-11-12T23:23:32.9080461Z #7 7.765 Preparing to unpack .../007-dbus_1.14.10-1~deb12u1_amd64.deb ...
+2026-11-12T23:23:32.9080916Z #7 7.767 Unpacking dbus (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:32.9081338Z #7 7.868 Selecting previously unselected package libelf1:amd64.
+2026-11-12T23:23:33.0278754Z #7 7.870 Preparing to unpack .../008-libelf1_0.188-2.1_amd64.deb ...
+2026-11-12T23:23:33.0279283Z #7 7.871 Unpacking libelf1:amd64 (0.188-2.1) ...
+2026-11-12T23:23:33.0279777Z #7 7.896 Selecting previously unselected package libbpf1:amd64.
+2026-11-12T23:23:33.0280321Z #7 7.898 Preparing to unpack .../009-libbpf1_1%3a1.1.2-0+deb12u1_amd64.deb ...
+2026-11-12T23:23:33.0280822Z #7 7.899 Unpacking libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+2026-11-12T23:23:33.0281237Z #7 7.988 Selecting previously unselected package libbsd0:amd64.
+2026-11-12T23:23:33.1835038Z #7 7.990 Preparing to unpack .../010-libbsd0_0.11.7-2_amd64.deb ...
+2026-11-12T23:23:33.1835729Z #7 7.991 Unpacking libbsd0:amd64 (0.11.7-2) ...
+2026-11-12T23:23:33.1836735Z #7 8.010 Selecting previously unselected package libmnl0:amd64.
+2026-11-12T23:23:33.1837257Z #7 8.012 Preparing to unpack .../011-libmnl0_1.0.4-3_amd64.deb ...
+2026-11-12T23:23:33.1837704Z #7 8.013 Unpacking libmnl0:amd64 (1.0.4-3) ...
+2026-11-12T23:23:33.1838157Z #7 8.028 Selecting previously unselected package libxtables12:amd64.
+2026-11-12T23:23:33.1838627Z #7 8.030 Preparing to unpack .../012-libxtables12_1.8.9-2_amd64.deb ...
+2026-11-12T23:23:33.1838951Z #7 8.031 Unpacking libxtables12:amd64 (1.8.9-2) ...
+2026-11-12T23:23:33.1839253Z #7 8.048 Selecting previously unselected package libcap2-bin.
+2026-11-12T23:23:33.1839614Z #7 8.050 Preparing to unpack .../013-libcap2-bin_1%3a2.66-4+deb12u3+b1_amd64.deb ...
+2026-11-12T23:23:33.1839977Z #7 8.051 Unpacking libcap2-bin (1:2.66-4+deb12u3+b1) ...
+2026-11-12T23:23:33.1840268Z #7 8.068 Selecting previously unselected package iproute2.
+2026-11-12T23:23:33.1840578Z #7 8.070 Preparing to unpack .../014-iproute2_6.1.0-3_amd64.deb ...
+2026-11-12T23:23:33.1840860Z #7 8.071 Unpacking iproute2 (6.1.0-3) ...
+2026-11-12T23:23:33.1841135Z #7 8.144 Selecting previously unselected package libproc2-0:amd64.
+2026-11-12T23:23:33.2954371Z #7 8.146 Preparing to unpack .../015-libproc2-0_2%3a4.0.2-3_amd64.deb ...
+2026-11-12T23:23:33.2954920Z #7 8.147 Unpacking libproc2-0:amd64 (2:4.0.2-3) ...
+2026-11-12T23:23:33.2955279Z #7 8.165 Selecting previously unselected package procps.
+2026-11-12T23:23:33.2955664Z #7 8.167 Preparing to unpack .../016-procps_2%3a4.0.2-3_amd64.deb ...
+2026-11-12T23:23:33.2955982Z #7 8.175 Unpacking procps (2:4.0.2-3) ...
+2026-11-12T23:23:33.2956268Z #7 8.228 Selecting previously unselected package libpam-systemd:amd64.
+2026-11-12T23:23:33.2956903Z #7 8.230 Preparing to unpack .../017-libpam-systemd_252.39-1~deb12u2_amd64.deb ...
+2026-11-12T23:23:33.2957263Z #7 8.231 Unpacking libpam-systemd:amd64 (252.39-1~deb12u2) ...
+2026-11-12T23:23:33.2957597Z #7 8.256 Selecting previously unselected package hicolor-icon-theme.
+2026-11-12T23:23:33.4594171Z #7 8.258 Preparing to unpack .../018-hicolor-icon-theme_0.17-2_all.deb ...
+2026-11-12T23:23:33.4594580Z #7 8.259 Unpacking hicolor-icon-theme (0.17-2) ...
+2026-11-12T23:23:33.4594916Z #7 8.323 Selecting previously unselected package libgdk-pixbuf2.0-common.
+2026-11-12T23:23:33.4595352Z #7 8.325 Preparing to unpack .../019-libgdk-pixbuf2.0-common_2.42.10+dfsg-1+deb12u4_all.deb ...
+2026-11-12T23:23:33.4595761Z #7 8.326 Unpacking libgdk-pixbuf2.0-common (2.42.10+dfsg-1+deb12u4) ...
+2026-11-12T23:23:33.4596657Z #7 8.420 Selecting previously unselected package libglib2.0-0:amd64.
+2026-11-12T23:23:33.6986649Z #7 8.422 Preparing to unpack .../020-libglib2.0-0_2.74.6-2+deb12u9_amd64.deb ...
+2026-11-12T23:23:33.6987716Z #7 8.423 Unpacking libglib2.0-0:amd64 (2.74.6-2+deb12u9) ...
+2026-11-12T23:23:33.6988484Z #7 8.506 Selecting previously unselected package libicu72:amd64.
+2026-11-12T23:23:33.6989178Z #7 8.508 Preparing to unpack .../021-libicu72_72.1-3+deb12u1_amd64.deb ...
+2026-11-12T23:23:33.6989847Z #7 8.509 Unpacking libicu72:amd64 (72.1-3+deb12u1) ...
+2026-11-12T23:23:33.9397157Z #7 8.899 Selecting previously unselected package libxml2:amd64.
+2026-11-12T23:23:34.1003686Z #7 8.904 Preparing to unpack .../022-libxml2_2.9.14+dfsg-1.3~deb12u6_amd64.deb ...
+2026-11-12T23:23:34.1004300Z #7 8.906 Unpacking libxml2:amd64 (2.9.14+dfsg-1.3~deb12u6) ...
+2026-11-12T23:23:34.1004798Z #7 8.966 Selecting previously unselected package shared-mime-info.
+2026-11-12T23:23:34.1005390Z #7 8.968 Preparing to unpack .../023-shared-mime-info_2.2-1_amd64.deb ...
+2026-11-12T23:23:34.1005851Z #7 8.969 Unpacking shared-mime-info (2.2-1) ...
+2026-11-12T23:23:34.1006513Z #7 9.061 Selecting previously unselected package libjpeg62-turbo:amd64.
+2026-11-12T23:23:34.2141732Z #7 9.063 Preparing to unpack .../024-libjpeg62-turbo_1%3a2.1.5-2_amd64.deb ...
+2026-11-12T23:23:34.2142340Z #7 9.064 Unpacking libjpeg62-turbo:amd64 (1:2.1.5-2) ...
+2026-11-12T23:23:34.2142825Z #7 9.087 Selecting previously unselected package libpng16-16:amd64.
+2026-11-12T23:23:34.2143682Z #7 9.089 Preparing to unpack .../025-libpng16-16_1.6.39-2+deb12u6_amd64.deb ...
+2026-11-12T23:23:34.2144197Z #7 9.090 Unpacking libpng16-16:amd64 (1.6.39-2+deb12u6) ...
+2026-11-12T23:23:34.2144679Z #7 9.114 Selecting previously unselected package libdeflate0:amd64.
+2026-11-12T23:23:34.2145030Z #7 9.116 Preparing to unpack .../026-libdeflate0_1.14-1_amd64.deb ...
+2026-11-12T23:23:34.2145328Z #7 9.117 Unpacking libdeflate0:amd64 (1.14-1) ...
+2026-11-12T23:23:34.2145647Z #7 9.133 Selecting previously unselected package libjbig0:amd64.
+2026-11-12T23:23:34.2145960Z #7 9.135 Preparing to unpack .../027-libjbig0_2.1-6.1_amd64.deb ...
+2026-11-12T23:23:34.2146239Z #7 9.135 Unpacking libjbig0:amd64 (2.1-6.1) ...
+2026-11-12T23:23:34.2147078Z #7 9.150 Selecting previously unselected package liblerc4:amd64.
+2026-11-12T23:23:34.2147415Z #7 9.152 Preparing to unpack .../028-liblerc4_4.0.0+ds-2_amd64.deb ...
+2026-11-12T23:23:34.2147706Z #7 9.153 Unpacking liblerc4:amd64 (4.0.0+ds-2) ...
+2026-11-12T23:23:34.2147998Z #7 9.175 Selecting previously unselected package libwebp7:amd64.
+2026-11-12T23:23:34.3318448Z #7 9.177 Preparing to unpack .../029-libwebp7_1.2.4-0.2+deb12u1_amd64.deb ...
+2026-11-12T23:23:34.3318977Z #7 9.178 Unpacking libwebp7:amd64 (1.2.4-0.2+deb12u1) ...
+2026-11-12T23:23:34.3319310Z #7 9.204 Selecting previously unselected package libtiff6:amd64.
+2026-11-12T23:23:34.3319677Z #7 9.207 Preparing to unpack .../030-libtiff6_4.5.0-6+deb12u4_amd64.deb ...
+2026-11-12T23:23:34.3320043Z #7 9.207 Unpacking libtiff6:amd64 (4.5.0-6+deb12u4) ...
+2026-11-12T23:23:34.3320372Z #7 9.231 Selecting previously unselected package libgdk-pixbuf-2.0-0:amd64.
+2026-11-12T23:23:34.3320796Z #7 9.233 Preparing to unpack .../031-libgdk-pixbuf-2.0-0_2.42.10+dfsg-1+deb12u4_amd64.deb ...
+2026-11-12T23:23:34.3321202Z #7 9.234 Unpacking libgdk-pixbuf-2.0-0:amd64 (2.42.10+dfsg-1+deb12u4) ...
+2026-11-12T23:23:34.3321563Z #7 9.268 Selecting previously unselected package gtk-update-icon-cache.
+2026-11-12T23:23:34.3321960Z #7 9.270 Preparing to unpack .../032-gtk-update-icon-cache_3.24.38-2~deb12u3_amd64.deb ...
+2026-11-12T23:23:34.3322334Z #7 9.271 Unpacking gtk-update-icon-cache (3.24.38-2~deb12u3) ...
+2026-11-12T23:23:34.3322695Z #7 9.292 Selecting previously unselected package adwaita-icon-theme.
+2026-11-12T23:23:34.4848865Z #7 9.294 Preparing to unpack .../033-adwaita-icon-theme_43-1_all.deb ...
+2026-11-12T23:23:34.4849709Z #7 9.295 Unpacking adwaita-icon-theme (43-1) ...
+2026-11-12T23:23:35.0951655Z #7 10.06 Selecting previously unselected package at-spi2-common.
+2026-11-12T23:23:35.2024926Z #7 10.06 Preparing to unpack .../034-at-spi2-common_2.46.0-5_all.deb ...
+2026-11-12T23:23:35.2025466Z #7 10.06 Unpacking at-spi2-common (2.46.0-5) ...
+2026-11-12T23:23:35.2025804Z #7 10.10 Selecting previously unselected package libasound2-data.
+2026-11-12T23:23:35.2026167Z #7 10.10 Preparing to unpack .../035-libasound2-data_1.2.8-1_all.deb ...
+2026-11-12T23:23:35.2027157Z #7 10.10 Unpacking libasound2-data (1.2.8-1) ...
+2026-11-12T23:23:35.2027489Z #7 10.13 Selecting previously unselected package libasound2:amd64.
+2026-11-12T23:23:35.2027836Z #7 10.13 Preparing to unpack .../036-libasound2_1.2.8-1+b1_amd64.deb ...
+2026-11-12T23:23:35.2028141Z #7 10.13 Unpacking libasound2:amd64 (1.2.8-1+b1) ...
+2026-11-12T23:23:35.2028442Z #7 10.16 Selecting previously unselected package libatk1.0-0:amd64.
+2026-11-12T23:23:35.4224233Z #7 10.17 Preparing to unpack .../037-libatk1.0-0_2.46.0-5_amd64.deb ...
+2026-11-12T23:23:35.4224652Z #7 10.17 Unpacking libatk1.0-0:amd64 (2.46.0-5) ...
+2026-11-12T23:23:35.4224958Z #7 10.18 Selecting previously unselected package libxau6:amd64.
+2026-11-12T23:23:35.4225302Z #7 10.18 Preparing to unpack .../038-libxau6_1%3a1.0.9-1_amd64.deb ...
+2026-11-12T23:23:35.4225614Z #7 10.19 Unpacking libxau6:amd64 (1:1.0.9-1) ...
+2026-11-12T23:23:35.4225904Z #7 10.20 Selecting previously unselected package libxdmcp6:amd64.
+2026-11-12T23:23:35.4226255Z #7 10.20 Preparing to unpack .../039-libxdmcp6_1%3a1.1.2-3_amd64.deb ...
+2026-11-12T23:23:35.4227001Z #7 10.20 Unpacking libxdmcp6:amd64 (1:1.1.2-3) ...
+2026-11-12T23:23:35.4227287Z #7 10.22 Selecting previously unselected package libxcb1:amd64.
+2026-11-12T23:23:35.4227593Z #7 10.22 Preparing to unpack .../040-libxcb1_1.15-1_amd64.deb ...
+2026-11-12T23:23:35.4227871Z #7 10.22 Unpacking libxcb1:amd64 (1.15-1) ...
+2026-11-12T23:23:35.4228143Z #7 10.24 Selecting previously unselected package libx11-data.
+2026-11-12T23:23:35.4228480Z #7 10.24 Preparing to unpack .../041-libx11-data_2%3a1.8.4-2+deb12u2_all.deb ...
+2026-11-12T23:23:35.4228815Z #7 10.24 Unpacking libx11-data (2:1.8.4-2+deb12u2) ...
+2026-11-12T23:23:35.4229099Z #7 10.38 Selecting previously unselected package libx11-6:amd64.
+2026-11-12T23:23:35.5328195Z #7 10.39 Preparing to unpack .../042-libx11-6_2%3a1.8.4-2+deb12u2_amd64.deb ...
+2026-11-12T23:23:35.5328789Z #7 10.39 Unpacking libx11-6:amd64 (2:1.8.4-2+deb12u2) ...
+2026-11-12T23:23:35.5329262Z #7 10.43 Selecting previously unselected package libxext6:amd64.
+2026-11-12T23:23:35.5329825Z #7 10.43 Preparing to unpack .../043-libxext6_2%3a1.3.4-1+b1_amd64.deb ...
+2026-11-12T23:23:35.5330289Z #7 10.44 Unpacking libxext6:amd64 (2:1.3.4-1+b1) ...
+2026-11-12T23:23:35.5330765Z #7 10.45 Selecting previously unselected package libxi6:amd64.
+2026-11-12T23:23:35.5331280Z #7 10.45 Preparing to unpack .../044-libxi6_2%3a1.8-1+b1_amd64.deb ...
+2026-11-12T23:23:35.5331726Z #7 10.45 Unpacking libxi6:amd64 (2:1.8-1+b1) ...
+2026-11-12T23:23:35.5332183Z #7 10.47 Selecting previously unselected package libatspi2.0-0:amd64.
+2026-11-12T23:23:35.5332729Z #7 10.47 Preparing to unpack .../045-libatspi2.0-0_2.46.0-5_amd64.deb ...
+2026-11-12T23:23:35.5333174Z #7 10.47 Unpacking libatspi2.0-0:amd64 (2.46.0-5) ...
+2026-11-12T23:23:35.5333495Z #7 10.49 Selecting previously unselected package libatk-bridge2.0-0:amd64.
+2026-11-12T23:23:35.6977486Z #7 10.49 Preparing to unpack .../046-libatk-bridge2.0-0_2.46.0-5_amd64.deb ...
+2026-11-12T23:23:35.6978144Z #7 10.49 Unpacking libatk-bridge2.0-0:amd64 (2.46.0-5) ...
+2026-11-12T23:23:35.6978665Z #7 10.51 Selecting previously unselected package libbrotli1:amd64.
+2026-11-12T23:23:35.6979201Z #7 10.51 Preparing to unpack .../047-libbrotli1_1.0.9-2+deb12u1_amd64.deb ...
+2026-11-12T23:23:35.6979686Z #7 10.52 Unpacking libbrotli1:amd64 (1.0.9-2+deb12u1) ...
+2026-11-12T23:23:35.6980149Z #7 10.55 Selecting previously unselected package libfreetype6:amd64.
+2026-11-12T23:23:35.6980700Z #7 10.55 Preparing to unpack .../048-libfreetype6_2.12.1+dfsg-5+deb12u4_amd64.deb ...
+2026-11-12T23:23:35.6981507Z #7 10.55 Unpacking libfreetype6:amd64 (2.12.1+dfsg-5+deb12u4) ...
+2026-11-12T23:23:35.6982000Z #7 10.58 Selecting previously unselected package fonts-dejavu-core.
+2026-11-12T23:23:35.6982518Z #7 10.59 Preparing to unpack .../049-fonts-dejavu-core_2.37-6_all.deb ...
+2026-11-12T23:23:35.6982968Z #7 10.59 Unpacking fonts-dejavu-core (2.37-6) ...
+2026-11-12T23:23:35.6983405Z #7 10.66 Selecting previously unselected package fontconfig-config.
+2026-11-12T23:23:35.8223762Z #7 10.66 Preparing to unpack .../050-fontconfig-config_2.14.1-4_amd64.deb ...
+2026-11-12T23:23:35.8224378Z #7 10.75 Unpacking fontconfig-config (2.14.1-4) ...
+2026-11-12T23:23:35.8224854Z #7 10.78 Selecting previously unselected package libfontconfig1:amd64.
+2026-11-12T23:23:35.9233554Z #7 10.79 Preparing to unpack .../051-libfontconfig1_2.14.1-4_amd64.deb ...
+2026-11-12T23:23:35.9233968Z #7 10.79 Unpacking libfontconfig1:amd64 (2.14.1-4) ...
+2026-11-12T23:23:35.9234299Z #7 10.81 Selecting previously unselected package libpixman-1-0:amd64.
+2026-11-12T23:23:35.9234716Z #7 10.81 Preparing to unpack .../052-libpixman-1-0_0.42.2-1_amd64.deb ...
+2026-11-12T23:23:35.9235036Z #7 10.81 Unpacking libpixman-1-0:amd64 (0.42.2-1) ...
+2026-11-12T23:23:35.9235345Z #7 10.84 Selecting previously unselected package libxcb-render0:amd64.
+2026-11-12T23:23:35.9235698Z #7 10.84 Preparing to unpack .../053-libxcb-render0_1.15-1_amd64.deb ...
+2026-11-12T23:23:35.9235994Z #7 10.84 Unpacking libxcb-render0:amd64 (1.15-1) ...
+2026-11-12T23:23:35.9237124Z #7 10.86 Selecting previously unselected package libxcb-shm0:amd64.
+2026-11-12T23:23:35.9237456Z #7 10.86 Preparing to unpack .../054-libxcb-shm0_1.15-1_amd64.deb ...
+2026-11-12T23:23:35.9237740Z #7 10.87 Unpacking libxcb-shm0:amd64 (1.15-1) ...
+2026-11-12T23:23:35.9238026Z #7 10.88 Selecting previously unselected package libxrender1:amd64.
+2026-11-12T23:23:36.0240299Z #7 10.89 Preparing to unpack .../055-libxrender1_1%3a0.9.10-1.1_amd64.deb ...
+2026-11-12T23:23:36.0241338Z #7 10.89 Unpacking libxrender1:amd64 (1:0.9.10-1.1) ...
+2026-11-12T23:23:36.0241877Z #7 10.90 Selecting previously unselected package libcairo2:amd64.
+2026-11-12T23:23:36.0242373Z #7 10.90 Preparing to unpack .../056-libcairo2_1.16.0-7_amd64.deb ...
+2026-11-12T23:23:36.0242861Z #7 10.91 Unpacking libcairo2:amd64 (1.16.0-7) ...
+2026-11-12T23:23:36.0243366Z #7 10.95 Selecting previously unselected package libavahi-common-data:amd64.
+2026-11-12T23:23:36.0243990Z #7 10.95 Preparing to unpack .../057-libavahi-common-data_0.8-10+deb12u1_amd64.deb ...
+2026-11-12T23:23:36.0244578Z #7 10.95 Unpacking libavahi-common-data:amd64 (0.8-10+deb12u1) ...
+2026-11-12T23:23:36.0245065Z #7 10.97 Selecting previously unselected package libavahi-common3:amd64.
+2026-11-12T23:23:36.0245624Z #7 10.98 Preparing to unpack .../058-libavahi-common3_0.8-10+deb12u1_amd64.deb ...
+2026-11-12T23:23:36.0246278Z #7 10.98 Unpacking libavahi-common3:amd64 (0.8-10+deb12u1) ...
+2026-11-12T23:23:36.1488151Z #7 11.01 Selecting previously unselected package libavahi-client3:amd64.
+2026-11-12T23:23:36.1488867Z #7 11.01 Preparing to unpack .../059-libavahi-client3_0.8-10+deb12u1_amd64.deb ...
+2026-11-12T23:23:36.1489414Z #7 11.02 Unpacking libavahi-client3:amd64 (0.8-10+deb12u1) ...
+2026-11-12T23:23:36.1489894Z #7 11.03 Selecting previously unselected package libcups2:amd64.
+2026-11-12T23:23:36.1490395Z #7 11.03 Preparing to unpack .../060-libcups2_2.4.2-3+deb12u9_amd64.deb ...
+2026-11-12T23:23:36.1490866Z #7 11.04 Unpacking libcups2:amd64 (2.4.2-3+deb12u9) ...
+2026-11-12T23:23:36.1491317Z #7 11.06 Selecting previously unselected package libdav1d6:amd64.
+2026-11-12T23:23:36.1491810Z #7 11.07 Preparing to unpack .../061-libdav1d6_1.0.0-2+deb12u1_amd64.deb ...
+2026-11-12T23:23:36.1492276Z #7 11.07 Unpacking libdav1d6:amd64 (1.0.0-2+deb12u1) ...
+2026-11-12T23:23:36.1492763Z #7 11.11 Selecting previously unselected package libdouble-conversion3:amd64.
+2026-11-12T23:23:36.2722660Z #7 11.11 Preparing to unpack .../062-libdouble-conversion3_3.2.1-1_amd64.deb ...
+2026-11-12T23:23:36.2723572Z #7 11.11 Unpacking libdouble-conversion3:amd64 (3.2.1-1) ...
+2026-11-12T23:23:36.2724052Z #7 11.23 Selecting previously unselected package libogg0:amd64.
+2026-11-12T23:23:36.3724460Z #7 11.24 Preparing to unpack .../063-libogg0_1.3.5-3_amd64.deb ...
+2026-11-12T23:23:36.3724956Z #7 11.24 Unpacking libogg0:amd64 (1.3.5-3) ...
+2026-11-12T23:23:36.3725392Z #7 11.25 Selecting previously unselected package libflac12:amd64.
+2026-11-12T23:23:36.3725910Z #7 11.25 Preparing to unpack .../064-libflac12_1.4.2+ds-2_amd64.deb ...
+2026-11-12T23:23:36.3726543Z #7 11.25 Unpacking libflac12:amd64 (1.4.2+ds-2) ...
+2026-11-12T23:23:36.3726969Z #7 11.29 Selecting previously unselected package libdrm-common.
+2026-11-12T23:23:36.3727452Z #7 11.30 Preparing to unpack .../065-libdrm-common_2.4.114-1_all.deb ...
+2026-11-12T23:23:36.3727890Z #7 11.30 Unpacking libdrm-common (2.4.114-1) ...
+2026-11-12T23:23:36.3728301Z #7 11.31 Selecting previously unselected package libdrm2:amd64.
+2026-11-12T23:23:36.3728793Z #7 11.32 Preparing to unpack .../066-libdrm2_2.4.114-1+b1_amd64.deb ...
+2026-11-12T23:23:36.3729224Z #7 11.32 Unpacking libdrm2:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:36.3729692Z #7 11.33 Selecting previously unselected package libwayland-server0:amd64.
+2026-11-12T23:23:36.4890555Z #7 11.34 Preparing to unpack .../067-libwayland-server0_1.21.0-1_amd64.deb ...
+2026-11-12T23:23:36.4890974Z #7 11.34 Unpacking libwayland-server0:amd64 (1.21.0-1) ...
+2026-11-12T23:23:36.4891473Z #7 11.35 Selecting previously unselected package libgbm1:amd64.
+2026-11-12T23:23:36.4892227Z #7 11.35 Preparing to unpack .../068-libgbm1_22.3.6-1+deb12u2_amd64.deb ...
+2026-11-12T23:23:36.4892750Z #7 11.36 Unpacking libgbm1:amd64 (22.3.6-1+deb12u2) ...
+2026-11-12T23:23:36.4893282Z #7 11.37 Selecting previously unselected package libgraphite2-3:amd64.
+2026-11-12T23:23:36.4893842Z #7 11.37 Preparing to unpack .../069-libgraphite2-3_1.3.14-1+deb12u1_amd64.deb ...
+2026-11-12T23:23:36.4894348Z #7 11.37 Unpacking libgraphite2-3:amd64 (1.3.14-1+deb12u1) ...
+2026-11-12T23:23:36.4894872Z #7 11.39 Selecting previously unselected package libharfbuzz0b:amd64.
+2026-11-12T23:23:36.4895425Z #7 11.40 Preparing to unpack .../070-libharfbuzz0b_6.0.0+dfsg-3_amd64.deb ...
+2026-11-12T23:23:36.4895906Z #7 11.40 Unpacking libharfbuzz0b:amd64 (6.0.0+dfsg-3) ...
+2026-11-12T23:23:36.4896235Z #7 11.45 Selecting previously unselected package libharfbuzz-subset0:amd64.
+2026-11-12T23:23:36.6053745Z #7 11.45 Preparing to unpack .../071-libharfbuzz-subset0_6.0.0+dfsg-3_amd64.deb ...
+2026-11-12T23:23:36.6054410Z #7 11.45 Unpacking libharfbuzz-subset0:amd64 (6.0.0+dfsg-3) ...
+2026-11-12T23:23:36.6054920Z #7 11.50 Selecting previously unselected package liblcms2-2:amd64.
+2026-11-12T23:23:36.6055446Z #7 11.50 Preparing to unpack .../072-liblcms2-2_2.14-2+deb12u1_amd64.deb ...
+2026-11-12T23:23:36.6055921Z #7 11.50 Unpacking liblcms2-2:amd64 (2.14-2+deb12u1) ...
+2026-11-12T23:23:36.6056490Z #7 11.52 Selecting previously unselected package libminizip1:amd64.
+2026-11-12T23:23:36.6057018Z #7 11.53 Preparing to unpack .../073-libminizip1_1.1-8+deb12u1_amd64.deb ...
+2026-11-12T23:23:36.6057481Z #7 11.53 Unpacking libminizip1:amd64 (1.1-8+deb12u1) ...
+2026-11-12T23:23:36.6057910Z #7 11.54 Selecting previously unselected package libnspr4:amd64.
+2026-11-12T23:23:36.6058388Z #7 11.54 Preparing to unpack .../074-libnspr4_2%3a4.35-1_amd64.deb ...
+2026-11-12T23:23:36.6058826Z #7 11.55 Unpacking libnspr4:amd64 (2:4.35-1) ...
+2026-11-12T23:23:36.6059235Z #7 11.57 Selecting previously unselected package libnss3:amd64.
+2026-11-12T23:23:36.7183017Z #7 11.57 Preparing to unpack .../075-libnss3_2%3a3.87.1-1+deb12u4_amd64.deb ...
+2026-11-12T23:23:36.7183719Z #7 11.57 Unpacking libnss3:amd64 (2:3.87.1-1+deb12u4) ...
+2026-11-12T23:23:36.7184195Z #7 11.68 Selecting previously unselected package libopenh264-7:amd64.
+2026-11-12T23:23:36.8217951Z #7 11.68 Preparing to unpack .../076-libopenh264-7_2.3.1+dfsg-3+deb12u2_amd64.deb ...
+2026-11-12T23:23:36.8218615Z #7 11.68 Unpacking libopenh264-7:amd64 (2.3.1+dfsg-3+deb12u2) ...
+2026-11-12T23:23:36.8219532Z #7 11.72 Selecting previously unselected package libopenjp2-7:amd64.
+2026-11-12T23:23:36.8220136Z #7 11.73 Preparing to unpack .../077-libopenjp2-7_2.5.0-2+deb12u3_amd64.deb ...
+2026-11-12T23:23:36.8220632Z #7 11.73 Unpacking libopenjp2-7:amd64 (2.5.0-2+deb12u3) ...
+2026-11-12T23:23:36.8220939Z #7 11.75 Selecting previously unselected package libopus0:amd64.
+2026-11-12T23:23:36.8221268Z #7 11.76 Preparing to unpack .../078-libopus0_1.3.1-3_amd64.deb ...
+2026-11-12T23:23:36.8221572Z #7 11.76 Unpacking libopus0:amd64 (1.3.1-3) ...
+2026-11-12T23:23:36.8221839Z #7 11.78 Selecting previously unselected package fontconfig.
+2026-11-12T23:23:36.9218109Z #7 11.78 Preparing to unpack .../079-fontconfig_2.14.1-4_amd64.deb ...
+2026-11-12T23:23:36.9218630Z #7 11.79 Unpacking fontconfig (2.14.1-4) ...
+2026-11-12T23:23:36.9219085Z #7 11.81 Selecting previously unselected package libfribidi0:amd64.
+2026-11-12T23:23:36.9219609Z #7 11.81 Preparing to unpack .../080-libfribidi0_1.0.8-2.1_amd64.deb ...
+2026-11-12T23:23:36.9220098Z #7 11.82 Unpacking libfribidi0:amd64 (1.0.8-2.1) ...
+2026-11-12T23:23:36.9220525Z #7 11.84 Selecting previously unselected package libthai-data.
+2026-11-12T23:23:36.9221000Z #7 11.84 Preparing to unpack .../081-libthai-data_0.1.29-1_all.deb ...
+2026-11-12T23:23:36.9221427Z #7 11.84 Unpacking libthai-data (0.1.29-1) ...
+2026-11-12T23:23:36.9221843Z #7 11.88 Selecting previously unselected package libdatrie1:amd64.
+2026-11-12T23:23:37.0367227Z #7 11.89 Preparing to unpack .../082-libdatrie1_0.2.13-2+b1_amd64.deb ...
+2026-11-12T23:23:37.0367944Z #7 11.89 Unpacking libdatrie1:amd64 (0.2.13-2+b1) ...
+2026-11-12T23:23:37.0368259Z #7 11.91 Selecting previously unselected package libthai0:amd64.
+2026-11-12T23:23:37.0368599Z #7 11.91 Preparing to unpack .../083-libthai0_0.1.29-1_amd64.deb ...
+2026-11-12T23:23:37.0368893Z #7 11.91 Unpacking libthai0:amd64 (0.1.29-1) ...
+2026-11-12T23:23:37.0369199Z #7 11.96 Selecting previously unselected package libpango-1.0-0:amd64.
+2026-11-12T23:23:37.0369569Z #7 11.97 Preparing to unpack .../084-libpango-1.0-0_1.50.12+ds-1_amd64.deb ...
+2026-11-12T23:23:37.0369890Z #7 11.97 Unpacking libpango-1.0-0:amd64 (1.50.12+ds-1) ...
+2026-11-12T23:23:37.0370200Z #7 12.00 Selecting previously unselected package libasyncns0:amd64.
+2026-11-12T23:23:37.1533716Z #7 12.00 Preparing to unpack .../085-libasyncns0_0.8-6+b3_amd64.deb ...
+2026-11-12T23:23:37.1534126Z #7 12.00 Unpacking libasyncns0:amd64 (0.8-6+b3) ...
+2026-11-12T23:23:37.1534505Z #7 12.02 Selecting previously unselected package libmp3lame0:amd64.
+2026-11-12T23:23:37.1534916Z #7 12.02 Preparing to unpack .../086-libmp3lame0_3.100-6_amd64.deb ...
+2026-11-12T23:23:37.1535251Z #7 12.02 Unpacking libmp3lame0:amd64 (3.100-6) ...
+2026-11-12T23:23:37.1535690Z #7 12.05 Selecting previously unselected package libmpg123-0:amd64.
+2026-11-12T23:23:37.1536247Z #7 12.05 Preparing to unpack .../087-libmpg123-0_1.31.2-1+deb12u1_amd64.deb ...
+2026-11-12T23:23:37.1536886Z #7 12.06 Unpacking libmpg123-0:amd64 (1.31.2-1+deb12u1) ...
+2026-11-12T23:23:37.1537209Z #7 12.09 Selecting previously unselected package libvorbis0a:amd64.
+2026-11-12T23:23:37.1537539Z #7 12.09 Preparing to unpack .../088-libvorbis0a_1.3.7-1_amd64.deb ...
+2026-11-12T23:23:37.1537831Z #7 12.09 Unpacking libvorbis0a:amd64 (1.3.7-1) ...
+2026-11-12T23:23:37.1538128Z #7 12.11 Selecting previously unselected package libvorbisenc2:amd64.
+2026-11-12T23:23:37.2599786Z #7 12.12 Preparing to unpack .../089-libvorbisenc2_1.3.7-1_amd64.deb ...
+2026-11-12T23:23:37.2600204Z #7 12.12 Unpacking libvorbisenc2:amd64 (1.3.7-1) ...
+2026-11-12T23:23:37.2600633Z #7 12.14 Selecting previously unselected package libsndfile1:amd64.
+2026-11-12T23:23:37.2601012Z #7 12.14 Preparing to unpack .../090-libsndfile1_1.2.0-1+deb12u1_amd64.deb ...
+2026-11-12T23:23:37.2601346Z #7 12.14 Unpacking libsndfile1:amd64 (1.2.0-1+deb12u1) ...
+2026-11-12T23:23:37.2601657Z #7 12.16 Selecting previously unselected package libx11-xcb1:amd64.
+2026-11-12T23:23:37.2602026Z #7 12.17 Preparing to unpack .../091-libx11-xcb1_2%3a1.8.4-2+deb12u2_amd64.deb ...
+2026-11-12T23:23:37.2602616Z #7 12.17 Unpacking libx11-xcb1:amd64 (2:1.8.4-2+deb12u2) ...
+2026-11-12T23:23:37.2602928Z #7 12.18 Selecting previously unselected package libpulse0:amd64.
+2026-11-12T23:23:37.2603269Z #7 12.19 Preparing to unpack .../092-libpulse0_16.1+dfsg1-2+b1_amd64.deb ...
+2026-11-12T23:23:37.2603589Z #7 12.19 Unpacking libpulse0:amd64 (16.1+dfsg1-2+b1) ...
+2026-11-12T23:23:37.2603897Z #7 12.22 Selecting previously unselected package libxcomposite1:amd64.
+2026-11-12T23:23:37.3834900Z #7 12.22 Preparing to unpack .../093-libxcomposite1_1%3a0.4.5-1_amd64.deb ...
+2026-11-12T23:23:37.3835456Z #7 12.22 Unpacking libxcomposite1:amd64 (1:0.4.5-1) ...
+2026-11-12T23:23:37.3835788Z #7 12.24 Selecting previously unselected package libxdamage1:amd64.
+2026-11-12T23:23:37.3836169Z #7 12.24 Preparing to unpack .../094-libxdamage1_1%3a1.1.6-1_amd64.deb ...
+2026-11-12T23:23:37.3836623Z #7 12.24 Unpacking libxdamage1:amd64 (1:1.1.6-1) ...
+2026-11-12T23:23:37.3836954Z #7 12.26 Selecting previously unselected package libxfixes3:amd64.
+2026-11-12T23:23:37.3837291Z #7 12.26 Preparing to unpack .../095-libxfixes3_1%3a6.0.0-2_amd64.deb ...
+2026-11-12T23:23:37.3837593Z #7 12.26 Unpacking libxfixes3:amd64 (1:6.0.0-2) ...
+2026-11-12T23:23:37.3837872Z #7 12.27 Selecting previously unselected package xkb-data.
+2026-11-12T23:23:37.3838171Z #7 12.27 Preparing to unpack .../096-xkb-data_2.35.1-1_all.deb ...
+2026-11-12T23:23:37.3838441Z #7 12.28 Unpacking xkb-data (2.35.1-1) ...
+2026-11-12T23:23:37.3838967Z #7 12.34 Selecting previously unselected package libxkbcommon0:amd64.
+2026-11-12T23:23:37.4900499Z #7 12.35 Preparing to unpack .../097-libxkbcommon0_1.5.0-1_amd64.deb ...
+2026-11-12T23:23:37.4900998Z #7 12.35 Unpacking libxkbcommon0:amd64 (1.5.0-1) ...
+2026-11-12T23:23:37.4901322Z #7 12.37 Selecting previously unselected package libxnvctrl0:amd64.
+2026-11-12T23:23:37.4901854Z #7 12.37 Preparing to unpack .../098-libxnvctrl0_525.85.05-3~deb12u1_amd64.deb ...
+2026-11-12T23:23:37.4902272Z #7 12.37 Unpacking libxnvctrl0:amd64 (525.85.05-3~deb12u1) ...
+2026-11-12T23:23:37.4902655Z #7 12.38 Selecting previously unselected package libxrandr2:amd64.
+2026-11-12T23:23:37.4902995Z #7 12.39 Preparing to unpack .../099-libxrandr2_2%3a1.5.2-2+b1_amd64.deb ...
+2026-11-12T23:23:37.4903307Z #7 12.39 Unpacking libxrandr2:amd64 (2:1.5.2-2+b1) ...
+2026-11-12T23:23:37.4903637Z #7 12.40 Selecting previously unselected package libcairo-gobject2:amd64.
+2026-11-12T23:23:37.4904013Z #7 12.41 Preparing to unpack .../100-libcairo-gobject2_1.16.0-7_amd64.deb ...
+2026-11-12T23:23:37.4904352Z #7 12.41 Unpacking libcairo-gobject2:amd64 (1.16.0-7) ...
+2026-11-12T23:23:37.4904655Z #7 12.43 Selecting previously unselected package libcolord2:amd64.
+2026-11-12T23:23:37.4904989Z #7 12.43 Preparing to unpack .../101-libcolord2_1.4.6-2.2_amd64.deb ...
+2026-11-12T23:23:37.4905282Z #7 12.43 Unpacking libcolord2:amd64 (1.4.6-2.2) ...
+2026-11-12T23:23:37.4905570Z #7 12.45 Selecting previously unselected package libepoxy0:amd64.
+2026-11-12T23:23:37.5927504Z #7 12.45 Preparing to unpack .../102-libepoxy0_1.5.10-1_amd64.deb ...
+2026-11-12T23:23:37.5927979Z #7 12.45 Unpacking libepoxy0:amd64 (1.5.10-1) ...
+2026-11-12T23:23:37.5928384Z #7 12.52 Selecting previously unselected package libpangoft2-1.0-0:amd64.
+2026-11-12T23:23:37.5928902Z #7 12.53 Preparing to unpack .../103-libpangoft2-1.0-0_1.50.12+ds-1_amd64.deb ...
+2026-11-12T23:23:37.5929366Z #7 12.55 Unpacking libpangoft2-1.0-0:amd64 (1.50.12+ds-1) ...
+2026-11-12T23:23:37.6964538Z #7 12.62 Selecting previously unselected package libpangocairo-1.0-0:amd64.
+2026-11-12T23:23:37.6965261Z #7 12.62 Preparing to unpack .../104-libpangocairo-1.0-0_1.50.12+ds-1_amd64.deb ...
+2026-11-12T23:23:37.6965814Z #7 12.62 Unpacking libpangocairo-1.0-0:amd64 (1.50.12+ds-1) ...
+2026-11-12T23:23:37.6966442Z #7 12.64 Selecting previously unselected package libwayland-client0:amd64.
+2026-11-12T23:23:37.6967008Z #7 12.64 Preparing to unpack .../105-libwayland-client0_1.21.0-1_amd64.deb ...
+2026-11-12T23:23:37.6967761Z #7 12.64 Unpacking libwayland-client0:amd64 (1.21.0-1) ...
+2026-11-12T23:23:37.6968255Z #7 12.66 Selecting previously unselected package libwayland-cursor0:amd64.
+2026-11-12T23:23:37.8103518Z #7 12.66 Preparing to unpack .../106-libwayland-cursor0_1.21.0-1_amd64.deb ...
+2026-11-12T23:23:37.8104105Z #7 12.66 Unpacking libwayland-cursor0:amd64 (1.21.0-1) ...
+2026-11-12T23:23:37.8104612Z #7 12.68 Selecting previously unselected package libwayland-egl1:amd64.
+2026-11-12T23:23:37.8105170Z #7 12.68 Preparing to unpack .../107-libwayland-egl1_1.21.0-1_amd64.deb ...
+2026-11-12T23:23:37.8105681Z #7 12.68 Unpacking libwayland-egl1:amd64 (1.21.0-1) ...
+2026-11-12T23:23:37.8106131Z #7 12.70 Selecting previously unselected package libxcursor1:amd64.
+2026-11-12T23:23:37.8106772Z #7 12.70 Preparing to unpack .../108-libxcursor1_1%3a1.2.1-1_amd64.deb ...
+2026-11-12T23:23:37.8107223Z #7 12.70 Unpacking libxcursor1:amd64 (1:1.2.1-1) ...
+2026-11-12T23:23:37.8107661Z #7 12.72 Selecting previously unselected package libxinerama1:amd64.
+2026-11-12T23:23:37.8108188Z #7 12.72 Preparing to unpack .../109-libxinerama1_2%3a1.1.4-3_amd64.deb ...
+2026-11-12T23:23:37.8108650Z #7 12.73 Unpacking libxinerama1:amd64 (2:1.1.4-3) ...
+2026-11-12T23:23:37.8109095Z #7 12.75 Selecting previously unselected package dbus-user-session.
+2026-11-12T23:23:37.8109634Z #7 12.75 Preparing to unpack .../110-dbus-user-session_1.14.10-1~deb12u1_amd64.deb ...
+2026-11-12T23:23:37.8110153Z #7 12.75 Unpacking dbus-user-session (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:37.8110880Z #7 12.77 Selecting previously unselected package libdconf1:amd64.
+2026-11-12T23:23:37.9113008Z #7 12.77 Preparing to unpack .../111-libdconf1_0.40.0-4_amd64.deb ...
+2026-11-12T23:23:37.9113675Z #7 12.77 Unpacking libdconf1:amd64 (0.40.0-4) ...
+2026-11-12T23:23:37.9114307Z #7 12.79 Selecting previously unselected package dconf-service.
+2026-11-12T23:23:37.9114857Z #7 12.79 Preparing to unpack .../112-dconf-service_0.40.0-4_amd64.deb ...
+2026-11-12T23:23:37.9115323Z #7 12.79 Unpacking dconf-service (0.40.0-4) ...
+2026-11-12T23:23:37.9115867Z #7 12.85 Selecting previously unselected package dconf-gsettings-backend:amd64.
+2026-11-12T23:23:37.9116623Z #7 12.86 Preparing to unpack .../113-dconf-gsettings-backend_0.40.0-4_amd64.deb ...
+2026-11-12T23:23:37.9117197Z #7 12.86 Unpacking dconf-gsettings-backend:amd64 (0.40.0-4) ...
+2026-11-12T23:23:37.9117671Z #7 12.87 Selecting previously unselected package libgtk-3-common.
+2026-11-12T23:23:38.0665186Z #7 12.87 Preparing to unpack .../114-libgtk-3-common_3.24.38-2~deb12u3_all.deb ...
+2026-11-12T23:23:38.0665718Z #7 12.88 Unpacking libgtk-3-common (3.24.38-2~deb12u3) ...
+2026-11-12T23:23:38.1321531Z #7 13.09 Selecting previously unselected package libgtk-3-0:amd64.
+2026-11-12T23:23:38.2863056Z #7 13.10 Preparing to unpack .../115-libgtk-3-0_3.24.38-2~deb12u3_amd64.deb ...
+2026-11-12T23:23:38.2863487Z #7 13.10 Unpacking libgtk-3-0:amd64 (3.24.38-2~deb12u3) ...
+2026-11-12T23:23:38.2980463Z #7 13.26 Selecting previously unselected package libfontenc1:amd64.
+2026-11-12T23:23:38.4568191Z #7 13.26 Preparing to unpack .../116-libfontenc1_1%3a1.1.4-1_amd64.deb ...
+2026-11-12T23:23:38.4568952Z #7 13.26 Unpacking libfontenc1:amd64 (1:1.1.4-1) ...
+2026-11-12T23:23:38.4569617Z #7 13.28 Selecting previously unselected package libglvnd0:amd64.
+2026-11-12T23:23:38.4570016Z #7 13.28 Preparing to unpack .../117-libglvnd0_1.6.0-1_amd64.deb ...
+2026-11-12T23:23:38.4570334Z #7 13.28 Unpacking libglvnd0:amd64 (1.6.0-1) ...
+2026-11-12T23:23:38.4570641Z #7 13.30 Selecting previously unselected package libglapi-mesa:amd64.
+2026-11-12T23:23:38.4571030Z #7 13.30 Preparing to unpack .../118-libglapi-mesa_22.3.6-1+deb12u2_amd64.deb ...
+2026-11-12T23:23:38.4571390Z #7 13.30 Unpacking libglapi-mesa:amd64 (22.3.6-1+deb12u2) ...
+2026-11-12T23:23:38.4571715Z #7 13.32 Selecting previously unselected package libxcb-dri2-0:amd64.
+2026-11-12T23:23:38.4572056Z #7 13.32 Preparing to unpack .../119-libxcb-dri2-0_1.15-1_amd64.deb ...
+2026-11-12T23:23:38.4572353Z #7 13.32 Unpacking libxcb-dri2-0:amd64 (1.15-1) ...
+2026-11-12T23:23:38.4572896Z #7 13.35 Selecting previously unselected package libxcb-dri3-0:amd64.
+2026-11-12T23:23:38.4573235Z #7 13.36 Preparing to unpack .../120-libxcb-dri3-0_1.15-1_amd64.deb ...
+2026-11-12T23:23:38.4573525Z #7 13.36 Unpacking libxcb-dri3-0:amd64 (1.15-1) ...
+2026-11-12T23:23:38.4573813Z #7 13.42 Selecting previously unselected package libxcb-glx0:amd64.
+2026-11-12T23:23:38.5654267Z #7 13.42 Preparing to unpack .../121-libxcb-glx0_1.15-1_amd64.deb ...
+2026-11-12T23:23:38.5654695Z #7 13.42 Unpacking libxcb-glx0:amd64 (1.15-1) ...
+2026-11-12T23:23:38.5655035Z #7 13.46 Selecting previously unselected package libxcb-present0:amd64.
+2026-11-12T23:23:38.5655401Z #7 13.46 Preparing to unpack .../122-libxcb-present0_1.15-1_amd64.deb ...
+2026-11-12T23:23:38.5655718Z #7 13.46 Unpacking libxcb-present0:amd64 (1.15-1) ...
+2026-11-12T23:23:38.5656020Z #7 13.48 Selecting previously unselected package libxcb-randr0:amd64.
+2026-11-12T23:23:38.5656560Z #7 13.48 Preparing to unpack .../123-libxcb-randr0_1.15-1_amd64.deb ...
+2026-11-12T23:23:38.5656968Z #7 13.48 Unpacking libxcb-randr0:amd64 (1.15-1) ...
+2026-11-12T23:23:38.5657271Z #7 13.50 Selecting previously unselected package libxcb-sync1:amd64.
+2026-11-12T23:23:38.5657601Z #7 13.51 Preparing to unpack .../124-libxcb-sync1_1.15-1_amd64.deb ...
+2026-11-12T23:23:38.5657899Z #7 13.51 Unpacking libxcb-sync1:amd64 (1.15-1) ...
+2026-11-12T23:23:38.5658184Z #7 13.53 Selecting previously unselected package libxcb-xfixes0:amd64.
+2026-11-12T23:23:38.7007961Z #7 13.53 Preparing to unpack .../125-libxcb-xfixes0_1.15-1_amd64.deb ...
+2026-11-12T23:23:38.7008497Z #7 13.53 Unpacking libxcb-xfixes0:amd64 (1.15-1) ...
+2026-11-12T23:23:38.7008834Z #7 13.55 Selecting previously unselected package libxshmfence1:amd64.
+2026-11-12T23:23:38.7009193Z #7 13.55 Preparing to unpack .../126-libxshmfence1_1.3-1_amd64.deb ...
+2026-11-12T23:23:38.7009492Z #7 13.56 Unpacking libxshmfence1:amd64 (1.3-1) ...
+2026-11-12T23:23:38.7009784Z #7 13.66 Selecting previously unselected package libxxf86vm1:amd64.
+2026-11-12T23:23:38.8342301Z #7 13.66 Preparing to unpack .../127-libxxf86vm1_1%3a1.1.4-1+b2_amd64.deb ...
+2026-11-12T23:23:38.8343065Z #7 13.66 Unpacking libxxf86vm1:amd64 (1:1.1.4-1+b2) ...
+2026-11-12T23:23:38.8343813Z #7 13.68 Selecting previously unselected package libdrm-amdgpu1:amd64.
+2026-11-12T23:23:38.8344353Z #7 13.68 Preparing to unpack .../128-libdrm-amdgpu1_2.4.114-1+b1_amd64.deb ...
+2026-11-12T23:23:38.8344855Z #7 13.68 Unpacking libdrm-amdgpu1:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:38.8345408Z #7 13.70 Selecting previously unselected package libpciaccess0:amd64.
+2026-11-12T23:23:38.8345842Z #7 13.70 Preparing to unpack .../129-libpciaccess0_0.17-2_amd64.deb ...
+2026-11-12T23:23:38.8346258Z #7 13.70 Unpacking libpciaccess0:amd64 (0.17-2) ...
+2026-11-12T23:23:38.8346862Z #7 13.72 Selecting previously unselected package libdrm-intel1:amd64.
+2026-11-12T23:23:38.8347329Z #7 13.72 Preparing to unpack .../130-libdrm-intel1_2.4.114-1+b1_amd64.deb ...
+2026-11-12T23:23:38.8347795Z #7 13.72 Unpacking libdrm-intel1:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:38.8396779Z #7 13.74 Selecting previously unselected package libdrm-nouveau2:amd64.
+2026-11-12T23:23:38.8397405Z #7 13.74 Preparing to unpack .../131-libdrm-nouveau2_2.4.114-1+b1_amd64.deb ...
+2026-11-12T23:23:38.8397790Z #7 13.74 Unpacking libdrm-nouveau2:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:38.8398116Z #7 13.76 Selecting previously unselected package libdrm-radeon1:amd64.
+2026-11-12T23:23:38.8398481Z #7 13.76 Preparing to unpack .../132-libdrm-radeon1_2.4.114-1+b1_amd64.deb ...
+2026-11-12T23:23:38.8398835Z #7 13.76 Unpacking libdrm-radeon1:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:38.8399135Z #7 13.79 Selecting previously unselected package libedit2:amd64.
+2026-11-12T23:23:39.0161676Z #7 13.80 Preparing to unpack .../133-libedit2_3.1-20221030-2_amd64.deb ...
+2026-11-12T23:23:39.0162068Z #7 13.80 Unpacking libedit2:amd64 (3.1-20221030-2) ...
+2026-11-12T23:23:39.0162378Z #7 13.82 Selecting previously unselected package libz3-4:amd64.
+2026-11-12T23:23:39.0162979Z #7 13.83 Preparing to unpack .../134-libz3-4_4.8.12-3.1_amd64.deb ...
+2026-11-12T23:23:39.0163286Z #7 13.83 Unpacking libz3-4:amd64 (4.8.12-3.1) ...
+2026-11-12T23:23:39.3031666Z #7 14.26 Selecting previously unselected package libllvm15:amd64.
+2026-11-12T23:23:39.4573035Z #7 14.27 Preparing to unpack .../135-libllvm15_1%3a15.0.6-4+b1_amd64.deb ...
+2026-11-12T23:23:39.4573988Z #7 14.27 Unpacking libllvm15:amd64 (1:15.0.6-4+b1) ...
+2026-11-12T23:23:39.9295043Z #7 14.89 Selecting previously unselected package libsensors-config.
+2026-11-12T23:23:40.1315865Z #7 14.89 Preparing to unpack .../136-libsensors-config_1%3a3.6.0-7.1_all.deb ...
+2026-11-12T23:23:40.1316535Z #7 14.89 Unpacking libsensors-config (1:3.6.0-7.1) ...
+2026-11-12T23:23:40.1316874Z #7 14.91 Selecting previously unselected package libsensors5:amd64.
+2026-11-12T23:23:40.1317242Z #7 14.92 Preparing to unpack .../137-libsensors5_1%3a3.6.0-7.1_amd64.deb ...
+2026-11-12T23:23:40.1317558Z #7 14.92 Unpacking libsensors5:amd64 (1:3.6.0-7.1) ...
+2026-11-12T23:23:40.1317918Z #7 14.93 Selecting previously unselected package libgl1-mesa-dri:amd64.
+2026-11-12T23:23:40.1318446Z #7 14.94 Preparing to unpack .../138-libgl1-mesa-dri_22.3.6-1+deb12u2_amd64.deb ...
+2026-11-12T23:23:40.1318810Z #7 14.94 Unpacking libgl1-mesa-dri:amd64 (22.3.6-1+deb12u2) ...
+2026-11-12T23:23:40.3782736Z #7 15.34 Selecting previously unselected package libglx-mesa0:amd64.
+2026-11-12T23:23:40.4938223Z #7 15.34 Preparing to unpack .../139-libglx-mesa0_22.3.6-1+deb12u2_amd64.deb ...
+2026-11-12T23:23:40.4938929Z #7 15.34 Unpacking libglx-mesa0:amd64 (22.3.6-1+deb12u2) ...
+2026-11-12T23:23:40.4939287Z #7 15.37 Selecting previously unselected package libglx0:amd64.
+2026-11-12T23:23:40.4939630Z #7 15.37 Preparing to unpack .../140-libglx0_1.6.0-1_amd64.deb ...
+2026-11-12T23:23:40.4939916Z #7 15.37 Unpacking libglx0:amd64 (1.6.0-1) ...
+2026-11-12T23:23:40.4940202Z #7 15.39 Selecting previously unselected package libgl1:amd64.
+2026-11-12T23:23:40.4940534Z #7 15.39 Preparing to unpack .../141-libgl1_1.6.0-1_amd64.deb ...
+2026-11-12T23:23:40.4940814Z #7 15.39 Unpacking libgl1:amd64 (1.6.0-1) ...
+2026-11-12T23:23:40.4941077Z #7 15.41 Selecting previously unselected package x11-common.
+2026-11-12T23:23:40.4941392Z #7 15.41 Preparing to unpack .../142-x11-common_1%3a7.7+23_all.deb ...
+2026-11-12T23:23:40.4941690Z #7 15.41 Unpacking x11-common (1:7.7+23) ...
+2026-11-12T23:23:40.4941963Z #7 15.43 Selecting previously unselected package libice6:amd64.
+2026-11-12T23:23:40.4942289Z #7 15.44 Preparing to unpack .../143-libice6_2%3a1.0.10-1_amd64.deb ...
+2026-11-12T23:23:40.4942580Z #7 15.44 Unpacking libice6:amd64 (2:1.0.10-1) ...
+2026-11-12T23:23:40.4942855Z #7 15.45 Selecting previously unselected package libsm6:amd64.
+2026-11-12T23:23:40.5960279Z #7 15.46 Preparing to unpack .../144-libsm6_2%3a1.2.3-1_amd64.deb ...
+2026-11-12T23:23:40.5960813Z #7 15.46 Unpacking libsm6:amd64 (2:1.2.3-1) ...
+2026-11-12T23:23:40.5961269Z #7 15.47 Selecting previously unselected package libxt6:amd64.
+2026-11-12T23:23:40.5961830Z #7 15.47 Preparing to unpack .../145-libxt6_1%3a1.2.1-1.1_amd64.deb ...
+2026-11-12T23:23:40.5962287Z #7 15.48 Unpacking libxt6:amd64 (1:1.2.1-1.1) ...
+2026-11-12T23:23:40.5962727Z #7 15.50 Selecting previously unselected package libxmu6:amd64.
+2026-11-12T23:23:40.5963096Z #7 15.50 Preparing to unpack .../146-libxmu6_2%3a1.1.3-3_amd64.deb ...
+2026-11-12T23:23:40.5963388Z #7 15.50 Unpacking libxmu6:amd64 (2:1.1.3-3) ...
+2026-11-12T23:23:40.5963672Z #7 15.52 Selecting previously unselected package libxpm4:amd64.
+2026-11-12T23:23:40.5964044Z #7 15.52 Preparing to unpack .../147-libxpm4_1%3a3.5.12-1.1+deb12u1_amd64.deb ...
+2026-11-12T23:23:40.5964367Z #7 15.52 Unpacking libxpm4:amd64 (1:3.5.12-1.1+deb12u1) ...
+2026-11-12T23:23:40.5964664Z #7 15.56 Selecting previously unselected package libxaw7:amd64.
+2026-11-12T23:23:40.7500875Z #7 15.56 Preparing to unpack .../148-libxaw7_2%3a1.0.14-1_amd64.deb ...
+2026-11-12T23:23:40.7501357Z #7 15.56 Unpacking libxaw7:amd64 (2:1.0.14-1) ...
+2026-11-12T23:23:40.9561593Z #7 15.92 Selecting previously unselected package libxcb-shape0:amd64.
+2026-11-12T23:23:41.1958963Z #7 15.92 Preparing to unpack .../149-libxcb-shape0_1.15-1_amd64.deb ...
+2026-11-12T23:23:41.1959366Z #7 15.92 Unpacking libxcb-shape0:amd64 (1.15-1) ...
+2026-11-12T23:23:41.1959684Z #7 15.94 Selecting previously unselected package libxft2:amd64.
+2026-11-12T23:23:41.1960024Z #7 15.94 Preparing to unpack .../150-libxft2_2.3.6-1_amd64.deb ...
+2026-11-12T23:23:41.1960325Z #7 15.94 Unpacking libxft2:amd64 (2.3.6-1) ...
+2026-11-12T23:23:41.1960646Z #7 15.96 Selecting previously unselected package libxkbfile1:amd64.
+2026-11-12T23:23:41.1960982Z #7 15.96 Preparing to unpack .../151-libxkbfile1_1%3a1.1.0-1_amd64.deb ...
+2026-11-12T23:23:41.1961291Z #7 15.96 Unpacking libxkbfile1:amd64 (1:1.1.0-1) ...
+2026-11-12T23:23:41.1961585Z #7 15.98 Selecting previously unselected package libxmuu1:amd64.
+2026-11-12T23:23:41.1961908Z #7 15.98 Preparing to unpack .../152-libxmuu1_2%3a1.1.3-3_amd64.deb ...
+2026-11-12T23:23:41.1962216Z #7 15.98 Unpacking libxmuu1:amd64 (2:1.1.3-3) ...
+2026-11-12T23:23:41.1962494Z #7 16.00 Selecting previously unselected package libxtst6:amd64.
+2026-11-12T23:23:41.1962815Z #7 16.01 Preparing to unpack .../153-libxtst6_2%3a1.2.3-1.1_amd64.deb ...
+2026-11-12T23:23:41.2071887Z #7 16.17 Unpacking libxtst6:amd64 (2:1.2.3-1.1) ...
+2026-11-12T23:23:41.3165664Z #7 16.18 Selecting previously unselected package libxv1:amd64.
+2026-11-12T23:23:41.3166264Z #7 16.19 Preparing to unpack .../154-libxv1_2%3a1.0.11-1.1_amd64.deb ...
+2026-11-12T23:23:41.3167341Z #7 16.19 Unpacking libxv1:amd64 (2:1.0.11-1.1) ...
+2026-11-12T23:23:41.3167855Z #7 16.20 Selecting previously unselected package libxxf86dga1:amd64.
+2026-11-12T23:23:41.3168410Z #7 16.20 Preparing to unpack .../155-libxxf86dga1_2%3a1.1.5-1_amd64.deb ...
+2026-11-12T23:23:41.3168884Z #7 16.20 Unpacking libxxf86dga1:amd64 (2:1.1.5-1) ...
+2026-11-12T23:23:41.3169303Z #7 16.22 Selecting previously unselected package x11-utils.
+2026-11-12T23:23:41.3169780Z #7 16.22 Preparing to unpack .../156-x11-utils_7.7+5_amd64.deb ...
+2026-11-12T23:23:41.3170178Z #7 16.22 Unpacking x11-utils (7.7+5) ...
+2026-11-12T23:23:41.3170567Z #7 16.25 Selecting previously unselected package xdg-utils.
+2026-11-12T23:23:41.3171024Z #7 16.26 Preparing to unpack .../157-xdg-utils_1.1.3-4.1_all.deb ...
+2026-11-12T23:23:41.3171459Z #7 16.26 Unpacking xdg-utils (1.1.3-4.1) ...
+2026-11-12T23:23:41.3171876Z #7 16.28 Selecting previously unselected package chromium-common.
+2026-11-12T23:23:41.4708248Z #7 16.28 Preparing to unpack .../158-chromium-common_156.0.8078.79-1~deb12u1_amd64.deb ...
+2026-11-12T23:23:41.4710123Z #7 16.28 Unpacking chromium-common (156.0.8078.79-1~deb12u1) ...
+2026-11-12T23:23:41.8122659Z #7 16.77 Selecting previously unselected package chromium.
+2026-11-12T23:23:41.9667971Z #7 16.78 Preparing to unpack .../159-chromium_156.0.8078.79-1~deb12u1_amd64.deb ...
+2026-11-12T23:23:41.9668790Z #7 16.78 Unpacking chromium (156.0.8078.79-1~deb12u1) ...
+2026-11-12T23:23:43.6995498Z #7 18.66 Selecting previously unselected package chromium-sandbox.
+2026-11-12T23:23:43.8205212Z #7 18.66 Preparing to unpack .../160-chromium-sandbox_156.0.8078.79-1~deb12u1_amd64.deb ...
+2026-11-12T23:23:43.8205840Z #7 18.67 Unpacking chromium-sandbox (156.0.8078.79-1~deb12u1) ...
+2026-11-12T23:23:43.8206479Z #7 18.73 Selecting previously unselected package libip6tc2:amd64.
+2026-11-12T23:23:43.8206961Z #7 18.73 Preparing to unpack .../161-libip6tc2_1.8.9-2_amd64.deb ...
+2026-11-12T23:23:43.8207413Z #7 18.74 Unpacking libip6tc2:amd64 (1.8.9-2) ...
+2026-11-12T23:23:43.8207837Z #7 18.78 Selecting previously unselected package libnfnetlink0:amd64.
+2026-11-12T23:23:43.9333579Z #7 18.78 Preparing to unpack .../162-libnfnetlink0_1.0.2-2_amd64.deb ...
+2026-11-12T23:23:43.9334298Z #7 18.80 Unpacking libnfnetlink0:amd64 (1.0.2-2) ...
+2026-11-12T23:23:43.9335093Z #7 18.83 Selecting previously unselected package libnetfilter-conntrack3:amd64.
+2026-11-12T23:23:43.9335815Z #7 18.83 Preparing to unpack .../163-libnetfilter-conntrack3_1.0.9-3_amd64.deb ...
+2026-11-12T23:23:43.9336194Z #7 18.83 Unpacking libnetfilter-conntrack3:amd64 (1.0.9-3) ...
+2026-11-12T23:23:43.9336682Z #7 18.87 Selecting previously unselected package libnftnl11:amd64.
+2026-11-12T23:23:43.9337020Z #7 18.88 Preparing to unpack .../164-libnftnl11_1.2.4-2_amd64.deb ...
+2026-11-12T23:23:43.9337308Z #7 18.88 Unpacking libnftnl11:amd64 (1.2.4-2) ...
+2026-11-12T23:23:43.9337590Z #7 18.89 Selecting previously unselected package iptables.
+2026-11-12T23:23:44.0357350Z #7 18.90 Preparing to unpack .../165-iptables_1.8.9-2_amd64.deb ...
+2026-11-12T23:23:44.0357881Z #7 18.90 Unpacking iptables (1.8.9-2) ...
+2026-11-12T23:23:44.0358171Z #7 18.98 Setting up libexpat1:amd64 (2.5.0-1+deb12u5) ...
+2026-11-12T23:23:44.0358468Z #7 18.99 Setting up libgraphite2-3:amd64 (1.3.14-1+deb12u1) ...
+2026-11-12T23:23:44.0358870Z #7 18.99 Setting up liblcms2-2:amd64 (2.14-2+deb12u1) ...
+2026-11-12T23:23:44.0359143Z #7 18.99 Setting up libpixman-1-0:amd64 (0.42.2-1) ...
+2026-11-12T23:23:44.0359469Z #7 18.99 Setting up libwayland-server0:amd64 (1.21.0-1) ...
+2026-11-12T23:23:44.0359741Z #7 18.99 Setting up libpciaccess0:amd64 (0.17-2) ...
+2026-11-12T23:23:44.0360091Z #7 18.99 Setting up systemd-sysv (252.39-1~deb12u2) ...
+2026-11-12T23:23:44.0360353Z #7 19.00 Setting up libxau6:amd64 (1:1.0.9-1) ...
+2026-11-12T23:23:44.1618502Z #7 19.00 Setting up libdouble-conversion3:amd64 (3.2.1-1) ...
+2026-11-12T23:23:44.1619011Z #7 19.00 Setting up libicu72:amd64 (72.1-3+deb12u1) ...
+2026-11-12T23:23:44.1619604Z #7 19.00 Setting up libmpg123-0:amd64 (1.31.2-1+deb12u1) ...
+2026-11-12T23:23:44.1619883Z #7 19.00 Setting up libogg0:amd64 (1.3.5-3) ...
+2026-11-12T23:23:44.1620133Z #7 19.01 Setting up liblerc4:amd64 (4.0.0+ds-2) ...
+2026-11-12T23:23:44.1620381Z #7 19.01 Setting up hicolor-icon-theme (0.17-2) ...
+2026-11-12T23:23:44.1620638Z #7 19.04 Setting up libdatrie1:amd64 (0.2.13-2+b1) ...
+2026-11-12T23:23:44.1620907Z #7 19.04 Setting up libminizip1:amd64 (1.1-8+deb12u1) ...
+2026-11-12T23:23:44.1621179Z #7 19.04 Setting up libip6tc2:amd64 (1.8.9-2) ...
+2026-11-12T23:23:44.1621542Z #7 19.05 Setting up libglib2.0-0:amd64 (2.74.6-2+deb12u9) ...
+2026-11-12T23:23:44.1621952Z #7 19.06 Setting up libglvnd0:amd64 (1.6.0-1) ...
+2026-11-12T23:23:44.1622215Z #7 19.06 Setting up libbrotli1:amd64 (1.0.9-2+deb12u1) ...
+2026-11-12T23:23:44.1622529Z #7 19.06 Setting up libgdk-pixbuf2.0-common (2.42.10+dfsg-1+deb12u4) ...
+2026-11-12T23:23:44.1622827Z #7 19.06 Setting up x11-common (1:7.7+23) ...
+2026-11-12T23:23:44.1623092Z #7 19.12 debconf: unable to initialize frontend: Dialog
+2026-11-12T23:23:44.1623408Z #7 19.12 debconf: (TERM is not set, so the dialog frontend is not usable.)
+2026-11-12T23:23:44.1623709Z #7 19.12 debconf: falling back to frontend: Readline
+2026-11-12T23:23:44.2744633Z #7 19.12 debconf: unable to initialize frontend: Readline
+2026-11-12T23:23:44.2746231Z #7 19.12 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+2026-11-12T23:23:44.2748174Z #7 19.12 debconf: falling back to frontend: Teletype
+2026-11-12T23:23:44.2748660Z #7 19.14 invoke-rc.d: could not determine current runlevel
+2026-11-12T23:23:44.2749053Z #7 19.14 invoke-rc.d: policy-rc.d denied execution of restart.
+2026-11-12T23:23:44.2749359Z #7 19.15 Setting up libsensors-config (1:3.6.0-7.1) ...
+2026-11-12T23:23:44.2749745Z #7 19.15 Setting up libdeflate0:amd64 (1.14-1) ...
+2026-11-12T23:23:44.2749997Z #7 19.15 Setting up xkb-data (2.35.1-1) ...
+2026-11-12T23:23:44.2750268Z #7 19.15 Setting up chromium-sandbox (156.0.8078.79-1~deb12u1) ...
+2026-11-12T23:23:44.2750616Z #7 19.15 Setting up libjbig0:amd64 (2.1-6.1) ...
+2026-11-12T23:23:44.2750902Z #7 19.16 Setting up libcolord2:amd64 (1.4.6-2.2) ...
+2026-11-12T23:23:44.2751460Z #7 19.16 Setting up libcap2-bin (1:2.66-4+deb12u3+b1) ...
+2026-11-12T23:23:44.2751759Z #7 19.16 Setting up libdconf1:amd64 (0.40.0-4) ...
+2026-11-12T23:23:44.2752003Z #7 19.16 Setting up libasound2-data (1.2.8-1) ...
+2026-11-12T23:23:44.2752254Z #7 19.16 Setting up libfontenc1:amd64 (1:1.1.4-1) ...
+2026-11-12T23:23:44.2752495Z #7 19.16 Setting up libz3-4:amd64 (4.8.12-3.1) ...
+2026-11-12T23:23:44.2752839Z #7 19.17 Setting up libflac12:amd64 (1.4.2+ds-2) ...
+2026-11-12T23:23:44.2753130Z #7 19.17 Setting up libjpeg62-turbo:amd64 (1:2.1.5-2) ...
+2026-11-12T23:23:44.2753393Z #7 19.17 Setting up libx11-data (2:1.8.4-2+deb12u2) ...
+2026-11-12T23:23:44.2753645Z #7 19.17 Setting up libepoxy0:amd64 (1.5.10-1) ...
+2026-11-12T23:23:44.2753896Z #7 19.17 Setting up libnspr4:amd64 (2:4.35-1) ...
+2026-11-12T23:23:44.2754294Z #7 19.17 Setting up libavahi-common-data:amd64 (0.8-10+deb12u1) ...
+2026-11-12T23:23:44.2754658Z #7 19.18 Setting up libdbus-1-3:amd64 (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:44.2754936Z #7 19.18 Setting up libfribidi0:amd64 (1.0.8-2.1) ...
+2026-11-12T23:23:44.2755194Z #7 19.18 Setting up libopus0:amd64 (1.3.1-3) ...
+2026-11-12T23:23:44.2755566Z #7 19.18 Setting up libproc2-0:amd64 (2:4.0.2-3) ...
+2026-11-12T23:23:44.2755837Z #7 19.18 Setting up libpng16-16:amd64 (1.6.39-2+deb12u6) ...
+2026-11-12T23:23:44.2756096Z #7 19.18 Setting up libmnl0:amd64 (1.0.4-3) ...
+2026-11-12T23:23:44.2756599Z #7 19.19 Setting up libvorbis0a:amd64 (1.3.7-1) ...
+2026-11-12T23:23:44.2757019Z #7 19.19 Setting up fonts-dejavu-core (2.37-6) ...
+2026-11-12T23:23:44.2757314Z #7 19.20 Setting up libsensors5:amd64 (1:3.6.0-7.1) ...
+2026-11-12T23:23:44.2757662Z #7 19.20 Setting up libxtables12:amd64 (1.8.9-2) ...
+2026-11-12T23:23:44.2757922Z #7 19.20 Setting up libdav1d6:amd64 (1.0.0-2+deb12u1) ...
+2026-11-12T23:23:44.2758193Z #7 19.20 Setting up libglapi-mesa:amd64 (22.3.6-1+deb12u2) ...
+2026-11-12T23:23:44.2758495Z #7 19.20 Setting up libopenh264-7:amd64 (2.3.1+dfsg-3+deb12u2) ...
+2026-11-12T23:23:44.2758824Z #7 19.20 Setting up libwebp7:amd64 (1.2.4-0.2+deb12u1) ...
+2026-11-12T23:23:44.2759231Z #7 19.21 Setting up libasyncns0:amd64 (0.8-6+b3) ...
+2026-11-12T23:23:44.2759623Z #7 19.21 Setting up libxshmfence1:amd64 (1.3-1) ...
+2026-11-12T23:23:44.2759887Z #7 19.21 Setting up at-spi2-common (2.46.0-5) ...
+2026-11-12T23:23:44.2760204Z #7 19.21 Setting up libtiff6:amd64 (4.5.0-6+deb12u4) ...
+2026-11-12T23:23:44.2760564Z #7 19.21 Setting up libnfnetlink0:amd64 (1.0.2-2) ...
+2026-11-12T23:23:44.2761020Z #7 19.21 Setting up dbus-session-bus-common (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:44.2761420Z #7 19.22 Setting up procps (2:4.0.2-3) ...
+2026-11-12T23:23:44.2761827Z #7 19.23 Setting up libasound2:amd64 (1.2.8-1+b1) ...
+2026-11-12T23:23:44.4893782Z #7 19.24 Setting up libopenjp2-7:amd64 (2.5.0-2+deb12u3) ...
+2026-11-12T23:23:44.4894141Z #7 19.25 Setting up libthai-data (0.1.29-1) ...
+2026-11-12T23:23:44.4894410Z #7 19.25 Setting up libatk1.0-0:amd64 (2.46.0-5) ...
+2026-11-12T23:23:44.4894713Z #7 19.26 Setting up libwayland-egl1:amd64 (1.21.0-1) ...
+2026-11-12T23:23:44.4895011Z #7 19.26 Setting up dbus-system-bus-common (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:44.4895293Z #7 19.30 Setting up libbsd0:amd64 (0.11.7-2) ...
+2026-11-12T23:23:44.4895534Z #7 19.30 Setting up libdrm-common (2.4.114-1) ...
+2026-11-12T23:23:44.4895768Z #7 19.30 Setting up libelf1:amd64 (0.188-2.1) ...
+2026-11-12T23:23:44.5042233Z #7 19.46 Setting up libxml2:amd64 (2.9.14+dfsg-1.3~deb12u6) ...
+2026-11-12T23:23:44.6178152Z #7 19.47 Setting up xdg-utils (1.1.3-4.1) ...
+2026-11-12T23:23:44.6178832Z #7 19.48 update-alternatives: using /usr/bin/xdg-open to provide /usr/bin/open (open) in auto mode
+2026-11-12T23:23:44.6179970Z #7 19.48 update-alternatives: warning: skip creation of /usr/share/man/man1/open.1.gz because associated file /usr/share/man/man1/xdg-open.1.gz (of link group open) doesn't exist
+2026-11-12T23:23:44.6180903Z #7 19.48 Setting up dbus-bin (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:44.6181704Z #7 19.48 Setting up libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+2026-11-12T23:23:44.6182159Z #7 19.48 Setting up libmp3lame0:amd64 (3.100-6) ...
+2026-11-12T23:23:44.6182564Z #7 19.52 Setting up libvorbisenc2:amd64 (1.3.7-1) ...
+2026-11-12T23:23:44.6182965Z #7 19.52 Setting up libxkbcommon0:amd64 (1.5.0-1) ...
+2026-11-12T23:23:44.6183379Z #7 19.52 Setting up libwayland-client0:amd64 (1.21.0-1) ...
+2026-11-12T23:23:44.6183793Z #7 19.52 Setting up libice6:amd64 (2:1.0.10-1) ...
+2026-11-12T23:23:44.6184148Z #7 19.52 Setting up libxdmcp6:amd64 (1:1.1.2-3) ...
+2026-11-12T23:23:44.6184413Z #7 19.52 Setting up libxcb1:amd64 (1.15-1) ...
+2026-11-12T23:23:44.6184662Z #7 19.53 Setting up libxcb-xfixes0:amd64 (1.15-1) ...
+2026-11-12T23:23:44.6184924Z #7 19.53 Setting up libxcb-render0:amd64 (1.15-1) ...
+2026-11-12T23:23:44.6185175Z #7 19.53 Setting up fontconfig-config (2.14.1-4) ...
+2026-11-12T23:23:44.6185438Z #7 19.58 debconf: unable to initialize frontend: Dialog
+2026-11-12T23:23:44.6185752Z #7 19.58 debconf: (TERM is not set, so the dialog frontend is not usable.)
+2026-11-12T23:23:44.6186084Z #7 19.58 debconf: falling back to frontend: Readline
+2026-11-12T23:23:44.7327011Z #7 19.58 debconf: unable to initialize frontend: Readline
+2026-11-12T23:23:44.7328445Z #7 19.58 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+2026-11-12T23:23:44.7330203Z #7 19.58 debconf: falling back to frontend: Teletype
+2026-11-12T23:23:44.7330510Z #7 19.69 Setting up iproute2 (6.1.0-3) ...
+2026-11-12T23:23:44.8330302Z #7 19.75 debconf: unable to initialize frontend: Dialog
+2026-11-12T23:23:44.8330831Z #7 19.75 debconf: (TERM is not set, so the dialog frontend is not usable.)
+2026-11-12T23:23:44.8331245Z #7 19.75 debconf: falling back to frontend: Readline
+2026-11-12T23:23:44.8331604Z #7 19.75 debconf: unable to initialize frontend: Readline
+2026-11-12T23:23:44.8333052Z #7 19.75 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+2026-11-12T23:23:44.8334292Z #7 19.75 debconf: falling back to frontend: Teletype
+2026-11-12T23:23:44.8334702Z #7 19.77 Setting up libxcb-glx0:amd64 (1.15-1) ...
+2026-11-12T23:23:44.8334976Z #7 19.77 Setting up libedit2:amd64 (3.1-20221030-2) ...
+2026-11-12T23:23:44.8335249Z #7 19.77 Setting up libxcb-shape0:amd64 (1.15-1) ...
+2026-11-12T23:23:44.8335696Z #7 19.77 Setting up libavahi-common3:amd64 (0.8-10+deb12u1) ...
+2026-11-12T23:23:44.8336006Z #7 19.78 Setting up libnftnl11:amd64 (1.2.4-2) ...
+2026-11-12T23:23:44.8336557Z #7 19.78 Setting up libnss3:amd64 (2:3.87.1-1+deb12u4) ...
+2026-11-12T23:23:44.8336962Z #7 19.78 Setting up libxcb-shm0:amd64 (1.15-1) ...
+2026-11-12T23:23:44.8337497Z #7 19.78 Setting up dbus-daemon (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:44.8337900Z #7 19.79 Setting up libxcb-present0:amd64 (1.15-1) ...
+2026-11-12T23:23:44.8338285Z #7 19.79 Setting up libthai0:amd64 (0.1.29-1) ...
+2026-11-12T23:23:44.8338699Z #7 19.79 Setting up libfreetype6:amd64 (2.12.1+dfsg-5+deb12u4) ...
+2026-11-12T23:23:45.0074334Z #7 19.80 Setting up libxcb-sync1:amd64 (1.15-1) ...
+2026-11-12T23:23:45.0074775Z #7 19.80 Setting up dbus (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:45.0075068Z #7 19.81 invoke-rc.d: could not determine current runlevel
+2026-11-12T23:23:45.0075394Z #7 19.82 invoke-rc.d: policy-rc.d denied execution of start.
+2026-11-12T23:23:45.0075679Z #7 19.82 Setting up shared-mime-info (2.2-1) ...
+2026-11-12T23:23:45.4113999Z #7 20.37 Setting up libxcb-dri2-0:amd64 (1.15-1) ...
+2026-11-12T23:23:45.5180700Z #7 20.37 Setting up libdrm2:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:45.5181107Z #7 20.38 Setting up libnetfilter-conntrack3:amd64 (1.0.9-3) ...
+2026-11-12T23:23:45.5181454Z #7 20.38 Setting up libwayland-cursor0:amd64 (1.21.0-1) ...
+2026-11-12T23:23:45.5181819Z #7 20.38 Setting up libxcb-randr0:amd64 (1.15-1) ...
+2026-11-12T23:23:45.5182213Z #7 20.38 Setting up libllvm15:amd64 (1:15.0.6-4+b1) ...
+2026-11-12T23:23:45.5182530Z #7 20.38 Setting up libpam-systemd:amd64 (252.39-1~deb12u2) ...
+2026-11-12T23:23:45.5182824Z #7 20.44 debconf: unable to initialize frontend: Dialog
+2026-11-12T23:23:45.5183189Z #7 20.44 debconf: (TERM is not set, so the dialog frontend is not usable.)
+2026-11-12T23:23:45.5183676Z #7 20.44 debconf: falling back to frontend: Readline
+2026-11-12T23:23:45.5184106Z #7 20.44 debconf: unable to initialize frontend: Readline
+2026-11-12T23:23:45.5185678Z #7 20.44 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+2026-11-12T23:23:45.5187316Z #7 20.44 debconf: falling back to frontend: Teletype
+2026-11-12T23:23:45.5187864Z #7 20.48 Setting up libx11-6:amd64 (2:1.8.4-2+deb12u2) ...
+2026-11-12T23:23:45.7266484Z #7 20.48 Setting up libharfbuzz0b:amd64 (6.0.0+dfsg-3) ...
+2026-11-12T23:23:45.7267233Z #7 20.48 Setting up libgdk-pixbuf-2.0-0:amd64 (2.42.10+dfsg-1+deb12u4) ...
+2026-11-12T23:23:45.7267910Z #7 20.49 Setting up libfontconfig1:amd64 (2.14.1-4) ...
+2026-11-12T23:23:45.7268348Z #7 20.50 Setting up libsndfile1:amd64 (1.2.0-1+deb12u1) ...
+2026-11-12T23:23:45.7268767Z #7 20.50 Setting up libxkbfile1:amd64 (1:1.1.0-1) ...
+2026-11-12T23:23:45.7269084Z #7 20.50 Setting up libxcomposite1:amd64 (1:0.4.5-1) ...
+2026-11-12T23:23:45.7269338Z #7 20.51 Setting up libsm6:amd64 (2:1.2.3-1) ...
+2026-11-12T23:23:45.7269610Z #7 20.52 Setting up libavahi-client3:amd64 (0.8-10+deb12u1) ...
+2026-11-12T23:23:45.7269889Z #7 20.52 Setting up libxmuu1:amd64 (2:1.1.3-3) ...
+2026-11-12T23:23:45.7270149Z #7 20.53 Setting up libdrm-amdgpu1:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:45.7270416Z #7 20.53 Setting up libxcb-dri3-0:amd64 (1.15-1) ...
+2026-11-12T23:23:45.7270710Z #7 20.53 Setting up gtk-update-icon-cache (3.24.38-2~deb12u3) ...
+2026-11-12T23:23:45.7271011Z #7 20.53 Setting up libx11-xcb1:amd64 (2:1.8.4-2+deb12u2) ...
+2026-11-12T23:23:45.7271282Z #7 20.53 Setting up fontconfig (2.14.1-4) ...
+2026-11-12T23:23:47.5863121Z #7 20.54 Regenerating fonts cache... done.
+2026-11-12T23:23:47.7075628Z #7 22.55 Setting up libdrm-nouveau2:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:47.7077054Z #7 22.55 Setting up libxdamage1:amd64 (1:1.1.6-1) ...
+2026-11-12T23:23:47.7077564Z #7 22.55 Setting up libxpm4:amd64 (1:3.5.12-1.1+deb12u1) ...
+2026-11-12T23:23:47.7077857Z #7 22.56 Setting up libxrender1:amd64 (1:0.9.10-1.1) ...
+2026-11-12T23:23:47.7078134Z #7 22.56 Setting up libgbm1:amd64 (22.3.6-1+deb12u2) ...
+2026-11-12T23:23:47.7078398Z #7 22.56 Setting up libpulse0:amd64 (16.1+dfsg1-2+b1) ...
+2026-11-12T23:23:47.7078648Z #7 22.57 Setting up iptables (1.8.9-2) ...
+2026-11-12T23:23:47.7079071Z #7 22.57 update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) in auto mode
+2026-11-12T23:23:47.7079654Z #7 22.57 update-alternatives: using /usr/sbin/ip6tables-legacy to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+2026-11-12T23:23:47.7080209Z #7 22.57 update-alternatives: using /usr/sbin/iptables-nft to provide /usr/sbin/iptables (iptables) in auto mode
+2026-11-12T23:23:47.7080750Z #7 22.57 update-alternatives: using /usr/sbin/ip6tables-nft to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+2026-11-12T23:23:47.7081664Z #7 22.58 update-alternatives: using /usr/sbin/arptables-nft to provide /usr/sbin/arptables (arptables) in auto mode
+2026-11-12T23:23:47.7082244Z #7 22.58 update-alternatives: using /usr/sbin/ebtables-nft to provide /usr/sbin/ebtables (ebtables) in auto mode
+2026-11-12T23:23:47.7082812Z #7 22.58 Setting up libdrm-radeon1:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:47.7083111Z #7 22.58 Setting up libpango-1.0-0:amd64 (1.50.12+ds-1) ...
+2026-11-12T23:23:47.7083387Z #7 22.58 Setting up libdrm-intel1:amd64 (2.4.114-1+b1) ...
+2026-11-12T23:23:47.7083803Z #7 22.59 Setting up libgl1-mesa-dri:amd64 (22.3.6-1+deb12u2) ...
+2026-11-12T23:23:47.7084105Z #7 22.59 Setting up libxext6:amd64 (2:1.3.4-1+b1) ...
+2026-11-12T23:23:47.7084360Z #7 22.59 Setting up libcairo2:amd64 (1.16.0-7) ...
+2026-11-12T23:23:47.7084725Z #7 22.59 Setting up libxxf86vm1:amd64 (1:1.1.4-1+b2) ...
+2026-11-12T23:23:47.7085007Z #7 22.60 Setting up libxnvctrl0:amd64 (525.85.05-3~deb12u1) ...
+2026-11-12T23:23:47.7085295Z #7 22.60 Setting up dbus-user-session (1.14.10-1~deb12u1) ...
+2026-11-12T23:23:47.7085569Z #7 22.60 Setting up adwaita-icon-theme (43-1) ...
+2026-11-12T23:23:47.7086241Z #7 22.67 update-alternatives: using /usr/share/icons/Adwaita/cursor.theme to provide /usr/share/icons/default/index.theme (x-cursor-theme) in auto mode
+2026-11-12T23:23:47.8120330Z #7 22.67 Setting up libxfixes3:amd64 (1:6.0.0-2) ...
+2026-11-12T23:23:47.8120813Z #7 22.67 Setting up libxinerama1:amd64 (2:1.1.4-3) ...
+2026-11-12T23:23:47.8121118Z #7 22.67 Setting up libxv1:amd64 (2:1.0.11-1.1) ...
+2026-11-12T23:23:47.8124075Z #7 22.67 Setting up libxrandr2:amd64 (2:1.5.2-2+b1) ...
+2026-11-12T23:23:47.8124419Z #7 22.68 Setting up libxt6:amd64 (1:1.2.1-1.1) ...
+2026-11-12T23:23:47.8124697Z #7 22.68 Setting up libcups2:amd64 (2.4.2-3+deb12u9) ...
+2026-11-12T23:23:47.8125013Z #7 22.68 Setting up libharfbuzz-subset0:amd64 (6.0.0+dfsg-3) ...
+2026-11-12T23:23:47.8125312Z #7 22.68 Setting up libcairo-gobject2:amd64 (1.16.0-7) ...
+2026-11-12T23:23:47.8125734Z #7 22.68 Setting up libpangoft2-1.0-0:amd64 (1.50.12+ds-1) ...
+2026-11-12T23:23:47.8126200Z #7 22.69 Setting up libpangocairo-1.0-0:amd64 (1.50.12+ds-1) ...
+2026-11-12T23:23:47.8126686Z #7 22.69 Setting up libxft2:amd64 (2.3.6-1) ...
+2026-11-12T23:23:47.8126942Z #7 22.69 Setting up libxmu6:amd64 (2:1.1.3-3) ...
+2026-11-12T23:23:47.8127267Z #7 22.69 Setting up libglx-mesa0:amd64 (22.3.6-1+deb12u2) ...
+2026-11-12T23:23:47.8127617Z #7 22.69 Setting up libxi6:amd64 (2:1.8-1+b1) ...
+2026-11-12T23:23:47.8127878Z #7 22.69 Setting up libglx0:amd64 (1.6.0-1) ...
+2026-11-12T23:23:47.8128245Z #7 22.73 Setting up libxtst6:amd64 (2:1.2.3-1.1) ...
+2026-11-12T23:23:47.8128587Z #7 22.73 Setting up libxcursor1:amd64 (1:1.2.1-1) ...
+2026-11-12T23:23:47.8128939Z #7 22.73 Setting up libxxf86dga1:amd64 (2:1.1.5-1) ...
+2026-11-12T23:23:47.8129289Z #7 22.74 Setting up dconf-service (0.40.0-4) ...
+2026-11-12T23:23:47.8129592Z #7 22.74 Setting up libxaw7:amd64 (2:1.0.14-1) ...
+2026-11-12T23:23:47.8129874Z #7 22.74 Setting up libatspi2.0-0:amd64 (2.46.0-5) ...
+2026-11-12T23:23:47.8130174Z #7 22.74 Setting up libatk-bridge2.0-0:amd64 (2.46.0-5) ...
+2026-11-12T23:23:47.8130526Z #7 22.74 Setting up libgl1:amd64 (1.6.0-1) ...
+2026-11-12T23:23:47.8130785Z #7 22.74 Setting up x11-utils (7.7+5) ...
+2026-11-12T23:23:47.8131051Z #7 22.75 Setting up chromium-common (156.0.8078.79-1~deb12u1) ...
+2026-11-12T23:23:47.8131459Z #7 22.75 Setting up dconf-gsettings-backend:amd64 (0.40.0-4) ...
+2026-11-12T23:23:47.8131757Z #7 22.76 Setting up libgtk-3-common (3.24.38-2~deb12u3) ...
+2026-11-12T23:23:47.8132133Z #7 22.76 Setting up libgtk-3-0:amd64 (3.24.38-2~deb12u3) ...
+2026-11-12T23:23:47.8132509Z #7 22.77 Setting up chromium (156.0.8078.79-1~deb12u1) ...
+2026-11-12T23:23:47.9733635Z #7 22.78 update-alternatives: using /usr/bin/chromium to provide /usr/bin/x-www-browser (x-www-browser) in auto mode
+2026-11-12T23:23:47.9734631Z #7 22.78 update-alternatives: using /usr/bin/chromium to provide /usr/bin/gnome-www-browser (gnome-www-browser) in auto mode
+2026-11-12T23:23:47.9735689Z #7 22.78 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+2026-11-12T23:23:51.2111650Z #7 DONE 26.2s
+2026-11-12T23:23:51.3620404Z 
+2026-11-12T23:23:51.3621038Z #8 [stage-0 3/7] RUN mkdir /ipc && chown 10001:10003 /ipc && chmod 770 /ipc
+2026-11-12T23:23:51.4116702Z #8 DONE 0.2s
+2026-11-12T23:23:51.5441311Z 
+2026-11-12T23:23:51.5442619Z #9 [stage-0 4/7] RUN test "$(dpkg-query -W -f='${Version}' chromium)" = '156.0.8078.79-1~deb12u1'
+2026-11-12T23:23:51.5443216Z #9 DONE 0.1s
+2026-11-12T23:23:51.7514713Z 
+2026-11-12T23:23:51.7515598Z #10 [stage-0 5/7] COPY infra/ra1b/preflight.py /opt/preflight.py
+2026-11-12T23:23:51.7516075Z #10 DONE 0.0s
+2026-11-12T23:23:51.7516228Z 
+2026-11-12T23:23:51.7516899Z #11 [stage-0 6/7] COPY infra/ra1b/agent.py /opt/agent.py
+2026-11-12T23:23:51.7517467Z #11 DONE 0.0s
+2026-11-12T23:23:51.7517612Z 
+2026-11-12T23:23:51.7517840Z #12 [stage-0 7/7] COPY infra/ra1b/kernel_probe.py /opt/kernel_probe.py
+2026-11-12T23:23:51.7518504Z #12 DONE 0.0s
+2026-11-12T23:23:51.7518639Z 
+2026-11-12T23:23:51.7518803Z #13 exporting to image
+2026-11-12T23:23:51.7519159Z #13 exporting layers
+2026-11-12T23:24:12.1647847Z #13 exporting layers 20.6s done
+2026-11-12T23:24:12.3452382Z #13 exporting manifest sha256:995bd45d575dd5e51c114b8a3ff1f3c634bb8594b6c70f965ac42c77cdb3a775 done
+2026-11-12T23:24:12.3453225Z #13 exporting config sha256:aff31442f2b49e9374287d7576eb32c148c6c9ae1338267cb42d42b21ac18ee6 done
+2026-11-12T23:24:12.3454198Z #13 exporting attestation manifest sha256:827417516f1558ad0c51d2fc92102a9111b147aa8af02d44787a5138d25c68d5 0.0s done
+2026-11-12T23:24:12.3455171Z #13 exporting manifest list sha256:8c869303ee17f2eddb8fea7757d2006742ea909187b4e150ca41a1fe4e619f8c done
+2026-11-12T23:24:12.3455609Z #13 naming to docker.io/library/vrae-ra1b-browser:local done
+2026-11-12T23:24:12.3455931Z #13 unpacking to docker.io/library/vrae-ra1b-browser:local
+2026-11-12T23:24:15.4779591Z #13 unpacking to docker.io/library/vrae-ra1b-browser:local 3.3s done
+2026-11-12T23:24:15.5411627Z #13 DONE 23.9s
+2026-11-12T23:24:15.5505142Z ##[group]Run docker build -f infra/ra1b/Worker.Dockerfile -t vrae-ra1b-worker:local .
+2026-11-12T23:24:15.5505639Z [36;1mdocker build -f infra/ra1b/Worker.Dockerfile -t vrae-ra1b-worker:local .[0m
+2026-11-12T23:24:15.5551272Z shell: /usr/bin/bash -e {0}
+2026-11-12T23:24:15.5551495Z env:
+2026-11-12T23:24:15.5551726Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:24:15.5552088Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-12T23:24:15.5552438Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:24:15.5552734Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:24:15.5553020Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:24:15.5553306Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-12T23:24:15.5553559Z ##[endgroup]
+2026-11-12T23:24:15.7246613Z #0 building with "default" instance using docker driver
+2026-11-12T23:24:15.7246945Z 
+2026-11-12T23:24:15.7247170Z #1 [internal] load build definition from Worker.Dockerfile
+2026-11-12T23:24:15.8609699Z #1 transferring dockerfile: 972B done
+2026-11-12T23:24:15.8610312Z #1 DONE 0.0s
+2026-11-12T23:24:15.8616776Z 
+2026-11-12T23:24:15.8618598Z #2 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-12T23:24:15.8623016Z #2 DONE 0.0s
+2026-11-12T23:24:15.8623646Z 
+2026-11-12T23:24:15.8624000Z #3 [internal] load .dockerignore
+2026-11-12T23:24:15.8624741Z #3 transferring context: 4.06kB done
+2026-11-12T23:24:15.8625289Z #3 DONE 0.0s
+2026-11-12T23:24:15.8625634Z 
+2026-11-12T23:24:15.8626463Z #4 [ 1/13] FROM docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89
+2026-11-12T23:24:15.8627794Z #4 resolve docker.io/library/python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89 done
+2026-11-12T23:24:15.8628462Z #4 CACHED
+2026-11-12T23:24:15.8628561Z 
+2026-11-12T23:24:15.8628641Z #5 [internal] load build context
+2026-11-12T23:24:15.9782769Z #5 transferring context: 11.46MB 0.1s done
+2026-11-12T23:24:15.9783436Z #5 DONE 0.2s
+2026-11-12T23:24:15.9783579Z 
+2026-11-12T23:24:15.9784151Z #6 [ 2/13] RUN apt-get update && apt-get install -y --no-install-recommends iproute2 iptables openssl util-linux     && rm -rf /var/lib/apt/lists/*
+2026-11-12T23:24:15.9784736Z #6 0.220 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+2026-11-12T23:24:16.1004922Z #6 0.238 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+2026-11-12T23:24:16.1005964Z #6 0.244 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+2026-11-12T23:24:16.1007105Z #6 0.291 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+2026-11-12T23:24:16.1007835Z #6 0.342 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+2026-11-12T23:24:16.2842033Z #6 0.375 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [368 kB]
+2026-11-12T23:24:16.7731894Z #6 1.015 Fetched 9407 kB in 1s (11.4 MB/s)
+2026-11-12T23:24:17.1553570Z #6 1.015 Reading package lists...
+2026-11-12T23:24:17.5531748Z #6 1.413 Reading package lists...
+2026-11-12T23:24:17.6827015Z #6 1.805 Building dependency tree...
+2026-11-12T23:24:17.8246276Z #6 1.924 Reading state information...
+2026-11-12T23:24:17.8247113Z #6 2.015 util-linux is already the newest version (2.38.1-5+deb12u3).
+2026-11-12T23:24:17.8250175Z #6 2.015 util-linux set to manually installed.
+2026-11-12T23:24:17.8251104Z #6 2.015 The following additional packages will be installed:
+2026-11-12T23:24:17.8251661Z #6 2.016   libbpf1 libbsd0 libcap2-bin libelf1 libip4tc2 libip6tc2 libmnl0
+2026-11-12T23:24:17.8252141Z #6 2.016   libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libssl3 libxtables12
+2026-11-12T23:24:17.8252484Z #6 2.016 Suggested packages:
+2026-11-12T23:24:17.8253181Z #6 2.016   iproute2-doc python3:any firewalld kmod
+2026-11-12T23:24:17.8253598Z #6 2.016 Recommended packages:
+2026-11-12T23:24:17.8253916Z #6 2.016   libatm1 nftables libpam-cap
+2026-11-12T23:24:17.8254298Z #6 2.066 The following NEW packages will be installed:
+2026-11-12T23:24:18.0177372Z #6 2.066   iproute2 iptables libbpf1 libbsd0 libcap2-bin libelf1 libip4tc2 libip6tc2
+2026-11-12T23:24:18.0178112Z #6 2.067   libmnl0 libnetfilter-conntrack3 libnfnetlink0 libnftnl11 libxtables12
+2026-11-12T23:24:18.0178663Z #6 2.067 The following packages will be upgraded:
+2026-11-12T23:24:18.0179075Z #6 2.068   libssl3 openssl
+2026-11-12T23:24:18.0179463Z #6 2.100 2 upgraded, 13 newly installed, 0 to remove and 4 not upgraded.
+2026-11-12T23:24:18.0179903Z #6 2.100 Need to get 5558 kB of archives.
+2026-11-12T23:24:18.0180354Z #6 2.100 After this operation, 8585 kB of additional disk space will be used.
+2026-11-12T23:24:18.0180937Z #6 2.100 Get:1 http://deb.debian.org/debian bookworm/main amd64 libelf1 amd64 0.188-2.1 [174 kB]
+2026-11-12T23:24:18.0181606Z #6 2.115 Get:2 http://deb.debian.org/debian bookworm/main amd64 libbpf1 amd64 1:1.1.2-0+deb12u1 [145 kB]
+2026-11-12T23:24:18.0182284Z #6 2.117 Get:3 http://deb.debian.org/debian bookworm/main amd64 libbsd0 amd64 0.11.7-2 [117 kB]
+2026-11-12T23:24:18.0182947Z #6 2.120 Get:4 http://deb.debian.org/debian bookworm/main amd64 libmnl0 amd64 1.0.4-3 [12.5 kB]
+2026-11-12T23:24:18.0183666Z #6 2.122 Get:5 http://deb.debian.org/debian bookworm/main amd64 libxtables12 amd64 1.8.9-2 [30.8 kB]
+2026-11-12T23:24:18.0184384Z #6 2.123 Get:6 http://deb.debian.org/debian bookworm/main amd64 libcap2-bin amd64 1:2.66-4+deb12u3+b1 [35.2 kB]
+2026-11-12T23:24:18.0185086Z #6 2.124 Get:7 http://deb.debian.org/debian bookworm/main amd64 iproute2 amd64 6.1.0-3 [1046 kB]
+2026-11-12T23:24:18.0185746Z #6 2.134 Get:8 http://deb.debian.org/debian bookworm/main amd64 libip4tc2 amd64 1.8.9-2 [19.0 kB]
+2026-11-12T23:24:18.0186588Z #6 2.135 Get:9 http://deb.debian.org/debian bookworm/main amd64 libip6tc2 amd64 1.8.9-2 [19.4 kB]
+2026-11-12T23:24:18.0187244Z #6 2.136 Get:10 http://deb.debian.org/debian bookworm/main amd64 libnfnetlink0 amd64 1.0.2-2 [15.1 kB]
+2026-11-12T23:24:18.0187915Z #6 2.137 Get:11 http://deb.debian.org/debian bookworm/main amd64 libnetfilter-conntrack3 amd64 1.0.9-3 [40.7 kB]
+2026-11-12T23:24:18.0188439Z #6 2.138 Get:12 http://deb.debian.org/debian bookworm/main amd64 libnftnl11 amd64 1.2.4-2 [61.6 kB]
+2026-11-12T23:24:18.0188908Z #6 2.143 Get:13 http://deb.debian.org/debian bookworm/main amd64 iptables amd64 1.8.9-2 [360 kB]
+2026-11-12T23:24:18.0189652Z #6 2.147 Get:14 http://deb.debian.org/debian-security bookworm-security/main amd64 libssl3 amd64 3.0.22-1~deb12u2 [2040 kB]
+2026-11-12T23:24:18.0190577Z #6 2.155 Get:15 http://deb.debian.org/debian-security bookworm-security/main amd64 openssl amd64 3.0.22-1~deb12u2 [1442 kB]
+2026-11-12T23:24:18.0191267Z #6 2.259 debconf: delaying package configuration, since apt-utils is not installed
+2026-11-12T23:24:18.1356674Z #6 2.282 Fetched 5558 kB in 0s (59.6 MB/s)
+2026-11-12T23:24:18.1357125Z #6 2.322 Selecting previously unselected package libelf1:amd64.
+2026-11-12T23:24:18.1357427Z #6 2.322 (Reading database ... 
+2026-11-12T23:24:18.1357649Z (Reading database ... 5%
+2026-11-12T23:24:18.1357839Z (Reading database ... 10%
+2026-11-12T23:24:18.1358024Z (Reading database ... 15%
+2026-11-12T23:24:18.1358203Z (Reading database ... 20%
+2026-11-12T23:24:18.1358386Z (Reading database ... 25%
+2026-11-12T23:24:18.1358563Z (Reading database ... 30%
+2026-11-12T23:24:18.1358742Z (Reading database ... 35%
+2026-11-12T23:24:18.1359236Z (Reading database ... 40%
+2026-11-12T23:24:18.1359419Z (Reading database ... 45%
+2026-11-12T23:24:18.1359600Z (Reading database ... 50%
+2026-11-12T23:24:18.1359780Z (Reading database ... 55%
+2026-11-12T23:24:18.1359966Z (Reading database ... 60%
+2026-11-12T23:24:18.1360140Z (Reading database ... 65%
+2026-11-12T23:24:18.1360310Z (Reading database ... 70%
+2026-11-12T23:24:18.1360485Z (Reading database ... 75%
+2026-11-12T23:24:18.1360656Z (Reading database ... 80%
+2026-11-12T23:24:18.1360969Z (Reading database ... 85%
+2026-11-12T23:24:18.1361162Z (Reading database ... 90%
+2026-11-12T23:24:18.1361340Z (Reading database ... 95%
+2026-11-12T23:24:18.1361521Z (Reading database ... 100%
+2026-11-12T23:24:18.1361784Z (Reading database ... 6704 files and directories currently installed.)
+2026-11-12T23:24:18.1362133Z #6 2.328 Preparing to unpack .../00-libelf1_0.188-2.1_amd64.deb ...
+2026-11-12T23:24:18.1362430Z #6 2.330 Unpacking libelf1:amd64 (0.188-2.1) ...
+2026-11-12T23:24:18.1362714Z #6 2.377 Selecting previously unselected package libbpf1:amd64.
+2026-11-12T23:24:18.2362460Z #6 2.378 Preparing to unpack .../01-libbpf1_1%3a1.1.2-0+deb12u1_amd64.deb ...
+2026-11-12T23:24:18.2363040Z #6 2.379 Unpacking libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+2026-11-12T23:24:18.2363518Z #6 2.398 Selecting previously unselected package libbsd0:amd64.
+2026-11-12T23:24:18.2364021Z #6 2.399 Preparing to unpack .../02-libbsd0_0.11.7-2_amd64.deb ...
+2026-11-12T23:24:18.2364503Z #6 2.400 Unpacking libbsd0:amd64 (0.11.7-2) ...
+2026-11-12T23:24:18.2364951Z #6 2.432 Selecting previously unselected package libmnl0:amd64.
+2026-11-12T23:24:18.2365297Z #6 2.433 Preparing to unpack .../03-libmnl0_1.0.4-3_amd64.deb ...
+2026-11-12T23:24:18.2365583Z #6 2.434 Unpacking libmnl0:amd64 (1.0.4-3) ...
+2026-11-12T23:24:18.2365877Z #6 2.446 Selecting previously unselected package libxtables12:amd64.
+2026-11-12T23:24:18.2366213Z #6 2.447 Preparing to unpack .../04-libxtables12_1.8.9-2_amd64.deb ...
+2026-11-12T23:24:18.2366670Z #6 2.447 Unpacking libxtables12:amd64 (1.8.9-2) ...
+2026-11-12T23:24:18.2366969Z #6 2.460 Selecting previously unselected package libcap2-bin.
+2026-11-12T23:24:18.2367346Z #6 2.461 Preparing to unpack .../05-libcap2-bin_1%3a2.66-4+deb12u3+b1_amd64.deb ...
+2026-11-12T23:24:18.2367715Z #6 2.462 Unpacking libcap2-bin (1:2.66-4+deb12u3+b1) ...
+2026-11-12T23:24:18.2367999Z #6 2.476 Selecting previously unselected package iproute2.
+2026-11-12T23:24:18.2368312Z #6 2.477 Preparing to unpack .../06-iproute2_6.1.0-3_amd64.deb ...
+2026-11-12T23:24:18.2368587Z #6 2.478 Unpacking iproute2 (6.1.0-3) ...
+2026-11-12T23:24:18.3404099Z #6 2.553 Selecting previously unselected package libip4tc2:amd64.
+2026-11-12T23:24:18.3404676Z #6 2.554 Preparing to unpack .../07-libip4tc2_1.8.9-2_amd64.deb ...
+2026-11-12T23:24:18.3405088Z #6 2.554 Unpacking libip4tc2:amd64 (1.8.9-2) ...
+2026-11-12T23:24:18.3405486Z #6 2.567 Selecting previously unselected package libip6tc2:amd64.
+2026-11-12T23:24:18.3405933Z #6 2.568 Preparing to unpack .../08-libip6tc2_1.8.9-2_amd64.deb ...
+2026-11-12T23:24:18.3406489Z #6 2.569 Unpacking libip6tc2:amd64 (1.8.9-2) ...
+2026-11-12T23:24:18.3406892Z #6 2.582 Selecting previously unselected package libnfnetlink0:amd64.
+2026-11-12T23:24:18.4929079Z #6 2.583 Preparing to unpack .../09-libnfnetlink0_1.0.2-2_amd64.deb ...
+2026-11-12T23:24:18.4929465Z #6 2.584 Unpacking libnfnetlink0:amd64 (1.0.2-2) ...
+2026-11-12T23:24:18.5145549Z #6 2.756 Selecting previously unselected package libnetfilter-conntrack3:amd64.
+2026-11-12T23:24:18.7034954Z #6 2.757 Preparing to unpack .../10-libnetfilter-conntrack3_1.0.9-3_amd64.deb ...
+2026-11-12T23:24:18.7035399Z #6 2.758 Unpacking libnetfilter-conntrack3:amd64 (1.0.9-3) ...
+2026-11-12T23:24:18.7035743Z #6 2.772 Selecting previously unselected package libnftnl11:amd64.
+2026-11-12T23:24:18.7036102Z #6 2.773 Preparing to unpack .../11-libnftnl11_1.2.4-2_amd64.deb ...
+2026-11-12T23:24:18.7036602Z #6 2.774 Unpacking libnftnl11:amd64 (1.2.4-2) ...
+2026-11-12T23:24:18.7036890Z #6 2.792 Selecting previously unselected package iptables.
+2026-11-12T23:24:18.7037652Z #6 2.794 Preparing to unpack .../12-iptables_1.8.9-2_amd64.deb ...
+2026-11-12T23:24:18.7037928Z #6 2.795 Unpacking iptables (1.8.9-2) ...
+2026-11-12T23:24:18.7806539Z #6 3.022 Preparing to unpack .../13-libssl3_3.0.22-1~deb12u2_amd64.deb ...
+2026-11-12T23:24:18.9329084Z #6 3.024 Unpacking libssl3:amd64 (3.0.22-1~deb12u2) over (3.0.22-1~deb12u1) ...
+2026-11-12T23:24:19.0195206Z #6 3.261 Preparing to unpack .../14-openssl_3.0.22-1~deb12u2_amd64.deb ...
+2026-11-12T23:24:19.1240909Z #6 3.263 Unpacking openssl (3.0.22-1~deb12u2) over (3.0.22-1~deb12u1) ...
+2026-11-12T23:24:19.1241607Z #6 3.366 Setting up libip4tc2:amd64 (1.8.9-2) ...
+2026-11-12T23:24:19.2316291Z #6 3.367 Setting up libip6tc2:amd64 (1.8.9-2) ...
+2026-11-12T23:24:19.2316907Z #6 3.369 Setting up libssl3:amd64 (3.0.22-1~deb12u2) ...
+2026-11-12T23:24:19.2317365Z #6 3.370 Setting up libcap2-bin (1:2.66-4+deb12u3+b1) ...
+2026-11-12T23:24:19.2317775Z #6 3.394 Setting up libmnl0:amd64 (1.0.4-3) ...
+2026-11-12T23:24:19.2318189Z #6 3.395 Setting up libxtables12:amd64 (1.8.9-2) ...
+2026-11-12T23:24:19.2318482Z #6 3.397 Setting up libnfnetlink0:amd64 (1.0.2-2) ...
+2026-11-12T23:24:19.2318745Z #6 3.404 Setting up openssl (3.0.22-1~deb12u2) ...
+2026-11-12T23:24:19.2319099Z #6 3.407 Setting up libbsd0:amd64 (0.11.7-2) ...
+2026-11-12T23:24:19.2319347Z #6 3.414 Setting up libelf1:amd64 (0.188-2.1) ...
+2026-11-12T23:24:19.2319608Z #6 3.415 Setting up libbpf1:amd64 (1:1.1.2-0+deb12u1) ...
+2026-11-12T23:24:19.2319976Z #6 3.417 Setting up iproute2 (6.1.0-3) ...
+2026-11-12T23:24:19.2320243Z #6 3.473 debconf: unable to initialize frontend: Dialog
+2026-11-12T23:24:19.2320661Z #6 3.473 debconf: (TERM is not set, so the dialog frontend is not usable.)
+2026-11-12T23:24:19.2320983Z #6 3.473 debconf: falling back to frontend: Readline
+2026-11-12T23:24:19.4179481Z #6 3.473 debconf: unable to initialize frontend: Readline
+2026-11-12T23:24:19.4181560Z #6 3.473 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+2026-11-12T23:24:19.4183644Z #6 3.473 debconf: falling back to frontend: Teletype
+2026-11-12T23:24:19.4184063Z #6 3.492 Setting up libnftnl11:amd64 (1.2.4-2) ...
+2026-11-12T23:24:19.4184467Z #6 3.493 Setting up libnetfilter-conntrack3:amd64 (1.0.9-3) ...
+2026-11-12T23:24:19.4184873Z #6 3.495 Setting up iptables (1.8.9-2) ...
+2026-11-12T23:24:19.4185458Z #6 3.498 update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) in auto mode
+2026-11-12T23:24:19.4186608Z #6 3.500 update-alternatives: using /usr/sbin/ip6tables-legacy to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+2026-11-12T23:24:19.4187474Z #6 3.502 update-alternatives: using /usr/sbin/iptables-nft to provide /usr/sbin/iptables (iptables) in auto mode
+2026-11-12T23:24:19.4188433Z #6 3.504 update-alternatives: using /usr/sbin/ip6tables-nft to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+2026-11-12T23:24:19.4189359Z #6 3.505 update-alternatives: using /usr/sbin/arptables-nft to provide /usr/sbin/arptables (arptables) in auto mode
+2026-11-12T23:24:19.4190284Z #6 3.507 update-alternatives: using /usr/sbin/ebtables-nft to provide /usr/sbin/ebtables (ebtables) in auto mode
+2026-11-12T23:24:19.4191029Z #6 3.509 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+2026-11-12T23:24:23.7926907Z #6 DONE 8.0s
+2026-11-12T23:24:23.9435965Z 
+2026-11-12T23:24:23.9436482Z #7 [ 3/13] WORKDIR /work
+2026-11-12T23:24:23.9800477Z #7 DONE 0.2s
+2026-11-12T23:24:24.1442636Z 
+2026-11-12T23:24:24.1443129Z #8 [ 4/13] COPY requirements-ra1a.lock ./
+2026-11-12T23:24:24.1443552Z #8 DONE 0.0s
+2026-11-12T23:24:24.1443670Z 
+2026-11-12T23:24:24.1443867Z #9 [ 5/13] RUN python -m pip install --no-cache-dir -r requirements-ra1a.lock
+2026-11-12T23:24:25.4260861Z #9 1.433 Collecting attrs==26.1.0 (from -r requirements-ra1a.lock (line 2))
+2026-11-12T23:24:25.5271226Z #9 1.483   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-11-12T23:24:25.5271958Z #9 1.503 Collecting colorama==0.4.6 (from -r requirements-ra1a.lock (line 3))
+2026-11-12T23:24:25.5272663Z #9 1.510   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+2026-11-12T23:24:25.5273827Z #9 1.534 Collecting dnspython==2.8.0 (from -r requirements-ra1a.lock (line 4))
+2026-11-12T23:24:25.6330640Z #9 1.542   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+2026-11-12T23:24:25.6345327Z #9 1.556 Collecting h11==0.16.0 (from -r requirements-ra1a.lock (line 5))
+2026-11-12T23:24:25.6345885Z #9 1.563   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-11-12T23:24:25.6346633Z #9 1.576 Collecting iniconfig==2.3.1 (from -r requirements-ra1a.lock (line 6))
+2026-11-12T23:24:25.6347235Z #9 1.583   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-12T23:24:25.6347966Z #9 1.599 Collecting jsonschema-specifications==2025.9.1 (from -r requirements-ra1a.lock (line 7))
+2026-11-12T23:24:25.6348762Z #9 1.606   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-11-12T23:24:25.6349408Z #9 1.633 Collecting jsonschema==4.26.0 (from -r requirements-ra1a.lock (line 8))
+2026-11-12T23:24:25.6349993Z #9 1.640   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-11-12T23:24:25.7523200Z #9 1.759 Collecting librt==0.16.0 (from -r requirements-ra1a.lock (line 9))
+2026-11-12T23:24:25.8567878Z #9 1.765   Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-11-12T23:24:25.8569312Z #9 1.863 Collecting mypy==1.20.2 (from -r requirements-ra1a.lock (line 10))
+2026-11-12T23:24:25.9570574Z #9 1.870   Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-12T23:24:25.9571889Z #9 1.883 Collecting mypy_extensions==1.2.0 (from -r requirements-ra1a.lock (line 11))
+2026-11-12T23:24:25.9572801Z #9 1.890   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+2026-11-12T23:24:25.9573968Z #9 1.892 Requirement already satisfied: packaging==26.3 in /usr/local/lib/python3.11/site-packages (from -r requirements-ra1a.lock (line 12)) (26.3)
+2026-11-12T23:24:25.9575097Z #9 1.907 Collecting pathspec==1.1.1 (from -r requirements-ra1a.lock (line 13))
+2026-11-12T23:24:25.9575994Z #9 1.915   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-11-12T23:24:25.9576951Z #9 1.957 Collecting pluggy==1.7.0 (from -r requirements-ra1a.lock (line 14))
+2026-11-12T23:24:25.9577692Z #9 1.964   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-12T23:24:26.0827809Z #9 1.986 Collecting Pygments==2.21.0 (from -r requirements-ra1a.lock (line 15))
+2026-11-12T23:24:26.0828518Z #9 1.993   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-11-12T23:24:26.0829301Z #9 2.037 Collecting pytest==9.2.0 (from -r requirements-ra1a.lock (line 16))
+2026-11-12T23:24:26.0829964Z #9 2.043   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+2026-11-12T23:24:26.0830570Z #9 2.089 Collecting PyYAML==6.0.3 (from -r requirements-ra1a.lock (line 17))
+2026-11-12T23:24:26.2887187Z #9 2.096   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-12T23:24:26.2888211Z #9 2.138 Collecting referencing==0.37.0 (from -r requirements-ra1a.lock (line 18))
+2026-11-12T23:24:26.2888914Z #9 2.145   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-11-12T23:24:26.3567732Z #9 2.363 Collecting rpds-py==2026.9.1 (from -r requirements-ra1a.lock (line 19))
+2026-11-12T23:24:26.5142045Z #9 2.370   Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-11-12T23:24:26.7160990Z #9 2.723 Collecting ruff==0.17.4 (from -r requirements-ra1a.lock (line 20))
+2026-11-12T23:24:26.9048738Z #9 2.730   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+2026-11-12T23:24:26.9049353Z #9 2.752 Collecting typing_extensions==4.16.0 (from -r requirements-ra1a.lock (line 21))
+2026-11-12T23:24:26.9049820Z #9 2.758   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-12T23:24:26.9050843Z #9 2.761 Requirement already satisfied: setuptools==79.0.1 in /usr/local/lib/python3.11/site-packages (from -r requirements-ra1a.lock (line 22)) (79.0.1)
+2026-11-12T23:24:26.9399184Z #9 2.946 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-11-12T23:24:27.1132752Z #9 2.951    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.5/67.5 kB 20.2 MB/s eta 0:00:00
+2026-11-12T23:24:27.1133405Z #9 2.958 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+2026-11-12T23:24:27.1133944Z #9 2.965 Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+2026-11-12T23:24:27.1134634Z #9 2.972    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.1/331.1 kB 60.4 MB/s eta 0:00:00
+2026-11-12T23:24:27.1135116Z #9 2.980 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-11-12T23:24:27.1135591Z #9 2.988 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-12T23:24:27.1136174Z #9 2.995 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-11-12T23:24:27.1136939Z #9 3.002 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-11-12T23:24:27.1137587Z #9 3.004    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 350.3 MB/s eta 0:00:00
+2026-11-12T23:24:27.1138306Z #9 3.010 Downloading librt-0.16.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (515 kB)
+2026-11-12T23:24:27.1139088Z #9 3.018    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 516.0/516.0 kB 102.6 MB/s eta 0:00:00
+2026-11-12T23:24:27.1139652Z #9 3.025 Downloading mypy-1.20.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.6 MB)
+2026-11-12T23:24:27.2595837Z #9 3.120    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.6/14.6 MB 148.4 MB/s eta 0:00:00
+2026-11-12T23:24:27.2596638Z #9 3.127 Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+2026-11-12T23:24:27.2597179Z #9 3.134 Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-11-12T23:24:27.2597784Z #9 3.136    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.3/57.3 kB 352.0 MB/s eta 0:00:00
+2026-11-12T23:24:27.2598251Z #9 3.143 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-12T23:24:27.2598565Z #9 3.150 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-11-12T23:24:27.2598948Z #9 3.156    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 363.6 MB/s eta 0:00:00
+2026-11-12T23:24:27.2599265Z #9 3.164 Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+2026-11-12T23:24:27.2599638Z #9 3.167    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 411.8/411.8 kB 455.1 MB/s eta 0:00:00
+2026-11-12T23:24:27.2600140Z #9 3.174 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-11-12T23:24:27.2600700Z #9 3.178    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 449.3 MB/s eta 0:00:00
+2026-11-12T23:24:27.2601040Z #9 3.185 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-11-12T23:24:27.2601458Z #9 3.192 Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (375 kB)
+2026-11-12T23:24:27.2601944Z #9 3.194    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 375.4/375.4 kB 469.9 MB/s eta 0:00:00
+2026-11-12T23:24:27.2602344Z #9 3.202 Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+2026-11-12T23:24:27.3848469Z #9 3.266    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 168.4 MB/s eta 0:00:00
+2026-11-12T23:24:27.3848999Z #9 3.273 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-12T23:24:27.3849448Z #9 3.274    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.6/45.6 kB 278.1 MB/s eta 0:00:00
+2026-11-12T23:24:27.3850615Z #9 3.391 Installing collected packages: typing_extensions, ruff, rpds-py, PyYAML, Pygments, pluggy, pathspec, mypy_extensions, librt, iniconfig, h11, dnspython, colorama, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema
+2026-11-12T23:24:29.7337734Z #9 5.740 Successfully installed PyYAML-6.0.3 Pygments-2.21.0 attrs-26.1.0 colorama-0.4.6 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 pathspec-1.1.1 pluggy-1.7.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 typing_extensions-4.16.0
+2026-11-12T23:24:29.9688955Z #9 5.740 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+2026-11-12T23:24:29.9690026Z #9 5.825 
+2026-11-12T23:24:29.9690340Z #9 5.825 [notice] A new release of pip is available: 24.0 -> 26.3
+2026-11-12T23:24:29.9690831Z #9 5.825 [notice] To update, run: pip install --upgrade pip
+2026-11-12T23:24:31.0201435Z #9 DONE 7.0s
+2026-11-12T23:24:31.1211006Z 
+2026-11-12T23:24:31.1211486Z #10 [ 6/13] COPY pyproject.toml ./
+2026-11-12T23:24:31.1211883Z #10 DONE 0.0s
+2026-11-12T23:24:31.1212039Z 
+2026-11-12T23:24:31.1212146Z #11 [ 7/13] COPY vrae ./vrae
+2026-11-12T23:24:31.1212435Z #11 DONE 0.0s
+2026-11-12T23:24:31.1212582Z 
+2026-11-12T23:24:31.1212716Z #12 [ 8/13] COPY contracts ./contracts
+2026-11-12T23:24:31.1213070Z #12 DONE 0.0s
+2026-11-12T23:24:31.1213203Z 
+2026-11-12T23:24:31.1213367Z #13 [ 9/13] COPY industry-packs ./industry-packs
+2026-11-12T23:24:31.1213712Z #13 DONE 0.0s
+2026-11-12T23:24:31.3439403Z 
+2026-11-12T23:24:31.3439839Z #14 [10/13] COPY tests ./tests
+2026-11-12T23:24:31.3440204Z #14 DONE 0.1s
+2026-11-12T23:24:31.3440314Z 
+2026-11-12T23:24:31.3440513Z #15 [11/13] RUN python -m pip install --no-deps --no-build-isolation -e '.[dev]'
+2026-11-12T23:24:31.5751879Z #15 0.382 Obtaining file:///work
+2026-11-12T23:24:31.7270182Z #15 0.383   Checking if build backend supports build_editable: started
+2026-11-12T23:24:31.8029299Z #15 0.609   Checking if build backend supports build_editable: finished with status 'done'
+2026-11-12T23:24:31.9540999Z #15 0.610   Preparing editable metadata (pyproject.toml): started
+2026-11-12T23:24:32.0993645Z #15 0.906   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-11-12T23:24:32.2151490Z #15 0.915 Checking if build backend supports build_editable: started
+2026-11-12T23:24:32.2151962Z #15 1.022 Checking if build backend supports build_editable: finished with status 'done'
+2026-11-12T23:24:32.3669482Z #15 1.022 Building wheels for collected packages: vrae
+2026-11-12T23:24:32.3670088Z #15 1.023   Building editable for vrae (pyproject.toml): started
+2026-11-12T23:24:32.4097867Z #15 1.216   Building editable for vrae (pyproject.toml): finished with status 'done'
+2026-11-12T23:24:32.6548230Z #15 1.217   Created wheel for vrae: filename=vrae-0.1.0-0.editable-py3-none-any.whl size=2739 sha256=cab16fdf34d5903683eb3f317839bcbfdba87de71ba34b37146e1ac6f9a90f04
+2026-11-12T23:24:32.6549845Z #15 1.218   Stored in directory: /tmp/pip-ephem-wheel-cache-4c4gdn27/wheels/ab/b8/c0/a9ba31bee702e5eb1c32d648f0503425e03b81d5dafe8f0dd3
+2026-11-12T23:24:32.6550563Z #15 1.219 Successfully built vrae
+2026-11-12T23:24:32.6550912Z #15 1.219 Installing collected packages: vrae
+2026-11-12T23:24:32.6551287Z #15 1.226 Successfully installed vrae-0.1.0
+2026-11-12T23:24:32.6552412Z #15 1.226 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+2026-11-12T23:24:32.6553508Z #15 1.315 
+2026-11-12T23:24:32.6553804Z #15 1.315 [notice] A new release of pip is available: 24.0 -> 26.3
+2026-11-12T23:24:32.6554222Z #15 1.315 [notice] To update, run: pip install --upgrade pip
+2026-11-12T23:24:32.6554596Z #15 DONE 1.5s
+2026-11-12T23:24:32.7906658Z 
+2026-11-12T23:24:32.7912978Z #16 [12/13] COPY infra/ra1a/entrypoint.sh /entrypoint.sh
+2026-11-12T23:24:32.7913797Z #16 DONE 0.0s
+2026-11-12T23:24:32.7914157Z 
+2026-11-12T23:24:32.7915166Z #17 [13/13] RUN sed -i 's/\r$//; s/--regid=65532/--regid=10003/; s@python scripts/verify_ra1a.py /tmp/verification@python -m pytest -q -s -p no:cacheprovider tests/browser/test_isolated_browser.py@' /entrypoint.sh     && chmod 755 /entrypoint.sh
+2026-11-12T23:24:32.7918183Z #17 DONE 0.1s
+2026-11-12T23:24:32.9457433Z 
+2026-11-12T23:24:32.9458344Z #18 exporting to image
+2026-11-12T23:24:32.9458914Z #18 exporting layers
+2026-11-12T23:24:36.9286453Z #18 exporting layers 4.1s done
+2026-11-12T23:24:37.0981564Z #18 exporting manifest sha256:c3d55fa017a8c62a8dd27cd3695683e3d4cc40f1f51c6d301e09ae245cbb4560 done
+2026-11-12T23:24:37.0982501Z #18 exporting config sha256:5626e3746ef11d6b4f89166893a64fb5845baf3a1c80d9aa56dde34ee836cf9b done
+2026-11-12T23:24:37.0983212Z #18 exporting attestation manifest sha256:e37c2104c9dfcb47629fbda1c9b287c4013385f8d815b2a198e5e590432b91e6 done
+2026-11-12T23:24:37.0984050Z #18 exporting manifest list sha256:b5f71cd4a2ffec047bd97452c4f31fce83cdfd667a64014597a72a64de609d36 done
+2026-11-12T23:24:37.0984540Z #18 naming to docker.io/library/vrae-ra1b-worker:local done
+2026-11-12T23:24:37.0984959Z #18 unpacking to docker.io/library/vrae-ra1b-worker:local
+2026-11-12T23:24:38.0987069Z #18 unpacking to docker.io/library/vrae-ra1b-worker:local 1.2s done
+2026-11-12T23:24:38.2232558Z #18 DONE 5.3s
+2026-11-12T23:24:38.2323137Z ##[group]Run python scripts/verify_ra1b.py /tmp/ra1b-evidence
+2026-11-12T23:24:38.2323519Z [36;1mpython scripts/verify_ra1b.py /tmp/ra1b-evidence[0m
+2026-11-12T23:24:38.2369082Z shell: /usr/bin/bash -e {0}
+2026-11-12T23:24:38.2369297Z env:
+2026-11-12T23:24:38.2369518Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:24:38.2369867Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-12T23:24:38.2370204Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:24:38.2370530Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:24:38.2370820Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:24:38.2371111Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-12T23:24:38.2371369Z ##[endgroup]
+2026-11-12T23:24:39.4707269Z kernel-control EXIT_CODE 0
+2026-11-12T23:24:39.8083311Z kernel-deny EXIT_CODE 0
+2026-11-12T23:24:41.3110064Z sandbox EXIT_CODE 0
+2026-11-12T23:24:41.3254680Z readonly-volume EXIT_CODE 0
+2026-11-12T23:24:41.3384839Z readonly-volume-config EXIT_CODE 0
+2026-11-12T23:24:41.8700187Z readonly-browser-start EXIT_CODE 0
+2026-11-12T23:24:41.8853548Z readonly-browser-config EXIT_CODE 0
+2026-11-12T23:24:42.2159153Z readonly-ready EXIT_CODE 0
+2026-11-12T23:24:45.6557280Z readonly-worker EXIT_CODE 0
+2026-11-12T23:24:45.6685022Z readonly-automatic-exit EXIT_CODE 0
+2026-11-12T23:24:45.6817600Z readonly-worker-config EXIT_CODE 0
+2026-11-12T23:24:45.6986634Z readonly-browser-log EXIT_CODE 0
+2026-11-12T23:24:45.7135112Z readonly-browser-final-state EXIT_CODE 0
+2026-11-12T23:24:45.7265683Z readonly-process-absence EXIT_CODE 1
+2026-11-12T23:24:45.7508678Z readonly-remove EXIT_CODE 0
+2026-11-12T23:24:45.7649034Z readonly-volume-remove EXIT_CODE 0
+2026-11-12T23:24:45.7933557Z readonly-cleanup-proof EXIT_CODE 1
+2026-11-12T23:24:45.8060521Z readonly-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:24:45.8208746Z writes-volume EXIT_CODE 0
+2026-11-12T23:24:45.8343668Z writes-volume-config EXIT_CODE 0
+2026-11-12T23:24:46.0319764Z writes-browser-start EXIT_CODE 0
+2026-11-12T23:24:46.0476520Z writes-browser-config EXIT_CODE 0
+2026-11-12T23:24:46.3764056Z writes-ready EXIT_CODE 0
+2026-11-12T23:24:49.7877906Z writes-worker EXIT_CODE 0
+2026-11-12T23:24:49.8184350Z writes-automatic-exit EXIT_CODE 0
+2026-11-12T23:24:49.8325082Z writes-worker-config EXIT_CODE 0
+2026-11-12T23:24:49.8467655Z writes-browser-log EXIT_CODE 0
+2026-11-12T23:24:49.8602993Z writes-browser-final-state EXIT_CODE 0
+2026-11-12T23:24:49.8730153Z writes-process-absence EXIT_CODE 1
+2026-11-12T23:24:49.9125920Z writes-remove EXIT_CODE 0
+2026-11-12T23:24:49.9261242Z writes-volume-remove EXIT_CODE 0
+2026-11-12T23:24:49.9537047Z writes-cleanup-proof EXIT_CODE 1
+2026-11-12T23:24:49.9667519Z writes-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:24:49.9810468Z private-volume EXIT_CODE 0
+2026-11-12T23:24:49.9938295Z private-volume-config EXIT_CODE 0
+2026-11-12T23:24:50.1312793Z private-browser-start EXIT_CODE 0
+2026-11-12T23:24:50.1473192Z private-browser-config EXIT_CODE 0
+2026-11-12T23:24:50.4724752Z private-ready EXIT_CODE 0
+2026-11-12T23:24:53.8326004Z private-worker EXIT_CODE 0
+2026-11-12T23:24:53.8506680Z private-automatic-exit EXIT_CODE 0
+2026-11-12T23:24:53.8638592Z private-worker-config EXIT_CODE 0
+2026-11-12T23:24:53.8777787Z private-browser-log EXIT_CODE 0
+2026-11-12T23:24:53.8911290Z private-browser-final-state EXIT_CODE 0
+2026-11-12T23:24:53.9038116Z private-process-absence EXIT_CODE 1
+2026-11-12T23:24:53.9267508Z private-remove EXIT_CODE 0
+2026-11-12T23:24:53.9401762Z private-volume-remove EXIT_CODE 0
+2026-11-12T23:24:53.9666698Z private-cleanup-proof EXIT_CODE 1
+2026-11-12T23:24:53.9788727Z private-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:24:54.0084359Z resources-volume EXIT_CODE 0
+2026-11-12T23:24:54.0214794Z resources-volume-config EXIT_CODE 0
+2026-11-12T23:24:54.1538561Z resources-browser-start EXIT_CODE 0
+2026-11-12T23:24:54.1693904Z resources-browser-config EXIT_CODE 0
+2026-11-12T23:24:54.5277585Z resources-ready EXIT_CODE 0
+2026-11-12T23:24:58.1146206Z resources-worker EXIT_CODE 0
+2026-11-12T23:24:58.1286152Z resources-automatic-exit EXIT_CODE 0
+2026-11-12T23:24:58.1427288Z resources-worker-config EXIT_CODE 0
+2026-11-12T23:24:58.1569693Z resources-browser-log EXIT_CODE 0
+2026-11-12T23:24:58.1704243Z resources-browser-final-state EXIT_CODE 0
+2026-11-12T23:24:58.1843757Z resources-process-absence EXIT_CODE 1
+2026-11-12T23:24:58.2087617Z resources-remove EXIT_CODE 0
+2026-11-12T23:24:58.2228342Z resources-volume-remove EXIT_CODE 0
+2026-11-12T23:24:58.2496911Z resources-cleanup-proof EXIT_CODE 1
+2026-11-12T23:24:58.2620538Z resources-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:24:58.2764595Z channels-volume EXIT_CODE 0
+2026-11-12T23:24:58.2890872Z channels-volume-config EXIT_CODE 0
+2026-11-12T23:24:58.3972958Z channels-browser-start EXIT_CODE 0
+2026-11-12T23:24:58.4119938Z channels-browser-config EXIT_CODE 0
+2026-11-12T23:24:58.7718024Z channels-ready EXIT_CODE 0
+2026-11-12T23:25:02.2397668Z channels-worker EXIT_CODE 0
+2026-11-12T23:25:02.2547985Z channels-automatic-exit EXIT_CODE 0
+2026-11-12T23:25:02.2687443Z channels-worker-config EXIT_CODE 0
+2026-11-12T23:25:02.2834254Z channels-browser-log EXIT_CODE 0
+2026-11-12T23:25:02.2987315Z channels-browser-final-state EXIT_CODE 0
+2026-11-12T23:25:02.3131517Z channels-process-absence EXIT_CODE 1
+2026-11-12T23:25:02.3426555Z channels-remove EXIT_CODE 0
+2026-11-12T23:25:02.3568524Z channels-volume-remove EXIT_CODE 0
+2026-11-12T23:25:02.3848485Z channels-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:02.3979045Z channels-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:02.4127614Z escape-volume EXIT_CODE 0
+2026-11-12T23:25:02.4264028Z escape-volume-config EXIT_CODE 0
+2026-11-12T23:25:02.5646638Z escape-browser-start EXIT_CODE 0
+2026-11-12T23:25:02.5798074Z escape-browser-config EXIT_CODE 0
+2026-11-12T23:25:02.9002799Z escape-ready EXIT_CODE 0
+2026-11-12T23:25:06.4331288Z escape-worker EXIT_CODE 0
+2026-11-12T23:25:06.4473137Z escape-automatic-exit EXIT_CODE 0
+2026-11-12T23:25:06.4606298Z escape-worker-config EXIT_CODE 0
+2026-11-12T23:25:06.4744444Z escape-browser-log EXIT_CODE 0
+2026-11-12T23:25:06.4879569Z escape-browser-final-state EXIT_CODE 0
+2026-11-12T23:25:06.5024013Z escape-process-absence EXIT_CODE 1
+2026-11-12T23:25:06.5253273Z escape-remove EXIT_CODE 0
+2026-11-12T23:25:06.5392616Z escape-volume-remove EXIT_CODE 0
+2026-11-12T23:25:06.5695437Z escape-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:06.5829101Z escape-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:06.5977000Z storage-volume EXIT_CODE 0
+2026-11-12T23:25:06.6108727Z storage-volume-config EXIT_CODE 0
+2026-11-12T23:25:06.7217577Z storage-browser-start EXIT_CODE 0
+2026-11-12T23:25:06.7402687Z storage-browser-config EXIT_CODE 0
+2026-11-12T23:25:07.0877291Z storage-ready EXIT_CODE 0
+2026-11-12T23:25:10.4333596Z storage-worker EXIT_CODE 0
+2026-11-12T23:25:10.4511296Z storage-automatic-exit EXIT_CODE 0
+2026-11-12T23:25:10.4654773Z storage-worker-config EXIT_CODE 0
+2026-11-12T23:25:10.4795785Z storage-browser-log EXIT_CODE 0
+2026-11-12T23:25:10.4938148Z storage-browser-final-state EXIT_CODE 0
+2026-11-12T23:25:10.5069193Z storage-process-absence EXIT_CODE 1
+2026-11-12T23:25:10.5312424Z storage-remove EXIT_CODE 0
+2026-11-12T23:25:10.5455780Z storage-volume-remove EXIT_CODE 0
+2026-11-12T23:25:10.5724342Z storage-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:10.5849872Z storage-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:10.5984715Z redirect-volume EXIT_CODE 0
+2026-11-12T23:25:10.6111144Z redirect-volume-config EXIT_CODE 0
+2026-11-12T23:25:10.7207799Z redirect-browser-start EXIT_CODE 0
+2026-11-12T23:25:10.7356916Z redirect-browser-config EXIT_CODE 0
+2026-11-12T23:25:11.0564380Z redirect-ready EXIT_CODE 0
+2026-11-12T23:25:14.5791079Z redirect-worker EXIT_CODE 0
+2026-11-12T23:25:14.6061334Z redirect-automatic-exit EXIT_CODE 0
+2026-11-12T23:25:14.6202401Z redirect-worker-config EXIT_CODE 0
+2026-11-12T23:25:14.6344902Z redirect-browser-log EXIT_CODE 0
+2026-11-12T23:25:14.6486506Z redirect-browser-final-state EXIT_CODE 0
+2026-11-12T23:25:14.6629009Z redirect-process-absence EXIT_CODE 1
+2026-11-12T23:25:14.6873767Z redirect-remove EXIT_CODE 0
+2026-11-12T23:25:14.7032191Z redirect-volume-remove EXIT_CODE 0
+2026-11-12T23:25:14.7326077Z redirect-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:14.7461031Z redirect-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:14.7609642Z redirect_private-volume EXIT_CODE 0
+2026-11-12T23:25:14.7750641Z redirect_private-volume-config EXIT_CODE 0
+2026-11-12T23:25:14.8962887Z redirect_private-browser-start EXIT_CODE 0
+2026-11-12T23:25:14.9139278Z redirect_private-browser-config EXIT_CODE 0
+2026-11-12T23:25:15.2613790Z redirect_private-ready EXIT_CODE 0
+2026-11-12T23:25:18.6072099Z redirect_private-worker EXIT_CODE 0
+2026-11-12T23:25:18.9568974Z redirect_private-automatic-exit EXIT_CODE 0
+2026-11-12T23:25:18.9712109Z redirect_private-worker-config EXIT_CODE 0
+2026-11-12T23:25:18.9858730Z redirect_private-browser-log EXIT_CODE 0
+2026-11-12T23:25:18.9997459Z redirect_private-browser-final-state EXIT_CODE 0
+2026-11-12T23:25:19.0143379Z redirect_private-process-absence EXIT_CODE 1
+2026-11-12T23:25:19.3495392Z redirect_private-remove EXIT_CODE 0
+2026-11-12T23:25:19.3634768Z redirect_private-volume-remove EXIT_CODE 0
+2026-11-12T23:25:19.3899765Z redirect_private-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:19.4022257Z redirect_private-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:19.4337032Z rebinding-volume EXIT_CODE 0
+2026-11-12T23:25:19.4477450Z rebinding-volume-config EXIT_CODE 0
+2026-11-12T23:25:19.5562472Z rebinding-browser-start EXIT_CODE 0
+2026-11-12T23:25:19.5738638Z rebinding-browser-config EXIT_CODE 0
+2026-11-12T23:25:19.8969139Z rebinding-ready EXIT_CODE 0
+2026-11-12T23:25:23.4107643Z rebinding-worker EXIT_CODE 0
+2026-11-12T23:25:23.4680399Z rebinding-automatic-exit EXIT_CODE 0
+2026-11-12T23:25:23.4823824Z rebinding-worker-config EXIT_CODE 0
+2026-11-12T23:25:23.4966070Z rebinding-browser-log EXIT_CODE 0
+2026-11-12T23:25:23.5104413Z rebinding-browser-final-state EXIT_CODE 0
+2026-11-12T23:25:23.5243162Z rebinding-process-absence EXIT_CODE 1
+2026-11-12T23:25:23.5475858Z rebinding-remove EXIT_CODE 0
+2026-11-12T23:25:23.5663969Z rebinding-volume-remove EXIT_CODE 0
+2026-11-12T23:25:23.6041646Z rebinding-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:23.6175527Z rebinding-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:23.6322284Z infinite-volume EXIT_CODE 0
+2026-11-12T23:25:23.6451432Z infinite-volume-config EXIT_CODE 0
+2026-11-12T23:25:23.7524203Z infinite-browser-start EXIT_CODE 0
+2026-11-12T23:25:23.7673060Z infinite-browser-config EXIT_CODE 0
+2026-11-12T23:25:24.1110743Z infinite-ready EXIT_CODE 0
+2026-11-12T23:25:42.4849451Z infinite-worker EXIT_CODE 0
+2026-11-12T23:25:42.4987244Z infinite-automatic-exit EXIT_CODE 0
+2026-11-12T23:25:42.5127037Z infinite-worker-config EXIT_CODE 0
+2026-11-12T23:25:42.5276030Z infinite-browser-log EXIT_CODE 0
+2026-11-12T23:25:42.5419497Z infinite-browser-final-state EXIT_CODE 0
+2026-11-12T23:25:42.5556505Z infinite-process-absence EXIT_CODE 1
+2026-11-12T23:25:42.5809706Z infinite-remove EXIT_CODE 0
+2026-11-12T23:25:42.5951698Z infinite-volume-remove EXIT_CODE 0
+2026-11-12T23:25:42.6240660Z infinite-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:42.6375216Z infinite-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:25:42.6520732Z memory-volume EXIT_CODE 0
+2026-11-12T23:25:42.6651657Z memory-volume-config EXIT_CODE 0
+2026-11-12T23:25:42.7777600Z memory-browser-start EXIT_CODE 0
+2026-11-12T23:25:42.7960434Z memory-browser-config EXIT_CODE 0
+2026-11-12T23:25:43.1639057Z memory-ready EXIT_CODE 0
+2026-11-12T23:26:01.7554451Z memory-worker EXIT_CODE 0
+2026-11-12T23:26:01.8294150Z memory-automatic-exit EXIT_CODE 0
+2026-11-12T23:26:01.8455712Z memory-worker-config EXIT_CODE 0
+2026-11-12T23:26:01.8620266Z memory-browser-log EXIT_CODE 0
+2026-11-12T23:26:01.8795964Z memory-browser-final-state EXIT_CODE 0
+2026-11-12T23:26:01.8952647Z memory-process-absence EXIT_CODE 1
+2026-11-12T23:26:01.9728515Z memory-remove EXIT_CODE 0
+2026-11-12T23:26:01.9893287Z memory-volume-remove EXIT_CODE 0
+2026-11-12T23:26:02.0217129Z memory-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:02.0366218Z memory-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:02.0525534Z revocation-volume EXIT_CODE 0
+2026-11-12T23:26:02.0679690Z revocation-volume-config EXIT_CODE 0
+2026-11-12T23:26:02.1900579Z revocation-browser-start EXIT_CODE 0
+2026-11-12T23:26:02.2053439Z revocation-browser-config EXIT_CODE 0
+2026-11-12T23:26:02.5673002Z revocation-ready EXIT_CODE 0
+2026-11-12T23:26:09.1477962Z revocation-worker EXIT_CODE 0
+2026-11-12T23:26:09.1617250Z revocation-automatic-exit EXIT_CODE 0
+2026-11-12T23:26:09.1760215Z revocation-worker-config EXIT_CODE 0
+2026-11-12T23:26:09.1908654Z revocation-browser-log EXIT_CODE 0
+2026-11-12T23:26:09.2049207Z revocation-browser-final-state EXIT_CODE 0
+2026-11-12T23:26:09.2195648Z revocation-process-absence EXIT_CODE 1
+2026-11-12T23:26:09.4447494Z revocation-remove EXIT_CODE 0
+2026-11-12T23:26:09.4587113Z revocation-volume-remove EXIT_CODE 0
+2026-11-12T23:26:09.4884751Z revocation-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:09.5023392Z revocation-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:09.5172941Z crash-volume EXIT_CODE 0
+2026-11-12T23:26:09.5311659Z crash-volume-config EXIT_CODE 0
+2026-11-12T23:26:09.6462685Z crash-browser-start EXIT_CODE 0
+2026-11-12T23:26:09.6640198Z crash-browser-config EXIT_CODE 0
+2026-11-12T23:26:09.9792027Z crash-ready EXIT_CODE 0
+2026-11-12T23:26:20.1004010Z crash-worker EXIT_CODE 0
+2026-11-12T23:26:20.1142794Z crash-automatic-exit EXIT_CODE 0
+2026-11-12T23:26:20.1288532Z crash-worker-config EXIT_CODE 0
+2026-11-12T23:26:20.1445739Z crash-browser-log EXIT_CODE 0
+2026-11-12T23:26:20.1595391Z crash-browser-final-state EXIT_CODE 0
+2026-11-12T23:26:20.1745402Z crash-process-absence EXIT_CODE 1
+2026-11-12T23:26:20.1987284Z crash-remove EXIT_CODE 0
+2026-11-12T23:26:20.2134802Z crash-volume-remove EXIT_CODE 0
+2026-11-12T23:26:20.2436224Z crash-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:20.2575429Z crash-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:20.2722252Z sigkill-volume EXIT_CODE 0
+2026-11-12T23:26:20.2859163Z sigkill-volume-config EXIT_CODE 0
+2026-11-12T23:26:20.4518214Z sigkill-browser-start EXIT_CODE 0
+2026-11-12T23:26:20.4684381Z sigkill-browser-config EXIT_CODE 0
+2026-11-12T23:26:20.8100811Z sigkill-ready EXIT_CODE 0
+2026-11-12T23:26:22.9715392Z sigkill-kill EXIT_CODE 0
+2026-11-12T23:26:30.7454738Z sigkill-worker EXIT_CODE 0
+2026-11-12T23:26:30.7594372Z sigkill-automatic-exit EXIT_CODE 0
+2026-11-12T23:26:30.7740317Z sigkill-worker-config EXIT_CODE 0
+2026-11-12T23:26:30.7890416Z sigkill-browser-log EXIT_CODE 0
+2026-11-12T23:26:30.8043665Z sigkill-browser-final-state EXIT_CODE 0
+2026-11-12T23:26:30.8194674Z sigkill-process-absence EXIT_CODE 1
+2026-11-12T23:26:30.8430547Z sigkill-remove EXIT_CODE 0
+2026-11-12T23:26:30.8574120Z sigkill-volume-remove EXIT_CODE 0
+2026-11-12T23:26:30.8872668Z sigkill-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:30.9009627Z sigkill-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:30.9159918Z worker_kill-volume EXIT_CODE 0
+2026-11-12T23:26:30.9294780Z worker_kill-volume-config EXIT_CODE 0
+2026-11-12T23:26:31.0438045Z worker_kill-browser-start EXIT_CODE 0
+2026-11-12T23:26:31.0599407Z worker_kill-browser-config EXIT_CODE 0
+2026-11-12T23:26:31.4119137Z worker_kill-ready EXIT_CODE 0
+2026-11-12T23:26:33.4841394Z worker_kill-kill EXIT_CODE 0
+2026-11-12T23:26:33.4852208Z worker_kill-worker EXIT_CODE 137
+2026-11-12T23:26:33.6258314Z worker_kill-automatic-exit EXIT_CODE 0
+2026-11-12T23:26:33.6392433Z worker_kill-worker-config EXIT_CODE 0
+2026-11-12T23:26:33.6560160Z worker_kill-browser-log EXIT_CODE 0
+2026-11-12T23:26:33.6700439Z worker_kill-browser-final-state EXIT_CODE 0
+2026-11-12T23:26:33.6843646Z worker_kill-process-absence EXIT_CODE 1
+2026-11-12T23:26:33.7080451Z worker_kill-remove EXIT_CODE 0
+2026-11-12T23:26:33.7218976Z worker_kill-volume-remove EXIT_CODE 0
+2026-11-12T23:26:33.7483982Z worker_kill-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:33.7607331Z worker_kill-volume-cleanup-proof EXIT_CODE 1
+2026-11-12T23:26:33.7762200Z ##[group]Run actions/upload-artifact@v4
+2026-11-12T23:26:33.7762440Z with:
+2026-11-12T23:26:33.7762621Z   name: ra1b-synthetic-security-evidence
+2026-11-12T23:26:33.7762853Z   path: /tmp/ra1b-evidence
+2026-11-12T23:26:33.7763047Z   if-no-files-found: warn
+2026-11-12T23:26:33.7763248Z   compression-level: 6
+2026-11-12T23:26:33.7763429Z   overwrite: false
+2026-11-12T23:26:33.7763603Z   include-hidden-files: false
+2026-11-12T23:26:33.7763796Z env:
+2026-11-12T23:26:33.7763996Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:26:33.7764352Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib/pkgconfig
+2026-11-12T23:26:33.7764684Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:26:33.7764985Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:26:33.7765269Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.18/x64
+2026-11-12T23:26:33.7765591Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.18/x64/lib
+2026-11-12T23:26:33.7765845Z ##[endgroup]
+2026-11-12T23:26:33.9149143Z (node:14968) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-12T23:26:33.9150067Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-12T23:26:33.9421952Z With the provided path, there will be 247 files uploaded
+2026-11-12T23:26:33.9426178Z Artifact name is valid!
+2026-11-12T23:26:33.9427043Z Root directory input is valid!
+2026-11-12T23:26:34.3799160Z Beginning upload of artifact content to blob storage
+2026-11-12T23:26:34.5462809Z (node:14968) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-12T23:26:35.1050032Z Uploaded bytes 312942
+2026-11-12T23:26:35.1865051Z Finished uploading artifact content to blob storage!
+2026-11-12T23:26:35.1865816Z SHA256 digest of uploaded artifact zip is ff0435534b63b4b37e2ff8f970db035e9ed68c5ea63a991f13608b5ec4e4648c
+2026-11-12T23:26:35.1866632Z Finalizing artifact upload
+2026-11-12T23:26:35.5999291Z Artifact ra1b-synthetic-security-evidence.zip successfully finalized. Artifact ID 13993434908
+2026-11-12T23:26:35.6000347Z Artifact ra1b-synthetic-security-evidence has been successfully uploaded! Final size is 312942 bytes. Artifact ID is 13993434908
+2026-11-12T23:26:35.6005038Z Artifact download URL: https://github.com/gloweaseco-leo/VRAE/actions/runs/43328389718/artifacts/13993434908
+2026-11-12T23:26:35.6203345Z Post job cleanup.
+2026-11-12T23:26:35.7213290Z (node:14981) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-12T23:26:35.7214194Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-12T23:26:35.7356183Z Post job cleanup.
+2026-11-12T23:26:35.8105860Z [command]/usr/bin/git version
+2026-11-12T23:26:35.8143939Z git version 2.56.0
+2026-11-12T23:26:35.8178491Z Temporarily overriding HOME='/home/runner/work/_temp/fc7b068c-3f0f-461a-a71d-83e61f246d87' before making global git config changes
+2026-11-12T23:26:35.8179742Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-12T23:26:35.8183576Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-12T23:26:35.8226536Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-12T23:26:35.8261699Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-12T23:26:35.8911174Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-12T23:26:35.8939974Z http.https://github.com/.extraheader
+2026-11-12T23:26:35.8950206Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-12T23:26:35.8984724Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-12T23:26:35.9259477Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-12T23:26:35.9292527Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-12T23:26:35.9704844Z Cleaning up orphan processes
+2026-11-12T23:26:36.0041055Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

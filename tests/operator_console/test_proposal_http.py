@@ -1,6 +1,6 @@
 """Real loopback HTTP transport, no authentication or persistent submission."""
 
-from contextlib import contextmanager
+from contextlib import contextmanager, redirect_stdout
 from http.client import HTTPConnection
 from pathlib import Path
 from urllib.parse import urlsplit, urlencode
@@ -8,6 +8,10 @@ import json
 import os
 import subprocess
 import sys
+import io
+import socket
+import threading
+from types import SimpleNamespace
 
 import pytest
 
@@ -17,6 +21,40 @@ from apps.operator_console.preview import serve
 
 @pytest.fixture(scope="module")
 def http_fixture():
+    if os.environ.get("VRAE_ISOLATED_LAB") == "1":
+        # The frozen worker firewall MUST deny IPv4 loopback. Exercise the
+        # identical real HTTP parser/Handler over AF_UNIX, not a mocked response,
+        # without adding any egress exception. The regular matrix uses real TCP.
+        import apps.operator_console.preview as module
+
+        class CapturedServer:
+            def __init__(self, address, handler):
+                assert address == ("127.0.0.1", 0)
+                self.server_port = 1
+                self.handler = handler
+                captured.append(self)
+
+            def serve_forever(self):
+                pass
+
+            def server_close(self):
+                pass
+
+        captured = []
+        stdout = io.StringIO()
+        with pytest.MonkeyPatch.context() as patch, redirect_stdout(stdout):
+            patch.setattr(module, "ThreadingHTTPServer", CapturedServer)
+            module.serve(test_only=True, synthetic_fixtures=True)
+        url = urlsplit(json.loads(stdout.getvalue())["url"])
+        print("RA4C2_HTTP_TRANSPORT=AF_UNIX_IDENTICAL_HANDLER_NOT_TCP")
+        yield SimpleNamespace(
+            hostname=url.hostname,
+            port=url.port,
+            path=url.path,
+            netloc=url.netloc,
+            handler_server=captured[0],
+        )
+        return
     root = Path(__file__).resolve().parents[2]
     process = subprocess.Popen(
         [
@@ -70,11 +108,53 @@ def body(case="404"):
 
 @contextmanager
 def connection(url):
-    c = HTTPConnection(url.hostname, url.port, timeout=30)
+    thread = None
+    errors = []
+    if hasattr(url, "handler_server"):
+        client, peer = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
+        assert client.family == peer.family == socket.AF_UNIX
+        client.settimeout(30)
+
+        def handle():
+            try:
+                with peer:
+                    url.handler_server.handler(peer, ("127.0.0.1", 0), url.handler_server)
+            except BaseException as exc:
+                errors.append(exc)
+
+        class SocketPairHTTPConnection(HTTPConnection):
+            def connect(self):
+                self.sock = client
+
+        thread = threading.Thread(target=handle, daemon=True)
+        thread.start()
+        c = SocketPairHTTPConnection(url.hostname, url.port, timeout=30)
+    else:
+        c = HTTPConnection(url.hostname, url.port, timeout=30)
     try:
         yield c
     finally:
         c.close()
+        if thread is not None:
+            thread.join(35)
+            assert not thread.is_alive() and not errors
+
+
+def test_loopback_kernel_policy_remains_enforced():
+    # A real listening TCP socket: the isolated worker must still be unable to
+    # connect. No firewall/host/port override is introduced by the protocol tests.
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
+        listener.bind(("127.0.0.1", 0))
+        listener.listen(1)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
+            client.settimeout(0.25)
+            if os.environ.get("VRAE_ISOLATED_LAB") == "1":
+                with pytest.raises(TimeoutError):
+                    client.connect(listener.getsockname())
+                print("RA4C2_REAL_LOOPBACK_KERNEL_DENIAL=PASS")
+            else:
+                client.connect(listener.getsockname())
+                print("RA4C2_HTTP_TRANSPORT=REAL_LOOPBACK_TCP")
 
 
 @pytest.mark.parametrize("case", ["404", "200"])

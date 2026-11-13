@@ -30,7 +30,7 @@ for name,args in commands:
     rows.append({'name':name,'argv':argv,'exit':r.returncode})
     assert r.returncode==0,(name,r.returncode)
 nodes=ET.parse(out/'tests.xml').getroot().findall('.//testcase')
-assert len(nodes)==323 and not any(n.find('failure') is not None or n.find('error') is not None
+assert len(nodes)==324 and not any(n.find('failure') is not None or n.find('error') is not None
                                  or n.find('skipped') is not None for n in nodes)
 reporting=(out/'bounded.log').read_text(encoding='utf-8')
 line=next(s for s in reporting.splitlines() if 'RA3D_D1D2_ACTUAL_RECEIPT=' in s)
@@ -48,8 +48,8 @@ for case in ('404','200'):
     mapping[case]={'target_digest':v['target_digest'],'native_h0':v['native_h0'],
                    'html_sha256':v['target']['html_sha256'],'claims':len(v['target']['claims'])}
 assert all(hashlib.sha256((ROOT/p).read_bytes()).hexdigest()==h for p,h in hashes.items())
-result={'head':head,'python':sys.version,'commands':rows,'passed':323,'baseline_app':58,
-        'baseline_c1':43,'new_app':95,'original_reviewing':127,'mapping':mapping,'source_sha256':hashes,
+result={'head':head,'python':sys.version,'commands':rows,'passed':324,'baseline_app':58,
+        'baseline_c1':43,'new_app':96,'original_reviewing':127,'mapping':mapping,'source_sha256':hashes,
         'actual_reviewing_receipt':d1,'real_decisions':0,'share_grants':0}
 (out/'receipt.json').write_bytes(json.dumps(result,ensure_ascii=False,indent=2).encode('utf-8'))
-print(json.dumps({'out':str(out),'head':head,'passed':323,'mapping':mapping}))
+print(json.dumps({'out':str(out),'head':head,'passed':324,'mapping':mapping}))

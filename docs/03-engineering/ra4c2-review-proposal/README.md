@@ -28,6 +28,8 @@ Host 必须为实际 127.0.0.1:port；POST Origin 必须精确同源（null 不�
 
 原 no-referrer 在真实 Chromium 导航 POST 中产生 Origin:null。修复为**仅本地提议表单/结果 200 页面**使用 same-origin Referrer-Policy，保持严格 Origin 校验；跨站 referrer 仍不发送，其他页面仍 no-referrer。未靠允许 null Origin 获得通过。CSP 保留无脚本/无外部连接、仅 self form-action；原始 HTML/原因始终转义，不执行。控制/方向覆盖符等非法原因拒绝且不反显原文。没有 access/request body 日志。
 
+真实 TCP 浏览器/HTTP 测试在普通 CI 与本地运行。冻结 isolated-http worker 的内核策略拒绝 127.0.0.1；首轮 CI 因测试尝试连接该禁止地址而超时取消（原日志保留）。仅在该冻结隔离环境中，HTTP 协议测试通过 AF_UNIX socketpair 驱动**原始 Handler 与 BaseHTTPRequestHandler 解析器**，执行相同请求/断言，不伪造响应；额外实际监听 TCP 并验证 loopback 仍被内核拒绝。普通环境仍实际启动原 TCP harness。没有更改防火墙、工作流、超时、产品端口或任何业务预期。
+
 ## 三个完整模拟场景
 
 1. 404 候选：先点原始证据核对静态联系路径与 404，回到表单；六项各选类型限定语义，阅读范围/局限/完整报告/商务边界并勾选；选候选接受提议→仅显示合同有效，仍无批准。

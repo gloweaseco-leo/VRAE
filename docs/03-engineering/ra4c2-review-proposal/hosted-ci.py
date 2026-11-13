@@ -23,7 +23,7 @@ out=HERE/'evidence'/('hosted-'+str(run_id)+'-'+datetime.now(timezone.utc).strfti
 out.mkdir(parents=True)
 run_raw=api(f'actions/runs/{run_id}')
 jobs_raw=api(f'actions/runs/{run_id}/jobs?per_page=100')
-pr_raw=api('pulls/65')
+pr_raw=api('pulls/68')
 for name,raw in [('run.json',run_raw),('jobs.json',jobs_raw),('pr.json',pr_raw)]:
     (out/name).write_bytes(raw)
 run=json.loads(run_raw)

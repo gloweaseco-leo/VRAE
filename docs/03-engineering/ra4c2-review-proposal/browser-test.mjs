@@ -87,6 +87,7 @@ try{
     await navigate(base);await click('[data-key="task-200"]','/tasks/task-200');await click('[data-key="review"]','/review?');await click('[data-key="target"]','/target?');await click('[data-key="proposal"]','/proposal?');
     await check(`${width}-zero-distinct-contract`,`document.querySelectorAll('.claim-card').length===3&&!document.querySelector('#proposal-action [value=APPROVE_CANDIDATE]')&&document.body.innerText.includes('在已检查的范围内未发现可确认问题')&&document.body.innerText.includes('native H0 = null')`);
     await fill();await click('#preview-proposal','/proposal-preview');await formMetrics(`${width}-zero-preview-layout`);
+    await click('#checked-command > summary');
     await check(`${width}-zero-ack-not-approval`,`document.querySelector('[data-outcome]').dataset.outcome==='CONTRACT_VALID_ONLY'&&document.querySelector('#proposal-action').value==='SIMULATED_INTERNAL_SCOPE_ACK'&&document.querySelector('#checked-command').innerText.includes('COVERAGE_ACK_PROPOSAL')`);await screenshot(`coverage-ack-200-${width}.png`,true);
     await writeFile(path.join(out,`coverage-ack-${width}.html`),await ev('document.documentElement.outerHTML'));
     await navigate(base+'tasks/task-403');await check(`${width}-403-no-composer`,`document.body.innerText.includes('不能据此判断网站缺陷')&&!document.querySelector('[data-key=proposal]')`);
