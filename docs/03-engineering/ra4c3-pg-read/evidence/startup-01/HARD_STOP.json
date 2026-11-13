@@ -1,0 +1,61 @@
+{
+  "state": "RA4C3_REAL_PG_STARTUP_HARD_STOP",
+  "authority": "Issue #73: Real runtime failures, source mismatch or production-like grant are hard STOP.",
+  "ownership": {
+    "container": "vrae-ra4c3-368de1e8269a",
+    "network": "vrae-ra4c3-368de1e8269a-local",
+    "volume": "vrae-ra4c3-368de1e8269a-data",
+    "image": "postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea"
+  },
+  "database_migrations_executed": false,
+  "http_process_started": false,
+  "real_model_calls": 0,
+  "native_decisions": 0,
+  "share_grants": 0,
+  "diagnostics": [
+    {
+      "name": "state",
+      "exit": 0,
+      "file": "state.log",
+      "sha256": "92fff767b822ad5b832a6b5ae13aabb647a724269314a551688bd23d76e1884a"
+    },
+    {
+      "name": "published_ports",
+      "exit": 0,
+      "file": "published_ports.log",
+      "sha256": "18d78eb69a219cfcd5be0156027df9c980b8a61b41bbe6e0d9ac0b1fa401cc95"
+    },
+    {
+      "name": "port_command",
+      "exit": 1,
+      "file": "port_command.log",
+      "sha256": "ca0b32e7fa68771ecbd79c1227a8af9e8b25f9106f40487b69c8bac1fe523cbb"
+    },
+    {
+      "name": "postgres_startup_log",
+      "exit": 0,
+      "file": "postgres_startup_log.log",
+      "sha256": "d3b163f46d998c4fef805465bb48f7bcf128c537201aa0ad664800759ff37bab"
+    }
+  ],
+  "cleanup": [
+    {
+      "kind": "container",
+      "name": "vrae-ra4c3-368de1e8269a",
+      "label_verified": true,
+      "absent_after": true
+    },
+    {
+      "kind": "network",
+      "name": "vrae-ra4c3-368de1e8269a-local",
+      "label_verified": true,
+      "absent_after": true
+    },
+    {
+      "kind": "volume",
+      "name": "vrae-ra4c3-368de1e8269a-data",
+      "label_verified": true,
+      "absent_after": true
+    }
+  ]
+}

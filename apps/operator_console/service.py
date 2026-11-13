@@ -1,4 +1,5 @@
 """Read-only use cases behind trusted-call authority and repository ports."""
+from contextlib import contextmanager
 from .contracts import STAGES, TEST_ONLY, TaskRecord, canonical, filters, identifier, refuse
 from .ports import NativePreparation, ReadAuthority, TaskRepository
 from .targets import ReviewTargetBridge
@@ -8,6 +9,19 @@ class ConsoleService:
     def __init__(self, authority: ReadAuthority, repository: TaskRepository, native: NativePreparation):
         self.authority, self.repository, self.native = authority, repository, native
         self.targets = ReviewTargetBridge()
+
+    def _pg(self):
+        from .pg_read import PgReadRepository
+        return self.repository if type(self.repository) is PgReadRepository else None
+
+    @contextmanager
+    def request(self, context):
+        pg=self._pg()
+        if pg is None:
+            yield
+        else:
+            with pg.request(self._scope(context)):
+                yield
 
     def _scope(self, context):
         scope = self.authority.require(context)
@@ -38,11 +52,20 @@ class ConsoleService:
             if (not stage or task['stage']==stage) and (not term or term in (task['title']+' '+task['task_id']).casefold()):
                 tasks.append(task)
         order = list(STAGES)
+        if self._pg():
+            ready=next((t for t in tasks if t['report_case'] is not None),None)
+            if ready is not None:
+                self.targets.verify_assignment(ready)
+                self.repository.probe(scope,ready)
         return sorted(tasks, key=lambda t:(order.index(t['stage']),t['task_id']))[:40]
 
     def detail(self, context, task_id):
         scope = self._scope(context)
-        return self._task(scope, task_id)
+        task=self._task(scope, task_id)
+        if self._pg() and task['report_case'] is not None:
+            self.targets.verify_assignment(task)
+            self.repository.probe(scope,task)
+        return task
 
     def review(self, context, task_id, version, draft_ref):
         scope = self._scope(context)
@@ -52,8 +75,11 @@ class ConsoleService:
         if type(version) is not int or version != task['report_version'] or draft_ref != task['report_pins']['expected_draft_ref']:
             refuse('STALE_VERSION')
         self.targets.verify_assignment(task)
-        source = self.repository.report_source(task['report_case'])
-        dossier = self.native.prepare(task['report_case'], source)
+        if self._pg():
+            dossier,source=self.repository.dossier(scope,task,self.native)
+        else:
+            source = self.repository.report_source(task['report_case'])
+            dossier = self.native.prepare(task['report_case'], source)
         d = dossier['document']
         if (task['report_pins'] != dossier['held'] or d['metadata']['version'] != version
                 or d['scope']['tenant_id'] != scope.tenant_id or d['scope']['run_id'] != task['audit_run']['run_id']
