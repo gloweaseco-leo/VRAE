@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/b6_p0/B6VFIntendedEnvelope.schema.json",
+  "title": "B6VFIntendedEnvelope",
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "b6-vf-intended-envelope-v1"
+    },
+    "status": {
+      "const": "INTENDED_CONTRACT_ONLY"
+    },
+    "authority": {
+      "const": "TEST_ONLY_PRIVATE_PREVIEW"
+    },
+    "approval_proven": {
+      "const": false
+    },
+    "shareable": {
+      "const": false
+    },
+    "delivery_allowed": {
+      "const": false
+    },
+    "external_visibility": {
+      "const": false
+    },
+    "native_decision": {
+      "const": null
+    },
+    "real_recipient": {
+      "const": null
+    },
+    "producer": {
+      "const": "VRAE"
+    },
+    "consumer": {
+      "const": "VEYFRONT_INTENDED_ONLY"
+    },
+    "ownership": {
+      "const": {
+        "evidence_and_report": "VRAE",
+        "lead_customer_E2_E3": "VEYFRONT",
+        "shared_database": false
+      }
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "report_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "candidate_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "private_html_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "recipient_policy_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "correlation_id": {
+      "type": "string",
+      "pattern": "^b6cor-[0-9a-f]{64}$"
+    },
+    "consumer_idempotency_key": {
+      "type": "string",
+      "pattern": "^b6p0-[0-9a-f]{64}$"
+    },
+    "transfer_scope": {
+      "const": [
+        "SANITIZED_PRIVATE_CANDIDATE_DIGEST",
+        "NO_ORIGINALS",
+        "NO_CUSTOMER_DATA",
+        "NO_SEND"
+      ]
+    },
+    "recipient_binding": {
+      "const": null
+    },
+    "owner_consent": {
+      "const": null
+    },
+    "legal_authorization": {
+      "const": null
+    },
+    "transport_endpoint": {
+      "const": null
+    },
+    "expiry_revocation_contract": {
+      "const": {
+        "implemented": false,
+        "max_future_ttl_seconds": 300,
+        "issued_at": null,
+        "expires_at": null,
+        "lookup_before_every_access": true,
+        "revocation_required": true,
+        "lookup_endpoint": null,
+        "missing_proof": "DENY"
+      }
+    },
+    "refusal_codes": {
+      "const": [
+        "B6_AUTHORITY_UNAVAILABLE",
+        "B6_INPUT_DENIED",
+        "B6_SOURCE_BINDING_DENIED",
+        "B6_CURRENT_ACCESS_DENIED"
+      ]
+    }
+  },
+  "required": [
+    "contract_version",
+    "status",
+    "authority",
+    "approval_proven",
+    "shareable",
+    "delivery_allowed",
+    "external_visibility",
+    "native_decision",
+    "real_recipient",
+    "producer",
+    "consumer",
+    "ownership",
+    "tenant_id",
+    "report_id",
+    "report_version",
+    "candidate_digest",
+    "private_html_sha256",
+    "recipient_policy_sha256",
+    "correlation_id",
+    "consumer_idempotency_key",
+    "transfer_scope",
+    "recipient_binding",
+    "owner_consent",
+    "legal_authorization",
+    "transport_endpoint",
+    "expiry_revocation_contract",
+    "refusal_codes"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "citation": {
+      "type": "object",
+      "properties": {
+        "claim_pointer": {
+          "type": "string",
+          "pattern": "^/(issues/[0-2]/fact_claim|positive_source_claims/[0-7])$"
+        },
+        "guard_ref": {
+          "type": "string",
+          "pattern": "^cg-[0-9a-f]{64}$"
+        },
+        "claim_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "source_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "body_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8000000
+        },
+        "byte_end": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8000000
+        },
+        "quote_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "claim_pointer",
+        "guard_ref",
+        "claim_sha256",
+        "evidence_ref",
+        "source_ref",
+        "body_sha256",
+        "byte_start",
+        "byte_end",
+        "quote_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "policy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "policy_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "location_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "principal_binding_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "mode": {
+          "const": "OWNER_CONSENT_AND_LEGAL_REVIEW_REQUIRED"
+        },
+        "owner_consent": {
+          "const": null
+        },
+        "legal_basis": {
+          "const": null
+        },
+        "recipient": {
+          "const": null
+        }
+      },
+      "required": [
+        "tenant_id",
+        "policy_id",
+        "policy_version",
+        "location_sha256",
+        "principal_binding_sha256",
+        "mode",
+        "owner_consent",
+        "legal_basis",
+        "recipient"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,450 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/b6_p0/B6PrivateHandoffCandidate.schema.json",
+  "title": "B6PrivateHandoffCandidate",
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "b6-private-handoff-v1"
+    },
+    "kind": {
+      "enum": [
+        "L1_DRAFT_CANDIDATE",
+        "PRIVATE_COVERAGE_ONLY"
+      ]
+    },
+    "status": {
+      "const": "NOT_APPROVED"
+    },
+    "workflow_state": {
+      "enum": [
+        "DRAFT",
+        "REVIEW_REQUIRED"
+      ]
+    },
+    "authority": {
+      "const": "TEST_ONLY_PRIVATE_PREVIEW"
+    },
+    "approval_proven": {
+      "const": false
+    },
+    "shareable": {
+      "const": false
+    },
+    "delivery_allowed": {
+      "const": false
+    },
+    "external_visibility": {
+      "const": false
+    },
+    "native_decision": {
+      "const": null
+    },
+    "real_recipient": {
+      "const": null
+    },
+    "pins": {
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "report_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "report_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "source_run_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "ref_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "target_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "target_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "original_html_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "draft_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "guard_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "guard_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^cg-[0-9a-f]{64}$"
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "pack_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "package_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "native_content_hash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "tenant_id",
+        "report_id",
+        "report_version",
+        "source_run_id",
+        "ref_id",
+        "target_digest",
+        "target_sha256",
+        "manifest_sha256",
+        "source_sha256",
+        "original_html_sha256",
+        "draft_sha256",
+        "guard_sha256",
+        "guard_refs",
+        "pack_ref",
+        "package_ref",
+        "native_content_hash"
+      ],
+      "additionalProperties": false
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "rule_id": {
+            "const": "CTA-02"
+          },
+          "classification": {
+            "const": "CAPTURED_STATIC_CONTACT_FAILURE"
+          },
+          "http_status": {
+            "enum": [
+              404,
+              410
+            ]
+          },
+          "citation": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "required": [
+          "finding_id",
+          "rule_id",
+          "classification",
+          "http_status",
+          "citation"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 3,
+      "uniqueItems": true
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "scope_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "recorded_coverage_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          },
+          "minItems": 0,
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "unchecked_scope": {
+          "const": "UNKNOWN"
+        },
+        "zero_findings_are_not_approval": {
+          "const": true
+        },
+        "business_outcomes": {
+          "const": "UNVERIFIED_NO_E2_E3"
+        }
+      },
+      "required": [
+        "scope_sha256",
+        "recorded_coverage_sha256",
+        "claims",
+        "unchecked_scope",
+        "zero_findings_are_not_approval",
+        "business_outcomes"
+      ],
+      "additionalProperties": false
+    },
+    "recipient_policy": {
+      "$ref": "#/$defs/policy"
+    },
+    "classifications": {
+      "const": {
+        "pins": "REVIEWER_ONLY",
+        "findings": "INTERNAL_PREVIEW_ONLY",
+        "coverage": "INTERNAL_PREVIEW_ONLY",
+        "recipient_policy": "REVIEWER_ONLY",
+        "private_html_sha256": "REVIEWER_ONLY",
+        "prospective_owner_fields": [
+          "finding_count",
+          "scope_warning_codes"
+        ],
+        "owner_visible_now": []
+      }
+    },
+    "warnings": {
+      "const": [
+        "SYNTHETIC_ONLY",
+        "NOT_APPROVED",
+        "COVERAGE_LIMITED",
+        "UNCHECKED_SCOPE_UNKNOWN",
+        "NO_REAL_RECIPIENT",
+        "NO_DELIVERY_PERMISSION"
+      ]
+    },
+    "private_html_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "contract_version",
+    "kind",
+    "status",
+    "workflow_state",
+    "authority",
+    "approval_proven",
+    "shareable",
+    "delivery_allowed",
+    "external_visibility",
+    "native_decision",
+    "real_recipient",
+    "pins",
+    "findings",
+    "coverage",
+    "recipient_policy",
+    "classifications",
+    "warnings",
+    "private_html_sha256",
+    "content_digest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "citation": {
+      "type": "object",
+      "properties": {
+        "claim_pointer": {
+          "type": "string",
+          "pattern": "^/(issues/[0-2]/fact_claim|positive_source_claims/[0-7])$"
+        },
+        "guard_ref": {
+          "type": "string",
+          "pattern": "^cg-[0-9a-f]{64}$"
+        },
+        "claim_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "source_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "body_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8000000
+        },
+        "byte_end": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8000000
+        },
+        "quote_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "claim_pointer",
+        "guard_ref",
+        "claim_sha256",
+        "evidence_ref",
+        "source_ref",
+        "body_sha256",
+        "byte_start",
+        "byte_end",
+        "quote_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "policy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "policy_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "location_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "principal_binding_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "mode": {
+          "const": "OWNER_CONSENT_AND_LEGAL_REVIEW_REQUIRED"
+        },
+        "owner_consent": {
+          "const": null
+        },
+        "legal_basis": {
+          "const": null
+        },
+        "recipient": {
+          "const": null
+        }
+      },
+      "required": [
+        "tenant_id",
+        "policy_id",
+        "policy_version",
+        "location_sha256",
+        "principal_binding_sha256",
+        "mode",
+        "owner_consent",
+        "legal_basis",
+        "recipient"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "PRIVATE_COVERAGE_ONLY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "findings": {
+            "maxItems": 0
+          },
+          "workflow_state": {
+            "const": "DRAFT"
+          },
+          "pins": {
+            "properties": {
+              "native_content_hash": {
+                "const": null
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "findings": {
+            "minItems": 1
+          },
+          "workflow_state": {
+            "const": "REVIEW_REQUIRED"
+          },
+          "pins": {
+            "properties": {
+              "native_content_hash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
