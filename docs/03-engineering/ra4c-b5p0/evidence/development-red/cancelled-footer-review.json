@@ -1,0 +1,47 @@
+{
+  "status": "CANCELLED_FOR_MANUAL_UI_COPY_CORRECTION",
+  "not_a_pass": true,
+  "reason": "320px manual review found accepted readonly footer contradicted new internal persistence; cancel obsolete run before final source freeze",
+  "owned_cleanup": [
+    {
+      "run": "local-final3-311-security-ce877bd1",
+      "cleanup": {
+        "resources": [
+          {
+            "kind": "container",
+            "absent": true
+          },
+          {
+            "kind": "network",
+            "absent": true
+          },
+          {
+            "kind": "volume",
+            "absent": true
+          }
+        ],
+        "port_closed": true
+      }
+    },
+    {
+      "run": "local-final3-313-security-773a559d",
+      "cleanup": {
+        "resources": [
+          {
+            "kind": "container",
+            "absent": true
+          },
+          {
+            "kind": "network",
+            "absent": true
+          },
+          {
+            "kind": "volume",
+            "absent": true
+          }
+        ],
+        "port_closed": true
+      }
+    }
+  ]
+}
