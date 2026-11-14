@@ -2,6 +2,7 @@
 
 from collections import Counter
 import json
+import os
 from pathlib import Path
 import shutil
 import sys
@@ -68,6 +69,28 @@ def _verify_b5_inventory(cases, minor):
             "actual_skipped_multiset_sha256": skipped_digest,
             "baseline_skipped_multiset_sha256": baseline["skipped_id_multiset_sha256"],
             "baseline_raw_native_junit_sha256": baseline["raw_native_junit_sha256"]}
+
+
+def _write_host_retention(out, producer_raw, retention):
+    """Create a host-owned attestation; never open the producer for writing."""
+    producer = out / "result.json"
+    assert producer.read_bytes() == producer_raw, "PRODUCER_RESULT_CHANGED"
+    status = json.loads(producer_raw)["status"]
+    assert status == "ORDINARY_PASS_SEPARATE_ISOLATED_GATES_REQUIRED"
+    before_sha256 = hashlib.sha256(producer_raw).hexdigest()
+    # Exclusive creation prevents replacing either producer or existing receipt.
+    with (out / "native-junit-retention.json").open("x", encoding="utf-8", newline="\n") as receipt:
+        if hasattr(os, "getuid"):
+            assert os.fstat(receipt.fileno()).st_uid == os.getuid(), "RECEIPT_NOT_HOST_OWNED"
+        after_raw = producer.read_bytes()
+        assert after_raw == producer_raw, "PRODUCER_RESULT_CHANGED"
+        retention.update({"producer_result_before_sha256": before_sha256,
+                          "producer_result_after_sha256": hashlib.sha256(after_raw).hexdigest(),
+                          "producer_result_status": status, "producer_result_unchanged": True})
+        receipt.write(json.dumps(retention, indent=2))
+        receipt.flush()
+        os.fsync(receipt.fileno())
+    assert producer.read_bytes() == producer_raw, "PRODUCER_RESULT_CHANGED_AFTER_RECEIPT"
 
 
 def main(label):
@@ -188,7 +211,9 @@ def main(label):
         skipped = [case for case in cases if case.find("skipped") is not None]
         # Raw native XML is retained only after the complete owned cleanup.
         minor = f"{sys.version_info.major}.{sys.version_info.minor}"
-        native_result = json.loads((out / "result.json").read_bytes())
+        producer_raw = (out / "result.json").read_bytes()
+        native_result = json.loads(producer_raw)
+        assert native_result["status"] == "ORDINARY_PASS_SEPARATE_ISOLATED_GATES_REQUIRED"
         assert native_result["python"].startswith(minor + ".")
         assert native_result["discovered"] == len(cases)
         assert native_result["ordinary_passed"] == len(cases) - len(skipped)
@@ -201,18 +226,18 @@ def main(label):
         assert len(qa) == 118 and len(review) == 127 and not any(case.find("skipped") is not None for case in qa + review)
         assert sum(case.get("classname") == "tests.collection.test_isolated" for case in skipped) == 24
         assert sum(case.get("classname") == "tests.browser.test_isolated_browser" for case in skipped) == 1
-        (out / "native-junit-retention.json").write_text(json.dumps({"status": "NATIVE_JUNIT_RETAINED_AFTER_COMPLETE_CLEANUP",
+        retention = {"status": "NATIVE_JUNIT_RETAINED_AFTER_COMPLETE_CLEANUP",
             "sha256": hashlib.sha256(raw).hexdigest(), "crc32": format(zlib.crc32(raw) & 0xffffffff, "08x"),
             "bytes": len(raw), "cases": len(cases), "passed": len(cases) - len(skipped), "skipped": len(skipped),
             "failed": 0, "errors": 0, "qa_passed": len(qa), "review_passed": len(review),
             "test_ids": [case.get("classname", "") + "::" + case.get("name", "") for case in cases],
-            "raw_xml_private": True, "stdout_used_to_construct_xml": False}, indent=2))
+            "raw_xml_private": True, "stdout_used_to_construct_xml": False}
         inventory_proof["native_junit_sha256"] = hashlib.sha256(raw).hexdigest()
         inventory_proof["crc32"] = format(zlib.crc32(raw) & 0xffffffff, "08x")
-        # Existing curated publisher accepts this hash/count-only result field.
-        # Neither native XML nor the producer result status is reconstructed.
-        native_result["exact_test_id_inventory"] = inventory_proof
-        (out / "result.json").write_text(json.dumps(native_result, indent=2))
+        # The frozen publisher retains its fixed public hash/count projection;
+        # the additional host attestation and raw IDs stay in private retention.
+        retention["exact_test_id_inventory"] = inventory_proof
+        _write_host_retention(out, producer_raw, retention)
 
 
 if __name__ == "__main__":
