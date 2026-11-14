@@ -3,16 +3,55 @@
 import hashlib
 import hmac
 import secrets
+from contextlib import contextmanager
 
 from vrae.b3_p0.contracts import Command, Denied
 from vrae.reviewing.canonical import canonical, sha
 
 from .b5a_http import PREFIX, FORM, Reply, form
 from .contracts import ConsoleError, refuse
-from .interface import Response
+from .interface import ConsoleInterface, Response
 from .views import link
 from .b5p0_binding import Binding, intent_port, original_graph, probe
 from . import b5p0_views as views
+
+
+class _HomeRead:
+    """Keep the accepted read/recheck, then fence its local snapshot with B3."""
+
+    def __init__(self, app):
+        self.app, self.service = app, app.base.service
+
+    def __getattr__(self, name):
+        return getattr(self.service, name)
+
+    @contextmanager
+    def request(self, sid):
+        session, binding = self.app.current(sid)
+        with self.service.request(sid):
+            graph = original_graph(self.service.current.get()[2])
+            yield
+        # The original reader has reread/compared originals and released its
+        # transaction before B3 takes its authority/tenant locks. Nothing from
+        # this context is stored or reused by another HTTP request.
+        def current():
+            return self.app.current(sid, session)
+
+        settings = self.app.sessions.readers[binding.role].settings
+        probe(settings, graph, binding, current, self.app.audit, self.app.probe_key)
+        current()
+
+
+class _HomeInterface:
+    def __init__(self, app, original):
+        self.app, self.original = app, original
+        self.home = ConsoleInterface(_HomeRead(app), prefix=PREFIX)
+
+    def dispatch(self, sid, method, target):
+        path, _ = self.app.base._path(target)
+        if method in ("GET", "HEAD") and path == PREFIX:
+            return self.home.dispatch(sid, method, target)
+        return self.original.dispatch(sid, method, target)
 
 
 class RehearsalApplication:
@@ -28,6 +67,7 @@ class RehearsalApplication:
         self.key_secret, self.sink, self.refresh = key_secret, audit, refresh
         self.tickets = {}
         self.probe_key = "b5p0-probe-" + secrets.token_hex(24)
+        self.base.interface = _HomeInterface(self, self.base.interface)
 
     @property
     def origin(self):
@@ -236,7 +276,10 @@ class RehearsalApplication:
                     PREFIX + "session",
                 )
                 if not public:
-                    session, binding, graph, task, _, _ = self.capture(sid)
+                    if method in ("GET", "HEAD") and path == PREFIX:
+                        session, binding = self.current(sid)
+                    else:
+                        session, binding, graph, task, _, _ = self.capture(sid)
                 result = self.base.handle(method, target, headers, raw)
                 if (
                     not public
