@@ -1,5 +1,6 @@
 """Full suite in an isolated Linux Python minor with a secret-free source copy."""
 
+from collections import Counter
 import json
 from pathlib import Path
 import shutil
@@ -13,6 +14,60 @@ import xml.etree.ElementTree as ET
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(HERE))
+
+
+INVENTORY_REFERENCE = ROOT / "docs/03-engineering/ra4c-b5p0/inventory-compat/accepted-original-inventory.json"
+INVENTORY_REFERENCE_SHA256 = "2f8a0119af678ce79b6bf0734eab080659497fa6727c4298769227c62617ae5a"
+APPROVED_B5_IDS = (
+    ("tests.operator_console.test_b5p0_boundaries", "test_synthetic_mapping_is_deterministic_and_exactly_scoped"),
+    ("tests.operator_console.test_b5p0_boundaries", "test_recovery_journal_preserves_original_key_across_new_instance"),
+)
+
+
+def _multiset_sha256(counter):
+    rows = [[classname, name, count] for (classname, name), count in sorted(counter.items())]
+    return hashlib.sha256(json.dumps(rows, ensure_ascii=True, separators=(",", ":")).encode("ascii")).hexdigest()
+
+
+def _verify_b5_inventory(cases, minor):
+    """Only the independently frozen original multiset plus these two B5 IDs.
+
+    Reference IDs came from clean accepted447005b native executions per minor,
+    never subtraction from PR89. Future B6 tests require separate Owner scope.
+    """
+    raw_reference = INVENTORY_REFERENCE.read_bytes()
+    assert hashlib.sha256(raw_reference).hexdigest() == INVENTORY_REFERENCE_SHA256
+    reference = json.loads(raw_reference)
+    assert reference["accepted_source_commit"] == "447005b2951f43e8d8643632d663de268f278329"
+    assert minor in {"3.11", "3.13"}
+    baseline = reference["python"][minor]
+    assert baseline["cases"] == 2473 and baseline["skips"] == 25
+    assert len(cases) == 2475
+    assert all(c.find(tag) is None for c in cases for tag in ("failure", "error"))
+    assert all(c.get("classname") and c.get("name") for c in cases)
+    actual = Counter((c.get("classname"), c.get("name")) for c in cases)
+    original = actual.copy()
+    for key in APPROVED_B5_IDS:
+        assert actual[key] == 1, "APPROVED_B5_ID_MISSING_OR_DUPLICATED"
+        approved_case = next(c for c in cases if (c.get("classname"), c.get("name")) == key)
+        assert all(approved_case.find(tag) is None for tag in ("skipped", "failure", "error"))
+        original[key] -= 1
+        del original[key]  # Exactly one verified instance was removed.
+    assert sum(original.values()) == 2473
+    original_digest = _multiset_sha256(original)
+    assert original_digest == baseline["id_multiset_sha256"], "ACCEPTED_ORIGINAL_ID_MULTISET_CHANGED"
+    skipped = [c for c in cases if c.find("skipped") is not None]
+    assert len(skipped) == 25 and all(c.find("skipped").get("type") == "pytest.skip" for c in skipped)
+    skipped_digest = _multiset_sha256(Counter((c.get("classname"), c.get("name")) for c in skipped))
+    assert skipped_digest == baseline["skipped_id_multiset_sha256"], "ACCEPTED_SKIPPED_IDS_CHANGED"
+    return {"kind": "EXACT_ORIGINAL_MULTISET_PLUS_TWO_APPROVED_B5_IDS", "python": minor,
+            "reference_sha256": INVENTORY_REFERENCE_SHA256, "baseline_cases": 2473, "actual_cases": 2475,
+            "approved_cases": 2, "skipped_cases": 25, "actual_multiset_sha256": _multiset_sha256(actual),
+            "actual_original_multiset_sha256": original_digest,
+            "baseline_original_multiset_sha256": baseline["id_multiset_sha256"],
+            "actual_skipped_multiset_sha256": skipped_digest,
+            "baseline_skipped_multiset_sha256": baseline["skipped_id_multiset_sha256"],
+            "baseline_raw_native_junit_sha256": baseline["raw_native_junit_sha256"]}
 
 
 def main(label):
@@ -131,9 +186,15 @@ def main(label):
         root = ET.fromstring(raw)
         cases = list(root.iter("testcase"))
         skipped = [case for case in cases if case.find("skipped") is not None]
-        # User authorized accepted main ae2505f: CBC plus five B3 contracts.
-        # The unchanged full selection is now 2448 PASS + 25 original SKIP.
-        assert len(cases) == 2473 and len(skipped) == 25
+        # Raw native XML is retained only after the complete owned cleanup.
+        minor = f"{sys.version_info.major}.{sys.version_info.minor}"
+        native_result = json.loads((out / "result.json").read_bytes())
+        assert native_result["python"].startswith(minor + ".")
+        assert native_result["discovered"] == len(cases)
+        assert native_result["ordinary_passed"] == len(cases) - len(skipped)
+        actual_container = json.loads((out / "container-result.json").read_bytes())
+        assert actual_container["exit"] == 0 and not actual_container["oom_killed"]
+        inventory_proof = _verify_b5_inventory(cases, minor)
         assert not list(root.iter("failure")) and not list(root.iter("error"))
         qa = [case for case in cases if "test_ra3c_owner_adjudicated_v2" in case.get("classname", "")]
         review = [case for case in cases if case.get("classname", "").startswith("tests.reviewing.")]
@@ -146,6 +207,12 @@ def main(label):
             "failed": 0, "errors": 0, "qa_passed": len(qa), "review_passed": len(review),
             "test_ids": [case.get("classname", "") + "::" + case.get("name", "") for case in cases],
             "raw_xml_private": True, "stdout_used_to_construct_xml": False}, indent=2))
+        inventory_proof["native_junit_sha256"] = hashlib.sha256(raw).hexdigest()
+        inventory_proof["crc32"] = format(zlib.crc32(raw) & 0xffffffff, "08x")
+        # Existing curated publisher accepts this hash/count-only result field.
+        # Neither native XML nor the producer result status is reconstructed.
+        native_result["exact_test_id_inventory"] = inventory_proof
+        (out / "result.json").write_text(json.dumps(native_result, indent=2))
 
 
 if __name__ == "__main__":
