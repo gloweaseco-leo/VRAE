@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/work/integration/ra4b/runtime_check.py", line 371, in <module>
+    main()
+  File "/work/integration/ra4b/runtime_check.py", line 290, in main
+    wait_for(lambda: b'"LEASED"' in first_log.read_bytes())
+  File "/work/integration/ra4b/runtime_check.py", line 41, in wait_for
+    raise AssertionError("BOUNDED_RUNTIME_WAIT_FAILED")
+AssertionError: BOUNDED_RUNTIME_WAIT_FAILED

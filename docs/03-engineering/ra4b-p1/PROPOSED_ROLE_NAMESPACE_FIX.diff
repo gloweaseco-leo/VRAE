@@ -1,0 +1,107 @@
+--- a/db/migrations/0004_ra4b_test_only_api.sql
++++ b/db/migrations/0004_ra4b_test_only_api.sql
+@@ -2,10 +2,10 @@
+ -- Old migrations/functions/grants remain unchanged; legacy raw SELECT is debt.
+ CREATE ROLE ra4b_app NOLOGIN NOSUPERUSER NOBYPASSRLS NOCREATEDB NOCREATEROLE;
+ CREATE ROLE ra4b_worker NOLOGIN NOSUPERUSER NOBYPASSRLS NOCREATEDB NOCREATEROLE;
+-CREATE ROLE ra4a_test_b4_a_app NOLOGIN IN ROLE ra4b_app;
+-CREATE ROLE ra4a_test_b4_b_app NOLOGIN IN ROLE ra4b_app;
+-CREATE ROLE ra4a_test_b4_a_worker NOLOGIN IN ROLE ra4b_worker;
+-CREATE ROLE ra4a_test_b4_b_worker NOLOGIN IN ROLE ra4b_worker;
++CREATE ROLE ra4b_test_a_app NOLOGIN IN ROLE ra4b_app;
++CREATE ROLE ra4b_test_b_app NOLOGIN IN ROLE ra4b_app;
++CREATE ROLE ra4b_test_a_worker NOLOGIN IN ROLE ra4b_worker;
++CREATE ROLE ra4b_test_b_worker NOLOGIN IN ROLE ra4b_worker;
+ GRANT CONNECT ON DATABASE vrae_ra4a_p1 TO ra4b_app,ra4b_worker;
+ CREATE SCHEMA ra4b_test AUTHORIZATION ra4a_owner;
+ SET ROLE ra4a_owner;
+@@ -17,11 +17,11 @@
+ -- false prohibits writing the extra visible origin row. No runtime DML grant.
+ CREATE POLICY b4_origin_app ON ra4a_private.principals FOR ALL TO ra4a_owner USING (
+  authority='TEST_ONLY' AND kind='APP' AND
+- ((SESSION_USER='ra4a_test_b4_a_worker' AND db_role='ra4a_test_b4_a_app' AND tenant_id='tenant-test') OR
+-  (SESSION_USER='ra4a_test_b4_b_worker' AND db_role='ra4a_test_b4_b_app' AND tenant_id='tenant-beta'))) WITH CHECK(false);
++ ((SESSION_USER='ra4b_test_a_worker' AND db_role='ra4b_test_a_app' AND tenant_id='tenant-test') OR
++  (SESSION_USER='ra4b_test_b_worker' AND db_role='ra4b_test_b_app' AND tenant_id='tenant-beta'))) WITH CHECK(false);
+ CREATE POLICY b4_origin_assignment ON ra4a_private.assignments FOR ALL TO ra4a_owner USING (
+- (SESSION_USER='ra4a_test_b4_a_worker' AND db_role='ra4a_test_b4_a_app' AND tenant_id='tenant-test') OR
+- (SESSION_USER='ra4a_test_b4_b_worker' AND db_role='ra4a_test_b4_b_app' AND tenant_id='tenant-beta')) WITH CHECK(false);
++ (SESSION_USER='ra4b_test_a_worker' AND db_role='ra4b_test_a_app' AND tenant_id='tenant-test') OR
++ (SESSION_USER='ra4b_test_b_worker' AND db_role='ra4b_test_b_app' AND tenant_id='tenant-beta')) WITH CHECK(false);
+ 
+ CREATE FUNCTION ra4b_test.require_actor(t text,k text) RETURNS void LANGUAGE plpgsql SECURITY DEFINER
+ SET search_path=pg_catalog,ra4b_test,pg_temp AS $$
+@@ -29,7 +29,7 @@
+ BEGIN
+  grp:=CASE k WHEN 'APP' THEN 'ra4b_app' WHEN 'WORKER' THEN 'ra4b_worker' END;
+  IF grp IS NULL OR NOT pg_has_role(SESSION_USER,grp,'MEMBER')
+- OR SESSION_USER NOT IN ('ra4a_test_b4_a_app','ra4a_test_b4_b_app','ra4a_test_b4_a_worker','ra4a_test_b4_b_worker')
++ OR SESSION_USER NOT IN ('ra4b_test_a_app','ra4b_test_b_app','ra4b_test_a_worker','ra4b_test_b_worker')
+  OR pg_has_role(SESSION_USER,'ra4a_app','MEMBER') OR pg_has_role(SESSION_USER,'ra4a_worker','MEMBER')
+  OR NOT EXISTS(SELECT 1 FROM pg_roles WHERE rolname=SESSION_USER AND rolcanlogin
+   AND NOT (rolsuper OR rolbypassrls OR rolcreaterole OR rolcreatedb))
+@@ -61,7 +61,7 @@
+  PERFORM ra4b_test.require_actor(t,k);
+  SELECT q.* INTO r FROM ra4a.requests q JOIN ra4a.runs s USING(tenant_id,request_id)
+   JOIN ra4a.jobs j USING(tenant_id,run_id) WHERE q.tenant_id=t AND s.run_id=rid;
+- IF NOT FOUND OR r.principal NOT IN ('ra4a_test_b4_a_app','ra4a_test_b4_b_app')
++ IF NOT FOUND OR r.principal NOT IN ('ra4b_test_a_app','ra4b_test_b_app')
+   OR (k='APP' AND r.principal<>SESSION_USER)
+  THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='RA4B_PROVENANCE_DENIED'; END IF;
+  PERFORM 1 FROM ra4a_private.principals p JOIN ra4a_private.assignments a USING(db_role,tenant_id)
+@@ -140,7 +140,7 @@
+ BEGIN
+  SELECT r.principal INTO origin FROM ra4a.requests r JOIN ra4a.runs s USING(tenant_id,request_id)
+   WHERE s.tenant_id=NEW.tenant_id AND s.run_id=NEW.run_id;
+- IF origin IS NULL OR origin NOT IN ('ra4a_test_b4_a_app','ra4a_test_b4_b_app') THEN RETURN NULL; END IF;
++ IF origin IS NULL OR origin NOT IN ('ra4b_test_a_app','ra4b_test_b_app') THEN RETURN NULL; END IF;
+  k:=CASE WHEN pg_has_role(SESSION_USER,'ra4b_app','MEMBER') THEN 'APP' ELSE 'WORKER' END;
+  PERFORM ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k);
+  SELECT * INTO STRICT actual FROM ra4a.jobs WHERE tenant_id=NEW.tenant_id AND job_id=NEW.job_id;
+--- a/vrae/application/ra4b/store.py
++++ b/vrae/application/ra4b/store.py
+@@ -10,8 +10,8 @@
+ 
+ MODE = "TEST_ONLY_RA4B_P1"
+ AUTHORITY = "TEST_ONLY_PRIVATE_RUNTIME_NOT_HUMAN_APPROVAL"
+-ROLES = {"APP": {"ra4a_test_b4_a_app", "ra4a_test_b4_b_app"},
+-         "WORKER": {"ra4a_test_b4_a_worker", "ra4a_test_b4_b_worker"}}
++ROLES = {"APP": {"ra4b_test_a_app", "ra4b_test_b_app"},
++         "WORKER": {"ra4b_test_a_worker", "ra4b_test_b_worker"}}
+ 
+ 
+ def load_config(path, kind):
+--- a/integration/ra4b/support.py
++++ b/integration/ra4b/support.py
+@@ -9,7 +9,7 @@
+ from integration.ra4a import support as old
+ 
+ ROOT = Path(__file__).resolve().parents[2]
+-ROLES = ("ra4a_test_b4_a_app", "ra4a_test_b4_b_app", "ra4a_test_b4_a_worker", "ra4a_test_b4_b_worker")
++ROLES = ("ra4b_test_a_app", "ra4b_test_b_app", "ra4b_test_a_worker", "ra4b_test_b_worker")
+ 
+ 
+ def migrate():
+@@ -39,7 +39,7 @@
+ 
+ def config(kind="APP", suffix="a"):
+     state = json.loads(old.STATE.read_bytes())
+-    role = "ra4a_test_b4_" + suffix + "_" + kind.lower()
++    role = "ra4b_test_" + suffix + "_" + kind.lower()
+     return {"mode": "TEST_ONLY_RA4B_P1", "kind": kind, "role": role,
+             "host": "127.0.0.1", "port": state["port"], "dbname": "vrae_ra4a_p1",
+             "password": state["runtime_passwords"][role],
+--- a/integration/ra4b/security_cases.py
++++ b/integration/ra4b/security_cases.py
+@@ -87,9 +87,9 @@
+         from integration.ra4a.p2a_support import add_reference
+         add_reference(db, "404", 2)
+     elif mutation == "worker":
+-        db.execute("UPDATE ra4a_private.assignments SET active=false WHERE db_role='ra4a_test_b4_a_worker'")
++        db.execute("UPDATE ra4a_private.assignments SET active=false WHERE db_role='ra4b_test_a_worker'")
+     else:
+-        db.execute("UPDATE ra4a_private.principals SET enabled=false WHERE db_role='ra4a_test_b4_a_app'")
++        db.execute("UPDATE ra4a_private.principals SET enabled=false WHERE db_role='ra4b_test_a_app'")
+     before = fingerprint(db)
+     with store.connect(worker) as c, pytest.raises(psycopg.errors.InsufficientPrivilege):
+         store.finish(c, worker, lease)

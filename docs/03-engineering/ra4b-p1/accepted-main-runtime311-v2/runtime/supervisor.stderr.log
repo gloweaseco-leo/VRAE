@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/work/integration/ra4b/runtime_check.py", line 371, in <module>
+    main()
+  File "/work/integration/ra4b/runtime_check.py", line 215, in main
+    wait_for(lambda: admin.execute("SELECT count(*) FROM pg_stat_activity WHERE usename='ra4b_test_a_app' "
+  File "/work/integration/ra4b/runtime_check.py", line 41, in wait_for
+    raise AssertionError("BOUNDED_RUNTIME_WAIT_FAILED")
+AssertionError: BOUNDED_RUNTIME_WAIT_FAILED

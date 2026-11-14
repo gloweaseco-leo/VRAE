@@ -1,0 +1,21 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 435B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/python:3.13-slim-bookworm
+#2 ERROR: failed to authorize: failed to fetch anonymous token: Get "https://auth.docker.io/token?scope=repository%3Alibrary%2Fpython%3Apull&service=registry.docker.io": dial tcp [2a03:2880:f12a:83:face:b00c:0:25de]:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+------
+ > [internal] load metadata for docker.io/library/python:3.13-slim-bookworm:
+------
+Dockerfile:2
+--------------------
+   1 |     ARG PYTHON_VERSION=3.11
+   2 | >>> FROM python:${PYTHON_VERSION}-slim-bookworm
+   3 |     WORKDIR /work
+   4 |     COPY requirements-ra1a.lock requirements-ra4a.lock requirements-ra4b-p1.lock /deps/
+--------------------
+ERROR: failed to build: failed to solve: failed to fetch anonymous token: Get "https://auth.docker.io/token?scope=repository%3Alibrary%2Fpython%3Apull&service=registry.docker.io": dial tcp [2a03:2880:f12a:83:face:b00c:0:25de]:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/su1636782jp6zolwft3608y99

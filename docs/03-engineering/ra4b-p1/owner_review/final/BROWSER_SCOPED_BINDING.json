@@ -1,0 +1,368 @@
+{
+  "status": "ORIGINAL16_PASS_CANDIDATE_UNDER_OWNER_SCOPED_MEMORY_INTERPRETATION",
+  "owner_comment": 6867683511,
+  "native_supervisor_exit": 0,
+  "original_execution_head": "ed50a972f59bb64258459eba7b4cf989f2903ac6",
+  "binding_head": "5667ba585cb131c91fd6f2a4b6b10319923ad29f",
+  "protected_source_unchanged": true,
+  "original_source_proof": [
+    {
+      "path": "infra/ra1a/entrypoint.sh",
+      "lf_sha256": "ed69ea316c91bc5e5a70181813443848bcd92877a2d9a9e7e602e7176e4f1493"
+    },
+    {
+      "path": "infra/ra1b/Dockerfile",
+      "lf_sha256": "dcd19f40debfcaa420d1038fd1231d99ec91ea5a7327d44b62a5dae93f233c0d"
+    },
+    {
+      "path": "infra/ra1b/SECCOMP_LICENSE",
+      "lf_sha256": "7fab1461b41970ff376f1c9303a637076bfaaeb71cd12dd3a1c44aaf59a1a2b9"
+    },
+    {
+      "path": "infra/ra1b/Worker.Dockerfile",
+      "lf_sha256": "77aa7d5f6a5ea110749fc1e7bcacc871dce17b93c64724dff464b8b74adec967"
+    },
+    {
+      "path": "infra/ra1b/agent.py",
+      "lf_sha256": "f3cd72ed7bfda005991d9af097a34f6e81e5d56b68c014bf786e4c7821f9a438"
+    },
+    {
+      "path": "infra/ra1b/kernel_probe.py",
+      "lf_sha256": "3829bd883cda2034958189784de890633126a36cd91ae5b79b5c6714545bca71"
+    },
+    {
+      "path": "infra/ra1b/preflight.py",
+      "lf_sha256": "ac4396504bd06312260f8fe8f43bfe6623f3eae183539c2c2c4e8d483d4f08ff"
+    },
+    {
+      "path": "infra/ra1b/seccomp.json",
+      "lf_sha256": "d0f548e88fe1f112d32d3bc4b0c9bf6fc8f0595f47b7e5b09b34b5631087e073"
+    },
+    {
+      "path": "pyproject.toml",
+      "lf_sha256": "535e2926ee5a566e351cace18ed10c5c5bc09421b02e40ce383587fbfd2e47fb"
+    },
+    {
+      "path": "requirements-ra1a.lock",
+      "lf_sha256": "3354bb615b234607197808df5c9c7bfc7f82e94a1efebaef687d71bf0bba1eda"
+    },
+    {
+      "path": "scripts/verify_ra1b.py",
+      "lf_sha256": "dacc173eef32fb41009b7e7843e3ec5d0966eebb31503b360c45f82f368e9ccd"
+    },
+    {
+      "path": "tests/browser/__init__.py",
+      "lf_sha256": "325944dcd47e810b754746894fd26786ec48a31a70ecc61484635301059fbad9"
+    },
+    {
+      "path": "tests/browser/test_broker.py",
+      "lf_sha256": "fceca62897050e75501d11b5973c81760f28d43594050bd9ce5851410509ccf2"
+    },
+    {
+      "path": "tests/browser/test_contracts.py",
+      "lf_sha256": "301e6e850f2a70482646314ab9e483a9c6e05f5ac762c48c475f59d855a8bbd9"
+    },
+    {
+      "path": "tests/browser/test_isolated_browser.py",
+      "lf_sha256": "d4c0a4912cfdedaaa14fc31560a3a8fcf7ec5728f1ed1b2e4bc54d6666c8bf3d"
+    },
+    {
+      "path": "vrae/browser/__init__.py",
+      "lf_sha256": "be79a9a30e171873d842e3d0080562c7c63849888d513b3024ec74ac156bcc95"
+    },
+    {
+      "path": "vrae/browser/broker.py",
+      "lf_sha256": "832e1ba3f03738de31f59c6f8aa9dcb29194b170ccd3b2ae24c3c1b38c7525ef"
+    },
+    {
+      "path": "vrae/browser/cdp.py",
+      "lf_sha256": "5e846c1c512e4869e832a8855c24f545b345447c23e8dd620055f316c96c9e96"
+    },
+    {
+      "path": "vrae/browser/controller.py",
+      "lf_sha256": "006c2523e02f9af86dd119c168d1ccb95ce776e3ddeeca0b876538cdceaeefb9"
+    },
+    {
+      "path": "vrae/browser/observation.py",
+      "lf_sha256": "56fb1d2ac7208193ece58d1942a3567bc1ce94c18acf554472cfb8fd402c1a8a"
+    },
+    {
+      "path": "vrae/collection/__init__.py",
+      "lf_sha256": "0678cfb53b43fcee0b97912d42934ea88495b4437d035ff0ade8ecb1eba9d51d"
+    },
+    {
+      "path": "vrae/collection/collector.py",
+      "lf_sha256": "f372965b55008a673e0769200fd3421063e9ccc75ab7dc144ea0ada572b8b0c1"
+    },
+    {
+      "path": "vrae/collection/contracts.py",
+      "lf_sha256": "eeaf1927f67b93afd2474e5537a75804d4963a73002d5ac239f410ad580250de"
+    },
+    {
+      "path": "vrae/collection/discovery.py",
+      "lf_sha256": "a8cc96ded9ee37f61bf9f92c67707bea9f03b8e9b172a52ab63e4cfa4a248afa"
+    },
+    {
+      "path": "vrae/collection/errors.py",
+      "lf_sha256": "3b1b8b5ca0d27527f60f89f141f6481525b19311f938431e68955b01d38f4603"
+    },
+    {
+      "path": "vrae/collection/fetcher.py",
+      "lf_sha256": "8eeccbd7aa840a5a4bf8a65fae2430d3396ca62ec5d5185bf9354b2830277050"
+    },
+    {
+      "path": "vrae/collection/http_transport.py",
+      "lf_sha256": "fb39cbc2c8386eadc61ba87e53773363524e0aa3e39ff7ef0e581fd9563df44d"
+    },
+    {
+      "path": "vrae/collection/limits.py",
+      "lf_sha256": "a6115bdd5882bbfea6872daf8580ca04520ac5cc71ec1b275b0f9797da837564"
+    },
+    {
+      "path": "vrae/collection/manifest.py",
+      "lf_sha256": "c8a6668fdda67634cbb3c2469c32be729528537f5d515c3522cc33730c6db447"
+    },
+    {
+      "path": "vrae/collection/policy.py",
+      "lf_sha256": "7edce36d8e9ca8b540fe6be169f0851e96747b95f35d8af7d26d840938aeea80"
+    },
+    {
+      "path": "vrae/collection/redirects.py",
+      "lf_sha256": "e853d94b837845689f06ce9c386b077796a5af5844ee714669a14f74c7a6acd2"
+    },
+    {
+      "path": "vrae/collection/resolver.py",
+      "lf_sha256": "e027f3c5fce8ad82cf6ba54cede8fc3473a4593b10deae3993132c14998f7b66"
+    },
+    {
+      "path": "vrae/collection/robots.py",
+      "lf_sha256": "cb84696e3a15a3a833b46798239a5f534a35ce890153d5baf9e617fa06e30b7c"
+    }
+  ],
+  "actual_original_images": {
+    "browser": "sha256:87157d2a2717722b8107924725a80a53c70d5fb62b80f61bec12a8798e0b9f93",
+    "worker": "sha256:c29ba550aaa57f9415ae7fddcbd96188540fad6bdfc37e9319decc48388777b1"
+  },
+  "native_cases": [
+    {
+      "case": "readonly",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "writes",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "private",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "resources",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "channels",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "escape",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "storage",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "redirect",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "redirect_private",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "rebinding",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "infinite",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "memory",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": true,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": true
+    },
+    {
+      "case": "revocation",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "crash",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "sigkill",
+      "native_worker_exit": 0,
+      "expected_worker_exit": 0,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    },
+    {
+      "case": "worker_kill",
+      "native_worker_exit": 137,
+      "expected_worker_exit": 137,
+      "browser_oom_killed": false,
+      "worker_oom_killed": false,
+      "browser_memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "pids_limit": 256,
+      "original_assertions_pass": true,
+      "scoped_owner_interpretation_applied": false
+    }
+  ],
+  "original_18_40_5_limits_unchanged": true,
+  "original_raw_archive": {
+    "sha256": "7916570daeb4570a15933fe270399045953568504c453f8aac493d8fc4b24740",
+    "bytes": 313383,
+    "files": 247,
+    "crc_and_all_sha_verified": true,
+    "private": true
+  },
+  "owned_absent": {
+    "containers": 32,
+    "ipc_volumes": 16
+  },
+  "host_oom_observation": {
+    "provider": "Microsoft-Windows-Resource-Exhaustion-Detector",
+    "event_id": 2004,
+    "utc_interval": [
+      "2026-11-13T23:21:00Z",
+      "2026-11-13T23:29:00Z"
+    ],
+    "matching_events": 0,
+    "limitation": "No injected cgroup/kernel observer; Windows event absence is corroboration, not exhaustive kernel telemetry"
+  },
+  "old_stop_receipt_sha256": "6a19ae374f937ddc3f1ed34e1a2ae1113f02a5478bc96c636b3810dbeb43eb22",
+  "historical_red_preserved": true,
+  "intermittent_escape_infinite_resources_cause": "UNKNOWN",
+  "rerun": false,
+  "source_receipt_sha256": "bdbff29836a417016ec20847668a0efaf49340111d2de852c6c75595b77ac0a0",
+  "native_host_event_observation_sha256": "a565ba1e4ce6e14ec6e621cde5f2074e57f0f8cea82d75734b3b34167009ee30"
+}

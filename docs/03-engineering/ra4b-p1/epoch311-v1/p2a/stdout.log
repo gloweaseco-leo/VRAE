@@ -1,0 +1,2758 @@
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 83%]
+EEEEEEEEEEEEEE                                                           [100%]RA4A_P2A_ACTUAL_CALLS={"calls": 0, "passed": 0, "session_exit": 1, "checkout": null}
+
+=================================== ERRORS ====================================
+_ ERROR at setup of test_exact_complete_native_bytes_and_idempotent_registration[404] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_exact_complete_native_bytes_and_idempotent_registration[200] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_a_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_b_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_unassigned] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_a_worker] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_a_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_b_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_unassigned] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_a_worker] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[UPDATE-ra4a_test_a_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[UPDATE-ra4a_test_b_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[UPDATE-ra4a_test_unassigned] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[UPDATE-ra4a_test_a_worker] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_a_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_b_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_unassigned] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_a_worker] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_cross_tenant_and_unassigned_gated_reads_refused[ra4a_test_b_app] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_cross_tenant_and_unassigned_gated_reads_refused[ra4a_test_unassigned] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_cross_tenant_and_unassigned_gated_reads_refused[p2a_test_b_writer] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_exact_locator_not_just_naked_digest[tenant-tenant-beta] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_exact_locator_not_just_naked_digest[source_run-foreign-run] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_exact_locator_not_just_naked_digest[report-foreign-report] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+____ ERROR at setup of test_exact_locator_not_just_naked_digest[version-2] ____
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_exact_locator_not_just_naked_digest[target_digest-0000000000000000000000000000000000000000000000000000000000000000] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_exact_locator_not_just_naked_digest[ref_id-accepted-200] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+___ ERROR at setup of test_spoofs_do_not_grant_store_authority[tenant_guc] ____
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+____ ERROR at setup of test_spoofs_do_not_grant_store_authority[actor_guc] ____
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+____ ERROR at setup of test_spoofs_do_not_grant_store_authority[set_role] _____
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+______ ERROR at setup of test_spoofs_do_not_grant_store_authority[owner] ______
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_____ ERROR at setup of test_spoofs_do_not_grant_store_authority[writer] ______
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_revoked_assignment_and_policy_lock_fail_closed[read] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_revoked_assignment_and_policy_lock_fail_closed[write] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+__ ERROR at setup of test_policy_denial_for_registered_bytes[status-REVOKED] __
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+__ ERROR at setup of test_policy_denial_for_registered_bytes[status-UNKNOWN] __
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_policy_denial_for_registered_bytes[expires_at-2000-01-01] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[DRAFT] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[HTML] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[SOURCE] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[PACK] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[PACKAGE] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[GUARD] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[METADATA] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[CSS] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[SOURCE_OBJECT] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_altered_content_with_recomputed_outer_manifest_refused[TARGET] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_incomplete_or_truncated_graph_is_not_readable[HTML] __
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+__ ERROR at setup of test_incomplete_or_truncated_graph_is_not_readable[CSS] __
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_incomplete_or_truncated_graph_is_not_readable[SOURCE_OBJECT] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_incomplete_or_truncated_graph_is_not_readable[GUARD] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_database_rejects_overlarge_bytes_before_insert[HTML] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_database_rejects_overlarge_bytes_before_insert[TARGET] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[UPDATE-graphs] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[UPDATE-objects] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[UPDATE-events] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[DELETE-graphs] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[DELETE-objects] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[DELETE-events] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[TRUNCATE-graphs] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[TRUNCATE-objects] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[TRUNCATE-events] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_sha_and_length_are_generated_not_client_attestation __
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_____ ERROR at setup of test_stale_version_does_not_resurrect_old_review ______
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_registration_rollback_and_connection_termination_leave_no_graph _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+____ ERROR at setup of test_two_connections_race_consistent_commit[False] _____
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_____ ERROR at setup of test_two_connections_race_consistent_commit[True] _____
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_privileged_corruption_recomputed_db_hash_still_refused[HTML] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_privileged_corruption_recomputed_db_hash_still_refused[CSS] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_privileged_corruption_recomputed_db_hash_still_refused[SOURCE_OBJECT] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_privileged_corruption_recomputed_db_hash_still_refused[GUARD] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_privileged_corruption_recomputed_db_hash_still_refused[TARGET] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_______ ERROR at setup of test_404_200_substitution_and_illegal_writer ________
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_current_version_publication_serializes_with_read_transaction _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_real_dump_restore_and_volume_restart_original_bytes_latest_version _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_semantic_forgery_rejected_by_full_provenance_and_sql[quote] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_semantic_forgery_rejected_by_full_provenance_and_sql[byte_range] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_semantic_forgery_rejected_by_full_provenance_and_sql[renderer_version] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_semantic_forgery_rejected_by_full_provenance_and_sql[extra_claim] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_semantic_forgery_rejected_by_full_provenance_and_sql[APPROVED] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_semantic_forgery_rejected_by_full_provenance_and_sql[zero_finding] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+__ ERROR at setup of test_sealed_graph_cannot_append_and_fk_is_tenant_bound ___
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_migration_reapply_refuses_ledger_and_real_schema_drift[migration_hash] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_migration_reapply_refuses_ledger_and_real_schema_drift[schema_function] _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+__ ERROR at setup of test_no_native_approval_share_export_or_production_role __
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+_ ERROR at setup of test_connection_death_mid_multi_object_function_leaves_no_partial_target _
+
+    @pytest.fixture(scope="session", autouse=True)
+    def p2a_migration():
+>       migrate_p2a()
+
+integration\ra4a\p2a_plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\ra4a\p2a_support.py:66: in migrate_p2a
+    verify_migrations(c)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+c = <psycopg.Connection [BAD] at 0x1b0fe262650>
+
+    def verify_migrations(c):
+        expected = [
+            (
+                v,
+                hashlib.sha256(
+                    (ROOT / "db/migrations" / name).read_bytes().replace(b"\r\n", b"\n")
+                ).hexdigest(),
+            )
+            for v, name in [(1, "0001_ra4a_test_only.sql"), (2, "0002_ra4a_private_bytes.sql")]
+        ]
+        assert (
+>           c.execute("SELECT version,sha256 FROM ra4a_private.migrations ORDER BY version").fetchall()
+            == expected
+        ), "P2A_MIGRATION_DRIFT"
+E       AssertionError: P2A_MIGRATION_DRIFT
+
+integration\ra4a\p2a_support.py:48: AssertionError
+=========================== short test summary info ===========================
+ERROR integration/ra4a/p2a/cases.py::test_exact_complete_native_bytes_and_idempotent_registration[404]
+ERROR integration/ra4a/p2a/cases.py::test_exact_complete_native_bytes_and_idempotent_registration[200]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_a_app]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_b_app]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_unassigned]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[SELECT raw FROM-ra4a_test_a_worker]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_a_app]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_b_app]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_unassigned]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[INSERT INTO-ra4a_test_a_worker]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[UPDATE-ra4a_test_a_app]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[UPDATE-ra4a_test_b_app]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[UPDATE-ra4a_test_unassigned]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[UPDATE-ra4a_test_a_worker]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_a_app]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_b_app]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_unassigned]
+ERROR integration/ra4a/p2a/cases.py::test_no_direct_raw_table_authority[DELETE FROM-ra4a_test_a_worker]
+ERROR integration/ra4a/p2a/cases.py::test_cross_tenant_and_unassigned_gated_reads_refused[ra4a_test_b_app]
+ERROR integration/ra4a/p2a/cases.py::test_cross_tenant_and_unassigned_gated_reads_refused[ra4a_test_unassigned]
+ERROR integration/ra4a/p2a/cases.py::test_cross_tenant_and_unassigned_gated_reads_refused[p2a_test_b_writer]
+ERROR integration/ra4a/p2a/cases.py::test_exact_locator_not_just_naked_digest[tenant-tenant-beta]
+ERROR integration/ra4a/p2a/cases.py::test_exact_locator_not_just_naked_digest[source_run-foreign-run]
+ERROR integration/ra4a/p2a/cases.py::test_exact_locator_not_just_naked_digest[report-foreign-report]
+ERROR integration/ra4a/p2a/cases.py::test_exact_locator_not_just_naked_digest[version-2]
+ERROR integration/ra4a/p2a/cases.py::test_exact_locator_not_just_naked_digest[target_digest-0000000000000000000000000000000000000000000000000000000000000000]
+ERROR integration/ra4a/p2a/cases.py::test_exact_locator_not_just_naked_digest[ref_id-accepted-200]
+ERROR integration/ra4a/p2a/cases.py::test_spoofs_do_not_grant_store_authority[tenant_guc]
+ERROR integration/ra4a/p2a/cases.py::test_spoofs_do_not_grant_store_authority[actor_guc]
+ERROR integration/ra4a/p2a/cases.py::test_spoofs_do_not_grant_store_authority[set_role]
+ERROR integration/ra4a/p2a/cases.py::test_spoofs_do_not_grant_store_authority[owner]
+ERROR integration/ra4a/p2a/cases.py::test_spoofs_do_not_grant_store_authority[writer]
+ERROR integration/ra4a/p2a/cases.py::test_revoked_assignment_and_policy_lock_fail_closed[read]
+ERROR integration/ra4a/p2a/cases.py::test_revoked_assignment_and_policy_lock_fail_closed[write]
+ERROR integration/ra4a/p2a/cases.py::test_policy_denial_for_registered_bytes[status-REVOKED]
+ERROR integration/ra4a/p2a/cases.py::test_policy_denial_for_registered_bytes[status-UNKNOWN]
+ERROR integration/ra4a/p2a/cases.py::test_policy_denial_for_registered_bytes[expires_at-2000-01-01]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[DRAFT]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[HTML]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[SOURCE]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[PACK]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[PACKAGE]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[GUARD]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[METADATA]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[CSS]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[SOURCE_OBJECT]
+ERROR integration/ra4a/p2a/cases.py::test_altered_content_with_recomputed_outer_manifest_refused[TARGET]
+ERROR integration/ra4a/p2a/cases.py::test_incomplete_or_truncated_graph_is_not_readable[HTML]
+ERROR integration/ra4a/p2a/cases.py::test_incomplete_or_truncated_graph_is_not_readable[CSS]
+ERROR integration/ra4a/p2a/cases.py::test_incomplete_or_truncated_graph_is_not_readable[SOURCE_OBJECT]
+ERROR integration/ra4a/p2a/cases.py::test_incomplete_or_truncated_graph_is_not_readable[GUARD]
+ERROR integration/ra4a/p2a/cases.py::test_database_rejects_overlarge_bytes_before_insert[HTML]
+ERROR integration/ra4a/p2a/cases.py::test_database_rejects_overlarge_bytes_before_insert[TARGET]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[UPDATE-graphs]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[UPDATE-objects]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[UPDATE-events]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[DELETE-graphs]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[DELETE-objects]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[DELETE-events]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[TRUNCATE-graphs]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[TRUNCATE-objects]
+ERROR integration/ra4a/p2a/cases.py::test_ordinary_fixture_admin_cannot_overwrite_delete_or_truncate[TRUNCATE-events]
+ERROR integration/ra4a/p2a/cases.py::test_sha_and_length_are_generated_not_client_attestation
+ERROR integration/ra4a/p2a/cases.py::test_stale_version_does_not_resurrect_old_review
+ERROR integration/ra4a/p2a/cases.py::test_registration_rollback_and_connection_termination_leave_no_graph
+ERROR integration/ra4a/p2a/cases.py::test_two_connections_race_consistent_commit[False]
+ERROR integration/ra4a/p2a/cases.py::test_two_connections_race_consistent_commit[True]
+ERROR integration/ra4a/p2a/cases.py::test_privileged_corruption_recomputed_db_hash_still_refused[HTML]
+ERROR integration/ra4a/p2a/cases.py::test_privileged_corruption_recomputed_db_hash_still_refused[CSS]
+ERROR integration/ra4a/p2a/cases.py::test_privileged_corruption_recomputed_db_hash_still_refused[SOURCE_OBJECT]
+ERROR integration/ra4a/p2a/cases.py::test_privileged_corruption_recomputed_db_hash_still_refused[GUARD]
+ERROR integration/ra4a/p2a/cases.py::test_privileged_corruption_recomputed_db_hash_still_refused[TARGET]
+ERROR integration/ra4a/p2a/cases.py::test_404_200_substitution_and_illegal_writer
+ERROR integration/ra4a/p2a/cases.py::test_current_version_publication_serializes_with_read_transaction
+ERROR integration/ra4a/p2a/cases.py::test_real_dump_restore_and_volume_restart_original_bytes_latest_version
+ERROR integration/ra4a/p2a/security_cases.py::test_semantic_forgery_rejected_by_full_provenance_and_sql[quote]
+ERROR integration/ra4a/p2a/security_cases.py::test_semantic_forgery_rejected_by_full_provenance_and_sql[byte_range]
+ERROR integration/ra4a/p2a/security_cases.py::test_semantic_forgery_rejected_by_full_provenance_and_sql[renderer_version]
+ERROR integration/ra4a/p2a/security_cases.py::test_semantic_forgery_rejected_by_full_provenance_and_sql[extra_claim]
+ERROR integration/ra4a/p2a/security_cases.py::test_semantic_forgery_rejected_by_full_provenance_and_sql[APPROVED]
+ERROR integration/ra4a/p2a/security_cases.py::test_semantic_forgery_rejected_by_full_provenance_and_sql[zero_finding]
+ERROR integration/ra4a/p2a/security_cases.py::test_sealed_graph_cannot_append_and_fk_is_tenant_bound
+ERROR integration/ra4a/p2a/security_cases.py::test_migration_reapply_refuses_ledger_and_real_schema_drift[migration_hash]
+ERROR integration/ra4a/p2a/security_cases.py::test_migration_reapply_refuses_ledger_and_real_schema_drift[schema_function]
+ERROR integration/ra4a/p2a/security_cases.py::test_no_native_approval_share_export_or_production_role
+ERROR integration/ra4a/p2a/security_cases.py::test_connection_death_mid_multi_object_function_leaves_no_partial_target
+86 errors in 4.79s

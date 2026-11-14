@@ -1,0 +1,4 @@
+COMMAND=['docker', 'run', '--rm', '--network', 'none', '--read-only', '--security-opt', 'no-new-privileges', '--memory', '512m', '--cpus', '1', '--pids-limit', '256', '--tmpfs', '/tmp:rw,nosuid,nodev,size=256m', '--cap-drop', 'ALL', '--entrypoint', 'python', 'vrae-ra1b-browser:local', '/opt/kernel_probe.py', '--control']
+{"probe": "direct-kernel-syscalls", "positive_control": true, "uid": 10001, "results": [{"family": 2, "kind": 1, "created": true}, {"family": 2, "kind": 2, "created": true}, {"family": 10, "kind": 1, "created": true}, {"family": 10, "kind": 2, "created": true}]}
+
+EXIT_CODE=0

@@ -1,0 +1,24 @@
+{"method": "POST", "path": "/v1/audit-requests", "key": "http-disabled-0001", "status": 403, "response": {"error": "CURRENT_AUTHORITY_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "http-unassigned-0001", "status": 403, "response": {"error": "CURRENT_AUTHORITY_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "http-revoked-0001", "status": 403, "response": {"error": "CURRENT_AUTHORITY_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "http-expired-0001", "status": 403, "response": {"error": "CURRENT_AUTHORITY_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "http-expiry-at-commit-0001", "status": 403, "response": {"error": "CURRENT_AUTHORITY_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 202, "response": {"request_id": "e37a8be5-2d3d-4b00-8413-127d10ddfe16", "run_id": "1a3ff360-3e0a-413c-94b0-dcdf24e006ef", "job_id": "e8662506-5eb6-49b8-ab56-2446655ff549", "event_id": "2d5ae5e2-b4a9-4798-9896-b5c2e46c153a", "authority": "TEST_ONLY_PRIVATE_RUNTIME_NOT_HUMAN_APPROVAL"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 202, "response": {"request_id": "e37a8be5-2d3d-4b00-8413-127d10ddfe16", "run_id": "1a3ff360-3e0a-413c-94b0-dcdf24e006ef", "job_id": "e8662506-5eb6-49b8-ab56-2446655ff549", "event_id": "2d5ae5e2-b4a9-4798-9896-b5c2e46c153a", "authority": "TEST_ONLY_PRIVATE_RUNTIME_NOT_HUMAN_APPROVAL"}}
+{"method": "GET", "path": "/v1/audit-requests/e37a8be5-2d3d-4b00-8413-127d10ddfe16", "key": "runtime-key-0001", "status": 200, "response": {"request_id": "e37a8be5-2d3d-4b00-8413-127d10ddfe16", "run_id": "1a3ff360-3e0a-413c-94b0-dcdf24e006ef", "job_id": "e8662506-5eb6-49b8-ab56-2446655ff549", "status": "QUEUED", "job_state": "PENDING", "attempts": 0, "lease_seq": 0, "source_ref": "accepted-404", "report_version": 1, "kind": "L1_NATIVE", "issue_count": 1, "authority": "TEST_ONLY_PRIVATE_RUNTIME_NOT_HUMAN_APPROVAL", "native_approval": null, "share_grant": null}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 409, "response": {"error": "IDEMPOTENCY_CONFLICT"}}
+{"method": "POST", "path": "/v1/audit-requests/e37a8be5-2d3d-4b00-8413-127d10ddfe16/cancel", "key": "runtime-key-0001", "status": 501, "response": {"error": "CANCEL_NOT_IMPLEMENTED", "authority": "TEST_ONLY_PRIVATE_RUNTIME_NOT_HUMAN_APPROVAL"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 401, "response": {"error": "AUTH_REQUIRED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 403, "response": {"error": "ORIGIN_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 403, "response": {"error": "ORIGIN_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 400, "response": {"error": "HEADERS_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 400, "response": {"error": "HEADERS_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 400, "response": {"error": "HEADERS_DENIED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 422, "response": {"error": "FIXED_SYNTHETIC_SOURCE_REQUIRED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 422, "response": {"error": "FIXED_SYNTHETIC_SOURCE_REQUIRED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 422, "response": {"error": "FIXED_SYNTHETIC_SOURCE_REQUIRED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 422, "response": {"error": "FIXED_SYNTHETIC_SOURCE_REQUIRED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 422, "response": {"error": "FIXED_SYNTHETIC_SOURCE_REQUIRED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 413, "response": {"error": "BODY_TOO_LARGE"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "runtime-key-0001", "status": 415, "response": {"error": "JSON_REQUIRED"}}
+{"method": "POST", "path": "/v1/audit-requests", "key": "tiny", "status": 422, "response": {"error": "IDEMPOTENCY_KEY_REQUIRED"}}
