@@ -25,7 +25,7 @@ From the worktree root, in terminal1:
 Keep this foreground controller running. It boots a fresh owned PG16 and original API, invokes real
 APP admissions and independent UID10002 Worker, starts the original signed read-only SSR in a separate
 restricted-profile process, verifies real HTTP reads and Chrome1280/375/320, then prints the actual
-`http://127.0.0.1:<allocated-port>` URL. The API's original fixed8765 listener is inside the private
+`http://127.0.0.1:<allocated-port>/b5a/login` URL. The API's original fixed8765 listener is inside the private
 PG network namespace; it is not exposed as a new host API. PG publishes only an allocated127.0.0.1 port.
 There is no public preview/tunnel or second website. The accepted bridge bootstrap does not establish
 kernel egress denial; all diagnostic input uses the explicit in-memory synthetic transport, and Chrome
@@ -43,8 +43,8 @@ identity/session endpoints, then opens an isolated interactive Chrome profile wi
 cookie. It does not create a natural-person identity or effective approval. Use `--task 200` for the
 coverage-only counterpart. Raw tokens/keys/cookies stay private, not in command-line arguments or logs.
 Close that Chrome window when finished. Alternatively `session` writes a private cookie document for
-an Owner-controlled local HTTP client, without printing it. A bare browser URL initially shows the
-original login page; it does not bypass authentication. Sessions/assignments expire normally.
+an Owner-controlled local HTTP client, without printing it. Open the printed `url` including `/b5a/login` to see the
+original login page; the separate `origin` field is a host binding, not a page route; it does not bypass authentication. Sessions/assignments expire normally.
 
 Stop from terminal2 (or wait for the bounded30-minute auto-stop):
 
@@ -136,3 +136,5 @@ new A1 random precondition experiments. Genuine RLS/tenant/Guard/lease/epoch/com
 
 - `s1-pytest311-001`: native pytest6 cases, browser stage RED after preceding99-second signed-read replay; original90-second session lifetime was not extended.
 - `s1-pytest311-002`: fresh genuine signed login before Chrome; native pytest6 PASS, zero skips; real1280/375/320, owned cleanup PASS. Later final-HEAD dual-minor receipts supersede this development result.
+
+For a clean final-HEAD worktree, set `$env:BETA_CODEX3_PRIVATE_EVIDENCE = "1"` before verify/start. Sanitized receipts then stay under this directory's ignored `.private/<run>/`; raw data still stays in the integration private directory. No security contract or test oracle changes.

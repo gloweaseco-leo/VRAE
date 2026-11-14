@@ -18,6 +18,8 @@ ROOT = Path(__file__).resolve().parents[3]
 OWN = Path(__file__).resolve().parent
 PRIVATE = OWN/".private"
 DOC = ROOT/"docs/03-engineering/beta-closure/codex3"
+if os.environ.get("BETA_CODEX3_PRIVATE_EVIDENCE") == "1":
+    DOC = DOC/".private"
 OWNER_LABEL = "vrae.beta.codex3"
 
 def write(path, value):
@@ -370,7 +372,7 @@ def main():
             write(folder/"stop.json",{"stop":True})
             print("STOP_REQUESTED_OWN_RUN_ONLY")
         elif args.action=="status":
-            print(json.dumps({"origin":control["origin"],"run":args.run,"mode":control["mode"]}))
+            print(json.dumps({"origin":control["origin"],"url":control["origin"]+"/b5a/login","run":args.run,"mode":control["mode"]}))
         else:
             from integration.ra4c_b5a.support import Client
             client=Client(control["origin"])
@@ -433,7 +435,7 @@ def main():
         run.result["status"]="COMPONENTS_VERIFIED_CHAIN_BLOCKED"
         write(folder/"started.json",{"origin":run.r.origin,"source_sha":run.result["source_sha"]})
         if args.action=="start":
-            print(json.dumps({"run":args.run,"origin":run.r.origin,"mode":"TEST_ONLY_NOT_APPROVED",
+            print(json.dumps({"run":args.run,"origin":run.r.origin,"url":run.r.origin+"/b5a/login","mode":"TEST_ONLY_NOT_APPROVED",
                 "chain":"BLOCKED","auto_stop_seconds":1800}),flush=True)
             deadline=time.monotonic()+1800
             while time.monotonic()<deadline and not (folder/"stop.json").exists():
