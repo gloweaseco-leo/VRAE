@@ -1,0 +1,191 @@
+{
+  "owner_comment": 6867209783,
+  "status": "STOP_OWNER_NO_OOM_GATE_NOT_MET_DESPITE_ORIGINAL16_PASS",
+  "local_merged_head": "ed50a972f59bb64258459eba7b4cf989f2903ac6",
+  "accepted_main": "6257ad3acb09d046d954301117134f6992c02d84",
+  "normal_merge_parents": [
+    "bdba3588d220d5908c0da64d4e01b68b2ba41fa6",
+    "6257ad3acb09d046d954301117134f6992c02d84"
+  ],
+  "original_supervisor_native_exit": 0,
+  "original_case_exit_assertions_passed": 16,
+  "owner_additional_no_oom_gate": false,
+  "owner_gate_case_passes": 15,
+  "original_case_results": [
+    {
+      "case": "readonly",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "writes",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "private",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "resources",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "channels",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "escape",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "storage",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "redirect",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "redirect_private",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "rebinding",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "infinite",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "memory",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": true,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "revocation",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "crash",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "sigkill",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 0,
+      "browser_exit": 137,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    },
+    {
+      "case": "worker_kill",
+      "original_worker_assertion_pass": true,
+      "worker_native_exit": 137,
+      "browser_exit": 1,
+      "browser_oom_killed_flag": false,
+      "automatic_exit_and_owned_cleanup_pass": true
+    }
+  ],
+  "blocking_evidence": {
+    "case": "memory",
+    "worker_native_exit": 0,
+    "worker_native_pytest": "1 passed in 18.89s",
+    "browser_OOMKilled": true,
+    "browser_native_exit": 1,
+    "worker_OOMKilled": false,
+    "worker_client_seconds": 22.32800000000134,
+    "synthetic_client124": false,
+    "automatic_browser_exit_seconds": 0.25,
+    "native_snapshot": "browser-native/memory-browser-final-state.log",
+    "affected_process_and_cgroup_oom_timing": "UNKNOWN_NO_EXTERNAL_OBSERVER",
+    "frozen_attack_test_containment_pass_is_not_an_implicit_owner_no_oom_exception": true
+  },
+  "all_exact_owned_case_containers_and_volumes_absence_proven": true,
+  "source_and_images_frozen_unchanged": true,
+  "external_observer_omitted": true,
+  "budgets_18_40_5_and_512MB_CPU1_PIDs256_unchanged": true,
+  "phase2_original_default_invocations": 1,
+  "phase2_reruns": 0,
+  "phase3_started": false,
+  "new_ordinary_PG_runtime_attempts_on_this_merge": 0,
+  "prior_old_sha_junit_not_relabelled_as_new_merge_proof": true,
+  "push": false,
+  "hosted_CI": false,
+  "PR_update": false,
+  "PR_merge": false,
+  "deploy": false,
+  "old_intermittent_RED_and_junit_loss_untouched": true,
+  "native_browser_junit_generated": false,
+  "native_junit_fabricated": false,
+  "raw_artifact": {
+    "sha256": "7916570daeb4570a15933fe270399045953568504c453f8aac493d8fc4b24740",
+    "bytes": 313383,
+    "files": 247,
+    "crc_and_file_sha_verified": true,
+    "public_raw_files": 0
+  },
+  "sensitive_pattern_files": [],
+  "privacy_provenance": "Only original frozen synthetic RA1B fixtures and exact owned supervisor evidence; no actual IdP/customer/site/model/database use.",
+  "pattern_scan_not_used_as_provenance_substitute": true,
+  "next_owner_decision": [
+    "Clarify explicitly whether intentional memory-attack containment with Docker OOMKilled=true may satisfy the Owner gate; until then keep STOP.",
+    "If the No-OOM rule remains absolute, require separately justified protected-core/security scope before any RA1B change. No RAM/CPU/time/assertion weakening is performed.",
+    "No second full browser run, Phase3 run, corrective commit/push or hosted entry under this failed Phase2."
+  ],
+  "gate_source": "https://github.com/gloweaseco-leo/VRAE/pull/83#issuecomment-6867209783"
+}

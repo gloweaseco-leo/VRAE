@@ -1,0 +1,45 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 501B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for public.ecr.aws/docker/library/python:3.13-slim-bookworm@sha256:a5a7017efc5969e00ae2b91c8eb0631049a569652aa4ffc4501769049ae45c72
+#2 DONE 0.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [1/4] FROM public.ecr.aws/docker/library/python:3.13-slim-bookworm@sha256:a5a7017efc5969e00ae2b91c8eb0631049a569652aa4ffc4501769049ae45c72
+#5 resolve public.ecr.aws/docker/library/python:3.13-slim-bookworm@sha256:a5a7017efc5969e00ae2b91c8eb0631049a569652aa4ffc4501769049ae45c72 0.1s done
+#5 DONE 0.1s
+
+#4 [internal] load build context
+#4 transferring context: 973B 0.0s done
+#4 DONE 0.0s
+
+#6 [3/4] COPY requirements-ra1a.lock requirements-ra4a.lock requirements-ra4b-p1.lock /deps/
+#6 CACHED
+
+#7 [2/4] WORKDIR /work
+#7 CACHED
+
+#8 [4/4] RUN python -m pip install --no-cache-dir -r /deps/requirements-ra4b-p1.lock && python -m pip check
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers 0.0s done
+#9 exporting manifest sha256:715de27aa43f6f2bd7b51fe745b07d830d7747774878eeaf44193c388585ae4d done
+#9 exporting config sha256:47ae026aa41c1256ac2dcdc7eaaa1a393c76ae17bee15ab23b217dd2facca4f7 done
+#9 exporting attestation manifest sha256:491288abbacdcb808ea33fa0116c7adea257078428376ffa34ea63ffc1a08be6
+#9 exporting attestation manifest sha256:491288abbacdcb808ea33fa0116c7adea257078428376ffa34ea63ffc1a08be6 0.0s done
+#9 exporting manifest list sha256:11b30e92053224d296a3ffa76b899f754d7ce3c622f7c164e5e423b2551feaa4 0.0s done
+#9 naming to docker.io/library/vrae-ra4b-p1:313 done
+#9 unpacking to docker.io/library/vrae-ra4b-p1:313 0.0s done
+#9 DONE 0.3s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/xtaa63i9plmmx6k31pxxhx8jy

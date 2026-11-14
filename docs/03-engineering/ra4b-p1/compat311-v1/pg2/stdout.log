@@ -1,0 +1,30 @@
+F.....................................................                   [100%]RA4A_P1_REAL_PG_RECEIPT={"calls": 54, "checkout": null, "passed": 53, "server_version": "PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit", "session_exit": 1}
+
+================================== FAILURES ===================================
+________________ test_real_version_catalog_and_owner_force_rls ________________
+
+db = <psycopg.Connection [IDLE] (host=127.0.0.1 port=54023 user=postgres database=vrae_ra4a_p1) at 0x28a88fa3310>
+
+    def test_real_version_catalog_and_owner_force_rls(db):
+        assert (
+            db.execute("SELECT current_setting('server_version_num')::int").fetchone()[0] // 10000 == 16
+        )
+        roles = db.execute(
+            "SELECT rolname,rolsuper,rolbypassrls,rolcreaterole,rolcreatedb FROM pg_roles WHERE rolname LIKE 'ra4a_%'"
+        ).fetchall()
+        assert len(roles) == 8 and all(not any(r[1:]) for r in roles)
+        policies = db.execute(
+            "SELECT relname,relrowsecurity,relforcerowsecurity FROM pg_class JOIN pg_namespace n ON n.oid=relnamespace WHERE n.nspname='ra4a' AND relkind='r'"
+        ).fetchall()
+        assert len(policies) == 8 and all(r[1] and r[2] for r in policies)
+        rows = db.execute(
+            "SELECT qual,with_check FROM pg_policies WHERE schemaname IN ('ra4a','ra4a_private')"
+        ).fetchall()
+>       assert len(rows) == 10 and all(r[0] and r[1] for r in rows)
+E       AssertionError: assert (12 == 10)
+E        +  where 12 = len([('(tenant_id = ra4a.scope())', '(tenant_id = ra4a.scope())'), ('(tenant_id = ra4a.scope())', '(tenant_id = ra4a.scope..._id = ra4a.scope())', '(tenant_id = ra4a.scope())'), ('(tenant_id = ra4a.scope())', '(tenant_id = ra4a.scope())'), ...])
+
+integration\ra4a\test_pg.py:52: AssertionError
+=========================== short test summary info ===========================
+FAILED integration/ra4a/test_pg.py::test_real_version_catalog_and_owner_force_rls
+1 failed, 53 passed in 51.99s

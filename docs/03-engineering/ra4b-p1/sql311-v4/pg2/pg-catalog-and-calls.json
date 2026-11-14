@@ -1,0 +1,666 @@
+{
+  "migrations": [
+    [
+      1,
+      "0557738e22e83a6f1c991e8c2a796749ce43845ad80fec44d8dc4c891fd9b5e2"
+    ],
+    [
+      2,
+      "bffca8c3c205f018ea0ba87cfdb19c3d0bc0d919b3e5d9178be0cc7a434c9ba9"
+    ],
+    [
+      3,
+      "2be5dba988054de1a52e66b11ee68bd19f4d895c2537e3268ba1f5ea8e569547"
+    ]
+  ],
+  "server_version": "PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+  "roles": [
+    [
+      "ra4a_app",
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      "ra4a_owner",
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_a_app",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_a_worker",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_b4_a_app",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_b4_a_worker",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_b4_b_app",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_b4_b_worker",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_b_app",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_b_worker",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_test_unassigned",
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      "ra4a_worker",
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  ],
+  "tables": [
+    [
+      "ra4a",
+      "audit",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a",
+      "jobs",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a",
+      "outbox",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a",
+      "policies",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a",
+      "references",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a",
+      "requests",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a",
+      "runs",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a",
+      "tenants",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a_private",
+      "assignments",
+      "ra4a_owner",
+      true,
+      true
+    ],
+    [
+      "ra4a_private",
+      "migrations",
+      "ra4a_owner",
+      false,
+      false
+    ],
+    [
+      "ra4a_private",
+      "principals",
+      "ra4a_owner",
+      true,
+      true
+    ]
+  ],
+  "policies": [
+    [
+      "ra4a",
+      "audit",
+      "tenant_isolation",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "ra4a",
+      "jobs",
+      "tenant_isolation",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "ra4a",
+      "outbox",
+      "tenant_isolation",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "ra4a",
+      "policies",
+      "tenant_isolation",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "ra4a",
+      "references",
+      "tenant_isolation",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "ra4a",
+      "requests",
+      "tenant_isolation",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "ra4a",
+      "runs",
+      "tenant_isolation",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "ra4a",
+      "tenants",
+      "tenant_isolation",
+      "(tenant_id = ra4a.scope())",
+      "(tenant_id = ra4a.scope())"
+    ],
+    [
+      "ra4a_private",
+      "assignments",
+      "b4_origin_assignment",
+      "(((SESSION_USER = 'ra4a_test_b4_a_worker'::name) AND (db_role = 'ra4a_test_b4_a_app'::name) AND (tenant_id = 'tenant-test'::text)) OR ((SESSION_USER = 'ra4a_test_b4_b_worker'::name) AND (db_role = 'ra4a_test_b4_b_app'::name) AND (tenant_id = 'tenant-beta'::text)))",
+      "false"
+    ],
+    [
+      "ra4a_private",
+      "assignments",
+      "assignment_session",
+      "(db_role = SESSION_USER)",
+      "(db_role = SESSION_USER)"
+    ],
+    [
+      "ra4a_private",
+      "principals",
+      "b4_origin_app",
+      "((authority = 'TEST_ONLY'::text) AND (kind = 'APP'::text) AND (((SESSION_USER = 'ra4a_test_b4_a_worker'::name) AND (db_role = 'ra4a_test_b4_a_app'::name) AND (tenant_id = 'tenant-test'::text)) OR ((SESSION_USER = 'ra4a_test_b4_b_worker'::name) AND (db_role = 'ra4a_test_b4_b_app'::name) AND (tenant_id = 'tenant-beta'::text))))",
+      "false"
+    ],
+    [
+      "ra4a_private",
+      "principals",
+      "principal_session",
+      "(db_role = SESSION_USER)",
+      "(db_role = SESSION_USER)"
+    ]
+  ],
+  "grants": [
+    [
+      "ra4a_app",
+      "ra4a",
+      "audit",
+      "SELECT"
+    ],
+    [
+      "ra4a_app",
+      "ra4a",
+      "jobs",
+      "SELECT"
+    ],
+    [
+      "ra4a_app",
+      "ra4a",
+      "outbox",
+      "SELECT"
+    ],
+    [
+      "ra4a_app",
+      "ra4a",
+      "policies",
+      "SELECT"
+    ],
+    [
+      "ra4a_app",
+      "ra4a",
+      "references",
+      "SELECT"
+    ],
+    [
+      "ra4a_app",
+      "ra4a",
+      "requests",
+      "SELECT"
+    ],
+    [
+      "ra4a_app",
+      "ra4a",
+      "runs",
+      "SELECT"
+    ],
+    [
+      "ra4a_app",
+      "ra4a",
+      "tenants",
+      "SELECT"
+    ],
+    [
+      "ra4a_worker",
+      "ra4a",
+      "audit",
+      "SELECT"
+    ],
+    [
+      "ra4a_worker",
+      "ra4a",
+      "jobs",
+      "SELECT"
+    ],
+    [
+      "ra4a_worker",
+      "ra4a",
+      "outbox",
+      "SELECT"
+    ],
+    [
+      "ra4a_worker",
+      "ra4a",
+      "policies",
+      "SELECT"
+    ],
+    [
+      "ra4a_worker",
+      "ra4a",
+      "references",
+      "SELECT"
+    ],
+    [
+      "ra4a_worker",
+      "ra4a",
+      "requests",
+      "SELECT"
+    ],
+    [
+      "ra4a_worker",
+      "ra4a",
+      "runs",
+      "SELECT"
+    ],
+    [
+      "ra4a_worker",
+      "ra4a",
+      "tenants",
+      "SELECT"
+    ]
+  ],
+  "functions": [
+    [
+      "admit",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4a, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,ra4a_app=X/ra4a_owner}"
+    ],
+    [
+      "claim",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4a, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,ra4a_worker=X/ra4a_owner}"
+    ],
+    [
+      "finish",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4a, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,ra4a_worker=X/ra4a_owner}"
+    ],
+    [
+      "immutable",
+      "ra4a_owner",
+      false,
+      [
+        "search_path=pg_catalog"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "require_scope",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4a_private, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "revision_lock",
+      "ra4a_owner",
+      false,
+      [
+        "search_path=pg_catalog, ra4a, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "scope",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4a_private, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,ra4a_app=X/ra4a_owner,ra4a_worker=X/ra4a_owner}"
+    ]
+  ],
+  "calls": [
+    {
+      "id": "integration/ra4a/test_pg.py::test_real_version_catalog_and_owner_force_rls",
+      "outcome": "failed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_404_and_200_references_are_exact_private_metadata",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_two_tenants_admission_is_atomic_and_idempotent",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_direct_cross_tenant_select_insert_update_delete_fail_closed[audit]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_direct_cross_tenant_select_insert_update_delete_fail_closed[outbox]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_direct_cross_tenant_select_insert_update_delete_fail_closed[jobs]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_direct_cross_tenant_select_insert_update_delete_fail_closed[runs]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_direct_cross_tenant_select_insert_update_delete_fail_closed[requests]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_direct_cross_tenant_select_insert_update_delete_fail_closed[references]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_direct_cross_tenant_select_insert_update_delete_fail_closed[policies]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_direct_cross_tenant_select_insert_update_delete_fail_closed[tenants]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_tenant_role_and_guc_spoofs_do_not_create_authority[guc]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_tenant_role_and_guc_spoofs_do_not_create_authority[set_role]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_tenant_role_and_guc_spoofs_do_not_create_authority[session_auth]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_tenant_role_and_guc_spoofs_do_not_create_authority[row_security_off]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_tenant_role_and_guc_spoofs_do_not_create_authority[private_table]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_tenant_role_and_guc_spoofs_do_not_create_authority[temp_schema]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_absent_or_revoked_synthetic_scope_denies[no_tenant]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_absent_or_revoked_synthetic_scope_denies[foreign_tenant]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_absent_or_revoked_synthetic_scope_denies[unassigned]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_absent_or_revoked_synthetic_scope_denies[revoked_assignment]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_absent_or_revoked_synthetic_scope_denies[disabled_principal]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_policy_current_version_and_clock_checked_in_transaction[REVOKED]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_policy_current_version_and_clock_checked_in_transaction[UNKNOWN]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_policy_current_version_and_clock_checked_in_transaction[EXPIRED]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_policy_current_version_and_clock_checked_in_transaction[FAKE]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_policy_current_version_and_clock_checked_in_transaction[STALE]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_admission_links_only_original_bound_reference[accepted-404]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_admission_links_only_original_bound_reference[accepted-200]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_client_json_extra_authority_or_forged_source_fields_denied[tenant_id]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_client_json_extra_authority_or_forged_source_fields_denied[role]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_client_json_extra_authority_or_forged_source_fields_denied[html_sha256]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_client_json_extra_authority_or_forged_source_fields_denied[target_digest]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_client_json_extra_authority_or_forged_source_fields_denied[ordered_guard_refs]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_client_json_extra_authority_or_forged_source_fields_denied[approved_by]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_immutable_reference_cannot_be_overwritten_even_by_fixture_admin[metadata-{\"html_sha256\": \"0000000000000000000000000000000000000000000000000000000000000000\"}]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_immutable_reference_cannot_be_overwritten_even_by_fixture_admin[visibility-APPROVED]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_immutable_reference_cannot_be_overwritten_even_by_fixture_admin[native_h0-0000000000000000000000000000000000000000000000000000000000000000]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_immutable_reference_cannot_be_overwritten_even_by_fixture_admin[target_digest-0000000000000000000000000000000000000000000000000000000000000000]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_partial_sql_failure_rolls_back_every_admission_row",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_connection_termination_before_commit_rolls_back",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_real_two_connection_concurrent_idempotency",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_real_skip_locked_claimants_and_lease_recovery",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_uncommitted_worker_disconnect_releases_job",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_human_approval_and_share_ports_never_enable_from_database_row[ra4a_test_a_app]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_human_approval_and_share_ports_never_enable_from_database_row[ra4a_test_a_worker]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_pg.py::test_human_approval_and_share_ports_never_enable_from_database_row[ra4a_test_b_app]",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_policy_race.py::test_current_policy_publication_waits_for_admission_commit",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_recovery.py::test_pg_dump_restore_retains_data_owners_rls_and_idempotency",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_recovery.py::test_expired_unreclaimed_lease_cannot_finish",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_recovery.py::test_attempt_cap_is_real_dead_letter_not_exactly_once",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_recovery.py::test_legitimate_new_synthetic_version_does_not_reactivate_old_ref",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_recovery.py::test_admin_connection_is_not_a_synthetic_runtime_client",
+      "outcome": "passed"
+    },
+    {
+      "id": "integration/ra4a/test_restart.py::test_committed_queue_lease_and_idempotency_survive_real_container_restart",
+      "outcome": "passed"
+    }
+  ],
+  "session_exit": 1,
+  "github_checkout": null,
+  "synthetic_authority_only": true,
+  "actual_human_approvals": 0,
+  "share_grants": 0
+}

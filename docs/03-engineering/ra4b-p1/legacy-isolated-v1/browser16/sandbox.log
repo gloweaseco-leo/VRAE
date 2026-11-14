@@ -1,0 +1,83 @@
+COMMAND=['docker', 'run', '--rm', '--network', 'none', '--read-only', '--security-opt', 'no-new-privileges', '--memory', '512m', '--cpus', '1', '--pids-limit', '256', '--tmpfs', '/tmp:rw,nosuid,nodev,size=256m', '--cap-drop', 'ALL', '--security-opt', 'seccomp=D:\\Projects\\VRAE\\.worktrees\\ra4b-p1-private-api-worker-testonly\\infra\\ra1b\\seccomp.json', '--entrypoint', 'python', 'vrae-ra1b-browser:local', '/opt/preflight.py']
+{"uid": 10001, "argv": ["chromium", "--headless", "--disable-gpu", "--no-first-run", "--disable-background-networking", "--user-data-dir=/tmp/profile", "--allow-chrome-scheme-url", "--dump-dom", "chrome://sandbox"], "status": "Name:\tpython\nUmask:\t0022\nState:\tR (running)\nTgid:\t1\nNgid:\t0\nPid:\t1\nPPid:\t0\nTracerPid:\t0\nUid:\t10001\t10001\t10001\t10001\nGid:\t10003\t10003\t10003\t10003\nFDSize:\t64\nGroups:\t10003 \nNStgid:\t1\nNSpid:\t1\nNSpgid:\t1\nNSsid:\t1\nKthread:\t0\nVmPeak:\t   18472 kB\nVmSize:\t   18032 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t   15056 kB\nVmRSS:\t   14752 kB\nRssAnon:\t    9376 kB\nRssFile:\t    5376 kB\nRssShmem:\t       0 kB\nVmData:\t   10324 kB\nVmStk:\t     132 kB\nVmExe:\t       4 kB\nVmLib:\t    3992 kB\nVmPTE:\t      76 kB\nVmSwap:\t       0 kB\nHugetlbPages:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t1\nuntag_mask:\t0xffffffffffffffff\nThreads:\t1\nSigQ:\t0/31121\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000001001000\nSigCgt:\t0000000000000002\nCapInh:\t0000000000000000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t0000000000000000\nCapAmb:\t0000000000000000\nNoNewPrivs:\t1\nSeccomp:\t2\nSeccomp_filters:\t2\nSpeculation_Store_Bypass:\tthread vulnerable\nSpeculationIndirectBranch:\tconditional enabled\nCpus_allowed:\tffff\nCpus_allowed_list:\t0-15\nMems_allowed:\t00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001\nMems_allowed_list:\t0\nvoluntary_ctxt_switches:\t33\nnonvoluntary_ctxt_switches:\t5\n", "interfaces": ["lo"]}
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="color-scheme" content="light dark">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sandbox Status</title>
+    <link rel="stylesheet" href="chrome://resources/css/text_defaults.css">
+    <style type="text/css">
+      #sandbox-status {
+        border: 1px solid gray;
+      }
+      #sandbox-status td {
+        border: 1px solid gray;
+        padding: 3px;
+        vertical-align: top;
+      }
+      #evaluation {
+        font-weight: bold;
+      }
+      .good {
+        background-color: rgb(143, 218, 146);
+      }
+      .bad {
+        background-color: rgb(249, 156, 149);
+      }
+      .medium {
+        background-color: rgb(255, 255, 90);
+      }
+      .info {
+        background-color: rgb(169, 217, 239);
+      }
+
+    </style>
+
+    <script type="module" src="sandbox_internals.js"></script>
+
+
+  </head>
+  <body>
+    <h1>Sandbox Status</h1>
+
+    <table id="sandbox-status">
+    <tr><td class="good">Layer 1 Sandbox</td><td class="good">Namespace</td></tr><tr><td class="good">PID namespaces</td><td class="good">Yes</td></tr><tr><td class="good">Network namespaces</td><td class="good">Yes</td></tr><tr><td class="good">Seccomp-BPF sandbox</td><td class="good">Yes</td></tr><tr><td class="good">Seccomp-BPF sandbox supports TSYNC</td><td class="good">Yes</td></tr><tr><td class="good">Ptrace Protection with Yama LSM (Broker)</td><td class="good">Yes</td></tr><tr><td class="medium">Ptrace Protection with Yama LSM (Non-broker)</td><td class="medium">No</td></tr></table>
+    <p id="evaluation">You are adequately sandboxed.</p>
+
+  
+
+</body></html>
+ [7:42:1113/124328.399093:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[7:42:1113/124328.399291:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:42:1113/124328.600599:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[7:42:1113/124328.600722:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[7:42:1113/124328.601189:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[7:42:1113/124328.601251:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:42:1113/124328.601419:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:42:1113/124328.651184:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:42:1113/124328.967773:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:7:1113/124329.356703:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:42:1113/124329.356931:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:7:1113/124329.357233:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:42:1113/124329.357679:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:7:1113/124329.359222:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:7:1113/124329.438409:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:42:1113/124329.438567:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:7:1113/124329.541568:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:42:1113/124329.543815:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[7:42:1113/124329.543924:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[7:7:1113/124329.544990:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:42:1113/124329.545551:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:7:1113/124329.633670:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:7:1113/124329.749173:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.Properties.GetAll: object_path= /org/freedesktop/UPower/devices/DisplayDevice: unknown error type: 
+[7:7:1113/124329.749366:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:42:1113/124329.749537:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:7:1113/124329.838800:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[7:42:1113/124329.838974:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[7:7:1113/124329.850456:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+
+CHROMIUM_EXIT_CODE=0
+SANDBOX_PREFLIGHT_PASS
+
+EXIT_CODE=0

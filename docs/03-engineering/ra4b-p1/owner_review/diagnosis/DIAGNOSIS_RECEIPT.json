@@ -1,0 +1,109 @@
+{
+  "status": "DUAL_PINNED_LINUX_REPRODUCTIONS_ROOT_CAUSE_CORROBORATED_NOT_A_FULL_ACCEPTANCE_PASS",
+  "baseline": "ae628003b4aa9f18054cb79fba5db60fefb02b3d",
+  "owner_comment": 6856220858,
+  "targeted_diagnostics_per_minor": 1,
+  "original_RED_changed": false,
+  "root_cause_is_not_inferred_from_docker_exit_alone": true,
+  "replicas": [
+    {
+      "minor": "311",
+      "python": "3.11.17 (main, Oct  6 2026, 02:01:58) [GCC 12.2.0]",
+      "collected": 2446,
+      "native_calls_passed": 2421,
+      "original_isolated_skips": 25,
+      "native_failed_reports": 0,
+      "pytest_exit": 1,
+      "checker_exit": 1,
+      "root_cause": "OUTPUT_DIRECTORY_LINUX_DAC_PERMISSION_DENIED",
+      "errno": 13,
+      "first_failure": "pytest JUnit sessionfinish writing /evidence/tests.xml",
+      "second_failure": "unit_check writing /evidence/stdout.log",
+      "not_a_classify_existing_failure": true,
+      "oom": false,
+      "signal_failure": false,
+      "source_unchanged": true,
+      "output_uid": 1001,
+      "output_gid": 1001,
+      "output_mode": "0755",
+      "container_uid": 0,
+      "container_groups": [
+        0
+      ],
+      "capabilities": "0",
+      "no_new_privileges": true,
+      "network_interfaces": [
+        "lo"
+      ],
+      "seconds": 2076.713515517,
+      "cgroup_memory_peak_bytes": 547328000,
+      "original_hosted_supervisor_stderr_sha256": "9022280118669a8415c04adb20c0083126af8685579b54dc9054ce623469b464",
+      "normalized_replica_sha256": "9022280118669a8415c04adb20c0083126af8685579b54dc9054ce623469b464",
+      "normalization": "Replace only diagnostic caller frame with original published -c command frame; Python3.13 includes command source/carets rendered by its native FrameSummary using the original command AST positions. All runpy/unit_check/pathlib/error bytes unchanged.",
+      "is_a_downloaded_original_raw_trace": false,
+      "corroboration": "EXACT_SHA256_MATCH_TO_FIRST_HOSTED_PUBLICATION_RECEIPT",
+      "original_host_uid_not_recorded": "1001 replica represents the non-root-owner0755 permission class; exact hosted stderr SHA independently confirms the observed failure.",
+      "raw_private_artifacts": {
+        "checker-result.json": "6af2a9297018cd63f6bc6aeb654def8caf44ecfe2e8a938bcb812288c26eca63",
+        "checker.stderr.log": "569e142c238b8944cae68898d33568babbce2b621cb0674ef9684e03341b0b44",
+        "filesystem-probe.json": "51f60c07ea5b15b1c8a074295d44d306daecc6931027e8d761da3cf4a3778970",
+        "native-reports.json": "264226beece50d688e78f160c0297c3f835b1af1cff7d7b715a3a017912f36fb",
+        "pytest-exit.json": "071b763a6ce581721a001810a6074b2f9001561840455fb3a9a8973f6c1c6ec2",
+        "pytest.stderr.log": "4f3fc2aa1e6819a9a6725c66ce4cc9d7e23797f7c01e6066edaf4bac33786bb9",
+        "pytest.stdout.log": "a0bb53e237666c4c07decf37cdbced4e48c7b44e1609e97e0c61887d821cffc7",
+        "normalized-original-caller.stderr.log": "9022280118669a8415c04adb20c0083126af8685579b54dc9054ce623469b464"
+      },
+      "all_owned_resources_removed": true
+    },
+    {
+      "minor": "313",
+      "python": "3.13.18 (main, Nov  5 2026, 07:59:44) [GCC 12.2.0]",
+      "collected": 2446,
+      "native_calls_passed": 2421,
+      "original_isolated_skips": 25,
+      "native_failed_reports": 0,
+      "pytest_exit": 1,
+      "checker_exit": 1,
+      "root_cause": "OUTPUT_DIRECTORY_LINUX_DAC_PERMISSION_DENIED",
+      "errno": 13,
+      "first_failure": "pytest JUnit sessionfinish writing /evidence/tests.xml",
+      "second_failure": "unit_check writing /evidence/stdout.log",
+      "not_a_classify_existing_failure": true,
+      "oom": false,
+      "signal_failure": false,
+      "source_unchanged": true,
+      "output_uid": 1001,
+      "output_gid": 1001,
+      "output_mode": "0755",
+      "container_uid": 0,
+      "container_groups": [
+        0
+      ],
+      "capabilities": "0",
+      "no_new_privileges": true,
+      "network_interfaces": [
+        "lo"
+      ],
+      "seconds": 2238.9507749110016,
+      "cgroup_memory_peak_bytes": 540733440,
+      "original_hosted_supervisor_stderr_sha256": "e680cd98554c4adaf26fdcdfbcc22c44d56104aa5ab04a591487f396c4d38511",
+      "normalized_replica_sha256": "e680cd98554c4adaf26fdcdfbcc22c44d56104aa5ab04a591487f396c4d38511",
+      "normalization": "Replace only diagnostic caller frame with original published -c command frame; Python3.13 includes command source/carets rendered by its native FrameSummary using the original command AST positions. All runpy/unit_check/pathlib/error bytes unchanged.",
+      "is_a_downloaded_original_raw_trace": false,
+      "corroboration": "EXACT_SHA256_MATCH_TO_FIRST_HOSTED_PUBLICATION_RECEIPT",
+      "original_host_uid_not_recorded": "1001 replica represents the non-root-owner0755 permission class; exact hosted stderr SHA independently confirms the observed failure.",
+      "raw_private_artifacts": {
+        "checker-result.json": "2793b4c65fbd4ddcc52daebfacb8114228622a0f27e516cbe0345829b08b3ec8",
+        "checker.stderr.log": "26c98307228617ab1c53048e88e49f4a3b1eb9779940414580346430c795c1ef",
+        "filesystem-probe.json": "95860bc65a214755113a4d86c1aceb44e57eb08e8d8ab6cf01d9672786085c6c",
+        "native-reports.json": "365e108ab23f3ccd571c6363cc8bcfc51e47711edac5139b16c041fb1bd3b978",
+        "pytest-exit.json": "e54062f22bcb108abd82a274bd320ce5c741660c1e6699237d36cf7509c2c9b4",
+        "pytest.stderr.log": "52fe7f9ff08bb882ad84a11ed9bae7591b0ce33baa1abbc2acef88adaf02e011",
+        "pytest.stdout.log": "c8457571ecba60da7d21f088289993c3d7a07b7f5e7de956f57712b147285b71",
+        "normalized-original-caller.stderr.log": "e680cd98554c4adaf26fdcdfbcc22c44d56104aa5ab04a591487f396c4d38511"
+      },
+      "all_owned_resources_removed": true
+    }
+  ],
+  "raw_logs": "PRIVATE_IGNORED_ONLY"
+}

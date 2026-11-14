@@ -1,0 +1,28 @@
+{
+  "container": "vrae-ra4a-p1-c35ae68a946c",
+  "network": "vrae-ra4a-p1-c35ae68a946c-local",
+  "data_volume": "vrae-ra4a-p1-c35ae68a946c-data",
+  "actual_results": [
+    {
+      "kind": "container",
+      "name": "vrae-ra4a-p1-c35ae68a946c",
+      "error": "TimeoutExpired: Command '['docker', 'container', 'inspect', '--format', '{{json .Config.Labels}}', 'vrae-ra4a-p1-c35ae68a946c']' timed out after 30 seconds",
+      "absent_after": false
+    },
+    {
+      "kind": "network",
+      "name": "vrae-ra4a-p1-c35ae68a946c-local",
+      "error": "TimeoutExpired: Command '['docker', 'network', 'inspect', '--format', '{{json .Labels}}', 'vrae-ra4a-p1-c35ae68a946c-local']' timed out after 30 seconds",
+      "absent_after": false
+    },
+    {
+      "kind": "volume",
+      "name": "vrae-ra4a-p1-c35ae68a946c-data",
+      "present_before": false,
+      "absent_after": true
+    }
+  ],
+  "owned_container_removed": false,
+  "owned_network_removed": false,
+  "owned_volume_removed": true
+}

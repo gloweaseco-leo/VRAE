@@ -1,0 +1,3 @@
+COMMAND=['docker', 'exec', 'vrae-b1-de73678ce67d-browser', 'python', '-c', "import pathlib,time\np=pathlib.Path('/ipc/cdp.sock')\nfor _ in range(100):\n if p.exists(): break\n time.sleep(.05)\nassert p.exists()"]
+
+EXIT_CODE=0

@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/work/integration/ra4b/runtime_check.py", line 259, in <module>
+    main()
+  File "/work/integration/ra4b/runtime_check.py", line 128, in main
+    wait_for(lambda: b"RA4B_LOOPBACK_TEST_ONLY_READY" in log.read_bytes())
+  File "/work/integration/ra4b/runtime_check.py", line 40, in wait_for
+    raise AssertionError("BOUNDED_RUNTIME_WAIT_FAILED")
+AssertionError: BOUNDED_RUNTIME_WAIT_FAILED
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/work/integration/ra4b/runtime_check.py", line 263, in <module>
+    child.terminate()
+  File "/usr/local/lib/python3.11/subprocess.py", line 2211, in terminate
+    self.send_signal(signal.SIGTERM)
+  File "/usr/local/lib/python3.11/subprocess.py", line 2203, in send_signal
+    os.kill(self.pid, sig)
+PermissionError: [Errno 1] Operation not permitted

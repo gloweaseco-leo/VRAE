@@ -1,0 +1,11 @@
+--- /dev/null
++++ b/db/migrations/0004_ra4b_test_only_api.sql
+@@ -0,0 +1,8 @@
++CREATE POLICY b4_origin_app ON ra4a_private.principals FOR ALL TO ra4a_owner USING (
++ authority='TEST_ONLY' AND kind='APP' AND
++ ((SESSION_USER='ra4b_test_a_worker' AND db_role='ra4b_test_a_app' AND tenant_id='tenant-test') OR
++  (SESSION_USER='ra4b_test_b_worker' AND db_role='ra4b_test_b_app' AND tenant_id='tenant-beta'))) WITH CHECK(false);
++CREATE POLICY b4_origin_assignment ON ra4a_private.assignments FOR ALL TO ra4a_owner USING (
++ (SESSION_USER='ra4b_test_a_worker' AND db_role='ra4b_test_a_app' AND tenant_id='tenant-test') OR
++ (SESSION_USER='ra4b_test_b_worker' AND db_role='ra4b_test_b_app' AND tenant_id='tenant-beta')) WITH CHECK(false);
++

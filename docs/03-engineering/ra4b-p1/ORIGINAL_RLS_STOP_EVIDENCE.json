@@ -1,0 +1,167 @@
+{
+  "status": "STOPPED_ORIGINAL_RLS_ORIGIN_APP_AUTHORITY_NOT_ACCEPTED",
+  "entry": "f9c64dacafffa08806890fcacf04f3da5723c040",
+  "owner_decision": "RA4B_P1_RLS_POLICY_COMPAT_GO",
+  "protected_diff": "EMPTY",
+  "original_role_count": 8,
+  "original_policy_count": 10,
+  "original_policies_unchanged": true,
+  "suites": {
+    "original-rls311-v1/p1-after-0004/tests.xml": {
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0
+    },
+    "original-rls311-v1/b4-tests.xml": {
+      "passed": 6,
+      "failed": 1,
+      "skipped": 0
+    }
+  },
+  "sqlstate": "42501",
+  "primary": "RA4B_ORIGIN_APP_DENIED",
+  "claim_transaction_rolled_back": true,
+  "retained_historical_evidence_files_verified": 68,
+  "python313": "NOT_RUN_AFTER_STOP",
+  "full_regressions": "INCOMPLETE",
+  "runtime_http": "NOT_RUN",
+  "push": false,
+  "new_pr": false,
+  "new_hosted_ci": false,
+  "merge": false,
+  "deployment": false,
+  "evidence": [
+    {
+      "path": "db/migrations/0004_ra4b_test_only_api.sql",
+      "sha256": "b956ad4ca6f1a2b6dca7daf777f297f054241e99e86d8581c6c9e90cd31088d5"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/ORIGIN_AUTHORITY_CHECK.sql.txt",
+      "sha256": "99e4c42c83dfc30fe31417e909c9794a8269c4b4cc699a67a176514458edbcc3"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/catalog.json",
+      "sha256": "6e62d555d856b3f3db5da316abc578643d73d974cfb4bf0cc183ce9f0cf63c08"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/credential-scan.json",
+      "sha256": "c2ab795d92415eef505845d1976bca34f532e81973a123e5aa5d71fe103e3957"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/original-policies.json",
+      "sha256": "4d231ac04e21289e5417874e996ec1c614b0c4afe70546790e886d674e341c55"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/reproduced-failure.json",
+      "sha256": "568ef6b4f9033c322adcc30c11b093ec05dabb2a30538223e1242cb95c010627"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/source.json",
+      "sha256": "ec604e83ea0c38d1fb49f3cfd25abc6ea3d54bb1d073218651316ba266061e3c"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/startup/ownership.json",
+      "sha256": "074d2f320843a816d5ba66f1773741aae217757353849c1494352f5726a17f5f"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/startup/startup.jsonl",
+      "sha256": "25c4ca9ae7ab7a2af6725484c6917fffa9a850626e1e4864db144b72edf6d6d7"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/teardown/cleanup.jsonl",
+      "sha256": "6c3891c448724ea3719d14c5e6e0fa94e9499b35822ac43be66ddb5527abdae8"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-diagnostic/teardown/teardown.json",
+      "sha256": "552df0aedac2571542dca5f72ab5882aafe9ebcbf0c461eb8bb683aebb99fe9b"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/actual-sql-failure.json",
+      "sha256": "8bbd4f02f723e1142219f438d3df22acb8556533aee8d62277476c8936816790"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/b4-tests.xml",
+      "sha256": "00950f080b79207cf6329a3efdc620593c90ab6eb8b25c9b9bfaf832c2ee87ab"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/credential-scan.json",
+      "sha256": "c2ab795d92415eef505845d1976bca34f532e81973a123e5aa5d71fe103e3957"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/p1-after-0004/backup-restore.json",
+      "sha256": "e2aa43ac5aedd6cf4b8e6a8690d7bedaec45b20e7cda3b6a885ed30da5f2b6b5"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/p1-after-0004/module-state-paths.json",
+      "sha256": "743a0f7d699ac5f32e62bd12d1184b60487fc638216ab949aa44f07809bf5a7f"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/p1-after-0004/pg-catalog-and-calls.json",
+      "sha256": "20d25b4615db5b617003efce67ee059fdce26d3c2946170284a9dda19d788ca7"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/p1-after-0004/real-restart.json",
+      "sha256": "10a9e06827427d8ba0f8f47f3d28fafcaad7697c97afcd025b6a457ab6728449"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/p1-after-0004/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/p1-after-0004/stdout.log",
+      "sha256": "c145ecf23bec25db65b0b30c71d4d0cef1133606a6d23661115f79d8d198226b"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/p1-after-0004/synthetic-metadata.dump",
+      "sha256": "f085ac284f08afd2f13e90b8eaddf7c7618d8814ffdd7ee3a4d0e529bf5da3c2"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/p1-after-0004/tests.xml",
+      "sha256": "a672da6d1580ca7622f99943660dd37f137b5991b8ada3576de8033a83385343"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/policies-after-0004.json",
+      "sha256": "b32ad5a289e7379dff16847e81d5493d8642dc0bbec527ebe3ab03b95aba26b1"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/policies-before-0004.json",
+      "sha256": "b32ad5a289e7379dff16847e81d5493d8642dc0bbec527ebe3ab03b95aba26b1"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/startup/ownership.json",
+      "sha256": "78fbed41d94a302deea2d359c5b3ca0cefb160d5c0422c5f0ecc44c20c4cecf0"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/startup/startup.jsonl",
+      "sha256": "7b701dfafc77117118f87daed54cfce4051709b785e2370437a4e423069f84a1"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/teardown/cleanup.jsonl",
+      "sha256": "c97487aebcaa035c2b1b321b662af874295e972f1bb1a3fa30bc1454292b1647"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/original-rls311-v1/teardown/teardown.json",
+      "sha256": "f212e919ed0271f74440c006fd57f7765b41f792ff3def97ab82fe76b3d86df7"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/POLICY_STOP_EVIDENCE.json",
+      "sha256": "30e689a867561a380c736823ba91873fe5a39d1461b0dbe2330e9b98b42fc120"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/STOP_EVIDENCE.json",
+      "sha256": "3a4b17443c79d27dd774264d72f475068c9ff92dc3398c03e3022fb7c09b88f5"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/STOP_ORIGINAL_RLS_ORIGIN_AUTHORITY.md",
+      "sha256": "876ebd77ec46993cd8a7b18eaeca708183b9dab351c7c766a81d3744848c3ef5"
+    },
+    {
+      "path": "integration/ra4b/support.py",
+      "sha256": "eba9783cd77cae9a055fc48680eae750674b7cbc67d4218959611267748d45cc"
+    },
+    {
+      "path": "vrae/application/ra4b/store.py",
+      "sha256": "c2ebaf058701202cc0aa796d2b15b9e609ba5008f23e737c0e1c0db8d70e4eb9"
+    }
+  ]
+}

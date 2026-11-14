@@ -1,0 +1,258 @@
+{
+  "status": "STOPPED_FROZEN_P1_REGRESSION_NOT_ACCEPTED",
+  "entry": "f9c64dacafffa08806890fcacf04f3da5723c040",
+  "local_head": "f326862d427e8282d51e261e18c176f20f72d3f0",
+  "protected_diff": "EMPTY",
+  "suites": {
+    "sql311-v4/tests.xml": {
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "failures": []
+    },
+    "sql311-v4/pg2/tests.xml": {
+      "passed": 53,
+      "failed": 1,
+      "skipped": 0,
+      "failures": [
+        "test_real_version_catalog_and_owner_force_rls"
+      ]
+    }
+  },
+  "post_0004_ra4a_role_count": 12,
+  "frozen_expected_role_count": 8,
+  "proposed_repair_applied": false,
+  "python313_hardening_acceptance": "NOT_RUN",
+  "http_runtime_acceptance": "NOT_RUN",
+  "push": false,
+  "new_pr": false,
+  "new_hosted_ci": false,
+  "merge": false,
+  "deployment": false,
+  "evidence": [
+    {
+      "path": "db/migrations/0004_ra4b_test_only_api.sql",
+      "sha256": "269cf499f9686557145b2bcfab2b575b6a3246d642315a6e3b55dbd44d20ba55"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/accepted-sources.json",
+      "sha256": "3160310f068ed1ec60eb3d41b2a2b8af97c5f1fe3fddad21e07b287d5b630a61"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/actual-worker-privileges.json",
+      "sha256": "ba14881a1909f5972d46207e5f6e1d985afe4a5cd831c831c747a4ba4e9d3fcc"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/after-expired.json",
+      "sha256": "1448948a6da3f815866c33ac048b5a27bd36f4e404d94d1822237dc2ebcf5625"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/after-revoked.json",
+      "sha256": "1448948a6da3f815866c33ac048b5a27bd36f4e404d94d1822237dc2ebcf5625"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/credential-scan.json",
+      "sha256": "826df1fe043e0e3c6450cf29fd66960818927d7f91d85ecde551dc45fa6b218c"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/receipt.json",
+      "sha256": "650cd22128fdf636fdd9f28a55fce8df3dcb87262e9b18a696b32b9065bd6d70"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/startup/ownership.json",
+      "sha256": "383e850465e2b58997cd9e155cff0dc5388d0fc823044e4ae9ff146447924faa"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/startup/startup.jsonl",
+      "sha256": "76ae2cb6d4838a991f93fd246510d75118ba6214260f341bb1c7e4148da97997"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/teardown/cleanup.jsonl",
+      "sha256": "2d70e173a3704c4a79ed263ef4bc4e64435a8e2341428455a29de0b0e9fb7c10"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/teardown/teardown.json",
+      "sha256": "93a7f631e38d83b5b5affe25c7273be701359540cf47ec0bbef0f049423e70f0"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-311/tests.xml",
+      "sha256": "994acc63c6cee97a011a5c49b823b725e065673a4ba23f06069a4662b7b1d86b"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/accepted-sources.json",
+      "sha256": "3160310f068ed1ec60eb3d41b2a2b8af97c5f1fe3fddad21e07b287d5b630a61"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/actual-worker-privileges.json",
+      "sha256": "ba14881a1909f5972d46207e5f6e1d985afe4a5cd831c831c747a4ba4e9d3fcc"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/after-expired.json",
+      "sha256": "1448948a6da3f815866c33ac048b5a27bd36f4e404d94d1822237dc2ebcf5625"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/after-revoked.json",
+      "sha256": "1448948a6da3f815866c33ac048b5a27bd36f4e404d94d1822237dc2ebcf5625"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/credential-scan.json",
+      "sha256": "826df1fe043e0e3c6450cf29fd66960818927d7f91d85ecde551dc45fa6b218c"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/receipt.json",
+      "sha256": "9aa1f5cd612a70d322a58871a0f344a1e0bf27eb00d654bbf3ec177c0979a62d"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/startup/ownership.json",
+      "sha256": "9506fe7f612a118a76eb37702e69d7c112406e2c37f1ee12c942b83e7eed8a4c"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/startup/startup.jsonl",
+      "sha256": "023c5d25eb0c9dd0368e55b834cf807c591436c8e8f27b57595d40871f36cc51"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/teardown/cleanup.jsonl",
+      "sha256": "09ade772ae654f26ed7371eb86556effa75d358f24c9c765dc17f8a5ba38d230"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/teardown/teardown.json",
+      "sha256": "f30f373527f4d030dac602d922d8ec117de3e489a4a692692c3713839b7f07af"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/actual-313/tests.xml",
+      "sha256": "9f1d1741c6746ba7146d3384740ebc8eb34b8b024c02118877346fc8a3c673eb"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/PROPOSED_ROLE_NAMESPACE_FIX.diff",
+      "sha256": "ba433742040cc0471158e01c8f4933f332c449312e80d5f9a5748ada62fcf06a"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v1/startup/ownership.json",
+      "sha256": "627c952c0e600d6f0a84b61b99f5ef8758e287b5ed71500b480ab4012a04f208"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v1/startup/startup.jsonl",
+      "sha256": "c7615e0f353a6ba929b0cfdebea3e6abb3894ade2467b5054355dcb60c7bb4c1"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v1/teardown/cleanup.jsonl",
+      "sha256": "cf51c4f3fbda99cbb4639c2ae1b2d792c937054bac228a4cd311c7100898221c"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v1/teardown/teardown.json",
+      "sha256": "9f68efe120d1efefc7f49958196029076175965c0bceaf2573d7ec31b2697941"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v1/tests.xml",
+      "sha256": "63ea29896a660150a8e4afd5bab81afb5cb318fe47ab3ab7c87732c82882bbcc"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v2/cleanup-recheck/cleanup.jsonl",
+      "sha256": "2b8f9a607fab3804aa80216b34052a7f76c04cf1f641ffbd8bee13e92c7bf9cc"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v2/cleanup-recheck/teardown.json",
+      "sha256": "32c332c549751fe4f00b80ab039dbc9a4713ec56ede5d88a3dfcfdd829b07630"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v2/startup/failure-cleanup/teardown.json",
+      "sha256": "101b235b5ba064a8bc5e3b049f46f95b762346f24b55d9bb2fc850eca2a2dc20"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v2/startup/ownership.json",
+      "sha256": "9c506e6bb52103895ba49f9b5d78aa930552aa5677ecc29aed01e5af1877adb1"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v2/startup/startup.jsonl",
+      "sha256": "cac72f9aa2e3a817a999689f4549f96d06c7577afe15226d76362b21217afdb5"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v3/startup/ownership.json",
+      "sha256": "b45f0c94ec304fa96f02f5ee1368203d9df58c2805336f63ffb529483e37e8c4"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v3/startup/startup.jsonl",
+      "sha256": "d890eed3c7f741c8ada7d557096a493f76cb6137a4f6fea8b5afb2baa6f25bf3"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v3/teardown/cleanup.jsonl",
+      "sha256": "245c69a1587881be04e7e4cfa6fad10ec5b486bce790d03c70a8a571d1d2337e"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v3/teardown/teardown.json",
+      "sha256": "f80f6d459f871e83d524feab92e66b45a4d4d8fa23206444c61dd3ec5b143d9c"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v3/tests.xml",
+      "sha256": "d2924339ec50c2690ee84f24e40cd6e9daf86d7bcfcfc13188fdcf8046e48bb3"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/pg2/backup-restore.json",
+      "sha256": "68e477b06e767f985ad53da8443acca6f04ac4cd54f21b932c17228d21619351"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/pg2/module-state-paths.json",
+      "sha256": "8dafb5d1050fe755295ea94813c386308b8c6609d2142490e960e0546a4ab561"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/pg2/pg-catalog-and-calls.json",
+      "sha256": "5fb378245a1198fce805b51670b623a0830a512466307b01a78ffc89bda3b27f"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/pg2/real-restart.json",
+      "sha256": "97790777f0014232259cf6f9015659a66fdf8cd5777d227653814be35ae7ec4e"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/pg2/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/pg2/stdout.log",
+      "sha256": "90e26e962142d8b1d4a9322083b2669b00c6bd426cb7a9875fc07e4b3fbfc805"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/pg2/synthetic-metadata.dump",
+      "sha256": "17d1ec3f1424938e32239f4330db8a0853c0133644559e5aef0142d80058399f"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/pg2/tests.xml",
+      "sha256": "0f174ad007dd1b6bd578ab294888a6cbebeb666ed065855bdafc2564301fec4b"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/startup/ownership.json",
+      "sha256": "01405cab2b935cde2fa1228cacca630b1f6a5f4b419b9aee6e4dc58d4345b3d6"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/startup/startup.jsonl",
+      "sha256": "d78d25d1932da4fc633f70c2e104131d7e53f6500476f111de4a6d3b73019ba6"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/teardown/cleanup.jsonl",
+      "sha256": "4833fbefdd8b3a6606739f27784a1817f8bb4df0c7086c4eecfa8a3c4fffee59"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/teardown/teardown.json",
+      "sha256": "2a2a8d58fc555b667a4a8a9dc69c818d07e1ccc37038988c69d33795ac25a09d"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/sql311-v4/tests.xml",
+      "sha256": "ae6fd7b5f25c828b90d91a935a23b81005f2a6bb8d222575ef9d2227e1204bfc"
+    },
+    {
+      "path": "docs/03-engineering/ra4b-p1/STOP_FROZEN_P1_ROLE_COUNT.md",
+      "sha256": "7681ba8109ae28a94708847521fe2add978964c7620ec978ea49792fa231011f"
+    },
+    {
+      "path": "integration/ra4b/security_cases.py",
+      "sha256": "0fa63e7e9a8b68128deae285cafdc782796611e01c18b250b6e593f181e7cb03"
+    },
+    {
+      "path": "integration/ra4b/support.py",
+      "sha256": "31d4ab1bcde012479c3489c5361e0030ce3510299d89f42a12db55b76e63dae8"
+    },
+    {
+      "path": "vrae/application/ra4b/store.py",
+      "sha256": "0fe1275e121cf5e53c5dc7ec92098ac116879910975f13273a4ff5cf187233eb"
+    }
+  ]
+}

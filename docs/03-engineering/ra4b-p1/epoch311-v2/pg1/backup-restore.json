@@ -1,0 +1,63 @@
+{
+  "dump_command": [
+    "docker",
+    "exec",
+    "vrae-ra4a-p1-ae34b249dab5",
+    "pg_dump",
+    "-U",
+    "postgres",
+    "-d",
+    "vrae_ra4a_p1",
+    "-Fc"
+  ],
+  "restore_command": [
+    "docker",
+    "exec",
+    "-i",
+    "vrae-ra4a-p1-ae34b249dab5",
+    "pg_restore",
+    "-U",
+    "postgres",
+    "-d",
+    "vrae_ra4a_restore",
+    "--exit-on-error"
+  ],
+  "dump_sha256": "181bc78be3e0f9954c467c9a78c175e59f350c79ec1a0572ba63892c75328935",
+  "dump_bytes": 51753,
+  "source_data_sha256": "de728789b2ade17ab6eead88b769e8284f683630df8a974a6127772643ec67b3",
+  "restored_data_sha256": "de728789b2ade17ab6eead88b769e8284f683630df8a974a6127772643ec67b3",
+  "data_equal_before_and_after_idempotent_replay": true,
+  "nonprivileged_function_owners": [
+    [
+      "require_scope",
+      "ra4a_owner",
+      false,
+      false
+    ],
+    [
+      "scope",
+      "ra4a_owner",
+      false,
+      false
+    ],
+    [
+      "admit",
+      "ra4a_owner",
+      false,
+      false
+    ],
+    [
+      "claim",
+      "ra4a_owner",
+      false,
+      false
+    ],
+    [
+      "finish",
+      "ra4a_owner",
+      false,
+      false
+    ]
+  ],
+  "restored_tenant_isolation_and_write_denial": true
+}

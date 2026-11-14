@@ -1,0 +1,125 @@
+{
+  "status": "STOP_FRESH_FULL_BROWSER_GATE_FAILED_NO_CORRECTIVE_PUSH_NO_NEW_CI",
+  "head": "bdba3588d220d5908c0da64d4e01b68b2ba41fa6",
+  "accepted_main": "221637a6ecfd61011d3d7fc9de473758899b4664",
+  "original_pr_head_still_remote": "ae628003b4aa9f18054cb79fba5db60fefb02b3d",
+  "original_hosted_RED_preserved": true,
+  "additional_concurrent_browser_RED": "ADDITIONAL_LOCAL_RED.json",
+  "quiescent_browser": {
+    "scenario": "infinite",
+    "supervisor_exit": 1,
+    "supervisor_timeout_seconds": 40,
+    "supervisor_classification_code": 124,
+    "classification_124_is_not_a_native_worker_exit_code": true,
+    "actual_worker_state_after_timeout": {
+      "Status": "exited",
+      "Running": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "OOMKilled": false,
+      "StartedAt": "2026-11-13T16:36:32.823022921Z",
+      "FinishedAt": "2026-11-13T16:37:15.185201761Z"
+    },
+    "actual_browser_state": {
+      "Status": "exited",
+      "Running": false,
+      "Pid": 0,
+      "ExitCode": 1,
+      "OOMKilled": false,
+      "StartedAt": "2026-11-13T16:36:31.142217526Z",
+      "FinishedAt": "2026-11-13T16:37:15.416361327Z"
+    },
+    "worker_scenarios_attempted": 11,
+    "completed_prior_worker_scenarios": [
+      "readonly-worker",
+      "writes-worker",
+      "private-worker",
+      "resources-worker",
+      "channels-worker",
+      "escape-worker",
+      "storage-worker",
+      "redirect-worker",
+      "redirect_private-worker",
+      "rebinding-worker"
+    ],
+    "actual_owned_container_and_volume_absence_verified": true,
+    "resource_contention_root_cause_proven": false,
+    "protected_test_repaired_or_timeout_extended": false
+  },
+  "known_local_passes": {
+    "dual_pg_native_suites_each": {
+      "pg1": 54,
+      "pg2_before": 54,
+      "p2a": 86,
+      "pg2_after0004": 54,
+      "b4_security_and_epochs": 46,
+      "p2b1": 131,
+      "identity": 30,
+      "crypto": 73
+    },
+    "dual_c3_native_cases_each": 29,
+    "dual_runtime_http_worker_restore_restart": true,
+    "dual_ordinary_actual_exit_zero_cases": 2446,
+    "dual_ordinary_original_skips_each": 25,
+    "ordinary_native_junit_export_missing": true,
+    "ordinary_missing_junit_not_fabricated": true,
+    "complete_acceptance_claimed": false
+  },
+  "pending_persisted_full_regressions": "NOT_STARTED_FAIL_CLOSED_AFTER_BROWSER_RED",
+  "output_volume_export_repair": "IMPLEMENTED_BUT_NOT_YET_VALIDATED_BY_NEW_FULL_INVOCATION",
+  "raw_private_files": {
+    "infinite-worker.log": {
+      "sha256": "958c6d08270617bcfbfa0b17534607294bbdd3e86c603b947cb66cc89d3d7af9",
+      "bytes": 846
+    },
+    "infinite-worker-config.log": {
+      "sha256": "d91dfff0338088df00ea545c1bd9a0b39d80602fdff9c305d3d837af75a3801f",
+      "bytes": 7766
+    },
+    "infinite-browser-final-state.log": {
+      "sha256": "4d14cc37364e6f5876fec399f2be2966b5c7b6bf789342bf41e416475b12ce7e",
+      "bytes": 19028
+    },
+    "infinite-process-absence.log": {
+      "sha256": "df47ce18103c939bc34eff9b3a89002e12a0a815e0aaed40879a1af285c47d81",
+      "bytes": 193
+    },
+    "infinite-cleanup-proof.log": {
+      "sha256": "88b7f225b72fc1b25b1b12dbceb82afb6dd3ba8d22d9d8f19ee49c8bfa51e403",
+      "bytes": 218
+    },
+    "infinite-volume-cleanup-proof.log": {
+      "sha256": "f4f59454847bf7cb9dea09e9a023aba68e661bbb05d9e19a2dbd42037bca027c",
+      "bytes": 162
+    },
+    "summary.json": {
+      "sha256": "56a4773954031b56e6ae7661f350e790b3d99890064e32e7285099b9696f3b01",
+      "bytes": 52345
+    },
+    "lifecycle.json": {
+      "sha256": "1b4b04b8e6ed7cc68818447b03a36fcf1f481bfd095f7a8cf1bcab0a207518ba",
+      "bytes": 46799
+    }
+  },
+  "narrow_next_diagnostic_proposal": {
+    "requires_owner_scope_decision_before_new_container_execution": true,
+    "scope": "One unchanged full original browser supervisor with B4-owned external observation only",
+    "frozen_files_edited": false,
+    "pytest_selection_or_assertions_changed": false,
+    "timeout_memory_cpu_pids_network_capabilities_source_conditions_changed": false,
+    "observations": [
+      "exact pinned/local image IDs and immutable source hashes",
+      "external Docker events plus bounded cgroup CPU/memory/pids observations",
+      "preserve native worker logs and inspect state even when docker client times out",
+      "record parent elapsed time and actual worker/browser state, distinguish synthetic supervisor124 from native exit",
+      "exact owned cleanup with sanitized classification/JUnit and private raw SHA receipts"
+    ],
+    "no_automatic_retry_or_ci_rerun": true
+  },
+  "corrective_pushes": 0,
+  "new_hosted_ci_triggered": false,
+  "self_merged": false,
+  "deployed": false,
+  "real_human_approvals": 0,
+  "share_grants": 0
+}

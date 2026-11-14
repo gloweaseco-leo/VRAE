@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="13" skipped="0" tests="17" time="66.656" timestamp="2026-11-13T05:15:24.909255-05:00" hostname="dong"><testcase classname="integration.ra4b.security_cases" name="test_narrow_catalog_and_real_raw_denials[ra4a_test_b4_a_app]" time="26.955"><failure message="psycopg.errors.InsufficientPrivilege: permission denied for schema ra4a">integration\ra4b\security_cases.py:46: in test_narrow_catalog_and_real_raw_denials
+    assert c.execute("SELECT has_table_privilege(session_user,%s,%s)", (table, privilege)).fetchone()[0] is False
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:304: in execute
+    raise ex.with_traceback(None)
+E   psycopg.errors.InsufficientPrivilege: permission denied for schema ra4a</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_narrow_catalog_and_real_raw_denials[ra4a_test_b4_b_app]" time="3.100"><failure message="psycopg.errors.InsufficientPrivilege: permission denied for schema ra4a">integration\ra4b\security_cases.py:46: in test_narrow_catalog_and_real_raw_denials
+    assert c.execute("SELECT has_table_privilege(session_user,%s,%s)", (table, privilege)).fetchone()[0] is False
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:304: in execute
+    raise ex.with_traceback(None)
+E   psycopg.errors.InsufficientPrivilege: permission denied for schema ra4a</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_narrow_catalog_and_real_raw_denials[ra4a_test_b4_a_worker]" time="1.507"><failure message="psycopg.errors.InsufficientPrivilege: permission denied for schema ra4a">integration\ra4b\security_cases.py:46: in test_narrow_catalog_and_real_raw_denials
+    assert c.execute("SELECT has_table_privilege(session_user,%s,%s)", (table, privilege)).fetchone()[0] is False
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:304: in execute
+    raise ex.with_traceback(None)
+E   psycopg.errors.InsufficientPrivilege: permission denied for schema ra4a</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_narrow_catalog_and_real_raw_denials[ra4a_test_b4_b_worker]" time="1.870"><failure message="psycopg.errors.InsufficientPrivilege: permission denied for schema ra4a">integration\ra4b\security_cases.py:46: in test_narrow_catalog_and_real_raw_denials
+    assert c.execute("SELECT has_table_privilege(session_user,%s,%s)", (table, privilege)).fetchone()[0] is False
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:304: in execute
+    raise ex.with_traceback(None)
+E   psycopg.errors.InsufficientPrivilege: permission denied for schema ra4a</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_durable_receipt_status_and_idempotency[accepted-404-1]" time="1.793" /><testcase classname="integration.ra4b.security_cases" name="test_durable_receipt_status_and_idempotency[accepted-200-0]" time="2.207" /><testcase classname="integration.ra4b.security_cases" name="test_finish_current_authority_denied_without_advancement[revoked]" time="3.129"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:77: in test_finish_current_authority_denied_without_advancement
+    _, _, worker, lease = leased()
+                          ^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_finish_current_authority_denied_without_advancement[expired]" time="2.672"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:77: in test_finish_current_authority_denied_without_advancement
+    _, _, worker, lease = leased()
+                          ^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_finish_current_authority_denied_without_advancement[version]" time="2.219"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:77: in test_finish_current_authority_denied_without_advancement
+    _, _, worker, lease = leased()
+                          ^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_finish_current_authority_denied_without_advancement[source]" time="2.245"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:77: in test_finish_current_authority_denied_without_advancement
+    _, _, worker, lease = leased()
+                          ^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_finish_current_authority_denied_without_advancement[worker]" time="2.271"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:77: in test_finish_current_authority_denied_without_advancement
+    _, _, worker, lease = leased()
+                          ^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_finish_current_authority_denied_without_advancement[origin]" time="1.602"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:77: in test_finish_current_authority_denied_without_advancement
+    _, _, worker, lease = leased()
+                          ^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_expiry_during_open_finish_transaction_rolls_back" time="2.136"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:98: in test_expiry_during_open_finish_transaction_rolls_back
+    _, _, worker, lease = leased()
+                          ^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_expiry_during_open_admission_transaction_rolls_back" time="3.002" /><testcase classname="integration.ra4b.security_cases" name="test_stale_lease_and_valid_exact_retry" time="2.977"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:121: in test_stale_lease_and_valid_exact_retry
+    _, _, worker, first = leased(1)
+                          ^^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_actual_two_transaction_revoke_order" time="1.415"><failure message="psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED&#10;CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE&#10;SQL statement &quot;SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)&quot;&#10;PL/pgSQL function commit_guard() line 8 at PERFORM">integration\ra4b\security_cases.py:137: in test_actual_two_transaction_revoke_order
+    _, _, worker, lease = leased()
+                          ^^^^^^^^
+integration\ra4b\security_cases.py:33: in leased
+    lease = store.claim(c, worker, seconds)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+vrae\application\ra4b\store.py:71: in claim
+    with c.transaction():
+[LOCAL_USER_HOME]\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\contextlib.py:144: in __exit__
+    next(self.gen)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:369: in transaction
+    with tx:
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:283: in __exit__
+    return self._conn.wait(self._exit_gen(exc_type, exc_val, exc_tb))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\connection.py:495: in wait
+    return waiting.wait(
+psycopg_binary/_psycopg/waiting.pyx:360: in psycopg_binary._psycopg.wait_c
+    ???
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:117: in _exit_gen
+    yield from self._commit_gen()
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\transaction.py:142: in _commit_gen
+    yield from self._conn._exec_command(command)
+..\ra4a-p2b2a-identity-local\docs\03-engineering\ra4a-p2b2a\.runtime\py311\Lib\site-packages\psycopg\_connection_base.py:487: in _exec_command
+    raise e.error_from_result(result, encoding=self.pgconn._encoding)
+E   psycopg.errors.InsufficientPrivilege: RA4B_ORIGIN_APP_DENIED
+E   CONTEXT:  PL/pgSQL function require_run(text,uuid,text) line 16 at RAISE
+E   SQL statement "SELECT ra4b_test.require_run(NEW.tenant_id,NEW.run_id,k)"
+E   PL/pgSQL function commit_guard() line 8 at PERFORM</failure></testcase><testcase classname="integration.ra4b.security_cases" name="test_wrong_source_cross_tenant_and_legacy_bypass" time="2.077" /></testsuite></testsuites>

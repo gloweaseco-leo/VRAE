@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="29.886" timestamp="2026-11-13T04:52:04.729583-05:00" hostname="dong"><testcase classname="integration.ra4b.authority_cases" name="test_worker_has_no_direct_raw_table_select" time="24.775"><failure message="AssertionError: ISSUE78_REQUIRES_NO_RAW_SELECT&#10;assert not True&#10; +  where True = any(dict_values([True, True, True, True]))&#10; +    where dict_values([True, True, True, True]) = &lt;built-in method values of dict object at 0x0000020726EE4900&gt;()&#10; +      where &lt;built-in method values of dict object at 0x0000020726EE4900&gt; = {'requests': True, 'jobs': True, 'policies': True, 'references': True}.values">integration\ra4b\authority_cases.py:39: in test_worker_has_no_direct_raw_table_select
+    assert not any(privileges.values()), "ISSUE78_REQUIRES_NO_RAW_SELECT"
+E   AssertionError: ISSUE78_REQUIRES_NO_RAW_SELECT
+E   assert not True
+E    +  where True = any(dict_values([True, True, True, True]))
+E    +    where dict_values([True, True, True, True]) = &lt;built-in method values of dict object at 0x0000020726EE4900&gt;()
+E    +      where &lt;built-in method values of dict object at 0x0000020726EE4900&gt; = {'requests': True, 'jobs': True, 'policies': True, 'references': True}.values</failure></testcase><testcase classname="integration.ra4b.authority_cases" name="test_current_policy_must_deny_finish_after_committed_claim[REVOKED]" time="2.172"><failure message="AssertionError: ISSUE78_REQUIRES_CURRENT_POLICY_FAIL_CLOSED_AT_FINISH&#10;assert False">integration\ra4b\authority_cases.py:80: in test_current_policy_must_deny_finish_after_committed_claim
+    assert denied, "ISSUE78_REQUIRES_CURRENT_POLICY_FAIL_CLOSED_AT_FINISH"
+E   AssertionError: ISSUE78_REQUIRES_CURRENT_POLICY_FAIL_CLOSED_AT_FINISH
+E   assert False</failure></testcase><testcase classname="integration.ra4b.authority_cases" name="test_current_policy_must_deny_finish_after_committed_claim[EXPIRED]" time="1.442"><failure message="AssertionError: ISSUE78_REQUIRES_CURRENT_POLICY_FAIL_CLOSED_AT_FINISH&#10;assert False">integration\ra4b\authority_cases.py:80: in test_current_policy_must_deny_finish_after_committed_claim
+    assert denied, "ISSUE78_REQUIRES_CURRENT_POLICY_FAIL_CLOSED_AT_FINISH"
+E   AssertionError: ISSUE78_REQUIRES_CURRENT_POLICY_FAIL_CLOSED_AT_FINISH
+E   assert False</failure></testcase></testsuite></testsuites>

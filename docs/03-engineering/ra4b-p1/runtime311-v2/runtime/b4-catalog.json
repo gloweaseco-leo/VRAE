@@ -1,0 +1,103 @@
+{
+  "functions": [
+    [
+      "admit",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,ra4b_app=X/ra4a_owner}"
+    ],
+    [
+      "claim",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,ra4b_worker=X/ra4a_owner}"
+    ],
+    [
+      "commit_guard",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "epoch_guard",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "finish",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,ra4b_worker=X/ra4a_owner}"
+    ],
+    [
+      "invalidate_origin",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "require_actor",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "require_run",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "require_source",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner}"
+    ],
+    [
+      "status",
+      "ra4a_owner",
+      true,
+      [
+        "search_path=pg_catalog, ra4b_test, pg_temp"
+      ],
+      "{ra4a_owner=X/ra4a_owner,ra4b_app=X/ra4a_owner}"
+    ]
+  ],
+  "triggers": [
+    [
+      "ra4b_current_at_commit",
+      true,
+      true,
+      "ra4a_owner"
+    ]
+  ],
+  "legacy_raw_select_debt": "G1_HARD_NO_GO"
+}

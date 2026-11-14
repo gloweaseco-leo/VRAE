@@ -1,0 +1,101 @@
+{
+  "cbc_source_handoff": {
+    "status": "USER_AUTHORIZED_SOURCE_HANDOFF_CBC_NATIVE_PASSES_PRESERVED_NOT_FULL_ACCEPTANCE",
+    "source": "cbcdb6f62d402861e8a12392f53061109a4a7d8b",
+    "stages": [
+      {
+        "stage": "static",
+        "minor": "311",
+        "native_driver_exit": 0,
+        "seconds": 30.51600000000326
+      },
+      {
+        "stage": "static",
+        "minor": "313",
+        "native_driver_exit": 0,
+        "seconds": 36.63999999999942
+      },
+      {
+        "stage": "pg",
+        "minor": "311",
+        "native_driver_exit": 0,
+        "seconds": 781.9689999999973
+      },
+      {
+        "stage": "pg",
+        "minor": "313",
+        "native_driver_exit": 0,
+        "seconds": 727.5620000000054
+      },
+      {
+        "stage": "runtime",
+        "minor": "311",
+        "native_driver_exit": 0,
+        "seconds": 109.64099999998871
+      },
+      {
+        "stage": "runtime",
+        "minor": "313",
+        "native_driver_exit": 0,
+        "seconds": 137.23500000000058
+      }
+    ],
+    "verified": [
+      {
+        "minor": "311",
+        "native_pg_cases": 528,
+        "native_b4_cases": 46,
+        "runtime_exit": 0,
+        "owned_cleanup": true
+      },
+      {
+        "minor": "313",
+        "native_pg_cases": 528,
+        "native_b4_cases": 46,
+        "runtime_exit": 0,
+        "owned_cleanup": true
+      }
+    ],
+    "scheduler_exit": 1,
+    "scheduler_exit_cause": "EXCLUSIVE_GUARD_BEFORE_UNSTARTED_C3",
+    "native_failure": false,
+    "private_control_record_correction": "67bac4938c28132a57a45e48440f3eec8b89b9038fbce2260f3e42a9402369a5"
+  },
+  "cbc_private_control_metadata_correction": {
+    "metadata_revision": "CORRECTED_AFTER_PRIVATE_HANDOFF_CONTROL_RECORD_OVERWRITE",
+    "native_gate_invocations": 1,
+    "native_stage_result": {
+      "stage": "runtime",
+      "minor": "311",
+      "native_driver_exit": 0,
+      "seconds": 109.64099999998871
+    },
+    "argv_reconstructed_from_loaded_controller_not_original_guard": [
+      "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b2a-identity-local\\docs\\03-engineering\\ra4a-p2b2a\\.runtime\\py311\\Scripts\\python.exe",
+      "docs/03-engineering/ra4b-p1/runtime_lab.py",
+      "owner686768-runtime311",
+      "--private-output"
+    ],
+    "original_guard_bytes_recoverable": false,
+    "original_exact_started_unix_ns": "UNKNOWN_NOT_RECONSTRUCTED",
+    "miswritten_control_record_sha256": "67bac4938c28132a57a45e48440f3eec8b89b9038fbce2260f3e42a9402369a5",
+    "miswritten_record_preserved": "MISWRITTEN_RUNTIME311_HANDOFF_RECORD.json",
+    "original_native_output_and_cleanup_untouched": true,
+    "actual_source_handoff_guard": "ONE_c3_311_GUARD.json",
+    "new_native_test_or_retry": false
+  },
+  "new_source_preflight_refusal": {
+    "status": "PRECHECK_REFUSAL_PRESERVED_NO_NATIVE_TEST_EXECUTED",
+    "source_head": "5667ba585cb131c91fd6f2a4b6b10319923ad29f",
+    "refused_cohort": "user-ae2505-final",
+    "native_pytest_invocations": 0,
+    "native_test_containers_created": 0,
+    "reason": "EXISTING_PINNED_IMAGE_MISMATCH_OLD_DERIVED_IMAGES_ABSENT",
+    "stderr_sha256": "02512a57aa7aa256e4f8d65d6f716b738fd6b5fe6a30ac0310b79db00993849f",
+    "original_stop_sha256": "3bd996d390afe49efafa12c9fbafdf88f1255368ad82dc9109dc76d6e267e6ff",
+    "canonical_dockerfile_base_and_lock_files_unchanged": true,
+    "no_assertion_or_pin_relaxed": true
+  },
+  "native_test_failures_hidden_or_relabelled": false,
+  "original_source_bound_results_not_relabelled_as_new_source": true
+}
