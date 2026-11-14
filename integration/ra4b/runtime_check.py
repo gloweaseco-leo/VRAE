@@ -149,6 +149,14 @@ def main():
     assert sorted(p.name for p in Path("/sys/class/net").iterdir()) == ["lo"]
     assert len(Path("/proc/net/route").read_text().strip().splitlines()) == 1
     assert not Path("/var/run/docker.sock").exists()
+    from integration.ra4b.evidence import emit_stage, probe_output
+    try:
+        access = probe_output()
+    except OSError as exc:
+        emit_stage({"phase": "RUNTIME", "stage": "OUTPUT_PREFLIGHT", "status": "FAIL",
+                    "exception_type": type(exc).__name__, "errno": exc.errno}, primary_failure=True)
+        raise
+    publish("output-access.json", access)
     publish("network.json", {"interfaces": ["lo"], "external_routes": 0, "docker_socket": False})
     PRIVATE.mkdir(mode=0o700)
     state = json.load(sys.stdin)

@@ -23,6 +23,13 @@ def command(argv, dest, *, data=None, timeout=600):
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.with_suffix(".stdout.log").write_bytes(result.stdout)
     dest.with_suffix(".stderr.log").write_bytes(result.stderr)
+    from integration.ra4b.evidence import PREFIX, console_stage
+    for line in result.stdout.decode(errors="replace").splitlines():
+        if line.startswith(PREFIX):
+            try:
+                print(json.dumps({"safe_stage_result": console_stage(json.loads(line[len(PREFIX):]))}), flush=True)
+            except (ValueError, TypeError):
+                pass  # Raw output is never echoed; genuine exit is checked below.
     print(json.dumps({"stage": dest.name, "exit": result.returncode}), flush=True)
     result.check_returncode()
     return result.stdout
@@ -77,7 +84,8 @@ def source_tar(path, include_docs=True):
 
 def main(label):
     assert label.replace("-", "").isalnum()
-    out = HERE / label
+    out = (HERE / ".runtime/owner-review" if "--private-output" in sys.argv else HERE) / label
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.mkdir(exist_ok=False)
     private = HERE / ".runtime" / label
     private.mkdir(parents=True, exist_ok=False)
@@ -121,12 +129,14 @@ def main(label):
         for phase in ("runtime", "recovered"):
             dest = out / phase
             dest.mkdir()
+            from integration.ra4b.evidence import prepare_output
+            output_group = prepare_output(dest)
             argv = ["docker", "run", "--rm", "-i", "--name", client_name,
                     "--label", "vrae.ra4b.p1=TEST_ONLY", "--network", "container:" + state["container"],
                     "--read-only", "--cap-drop", "ALL", "--cap-add", "SETUID", "--cap-add", "SETGID", "--cap-add", "CHOWN",
                     "--security-opt", "no-new-privileges", "--memory", "768m", "--pids-limit", "128",
                     "--tmpfs", "/tmp:rw,nosuid,nodev,size=256m",
-                    "--mount", "type=volume,src=" + source_volume + ",dst=/work,readonly",
+                    *output_group, "--mount", "type=volume,src=" + source_volume + ",dst=/work,readonly",
                     "--mount", "type=bind,src=" + str(dest.resolve()) + ",dst=/evidence",
                     image_id, "python", "integration/ra4b/runtime_check.py"]
             if phase == "recovered":

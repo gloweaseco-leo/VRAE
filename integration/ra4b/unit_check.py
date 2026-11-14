@@ -7,6 +7,8 @@ import subprocess
 import sys
 import xml.etree.ElementTree as ET
 
+from integration.ra4b.evidence import emit_stage, native_counts, probe_output
+
 OUT = Path("/evidence")
 
 
@@ -41,15 +43,32 @@ def main():
     def verify():
         return all(hashlib.sha256((Path("/work") / row["path"]).read_bytes()).hexdigest() == row["sha256"] for row in held)
 
-    assert verify()
-    result = subprocess.run([sys.executable, "-m", "pytest", "-q", "--tb=short", "-p", "no:cacheprovider",
-                             "--junitxml=/evidence/tests.xml"], cwd="/work", capture_output=True)
-    (OUT / "stdout.log").write_bytes(result.stdout)
-    (OUT / "stderr.log").write_bytes(result.stderr)
-    assert verify()
-    (OUT / "source-integrity.json").write_text(json.dumps({"before": True, "after": True, "files": len(held)}))
-    result.check_returncode()
-    classify_existing()
+    stage, native_exit, access = "OUTPUT_PREFLIGHT", None, None
+    try:
+        access = probe_output()
+        stage = "SOURCE_BEFORE"
+        assert verify()
+        stage = "PYTEST"
+        result = subprocess.run([sys.executable, "-m", "pytest", "-q", "--tb=short", "-p", "no:cacheprovider",
+                                 "--junitxml=/evidence/tests.xml"], cwd="/work", capture_output=True)
+        native_exit = result.returncode
+        stage = "PERSIST_LOGS"
+        (OUT / "stdout.log").write_bytes(result.stdout)
+        (OUT / "stderr.log").write_bytes(result.stderr)
+        stage = "SOURCE_AFTER"
+        assert verify()
+        (OUT / "source-integrity.json").write_text(json.dumps({"before": True, "after": True, "files": len(held)}))
+        stage = "PYTEST_EXIT"
+        result.check_returncode()
+        stage = "CLASSIFY"
+        classify_existing()
+        emit_stage({"phase": "UNIT", "stage": "COMPLETE", "status": "PASS", "native_exit": native_exit,
+                    "native_counts": native_counts(OUT / "tests.xml"), "output_access": access})
+    except BaseException as exc:
+        emit_stage({"phase": "UNIT", "stage": stage, "status": "FAIL", "exception_type": type(exc).__name__,
+                    "errno": getattr(exc, "errno", None), "native_exit": native_exit,
+                    "native_counts": native_counts(OUT / "tests.xml"), "output_access": access}, primary_failure=True)
+        raise
 
 
 if __name__ == "__main__":

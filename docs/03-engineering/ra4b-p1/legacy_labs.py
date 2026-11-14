@@ -15,7 +15,8 @@ sys.path.insert(0, str(HERE))
 
 def main(label):
     from runtime_lab import command
-    out = HERE / label
+    out = (HERE / ".runtime/owner-review" if "--private-output" in sys.argv else HERE) / label
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.mkdir(exist_ok=False)
     private = HERE / ".runtime" / label
     private.mkdir(parents=True, exist_ok=False)
@@ -49,6 +50,13 @@ def main(label):
     (http / "result.json").write_text(json.dumps({"status": "PASS", "actual_original_cases": 24,
             "original_entrypoint_lf_sha256": hashlib.sha256(original).hexdigest(), "original_firewall_tls_uid_setup_unchanged": True,
             "driver_only": "EXACT_DEFERRED_HTTP_MODULE_ALL_24_WITH_JUNIT", "frozen_source_modified": False}, indent=2))
+    if "--http-only" in sys.argv:
+        # Owner 6867683511 requires fresh HTTP proof while forbidding a
+        # redundant full16 rerun when the protected browser source is unchanged.
+        (out / "result.json").write_text(json.dumps({"status": "HTTP24_ONLY_PASS",
+            "original_http_cases": 24, "browser_invocations": 0,
+            "browser_acceptance_requires_separate_source_bound_receipt": True}, indent=2))
+        return
     command(["docker", "build", "-f", "infra/ra1b/Dockerfile", "-t", "vrae-ra1b-browser:local", "."], out / "browser-build", timeout=900)
     command(["docker", "build", "-f", "infra/ra1b/Worker.Dockerfile", "-t", "vrae-ra1b-worker:local", "."], out / "browser-worker-build", timeout=900)
     browser = out / "browser16"

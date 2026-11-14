@@ -24,7 +24,8 @@ def wire():
 
 def main(label):
     lab = wire()
-    out = HERE / label
+    out = (HERE / ".runtime/owner-review" if "--private-output" in sys.argv else HERE) / label
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.mkdir(exist_ok=False)
     state = HERE / ".runtime" / (label + "-c3-state.json")
     profile = HERE / ".runtime" / (label + "-c3-profile.json")

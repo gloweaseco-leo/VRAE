@@ -12,7 +12,8 @@ sys.path.insert(0, str(ROOT))
 
 
 def main(label):
-    out = HERE / label
+    out = (HERE / ".runtime/owner-review" if "--private-output" in sys.argv else HERE) / label
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.mkdir(exist_ok=False)
     from infra.ra4a import lab
     from integration.ra4a import support
