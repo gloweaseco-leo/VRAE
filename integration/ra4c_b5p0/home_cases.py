@@ -1,6 +1,7 @@
 """New homepage composition tests; original 55 cases/browser oracles unchanged."""
 from dataclasses import replace
 import time
+from uuid import uuid4
 
 import pytest
 
@@ -26,21 +27,40 @@ def test_home_uses_one_current_original_context_and_real_b3_probe(runtime, case)
 
 
 @pytest.mark.parametrize("bad", [
-    "witness-revoked", "witness-expired", "epoch", "b3-anchor",
+    "missing-witness", "witness-expired", "same-token-epoch-revoked", "b3-anchor",
     "assignment", "principal", "issuer", "role", "tenant", "source",
 ])
 def test_home_denies_current_revocations_without_protected_metadata(runtime, bad):
     c = runtime.client()
     assert c.login(runtime.issuer)[0][0] == 303
     b = runtime.app.bindings["task-404"]
-    if bad in ("witness-revoked", "witness-expired", "epoch", "b3-anchor", "assignment", "principal"):
+    if bad in ("missing-witness", "witness-expired", "same-token-epoch-revoked", "b3-anchor", "assignment", "principal"):
         with runtime.lab.connect() as admin:
-            if bad == "witness-revoked":
-                admin.execute("DELETE FROM b3_p0.witnesses WHERE witness_id=%s", (b.witness.token,))
+            if bad == "missing-witness":
+                missing = uuid4()
+                assert admin.execute("SELECT 1 FROM b3_p0.witnesses WHERE witness_id=%s", (missing,)).fetchone() is None
+                runtime.app.bindings["task-404"] = replace(b, witness=replace(b.witness, token=missing))
             elif bad == "witness-expired":
-                admin.execute("UPDATE b3_p0.witnesses SET expires=clock_timestamp()-interval '1 second'")
-            elif bad == "epoch":
+                expired = uuid4()
+                assert admin.execute(
+                    "INSERT INTO b3_p0.witnesses SELECT tenant_id,%s,db_actor,subject,epoch,"
+                    "clock_timestamp()-interval '1 second',ref_id,source_run_id,report_id,"
+                    "report_version,target_digest FROM b3_p0.witnesses WHERE witness_id=%s",
+                    (expired, b.witness.token),
+                ).rowcount == 1
+                assert admin.execute("SELECT expires<clock_timestamp() FROM b3_p0.witnesses WHERE witness_id=%s", (expired,)).fetchone() == (True,)
+                runtime.app.bindings["task-404"] = replace(b, witness=replace(b.witness, token=expired))
+            elif bad == "same-token-epoch-revoked":
+                assert admin.execute(
+                    "SELECT w.epoch=a.epoch FROM b3_p0.witnesses w JOIN b3_p0.authority a USING(tenant_id) WHERE witness_id=%s",
+                    (b.witness.token,),
+                ).fetchone() == (True,)
                 admin.execute("UPDATE b3_p0.authority SET epoch=epoch+1")
+                assert runtime.app.bindings["task-404"].witness.token == b.witness.token
+                assert admin.execute(
+                    "SELECT w.epoch<a.epoch FROM b3_p0.witnesses w JOIN b3_p0.authority a USING(tenant_id) WHERE witness_id=%s",
+                    (b.witness.token,),
+                ).fetchone() == (True,)
             elif bad == "b3-anchor":
                 admin.execute("UPDATE b3_p0.authority SET anchor_active=false")
             elif bad == "assignment":
@@ -67,18 +87,24 @@ def test_home_denies_current_revocations_without_protected_metadata(runtime, bad
     assert all(v == 0 for v in runtime.data().values())
 
 
-def test_home_witness_revoked_after_original_exit_is_denied(runtime):
+def test_home_same_token_epoch_revoked_after_original_recheck_is_denied(runtime):
     c = runtime.client()
     assert c.login(runtime.issuer)[0][0] == 303
+    token = runtime.app.bindings["task-404"].witness.token
     seen = []
     def revoke(event):
         if event["event"] == "response_current":
             runtime.hook = None
             with runtime.lab.connect() as admin:
-                admin.execute("DELETE FROM b3_p0.witnesses")
+                admin.execute("UPDATE b3_p0.authority SET epoch=epoch+1")
+                assert admin.execute(
+                    "SELECT w.epoch<a.epoch FROM b3_p0.witnesses w JOIN b3_p0.authority a USING(tenant_id) WHERE witness_id=%s",
+                    (token,),
+                ).fetchone() == (True,)
             seen.append("revoked_after_original_read_recheck")
     runtime.hook = revoke
     status, body, _ = c.request("GET", "/b5a/")
+    assert runtime.app.bindings["task-404"].witness.token == token
     assert seen and status in (403, 409)
     assert b'data-key="b5p0-entry"' not in body
     assert runtime.tasks["404"]["title"].encode() not in body
