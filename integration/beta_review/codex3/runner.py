@@ -66,7 +66,7 @@ def snapshot(path):
     return manifest
 
 class Run:
-    def __init__(self,label,minor):
+    def __init__(self,label,minor,*,b5=False):
         from integration.ra4c_b5a import lab as lab_module
         from integration.ra4c_b5a.support import Runtime
         assert re.fullmatch(r"[a-z0-9-]{3,48}",label)
@@ -75,6 +75,10 @@ class Run:
         self.folder.mkdir(parents=True,exist_ok=False)
         self.public=DOC/label
         self.public.mkdir(parents=True,exist_ok=False)
+        self.b5=b5
+        if b5:
+            from integration.ra4c_b5p0 import lab as lab_module
+            from integration.ra4c_b5p0.support import Runtime
         lab_module.RUNTIME=self.folder/"pg"
         self.r=Runtime("beta-"+uuid.uuid4().hex[:12])
         self.minor=minor
@@ -141,6 +145,11 @@ class Run:
             "pg":self.r.lab.name,"label":OWNER_LABEL,"value":self.label})
         self.profile=self.folder/"reviewer-profile.json"
         write(self.profile,self.r.profile())
+        if self.b5:
+            self.bridge=self.folder/"b5-bridge.private.json"
+            write(self.bridge,self.r.bridge_profile())
+            from .native_observation import ObservedIssuer
+            self.r.issuer=ObservedIssuer(self.r.issuer,self.folder)
 
     def start_native(self):
         image="vrae-ra4b-p1:"+self.minor.replace(".","")
@@ -190,24 +199,43 @@ class Run:
 
     def start_ssr(self):
         self.ready=self.folder/"ssr-ready.json"
-        log=(self.folder/"ssr.log").open("wb")
+        self.ready.unlink(missing_ok=True)
+        log=(self.folder/"ssr.log").open("ab")
         self.logs.append(log)
+        deps=self.folder/"b5-deps.ready.json"
+        deps.unlink(missing_ok=True)
+        extra=(["--bridge",str(self.bridge),"--audit",str(self.folder/"b5-audit.private.jsonl"),"--deps-ready",str(deps)] if self.b5 else [])
         self.ssr=subprocess.Popen([sys.executable,"-B","-m","integration.beta_review.codex3.ssr",
-            "--profile",str(self.profile),"--ready",str(self.ready)],
+            "--profile",str(self.profile),"--ready",str(self.ready),*extra],
             cwd=ROOT,stdin=subprocess.DEVNULL,stdout=log,stderr=log,
             env={**{k:v for k,v in os.environ.items() if k.upper() in
                 {"PATH","SYSTEMROOT","WINDIR","TEMP","TMP","COMSPEC"}},
                 "PYTHONUTF8":"1","PYTHONDONTWRITEBYTECODE":"1"})
+        if self.b5:
+            from .native_observation import launched
+            launched(self)
         def ready():
             if self.ssr.poll() is not None:
                 raise RuntimeError("SSR_START_FAILED")
             return self.ready.exists()
+        if self.b5:
+            def dependencies_ready():
+                if self.ssr.poll() is not None:
+                    raise RuntimeError("B5_DEPENDENCY_BOOT_FAILED")
+                return deps.exists()
+            wait(dependencies_ready,60)
+            assert json.loads(deps.read_text())=={"driver_ready":True}
         wait(ready,30)
         self.r.origin=json.loads(self.ready.read_text())["origin"]
         self.result["ssr_origin"]=self.r.origin
         write(self.folder/"control.json",{"origin":self.r.origin,"pid":os.getpid(),
             "profile":str(self.profile),"mode":"TEST_ONLY_NOT_APPROVED"})
         write(self.folder/"signer.private.json",{k:base64_key(v) for k,v in self.r.issuer.keys.items()})
+
+    def restart_ssr(self):
+        from .native_observation import stopped
+        assert stopped(self,"documented_restart") is None,"SSR_ALREADY_EXITED_NO_RESTART"
+        self.start_ssr()
 
     def signed_reads(self):
         from integration.ra4c_b5a.support import Client
@@ -289,8 +317,12 @@ class Run:
         def ssr_stop():
             if not self.ssr:
                 return
-            self.ssr.terminate()
-            self.ssr.wait(timeout=15)
+            if self.b5:
+                from .native_observation import stopped
+                stopped(self,"owned_cleanup")
+            else:
+                self.ssr.terminate()
+                self.ssr.wait(timeout=15)
             import socket
             from urllib.parse import urlsplit
             def closed():
@@ -317,6 +349,15 @@ class Run:
         assert not errors,"OWNED_CLEANUP_FAILED"
         
     def publish(self):
+        native_error=None
+        if self.b5 and self.ssr:
+            from .native_observation import assert_no_native_crash
+            try:
+                assert_no_native_crash(self)
+            except Exception as exc:
+                native_error=exc
+                self.result["status"]="NATIVE_RED_PRESERVED"
+                self.result["native_observation_error"]=type(exc).__name__
         self.result["dependencies"]=[
             {"stage":"S1/S2","interface":"B4 Worker -> live Collector/RuleExecution/report persistence",
              "owner":"Codex1/Owner","state":"BLOCKED_NO_ACCEPTED_INTERFACE",
@@ -326,7 +367,7 @@ class Run:
             {"stage":"S2","interface":"B4 request/run/job -> assigned Reviewer task",
              "owner":"Codex1 B4-P2","state":"BLOCKED_NOT_MERGED"},
             {"stage":"S2","interface":"Signed SSR -> B3 durable per-claim TEST_ONLY intent",
-             "owner":"Codex2 PR89","state":"BLOCKED_NOT_MERGED"},
+             "owner":"Codex2 PR89","state":"ACCEPTED_B5P0_SEALED_LANE_AVAILABLE_B4_RESULT_BINDING_BLOCKED"},
             {"stage":"S3","interface":"Private exact-version B6 read/revoke/refusal",
              "owner":"Codex2 PR92","state":"BLOCKED_NOT_MERGED"},
             {"stage":"S4","interface":"B7 old-first deterministic provenance / protected permissions",
@@ -343,6 +384,8 @@ class Run:
             "private_raw_outputs_excluded":True,"source_sha":self.result["source_sha"]})
         print(json.dumps({"run":self.label,"status":self.result["status"],
             "component_assertion_stages":len(self.cases),"component_stages_sha256":self.result["component_stages_sha256"]}),flush=True)
+        if native_error is not None:
+            raise native_error
 
 def base64_key(key):
     import base64
@@ -359,13 +402,23 @@ def restore_issuer(path):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument("action",choices=("verify","start","stop","status","session","open"))
+    parser.add_argument("action",choices=("verify","start","stop","status","session","open","trace","restart-api"))
     parser.add_argument("--run",required=True)
     parser.add_argument("--minor",choices=("3.11","3.13"),default="3.11")
     parser.add_argument("--task",choices=("404","200"),default="404")
+    parser.add_argument("--phase",choices=("s1","s2"),default="s1")
+    parser.add_argument("--request")
     args=parser.parse_args()
     assert re.fullmatch(r"[a-z0-9-]{3,48}",args.run)
     folder=PRIVATE/args.run
+    if args.action in ("trace","restart-api"):
+        from .s2_runtime import trace_case,trace_request,restart_api
+        if args.action=="restart-api":
+            print(json.dumps(restart_api(folder),sort_keys=True))
+        else:
+            value=trace_request(folder,args.request) if args.request else trace_case(folder,args.task)
+            print(json.dumps(value.get("summary",value),sort_keys=True))
+        return
     if args.action in ("stop","status","session","open"):
         control=json.loads((folder/"control.json").read_text())
         if args.action=="stop":
@@ -398,19 +451,20 @@ def main():
         with (raw_folder/"pytest.log").open("wb") as stream:
             result=subprocess.run([sys.executable,"-B","-m","pytest","-x","-q","-p","no:cacheprovider",
                 "--confcutdir=integration/beta_review/codex3","--import-mode=importlib",
-                "integration/beta_review/codex3/test_current_main.py",
+                ("integration/beta_review/codex3/test_s2_consumer.py" if args.phase=="s2" else "integration/beta_review/codex3/test_current_main.py"),
                 "--basetemp="+str(raw_folder/"temp"),"--junitxml="+str(raw_folder/"raw-junit.xml")],
                 cwd=ROOT,env=env,stdout=stream,stderr=stream)
         raw=(raw_folder/"raw-junit.xml").read_bytes()
         original=ET.fromstring(raw)
         safe=ET.Element("testsuites")
         for suite in original.findall("testsuite"):
-            target=ET.SubElement(safe,"testsuite",dict(suite.attrib))
+            target=ET.SubElement(safe,"testsuite",{k:v for k,v in suite.attrib.items() if k in ("name","tests","failures","errors","skipped","time")})
             for case in suite.findall("testcase"):
-                item=ET.SubElement(target,"testcase",dict(case.attrib))
+                item=ET.SubElement(target,"testcase",{k:v for k,v in case.attrib.items() if k in ("name","classname","time")})
                 for kind in ("failure","error","skipped"):
                     if case.find(kind) is not None:
                         ET.SubElement(item,kind,message="NATIVE_RESULT_PRESERVED_PRIVATELY")
+        (DOC/args.run).mkdir(parents=True,exist_ok=True)
         ET.ElementTree(safe).write(DOC/args.run/"junit.xml",encoding="utf-8",xml_declaration=True)
         import zlib
         receipt={"returncode":result.returncode,"python":sys.version.split()[0],
@@ -424,14 +478,20 @@ def main():
         write(DOC/args.run/"native-pytest-receipt.json",receipt)
         print(json.dumps(receipt),flush=True)
         raise SystemExit(result.returncode)
-    run=Run(args.run,args.minor)
+    run=Run(args.run,args.minor,b5=args.phase=="s2")
     try:
         run.case("live_offline_source_policy_six_rules_guard_report",run.pipeline)
         run.case("owned_pg16_accepted_migrations_loopback_network",run.start_pg)
         run.case("real_http202_commit_low_uid_worker_done_security",run.start_native)
         run.case("original_reviewer_ssr_start",run.start_ssr)
-        run.case("signed_original_reads_version_tenant_share_denial",run.signed_reads)
-        run.case("chromium_desktop_mobile_readonly",run.browser)
+        if args.phase=="s1":
+            run.case("signed_original_reads_version_tenant_share_denial",run.signed_reads)
+            run.case("chromium_desktop_mobile_readonly",run.browser)
+        else:
+            from .s2_runtime import trace_case
+            run.result["s2_task_traces"]=[trace_case(run.folder,c)["summary"] for c in ("404","200")]
+            assert all(t["generated_report"] is None for t in run.result["s2_task_traces"])
+
         run.result["status"]="COMPONENTS_VERIFIED_CHAIN_BLOCKED"
         write(folder/"started.json",{"origin":run.r.origin,"source_sha":run.result["source_sha"]})
         if args.action=="start":
