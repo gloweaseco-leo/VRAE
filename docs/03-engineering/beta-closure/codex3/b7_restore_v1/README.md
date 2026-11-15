@@ -28,8 +28,9 @@ retain empty ACLs as empty, and compare grantor/grantee/privilege/grantability.
 No restore-time permission, policy, function or old-table repair is attempted.
 
 B3 checks use the accepted native SQL test port with actual Reviewer logins and
-original `Receipt` parsing, committed receipt bytes, expired witnesses and a stale
-witness authority epoch. The B3 Python facade and B2 signed HTTP identity are
+original `Receipt` parsing, committed receipt bytes, expired witnesses and a
+noncurrent witness epoch. Original B2 cryptographic key-revocation and expired-token
+negatives reject before any DB connection; they do not claim positive B2 login. The B3 Python facade and B2 signed HTTP identity are
 NOT_TESTED here: their frozen disposable database-name contract differs from B4's
 fixed database binding. No database-name spoofing or connection-info wrapper exists.
 The source-only authority cycle uses the accepted B4 fixture hook after its sole
@@ -65,3 +66,11 @@ ports for an internal network. Its sole owned container/volume were destroyed;
 no business or permission test ran. This new-container transport problem is L1/L2,
 not a permission repair. The corrected revision uses network-none byte forwarding.
 The original RED JUnit, process log digest and cleanup record remain alongside it.
+
+`local-311-v2`, source `dfca7cb3c5f63bac34ef314f6199281e27888d5c`:
+three independent PG16 clusters and all six-schema original bootstrap hooks ran;
+B3 404/200 fixture submissions committed. The new Worker source whitelist omitted
+accepted `contracts/` JSON schemas, so the original source verifier refused config
+provisioning before spawning Worker. This is a new fixture source-packaging error;
+no original permissions or schema were changed. All three clusters were destroyed.
+The whitelist correction adds only tracked, accepted contracts from this checkout.

@@ -46,7 +46,7 @@ def seed(env, transport, minor):
                 receipts[kind] = case.raw(c, witnesses[kind], commands[kind])
             assert Receipt(receipts[kind]).document['effective_approval'] is False
         witnesses['expired'] = case.witness(ttl=-1)
-        witnesses['stale_epoch'] = case.witness(epoch=2, ttl=600)
+        witnesses['noncurrent_epoch'] = case.witness(epoch=2, ttl=600)
     # Only one eligible task at a time; never an old-epoch eligible poison queue.
     old_done = admit(env, 'b7rv1-old-completed-0001')
     transport.worker(env, 'complete', minor, 'source-old-done')
@@ -99,7 +99,7 @@ def low_role_checks(env, fixture):
             assert not r['effective_approval'] and r['share_grant'] is r['native_decision'] is None
             observations['receipts'][kind] = {'sha256': digest(restored), 'authority': r['authority'],
                 'effective_approval': False, 'share_grant': None, 'version': r['report_version']}
-        for label in ('expired', 'stale_epoch'):
+        for label in ('expired', 'noncurrent_epoch'):
             w = fixture['witnesses'][label]
             observations['denials']['B3:' + label] = denied(c,
                 'SELECT b3_p0.get_receipt(%s,%s,%s,%s,%s,%s,%s,%s)',
@@ -133,7 +133,31 @@ def low_role_checks(env, fixture):
         observations['denials']['B4:cross_tenant_read'] = denied(c,
             'SELECT * FROM ra4b_test.status(%s,%s)', ('tenant-test', fixture['inflight']['request_id']))
     observations['original_bytes'] = verify_sources(env, 'vrae_ra4a_p1', fixture['graphs'])
-    observations['identity_scope'] = 'B3 server-held witness expiry/epoch revocation; B2 signed HTTP login NOT_TESTED (different immutable DB-name contract)'
+    # Cryptographic revocation/expiry negatives use the accepted signed boundary.
+    # These reject before DB access; do not claim a positive B2 login on B4 DB.
+    from tests.identity.issuer import Issuer, ISSUER, AUDIENCE, NOW, NONCE
+    from vrae.identity.boundary import IdentityBoundary, TrustAnchor, Assignment, IdentityDenied
+    issuer = Issuer()
+    location = locator(fixture['graphs']['404'])
+    assignment = Assignment(ISSUER, 'synthetic-reviewer-1', 'p2b1_test_a_reviewer', location, NOW + 90)
+    for name, revoked, token in (
+        ('revoked_signed_key', frozenset({'old'}), issuer.token()),
+        ('expired_signed_token', frozenset(), issuer.token({'iat': NOW - 200, 'nbf': NOW - 200, 'exp': NOW - 20})),
+    ):
+        attempts = []
+        def forbidden_connect(role):
+            attempts.append(role)
+            raise AssertionError('REJECTED_IDENTITY_REACHED_DATABASE')
+        boundary = IdentityBoundary(anchor=TrustAnchor(ISSUER, AUDIENCE, issuer.jwks(), NOW + 90, revoked),
+            assignments=[assignment], connect=forbidden_connect, clock=lambda: NOW)
+        try:
+            boundary.check(token, location, nonce=NONCE)
+        except IdentityDenied:
+            assert not attempts
+            observations['denials']['B2:' + name] = 'P2B2A_IDENTITY_DENIED_BEFORE_DB'
+        else:
+            raise AssertionError('REVOKED_OR_EXPIRED_SIGNED_IDENTITY_ACCEPTED')
+    observations['identity_scope'] = 'B3 server-held witness expiry/noncurrent epoch; B2 signed key revocation/token expiry denied before DB; positive B2 HTTP login NOT_TESTED (different immutable DB-name contract)'
     return observations
 
 

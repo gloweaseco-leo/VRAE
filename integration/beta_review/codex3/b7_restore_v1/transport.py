@@ -13,7 +13,7 @@ class Transport:
         self.private, self.proof, self.records = private, proof, []
         self.source = private / 'worker-source'
         self.source.mkdir()
-        prefixes = ('vrae/', 'worker/ra4b/', 'apps/api/', 'integration/ra4a/',
+        prefixes = ('contracts/', 'vrae/', 'worker/ra4b/', 'apps/api/', 'integration/ra4a/',
                     'integration/ra4b/', 'integration/b3_p0/', 'integration/ra4e/',
                     'integration/beta_review/codex3/b7_restore_v1/', 'tests/reviewing/',
                     'tests/identity/', 'infra/ra4a/', 'db/migrations/')
