@@ -1,7 +1,7 @@
 # Local synthetic Beta entry
 
 Owner scheduling: Issue96 comment6895932668 / Issue97 comment6895902508.
-Accepted main inspected: 611f6b1c318168d86ebabe937d8e6f2480c341c4.
+Accepted main inspected: 4aa0f02d7feae58b1ebd20d72b8cab3f37f31c7a.
 
 Use the existing locked Python 3.11 or 3.13 environment, Docker Desktop, Node
 and installed Chrome. Run from the repository root:
@@ -10,13 +10,16 @@ and installed Chrome. Run from the repository root:
 python scripts/beta_internal.py app doctor
 python scripts/beta_internal.py app start --run synthetic-beta-001 --minor 3.11 --component-preview
 python scripts/beta_internal.py app status --run synthetic-beta-001
+python scripts/beta_internal.py open --run synthetic-beta-001 --task 404
 python scripts/beta_internal.py app stop --run synthetic-beta-001
 python scripts/beta_internal.py app status --run synthetic-beta-001
 ```
 
 Start runs the existing C3 PG16/API/signed Reviewer SSR supervisor in a hidden
 background process. Status returns its loopback login URL only after the existing
-startup has finished. Stop requests the existing supervisor's cleanup; wait for
+startup has finished. The existing open command obtains a genuine signed test
+session and opens the existing sealed Reviewer task in an interactive browser;
+it does not grant authority over a new Worker-generated result. Stop requests the existing supervisor's cleanup; wait for
 CLOSED, rather than treating STOP_REQUESTED as proof of cleanup. Each run name
 is single-use. The supervisor's original 1800-second automatic cleanup remains.
 

@@ -32,7 +32,12 @@ def browser_save(run):
     out.mkdir(exist_ok=False)
     env={**os.environ,"B5P0_CHROMIUM":"C:/Program Files/Google/Chrome/Application/chrome.exe"}
     with (run.folder/"b5-browser.stderr.private.log").open("wb") as errors:
-        node=subprocess.Popen(["node","integration/ra4c_b5p0/browser.mjs"],cwd=ROOT,
+        command=["node"]
+        if os.environ.get("C3_CDP_OBSERVE")=="1":
+            env["C3_CDP_TRACE"]=str(run.folder/"cdp-observation.private.jsonl")
+            command.extend(["--import",(ROOT/"integration/beta_review/codex3/cdp_observe.mjs").as_uri()])
+        command.append("integration/ra4c_b5p0/browser.mjs")
+        node=subprocess.Popen(command,cwd=ROOT,
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=errors,text=True,encoding="utf-8",env=env)
         try:
             node.stdin.write(json.dumps({"type":"init","base":run.r.origin+"/b5a/",
