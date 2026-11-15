@@ -200,7 +200,9 @@ class Run:
         self.ready.unlink(missing_ok=True)
         log=(self.folder/"ssr.log").open("ab")
         self.logs.append(log)
-        extra=(["--bridge",str(self.bridge),"--audit",str(self.folder/"b5-audit.private.jsonl")] if self.b5 else [])
+        deps=self.folder/"b5-deps.ready.json"
+        deps.unlink(missing_ok=True)
+        extra=(["--bridge",str(self.bridge),"--audit",str(self.folder/"b5-audit.private.jsonl"),"--deps-ready",str(deps)] if self.b5 else [])
         self.ssr=subprocess.Popen([sys.executable,"-B","-m","integration.beta_review.codex3.ssr",
             "--profile",str(self.profile),"--ready",str(self.ready),*extra],
             cwd=ROOT,stdin=subprocess.DEVNULL,stdout=log,stderr=log,
@@ -211,6 +213,13 @@ class Run:
             if self.ssr.poll() is not None:
                 raise RuntimeError("SSR_START_FAILED")
             return self.ready.exists()
+        if self.b5:
+            def dependencies_ready():
+                if self.ssr.poll() is not None:
+                    raise RuntimeError("B5_DEPENDENCY_BOOT_FAILED")
+                return deps.exists()
+            wait(dependencies_ready,60)
+            assert json.loads(deps.read_text())=={"driver_ready":True}
         wait(ready,30)
         self.r.origin=json.loads(self.ready.read_text())["origin"]
         self.result["ssr_origin"]=self.r.origin

@@ -11,6 +11,7 @@ def main():
     p.add_argument("--ready", required=True)
     p.add_argument("--bridge")
     p.add_argument("--audit")
+    p.add_argument("--deps-ready")
     args = p.parse_args()
     root = Path(__file__).resolve().parent / ".private"
     profile, ready = Path(args.profile).resolve(), Path(args.ready).resolve()
@@ -27,6 +28,12 @@ def main():
         stacks = audit.with_suffix(".stacks.private.log").open("ab")
         faulthandler.enable(file=stacks)
         faulthandler.dump_traceback_later(20,repeat=True,file=stacks)
+        deps = Path(args.deps_ready).resolve()
+        assert deps.is_relative_to(root.resolve())
+        import psycopg  # noqa: F401 -- initialize the locked driver before HTTP
+        pending = deps.with_suffix(".tmp")
+        pending.write_text(json.dumps({"driver_ready": True}))
+        pending.replace(deps)
         app = load(profile, bridge, audit=sink)
     else:
         app = ProvisionedApplication(profile)
