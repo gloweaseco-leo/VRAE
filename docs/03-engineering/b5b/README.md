@@ -4,6 +4,8 @@ Owner authority: [Issue95 comment6893284620](https://github.com/gloweaseco-leo/V
 Initial accepted base: `d63ea0b007ab4841000ff80c6d8c651d6ff4956f` (PR89/99/92).
 Normally synchronized accepted main: `67acff97689514fdede01f2aab81dd5a7a96b9cd`
 (Owner merged PR100 S1 DISC; no lease-bound Worker result interface).
+Subsequent normal sync: `6769f348e3f54b8b2964a43ec0041e17ba139686`
+(Owner merged PR102 six-schema recovery; B5B source and default IDs unchanged).
 
 This adds an entry in the existing signed `/b5a/` SSR and consumes the accepted
 B5-P0/B3 and B6-P0 ports. There is one HTTP server and no second SPA, identity
