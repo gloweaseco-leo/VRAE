@@ -1,0 +1,20 @@
+--- a/vrae/application/ra4b_p2/worker.py
++++ b/vrae/application/ra4b_p2/worker.py
+@@ -13,7 +13,7 @@
+ 
+ def main():
+     from vrae.application.ra4b import store
+-    from .source_adapter import build, stage
++    from .source_adapter import build, commit_sealed
+ 
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--config", required=True)
+@@ -30,7 +30,7 @@
+             return
+         started = time.monotonic()
+         candidate, _ = build(c, config["tenant"], lease)
+-        receipt = stage(c, config["tenant"], lease, candidate)
++        receipt = commit_sealed(c, config["tenant"], lease, candidate)
+         receipt["generation_and_draft_commit_seconds"] = time.monotonic() - started
+         if args.private_receipt:
+             path = Path(args.private_receipt)

@@ -1,0 +1,165 @@
+{
+  "status": "L3_STORAGE_AND_GUARD_STOP_NOT_S2_PASS",
+  "base": "67acff97689514fdede01f2aab81dd5a7a96b9cd",
+  "checkpoint": "7fc44243ec5b5b3aa9d6d8ffa9c208fc3a14ec6a",
+  "owner": "https://github.com/gloweaseco-leo/VRAE/issues/94#issuecomment-6894393962",
+  "native_runs": [
+    {
+      "label": "audit-interfaces-311-r1",
+      "minor": "311",
+      "cases": 40,
+      "pass": 19,
+      "red_ids": [
+        "integration.ra4b_p2.interface_cases::test_00_real_low_uid_worker_generates_unsealed_same_job_candidate",
+        "integration.ra4b_p2.interface_cases::test_wrong_lease_identity_or_tenant_denied[tenant]",
+        "integration.ra4b_p2.interface_cases::test_wrong_lease_identity_or_tenant_denied[job]",
+        "integration.ra4b_p2.interface_cases::test_wrong_lease_identity_or_tenant_denied[token]",
+        "integration.ra4b_p2.interface_cases::test_wrong_lease_identity_or_tenant_denied[sequence]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[source]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[guard]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[report_sha]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[html]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[actor]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[committed]",
+        "integration.ra4b_p2.interface_cases::test_no_boolean_or_done_substitute_for_reviewer_read[p2b1_test_a_reviewer]",
+        "integration.ra4b_p2.interface_cases::test_no_boolean_or_done_substitute_for_reviewer_read[p2b1_test_a_peer]",
+        "integration.ra4b_p2.interface_cases::test_no_boolean_or_done_substitute_for_reviewer_read[p2b1_test_b_reviewer]",
+        "integration.ra4b_p2.interface_cases::test_private_predicate_and_admin_boolean_seeding_are_denied",
+        "integration.ra4b_p2.interface_cases::test_original_origin_dml_denied_even_inside_competing_owner_definer[INSERT-request_origins]",
+        "integration.ra4b_p2.interface_cases::test_policy_revoke_waits_for_actual_worker_transaction_then_denies",
+        "integration.ra4b_p2.interface_cases::test_old_done_and_staged_bytes_still_do_not_make_a_generated_result",
+        "integration.ra4b_p2.interface_cases::test_new_200_worker_candidate_is_coverage_not_an_old_report_copy",
+        "integration.ra4b_p2.interface_cases::test_expired_replayed_lease_then_actual_reclaim_remains_untrusted",
+        "integration.ra4b_p2.interface_cases::test_z_origin_epoch_rollover_denies_old_request_without_reseeding"
+      ],
+      "native_junit_sha256": "5c6b7c890c2a7a32295951ec94b561d7b85a6eec1bc8039f90b8f5a1f0b5a472",
+      "exact_ids_sha256": "8eb2ba242d1feeba5ae180a443e4c24bcbf45616a666c5f734785971afb0169a",
+      "cleanup_four_owned_resources_absent": true
+    },
+    {
+      "label": "audit-interfaces-311-r2",
+      "minor": "311",
+      "cases": 40,
+      "pass": 20,
+      "red_ids": [
+        "integration.ra4b_p2.interface_cases::test_00_real_low_uid_worker_generates_unsealed_same_job_candidate",
+        "integration.ra4b_p2.interface_cases::test_wrong_lease_identity_or_tenant_denied[tenant]",
+        "integration.ra4b_p2.interface_cases::test_wrong_lease_identity_or_tenant_denied[job]",
+        "integration.ra4b_p2.interface_cases::test_wrong_lease_identity_or_tenant_denied[token]",
+        "integration.ra4b_p2.interface_cases::test_wrong_lease_identity_or_tenant_denied[sequence]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[source]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[guard]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[report_sha]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[html]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[actor]",
+        "integration.ra4b_p2.interface_cases::test_mutated_candidate_never_becomes_trusted[committed]",
+        "integration.ra4b_p2.interface_cases::test_no_boolean_or_done_substitute_for_reviewer_read[p2b1_test_a_reviewer]",
+        "integration.ra4b_p2.interface_cases::test_no_boolean_or_done_substitute_for_reviewer_read[p2b1_test_a_peer]",
+        "integration.ra4b_p2.interface_cases::test_no_boolean_or_done_substitute_for_reviewer_read[p2b1_test_b_reviewer]",
+        "integration.ra4b_p2.interface_cases::test_private_predicate_and_admin_boolean_seeding_are_denied",
+        "integration.ra4b_p2.interface_cases::test_original_origin_dml_denied_even_inside_competing_owner_definer[INSERT-request_origins]",
+        "integration.ra4b_p2.interface_cases::test_policy_revoke_waits_for_actual_worker_transaction_then_denies",
+        "integration.ra4b_p2.interface_cases::test_old_done_and_staged_bytes_still_do_not_make_a_generated_result",
+        "integration.ra4b_p2.interface_cases::test_new_200_worker_candidate_is_coverage_not_an_old_report_copy",
+        "integration.ra4b_p2.interface_cases::test_z_origin_epoch_rollover_denies_old_request_without_reseeding"
+      ],
+      "native_junit_sha256": "8dcd695fe8b6d2ea950bb83ae794ebe7b576540045193f86b8d9253ea8f2d57b",
+      "exact_ids_sha256": "8eb2ba242d1feeba5ae180a443e4c24bcbf45616a666c5f734785971afb0169a",
+      "cleanup_four_owned_resources_absent": true
+    },
+    {
+      "label": "audit-interfaces-311-r3",
+      "minor": "311",
+      "cases": 40,
+      "pass": 37,
+      "red_ids": [
+        "integration.ra4b_p2.interface_cases::test_policy_revoke_waits_for_actual_worker_transaction_then_denies",
+        "integration.ra4b_p2.interface_cases::test_old_done_and_staged_bytes_still_do_not_make_a_generated_result",
+        "integration.ra4b_p2.interface_cases::test_new_200_worker_candidate_is_coverage_not_an_old_report_copy"
+      ],
+      "native_junit_sha256": "0f49137c34f49c3747f8e16fefb408f2fbdcbcc0c09df9eb1de863a8f16448e8",
+      "exact_ids_sha256": "8eb2ba242d1feeba5ae180a443e4c24bcbf45616a666c5f734785971afb0169a",
+      "cleanup_four_owned_resources_absent": true
+    },
+    {
+      "label": "audit-interfaces-311-r4",
+      "minor": "311",
+      "cases": 40,
+      "pass": 39,
+      "red_ids": [
+        "integration.ra4b_p2.interface_cases::test_new_200_worker_candidate_is_coverage_not_an_old_report_copy"
+      ],
+      "native_junit_sha256": "0bac0fe168b107ba9c1bd192dfe58b9f219a21592f67edba2589927c2c22030d",
+      "exact_ids_sha256": "7ef6ea2d082acd172437647b318545a95285d6a58a21c848cc87f1ff0a41b55e",
+      "cleanup_four_owned_resources_absent": true
+    }
+  ],
+  "pure_311_checkpoint": {
+    "cases": 21,
+    "sha256": "1121f4569976e489b5dba37cf3f31595039db372b2ff4847b5b6454a730ea358",
+    "final_source": false
+  },
+  "native_313": "NOT_STARTED_AFTER_TRUE_GUARD_RED",
+  "guard_red": {
+    "input": "accepted-200",
+    "facts": 17,
+    "producer_bundle_per_fact": true,
+    "guard_input_limit": 16,
+    "protected_error": "REPORT_GUARD_PINS",
+    "by_rule": {
+      "INFO-01": 5,
+      "SEO-01": 2,
+      "TRUST-01": 10
+    }
+  },
+  "current_vs_tested_sql": {
+    "tested_r4": "28d9e5cdaaf55db0bb1b4a170d79be1f66ab4eedd57b047fe35f71aff5365af4",
+    "current_unrerun_review": "08119de966aac3c3582e277ec9a9e1ab937dab743756534c34a011814a4c5fd0",
+    "difference": "post-STOP static native finish outbox/audit witness joins; not native-proved"
+  },
+  "trusted_generated_rows": 0,
+  "protected_catalog_except_three_policies": "22a7b085f3645b15b6c1b4988bb2179af3752dd560fb938748416158a1394c2f",
+  "protected_migrations_lf_sha256": {
+    "db/migrations/0001_ra4a_test_only.sql": "0557738e22e83a6f1c991e8c2a796749ce43845ad80fec44d8dc4c891fd9b5e2",
+    "db/migrations/0002_ra4a_private_bytes.sql": "bffca8c3c205f018ea0ba87cfdb19c3d0bc0d919b3e5d9178be0cc7a434c9ba9",
+    "db/migrations/0003_ra4a_test_review_cas.sql": "2be5dba988054de1a52e66b11ee68bd19f4d895c2537e3268ba1f5ea8e569547",
+    "db/migrations/0004_ra4b_test_only_api.sql": "df8ace6c8e80e2795cbf1abc152b1dd5189071df15fd3ffd6f7e21084e741585"
+  },
+  "legacy_guard_sha256": "181f948bc6cb3a3428a067f3fad9b6f5047c0d81c23d8673179b181bcde3abdf",
+  "old_250_and_145_exact": true,
+  "static_checks": {
+    "ci_ruff_selection": "PASS",
+    "mypy_new_five_files": "PASS",
+    "broad_ruff": "22 additional findings; not the CI selection"
+  },
+  "files_sha256": {
+    "db/ra4b_p2/001_isolated_interfaces.sql": "08119de966aac3c3582e277ec9a9e1ab937dab743756534c34a011814a4c5fd0",
+    "db/ra4b_p2/002_conditional_origin_policies.sql": "22dc4b9e76ea5eda1d6284679a366f50768c9b43b80d1fd873b8f43bbfc22499",
+    "contracts/ra4b_p2/GeneratedCandidate.schema.json": "ea1bb38e1bb5814183cf685d3eaa399008814d2be4ec5abbfa70f812a485557b",
+    "vrae/application/ra4b_p2/__init__.py": "7c607acef1d2ca353eef109d399d27705806e0c64af3c7e351d0b3812e0588ea",
+    "vrae/application/ra4b_p2/generated_graph.py": "680c28a2fe337047a37c12a82b993a4a2f645debd4d3a3d571a8833f3aba2256",
+    "vrae/application/ra4b_p2/producer.py": "bd468f111ce84d6e6093ca4924c409b1643a3a7ef89dffd845b3862820ce6ccf",
+    "vrae/application/ra4b_p2/source_adapter.py": "b2da710541ef9baa171de98d86242328b91e3afc309dac32f427872b5c08686c",
+    "vrae/application/ra4b_p2/worker.py": "fafaf56cea8f0cb0d3ec82c97cf18b6148a8d7108f72c196ee70cc80cd676690",
+    "integration/ra4b_p2/.gitignore": "0b2aeda4a5309f3271f2aea97905052040c1dbf32a9bc181852a74030419e89a",
+    "integration/ra4b_p2/__init__.py": "e0271f5619e8027447053ee18beb8a4a185ec77bb1a791ddcb7a356e7e13bf7a",
+    "integration/ra4b_p2/audit_cases.py": "061c36d505829a67b9700f5c5b242c25a44ed7740d2882d5feecfb95a3d87d2c",
+    "integration/ra4b_p2/audit_lab.py": "9338a5e9695554e93cde9aa9a2e28c47ab1ea0ca21e6dfdbe3606b2dc73bc5a5",
+    "integration/ra4b_p2/interface_cases.py": "50e373bc1fcbb613d1681921fcaf933f496a0ffb9b5c002c4aca816030748e05",
+    "tests/ra4b_p2/__init__.py": "2e94fab5d9eccef0ab17bdf537bba9b4747d80308d4e71c415a97cf39374b4d2",
+    "tests/ra4b_p2/producer_cases.py": "009b0def6f6f9302e904ee0b204f37a92b553e561e519cee448186a4d8aa69bd",
+    "docs/03-engineering/ra4b-p2/.gitignore": "c740db8c5771bc53deca3faf16465ffd78a57c5bc6df70143f0a8f422fb469ab",
+    "docs/03-engineering/ra4b-p2/evidence/local-entry-summary.json": "70aad0358a9dcc7a044205f71ca42a328b2af87f63468da3aec88365220811aa",
+    "docs/03-engineering/ra4b-p2/held/003_generated_seal.sql.proposed": "71fa390fd0059001a7712012ddbd2d781eb6369f11df0e9424f90429d4da0923",
+    "docs/03-engineering/ra4b-p2/held/source_adapter.py.proposed": "379aed6af5b3ab9a9edf0cb4b859c3613fe6967f6fb4a4027762c21ee2ec24fb",
+    "docs/03-engineering/ra4b-p2/held/worker.py.diff.proposed": "cebe77a3fc16a2a72ac6fb9d6f1071ed973984c3e012158145dbfe3de1b13494",
+    "docs/03-engineering/ra4b-p2/L3_REQUIRED_PORTS.md": "7715c18f0125aa20467c39b5cb869137b7cfa9eea8c26e5851c53855566f3681",
+    "docs/03-engineering/ra4b-p2/L3_WRITE_SEAM_STOP.md": "673ead3919eae02ea85d948fdccd22e36b548ad059a189489cc187b5f03ee9a9",
+    "docs/03-engineering/ra4b-p2/PROPOSED_ORIGIN_READ_LOCK.diff": "faf3a966a85273639172c7eeba1d8d53b68e518c608bedeaf8d4ddfc37c39bc0",
+    "docs/03-engineering/ra4b-p2/README.md": "cdba21428d5b1e32625e81f338d9933fd39c22be444a08fdf5c89a3584d6da23"
+  },
+  "no_push_pr_ci_merge_deploy": true,
+  "beta": "2/7",
+  "gold": "0/26",
+  "gates": "G1/G2/G3 NO-GO"
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/ra4b_p2/GeneratedCandidate.schema.json",
+  "title": "Private consistency candidate, never authoritative persisted output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "authority", "committed", "commit_receipt", "reviewer_assignment", "native_approval", "share_grant", "binding", "scope", "versions", "evidence_pack_ref", "evidence_sha256", "rule_execution_ref", "execution_sha256", "finding_package_ref", "finding_sha256", "guard_refs", "guard_sha256", "draft_ref", "report", "report_sha256", "html_sha256"],
+  "properties": {
+    "contract_version": {"const": "ra4b-p2-generated-candidate-v1"},
+    "authority": {"const": "CONSISTENCY_CANDIDATE_NOT_COMMITTED_NOT_APPROVED"},
+    "committed": {"const": false},
+    "commit_receipt": {"type": "null"},
+    "reviewer_assignment": {"type": "null"},
+    "native_approval": {"type": "null"},
+    "share_grant": {"type": "null"},
+    "binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tenant_id", "request_id", "run_id", "job_id", "worker", "lease_token_sha256", "lease_seq", "lease_until", "origin_epoch", "source_ref", "reference_sha256", "input_sha256", "policy_id", "policy_version", "policy_sha256", "created_at"],
+      "properties": {
+        "tenant_id": {"enum": ["tenant-test", "tenant-beta"]},
+        "request_id": {"type": "string", "format": "uuid"},
+        "run_id": {"type": "string", "format": "uuid"},
+        "job_id": {"type": "string", "format": "uuid"},
+        "worker": {"enum": ["ra4b_test_a_worker", "ra4b_test_b_worker"]},
+        "lease_token_sha256": {"$ref": "#/$defs/hash"},
+        "lease_seq": {"type": "integer", "minimum": 1, "maximum": 3},
+        "lease_until": {"type": "string", "format": "date-time"},
+        "origin_epoch": {"type": "integer", "minimum": 1},
+        "source_ref": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{3,128}$"},
+        "reference_sha256": {"$ref": "#/$defs/hash"},
+        "input_sha256": {"$ref": "#/$defs/hash"},
+        "policy_id": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{3,128}$"},
+        "policy_version": {"type": "integer", "minimum": 1},
+        "policy_sha256": {"$ref": "#/$defs/hash"},
+        "created_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tenant_id", "run_id", "policy_id", "policy_version"],
+      "properties": {
+        "tenant_id": {"enum": ["tenant-test", "tenant-beta"]},
+        "run_id": {"type": "string", "format": "uuid"},
+        "policy_id": {"type": "string"},
+        "policy_version": {"type": "integer", "minimum": 1}
+      }
+    },
+    "versions": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evaluator", "builder", "guard", "report", "renderer"],
+      "properties": {
+        "evaluator": {"const": "ra2b6-1.0.0"},
+        "builder": {"const": "ra2c3-1.0.0"},
+        "guard": {"const": "ra3b-disc-1.0.0"},
+        "report": {"const": "ra3c-disc-1.0.0"},
+        "renderer": {"const": "ra3c-disc-html-1.0.0"}
+      }
+    },
+    "evidence_pack_ref": {"type": "string"},
+    "evidence_sha256": {"$ref": "#/$defs/hash"},
+    "rule_execution_ref": {"type": "string"},
+    "execution_sha256": {"$ref": "#/$defs/hash"},
+    "finding_package_ref": {"type": "string"},
+    "finding_sha256": {"$ref": "#/$defs/hash"},
+    "guard_refs": {"type": "array", "items": {"type": "string"}, "maxItems": 512},
+    "guard_sha256": {"type": "array", "items": {"$ref": "#/$defs/hash"}, "maxItems": 512},
+    "draft_ref": {"type": "string"},
+    "report": {"type": "object"},
+    "report_sha256": {"$ref": "#/$defs/hash"},
+    "html_sha256": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

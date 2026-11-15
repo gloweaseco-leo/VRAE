@@ -1,0 +1,33 @@
+diff --git a/db/ra4b_p2/002_assigned_origin_read.sql b/db/ra4b_p2/002_assigned_origin_read.sql
+new file mode 100644
+--- /dev/null
++++ b/db/ra4b_p2/002_assigned_origin_read.sql
+@@ -0,0 +1,28 @@
++-- PROPOSAL ONLY: never applied. After unchanged 0001..0004, TEST_ONLY only.
++-- current_generated_binding must be implemented/reviewed first in new schema.
++-- It verifies real Worker COMMIT result + native graph + current B3 assignment,
++-- request/run/job/source/policy/versions/hashes; never status-only or admin seed.
++-- Its INVOKER predicate must not read these origin tables (no RLS recursion).
++SET ROLE ra4a_owner;
++CREATE POLICY s2_assigned_epoch_select ON ra4b_test.origin_epochs
++ AS PERMISSIVE FOR SELECT TO ra4a_owner USING (
++ CURRENT_USER='ra4a_owner' AND tenant_id=ra4a.scope()
++ AND SESSION_USER IN ('p2b1_test_a_reviewer','p2b1_test_a_peer','p2b1_test_b_reviewer')
++ AND ra4b_p2.current_generated_binding(tenant_id,NULL::uuid,origin_role,epoch));
++CREATE POLICY s2_assigned_request_select ON ra4b_test.request_origins
++ AS PERMISSIVE FOR SELECT TO ra4a_owner USING (
++ CURRENT_USER='ra4a_owner' AND tenant_id=ra4a.scope()
++ AND SESSION_USER IN ('p2b1_test_a_reviewer','p2b1_test_a_peer','p2b1_test_b_reviewer')
++ AND ra4b_p2.current_generated_binding(tenant_id,request_id,origin_role,epoch));
++-- SELECT FOR SHARE also evaluates UPDATE USING. Epoch row is locked; immutable
++-- request binding is read without a row lock. AccessShareLock prevents TRUNCATE.
++CREATE POLICY s2_assigned_epoch_lock ON ra4b_test.origin_epochs
++ AS PERMISSIVE FOR UPDATE TO ra4a_owner USING (
++ CURRENT_USER='ra4a_owner' AND tenant_id=ra4a.scope()
++ AND SESSION_USER IN ('p2b1_test_a_reviewer','p2b1_test_a_peer','p2b1_test_b_reviewer')
++ AND ra4b_p2.current_generated_binding(tenant_id,NULL::uuid,origin_role,epoch))
++ WITH CHECK(false);
++RESET ROLE;
++-- No raw SELECT/DML GRANT, membership, old policy/WITH CHECK or FORCE RLS edit.
++-- No execute privilege for current_generated_binding is granted to runtimes.
++-- Actual role/tenant/revoke/lock/definer-DML negatives must pass before acceptance.
