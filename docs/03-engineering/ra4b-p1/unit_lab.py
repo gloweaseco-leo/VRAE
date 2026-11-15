@@ -147,6 +147,11 @@ def main(label):
         shutil.copyfile(ROOT / name, context / name)
     shutil.copyfile(ROOT / "integration/ra4b/Dockerfile", context / "Dockerfile")
     version = f"{sys.version_info.major}.{sys.version_info.minor}"
+    ordinary_timeout = 3600
+    if "--local-313-ordinary-wait-5400" in sys.argv:
+        assert "--private-output" in sys.argv and "--linux-output-owner-fixture" in sys.argv
+        assert version == "3.13"
+        ordinary_timeout = 5400
     image = "vrae-ra4b-p1:" + version.replace(".", "")
     base = json.loads((ROOT / "integration/ra4b/python-images.json").read_bytes())[version]
     if reuse_image:
@@ -198,7 +203,7 @@ def main(label):
              "--tmpfs", "/tmp:rw,nosuid,nodev,size=512m", "--mount", "type=volume,src=" + volume + ",dst=/work",
              *output_group, "--mount", mount, image,
              "python", "-c", "import sys,tarfile,runpy; tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/work',filter='data'); runpy.run_path('/work/integration/ra4b/" + ("output_marker.py" if preflight_only else "unit_check.py") + "',run_name='__main__')"],
-             out / "supervisor", data=archive.read_bytes(), timeout=3600)
+             out / "supervisor", data=archive.read_bytes(), timeout=ordinary_timeout)
     finally:
         check = subprocess.run(["docker", "inspect", "--format", '{{index .Config.Labels "vrae.ra4b.unit"}}', ident], capture_output=True, timeout=20)
         if check.returncode == 0:
@@ -254,7 +259,10 @@ def main(label):
         assert native_result["ordinary_passed"] == len(cases) - len(skipped)
         actual_container = json.loads((out / "container-result.json").read_bytes())
         assert actual_container["exit"] == 0 and not actual_container["oom_killed"]
-        inventory_proof = _verify_b6_inventory(cases, minor)
+        from integration.beta_disc_report.inventory import verify_inventory
+        accepted_cases, disc_inventory_proof = verify_inventory(cases)
+        inventory_proof = _verify_b6_inventory(accepted_cases, minor)
+        inventory_proof["disc_additive_inventory"] = disc_inventory_proof
         assert not list(root.iter("failure")) and not list(root.iter("error"))
         qa = [case for case in cases if "test_ra3c_owner_adjudicated_v2" in case.get("classname", "")]
         review = [case for case in cases if case.get("classname", "").startswith("tests.reviewing.")]
