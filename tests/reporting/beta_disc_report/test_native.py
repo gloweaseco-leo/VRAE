@@ -4,7 +4,7 @@ from copy import deepcopy
 
 import pytest
 
-from integration.beta_disc_report import inputs
+from tests.reporting.beta_disc_report.synthetic import inputs
 from scripts.verify_ra3c import replay
 from vrae.collection.manifest import document_hash
 from vrae.interpretation.disc_report_v1 import GuardError, catalog, validate
