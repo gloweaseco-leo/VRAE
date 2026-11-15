@@ -21,6 +21,7 @@ def main():
     minor = sys.argv[1]
     assert minor in ("311", "313")
     label = sys.argv[2] if len(sys.argv) > 2 else minor
+    experiment = len(sys.argv) > 3 and sys.argv[3] == "interfaces"
     assert re.fullmatch(r"[a-z0-9-]{3,40}", label)
     out = ROOT / "docs/03-engineering/ra4b-p2/.runtime" / ("audit-" + label)
     out.mkdir(parents=True, exist_ok=False)
@@ -92,6 +93,8 @@ def main():
     names.update(
         p.relative_to(ROOT).as_posix() for p in (ROOT / "integration/ra4b_p2").glob("*.py")
     )
+    for directory, pattern in [("vrae/application/ra4b_p2", "*.py"), ("db/ra4b_p2", "*.sql")]:
+        names.update(p.relative_to(ROOT).as_posix() for p in (ROOT / directory).rglob(pattern))
     with tarfile.open(fileobj=archive, mode="w:gz") as tar:
         for name in sorted(names):
             raw = (ROOT / name).read_bytes()
@@ -197,7 +200,11 @@ def main():
             "--tb=short",
             "-p",
             "no:cacheprovider",
-            "integration/ra4b_p2/audit_cases.py",
+            (
+                "integration/ra4b_p2/interface_cases.py"
+                if experiment
+                else "integration/ra4b_p2/audit_cases.py"
+            ),
             "--junitxml=/evidence/native-junit.xml",
             data=json.dumps(state).encode(),
             check=False,

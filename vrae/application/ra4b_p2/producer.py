@@ -6,6 +6,7 @@ neither this module nor a caller-provided lease can replace those checks.
 """
 
 from dataclasses import asdict, dataclass, field
+import base64
 from datetime import datetime
 import hashlib
 import json
@@ -105,6 +106,7 @@ class LeaseContext:
 class GeneratedCandidate:
     _payload: bytes = field(repr=False)
     _html: bytes = field(repr=False)
+    _source: bytes = field(default=b"", repr=False)
 
     @property
     def private_document(self):
@@ -116,7 +118,11 @@ class GeneratedCandidate:
 
     def verify(self, capture, access, context, *, now):
         rebuilt = generate(capture, access, context, now=now)
-        if self._payload != rebuilt._payload or self._html != rebuilt._html:
+        if (
+            self._payload != rebuilt._payload
+            or self._html != rebuilt._html
+            or self._source != rebuilt._source
+        ):
             raise CandidateDenied("S2_CANDIDATE_REPLAY_MISMATCH")
         return rebuilt
 
@@ -258,4 +264,11 @@ def generate(capture: CaptureBundle, access: SourceAccess, context: LeaseContext
         "report_sha256": document_hash(draft.document),
         "html_sha256": hashlib.sha256(draft.html_bytes).hexdigest(),
     }
-    return GeneratedCandidate(encode(result), draft.html_bytes)
+    source = {
+        "pack": pack.document,
+        "objects_base64": {k: base64.b64encode(v).decode() for k, v in pack.objects.items()},
+        "package": package.document,
+        "guard_inputs": bundles,
+        "metadata": metadata,
+    }
+    return GeneratedCandidate(encode(result), draft.html_bytes, encode(source))

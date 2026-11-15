@@ -43,18 +43,28 @@ def runtime():
 
     def spawn(kind, *args):
         uid = 10001 if kind == "APP" else 10002
-        cfg = bootstrap.config(kind)
+        cfg = bootstrap.config("WORKER" if kind == "S2_WORKER" else kind)
         if kind == "APP":
             cfg["bearer"] = secrets.token_urlsafe(40)
-        directory = Path("/tmp/s2-" + kind.lower())
+        directory = Path("/tmp/s2-" + kind.lower() + "-" + str(len(children)))
         directory.mkdir(mode=0o700)
         path = directory / "config.json"
         path.write_text(json.dumps(cfg))
         path.chmod(0o600)
         os.chown(path, uid, uid)
         os.chown(directory, uid, uid)
-        log = (OUT / (kind.lower() + ".log")).open("wb")
-        module = "apps.api.ra4b" if kind == "APP" else "worker.ra4b.main"
+        log = (OUT / (kind.lower() + "-" + str(len(children)) + ".log")).open("wb")
+        module = (
+            "vrae.application.ra4b_p2.worker"
+            if kind == "S2_WORKER"
+            else "apps.api.ra4b"
+            if kind == "APP"
+            else "worker.ra4b.main"
+        )
+        if kind == "S2_WORKER":
+            receipt = directory / "private-worker.json"
+            args = (*args, "--private-receipt", str(receipt))
+            held["S2_WORKER_RECEIPT_PATH"] = str(receipt)
         env = {
             "PATH": "/usr/local/bin:/usr/bin:/bin",
             "PYTHONPATH": "/work",
@@ -100,7 +110,11 @@ def runtime():
             log.close()
         (OUT / "port-audit.json").write_text(
             json.dumps(
-                {k: v for k, v in value.items() if k not in ("held", "spawn")},
+                {
+                    k: v
+                    for k, v in value.items()
+                    if k not in ("held", "spawn", "lease", "candidate")
+                },
                 default=str,
                 indent=2,
             )
@@ -112,6 +126,7 @@ def runtime():
                     state["admin_password"],
                     *state["runtime_passwords"].values(),
                     held["APP"]["bearer"],
+                    *held.get("extra_secret_values", []),
                 ]
             )
         )

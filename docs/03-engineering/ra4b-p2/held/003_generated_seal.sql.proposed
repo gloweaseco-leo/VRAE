@@ -1,0 +1,214 @@
+-- REVIEW ARTIFACT ONLY. NOT A MIGRATION. NOT INSTALLED BY ANY HARNESS.
+-- Requires separate Owner L3 approval. Native positive/rollback proof is HOLD.
+-- Prerequisite: experimental ra4b_p2/001 + exact three conditional policies.
+BEGIN;
+SET ROLE ra4a_owner;
+
+-- First incompatible original contract: references_metadata_check (23514).
+-- The accepted authority branch is retained; a distinct generated authority
+-- requires the additional genuine-Worker trigger below, never fixture identity.
+ALTER TABLE ra4a.references DROP CONSTRAINT references_metadata_check;
+ALTER TABLE ra4a.references ADD CONSTRAINT references_metadata_check CHECK (
+ jsonb_typeof(metadata)='object' AND
+ (metadata->>'authority'='TEST_ONLY_ACCEPTED_SYNTHETIC_SOURCE' OR
+  (metadata->>'authority'='TEST_ONLY_WORKER_GENERATED_SOURCE' AND
+   metadata->>'contract_version'='ra4b-p2-generated-target-v1')));
+
+CREATE FUNCTION ra4b_p2.generated_reference_guard() RETURNS trigger
+LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,ra4b_p2,pg_temp AS $$
+DECLARE c ra4b_p2.candidate_bindings%ROWTYPE; b jsonb; d jsonb; BEGIN
+ IF NEW.metadata->>'authority'<>'TEST_ONLY_WORKER_GENERATED_SOURCE' THEN RETURN NEW; END IF;
+ b:=NEW.metadata->'generated_binding';
+ SELECT * INTO STRICT c FROM ra4b_p2.candidate_bindings
+ WHERE tenant_id=NEW.tenant_id AND job_id=(b->>'job_id')::uuid AND lease_seq=(b->>'lease_seq')::integer;
+ PERFORM ra4b_test.require_run(c.tenant_id,c.run_id,'WORKER');
+ IF SESSION_USER<>c.worker_role OR SESSION_USER NOT IN('ra4b_test_a_worker','ra4b_test_b_worker')
+ OR pg_has_role(SESSION_USER,'p2a_fixture_writer','MEMBER') OR c.lease_until<=clock_timestamp()
+ THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='S2_GENERATED_REFERENCE_WORKER_ONLY'; END IF;
+ d:=convert_from(c.candidate,'UTF8')::jsonb;
+ IF b IS DISTINCT FROM d->'binding'
+ OR NEW.metadata->>'candidate_sha256' IS DISTINCT FROM c.candidate_sha256
+ OR (NEW.source_run_id,NEW.report_id,NEW.report_version,NEW.policy_id,NEW.policy_version)
+ IS DISTINCT FROM(c.run_id::text,'job-'||c.job_id::text,1,c.policy_id,c.policy_version)
+ OR NEW.metadata->>'source_record_sha256' IS DISTINCT FROM c.source_record_sha256
+ OR NEW.metadata->>'draft_payload_sha256' IS DISTINCT FROM d->>'report_sha256'
+ OR NEW.metadata->>'html_sha256' IS DISTINCT FROM c.html_sha256
+ THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='S2_GENERATED_REFERENCE_BINDING'; END IF;
+ RETURN NEW;
+END $$;
+CREATE TRIGGER s2_generated_reference BEFORE INSERT ON ra4a.references
+ FOR EACH ROW EXECUTE FUNCTION ra4b_p2.generated_reference_guard();
+
+-- Private storage seam, called only inside the 12-argument commit below.
+-- Original fixture-only register is unchanged and still rejects real Worker.
+CREATE FUNCTION ra4b_p2.register_generated_graph(t text,id uuid,token uuid,seq integer,
+ target_raw bytea,manifest_raw bytea,kinds text[],keys text[],payloads bytea[])
+RETURNS text LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,ra4b_p2,pg_temp AS $$
+DECLARE c ra4b_p2.candidate_bindings%ROWTYPE; d jsonb; v jsonb; src jsonb;
+ ref text; n integer; i integer; total bigint:=0; expected bytea; descriptors jsonb;
+BEGIN
+ PERFORM ra4b_p2.require_lease(t,id,token,seq);
+ SELECT * INTO STRICT c FROM ra4b_p2.candidate_bindings WHERE tenant_id=t AND job_id=id AND lease_seq=seq;
+ d:=convert_from(c.candidate,'UTF8')::jsonb;
+ src:=convert_from(c.source_record,'UTF8')::jsonb;
+ v:=convert_from(target_raw,'UTF8')::jsonb;
+ n:=cardinality(payloads);
+ IF target_raw IS NULL OR manifest_raw IS NULL OR n IS NULL OR n NOT BETWEEN 9 AND 137
+ OR array_ndims(payloads)<>1 OR array_ndims(kinds)<>1 OR array_ndims(keys)<>1
+ OR array_lower(payloads,1)<>1 OR array_lower(kinds,1)<>1 OR array_lower(keys,1)<>1
+ OR cardinality(kinds)<>n OR cardinality(keys)<>n
+ OR octet_length(target_raw) NOT BETWEEN 1 AND 65536
+ OR octet_length(manifest_raw) NOT BETWEEN 1 AND 8000000
+ OR target_raw IS DISTINCT FROM ra4a_bytes.canonical_bytes(v)
+ OR v->>'authority' IS DISTINCT FROM 'TEST_ONLY_WORKER_GENERATED_SOURCE'
+ OR v->>'contract_version' IS DISTINCT FROM 'ra4b-p2-generated-target-v1'
+ OR v->'generated_binding' IS DISTINCT FROM d->'binding'
+ OR v->>'candidate_sha256' IS DISTINCT FROM c.candidate_sha256
+ OR (v->>'tenant_id',v->>'run_id',v->>'report_id',(v->>'report_version')::integer)
+ IS DISTINCT FROM(t,c.run_id::text,'job-'||id::text,1)
+ OR v->>'policy_id' IS DISTINCT FROM c.policy_id
+ OR (v->>'policy_version')::integer IS DISTINCT FROM c.policy_version
+ OR v->>'source_record_sha256' IS DISTINCT FROM c.source_record_sha256
+ OR v->>'html_sha256' IS DISTINCT FROM c.html_sha256
+ OR v->>'draft_payload_sha256' IS DISTINCT FROM d->>'report_sha256'
+ OR v->>'draft_ref' IS DISTINCT FROM d->>'draft_ref'
+ OR v->>'evidence_pack_ref' IS DISTINCT FROM d->>'evidence_pack_ref'
+ OR v->>'execution_ref' IS DISTINCT FROM d->>'rule_execution_ref'
+ OR v->>'finding_package_ref' IS DISTINCT FROM d->>'finding_package_ref'
+ OR v->'ordered_guard_refs' IS DISTINCT FROM d->'guard_refs'
+ OR v->>'guard_inputs_sha256' IS DISTINCT FROM d->'report'->>'guard_inputs_sha256'
+ OR v->>'guard_version' IS DISTINCT FROM 'ra3b-disc-1.0.0'
+ OR v->>'reporting_version' IS DISTINCT FROM 'ra3c-disc-1.0.0'
+ OR v->>'renderer_version' IS DISTINCT FROM 'ra3c-disc-html-1.0.0'
+ OR v->>'evaluator_version' IS DISTINCT FROM 'ra2b6-1.0.0'
+ OR v->>'builder_version' IS DISTINCT FROM 'ra2c3-1.0.0'
+ OR v->'required_sections' IS DISTINCT FROM '["coverage.v1","limitations.v1","full_preview.v1","business_boundaries.v1"]'::jsonb
+ THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='S2_GENERATED_GRAPH_BINDING'; END IF;
+ -- Never accept arbitrary source bytes even when a caller recomputes hashes.
+ IF src->'objects_base64' IS DISTINCT FROM (
+  SELECT convert_from(raw_source,'UTF8')::jsonb->'objects_base64'
+  FROM ra4b_p2.load_leased_source(t,id,token,seq))
+ THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='S2_GENERATED_SOURCE_BYTES'; END IF;
+ FOR i IN 1..n LOOP
+  IF kinds[i] IS NULL OR keys[i] IS NULL OR payloads[i] IS NULL
+  OR length(keys[i]) NOT BETWEEN 1 AND 128 OR octet_length(payloads[i])>8000000
+  OR kinds[i] NOT IN('DRAFT','HTML','SOURCE','PACK','PACKAGE','GUARD','METADATA','CSS','TARGET','SOURCE_OBJECT')
+  THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='S2_GENERATED_ARTIFACT_BOUND'; END IF;
+  total:=total+octet_length(payloads[i]);
+  expected:=CASE kinds[i]
+   WHEN 'DRAFT' THEN ra4a_bytes.canonical_bytes(d->'report')
+   WHEN 'HTML' THEN c.html WHEN 'SOURCE' THEN c.source_record WHEN 'TARGET' THEN target_raw
+   WHEN 'PACK' THEN ra4a_bytes.canonical_bytes(src->'pack')
+   WHEN 'PACKAGE' THEN ra4a_bytes.canonical_bytes(src->'package')
+   WHEN 'GUARD' THEN ra4a_bytes.canonical_bytes(src->'guard_inputs')
+   WHEN 'METADATA' THEN ra4a_bytes.canonical_bytes(src->'metadata')
+   WHEN 'SOURCE_OBJECT' THEN decode(src->'objects_base64'->>keys[i],'base64')
+   ELSE payloads[i] END;
+  IF payloads[i] IS DISTINCT FROM expected THEN
+   RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='S2_GENERATED_ARTIFACT_BYTES'; END IF;
+ END LOOP;
+ SELECT jsonb_agg(jsonb_build_object('key',keys[k],'kind',kinds[k],
+  'sha256',encode(sha256(payloads[k]),'hex'),'length',octet_length(payloads[k]))
+  ORDER BY kinds[k] COLLATE "C",keys[k] COLLATE "C") INTO descriptors FROM generate_series(1,n) k;
+ IF total>64000000 OR manifest_raw IS DISTINCT FROM ra4a_bytes.canonical_bytes(descriptors)
+ OR (SELECT count(DISTINCT (kinds[k],keys[k])) FROM generate_series(1,n) k)<>n
+ THEN RAISE EXCEPTION USING ERRCODE='22023',MESSAGE='S2_GENERATED_MANIFEST'; END IF;
+ ref:='generated-'||id::text||'-'||seq::text;
+ INSERT INTO ra4a.references(tenant_id,ref_id,policy_id,policy_version,report_id,source_run_id,
+  report_version,kind,issue_count,native_h0,native_id,target_digest,ref_sha256,metadata)
+ VALUES(t,ref,c.policy_id,c.policy_version,'job-'||id::text,c.run_id::text,1,v->>'kind',
+  jsonb_array_length(d->'report'->'issues'),v->>'native_content_hash',v->>'native_report_version_id',
+  encode(sha256(convert_to('vrae.ra3d.target.offline-v1'||chr(10),'UTF8')||target_raw),'hex'),
+  encode(sha256(target_raw),'hex'),v);
+ INSERT INTO ra4a_bytes.graphs(tenant_id,source_run_id,report_id,report_version,ref_id,target_payload,manifest)
+ VALUES(t,c.run_id::text,'job-'||id::text,1,ref,target_raw,manifest_raw);
+ INSERT INTO ra4a_bytes.objects(tenant_id,source_run_id,report_id,report_version,kind,object_key,raw)
+ SELECT t,c.run_id::text,'job-'||id::text,1,kinds[k],keys[k],payloads[k] FROM generate_series(1,n) k;
+ INSERT INTO ra4a_bytes.events(tenant_id,source_run_id,report_id,report_version,db_principal)
+ VALUES(t,c.run_id::text,'job-'||id::text,1,SESSION_USER);
+ -- Original deferred complete_graph/check_binding/no_append remain installed.
+ RETURN ref;
+END $$;
+
+-- Draft-only seven-argument endpoint is retained. This new overload is held.
+CREATE FUNCTION ra4b_p2.commit_generated_result(t text,id uuid,token uuid,seq integer,
+ candidate_raw bytea,source_raw bytea,html_raw bytea,target_raw bytea,manifest_raw bytea,
+ kinds text[],keys text[],payloads bytea[]) RETURNS jsonb
+LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,ra4b_p2,pg_temp AS $$
+DECLARE ref text; event uuid; g ra4a_bytes.graphs%ROWTYPE; BEGIN
+ PERFORM ra4b_p2.commit_generated_result(t,id,token,seq,candidate_raw,source_raw,html_raw);
+ ref:=ra4b_p2.register_generated_graph(t,id,token,seq,target_raw,manifest_raw,kinds,keys,payloads);
+ event:=ra4b_test.finish(t,id,token,seq);
+ SELECT * INTO STRICT g FROM ra4a_bytes.graphs WHERE tenant_id=t AND ref_id=ref;
+ INSERT INTO ra4b_p2.sealed_bindings(tenant_id,job_id,lease_seq,generated_ref,report_id,report_version,
+  target_digest,manifest_sha256,finish_event,transaction_id)
+ VALUES(t,id,seq,ref,g.report_id,g.report_version,g.target_digest,g.manifest_sha256,event,txid_current());
+ INSERT INTO ra4b_p2.result_audit VALUES(t,id,seq,event,txid_current(),g.target_digest);
+ INSERT INTO ra4b_p2.result_outbox VALUES(t,id,seq,event,txid_current(),g.target_digest);
+ RETURN jsonb_build_object('status','SEALED_TEST_ONLY_NOT_APPROVED','job_id',id,'lease_seq',seq,
+  'generated_ref',ref,'target_digest',g.target_digest,'manifest_sha256',g.manifest_sha256,'finish_event',event);
+END $$;
+
+-- Replace only the NEW candidate guard. Original 0004 commit_guard is intact.
+CREATE OR REPLACE FUNCTION ra4b_p2.candidate_guard() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER
+SET search_path=pg_catalog,ra4b_p2,pg_temp AS $$
+DECLARE j ra4a.jobs%ROWTYPE; BEGIN
+ PERFORM ra4b_test.require_run(NEW.tenant_id,NEW.run_id,'WORKER');
+ SELECT * INTO STRICT j FROM ra4a.jobs WHERE tenant_id=NEW.tenant_id AND job_id=NEW.job_id;
+ IF SESSION_USER IS DISTINCT FROM NEW.worker_role OR j.lease_owner IS DISTINCT FROM SESSION_USER
+ OR j.lease_seq IS DISTINCT FROM NEW.lease_seq OR j.lease_until IS DISTINCT FROM NEW.lease_until
+ OR j.lease_until<=clock_timestamp()
+ OR encode(sha256(convert_to(j.lease_token::text,'UTF8')),'hex') IS DISTINCT FROM NEW.lease_token_sha256
+ OR NOT(j.state='LEASED' OR (j.state='TEST_ONLY_DONE' AND EXISTS(
+  SELECT 1 FROM ra4b_p2.sealed_bindings z JOIN ra4b_p2.result_audit a USING(tenant_id,job_id,lease_seq)
+  JOIN ra4b_p2.result_outbox o USING(tenant_id,job_id,lease_seq)
+  JOIN ra4a.outbox e ON(e.tenant_id,e.event_id)=(z.tenant_id,z.finish_event)
+  JOIN ra4a.audit au ON(au.tenant_id,au.run_id,au.lease_seq)=(NEW.tenant_id,NEW.run_id,NEW.lease_seq)
+  WHERE(z.tenant_id,z.job_id,z.lease_seq)=(NEW.tenant_id,NEW.job_id,NEW.lease_seq)
+  AND z.transaction_id=txid_current() AND z.sealed_at<NEW.lease_until
+  AND e.run_id=NEW.run_id AND e.kind='TEST_ONLY_CONSUMED'
+  AND au.action='TEST_ONLY_CONSUMED' AND au.db_principal=SESSION_USER
+  AND (a.event_id,a.transaction_id,a.target_digest)=(z.finish_event,z.transaction_id,z.target_digest)
+  AND (o.event_id,o.transaction_id,o.target_digest)=(a.event_id,a.transaction_id,a.target_digest))))
+ THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='S2_CURRENT_AT_COMMIT_DENIED'; END IF;
+ RETURN NULL;
+END $$;
+-- Ensure an already-staged candidate also rechecks at final seal COMMIT.
+CREATE FUNCTION ra4b_p2.sealed_commit_guard() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER
+SET search_path=pg_catalog,ra4b_p2,pg_temp AS $$
+DECLARE c ra4b_p2.candidate_bindings%ROWTYPE; j ra4a.jobs%ROWTYPE; BEGIN
+ SELECT * INTO STRICT c FROM ra4b_p2.candidate_bindings
+ WHERE(tenant_id,job_id,lease_seq)=(NEW.tenant_id,NEW.job_id,NEW.lease_seq);
+ PERFORM ra4b_test.require_run(c.tenant_id,c.run_id,'WORKER');
+ SELECT * INTO STRICT j FROM ra4a.jobs WHERE(tenant_id,job_id)=(c.tenant_id,c.job_id);
+ IF SESSION_USER IS DISTINCT FROM c.worker_role OR j.state<>'TEST_ONLY_DONE'
+ OR j.lease_owner IS DISTINCT FROM SESSION_USER OR j.lease_seq IS DISTINCT FROM c.lease_seq
+ OR j.lease_until IS DISTINCT FROM c.lease_until OR j.lease_until<=clock_timestamp()
+ OR encode(sha256(convert_to(j.lease_token::text,'UTF8')),'hex') IS DISTINCT FROM c.lease_token_sha256
+ OR NEW.transaction_id<>txid_current() OR NEW.sealed_at>=c.lease_until
+ OR NOT EXISTS(SELECT 1 FROM ra4a.outbox e JOIN ra4a.audit a USING(tenant_id,run_id)
+ JOIN ra4a_bytes.graphs g ON(g.tenant_id,g.ref_id)=(NEW.tenant_id,NEW.generated_ref)
+ JOIN ra4a_bytes.events ge ON(ge.tenant_id,ge.source_run_id,ge.report_id,ge.report_version)=
+ (g.tenant_id,g.source_run_id,g.report_id,g.report_version)
+ JOIN ra4b_p2.result_audit au ON(au.tenant_id,au.job_id)=(NEW.tenant_id,NEW.job_id)
+ JOIN ra4b_p2.result_outbox ob ON(ob.tenant_id,ob.job_id)=(NEW.tenant_id,NEW.job_id)
+ WHERE(e.tenant_id,e.run_id,e.event_id)=(c.tenant_id,c.run_id,NEW.finish_event)
+ AND e.kind='TEST_ONLY_CONSUMED' AND a.action='TEST_ONLY_CONSUMED'
+ AND a.db_principal=SESSION_USER AND a.lease_seq=c.lease_seq AND ge.db_principal=SESSION_USER
+ AND (g.source_run_id,g.report_id,g.report_version,g.target_digest,g.manifest_sha256)=
+ (c.run_id::text,NEW.report_id,NEW.report_version,NEW.target_digest,NEW.manifest_sha256)
+ AND (au.event_id,au.transaction_id,au.target_digest)=(NEW.finish_event,NEW.transaction_id,NEW.target_digest)
+ AND (ob.event_id,ob.transaction_id,ob.target_digest)=(au.event_id,au.transaction_id,au.target_digest))
+ THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='S2_SEAL_CURRENT_AT_COMMIT_DENIED'; END IF;
+ RETURN NULL;
+END $$;
+CREATE CONSTRAINT TRIGGER sealed_current_at_commit AFTER INSERT ON ra4b_p2.sealed_bindings
+ DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION ra4b_p2.sealed_commit_guard();
+REVOKE ALL ON FUNCTION ra4b_p2.generated_reference_guard(),
+ ra4b_p2.sealed_commit_guard(),
+ ra4b_p2.register_generated_graph(text,uuid,uuid,integer,bytea,bytea,text[],text[],bytea[]),
+ ra4b_p2.commit_generated_result(text,uuid,uuid,integer,bytea,bytea,bytea,bytea,bytea,text[],text[],bytea[])
+ FROM PUBLIC,ra4b_worker,p2b1_review;
+GRANT EXECUTE ON FUNCTION ra4b_p2.commit_generated_result(text,uuid,uuid,integer,bytea,bytea,bytea,bytea,bytea,text[],text[],bytea[]) TO ra4b_worker;
+RESET ROLE;
+COMMIT;

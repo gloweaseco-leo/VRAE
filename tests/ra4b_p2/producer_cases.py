@@ -88,6 +88,26 @@ def candidate():
     return capture, access, context, policy, generate(capture, access, context, now=NOW)
 
 
+def test_generated_graph_is_versioned_complete_and_not_legacy_trust(candidate):
+    from vrae.application.ra4b_p2.generated_graph import assemble, AUTHORITY as new_authority
+    from vrae.persistence.private_bytes import descriptors
+    from vrae.reviewing.canonical import sha
+
+    graph = assemble(candidate[-1])
+    target = json.loads(graph.target)
+    assert target['authority'] == new_authority
+    assert target['contract_version'] == 'ra4b-p2-generated-target-v1'
+    assert target['candidate_sha256'] == sha(candidate[-1]._payload)
+    assert target['generated_binding'] == candidate[-1].private_document['binding']
+    assert json.loads(graph.manifest) == descriptors(graph.artifacts)
+    fixed = {a.kind for a in graph.artifacts if a.kind != 'SOURCE_OBJECT'}
+    assert fixed == {'DRAFT','HTML','SOURCE','PACK','PACKAGE','GUARD','METADATA','CSS','TARGET'}
+    css = next(a.raw for a in graph.artifacts if a.kind == 'CSS')
+    assert css.startswith(b'ra3c-disc-html-1.0.0\n')
+    assert sha(css) == target['renderer_asset_sha256']
+    assert target['authority'] != 'TEST_ONLY_ACCEPTED_SYNTHETIC_SOURCE'
+
+
 def test_new_raw_capture_generates_same_job_six_rule_disc_candidate(candidate):
     capture, access, context, _, result = candidate
     doc = result.private_document

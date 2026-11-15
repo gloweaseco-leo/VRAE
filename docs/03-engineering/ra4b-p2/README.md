@@ -1,5 +1,16 @@
 # S2 C1-2: generated-result bridge, isolated permission entry
 
+Current checkpoint under Owner6894393962: **L3 STORAGE / GUARD STOP**.
+The real new Worker generates and persists an unsealed candidate; PG16 Python3.11
+finished39/40 with accepted-200 failing the original16-Guard-bundle limit.
+No further native run, push or CI. See [exact STOP](L3_WRITE_SEAM_STOP.md),
+[evidence](evidence/l3-stop-summary.json) and the complete unpublished
+[SQL/source review packet](FULL_WRITE_SEAM_REVIEW.md). `.proposed` files are held
+review artifacts, not installed writers. No trusted generated result was sealed.
+
+The text below preserves the earlier7fc44243 permission-entry checkpoint;
+its no-schema/no-persistence statements describe that historical checkpoint.
+
 Owner authority: Issue94 comment6893770402; accepted entry main
 `67acff97689514fdede01f2aab81dd5a7a96b9cd` (Owner-merged S1 PR100).
 This new worktree imports no unaccepted Issue90, PR102 or sibling source.
