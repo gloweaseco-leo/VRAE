@@ -1,0 +1,59 @@
+name: M1 synthetic Worker generated result
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  generated-result:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.11'
+            slug: '311'
+          - python: '3.13'
+            slug: '313'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -r requirements-ra4b-p1.lock
+      - name: Focused source and explicit M1 tests; frozen default IDs unchanged
+        run: |
+          python -m ruff check vrae/application/ra4b_p2/m1 integration/ra4b_p2/m1 tests/ra4b_p2/m1_cases.py --select E4,E7,E9,F
+          python -m mypy vrae
+          python -m pytest -q tests/ra4b_p2/m1_cases.py --junitxml=docs/03-engineering/ra4b-p2/.runtime/m1-pure-${{ matrix.slug }}.xml
+      - name: Build original pinned Python image; execute no old matrix locally
+        run: python docs/03-engineering/ra4b-p1/runtime_lab.py m1-build-${{ matrix.slug }} --build-only --private-output
+      - name: Real PG16 / UID Worker / source and lease / signed read / actual restart
+        run: python -m integration.ra4b_p2.m1.lab ${{ matrix.slug }} ci-${{ matrix.slug }}
+      - name: Original native JUnit and safe metadata only
+        if: always()
+        run: |
+          python -m integration.ra4b_p2.m1.publish ci-${{ matrix.slug }}
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          import xml.etree.ElementTree as ET
+          root = Path('docs/03-engineering/ra4b-p2/.runtime')
+          public = root / 'public-ci-${{ matrix.slug }}'
+          pure = root / 'm1-pure-${{ matrix.slug }}.xml'
+          raw = pure.read_bytes()
+          cases = list(ET.fromstring(raw).iter('testcase'))
+          assert len(cases) == 3 and all(c.find(t) is None for c in cases for t in ('failure','error','skipped'))
+          assert b'<html' not in raw.lower() and b'objects_base64' not in raw
+          shutil.copyfile(pure, public / 'pure.xml')
+          private = root / 'm1-ci-${{ matrix.slug }}'
+          shutil.copyfile(private / 'receipt.json', public / 'runtime-receipt.json')
+          shutil.copyfile(private / 'recovered/receipt.json', public / 'restarted-receipt.json')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m1-generated-${{ matrix.slug }}
+          retention-days: 7
+          if-no-files-found: error
+          path: docs/03-engineering/ra4b-p2/.runtime/public-ci-${{ matrix.slug }}/
