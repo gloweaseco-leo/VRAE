@@ -54,13 +54,19 @@ def run(folder):
             "expected_guard_refs":[g["guard"]["guard_ref"] for g in guards],
             "expected_metadata_sha256":digest(metadata),"expected_reporting_version":VERSION,
             "expected_renderer_version":RENDERER_VERSION}
-        draft = build_draft(pack, package, guards, metadata, **pins)
-        html = render(draft.document, draft.html_bytes, pack, package, guards, metadata,
-            expected_draft_ref=draft.ref, **pins)
+        if case == 'disc-404':
+            from .accepted_chain import build as disc_build
+            guards,pins,draft,html = disc_build(pack,package,metadata)
+        else:
+            draft = build_draft(pack, package, guards, metadata, **pins)
+            html = render(draft.document, draft.html_bytes, pack, package, guards, metadata,
+                expected_draft_ref=draft.ref, **pins)
+        from .accepted_chain import delivery_denials
+        denial = delivery_denials(draft)
         assert draft.document["approval_status"] == "NOT_APPROVED" and not draft.document["shareable"]
-        assert len(draft.document["issues"]) == (1 if case == "404" else 0)
+        assert len(draft.document["issues"]) == (1 if case in ("404","disc-404") else 0)
         if case == "disc-404":
-            assert draft.document["unsupported_rule_findings"] == 1
+            assert draft.document["unsupported_rule_findings"] == 0
         dest = Path(folder)/case
         dest.mkdir(parents=True)
         bundle = {"pack":pack.document,"objects_base64":{k:base64.b64encode(v).decode()
@@ -79,5 +85,6 @@ def run(folder):
             "unsupported_rule_findings":draft.document["unsupported_rule_findings"],
             "html_sha256":draft.document["html_sha256"],"seconds":round(time.monotonic()-begin,3),
             "execution":"LIVE_OFFLINE_COLLECTOR_NOT_PRECOMPUTED_REPORT",
+            "reporting_version":pins["expected_reporting_version"],"B6_delivery":denial,
             "worker_connection":"BLOCKED_NO_ACCEPTED_PROCESSING_BRIDGE"})
     return records

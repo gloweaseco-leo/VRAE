@@ -451,7 +451,7 @@ def main():
         with (raw_folder/"pytest.log").open("wb") as stream:
             result=subprocess.run([sys.executable,"-B","-m","pytest","-x","-q","-p","no:cacheprovider",
                 "--confcutdir=integration/beta_review/codex3","--import-mode=importlib",
-                ("integration/beta_review/codex3/test_s2_consumer.py" if args.phase=="s2" else "integration/beta_review/codex3/test_current_main.py"),
+                *(["integration/beta_review/codex3/test_s2_consumer.py","integration/beta_review/codex3/test_accepted_chain.py"] if args.phase=="s2" else ["integration/beta_review/codex3/test_current_main.py"]),
                 "--basetemp="+str(raw_folder/"temp"),"--junitxml="+str(raw_folder/"raw-junit.xml")],
                 cwd=ROOT,env=env,stdout=stream,stderr=stream)
         raw=(raw_folder/"raw-junit.xml").read_bytes()
