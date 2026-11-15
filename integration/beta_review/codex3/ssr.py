@@ -12,6 +12,7 @@ def main():
     p.add_argument("--bridge")
     p.add_argument("--audit")
     p.add_argument("--deps-ready")
+    p.add_argument("--observe-legacy-review",action="store_true")
     args = p.parse_args()
     root = Path(__file__).resolve().parent / ".private"
     profile, ready = Path(args.profile).resolve(), Path(args.ready).resolve()
@@ -39,6 +40,9 @@ def main():
         app = load(profile, bridge, audit=sink)
     else:
         app = ProvisionedApplication(profile)
+    if args.observe_legacy_review:
+        from .request_observation import observe_legacy_review
+        observe_legacy_review(app, profile.parent/"legacy-review-profile.private.json")
     http = server(app)
     ready.write_text(json.dumps({"origin": app.origin}))
     if args.bridge:

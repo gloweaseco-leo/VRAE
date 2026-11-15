@@ -205,6 +205,8 @@ class Run:
         deps=self.folder/"b5-deps.ready.json"
         deps.unlink(missing_ok=True)
         extra=(["--bridge",str(self.bridge),"--audit",str(self.folder/"b5-audit.private.jsonl"),"--deps-ready",str(deps)] if self.b5 else [])
+        if os.environ.get("C3_OBSERVE_LEGACY_REVIEW")=="1":
+            extra.append("--observe-legacy-review")
         self.ssr=subprocess.Popen([sys.executable,"-B","-m","integration.beta_review.codex3.ssr",
             "--profile",str(self.profile),"--ready",str(self.ready),*extra],
             cwd=ROOT,stdin=subprocess.DEVNULL,stdout=log,stderr=log,
@@ -229,7 +231,8 @@ class Run:
         self.r.origin=json.loads(self.ready.read_text())["origin"]
         self.result["ssr_origin"]=self.r.origin
         write(self.folder/"control.json",{"origin":self.r.origin,"pid":os.getpid(),
-            "profile":str(self.profile),"mode":"TEST_ONLY_NOT_APPROVED"})
+            "profile":str(self.profile),"mode":"TEST_ONLY_NOT_APPROVED",
+            "review_lane":"B5P0_SEALED_INTERNAL_INTENT" if self.b5 else "B5A_READ_ONLY"})
         write(self.folder/"signer.private.json",{k:base64_key(v) for k,v in self.r.issuer.keys.items()})
 
     def restart_ssr(self):
@@ -434,9 +437,16 @@ def main():
             from urllib.parse import urlencode
             profile=json.loads((folder/"reviewer-profile.json").read_text())
             draft=profile["tasks"][args.task]["report_pins"]["expected_draft_ref"]
-            path="/b5a/tasks/task-"+args.task+"/review?"+urlencode({"version":1,"draft":draft})
+            lane=control.get("review_lane","B5A_READ_ONLY")
+            if lane=="B5P0_SEALED_INTERNAL_INTENT":
+                path="/b5a/tasks/task-"+args.task+"/rehearsal"
+            elif lane=="B5A_READ_ONLY":
+                path="/b5a/tasks/task-"+args.task+"/review?"+urlencode({"version":1,"draft":draft})
+            else:
+                raise ValueError("UNKNOWN_REVIEW_LANE")
             session_path=folder/"operator-session.private.json"
-            write(session_path,[{"case":args.task,"origin":control["origin"],"cookies":client.cookies,"path":path}])
+            write(session_path,[{"case":args.task,"origin":control["origin"],"cookies":client.cookies,"path":path,
+                "entry_kind":lane,"expected_draft_ref":draft}])
             if args.action=="open":
                 subprocess.run(["node",str(OWN/"browser.mjs"),str(session_path),str(folder/"operator-browser"),
                     "--interactive"],cwd=ROOT,check=True)

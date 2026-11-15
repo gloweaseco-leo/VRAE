@@ -65,7 +65,29 @@ def test_one_command_existing_component_preview_lifecycle():
         reader = Client(session["origin"])
         reader.cookies = session["cookies"]
         code, body, _ = reader.request("GET", session["path"])
-        assert code == 200 and b"Reviewer" in body
+        assert session["entry_kind"] == "B5P0_SEALED_INTERNAL_INTENT"
+        assert session["path"] == "/b5a/tasks/task-200/rehearsal"
+        assert code == 200 and b'id="proposal-form"' in body and b'id="save-rehearsal"' in body
+        assert b"NOT APPROVED" in body and session["expected_draft_ref"].encode() in body
+        assert reader.request("GET", "/b5a/tasks/task-404/rehearsal")[0] == 403
+        assert reader.request("GET", session["path"] + "?version=999")[0] == 409
+        browser = subprocess.run(
+            [
+                "node",
+                str(ROOT / "integration/beta_review/codex3/browser.mjs"),
+                str(folder / "operator-session.private.json"),
+                str(folder / "operator-entry-browser"),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            timeout=180,
+            check=False,
+        )
+        (folder / "operator-entry-browser.private.stderr.log").write_bytes(browser.stderr)
+        assert browser.returncode == 0
+        observed = json.loads(browser.stdout)
+        assert observed["status"] == "PASS" and len(observed["screenshots"]) == 3
+        assert observed["scope"] == "SIGNED_SEALED_INTERNAL_INTENT_NOT_WORKER_OUTPUT"
 
         native = json.loads((folder / "native/native-result.json").read_bytes())
         assert native["native_python"].startswith(minor + ".")
@@ -82,5 +104,12 @@ def test_one_command_existing_component_preview_lifecycle():
             deadline = time.monotonic() + 90
             while time.monotonic() < deadline and status(label)["state"] != "CLOSED":
                 time.sleep(0.25)
-            assert status(label)["state"] == "CLOSED", "OWN_CLEANUP_NOT_CONFIRMED"
+            final = status(label)
+            assert final["state"] == "CLOSED", "OWN_CLEANUP_NOT_CONFIRMED"
+            assert final["component_result"] == "COMPONENTS_VERIFIED_CHAIN_BLOCKED"
+            ended = folder.parent / "local-launches" / label / "supervisor-end.json"
+            deadline = time.monotonic() + 10
+            while not ended.exists() and time.monotonic() < deadline:
+                time.sleep(0.1)
+            assert ended.exists() and json.loads(ended.read_bytes())["exitcode"] == 0
     assert ready

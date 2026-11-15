@@ -49,3 +49,10 @@ The internal supervise command only runs the existing local supervisor; it adds
 no HTTP listener, role, business status or report authority. Control-only process
 fault tests are separate from the actual PG/API/SSR lifecycle test. Neither
 implies that the missing generated-result/Reviewer ports have been accepted.
+
+S2 open/session selects the accepted /rehearsal entry directly; S1 retains its
+read-only /review entry. The S2 page preserves original signed identity,
+immutable original checks, witness/version binding, per-claim form and receipt.
+It does not reinterpret sealed fixtures as Worker-generated reports. The
+obsolete S2 /review entry's HTTP25s RED and selected one-request CPU profile
+are retained. No source verification or original time budget was removed.
