@@ -1,0 +1,64 @@
+{
+  "python": "3.11.15",
+  "source": {
+    ".github/workflows/b6-p0.yml": "59e1423adc2cb925d5a415225104afee4823817edb8df531ecb66c4c578734f5",
+    "contracts/b6_p0/B6PrivateDenialReceipt.schema.json": "ee2efc4f88381346381139e589f24f0c67270e4383db780c69950e5e5b197b7d",
+    "contracts/b6_p0/B6PrivateHandoffCandidate.schema.json": "8ad7d8ee2b5de06eb00a06b2830bd55774503c25543f6bd389a4455ac72f110f",
+    "contracts/b6_p0/B6VFIntendedEnvelope.schema.json": "2d7d18ea42d012b7c9933647f3d54e3f12a36fef17f52077bfd873a342d58716",
+    "contracts/b6_p0/README.md": "8bb541208b3d3f1bdb8f1ffbf925061063d72f21fbee1b9187e5b2b911b5abc5",
+    "integration/b6_p0/.gitignore": "c740db8c5771bc53deca3faf16465ffd78a57c5bc6df70143f0a8f422fb469ab",
+    "integration/b6_p0/__init__.py": "f2d1c6834cf3875ecf29b9fd39fb87d696bf0975b721f815cb4703fb4ed72471",
+    "integration/b6_p0/cases.py": "0ec2a7ece0acb1699722f9d709611035ff05d28f7cafd7db672f9c199d4c2b65",
+    "integration/b6_p0/conftest.py": "be5723e47a168d82465263da62144370a22bc8cebff1dc4e5ab514a7542008cb",
+    "integration/b6_p0/lab.py": "1a67caeb700e1c36090658bbad6a52fdb841e26bbbf6633749b73a8a2747421f",
+    "integration/b6_p0/publication.py": "dd7e6322813621d68bb15e04b6fc7dfb0fef40277c5dae4782359f7ce227be9a",
+    "integration/b6_p0/run.py": "96ea4ddc8e025b8a3b267c0b9093596cdea05f7cef469e1d56fd8ab69c803474",
+    "integration/b6_p0/support.py": "04221c2fe24d917e5b69873ed676d558d8e8f186a79c72f0b8cb2405eb033d39",
+    "tests/b6_p0/test_contracts.py": "357da8fd6a31bdda14ed52cf508ed9708d229419455fc653ad3af38340347b33",
+    "vrae/b6_p0/__init__.py": "e262fc855afb009f50f230887c0ae3749a246c41a21ce5cd1067c360feb3c5d9",
+    "vrae/b6_p0/contracts.py": "07ca5724ba259d44740c5da413f346ea2bf1433a7f28afb00e74fa0ff4c6e4df",
+    "vrae/b6_p0/delivery.py": "0aefe1e0d4338e57fbe5e1881ba97fac178945861ed29fc5dc5ef294211e86eb",
+    "vrae/b6_p0/envelope.py": "ea270cec2ffe4465dc11956cbef11620e3953e9de05a7ddb3310e7a5453677d2",
+    "vrae/b6_p0/preview.py": "8597be8babce71f6886599ad15f55e38b2e8aebf6231e76a665a6e3ae46eca0f",
+    "vrae/b6_p0/reader.py": "2a37c4ca71b431cfb65e24da9f57e14bcb3701c9899b165b458cbbe7652664aa"
+  },
+  "source_unchanged": true,
+  "checks": [
+    {
+      "command": [
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "vrae/b6_p0",
+        "integration/b6_p0",
+        "tests/b6_p0",
+        "--select",
+        "E4,E7,E9,F"
+      ],
+      "returncode": 0,
+      "stdout": "All checks passed!\n",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "-B",
+        "-m",
+        "mypy",
+        "vrae",
+        "--cache-dir",
+        "integration/b6_p0/.runtime/mypy-final"
+      ],
+      "returncode": 0,
+      "stdout": "Success: no issues found in 82 source files\r\n",
+      "stdout_sha256": "697690dba513566308936a790d2b85a99e0f286fbca95b554f9915b3cc59548a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "draft_2020_12_schemas_checked": [
+    "B6PrivateHandoffCandidate",
+    "B6VFIntendedEnvelope",
+    "B6PrivateDenialReceipt"
+  ]
+}

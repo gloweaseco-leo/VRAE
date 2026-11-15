@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/b6_p0/B6PrivateDenialReceipt.schema.json",
+  "title": "B6PrivateDenialReceipt",
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "b6-private-denial-v1"
+    },
+    "authority": {
+      "const": "TEST_ONLY_PRIVATE_PREVIEW"
+    },
+    "decision": {
+      "const": "DENY"
+    },
+    "reason": {
+      "enum": [
+        "B6_AUTHORITY_UNAVAILABLE",
+        "B6_INPUT_DENIED"
+      ]
+    },
+    "operation": {
+      "enum": [
+        "CREATE_GRANT",
+        "ISSUE_TOKEN",
+        "REDEEM_TOKEN",
+        "RECIPIENT_ACCESS",
+        "PUBLIC_LINK",
+        "CUSTOMER_NOTIFICATION",
+        "VF_SEND",
+        "MARK_APPROVED",
+        "MARK_SHARED",
+        "SEND",
+        "REVOKE_TOKEN",
+        "UNKNOWN"
+      ]
+    },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^b6deny-[0-9a-f]{64}$"
+    },
+    "request_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "const": null
+        }
+      ]
+    },
+    "allowed": {
+      "const": false
+    },
+    "sent": {
+      "const": false
+    },
+    "side_effect": {
+      "const": "IN_MEMORY_DENIAL_ONLY"
+    },
+    "approval_proven": {
+      "const": false
+    },
+    "external_visibility": {
+      "const": false
+    },
+    "grant": {
+      "const": null
+    },
+    "token": {
+      "const": null
+    },
+    "is_token": {
+      "const": false
+    },
+    "recipient": {
+      "const": null
+    },
+    "external_url": {
+      "const": null
+    },
+    "native_decision": {
+      "const": null
+    },
+    "outbox_event": {
+      "const": null
+    }
+  },
+  "required": [
+    "contract_version",
+    "authority",
+    "decision",
+    "reason",
+    "operation",
+    "receipt_id",
+    "request_sha256",
+    "allowed",
+    "sent",
+    "side_effect",
+    "approval_proven",
+    "external_visibility",
+    "grant",
+    "token",
+    "is_token",
+    "recipient",
+    "external_url",
+    "native_decision",
+    "outbox_event"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "citation": {
+      "type": "object",
+      "properties": {
+        "claim_pointer": {
+          "type": "string",
+          "pattern": "^/(issues/[0-2]/fact_claim|positive_source_claims/[0-7])$"
+        },
+        "guard_ref": {
+          "type": "string",
+          "pattern": "^cg-[0-9a-f]{64}$"
+        },
+        "claim_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "source_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "body_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8000000
+        },
+        "byte_end": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8000000
+        },
+        "quote_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "claim_pointer",
+        "guard_ref",
+        "claim_sha256",
+        "evidence_ref",
+        "source_ref",
+        "body_sha256",
+        "byte_start",
+        "byte_end",
+        "quote_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "policy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "policy_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "location_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "principal_binding_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "mode": {
+          "const": "OWNER_CONSENT_AND_LEGAL_REVIEW_REQUIRED"
+        },
+        "owner_consent": {
+          "const": null
+        },
+        "legal_basis": {
+          "const": null
+        },
+        "recipient": {
+          "const": null
+        }
+      },
+      "required": [
+        "tenant_id",
+        "policy_id",
+        "policy_version",
+        "location_sha256",
+        "principal_binding_sha256",
+        "mode",
+        "owner_consent",
+        "legal_basis",
+        "recipient"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
