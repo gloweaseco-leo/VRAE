@@ -1,0 +1,30 @@
+"""REVIEW ONLY: proposed addition to the new source_adapter, never imported.
+
+Requires Owner approval of 003_generated_seal.sql.proposed and a new native
+transaction/rollback gate. A SQL return inside the transaction is not evidence
+of durable success. No Reviewer assignment/approval is created here.
+"""
+
+from psycopg.pq import TransactionStatus
+from vrae.application.ra4b_p2.generated_graph import assemble
+from vrae.application.ra4b_p2.producer import CandidateDenied
+
+
+def commit_sealed(c, tenant, lease, candidate):
+    if not c.autocommit or c.info.transaction_status != TransactionStatus.IDLE:
+        raise CandidateDenied("S2_TOP_LEVEL_COMMIT_REQUIRED")
+    graph = assemble(candidate)  # Full versioned DISC replay before SQL.
+    artifacts = graph.artifacts
+    with c.transaction():
+        receipt = c.execute(
+            "SELECT ra4b_p2.commit_generated_result(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            (
+                tenant, lease[0], lease[2], lease[3],
+                candidate._payload, candidate._source, candidate._html,
+                graph.target, graph.manifest,
+                [a.kind for a in artifacts], [a.key for a in artifacts],
+                [a.raw for a in artifacts],
+            ),
+        ).fetchone()[0]
+    # Only after the actual outer COMMIT and all original deferred checks.
+    return receipt

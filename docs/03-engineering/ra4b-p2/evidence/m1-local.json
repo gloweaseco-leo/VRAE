@@ -1,0 +1,324 @@
+{
+  "scope": "M1_SYNTHETIC_GENERATED_RESULT_NOT_FULL_BETA_EXIT",
+  "accepted_main": "a210d52ff10616113b9a5c2712fe7c0d8ac37be7",
+  "local_merge_parent": "f1430ccd7bc2bccf70b8f07ae0560d60c3f8ae16",
+  "entry": "4aa0f02d7feae58b1ebd20d72b8cab3f37f31c7a",
+  "python": {
+    "311": {
+      "actual_image_python": "3.11.17",
+      "image_id": "sha256:1d6b7a70526c8437a9534305cb38452982390abbfb4a12b831e38435eea656e3",
+      "junit": [
+        {
+          "kind": "runtime",
+          "cases": 17,
+          "sha256": "1cab32542ae0c26d59a6df1a05ed65d0a1ce5818c1a85a19202e728ce2533721",
+          "ids": [
+            "integration.ra4b_p2.m1.native_cases::test_00_real_http_worker_same_job_signed_generated_read[404]",
+            "integration.ra4b_p2.m1.native_cases::test_00_real_http_worker_same_job_signed_generated_read[200]",
+            "integration.ra4b_p2.m1.native_cases::test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_a_peer]",
+            "integration.ra4b_p2.m1.native_cases::test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_b_reviewer]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_inputs-ra4b_test_a_worker]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_inputs-p2b1_test_a_reviewer]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_results-ra4b_test_a_worker]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_results-p2b1_test_a_reviewer]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_assignments-ra4b_test_a_worker]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_assignments-p2b1_test_a_reviewer]",
+            "integration.ra4b_p2.m1.native_cases::test_bad_signature_nonce_version_hash_and_tenant_fail_closed",
+            "integration.ra4b_p2.m1.native_cases::test_actual_eligible_for_share_but_origin_dml_still_denied",
+            "integration.ra4b_p2.m1.native_cases::test_real_transaction_rollback_idempotent_commit_and_hash_negative",
+            "integration.ra4b_p2.m1.native_cases::test_foreign_expired_reclaimed_lease_and_output_pins",
+            "integration.ra4b_p2.m1.native_cases::test_uid_sigkill_rolls_back_finish_and_result_then_reclaims",
+            "integration.ra4b_p2.m1.native_cases::test_assignment_revoke_waits_for_authorized_read_then_denies",
+            "integration.ra4b_p2.m1.native_cases::test_policy_revoke_then_epoch_rollover_do_not_resurrect_result"
+          ],
+          "exact_ids_sha256": "b20de84b7099657f43ac017827aa4b9be991aaea66034140c6733a8056c5274c"
+        },
+        {
+          "kind": "restarted",
+          "cases": 2,
+          "sha256": "e6343a8e4f111342f72823dbd826225d66729551de9780ac20778824c68929cc",
+          "ids": [
+            "integration.ra4b_p2.m1.recover_cases::test_actual_pg_restart_preserves_current_signed_report_bytes",
+            "integration.ra4b_p2.m1.recover_cases::test_pg_restart_does_not_resurrect_old_epoch_report"
+          ],
+          "exact_ids_sha256": "fd9323ccb73b0bae313fdd2089b0fc6a93d7eac657df6e7fb52701eaa808afa7"
+        },
+        {
+          "kind": "pure",
+          "cases": 3,
+          "sha256": "e76ada3f0e90d2525b355f29eb909a00bd04bf3e1bc0a5f84b29431441ad6de4",
+          "ids": [
+            "tests.ra4b_p2.m1_cases::test_collector_to_bounded_report_retains_complete_fact_catalog[404]",
+            "tests.ra4b_p2.m1_cases::test_collector_to_bounded_report_retains_complete_fact_catalog[200]",
+            "tests.ra4b_p2.m1_cases::test_changed_html_and_selection_cannot_replay"
+          ],
+          "exact_ids_sha256": "9208ed72251adb5d61016d0ba0d4035c2b00ebd6af43d750b2497ea05e914153"
+        }
+      ],
+      "generated_rows": 6,
+      "protected_catalog_except_three_policies": "22a7b085f3645b15b6c1b4988bb2179af3752dd560fb938748416158a1394c2f",
+      "legacy_graph_count_unchanged": true,
+      "worker_uid": 10002,
+      "actual_pg_restart": true,
+      "cleanup_four_absent": true,
+      "worker_timing_observations": [
+        {
+          "stage": "M1_COLLECTOR_GENERATED",
+          "seconds": 3.7418812410032842
+        },
+        {
+          "stage": "M1_COMMIT_REPLAY_VERIFIED",
+          "seconds": 3.9162502260005567
+        },
+        {
+          "stage": "M1_SQL_COMMITTED",
+          "seconds": 0.3030526989896316
+        },
+        {
+          "stage": "M1_COLLECTOR_GENERATED",
+          "seconds": 4.123086981009692
+        },
+        {
+          "stage": "M1_COMMIT_REPLAY_VERIFIED",
+          "seconds": 2.1220584220136516
+        },
+        {
+          "stage": "M1_SQL_COMMITTED",
+          "seconds": 0.24022617199807428
+        },
+        {
+          "stage": "M1_COLLECTOR_GENERATED",
+          "seconds": 2.8486147969961166
+        },
+        {
+          "stage": "M1_COMMIT_REPLAY_VERIFIED",
+          "seconds": 2.890586156019708
+        },
+        {
+          "stage": "M1_SQL_COMMITTED",
+          "seconds": 0.22935543302446604
+        },
+        {
+          "stage": "M1_COLLECTOR_GENERATED",
+          "seconds": 2.421222534001572
+        },
+        {
+          "stage": "M1_COMMIT_REPLAY_VERIFIED",
+          "seconds": 3.7538663780142087
+        },
+        {
+          "stage": "M1_SQL_COMMITTED",
+          "seconds": 0.3308675550215412
+        }
+      ],
+      "native_source_manifest_sha256": "6a918a0a6f70fa0c42b7d8dfec642b4070b77e54e7937204e126b9fac7ced32a",
+      "actual_runtime_version_probe": "3.11.17"
+    },
+    "313": {
+      "actual_image_python": "3.13.18",
+      "image_id": "sha256:565684bd0fb794494ce95e62b7b448ab8b31d098704b24b7795f92104b482610",
+      "junit": [
+        {
+          "kind": "runtime",
+          "cases": 17,
+          "sha256": "7bad7e85762cf566986ec11433bc25306cadbff0da270256c53f6fee1d031a0c",
+          "ids": [
+            "integration.ra4b_p2.m1.native_cases::test_00_real_http_worker_same_job_signed_generated_read[404]",
+            "integration.ra4b_p2.m1.native_cases::test_00_real_http_worker_same_job_signed_generated_read[200]",
+            "integration.ra4b_p2.m1.native_cases::test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_a_peer]",
+            "integration.ra4b_p2.m1.native_cases::test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_b_reviewer]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_inputs-ra4b_test_a_worker]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_inputs-p2b1_test_a_reviewer]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_results-ra4b_test_a_worker]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_results-p2b1_test_a_reviewer]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_assignments-ra4b_test_a_worker]",
+            "integration.ra4b_p2.m1.native_cases::test_no_runtime_raw_select_or_dml[m1_assignments-p2b1_test_a_reviewer]",
+            "integration.ra4b_p2.m1.native_cases::test_bad_signature_nonce_version_hash_and_tenant_fail_closed",
+            "integration.ra4b_p2.m1.native_cases::test_actual_eligible_for_share_but_origin_dml_still_denied",
+            "integration.ra4b_p2.m1.native_cases::test_real_transaction_rollback_idempotent_commit_and_hash_negative",
+            "integration.ra4b_p2.m1.native_cases::test_foreign_expired_reclaimed_lease_and_output_pins",
+            "integration.ra4b_p2.m1.native_cases::test_uid_sigkill_rolls_back_finish_and_result_then_reclaims",
+            "integration.ra4b_p2.m1.native_cases::test_assignment_revoke_waits_for_authorized_read_then_denies",
+            "integration.ra4b_p2.m1.native_cases::test_policy_revoke_then_epoch_rollover_do_not_resurrect_result"
+          ],
+          "exact_ids_sha256": "b20de84b7099657f43ac017827aa4b9be991aaea66034140c6733a8056c5274c"
+        },
+        {
+          "kind": "restarted",
+          "cases": 2,
+          "sha256": "73a82578f51d5aedd6a438dcce77a212a76bc3430d4a62979377b653629e8cb8",
+          "ids": [
+            "integration.ra4b_p2.m1.recover_cases::test_actual_pg_restart_preserves_current_signed_report_bytes",
+            "integration.ra4b_p2.m1.recover_cases::test_pg_restart_does_not_resurrect_old_epoch_report"
+          ],
+          "exact_ids_sha256": "fd9323ccb73b0bae313fdd2089b0fc6a93d7eac657df6e7fb52701eaa808afa7"
+        },
+        {
+          "kind": "pure",
+          "cases": 3,
+          "sha256": "43a0ebf1fa27574f0e21d47437daff2db92fb54e396dc3abd637e7e8f5f29bd1",
+          "ids": [
+            "tests.ra4b_p2.m1_cases::test_collector_to_bounded_report_retains_complete_fact_catalog[404]",
+            "tests.ra4b_p2.m1_cases::test_collector_to_bounded_report_retains_complete_fact_catalog[200]",
+            "tests.ra4b_p2.m1_cases::test_changed_html_and_selection_cannot_replay"
+          ],
+          "exact_ids_sha256": "9208ed72251adb5d61016d0ba0d4035c2b00ebd6af43d750b2497ea05e914153"
+        }
+      ],
+      "generated_rows": 6,
+      "protected_catalog_except_three_policies": "22a7b085f3645b15b6c1b4988bb2179af3752dd560fb938748416158a1394c2f",
+      "legacy_graph_count_unchanged": true,
+      "worker_uid": 10002,
+      "actual_pg_restart": true,
+      "cleanup_four_absent": true,
+      "worker_timing_observations": [
+        {
+          "stage": "M1_COLLECTOR_GENERATED",
+          "seconds": 2.8112505119934212
+        },
+        {
+          "stage": "M1_COMMIT_REPLAY_VERIFIED",
+          "seconds": 1.7688490519940387
+        },
+        {
+          "stage": "M1_SQL_COMMITTED",
+          "seconds": 0.19496470401645638
+        },
+        {
+          "stage": "M1_COLLECTOR_GENERATED",
+          "seconds": 5.562688342004549
+        },
+        {
+          "stage": "M1_COMMIT_REPLAY_VERIFIED",
+          "seconds": 3.652810308005428
+        },
+        {
+          "stage": "M1_SQL_COMMITTED",
+          "seconds": 0.24789513801806606
+        },
+        {
+          "stage": "M1_COLLECTOR_GENERATED",
+          "seconds": 2.4806355239998084
+        },
+        {
+          "stage": "M1_COMMIT_REPLAY_VERIFIED",
+          "seconds": 1.6358719440177083
+        },
+        {
+          "stage": "M1_SQL_COMMITTED",
+          "seconds": 0.2283324039890431
+        },
+        {
+          "stage": "M1_COLLECTOR_GENERATED",
+          "seconds": 3.685155960993143
+        },
+        {
+          "stage": "M1_COMMIT_REPLAY_VERIFIED",
+          "seconds": 1.8070170690189116
+        },
+        {
+          "stage": "M1_SQL_COMMITTED",
+          "seconds": 0.3084387939888984
+        }
+      ],
+      "native_source_manifest_sha256": "6a918a0a6f70fa0c42b7d8dfec642b4070b77e54e7937204e126b9fac7ced32a",
+      "actual_runtime_version_probe": "3.13.18"
+    }
+  },
+  "historical_red": [
+    {
+      "path": "m1-pg311-r1",
+      "cases": 15,
+      "red_ids": [
+        "test_00_real_http_worker_same_job_signed_generated_read[404]",
+        "test_00_real_http_worker_same_job_signed_generated_read[200]",
+        "test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_a_peer]",
+        "test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_b_reviewer]",
+        "test_bad_signature_nonce_version_hash_and_tenant_fail_closed",
+        "test_actual_eligible_for_share_but_origin_dml_still_denied",
+        "test_real_transaction_rollback_idempotent_commit_and_hash_negative",
+        "test_assignment_revoke_waits_for_authorized_read_then_denies",
+        "test_policy_revoke_then_epoch_rollover_do_not_resurrect_result"
+      ],
+      "original_junit_sha256": "598cf884df90695749c6faf9f82e403e3939ba2b7d73331fba36cf258b8d7536"
+    },
+    {
+      "path": "m1-pg311-r2",
+      "cases": 15,
+      "red_ids": [
+        "test_00_real_http_worker_same_job_signed_generated_read[404]",
+        "test_00_real_http_worker_same_job_signed_generated_read[200]",
+        "test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_a_peer]",
+        "test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_b_reviewer]",
+        "test_bad_signature_nonce_version_hash_and_tenant_fail_closed",
+        "test_assignment_revoke_waits_for_authorized_read_then_denies",
+        "test_policy_revoke_then_epoch_rollover_do_not_resurrect_result"
+      ],
+      "original_junit_sha256": "85c4a29c7630bc736960a233d7fabf23968b99a5606c2600a051dfb4039d35a3"
+    },
+    {
+      "path": "m1-pg311-r3",
+      "cases": 17,
+      "red_ids": [
+        "test_00_real_http_worker_same_job_signed_generated_read[404]",
+        "test_00_real_http_worker_same_job_signed_generated_read[200]",
+        "test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_a_peer]",
+        "test_peer_and_cross_tenant_signed_session_cannot_read[p2b1_test_b_reviewer]",
+        "test_bad_signature_nonce_version_hash_and_tenant_fail_closed",
+        "test_actual_eligible_for_share_but_origin_dml_still_denied",
+        "test_real_transaction_rollback_idempotent_commit_and_hash_negative",
+        "test_foreign_expired_reclaimed_lease_and_output_pins",
+        "test_assignment_revoke_waits_for_authorized_read_then_denies",
+        "test_policy_revoke_then_epoch_rollover_do_not_resurrect_result"
+      ],
+      "original_junit_sha256": "280ac7670806e47627f1bfc9e86889b041ccbb4d5981b2539414e2d5baa77093"
+    },
+    {
+      "path": "m1-pg313-r1",
+      "cases": 17,
+      "red_ids": [
+        "test_uid_sigkill_rolls_back_finish_and_result_then_reclaims"
+      ],
+      "original_junit_sha256": "841956762c2789f298d7cbb7bdb2bdd3990ada55a460da34268409bddce5a8ad"
+    }
+  ],
+  "runtime_source_sha256": {
+    "db/ra4b_p2/m1/001_runtime.sql": "6d30888a41c6b084e8f4c9d417f96cc049ffaa2f9a091e59b9b67a9bdecdc588",
+    "integration/ra4b_p2/m1/__init__.py": "df289a46a74e5b99c15a1e26447cd86c1246c129ad5a0dd91af99fe2a74606b8",
+    "integration/ra4b_p2/m1/crash_probe.py": "328872e9eb599d7c6619fc31e00f00883e16e3fa7f7f29ab9963ae1393a126d9",
+    "integration/ra4b_p2/m1/lab.py": "407aef9c7c99b76b376898e9c8a4bdb9443eb4195c886ed002f9b060cc7ec4e2",
+    "integration/ra4b_p2/m1/native_cases.py": "361b13bdd26ed3edfc7fefbd2d3acc81c72fcaff266ddf61dc6a968114c357f6",
+    "integration/ra4b_p2/m1/publish.py": "f89123a6d146b9b7b0ba624f3f1b09dffcaa2cabb57fd31354637c559a37e889",
+    "integration/ra4b_p2/m1/recover_cases.py": "2b65e531e02488021c6d37f6e2e2268750d0e0946881d5b6c0343c8beff77988",
+    "tests/ra4b_p2/m1_cases.py": "cdb1c0d35affc9e7426ad78ce4b2af94685a566e003e5f53bd1f45a487886365",
+    "vrae/application/ra4b_p2/m1/__init__.py": "efb5db5db234171478fd06a17d642872a9921e062b9554ae09ee796ca96bbfde",
+    "vrae/application/ra4b_p2/m1/producer.py": "ed5f8a3d0a0348b2c003058f13810df88a2de70605ac73e5998bc1f29addb316",
+    "vrae/application/ra4b_p2/m1/reader.py": "d62d7f07ea58d14af7b147ec24a78066415544bb79494035b1a76db8796b19dd",
+    "vrae/application/ra4b_p2/m1/runtime.py": "81b26ef35313bd23fc0da35d04966ec8836fc02a85aecc6d76c410791f2c7c17"
+  },
+  "original_s2_code_sql_tests_bytes_unchanged": true,
+  "entry_inventory_sha256": "8d7819fc5355be1535b7ecffb210156252dd245db29baf8e334bd56575b3a5d0",
+  "original_9bce7c5_archive_sha256": "9157d545e79082ce4ba3a15494439844f3dc9444c316168e0e2b910a0fe4b9a8",
+  "old_250_source_and_145_xml_exact": true,
+  "protected_migrations_lf_sha256": {
+    "0001_ra4a_test_only.sql": "0557738e22e83a6f1c991e8c2a796749ce43845ad80fec44d8dc4c891fd9b5e2",
+    "0002_ra4a_private_bytes.sql": "bffca8c3c205f018ea0ba87cfdb19c3d0bc0d919b3e5d9178be0cc7a434c9ba9",
+    "0003_ra4a_test_review_cas.sql": "2be5dba988054de1a52e66b11ee68bd19f4d895c2537e3268ba1f5ea8e569547",
+    "0004_ra4b_test_only_api.sql": "df8ace6c8e80e2795cbf1abc152b1dd5189071df15fd3ffd6f7e21084e741585"
+  },
+  "legacy_guard_sha256": "181f948bc6cb3a3428a067f3fad9b6f5047c0d81c23d8673179b181bcde3abdf",
+  "beta": "2/7",
+  "gold": "0/26",
+  "gates": "G1/G2/G3 NO-GO",
+  "m1": "LOCAL_FOCUSED_PASS_OWNER_REVIEW_PENDING",
+  "default_collection": {
+    "cases": 2564,
+    "m1_suite_is_explicit_ci_gate": true,
+    "stdout_sha256": "97fe291c0b98cce42983d4cfb96690fb184144081864eebd51e50c22adf46fa6",
+    "tests_executed": 0
+  },
+  "static_checks": {
+    "ci_ruff_selection": "PASS",
+    "mypy_all_97_files": "PASS"
+  }
+}
