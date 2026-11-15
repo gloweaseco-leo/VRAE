@@ -70,7 +70,8 @@ def test_one_command_existing_component_preview_lifecycle():
         assert code == 200 and b'id="proposal-form"' in body and b'id="save-rehearsal"' in body
         assert b"NOT APPROVED" in body and session["expected_draft_ref"].encode() in body
         assert reader.request("GET", "/b5a/tasks/task-404/rehearsal")[0] == 403
-        assert reader.request("GET", session["path"] + "?version=999")[0] == 409
+        refused, denial, _ = reader.request("GET", session["path"] + "?version=999")
+        assert refused == 403 and b'data-code="INVALID_INPUT"' in denial
         browser = subprocess.run(
             [
                 "node",
