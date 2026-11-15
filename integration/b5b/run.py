@@ -122,6 +122,29 @@ def main(label):
         print(json.dumps(summary), flush=True)
 
     if result.returncode or bad or len(cases) != 94:
+        # Preserve genuine native failure outcomes using the accepted B4
+        # sanitizer; never publish raw traceback/credentials or fabricate XML.
+        if native.exists():
+            from integration.ra4b.evidence import sanitized_junit
+
+            raw_native = native.read_bytes()
+            curated, _ = sanitized_junit(raw_native)
+            (public / "native-junit.xml").write_bytes(curated)
+            (public / "native-retention.json").write_text(
+                json.dumps(
+                    {
+                        "raw_native_sha256": sha(raw_native),
+                        "raw_native_crc32": format(zlib.crc32(raw_native) & 0xFFFFFFFF, "08x"),
+                        "public_curated_sha256": sha(curated),
+                        "cases": len(cases),
+                        "passed": len(cases) - len(bad),
+                        "raw_xml_private": True,
+                        "stdout_constructed_xml": False,
+                    },
+                    sort_keys=True,
+                ),
+                encoding="utf-8",
+            )
         publish_summary("TRUE_NATIVE_RED_RETAINED_PRIVATE")
         raise SystemExit(1)
     with (

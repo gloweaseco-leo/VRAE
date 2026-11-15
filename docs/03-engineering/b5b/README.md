@@ -73,6 +73,9 @@ failed label or rerun unchanged source to select green. The runner:
    BLOCKED result and actual PG revocation journeys at1280/375/320 (18 screenshots).
    The new browser reuses original CDP transport, input and cleanup code;
    HTTP25s/CDP30s and original authentication/transaction thresholds are unchanged.
+   New browser inspection, denial and blocked-result groups authenticate with
+   separate fresh signatures under the same original90s lifetime; no expired
+   session is treated as a positive authorization. The new suite has93 assertions.
 4. Verifies original-byte/catalog roots, three owned PG resource groups,
    all83 case databases dropped, actual Chrome exit and child termination.
 5. Exports only scanned native JUnit, SHA/CRC retention, bounded browser metadata,
@@ -103,3 +106,23 @@ PR89/PR92 RED in their original worktrees remains untouched. No production
 customer, paid model, real ShareGrant, notification, deployment or merge is run.
 
 STOP after the new Draft PR/current real CI for Owner's independent decision.
+
+## Local RED retained for independent review
+
+The first candidate's3.13 native94 run retained93 PASS/1FAIL at a late duplicate
+submit; the original browser's first1280/404 submit retainedHTTP403/zero writes.
+Neither failure was rewritten. One short diagnostic is not the full63-browser
+acceptance and does not establish the first403 root cause.
+
+On subsequent source `e80c2e8`,3.11 native94/94 and original Chromium63/63 with12
+screenshots completed. The new browser then crossed its90s signature lifetime;
+its independent positive groups now authenticate separately.3.13 native remains
+93/94 with a real25s timeout in GET private-preview before the REDEEM_TOKEN denial
+operation was reached. Its exact root cause is UNKNOWN. No timeout, permission,
+old test or source-current check was relaxed to turn this local failure green.
+
+The Draft submission must explicitly carry this local RED / NOT READY status.
+Fresh hosted CI is independent evidence, not retrospective local PASS. The default
+CI command still runs all94 native tests, the unchanged original63 browser tests
+and all93 new browser assertions. A focused `browser_run LABEL b5b` mode exists
+only for changed-new-browser verification and is not used by CI/publication.

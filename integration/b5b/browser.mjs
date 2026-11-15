@@ -93,9 +93,13 @@ try{
     await check('original-B6-private-document-'+phase,await ev("document.body.innerText.includes('TEST_ONLY_PRIVATE_PREVIEW')&&document.body.innerText.includes('NOT APPROVED')&&document.body.innerText.includes('UNKNOWN')&&!document.querySelector('script,form')"));
     await bounded('bounded-original-B6-'+phase);
     await screenshot('document-'+width+'-'+caseName+'.png');
+    // Independent positive groups use fresh original short-lived signatures.
+    // No lifetime/timeout is extended, and every original assertion remains.
+    await login(caseName);
     await nav(base+'tasks/task-'+caseName+'/b5b/private-preview');
     await click('#b5b-deny-delivery',true);
     await check('real-B6-gate-denies-share-'+phase,await ev("!!document.querySelector('#b5b-delivery-denied')&&document.body.innerText.includes('B6_AUTHORITY_UNAVAILABLE')&&document.body.innerText.includes('sent=false')&&document.body.innerText.includes('allowed=false')"));
+    await login(caseName);
     await nav(base);
     await click('[data-key=b5b-worker-result]',true);
     await check('no-Worker-output-fabricated-'+phase,await ev("document.body.innerText.includes('BLOCKED_NO_ACCEPTED_LEASE_BOUND_RESULT_PORT')&&document.body.innerText.includes('UNKNOWN')&&!document.querySelector('[data-key=b5b-candidate-digest]')"));

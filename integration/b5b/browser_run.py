@@ -9,7 +9,8 @@ from .process import Child
 from .support import Runtime, ROOT
 
 
-def main(label):
+def main(label, suite="all"):
+    assert suite in {"all", "b5b"}
     r = Runtime(label)
     child = None
     initialized = False
@@ -21,10 +22,23 @@ def main(label):
         initialized = True
         child.start()
         before = r.roots()
-        for script, name in [
+        scripts = [
             ("integration/ra4c_b5p0/browser.mjs", "accepted"),
             ("integration/b5b/browser.mjs", "b5b"),
-        ]:
+        ]
+        if suite == "b5b":
+            # Focused new-browser verification still prepares genuine sealed
+            # rehearsal receipts through signed HTTP/B3, never fabricated joins.
+            from integration.ra4c_b5a.support import Client
+            from integration.ra4c_b5p0.cases import submit
+
+            for case in ("404", "200"):
+                client = Client(child.origin)
+                assert client.login(r.issuer, "task-" + case)[0][0] == 303
+                path, fields, _ = r.form(client, case)
+                assert submit(client, path, fields)[0] == 200
+            scripts = scripts[1:]
+        for script, name in scripts:
             out = r.lab.private / (name + "-browser")
             out.mkdir()
             env = dict(os.environ)
@@ -94,6 +108,9 @@ def main(label):
                 assert len(report["records"]) == 63
             results.append(
                 {
+                    "scope": "ALL_ORIGINAL_AND_B5B"
+                    if suite == "all"
+                    else "FOCUSED_B5B_ONLY_NOT_ORIGINAL63",
                     "suite": name,
                     "assertions": len(report["records"]),
                     "screenshots": len(report["shots"]),
@@ -127,4 +144,4 @@ def main(label):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "all")
