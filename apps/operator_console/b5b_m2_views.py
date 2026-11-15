@@ -61,3 +61,21 @@ def decision_fields(task, version, report_sha256, issue_ids, csrf):
                 '<label for="revision-' + e(issue) + '">修订说明（不改写源事实）</label><textarea id="revision-'
                 + e(issue) + '" name="revision.' + e(issue) + '" maxlength="2000"></textarea></fieldset>')
     return out + '<button type="submit">保存本版本内部决定</button></form>'
+
+
+def generated_decision_fields(view, csrf):
+    """Actual generated-result form, including zero-issue coverage summaries."""
+    from .proposal_views import hidden
+    out = ('<form method="post" action="/b5a/m2/review">'
+           + hidden('_csrf', csrf)
+           + hidden('report_version', str(view.pins['report_version']))
+           + hidden('report_sha256', view.pins['report_sha256'])
+           + '<h2>保存内部合成审核</h2><p>决定不修改报告原件，不构成真实人工批准或外部交付。</p>')
+    for key, label in [('', '整份报告')] + [(i, '问题 ' + str(n)) for n, i in enumerate(view.issue_ids, 1)]:
+        suffix = '.' + key if key else ''
+        out += ('<fieldset><legend>' + e(label) + '</legend><label>内部决定'
+                '<select name="decision' + e(suffix) + '" required><option value="">请选择</option>'
+                '<option value="APPROVE_INTERNAL">内部批准</option><option value="REJECT_INTERNAL">拒绝</option>'
+                '<option value="REVISE_INTERNAL">修订</option></select></label><label>修订说明'
+                '<textarea name="revision' + e(suffix) + '" maxlength="2000"></textarea></label></fieldset>')
+    return out + '<button type="submit">保存本版本内部回执</button></form>'

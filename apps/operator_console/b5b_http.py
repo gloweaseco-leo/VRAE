@@ -12,7 +12,7 @@ from . import b5b_views as views
 
 
 class Application:
-    def __init__(self, rehearsal, handoff, *, refresh=lambda: None):
+    def __init__(self, rehearsal, handoff, *, refresh=lambda: None, generated=None):
         if (
             type(rehearsal) is not RehearsalApplication
             or type(handoff) is not PrivateHandoffReader
@@ -21,6 +21,11 @@ class Application:
             raise ValueError("B5B_ACCEPTED_SHARED_SESSION_PORTS_REQUIRED")
         self.rehearsal, self.handoff, self.refresh = rehearsal, handoff, refresh
         self.delivery = DeliveryAuthorizationGate()
+        if generated is not None:
+            from .b5b_m2_http import GeneratedConsole
+            if type(generated) is not GeneratedConsole:
+                raise ValueError('M2_ACCEPTED_GENERATED_CONSOLE_REQUIRED')
+        self.generated = generated
 
     @property
     def origin(self):
@@ -39,6 +44,10 @@ class Application:
             try:
                 app.base._headers(method, headers)
                 path, query = app.base._path(target)
+                if path.startswith('/b5a/m2/') and self.generated is not None:
+                    if query:
+                        refuse('INVALID_INPUT')
+                    return self.generated.handle(method, path, headers, raw)
                 parts = path.removeprefix(PREFIX).split("/")
                 own = len(parts) >= 3 and parts[0] == "tasks" and parts[2] == "b5b"
                 if own:
@@ -54,6 +63,8 @@ class Application:
                     app.capture(sid)
                     action = parts[3]
                     if action == 'm2' and method in ('GET', 'HEAD'):
+                        if self.generated is not None:
+                            return Reply(Response(303, b''), (('Location', '/b5a/m2/'),))
                         from .b5b_m2_views import workspace
 
                         app.current(sid, session)
@@ -133,6 +144,9 @@ class Application:
                     if html.count(marker) != 1:
                         refuse("SOURCE_INTEGRITY")
                     html = html.replace(marker, marker + views.navigation(session.task_id), 1)
+                    if self.generated is not None:
+                        from .views import link
+                        html = html.replace(marker, marker + link('/b5a/m2/', '打开本次 Worker 生成任务', key='m2-generated-entry'), 1)
                     return Reply(
                         Response(200, html.encode("utf-8"), response.content_type), reply.headers
                     )

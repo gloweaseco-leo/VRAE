@@ -1,5 +1,9 @@
 # S2 / C2-2 B5B incremental consumer
 
+Current M2 continuation after Owner merged PR104: [M2 contract and boundaries](M2.md).
+The following sections describe the previously validated sealed-preview increment;
+its old missing-result state and CI counts are historical, not this M2's status.
+
 Current continuation: [Owner6896489543](https://github.com/gloweaseco-leo/VRAE/pull/103#issuecomment-6896489543),
 [M2 delivery](https://github.com/gloweaseco-leo/VRAE/pull/103#issuecomment-6895931265),
 and the accepted [synthetic L0/L1 charter](../L0_L1_STAGE_CHARTER_V1.1.md).

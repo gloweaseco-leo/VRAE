@@ -9,7 +9,7 @@ from .b5b_http import Application
 from .contracts import refuse
 
 
-def load(profile, bridge, policies, *, audit=None):
+def load(profile, bridge, policies, *, audit=None, generated_profile=None):
     app = load_rehearsal(profile, bridge, audit=audit)
     policies = Path(policies)
     raw = policies.read_bytes()
@@ -41,4 +41,8 @@ def load(profile, bridge, policies, *, audit=None):
         except Exception:
             refuse("UNAUTHORIZED")
 
-    return Application(app, handoff, refresh=fresh)
+    generated = None
+    if generated_profile is not None:
+        from .b5b_m2_profile import load as load_generated
+        generated = load_generated(generated_profile)
+    return Application(app, handoff, refresh=fresh, generated=generated)
