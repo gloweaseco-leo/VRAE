@@ -6,6 +6,7 @@ import subprocess
 
 from integration.ra4e.lab import DB, ROOT, digest, docker, encode, invoke
 from .environment import LABEL
+from .output import prepare_output, decode_failure
 
 
 class Transport:
@@ -93,6 +94,7 @@ class Transport:
         image_id = docker('image', 'inspect', '--format', '{{.Id}}', image).decode().strip()
         logs = self.private / label
         logs.mkdir()
+        output_group = prepare_output(logs)
         name = env.name + '-worker-' + label
         assert invoke('container', 'inspect', name).returncode != 0
         args = ['run', '--rm', '-i', '--name', name, '--label', LABEL + '=' + env.name,
@@ -101,12 +103,17 @@ class Transport:
                 '--security-opt=no-new-privileges', '--memory', '256m', '--cpus', '1',
                 '--pids-limit', '64', '--read-only', '--tmpfs', '/tmp:rw,nosuid,nodev,size=32m',
                 '--mount', 'type=bind,src=' + str(self.source) + ',dst=/work,readonly',
-                '--mount', 'type=bind,src=' + str(logs) + ',dst=/evidence',
+                *output_group, '--mount', 'type=bind,src=' + str(logs) + ',dst=/evidence',
                 '-w', '/work', '--env', 'PYTHONDONTWRITEBYTECODE=1', '--env', 'PYTHONPATH=/work',
                 image_id, 'python', '-m', 'integration.beta_review.codex3.b7_restore_v1.worker_probe']
         try:
             p = self.command(label, args, data=encode({'state': json.loads(env.state.read_bytes()),
-                                                      'phase': phase, 'minor': minor}), timeout=45)
+                                                      'phase': phase, 'minor': minor}), expected=None, timeout=45)
+            if p.returncode:
+                record = decode_failure(p.stdout)
+                record['supervisor_native_exit'] = p.returncode
+                (self.proof / (label + '-failure.json')).write_bytes(encode(record))
+                raise AssertionError(label + '_NATIVE_FAILURE')
             result = json.loads(p.stdout)
             result['dependency_image_id'] = image_id
             (self.proof / (label + '.json')).write_bytes(encode(result))

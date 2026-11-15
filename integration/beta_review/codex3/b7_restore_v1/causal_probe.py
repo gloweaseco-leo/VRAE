@@ -139,6 +139,15 @@ def main():
     private.mkdir(parents=True, exist_ok=False)
     proof.mkdir(parents=True, exist_ok=False)
     transport = Transport(private, proof)
+    # Preserve reproducibility after the observer's minimal repair: replay only
+    # this package's historical observer, never overwrite accepted Worker code.
+    observer_path = 'integration/beta_review/codex3/b7_restore_v1/worker_probe.py'
+    frozen = subprocess.check_output(['git', 'show', 'fa35b8f4e1b5440fbd04a5fd5b349d905558d961:' + observer_path], cwd=ROOT)
+    assert digest(frozen) == '138f0206bf67ab057bf8b645be4afb35294735f6ebcc04a204fdd23f0f501390'
+    (transport.source / observer_path).write_bytes(frozen)
+    inventory = json.loads((proof / 'worker-source.json').read_bytes())
+    inventory[observer_path] = digest(frozen)
+    (proof / 'worker-source.json').write_bytes(encode(inventory))
     env = Environment('source', private / 'source', proof / 'source')
     started = time.monotonic()
     pair = Pair(transport, private, proof)
@@ -163,7 +172,7 @@ def main():
         'original_hosted_merge': '9ed725fef7d9e518dd6364241bd5ebf2aef124f5',
         'worker_source_inventory_sha256': digest((proof/'worker-source.json').read_bytes()),
         'elapsed_seconds': time.monotonic() - started, 'causal_pair_pass': pair.observed is not None,
-        'frozen_worker_probe_sha256': digest((Path(__file__).resolve().parent / 'worker_probe.py').read_bytes().replace(b'\r\n', b'\n')),
+        'frozen_worker_probe_sha256': digest((transport.source / observer_path).read_bytes()),
         'probe_sha256': digest(Path(__file__).read_bytes().replace(b'\r\n', b'\n')),
         'full_B7_EXIT': False, 'old_A1': 'PAUSED/MAX3 0/3 unchanged'}))
     publication(proof, private)
