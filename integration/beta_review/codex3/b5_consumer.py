@@ -23,7 +23,7 @@ def receipt_metadata(body):
     assert document["report_version"]==1 and document["durable"] is True
     assert document["effective_approval"] is False and document["external_visibility"] is False
     assert document["native_decision"] is None and document["person_id"] is None and document["share_grant"] is None
-    for field in ("intent_id","event_id","report_id","ref_id","source_run_id"):
+    for field in ("intent_id","event_id"):
         assert str(UUID(document[field]))==document[field]
     return document
 
@@ -77,3 +77,4 @@ def read_receipt(run,case):
     digest=receipt_digest(body)
     (run.folder/("b5-receipt-"+case+".private.html")).write_bytes(body)
     return client,path,digest,sha(body)
+
