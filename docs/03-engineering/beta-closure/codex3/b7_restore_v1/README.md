@@ -1,3 +1,10 @@
+> Current Owner state: PR102 FINAL_MERGE_HOLD. Original hosted dual-minor RED
+> is preserved. Both original stderr hashes were reproduced exactly; see
+> [root cause](root-cause.md), [paired proofs](root-cause-proof.json) and
+> [current validation scope](correction-validation.json). Prior Windows full
+> recovery PASS is separate evidence. New merged HEAD full recovery is pending
+> the one authorized hosted CI; no B7-P1/full B7 PASS is claimed.
+
 # Issue101 deterministic recovery candidate
 
 Accepted starting main: `b9aec4e8379e6978de4177d67d64fde53d1d58ab`.
@@ -113,7 +120,7 @@ the raw differences remain listed individually. This extends the new package's
 read-only comparison; the old B7 P0 manifest and its 13-table scope are untouched.
 No ALTER/GRANT/RLS write repairs were performed.
 
-## Native candidate verification
+## Prior Windows verification before the first hosted RED
 
 Both native Windows minors passed the complete real pipeline on identical package
 source `d03e1b2f6d36c55a280bca50d63323294cff346d`: 3.11.15 (`local-311-v5`,
@@ -131,4 +138,4 @@ lab durations, complete safe permission matrices, raw ACL differences and cleanu
 Local public ZIPs remain private, with their SHA256 and every entry's verified CRC
 listed in the verification receipt. Raw dumps, native diagnostic logs/JUnit and
 row bytes remain local; public JUnit is sanitized and linked by original hash.
-The final evidence/CI-only commit leaves all nine tested package file hashes intact.
+The initial fa35b8f evidence/CI-only commit preserved the nine package hashes tested on d03e1b2. The later repair and its validation have separate source identities above.
