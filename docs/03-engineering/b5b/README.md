@@ -1,0 +1,97 @@
+# S2 / C2-2 B5B incremental consumer
+
+Owner authority: [Issue95 comment6893284620](https://github.com/gloweaseco-leo/VRAE/issues/95#issuecomment-6893284620).
+Accepted base: `d63ea0b007ab4841000ff80c6d8c651d6ff4956f` (PR89/99/92).
+
+This adds an entry in the existing signed `/b5a/` SSR and consumes the accepted
+B5-P0/B3 and B6-P0 ports. There is one HTTP server and no second SPA, identity
+provider, persistence implementation, report generator or delivery transport.
+All existing B5A/B5P0, B3/B4, identity, SQL/roles/RLS, Guard and original workflow
+files remain unchanged. No PR100 or PR102 source is imported.
+
+## What can be used
+
+- Signed, currently authorized sealed Reviewer task: original per-Claim rehearsal,
+  B3 atomic intent, immutable original-key receipt, duplicate lookup and restart
+  readback remain the accepted implementation. This is TEST_ONLY_REVIEW_INTENT,
+  NOT APPROVED, never a human approval.
+- The same session opens a B6 current-only private candidate panel and the
+  **unmodified original B6 private document bytes**. The Reader rechecks original
+  PG bytes, identity/assignment, version and descriptor policy. No source prose,
+  contact, credential or redeemable access link is rendered by the new panel.
+- Sharing checks call the accepted deny-only B6 Gate. Every operation, including
+  CREATE_GRANT, ISSUE_TOKEN, recipient access, approval and send, remains denied.
+  A CSRF-bound authenticated check creates only an in-memory denial receipt.
+
+## Explicit missing accepted ports
+
+| UI state | Exact missing interface and current accepted seam |
+|---|---|
+| `BLOCKED_NO_ACCEPTED_REVIEWER_TASK_STATUS_PORT` / UNKNOWN | PR99's actual B4 APP status reader exists, but its APP-authenticated `/v1/audit-requests/{request_id}` is not Reviewer authority. There is no independently accepted authenticated mapping from this signed Reviewer task/assignment to that request/run/job. No APP config, bearer, DB query or caller-supplied status enters SSR. |
+| `BLOCKED_NO_ACCEPTED_LEASE_BOUND_RESULT_PORT` / UNKNOWN | No accepted current-lease/epoch-bound Worker result producer/read contract joins an actual result manifest/report version to its request/run/job and current authorized Reviewer assignment. PR100 is Draft. Configured input references, source JOINs and sealed 404/200 reports are not generated Worker output. |
+
+These states cannot be enabled by a query, uploaded JSON, caller UUID, claimed
+DONE flag, approval or share grant. The new result URL returns HTTP409 after
+current authorization. Unauthenticated, revoked, cross-tenant/task and invalid
+version requests reveal no private data. New routes reject all query metadata.
+Any future trust-crossing port requires independent Owner acceptance and an
+explicit integration change; this increment does not silently activate it.
+
+This is meaningful independent preview/receipt/UI work, not a completed
+task-to-generated-report business path or full B5/B6 EXIT. Beta remains 2/7,
+Human Gold0/26 and G1/G2/G3 NO-GO.
+
+## Native verification
+
+Use the accepted Python3.11/3.13 locks, Docker PG16 and Node22. Install only
+`requirements-ra1a.lock` and `requirements-ra4a-p2b2a.lock`. Set
+`B5B_CHROMIUM` to the actual Chrome executable (`/usr/bin/google-chrome` on CI;
+`C:/Program Files/Google/Chrome/Application/chrome.exe` on this Windows host).
+
+```text
+python -B -m integration.b5b.run local-311
+python -B -m integration.b5b.run local-313
+```
+
+Use each command's matching interpreter and a new owned label. Never reuse a
+failed label or rerun unchanged source to select green. The runner:
+
+1. Verifies current source bytes against committed Git blobs.
+2. Runs original B5 55 assertions unchanged using its original fixture, plus
+   30 real B5B PG/HTTP cases and9 pure boundary cases: native94/94, no skips.
+   Cases cover tenant/version/revocation, original unknown/half-commit/lost
+   response, actual child restart and original-key receipt, and11 deny operations.
+3. Runs **unchanged** original PR89 Chromium63 assertions/12 screenshots on the
+   combined B5B server, followed by new current-only preview, original B6 document,
+   BLOCKED result and actual PG revocation journeys at1280/375/320 (18 screenshots).
+   The new browser reuses original CDP transport, input and cleanup code;
+   HTTP25s/CDP30s and original authentication/transaction thresholds are unchanged.
+4. Verifies original-byte/catalog roots, three owned PG resource groups,
+   all83 case databases dropped, actual Chrome exit and child termination.
+5. Exports only scanned native JUnit, SHA/CRC retention, bounded browser metadata,
+  30 screenshots, source hashes and cleanup. Raw logs, profile files, signer,
+   passwords, cookies, private journals and failed native XML stay private.
+
+New tests live outside default `tests/`: original default2518 IDs and25 original
+skips, QA118/Review127, B4 Worker/restore and original CI are not extended or
+modified. `.github/workflows/b5b.yml` adds dual-minor genuine PG/signed SSR/browser
+acceptance alongside every original workflow. Read all actual current Jobs;
+do not substitute a prior SHA's green or ignore a genuine original B4 RED.
+
+## Controlled local entry and stop
+
+The fixture provisions only accepted synthetic404/200 originals, one real PG16
+instance, private Reviewer/B3 profiles and B6 descriptors; the signer/admin stay
+outside the SSR child. `integration.b5b.http_server` accepts only local profile,
+bridge, policy, audit and ready paths beneath `integration/b5b/.runtime/`.
+It uses the original loopback server, headers and HttpOnly/SameSite cookie path.
+Tokens are supplied only by the independent fixture issuer, never in a URL,
+HTML field, public artifact or UI credential editor.
+
+The runner owns and stops its child, Chromium, case databases and labelled PG
+container/network/volume in `finally`; it never globally prunes Docker. All
+runtime material is ignored and confined to the owned checkout. Historical
+PR89/PR92 RED in their original worktrees remains untouched. No production
+customer, paid model, real ShareGrant, notification, deployment or merge is run.
+
+STOP after the new Draft PR/current real CI for Owner's independent decision.
