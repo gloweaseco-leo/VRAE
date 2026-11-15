@@ -1,0 +1,265 @@
+{
+  "api_worker": {
+    "cross_tenant_denied": true,
+    "records": [
+      {
+        "app_uid": 10001,
+        "case": "404",
+        "commit_observed_before_worker": true,
+        "generated_report_by_worker": false,
+        "job_sha256": "7f31b25aedb4779cd8bb022cdfe3c9537cf00d305c7039983446fc19c33c627e",
+        "job_state": "TEST_ONLY_DONE",
+        "origin_epoch": 1,
+        "request_sha256": "fc1cf09af50faa987aa53103a44164d95c9b3625392606a6085c93da44da4dbf",
+        "run_sha256": "9a5458184260f0163147633edba848bf44843044dde69fabf8ed7a270e55d6d2",
+        "worker_uid": 10002
+      },
+      {
+        "app_uid": 10001,
+        "case": "200",
+        "commit_observed_before_worker": true,
+        "generated_report_by_worker": false,
+        "job_sha256": "055dd15204cbb909944efa0860dcbcdeef038f4063701ba263d3451c0869f3eb",
+        "job_state": "TEST_ONLY_DONE",
+        "origin_epoch": 1,
+        "request_sha256": "6a8371032d5f95f4b864d3d1268f376bde2279d0fe4fd3321489a9af671e1118",
+        "run_sha256": "18ec4890ecefe5ab62f42a1bc0a99fa78df30b9824313005557cdc09a6820a74",
+        "worker_uid": 10002
+      }
+    ],
+    "unauthorized_http": 401,
+    "worker_raw_select_denied": true
+  },
+  "branch": "codex3/beta-integration-20261114",
+  "browser": {
+    "cases": 2,
+    "remote_requests_blocked": 0,
+    "sandbox_disabled": false,
+    "scope": "SIGNED_READ_ONLY_NOT_APPROVAL",
+    "screenshots": [
+      {
+        "file": "404-1280.png",
+        "sha256": "ae023de30ec4d8335d49929f88dc1f4b9ff834cb077c63ef9e692dc4c7cf56d1"
+      },
+      {
+        "file": "404-375.png",
+        "sha256": "b4eda691235afd9853e20595d53722c4964c94112c5b94144af6aa286c4378ce"
+      },
+      {
+        "file": "404-320.png",
+        "sha256": "01a7768fca3c4e7fa62cc1e955a11c6fe819d8674e6802e0cf4a40a0819e17c0"
+      },
+      {
+        "file": "200-1280.png",
+        "sha256": "a8cb84e80dbf39a7102813a37bf63d858c32fbb797c04eabd66f2b5d35b9dee2"
+      },
+      {
+        "file": "200-375.png",
+        "sha256": "f620ec406d43bbcf3bf5550ec23f195c79dbdef66c9a36e32b45326aec9f603b"
+      },
+      {
+        "file": "200-320.png",
+        "sha256": "3ccbb751e4a3a6df3e0a45c5ea3441700e3cca60721f334d76e385d964941163"
+      }
+    ],
+    "status": "PASS",
+    "widths": [
+      1280,
+      375,
+      320
+    ]
+  },
+  "cleanup": [
+    {
+      "absent_or_port_closed": true,
+      "resource": "native_client"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "original_ssr"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "pg_container_network_volume"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "source_volume"
+    }
+  ],
+  "cleanup_errors": [],
+  "component_stages_sha256": "27f16de8c9b17fbce5f0be59c64a0349db12af27dc9ec7f24b219ee619668c67",
+  "dependencies": [
+    {
+      "interface": "B4 Worker -> live Collector/RuleExecution/report persistence",
+      "minimal_change": "Versioned low-role processing/status bridge; no admin runtime or raw table grants.",
+      "owner": "Codex1/Owner",
+      "stage": "S1/S2",
+      "state": "BLOCKED_NO_ACCEPTED_INTERFACE"
+    },
+    {
+      "interface": "DISC-01/02 finding -> guarded fact -> report",
+      "owner": "Codex1 Issue94",
+      "stage": "S1/S2",
+      "state": "BLOCKED_ACCEPTED_GUARD_RENDERER_CTA_ONLY"
+    },
+    {
+      "interface": "B4 request/run/job -> assigned Reviewer task",
+      "owner": "Codex1 B4-P2",
+      "stage": "S2",
+      "state": "BLOCKED_NOT_MERGED"
+    },
+    {
+      "interface": "Signed SSR -> B3 durable per-claim TEST_ONLY intent",
+      "owner": "Codex2 PR89",
+      "stage": "S2",
+      "state": "BLOCKED_NOT_MERGED"
+    },
+    {
+      "interface": "Private exact-version B6 read/revoke/refusal",
+      "owner": "Codex2 PR92",
+      "stage": "S3",
+      "state": "BLOCKED_NOT_MERGED"
+    },
+    {
+      "interface": "B7 old-first deterministic provenance / protected permissions",
+      "owner": "Owner",
+      "stage": "S4",
+      "state": "L3_GO_REQUIRED_A1_MAX3_NOT_RESET"
+    },
+    {
+      "interface": "Single accepted-SHA full B1-B7 EXIT",
+      "owner": "Owner",
+      "stage": "S5",
+      "state": "NOT_READY_2_OF_7"
+    }
+  ],
+  "executable_source_root": "5c8fe4ea057e06116ba6bdacd865f05cd729aea6248a2ce868c8f53301c6705f",
+  "host_python": "3.11.15",
+  "human_gold": "0/26",
+  "native_python_minor": "3.11",
+  "parents": [
+    "ae2505f74f7a81d7a563c05d1a811aaa526c2839",
+    "c3641aea6eba26ce80e388bbc01c24fa993390ee"
+  ],
+  "pg": {
+    "egress_kernel_denial": false,
+    "internal_network": false,
+    "loopback_only": true,
+    "migration_0001_0004": "UNCHANGED_ACCEPTED",
+    "private_port": 55349,
+    "server": "PostgreSQL16"
+  },
+  "pipeline": [
+    {
+      "case": "404",
+      "disabled_rules": 10,
+      "draft_ref": "rd-15b316f3b6bacc66ae686cccab651e600af91deb17c2bbad4f414465b315ebd8",
+      "enabled_rules": [
+        "DISC-01",
+        "DISC-02",
+        "INFO-01",
+        "TRUST-01",
+        "CTA-02",
+        "SEO-01"
+      ],
+      "execution": "LIVE_OFFLINE_COLLECTOR_NOT_PRECOMPUTED_REPORT",
+      "execution_ref": "rx-710c8740ddabde69bbb604004476d89550f537bd8f16c941b1eaafa4cdb9e731",
+      "finding_failures": [
+        {
+          "observation_id": "obs-aabf79b6e11bbf598e686eac722dc33b4289e2f028a482723d7f2ca0922fc755",
+          "rule": "CTA-02"
+        }
+      ],
+      "html_sha256": "66b447d5e61d52dd4e480c8511e8e2229cef5bda5fbab856c25b614e4f147f58",
+      "pack_ref": "ep-8bd885cbfdd05803956eb01a3f3c3316e1178984a09b7d276697b383abdcff86",
+      "package_ref": "fp-1d7fdd17ce6dc74658cbbfd988574b5d2924e86f57e165fc1cd1e74003b86118",
+      "report_issues": 1,
+      "run_id": "run-beta-404",
+      "seconds": 13.563,
+      "unsupported_rule_findings": 0,
+      "worker_connection": "BLOCKED_NO_ACCEPTED_PROCESSING_BRIDGE"
+    },
+    {
+      "case": "200",
+      "disabled_rules": 10,
+      "draft_ref": "rd-ef2978c97f2ae4bbea2a5b9feb6c9ebdcb448590e57394d125ed03f61f30e1f9",
+      "enabled_rules": [
+        "DISC-01",
+        "DISC-02",
+        "INFO-01",
+        "TRUST-01",
+        "CTA-02",
+        "SEO-01"
+      ],
+      "execution": "LIVE_OFFLINE_COLLECTOR_NOT_PRECOMPUTED_REPORT",
+      "execution_ref": "rx-b0b33869eb954e347868b054fc396067700cbbebd4f2fb5e6d7c83c40472478b",
+      "finding_failures": [],
+      "html_sha256": "8cba7170e2267b71489c115fb1184bd5894e6f8407299d9dc1b44dcc66675e5f",
+      "pack_ref": "ep-563ea858e119f9a906930c661dd647227088a09eca81abfa01fb68fb2d786734",
+      "package_ref": "fp-7f53524083cae46aa822d6da0103f5ce3a3c059f5a6ee95c39958b24272e7a0d",
+      "report_issues": 0,
+      "run_id": "run-beta-200",
+      "seconds": 11.984,
+      "unsupported_rule_findings": 0,
+      "worker_connection": "BLOCKED_NO_ACCEPTED_PROCESSING_BRIDGE"
+    },
+    {
+      "case": "disc-404",
+      "disabled_rules": 10,
+      "draft_ref": "rd-24e576f711334d17eb68cb96506ce14f521cc5a8800dad0ded8b5bd78a5cb68c",
+      "enabled_rules": [
+        "DISC-01",
+        "DISC-02",
+        "INFO-01",
+        "TRUST-01",
+        "CTA-02",
+        "SEO-01"
+      ],
+      "execution": "LIVE_OFFLINE_COLLECTOR_NOT_PRECOMPUTED_REPORT",
+      "execution_ref": "rx-65727c63766235cb2de6c73a7035cb51bd1e6e8a6fad01d6da2382e40efd9ed0",
+      "finding_failures": [
+        {
+          "observation_id": "obs-3b7c62a9046d3a5b0a972dda4ce8410dd41b140ad87be2b0fa80628ab6228911",
+          "rule": "DISC-01"
+        }
+      ],
+      "html_sha256": "c6233f3edd5c77f0941a8ce53fda045b88557ee57a1bc407f09b9fa9fafae200",
+      "pack_ref": "ep-de80748208fa9d0eb7b27d842aee59565bacb16ddf7b9ba9c36b97ca0fe62419",
+      "package_ref": "fp-c0b79ff6b1a721cd6535642487652ed537f92c99053c2dee901d8f51c26a3f4f",
+      "report_issues": 0,
+      "run_id": "run-beta-disc-404",
+      "seconds": 4.172,
+      "unsupported_rule_findings": 1,
+      "worker_connection": "BLOCKED_NO_ACCEPTED_PROCESSING_BRIDGE"
+    }
+  ],
+  "reviewer": [
+    {
+      "case": "404",
+      "cross_task": 403,
+      "old_version": 409,
+      "persisted_review_intent": "BLOCKED_PR89_NOT_IN_ACCEPTED_MAIN",
+      "share_route_response": 501,
+      "signed_reviewer_pg_reads": 5,
+      "source": "ACCEPTED_SEALED_REVIEW_GRAPH_NOT_NEW_WORKER_RESULT",
+      "task_id": "task-404"
+    },
+    {
+      "case": "200",
+      "cross_task": 403,
+      "old_version": 409,
+      "persisted_review_intent": "BLOCKED_PR89_NOT_IN_ACCEPTED_MAIN",
+      "share_route_response": 501,
+      "signed_reviewer_pg_reads": 5,
+      "source": "ACCEPTED_SEALED_REVIEW_GRAPH_NOT_NEW_WORKER_RESULT",
+      "task_id": "task-200"
+    }
+  ],
+  "reviewer_business_tables_unchanged": true,
+  "runtime_image_id": "sha256:a783d7b6e9ec09d9c594d198d8679245f45284111bb885a46070bf694889a415",
+  "scope": "TEST_ONLY_NOT_APPROVED_NOT_BETA_READY",
+  "source_sha": "447005b2951f43e8d8643632d663de268f278329",
+  "ssr_origin": "http://127.0.0.1:57798",
+  "status": "COMPONENTS_VERIFIED_CHAIN_BLOCKED"
+}
