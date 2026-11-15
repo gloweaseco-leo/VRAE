@@ -1,7 +1,8 @@
 """Private launcher provisioning of the generated lane on the EXISTING SSR.
 
-Only Reviewer credentials and public issuer keys enter this process. No APP or
-Worker DB config, signing key, DSN, arbitrary URL, fixture/report bytes or fallback.
+Reviewer credentials, public issuer keys and a separate private HTTP API bearer
+enter this process. No APP/Worker DB config, signing key, DSN, arbitrary URL,
+fixture/report bytes or fallback.
 The caller owns private-file permissions and issuer/challenge lifecycle.
 """
 
@@ -11,14 +12,17 @@ import psycopg
 
 from vrae.identity.boundary import TrustAnchor
 from vrae.application.ra4b_p2.m1.reader import SignedGeneratedReader, JobAssignment
+from vrae.application.ra4b_p2.m1.consumer import AppEndpoint, TaskClient
 from .b5b_m2_sessions import GeneratedSessions
 from .b5b_m2_http import GeneratedConsole
+from .b5b_m2_tasks import TaskWorkflow
 
 ROLES = frozenset({'p2b1_test_a_reviewer', 'p2b1_test_a_peer', 'p2b1_test_b_reviewer'})
 
 
 def provision(cfg):
-    if (type(cfg) is not dict or set(cfg) != {'version', 'anchor', 'assignments', 'reviewers', 'tasks'}
+    keys = {'version', 'anchor', 'assignments', 'reviewers', 'tasks'}
+    if (type(cfg) is not dict or set(cfg) not in (keys, keys | {'task_endpoint', 'task_journal'})
             or cfg['version'] != 'M2_SYNTHETIC_REVIEWER_1'
             or type(cfg['reviewers']) is not dict or not 1 <= len(cfg['reviewers']) <= 3
             or set(cfg['reviewers']) - ROLES):
@@ -49,7 +53,14 @@ def provision(cfg):
             options='-c statement_timeout=2000 -c lock_timeout=2000')
 
     reader = SignedGeneratedReader(anchor=TrustAnchor(**anchor), assignments=assignments, connect=connect)
-    return GeneratedConsole(GeneratedSessions(reader), cfg['tasks'])
+    workflow = None
+    if 'task_endpoint' in cfg:
+        endpoint = dict(cfg['task_endpoint'])
+        if set(endpoint) != {'bearer', 'tenant_id', 'source_refs'} or type(endpoint['source_refs']) is not list:
+            raise ValueError('M2_HTTP_ONLY_TASK_ENDPOINT_REQUIRED')
+        endpoint['source_refs'] = frozenset(endpoint['source_refs'])
+        workflow = TaskWorkflow(TaskClient(AppEndpoint(**endpoint)), cfg['task_journal'])
+    return GeneratedConsole(GeneratedSessions(reader), cfg['tasks'], workflow=workflow)
 
 
 def load(path):

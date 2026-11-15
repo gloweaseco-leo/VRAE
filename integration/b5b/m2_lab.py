@@ -51,8 +51,10 @@ def main():
     resources = [
         ("container", ident + "-client"),
         ("container", ident + "-pg"),
+        ("container", ident + "-backend"),
         ("volume", ident + "-source"),
         ("volume", ident + "-data"),
+        ("volume", ident + "-routing"),
     ]
 
     def docker(*args, data=None, check=True):
@@ -134,8 +136,9 @@ def main():
     (out / "source-manifest.json").write_text(json.dumps(source_manifest, sort_keys=True, indent=2))
     cleanup = []
     try:
-        for _, name in resources[2:]:
-            docker("volume", "create", "--label", LABEL + "=" + ident, name)
+        for kind, name in resources:
+            if kind == 'volume':
+                docker("volume", "create", "--label", LABEL + "=" + ident, name)
         docker(
             "run",
             "-d",
@@ -340,7 +343,7 @@ def main():
         }
         (recovered / "receipt.json").write_text(json.dumps(restart_receipt, indent=2))
         print(json.dumps(restart_receipt), flush=True)
-        assert result.returncode == 0 and not restart_red and len(restart_cases) == 2, (
+        assert result.returncode == 0 and not restart_red and len(restart_cases) == 4, (
             "M1_REAL_PG_RESTART_RED"
         )
         if os.environ.get('B5B_M2_BROWSER') == '1':

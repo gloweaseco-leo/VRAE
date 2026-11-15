@@ -1,7 +1,8 @@
 """Test-only stdio HTTP relay into the ONE real B5B SSR inside network-none PG.
 
-Receives Reviewer-only provisioning/public keys. No signer, APP credential or
-admin state. Does not log request headers/body/cookies. Real host Chrome talks
+Receives Reviewer provisioning/public keys and a separate HTTP service bearer.
+No signer, APP/Worker database credential or admin state. Does not log request
+headers/body/cookies. Real host Chrome talks
 to a finite loopback transport relay; all auth/mutations execute in original SSR.
 """
 

@@ -34,17 +34,27 @@ async function key(key,code,virtual){await call('Input.dispatchKeyEvent',{type:'
 async function select(selector,index){await click(selector);await key('Home','Home',36);for(let i=0;i<index;i++)await key('ArrowDown','ArrowDown',40);await key('Enter','Enter',13)}
 async function screenshot(name){await ev('window.scrollTo(0,0)');const width=await ev('innerWidth'),height=await ev('document.documentElement.scrollHeight');const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:true,clip:{x:0,y:0,width,height,scale:1}});const raw=Buffer.from(r.data,'base64');await writeFile(path.join(out,name),raw);shots.push({file:name,sha256:hash(raw),width,height,viewportHeight:await ev('innerHeight')})}
 async function metrics(label){const m=await ev(`({width:innerWidth,scroll:document.documentElement.scrollWidth,scripts:document.scripts.length,banner:parseFloat(getComputedStyle(document.querySelector('.private-bar')).fontSize),footer:document.querySelector('footer')?.textContent||'',controls:[...document.querySelectorAll('.action,button,select,textarea,summary,.check')].filter(e=>e.getClientRects().length).map(e=>({height:e.getBoundingClientRect().height,name:e.id||e.name||e.tagName})),external:[...document.querySelectorAll('[src],[href]')].map(e=>e.src||e.href).filter(u=>u.startsWith('http')&&!u.startsWith(location.origin)),jwt:/eyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+/.test(document.documentElement.outerHTML)})`);await check(label,m.scroll<=m.width&&m.scripts===0&&m.banner>=12&&m.external.length===0&&!m.jwt&&m.controls.every(c=>c.height>=44)&&m.footer.includes('仅保存内部演练记录')&&!m.footer.includes('不保存核对结果'),m)}
-async function login(caseName) {
-  step='login-page'; await nav(base);
-  const csrf=await ev("document.querySelector('[name=_csrf]').value");
-  await select('[name=case]',caseName==='404'?0:1);
-  await click('button[type=submit]',true);
-  const challenge=JSON.parse(await ev('document.body.innerText'));
-  const token=await rpc('sign',{nonce:challenge.nonce,case:caseName});
+async function redeem(challenge) {
+  const token=await rpc('sign',{nonce:challenge.nonce});
   const jar=await call('Network.getCookies',{urls:[base]});
   const c=jar.cookies.find(c=>c.name==='b5a_m2_challenge');
   loginPending={token,csrf:challenge.csrf,cookie:'b5a_m2_challenge='+c.value};
-  step='session'; await nav(base+'session');
+  step='session';await nav(base+'session');
+}
+async function login(caseName,record=true) {
+  step='login-page'; await nav(base);
+  await select('[name=case]',caseName==='404'?0:1);
+  await click('button[type=submit]',true);
+  const challenge=JSON.parse(await ev('document.body.innerText'));
+  await redeem(challenge);
+  if(record)await check('bootstrap-authorized-reviewer-'+phase,await ev("location.pathname==='/b5a/m2/report'&&!!document.querySelector('[data-key=m2-tasks]')"));
+}
+async function openNewReport() {
+  await click('[data-key=m2-new-report]',true);
+  const challenge=JSON.parse(await ev('document.body.innerText'));
+  await redeem(challenge);
+}
+async function assertNewSession() {
   await check('real-signed-new-result-'+phase,await ev("location.pathname==='/b5a/m2/report'&&!!document.querySelector('form[action=\"/b5a/m2/review\"]')"));
   const cookies=await call('Network.getCookies',{urls:[base]});
   const session=cookies.cookies.find(c=>c.name==='b5a_m2_session');
@@ -81,7 +91,21 @@ try{
     phase=width+'/'+caseName;step='viewport';
     await call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
     await login(caseName);
-    const pins=config.pins[caseName];
+    step='create';await click('[data-key=m2-tasks]',true);
+    await select('[name=case]',caseName==='404'?0:1);
+    await click('[data-key=m2-create]',true);
+    const taskURL=await ev('location.href');
+    const task=await ev("Object.fromEntries(['request_id','run_id','job_id','source_ref'].map(k=>[k,document.querySelector('[data-key=m2-'+k+']')?.textContent]))");
+    await check('actual-APP202-and-PENDING-'+phase,await ev("document.querySelector('[data-app-status]')?.dataset.appStatus==='202'&&document.querySelector('[data-key=m2-job-state]')?.textContent==='PENDING'"));
+    await check('fresh-request-run-job-source-'+phase,task.source_ref==='accepted-'+caseName&&['request_id','run_id','job_id'].every(k=>task[k]&&task[k]!==config.bootstrap_pins[caseName][k]),task);
+    await check('pending-no-report-authority-'+phase,await ev("!document.querySelector('[data-key=m2-new-report]')&&!document.querySelector('.m2-issue')"));
+    await bounded('bounded-task-status-'+phase);
+    await screenshot('task-'+width+'-'+caseName+'.png');
+    step='worker';const pins=await rpc('worker');
+    await check('actual-worker-same-job-'+phase,['request_id','run_id','job_id'].every(k=>pins[k]===task[k]),{job_id:pins.job_id});
+    await click('[data-key=m2-status-refresh]',true);
+    await check('DONE-still-requires-signature-'+phase,await ev("document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'&&!!document.querySelector('[data-key=m2-new-report]')&&!document.querySelector('.m2-issue')"));
+    await openNewReport();await assertNewSession();
     await check('exact-new-job-and-file-hash-'+phase,await ev(`document.body.innerText.includes(${JSON.stringify(pins.job_id)})&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})`));
     await check('actual-evidence-and-guard-'+phase,await ev("document.body.innerText.includes('Evidence')&&document.body.innerText.includes('Guard')&&document.body.innerText.includes('NOT APPROVED')"));
     if(caseName==='200') await check('no-invented-issue-on-200-'+phase,await ev("document.querySelectorAll('.m2-issue').length===0&&document.body.innerText.includes('证据不足')"));
@@ -95,6 +119,7 @@ try{
     step='save';await click('button[type=submit]',true);
     await check('real-persistent-review-receipt-'+phase,await ev("location.pathname.startsWith('/b5a/m2/receipt/')&&document.body.innerText.includes('已持久化')&&document.body.innerText.includes('REVISE_INTERNAL')"));
     await check('not-human-or-external-approval-'+phase,await ev("document.body.innerText.includes('NOT_APPROVED')&&document.body.innerText.includes('false')&&document.body.innerText.includes('不是实际人工批准')"));
+    const receiptPath=await ev('location.pathname');
     await click('[data-key=m2-a4]',true);
     await check('watermarked-version-bound-a4-'+phase,await ev(`document.querySelector('.m2-watermark')?.textContent.includes('合成样本')&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})&&document.body.innerText.includes('REVISE_INTERNAL')`));
     await check('bounded-a4-screen-'+phase,await ev("document.documentElement.scrollWidth<=innerWidth&&document.scripts.length===0"));
@@ -106,11 +131,23 @@ try{
       const pages=(pdf.toString('latin1').match(/\/Type\s*\/Page\b/g)||[]).length;
       await writeFile(path.join(out,'a4-'+caseName+'.pdf'),pdf);
       await check('one-real-A4-PDF-'+caseName,pages===1,{pages,sha256:hash(pdf),bytes:pdf.length});
+      step='restart';const restarted=await rpc('restart');
+      await check('real-process-and-PG-restart-'+caseName,Object.values(restarted).every(v=>v===true),restarted);
+      await nav(base+'report');
+      await check('old-session-denied-after-real-restart-'+caseName,await ev("document.body.innerText.includes('M2_REQUEST_DENIED')&&!document.querySelector('.m2-issue')"));
+      await login(caseName,false);await nav(taskURL);
+      await check('restart-routing-task-and-status-'+caseName,await ev(`document.querySelector('[data-key=m2-job_id]')?.textContent===${JSON.stringify(task.job_id)}&&document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'`));
+      await openNewReport();
+      await check('restart-signed-current-report-'+caseName,await ev(`document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})&&document.body.innerText.includes(${JSON.stringify(task.job_id)})`));
+      await nav(origin+receiptPath);
+      await check('restart-persistent-receipt-'+caseName,await ev(`document.body.innerText.includes('REVISE_INTERNAL')&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})`));
+      await nav(origin+receiptPath.replace('/receipt/','/export/'));
+      await check('restart-A4-same-report-'+caseName,await ev(`!!document.querySelector('.m2-watermark')&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})`));
     }
   }
   await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);
   await check('no-browser-exceptions',exceptions.length===0);
-  await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'M2_REAL_SIGNED_GENERATED_REPORT_REVIEW_A4_NOT_TASK_SUBMISSION',version,records,shots,network,exceptions},null,2));
+  await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'M2_FULL_TASK_WORKER_SIGNED_REVIEW_RECEIPT_A4_RESTART_PASS',version,records,shots,network,exceptions},null,2));
   process.stdout.write(JSON.stringify({kind:'done',pass:true,assertions:records.length,screenshots:shots.length})+'\n');
 }catch(error){await writeFile(path.join(out,'browser-failure.json'),JSON.stringify({status:'RED',code:error.message,phase,step,commands,version:browserVersion,records,network,exceptions},null,2));process.stdout.write(JSON.stringify({kind:'done',pass:false,code:error.message})+'\n');process.exitCode=1}
 finally{

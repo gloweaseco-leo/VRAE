@@ -20,7 +20,7 @@ def main():
     metadata = {'status': 'INCOMPLETE_NOT_PASS', 'label': label, 'native': [], 'files': {}}
     (public/'publication.json').write_text(json.dumps(metadata, indent=2))
     values = []
-    for path in private.rglob('private-credential-scan-values.json'):
+    for path in private.rglob('*credential-scan-values.json'):
         values.extend(json.loads(path.read_bytes()))
     # Original fixture scan-values already include all actual role credentials.
     # Full root-owned restart state remains private to the PG supervisor.
@@ -37,7 +37,7 @@ def main():
         metadata['files'][name] = {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
 
     try:
-        for name, folder, expected in [('native', private, 17), ('restarted', private/'recovered', 2)]:
+        for name, folder, expected in [('native', private, 23), ('restarted', private/'recovered', 4)]:
             raw = (folder/'native-junit.xml').read_bytes()
             receipt = json.loads((folder/'receipt.json').read_bytes())
             assert hashlib.sha256(raw).hexdigest() == receipt['native_junit_sha256']
@@ -57,25 +57,38 @@ def main():
             for case in ('404', '200'):
                 phase = str(width) + '/' + case
                 names += [prefix + '-' + phase for prefix in (
+                    'bootstrap-authorized-reviewer', 'actual-APP202-and-PENDING',
+                    'fresh-request-run-job-source', 'pending-no-report-authority',
+                    'actual-worker-same-job', 'DONE-still-requires-signature',
+                    'bounded-task-status',
                     'real-signed-new-result', 'httponly-new-result-session',
                     'exact-new-job-and-file-hash', 'actual-evidence-and-guard',
                     'actual-supported-issue-on-404' if case == '404' else 'no-invented-issue-on-200',
                     'bounded-generated-report', 'real-persistent-review-receipt',
                     'not-human-or-external-approval', 'watermarked-version-bound-a4', 'bounded-a4-screen')]
         names += ['one-real-A4-PDF-404', 'one-real-A4-PDF-200', 'no-browser-exceptions']
+        for case in ('404', '200'):
+            names += [prefix + '-' + case for prefix in ('real-process-and-PG-restart',
+                'old-session-denied-after-real-restart', 'restart-routing-task-and-status',
+                'restart-signed-current-report', 'restart-persistent-receipt', 'restart-A4-same-report')]
         assert Counter(r['name'] for r in records) == Counter(names)
-        assert all(r['pass'] for r in records) and len(browser['shots']) == 12
+        assert all(r['pass'] for r in records) and len(browser['shots']) == 18
         cleanup = json.loads((private/'cleanup.json').read_bytes())
-        assert len(cleanup) == 4 and all(r['absent'] for r in cleanup)
+        assert len(cleanup) == 6 and all(r['absent'] for r in cleanup)
         transport = json.loads((private/'browser/transport-cleanup.json').read_bytes())
         chrome = json.loads((private/'browser/browser-process-cleanup.json').read_bytes())
-        assert all(transport[k] for k in ('node_exited', 'bridge_exited', 'http_thread_exited'))
+        assert all(transport[k] for k in ('node_exited', 'bridge_exited', 'backend_exited', 'http_thread_exited'))
         assert chrome['exit_observed'] and not browser['exceptions']
-        for name in ('browser.json', 'http-observations.json', 'transport-cleanup.json', 'browser-process-cleanup.json'):
+        workers = json.loads((private/'browser/worker-results.json').read_bytes())
+        assert len(workers) == 6 and len({r['job_id'] for r in workers}) == 6
+        restarts = json.loads((private/'browser/actual-restarts.json').read_bytes())
+        assert len(restarts) == 2 and all(all(row.values()) for row in restarts)
+        for name in ('browser.json', 'http-observations.json', 'transport-cleanup.json', 'browser-process-cleanup.json',
+                     'worker-results.json', 'actual-restarts.json'):
             publish(name, (private/'browser'/name).read_bytes())
         for item in browser['shots']:
             name = item['file']
-            assert re.fullmatch(r'(report|a4)-(1280|375|320)-(404|200)\.png', name)
+            assert re.fullmatch(r'(task|report|a4)-(1280|375|320)-(404|200)\.png', name)
             raw = (private/'browser'/name).read_bytes()
             assert hashlib.sha256(raw).hexdigest() == item['sha256']
             publish(name, raw)
@@ -87,13 +100,14 @@ def main():
             publish(name, raw)
         publish('source-manifest.json', (private/'source-manifest.json').read_bytes())
         publish('cleanup.json', (private/'cleanup.json').read_bytes())
-        metadata.update(status='GENERATED_REVIEW_A4_PASS_TASK_SUBMISSION_BLOCKED',
-            real_pg_restart=True, browser_assertions=len(records), screenshots=12,
+        metadata.update(status='M2_FINAL_PASS_CANDIDATE_SYNTHETIC_INTERNAL_ONLY',
+            real_pg_restart=True, browser_assertions=len(records), screenshots=18,
             actual_a4_pdf_pages={'404': 1, '200': 1}, full_m2_exit=False,
+            full_m2_functional_flow_verified=True, owner_acceptance_pending=True,
             signing_key_outside_ssr=True, worker_uid=10002, ssr_uid=10003)
     finally:
         (public/'publication.json').write_text(json.dumps(metadata, indent=2))
-    assert metadata['status'] == 'GENERATED_REVIEW_A4_PASS_TASK_SUBMISSION_BLOCKED'
+    assert metadata['status'] == 'M2_FINAL_PASS_CANDIDATE_SYNTHETIC_INTERNAL_ONLY'
     print(json.dumps({'status': metadata['status'], 'public': str(public)}))
 
 

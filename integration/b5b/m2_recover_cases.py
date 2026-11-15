@@ -17,7 +17,7 @@ def restored():
     return json.loads(Path('/run/m2-before.json').read_bytes())
 
 
-@pytest.mark.parametrize('case', ['404', '200'])
+@pytest.mark.parametrize('case', ['404', '200', 'task-404', 'task-200'])
 def test_actual_pg_restart_preserves_report_and_all_internal_receipts(restored, case):
     item = restored[case]
     held = {'runtime': {'held': {}}}

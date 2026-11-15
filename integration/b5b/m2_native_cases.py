@@ -4,7 +4,7 @@ The receipt SQL is tested with a real low role. This is NOT evidence of the
 pending signed task/session HTTP port or a browser approval flow.
 """
 
-from dataclasses import replace
+from dataclasses import replace, asdict
 import hashlib
 import json
 from pathlib import Path
@@ -167,7 +167,7 @@ def test_review_command_rejects_stale_and_foreign_issue_intent(ledger):
             ReviewCommand.parse(f, view)
 
 
-def launch(ledger, *, clock=time.time):
+def launch(ledger, *, clock=time.time, workflow=None):
     issuer = Issuer()
     now = int(clock())
     anchor = TrustAnchor(ISSUER, AUDIENCE, issuer.jwks(), now + 180)
@@ -175,7 +175,7 @@ def launch(ledger, *, clock=time.time):
         'tenant-test', ledger['results'][case]['job_id'], now + 180) for case in ('404', '200')]
     reader = SignedGeneratedReader(anchor=anchor, assignments=assignments, connect=support.connect, clock=clock)
     sessions = GeneratedSessions(reader)
-    generated = GeneratedConsole(sessions, {case: {'tenant': 'tenant-test', 'job_id': ledger['results'][case]['job_id']} for case in ('404', '200')})
+    generated = GeneratedConsole(sessions, {case: {'tenant': 'tenant-test', 'job_id': ledger['results'][case]['job_id']} for case in ('404', '200')}, workflow=workflow)
     # SAME original SSR composition; the legacy lane has no fixture reports or
     # assignments at all. Nothing sealed can become a new Worker result.
     legacy = SessionStore(anchor=anchor, bindings={}, readers={})
@@ -300,3 +300,182 @@ def test_real_commit_after_signed_deadline_rolls_back_receipt(ledger):
         with pytest.raises(psycopg.Error, match='M2_RECEIPT_DENIED'):
             c.execute('SELECT b5b_m2.read_receipt(%s,%s,%s)',
                 ('tenant-test', request['job_id'], command_id))
+
+
+@pytest.mark.parametrize('case', ['404', '200'])
+def test_submit_status_fresh_worker_dynamic_signed_report_and_restart_routing(ledger, case):
+    from html import unescape
+    import re
+    from apps.operator_console.b5b_m2_tasks import TaskWorkflow
+    from vrae.application.ra4b_p2.m1.consumer import TaskClient, AppEndpoint
+    client = TaskClient(AppEndpoint(ledger['runtime']['held']['APP']['bearer'], 'tenant-test',
+                                   frozenset({'accepted-404', 'accepted-200'})))
+    journal = '/tmp/m2-task-native-' + case + '.sqlite'
+    workflow = TaskWorkflow(client, journal)
+    app, http, thread, issuer, generated = launch(ledger, workflow=workflow)
+    try:
+        assert http_call(app, 'POST', '/b5a/m2/create', b'case=404',
+                         content_type='application/x-www-form-urlencoded')[0] == 403
+        cookie = signin(app, generated, issuer, case)
+        status, raw, _ = http_call(app, 'GET', '/b5a/m2/tasks', cookie=cookie)
+        assert status == 200
+        csrf = unescape(re.search(rb'name="_csrf" value="([^"]+)"', raw)[1].decode())
+        status, _, headers = http_call(app, 'POST', '/b5a/m2/create',
+            urlencode({'_csrf': csrf, 'case': case}).encode(), cookie=cookie,
+            content_type='application/x-www-form-urlencoded')
+        assert status == 303
+        url = next(v for k, v in headers if k.lower() == 'location')
+        ticket = url.rsplit('/', 1)[1]
+        sid = cookie.split('=', 1)[1]
+        task = workflow.task(ticket, generated.sessions.require(sid))
+        assert task.job_id != ledger['results'][case]['job_id']
+        status, raw, _ = http_call(app, 'GET', url, cookie=cookie)
+        assert status == 200 and b'PENDING' in raw and b'data-app-status="202"' in raw
+        assert b'm2-new-report' not in raw
+        finished = ledger['spawn']()
+        assert all(finished[k] == getattr(task, k) for k in ('request_id', 'run_id', 'job_id'))
+        status, raw, _ = http_call(app, 'GET', url, cookie=cookie)
+        assert status == 200 and b'TEST_ONLY_DONE' in raw
+        csrf = unescape(re.search(rb'name="_csrf" value="([^"]+)"', raw)[1].decode())
+        status, raw, headers = http_call(app, 'POST', url + '/challenge',
+            urlencode({'_csrf': csrf}).encode(), cookie=cookie,
+            content_type='application/x-www-form-urlencoded')
+        assert status == 200
+        assert generated.sessions.require(sid).assignment.job_id == ledger['results'][case]['job_id']
+        challenge = json.loads(raw)
+        cc = next(v.split(';')[0] for k, v in headers if k.lower() == 'set-cookie')
+        now = int(time.time())
+        token = issuer.token({'iat': now, 'nbf': now, 'exp': now + 90, 'nonce': challenge['nonce']})
+        status, _, headers = http_call(app, 'POST', '/b5a/m2/session', b'{}', cookie=cc,
+            auth=token, csrf=challenge['csrf'], content_type='application/json')
+        assert status == 303
+        new_cookie = next(v.split(';')[0] for k, v in headers if k.lower() == 'set-cookie' and v.startswith('b5a_m2_session='))
+        assert new_cookie != cookie
+        status, raw, _ = http_call(app, 'GET', '/b5a/m2/report', cookie=new_cookie)
+        assert status == 200 and task.job_id.encode() in raw and finished['report_sha256'].encode() in raw
+        assert ('0 个有据问题'.encode() in raw) == (case == '200')
+        new_sid = new_cookie.split('=', 1)[1]
+        with generated.sessions.request(new_sid) as (_, view):
+            valid = fields(view, 'REVISE_INTERNAL', '新任务内部修订，请复核本版。')
+        csrf = unescape(re.search(rb'name="_csrf" value="([^"]+)"', raw)[1].decode())
+        with support.connect() as c:
+            count = c.execute('SELECT count(*) FROM b5b_m2.receipts').fetchone()[0]
+        wrong = dict(valid, report_sha256=ledger['results'][case]['report_sha256'], _csrf=csrf)
+        assert wrong['report_sha256'] != valid['report_sha256']
+        assert http_call(app, 'POST', '/b5a/m2/review', urlencode(wrong).encode(), cookie=new_cookie,
+                         content_type='application/x-www-form-urlencoded')[0] == 409
+        with support.connect() as c:
+            assert c.execute('SELECT count(*) FROM b5b_m2.receipts').fetchone()[0] == count
+        status, raw, _ = http_call(app, 'GET', '/b5a/m2/report', cookie=new_cookie)
+        assert status == 200
+        valid['_csrf'] = unescape(re.search(rb'name="_csrf" value="([^"]+)"', raw)[1].decode())
+        status, _, headers = http_call(app, 'POST', '/b5a/m2/review', urlencode(valid).encode(), cookie=new_cookie,
+                                      content_type='application/x-www-form-urlencoded')
+        assert status == 303
+        receipt_url = next(v for k, v in headers if k.lower() == 'location')
+        command_id = receipt_url.rsplit('/', 1)[1]
+        with support.connect('p2b1_test_a_reviewer') as c:
+            receipt = c.execute('SELECT b5b_m2.read_receipt(%s,%s,%s)',
+                                ('tenant-test', task.job_id, command_id)).fetchone()[0]
+        assert receipt['report'] == finished and receipt['decision'] == 'REVISE_INTERNAL'
+        status, raw, _ = http_call(app, 'GET', receipt_url.replace('/receipt/', '/export/'), cookie=new_cookie)
+        assert status == 200 and '合成样本'.encode() in raw and finished['report_sha256'].encode() in raw
+        # Reopen the actual durable routing journal; handles remain routing only.
+        reopened = TaskWorkflow(client, journal)
+        assert reopened.task(ticket, generated.sessions.require(new_cookie.split('=', 1)[1])) == task
+        ledger['receipts']['task-' + case] = {'task': asdict(task), 'ticket': ticket,
+            'result': finished, 'report_sha256': finished['report_sha256'],
+            'records': [{'command_id': command_id, 'receipt': receipt}]}
+    finally:
+        http.shutdown()
+        http.server_close()
+        thread.join(timeout=5)
+
+
+def task_workflow(ledger, suffix, tenant='tenant-test'):
+    from apps.operator_console.b5b_m2_tasks import TaskWorkflow
+    from vrae.application.ra4b_p2.m1.consumer import TaskClient, AppEndpoint
+    client = TaskClient(AppEndpoint(ledger['runtime']['held']['APP']['bearer'], tenant,
+                                   frozenset({'accepted-404', 'accepted-200'})))
+    return TaskWorkflow(client, '/tmp/m2-task-' + suffix + '.sqlite')
+
+
+def test_committed_app_response_loss_recovers_same_idempotency_key(ledger):
+    from vrae.application.ra4b_p2.m1.consumer import ConsumerDenied
+    workflow = task_workflow(ledger, 'lost-response')
+    app, http, thread, issuer, generated = launch(ledger, workflow=workflow)
+    try:
+        sid = signin(app, generated, issuer, '404').split('=', 1)[1]
+        original = workflow.client.create
+        observed = []
+
+        def lost(*args, **kwargs):
+            observed.append(original(*args, **kwargs))
+            raise ConsumerDenied()
+
+        workflow.client.create = lost
+        with pytest.raises(ConsumerDenied):
+            workflow.create(generated.sessions, sid, '404')
+        workflow.client.create = original
+        session = generated.sessions.require(sid)
+        row = workflow.list(session)[0]
+        assert row[2] == 0
+        key = workflow.row(row[0], session)[2]
+        assert workflow.create(generated.sessions, sid, '404', ticket=row[0]) == row[0]
+        assert workflow.row(row[0], session)[2] == key
+        assert workflow.task(row[0], session) == observed[0]
+        assert ledger['spawn']()['job_id'] == observed[0].job_id
+        foreign = replace(session, assignment=replace(session.assignment, subject='unassigned-subject'))
+        with pytest.raises(IdentityDenied):
+            workflow.task(row[0], foreign)
+        bindings = generated.sessions.reader.assignments
+        try:
+            generated.sessions.reader.assignments = (*bindings, session.assignment)
+            with pytest.raises(IdentityDenied):
+                generated.sessions.require(sid)
+        finally:
+            generated.sessions.reader.assignments = bindings
+    finally:
+        http.shutdown()
+        http.server_close()
+        thread.join(timeout=5)
+
+
+def test_revoked_parent_assignment_cannot_create_a_task(ledger):
+    workflow = task_workflow(ledger, 'revoked-parent')
+    app, http, thread, issuer, generated = launch(ledger, workflow=workflow)
+    job = ledger['results']['404']['job_id']
+    try:
+        sid = signin(app, generated, issuer, '404').split('=', 1)[1]
+        with support.connect() as c:
+            before = c.execute('SELECT count(*) FROM ra4a.requests').fetchone()[0]
+            c.execute('UPDATE ra4b_p2.m1_assignments SET active=false WHERE job_id=%s', (job,))
+        with pytest.raises(psycopg.Error):
+            workflow.create(generated.sessions, sid, '404')
+        with support.connect() as c:
+            assert c.execute('SELECT count(*) FROM ra4a.requests').fetchone()[0] == before
+        assert workflow.list(generated.sessions.require(sid)) == []
+    finally:
+        with support.connect() as c:
+            c.execute('UPDATE ra4b_p2.m1_assignments SET active=true WHERE job_id=%s', (job,))
+        http.shutdown()
+        http.server_close()
+        thread.join(timeout=5)
+
+
+@pytest.mark.parametrize('tenant,source', [('tenant-beta', '404'), ('tenant-test', 'https://unapproved.invalid/')])
+def test_tenant_or_source_mismatch_never_admits_task(ledger, tenant, source):
+    workflow = task_workflow(ledger, 'mismatch-' + tenant, tenant)
+    app, http, thread, issuer, generated = launch(ledger, workflow=workflow)
+    try:
+        sid = signin(app, generated, issuer, '404').split('=', 1)[1]
+        with support.connect() as c:
+            before = c.execute('SELECT count(*) FROM ra4a.requests').fetchone()[0]
+        with pytest.raises(IdentityDenied):
+            workflow.create(generated.sessions, sid, source)
+        with support.connect() as c:
+            assert c.execute('SELECT count(*) FROM ra4a.requests').fetchone()[0] == before
+    finally:
+        http.shutdown()
+        http.server_close()
+        thread.join(timeout=5)

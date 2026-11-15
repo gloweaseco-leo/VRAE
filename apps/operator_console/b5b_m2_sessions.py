@@ -13,7 +13,8 @@ import math
 import secrets
 import threading
 
-from vrae.application.ra4b_p2.m1.reader import SignedGeneratedReader, GeneratedReport
+from vrae.application.ra4b_p2.m1.reader import SignedGeneratedReader, GeneratedReport, JobAssignment
+from vrae.application.ra4b_p2.m1.consumer import TaskClient, TaskHandle
 from vrae.application.ra4b_p2.m1.producer import Output, replay
 from vrae.identity.boundary import document, decode, IdentityDenied
 from .b5b_m2_report import ReportView
@@ -44,6 +45,7 @@ class GeneratedSessions:
         self.boot = secrets.token_hex(32)
         self.last = 0
         self.refresh = lambda: None
+        self.task_handles = {}
 
     def now(self):
         n = self.reader.clock()
@@ -62,8 +64,22 @@ class GeneratedSessions:
         return hashlib.sha256(json.dumps([
             self.boot, a.issuer, a.audience, a.expires, a.available,
             sorted(a.revoked), hashlib.sha256(a.jwks).hexdigest(),
-            [vars(x) for x in self.reader.assignments],
         ], sort_keys=True).encode()).hexdigest()
+
+    def bind_task(self, assignment, client, task):
+        with self.lock:
+            if (type(assignment) is not JobAssignment or type(client) is not TaskClient
+                    or type(task) is not TaskHandle or assignment.tenant != task.tenant_id
+                    or assignment.job_id != task.job_id or assignment.expires <= self.now()):
+                denied()
+            old = [a for a in self.reader.assignments if (a.tenant, a.job_id) == (assignment.tenant, assignment.job_id)]
+            if old and old != [assignment]:
+                denied()
+            if not old:
+                if len(self.reader.assignments) >= 40:
+                    denied()
+                self.reader.assignments = (*self.reader.assignments, assignment)
+            self.task_handles[(assignment.tenant, assignment.job_id)] = (client, task)
 
     def challenge(self, tenant, job_id):
         with self.lock:
@@ -86,7 +102,12 @@ class GeneratedSessions:
                 denied()
             assignment, nonce = value[:2]
             # Public accepted crypto + actual PG16 role/scope + native replay.
-            self.reader.read(bearer, assignment.tenant, assignment.job_id, nonce=nonce)
+            bound = self.task_handles.get((assignment.tenant, assignment.job_id))
+            if bound is None:
+                self.reader.read(bearer, assignment.tenant, assignment.job_id, nonce=nonce)
+            else:
+                client, task = bound
+                client.read(task, self.reader, bearer, nonce=nonce)
             # Metadata from the EXACT already-verified token, never authority
             # from an unverified parse and never retained bearer bytes.
             claims = document(decode(bearer[7:].split('.')[1]))
@@ -105,8 +126,14 @@ class GeneratedSessions:
         if type(sid) is not str or not 32 <= len(sid) <= 128:
             denied()
         session = self.sessions.get(digest(sid))
-        if (session is None or session.expires <= now or session.generation != self.generation()
-                or session.assignment not in self.reader.assignments):
+        if session is None:
+            denied()
+        a = session.assignment
+        matches = [v for v in self.reader.assignments
+                   if (v.issuer, v.subject, v.tenant, v.job_id, v.db_role)
+                   == (a.issuer, a.subject, a.tenant, a.job_id, a.db_role)]
+        if (session.expires <= now or session.generation != self.generation()
+                or matches != [a] or not a.active or a.expires <= now):
             denied()
         return session
 
@@ -154,6 +181,10 @@ class GeneratedSessions:
                     d = replay(Output(source, report, html, b''))
                     if (d['scope']['tenant_id'] != a.tenant or loc['job_id'] != a.job_id
                             or loc['tenant_id'] != a.tenant):
+                        denied()
+                    bound = self.task_handles.get((a.tenant, a.job_id))
+                    if bound is not None and any(loc.get(k) != getattr(bound[1], k)
+                            for k in ('tenant_id', 'request_id', 'run_id', 'job_id')):
                         denied()
                     yield c, view
                     # The caller submits only inside this scope; never return
