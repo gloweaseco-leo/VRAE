@@ -1,4 +1,4 @@
-"""Original accepted SSR, restricted Reviewer profile only."""
+﻿"""Original accepted SSR, restricted Reviewer profile only."""
 import argparse
 import json
 from pathlib import Path
@@ -23,11 +23,13 @@ def main():
         def sink(event):
             with audit.open("ab") as stream:
                 stream.write(json.dumps(event).encode()+b"\n")
-        # Private diagnostic watchdog: records stacks, never decides authorization.
+        # Passive fatal capture only; no scheduled sampler or authorization decision.
         import faulthandler
         stacks = audit.with_suffix(".stacks.private.log").open("ab")
         faulthandler.enable(file=stacks)
-        faulthandler.dump_traceback_later(20,repeat=True,file=stacks)
+        faulthandler.cancel_dump_traceback_later()
+        from .native_observation import record,identity
+        record(profile.parent,"SSR_BOOT",**identity())
         deps = Path(args.deps_ready).resolve()
         assert deps.is_relative_to(root.resolve())
         import psycopg  # noqa: F401 -- initialize the locked driver before HTTP
@@ -39,6 +41,8 @@ def main():
         app = ProvisionedApplication(profile)
     http = server(app)
     ready.write_text(json.dumps({"origin": app.origin}))
+    if args.bridge:
+        record(profile.parent,"SSR_READY",**identity())
     try:
         http.serve_forever()
     finally:
@@ -46,3 +50,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

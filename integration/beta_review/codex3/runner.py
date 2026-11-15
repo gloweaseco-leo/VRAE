@@ -148,6 +148,8 @@ class Run:
         if self.b5:
             self.bridge=self.folder/"b5-bridge.private.json"
             write(self.bridge,self.r.bridge_profile())
+            from .native_observation import ObservedIssuer
+            self.r.issuer=ObservedIssuer(self.r.issuer,self.folder)
 
     def start_native(self):
         image="vrae-ra4b-p1:"+self.minor.replace(".","")
@@ -209,6 +211,9 @@ class Run:
             env={**{k:v for k,v in os.environ.items() if k.upper() in
                 {"PATH","SYSTEMROOT","WINDIR","TEMP","TMP","COMSPEC"}},
                 "PYTHONUTF8":"1","PYTHONDONTWRITEBYTECODE":"1"})
+        if self.b5:
+            from .native_observation import launched
+            launched(self)
         def ready():
             if self.ssr.poll() is not None:
                 raise RuntimeError("SSR_START_FAILED")
@@ -228,8 +233,8 @@ class Run:
         write(self.folder/"signer.private.json",{k:base64_key(v) for k,v in self.r.issuer.keys.items()})
 
     def restart_ssr(self):
-        self.ssr.terminate()
-        self.ssr.wait(timeout=15)
+        from .native_observation import stopped
+        assert stopped(self,"documented_restart") is None,"SSR_ALREADY_EXITED_NO_RESTART"
         self.start_ssr()
 
     def signed_reads(self):
@@ -312,8 +317,12 @@ class Run:
         def ssr_stop():
             if not self.ssr:
                 return
-            self.ssr.terminate()
-            self.ssr.wait(timeout=15)
+            if self.b5:
+                from .native_observation import stopped
+                stopped(self,"owned_cleanup")
+            else:
+                self.ssr.terminate()
+                self.ssr.wait(timeout=15)
             import socket
             from urllib.parse import urlsplit
             def closed():
@@ -340,6 +349,15 @@ class Run:
         assert not errors,"OWNED_CLEANUP_FAILED"
         
     def publish(self):
+        native_error=None
+        if self.b5 and self.ssr:
+            from .native_observation import assert_no_native_crash
+            try:
+                assert_no_native_crash(self)
+            except Exception as exc:
+                native_error=exc
+                self.result["status"]="NATIVE_RED_PRESERVED"
+                self.result["native_observation_error"]=type(exc).__name__
         self.result["dependencies"]=[
             {"stage":"S1/S2","interface":"B4 Worker -> live Collector/RuleExecution/report persistence",
              "owner":"Codex1/Owner","state":"BLOCKED_NO_ACCEPTED_INTERFACE",
@@ -366,6 +384,8 @@ class Run:
             "private_raw_outputs_excluded":True,"source_sha":self.result["source_sha"]})
         print(json.dumps({"run":self.label,"status":self.result["status"],
             "component_assertion_stages":len(self.cases),"component_stages_sha256":self.result["component_stages_sha256"]}),flush=True)
+        if native_error is not None:
+            raise native_error
 
 def base64_key(key):
     import base64
