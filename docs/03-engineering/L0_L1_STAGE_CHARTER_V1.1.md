@@ -6,6 +6,8 @@
 >
 > **授权来源**：[原唯一总控 Issue #97 的 Scheme B 决策](https://github.com/gloweaseco-leo/VRAE/issues/97#issuecomment-6895902508)与 Owner 对 [Codex1](https://github.com/gloweaseco-leo/VRAE/issues/94#issuecomment-6895929839)、[Codex2](https://github.com/gloweaseco-leo/VRAE/pull/103#issuecomment-6895931265)、[Codex3](https://github.com/gloweaseco-leo/VRAE/issues/96#issuecomment-6895932668)的已签发任务。本文是**阶段目标与自治执行规则**，不是新 V1.2、架构更替、真实客户放行或新增工程包；出现矛盾以 V1.1 产品/事实/数据原则及最新 Owner 阶段裁决为准。
 
+> **开工前基线与语义澄清（2026-11-15）**：[完整 Git 入口基线与在途证据清册](L0_L1_PRESTART_BASELINE_2026-11-15.md)、[与 V1.1 原文及当前代码的对齐审计](L0_L1_V1.1_ALIGNMENT_AUDIT_2026-11-15.md)。固定入口为 [4aa0f02d7feae58b1ebd20d72b8cab3f37f31c7a](https://github.com/gloweaseco-leo/VRAE/commit/4aa0f02d7feae58b1ebd20d72b8cab3f37f31c7a)，不含未合并 Codex 本地成果；现有工作树/原生 RED 另行保留。本阶段“批准／拒绝／修订”仅指**合成范围内的内部审核动作和对应持久版本回执**，不是 V1.1 意义上已获真实人员批准的客户报告、ShareGrant 或对外交付。新私有结果账本应保持 **VRAE 同一个报告版本、事实来源和审阅权威**，不得成为不关联的第二份事实。阶段范围仍仅合成 L0→L1，不替代 V1.1 的完整业务或后续真实网站验证。
+
 ## 一、阶段使命、范围与停止线
 
 **一句话使命：** 将已经存在的采集、规则、证据、Guard、报告、持久队列及审核工作台集成为一个 VEYFRONT 内部人员可亲自操作、可重复启动的 **L0→L1 合成网站 Beta**，用业务流程证明模块协同工作，而不是凭孤立单元测试和预封存报告宣称成功。
