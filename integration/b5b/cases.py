@@ -46,7 +46,7 @@ def test_same_signed_workspace_preview_original_document_and_durable_receipt(run
     assert repeated[1] == saved[1] and runtime.data() == counts
 
 
-@pytest.mark.parametrize("route", ["private-preview", "private-document", "worker-result"])
+@pytest.mark.parametrize("route", ["private-preview", "private-document", "private-view", "worker-result"])
 def test_unauthenticated_or_cross_assignment_has_no_private_output(runtime, route):
     c = runtime.client()
     assert c.request("GET", path(action=route))[0] == 403

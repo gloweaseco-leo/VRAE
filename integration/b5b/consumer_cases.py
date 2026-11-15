@@ -67,3 +67,19 @@ def test_browser_red_retains_first_phase_and_failed_cleanup_without_headers(tmp_
     assert row['completed_assertions'] == 1 and not row['cleanup']['exit_observed']
     assert result['suites'][0]['status'] == 'NOT_STARTED'
     assert b'PRIVATE_HEADER' not in raw and b'Authorization' not in raw
+
+
+def test_browser_failure_can_retain_exact_original_passed_xml_but_never_raw_red(tmp_path):
+    # Deliberate serializer fixtures, not evidence of a real native test run.
+    passed = b'<testsuites><testsuite><testcase classname="fixture" name="pass"/></testsuite></testsuites>'
+    p = tmp_path/'fixture.xml'
+    p.write_bytes(passed)
+    v = native_failure_views(p, retain_passed_original=True)
+    r = json.loads(v['native-retention.json'])
+    assert v['native-junit.xml'] == passed and not r['raw_xml_private']
+    assert r['public_original_passed_sha256'] == hashlib.sha256(passed).hexdigest()
+    red = passed.replace(b'/></testsuite>', b'><failure>PRIVATE_TRACE</failure></testcase></testsuite>')
+    p.write_bytes(red)
+    v = native_failure_views(p, retain_passed_original=True)
+    assert v['native-junit.xml'] != red and b'PRIVATE_TRACE' not in v['native-junit.xml']
+    assert json.loads(v['native-retention.json'])['raw_xml_private']

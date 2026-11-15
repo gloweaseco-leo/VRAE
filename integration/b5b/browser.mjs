@@ -94,7 +94,7 @@ try{
     await bounded('bounded-private-panel-'+phase);
     await screenshot('preview-'+width+'-'+caseName+'.png');
     await click('[data-key=b5b-private-document]',true);
-    await check('original-B6-private-document-'+phase,await ev("document.body.innerText.includes('TEST_ONLY_PRIVATE_PREVIEW')&&document.body.innerText.includes('NOT APPROVED')&&document.body.innerText.includes('UNKNOWN')&&!document.querySelector('script,form')"));
+    await check('verified-original-B6-view-'+phase,await ev("document.body.innerText.includes('TEST_ONLY_PRIVATE_PREVIEW')&&document.body.innerText.includes('NOT APPROVED')&&document.body.innerText.includes('UNKNOWN')&&!document.querySelector('script,form')&&/^[a-f0-9]{64}$/.test(document.querySelector('[data-key=b5b-private-content]')?.dataset.originalSha256)"));
     await bounded('bounded-original-B6-'+phase);
     await screenshot('document-'+width+'-'+caseName+'.png');
     // Independent positive groups use fresh original short-lived signatures.

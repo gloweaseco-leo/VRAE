@@ -122,7 +122,7 @@ def main(label):
         (public / "source.json").write_text(json.dumps(frozen, sort_keys=True), encoding="utf-8")
         print(json.dumps(summary), flush=True)
 
-    if result.returncode or bad or len(cases) != 104:
+    if result.returncode or bad or len(cases) != 106:
         # Preserve genuine native failure outcomes using the accepted B4
         # sanitizer; never publish raw traceback/credentials or fabricate XML.
         if native.exists():
@@ -162,7 +162,7 @@ def main(label):
     if browser.returncode:
         from .publication import native_failure_views, browser_failure_view
 
-        safe = native_failure_views(native)
+        safe = native_failure_views(native, retain_passed_original=True)
         safe['browser-failure.json'] = browser_failure_view(PRIVATE / (label + '-browser'))
         for name, raw in safe.items():
             assert not re.search(rb'Bearer\s+|eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]+\.', raw)
@@ -175,7 +175,7 @@ def main(label):
     roots += list(PRIVATE.glob(label + "-new-pg-*")) + [browser_root]
     assert len(roots) == 3
     cleanup = [json.loads(p.read_bytes()) for root in roots for p in root.rglob("cleanup.json")]
-    assert len(cleanup) == 86
+    assert len(cleanup) == 87
     assert all(
         c.get("database_dropped") is True
         or c.get("port_closed") is True
@@ -186,7 +186,7 @@ def main(label):
     observations = [
         json.loads(p.read_bytes()) for root in roots for p in root.rglob("observations.json")
     ]
-    assert len(observations) == 84
+    assert len(observations) == 85
     assert all(o["protected_roots_before"] == o["protected_roots_after"] for o in observations)
     secrets = []
     for root in roots:
@@ -203,8 +203,8 @@ def main(label):
     retention = {
         "sha256": sha(native.read_bytes()),
         "crc32": format(zlib.crc32(native.read_bytes()) & 0xFFFFFFFF, "08x"),
-        "cases": 104,
-        "passed": 104,
+        "cases": 106,
+        "passed": 106,
         "failed": 0,
         "errors": 0,
         "skipped": 0,
@@ -244,7 +244,7 @@ def main(label):
             "browser_assertions": counts,
             "screenshots": 18,
             "original_browser": "UNCHANGED_INDEPENDENT_B5P0_CI_NOT_DUPLICATED",
-            "cleanup_records": 86,
+            "cleanup_records": 87,
             "protected_originals_unchanged": True,
             "external_delivery_sends": 0,
             "publication_secret_matches": 0,

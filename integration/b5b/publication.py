@@ -9,17 +9,25 @@ import zlib
 from integration.ra4b.evidence import sanitized_junit
 
 
-def native_failure_views(path):
+def native_failure_views(path, *, retain_passed_original=False):
     raw = path.read_bytes()
     curated, _ = sanitized_junit(raw)
     cases = list(ET.fromstring(raw).iter('testcase'))
     bad = sum(any(c.find(k) is not None for k in ('failure', 'error', 'skipped')) for c in cases)
+    original_pass = retain_passed_original and bool(cases) and bad == 0
+    if original_pass:
+        tree = ET.fromstring(raw)
+        # Never expose traceback/captured streams as an "original PASS" file.
+        original_pass = not any(list(tree.iter(k)) for k in ('system-out', 'system-err', 'properties'))
+        original_pass = original_pass and not re.search(rb'Bearer\s+|eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]+\.', raw)
+    if original_pass:
+        curated = raw
     retention = {
         'raw_native_sha256': hashlib.sha256(raw).hexdigest(),
         'raw_native_crc32': format(zlib.crc32(raw) & 0xFFFFFFFF, '08x'),
-        'public_curated_sha256': hashlib.sha256(curated).hexdigest(),
+        ('public_original_passed_sha256' if original_pass else 'public_curated_sha256'): hashlib.sha256(curated).hexdigest(),
         'cases': len(cases), 'passed': len(cases) - bad,
-        'raw_xml_private': True, 'stdout_constructed_xml': False,
+        'raw_xml_private': not original_pass, 'stdout_constructed_xml': False,
     }
     return {'native-junit.xml': curated, 'native-retention.json': json.dumps(retention, sort_keys=True).encode()}
 
@@ -44,6 +52,11 @@ def browser_failure_view(root):
                     row[field] = value
             row['failed_assertions'] = [r['name'] for r in records if r.get('pass') is False
                 and isinstance(r.get('name'), str) and re.fullmatch(r'[A-Za-z0-9_./-]{1,160}', r['name'])]
+            row['failed_layout_metrics'] = [
+                {k: r.get('metadata', {})[k] for k in ('width', 'scroll', 'scripts', 'jwt')
+                 if type(r.get('metadata', {}).get(k)) in (int, bool)}
+                for r in records if r.get('pass') is False
+            ]
         cleanup = folder / 'browser-process-cleanup.json'
         if cleanup.exists():
             original = json.loads(cleanup.read_bytes())

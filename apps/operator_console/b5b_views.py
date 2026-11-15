@@ -68,8 +68,8 @@ def preview(package, task, csrf):
         + "</code></p>"
         "<p>不包含原文、身份凭据、联系人、可兑换链接或正式批准。</p>"
         + link(
-            "/b5a/tasks/" + task_path + "/b5b/private-document",
-            "读取原 B6 私有文档",
+            "/b5a/tasks/" + task_path + "/b5b/private-view",
+            "查看原 B6 私有内容",
             key="b5b-private-document",
         )
         + '<form method="post" action="/b5a/tasks/'
@@ -80,6 +80,24 @@ def preview(package, task, csrf):
         + '<button id="b5b-deny-delivery" type="submit">核验分享拒绝（不创建授权）</button></form></section>'
     )
     return frame("/b5a/", "私有预览 · NOT APPROVED", content, "NOT APPROVED")
+
+
+def private_view(package, task):
+    # The immutable original document stays at /private-document, byte-exact.
+    # Its inline style and meta-CSP conflict with the signed SSR's stricter
+    # response CSP. Reuse only its verified body in the existing same-origin
+    # styled frame; never loosen the original HTTP policy or rewrite B6 bytes.
+    original = package.private_html.decode('utf-8')
+    if original.count('<main>') != 1 or original.count('</main>') != 1:
+        raise ValueError('B5B_ORIGINAL_PRIVATE_DOCUMENT_SHAPE')
+    content = original.split('<main>', 1)[1].split('</main>', 1)[0]
+    digest = package.candidate.document['private_html_sha256']
+    return frame('/b5a/', '原 B6 私有内容 · NOT APPROVED',
+        '<section class="card" data-key="b5b-private-content" data-original-sha256="' + e(digest) + '">'
+        + content + '</section>'
+        + '<p>这是同源样式查看层；原 B6 文档字节及哈希保持不变。</p>'
+        + link('/b5a/tasks/' + quote(task, safe='') + '/b5b/private-document',
+               '按原哈希读取原 B6 文档字节', key='b5b-original-document'), 'NOT APPROVED')
 
 
 def denial(receipt):

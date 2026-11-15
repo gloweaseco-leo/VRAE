@@ -80,7 +80,7 @@ failed label or rerun unchanged source to select green. The runner:
 
 1. Verifies current source bytes against committed Git blobs.
 2. Runs original B5 55 assertions unchanged using its original fixture, plus
-   30 real B5B PG/HTTP cases and19 pure boundary/publication/UI cases:104 expected,
+   31 real B5B PG/HTTP cases and20 pure boundary/publication/UI cases:106 expected,
    no skips. A count is not a PASS claim; inspect actual current native XML.
    Cases cover tenant/version/revocation, original unknown/half-commit/lost
    response, actual child restart and original-key receipt, and11 deny operations.
@@ -97,11 +97,13 @@ failed label or rerun unchanged source to select green. The runner:
    removed only from the new consumer suite; original receipt/revocation tests
    and the complete original browser workflow are unchanged.
 4. Verifies original-byte/catalog roots, three owned PG resource groups,
-   all83 case databases dropped, actual Chrome exit and child termination.
+   all84 case databases dropped, actual Chrome exit and child termination.
 5. Exports only scanned native JUnit, SHA/CRC retention, bounded browser metadata,
    18 screenshots, source hashes and cleanup. Raw logs, profile files, signer,
    passwords, cookies, private journals and raw failed native XML stay private.
-   Browser RED now retains accepted-sanitized actual native XML/raw SHA+CRC,
+   Browser RED now retains exact original native XML when all cases passed and
+   no captured streams/properties/credential pattern is present; otherwise the
+   accepted sanitizer retains actual outcomes and raw SHA+CRC privately indexed.
    failure suite/code/phase/assertion counts and actual cleanup flags, including
    false flags. Never publish raw headers, token-bearing CDP commands or stacks.
 
@@ -150,7 +152,7 @@ Original PR103 `d607d39` remains22/24 hosted jobs, both B5B browser jobs RED;
 all21 original ZIPs have been downloaded/hash-verified privately. R3 focused
 browser RED and false Chrome cleanup flags are also retained without rewriting.
 
-Current continuation's10 new pure tests pass on both Python minors. A focused
+The first continuation's10 new pure tests pass on both Python minors. A focused
 private-stack diagnostic also caught native ReportDraft/ReviewTarget recursive
 replay during a25s HTTP timeout. The single-tab focused browser still reached
 30s CDP timeout at first1280/404 signed session, with original PG bytes already
@@ -158,3 +160,16 @@ returned and target replay in progress. This is **not a browser fix PASS** or
 proof of the historical hosted failure's root. No original replay, authorization,
 PG timeout, session90s or HTTP25s/CDP30s threshold was relaxed. Current hosted
 RED publication will identify its actual first browser phase independently.
+
+On `e5da6d2`, hosted native104/104 passed in both minors, then the375/404
+`bounded-original-B6` assertion failed. Those22/24 Jobs and all21 ZIPs remain
+separate in private `ci-m2/`. The B6 raw HTML's inline-style/meta-CSP conflicts
+with the accepted SSR's HTTP `style-src 'self'`, leaving the long fingerprint
+unwrapped. New `/private-view` places only verified B6 body content in the existing
+same-origin styled frame; original `/private-document` still returns the exact
+original bytes/hash and original HTTP CSP is unchanged. No iframe or new style
+permission. A real Chrome presentation-only probe using the verified official
+B6 artifact reproduced old overflow at375/320 and proved the new view bounded
+at1280/375/320 with the same response CSP. This probe is not PG/auth/Worker proof.
+New view permission denial and exact-original-on-browser-RED retention extend
+native collection to106; the related11 pure cases passed in both minors.

@@ -60,7 +60,7 @@ class Application:
                         return self._reply(409, workspace(session.task_id))
                     if action == "worker-result" and method in ("GET", "HEAD"):
                         return self._reply(409, views.blocked())
-                    if action in ("private-preview", "private-document") and method in (
+                    if action in ("private-preview", "private-document", "private-view") and method in (
                         "GET",
                         "HEAD",
                     ):
@@ -68,6 +68,10 @@ class Application:
                         if action == "private-document":
                             app.current(sid, session)
                             return Reply(Response(200, package.private_html))
+                        if action == 'private-view':
+                            html = views.private_view(package, session.task_id)
+                            app.current(sid, session)
+                            return self._reply(200, html)
                         csrf = app.sessions.action_nonce(
                             sid, PREFIX + "tasks/" + session.task_id + "/b5b/delivery"
                         )
