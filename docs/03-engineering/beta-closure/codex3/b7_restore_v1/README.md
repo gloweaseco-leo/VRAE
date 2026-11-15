@@ -91,3 +91,11 @@ matches the original TEST_ONLY_DONE protocol and relies on destruction of the
 private container tmpfs for its UID-owned config. It adds no capability, lease
 extension, business SQL change or authority workaround. All three clusters and
 the Worker container were destroyed; native RED and hashes remain.
+
+`local-311-v4`, source `b8330050200c64f457f84d4946aba1c2fe690c76`:
+source Worker DONE and SIGKILL both succeeded. The new read-only privilege query
+used a SQL LIKE literal percent alongside psycopg bound parameters; psycopg rejected
+it as an invalid placeholder before PostgreSQL execution. The new query now uses
+PostgreSQL starts_with for exact role prefixes, avoiding percent interpolation.
+No business permission failure occurred. All three clusters were destroyed; this
+RED remains. No complete backup/restore chain has passed at this point.

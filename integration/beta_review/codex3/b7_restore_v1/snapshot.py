@@ -3,7 +3,7 @@ from psycopg import sql
 from integration.ra4e.lab import digest, encode
 
 SCHEMAS = ['ra4a', 'ra4a_private', 'ra4a_bytes', 'ra4a_review_test', 'b3_p0', 'ra4b_test']
-ROLE_FILTER = "(rolname LIKE 'ra4a_%' OR rolname LIKE 'ra4b_%' OR rolname LIKE 'p2a_%' OR rolname LIKE 'p2b1_%')"
+ROLE_FILTER = "(starts_with(rolname,'ra4a_') OR starts_with(rolname,'ra4b_') OR starts_with(rolname,'p2a_') OR starts_with(rolname,'p2b1_'))"
 
 
 def acl(c, raw, owner, kind):
