@@ -10,7 +10,10 @@ python -B -m integration.beta_review.codex3.b7_restore_v1.run --run-id local-311
 ```
 
 The runner uses three independent pinned PostgreSQL16 containers, isolated volumes,
-an internal network per cluster, and loopback-only authenticated host access.
+`network=none`, and loopback-only authenticated host access. A byte-only local
+socket forwards each native psycopg connection through `docker exec busybox nc`
+to the real PostgreSQL listener. PostgreSQL performs all SCRAM authentication;
+there is no SQL parsing, protocol emulation, identity substitution or external NIC.
 Only accepted disposable migration/seed hooks initialize roles and fixtures.
 Destination bootstrap databases are dropped before `pg_restore --create --exit-on-error`;
 ACLs and owners are restored, never replaced with no-owner/no-acl flags.
@@ -53,3 +56,12 @@ Resource cleanup requires exact resource membership plus per-environment labels.
 This is a TEST_ONLY subpackage candidate, not full B7 EXIT or Beta release. Old
 Issue91/93/A1 stays PAUSED, MAX3 0/3 unchanged; no UUID ordering experiment occurs.
 Gold remains 0/26, G1-G3 NO-GO, full Beta 2/7. Owner alone may accept or merge.
+
+## Retained initial fixture RED
+
+`local-311-v1`, source `7fd097fcd3e6356f2087a38448e898a8c399c8b9`:
+native pytest exit 1 before migrations because this Docker engine does not publish
+ports for an internal network. Its sole owned container/volume were destroyed;
+no business or permission test ran. This new-container transport problem is L1/L2,
+not a permission repair. The corrected revision uses network-none byte forwarding.
+The original RED JUnit, process log digest and cleanup record remain alongside it.

@@ -10,6 +10,7 @@ import psycopg
 
 from integration.ra4e.lab import Environment as AcceptedEnvironment
 from integration.ra4e.lab import DB, IMAGE, RecoveryDenied, docker, encode, invoke
+from .loopback import Loopback
 
 LABEL = 'vrae.beta.b7restore.v1'
 
@@ -27,6 +28,7 @@ class Environment(AcceptedEnvironment):
         self.state = self.private / 'state.json'
         self.state_path = self.state  # Original B3 bootstrap's explicit fixture interface.
         self.graphs = {}
+        self.relay = None
         self.write_state()
         (self.proof / 'ownership.json').write_bytes(encode({
             'name': self.name, 'label': LABEL, 'resources': self.resources, 'image': IMAGE}))
@@ -53,21 +55,18 @@ class Environment(AcceptedEnvironment):
         cfg.write_text('POSTGRES_PASSWORD=' + self.admin_password + '\nPOSTGRES_DB=' + DB +
                        '\nPOSTGRES_INITDB_ARGS=--auth-host=scram-sha-256\n')
         try:
-            docker('network', 'create', '--internal', '--label', LABEL + '=' + self.name,
-                   self.name + '-net')
             docker('volume', 'create', '--label', LABEL + '=' + self.name, self.name + '-data')
-            docker('run', '-d', '--name', self.name, '--network', self.name + '-net',
+            docker('run', '-d', '--name', self.name, '--network', 'none',
                    '--label', LABEL + '=' + self.name, '--env-file', str(cfg),
-                   '-p', '127.0.0.1::5432', '--mount',
+                   '--mount',
                    'type=volume,src=' + self.name + '-data,dst=/var/lib/postgresql/data',
                    '--memory', '512m', '--cpus', '1', '--pids-limit', '128', IMAGE)
-            network = json.loads(docker('network', 'inspect', self.name + '-net'))[0]
-            assert network['Internal'] is True
-            bindings = json.loads(docker('inspect', '--format',
-                                        '{{json .NetworkSettings.Ports}}', self.name))
-            published = bindings.get('5432/tcp')
-            assert published and len(published) == 1 and published[0]['HostIp'] == '127.0.0.1'
-            self.port = int(published[0]['HostPort'])
+            network_mode = docker('inspect', '--format', '{{.HostConfig.NetworkMode}}', self.name).decode().strip()
+            assert network_mode == 'none'
+            bindings = json.loads(docker('inspect', '--format', '{{json .NetworkSettings.Ports}}', self.name))
+            assert not bindings
+            self.relay = Loopback(self.name)
+            self.port = self.relay.port
             self.runtime_passwords = {r: secrets.token_urlsafe(32) for r in (
                 'ra4a_test_a_app', 'ra4a_test_b_app', 'ra4a_test_a_worker',
                 'ra4a_test_b_worker', 'ra4a_test_unassigned')}
@@ -102,7 +101,8 @@ class Environment(AcceptedEnvironment):
                 assert code != 0
                 probes.append(code)
             (self.proof / 'transport.json').write_bytes(encode({
-                'actual_pg16': actual, 'cluster_system_identifier': cluster_id, 'binding': published, 'network_internal': network['Internal'],
+                'actual_pg16': actual, 'cluster_system_identifier': cluster_id, 'binding': '127.0.0.1', 'network_mode': network_mode,
+                'host_transport': 'byte-only docker-exec busybox nc; original PG SCRAM auth',
                 'no_default_route': True, 'wrong_password_denied': True,
                 'non_loopback_connect_ex': probes}))
         finally:
@@ -130,3 +130,8 @@ class Environment(AcceptedEnvironment):
         with self.connect(dbname='postgres') as c:
             c.execute('DROP DATABASE vrae_ra4a_p1 WITH (FORCE)')
             assert c.execute("SELECT count(*) FROM pg_database WHERE datname=%s", (DB,)).fetchone()[0] == 0
+
+    def stop(self):
+        if self.relay is not None:
+            self.relay.close()
+        super().stop()
