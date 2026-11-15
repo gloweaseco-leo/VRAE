@@ -24,6 +24,16 @@ APPROVED_B5_IDS = (
     ("tests.operator_console.test_b5p0_boundaries", "test_recovery_journal_preserves_original_key_across_new_instance"),
 )
 
+# Owner PR92 resume: these hashes were independently read from the actual
+# default-mode B6 native JUnit on BOTH minors after adding its package marker.
+# They freeze every classname/name/multiplicity, including parameterized IDs.
+APPROVED_B6_CLASSNAME = "tests.b6_p0.test_contracts"
+APPROVED_B6_CASES = 43
+APPROVED_B6_MULTISET_SHA256 = {
+    "3.11": "e314a7778fb85e308fe90be5a755f9020277b0e07cde2786d07d200a6c7725ea",
+    "3.13": "e314a7778fb85e308fe90be5a755f9020277b0e07cde2786d07d200a6c7725ea",
+}
+
 
 def _multiset_sha256(counter):
     rows = [[classname, name, count] for (classname, name), count in sorted(counter.items())]
@@ -69,6 +79,31 @@ def _verify_b5_inventory(cases, minor):
             "actual_skipped_multiset_sha256": skipped_digest,
             "baseline_skipped_multiset_sha256": baseline["skipped_id_multiset_sha256"],
             "baseline_raw_native_junit_sha256": baseline["raw_native_junit_sha256"]}
+
+
+def _verify_b6_inventory(cases, minor):
+    """Add only the frozen B6 IDs; retain the accepted original/B5 oracle."""
+    b6 = [c for c in cases if c.get("classname") == APPROVED_B6_CLASSNAME]
+    original = [c for c in cases if c.get("classname") != APPROVED_B6_CLASSNAME]
+    assert len(b6) == APPROVED_B6_CASES, "APPROVED_B6_CASES_CHANGED"
+    assert all(c.find(tag) is None for c in b6 for tag in ("failure", "error", "skipped"))
+    b6_ids = Counter((c.get("classname"), c.get("name")) for c in b6)
+    assert all(count == 1 for count in b6_ids.values()), "APPROVED_B6_ID_DUPLICATED"
+    b6_digest = _multiset_sha256(b6_ids)
+    assert b6_digest == APPROVED_B6_MULTISET_SHA256[minor], "APPROVED_B6_ID_MULTISET_CHANGED"
+    # This unchanged verifier still proves original2473 + exactly accepted B5two,
+    # all original skipped IDs, and the immutable independent baseline manifest.
+    proof = _verify_b5_inventory(original, minor)
+    assert len(cases) == proof["actual_cases"] + APPROVED_B6_CASES
+    return {**proof,
+            "kind": "EXACT_ORIGINAL_MULTISET_PLUS_TWO_ACCEPTED_B5_AND_FROZEN_B6_IDS",
+            "actual_cases": len(cases),
+            "approved_cases": proof["approved_cases"] + APPROVED_B6_CASES,
+            "accepted_b5_cases": proof["approved_cases"],
+            "approved_b6_cases": APPROVED_B6_CASES,
+            "b6_id_multiset_sha256": b6_digest,
+            "actual_multiset_sha256": _multiset_sha256(Counter(
+                (c.get("classname"), c.get("name")) for c in cases))}
 
 
 def _write_host_retention(out, producer_raw, retention):
@@ -219,7 +254,7 @@ def main(label):
         assert native_result["ordinary_passed"] == len(cases) - len(skipped)
         actual_container = json.loads((out / "container-result.json").read_bytes())
         assert actual_container["exit"] == 0 and not actual_container["oom_killed"]
-        inventory_proof = _verify_b5_inventory(cases, minor)
+        inventory_proof = _verify_b6_inventory(cases, minor)
         assert not list(root.iter("failure")) and not list(root.iter("error"))
         qa = [case for case in cases if "test_ra3c_owner_adjudicated_v2" in case.get("classname", "")]
         review = [case for case in cases if case.get("classname", "").startswith("tests.reviewing.")]
