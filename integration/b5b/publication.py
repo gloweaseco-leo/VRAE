@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
 import zlib
@@ -32,7 +33,8 @@ def native_failure_views(path, *, retain_passed_original=False):
     return {'native-junit.xml': curated, 'native-retention.json': json.dumps(retention, sort_keys=True).encode()}
 
 
-def browser_failure_view(root):
+def browser_failure_view(root, *, stage='ACTUAL_BROWSER_RED_NOT_PASS'):
+    assert stage in {'ACTUAL_BROWSER_RED_NOT_PASS', 'POST_BROWSER_GATES_NOT_CLEARED'}
     suites = []
     for name in ('accepted', 'b5b'):
         folder = root / (name + '-browser')
@@ -69,5 +71,41 @@ def browser_failure_view(root):
             cleanups.append({'port_closed': original.get('port_closed') is True,
                 'resources_absent': all(r.get('absent') is True for r in original['resources']),
                 'resource_count': len(original['resources'])})
-    return json.dumps({'status': 'ACTUAL_BROWSER_RED_NOT_PASS', 'suites': suites,
+    return json.dumps({'status': stage, 'suites': suites,
                        'owned_pg_cleanup': cleanups, 'raw_logs_private': True}, sort_keys=True).encode()
+
+
+REVISION_CASE = 'test_revision_race_after_original_read_before_submit'
+REVISION_BEFORE = 'd8c87d4d07455a11d7fa8c430e6d41fb3938f0952418319eb3647aa1be75c3a6'
+REVISION_AFTER = '3fa303b13c4f65b180aea95ce9a2bf82ad0f49b3e45597c5c62fee6a2542dcc5'
+
+
+def verify_protected_observations(original, consumer):
+    """Preserve the frozen original negative's exact v2-append expectation.
+
+    Independently held accepted B5-P0 evidence has this one transition. It is
+    not a generic exception for changed roots: source bytes, both full roots,
+    suite, exact case, count and zero business rows must all match.
+    """
+    root = Path(__file__).resolve().parents[2]
+    holds = {
+        'integration/ra4c_b5p0/cases.py': '40016f1a6bbc997cd8e6350928c0a119bb1dd1928b2ebb34fd994fd56f780781',
+        'integration/b3_p0/support.py': '1f78dc7d33c69a337848b4c9e172a91ffef15a8172ec5d90f1c246fcefe1dca6',
+    }
+    assert all(hashlib.sha256((root/n).read_bytes()).hexdigest() == h for n, h in holds.items())
+    assert len(original) == len({r['case_id'] for r in original}) == 53
+    assert len(consumer) == 32
+    expected = [r for r in original if r['case_id'] == REVISION_CASE]
+    assert len(expected) == 1
+    row = expected[0]
+    assert row['protected_roots_before'] == REVISION_BEFORE
+    assert row['protected_roots_after'] == REVISION_AFTER
+    assert set(row['counts']) == {'states', 'intents', 'claims', 'sections', 'audit', 'outbox'}
+    assert all(type(v) is int and v == 0 for v in row['counts'].values())
+    assert all(r['protected_roots_before'] == r['protected_roots_after']
+               for r in original if r['case_id'] != REVISION_CASE)
+    assert all(r['protected_roots_before'] == r['protected_roots_after'] for r in consumer)
+    return {'accepted_original_revision_case': REVISION_CASE,
+            'exact_before': REVISION_BEFORE, 'exact_after': REVISION_AFTER,
+            'original_source_sha256': holds, 'original_other_unchanged': 52,
+            'consumer_and_browser_unchanged': 32, 'business_writes_in_revision_case': 0}

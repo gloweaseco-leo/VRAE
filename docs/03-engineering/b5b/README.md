@@ -80,7 +80,7 @@ failed label or rerun unchanged source to select green. The runner:
 
 1. Verifies current source bytes against committed Git blobs.
 2. Runs original B5 55 assertions unchanged using its original fixture, plus
-   31 real B5B PG/HTTP cases and20 pure boundary/publication/UI cases:106 expected,
+   31 real B5B PG/HTTP cases and21 pure boundary/publication/UI cases:107 expected,
    no skips. A count is not a PASS claim; inspect actual current native XML.
    Cases cover tenant/version/revocation, original unknown/half-commit/lost
    response, actual child restart and original-key receipt, and11 deny operations.
@@ -173,3 +173,18 @@ B6 artifact reproduced old overflow at375/320 and proved the new view bounded
 at1280/375/320 with the same response CSP. This probe is not PG/auth/Worker proof.
 New view permission denial and exact-original-on-browser-RED retention extend
 native collection to106; the related11 pure cases passed in both minors.
+
+The subsequent `809701b` reached post-browser protection aggregation in both
+minors but failed the new unconditional all-roots-equal assertion. Original B5-P0
+`test_revision_race_after_original_read_before_submit` intentionally registers
+v2 through the accepted fixture writer, then refuses the stale submit with zero
+business rows. Its accepted historical and current independent B5 evidence agree
+on exact roots `d8c87d4...`→`3fa303b...`. The new aggregator now verifies that one
+exact original-source-pinned transition, zero business rows and all other roots
+unchanged (52 original cases +31 new PG cases +browser). It does not rewrite any
+observation or accept an arbitrary changed root. Original test/query/SQL files
+are unchanged. A read-only plan probe did not reproduce ordering drift and is
+not claimed as the cause. Related verifier negatives bring collection to107;
+12 focused cases pass in both minors. Post-browser diagnostic/native files are
+now published before integrity checks, so another gate RED cannot silently lose
+all artifact evidence. Pending status is never called PASS.

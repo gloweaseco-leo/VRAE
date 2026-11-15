@@ -26,6 +26,21 @@ def sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
+def fixture_roots(label):
+    return (list((ROOT / 'integration/ra4c_b5p0/.runtime').glob(label + '-legacy-security-*'))
+            + list(PRIVATE.glob(label + '-new-pg-*')) + [PRIVATE / (label + '-browser')])
+
+
+def fixture_secrets(roots):
+    values = []
+    for root in roots:
+        for path in root.rglob('scan-secrets.json'):
+            values += json.loads(path.read_bytes())
+        for path in root.rglob('bridge.json'):
+            values.append(json.loads(path.read_bytes())['key_secret'])
+    return values
+
+
 def source():
     files = list((ROOT / "apps/operator_console").glob("*.py"))
     for name in (
@@ -42,6 +57,7 @@ def source():
         ]
     files += [ROOT / p for p in TARGETS if not p.startswith("integration/b5b/")]
     files += [ROOT / ".github/workflows/b5b.yml"]
+    files += [ROOT / 'integration/b3_p0/support.py']
     tracked = {}
     for entry in subprocess.check_output(["git", "ls-tree", "-rz", "HEAD"], cwd=ROOT).split(b"\0"):
         if entry:
@@ -122,7 +138,7 @@ def main(label):
         (public / "source.json").write_text(json.dumps(frozen, sort_keys=True), encoding="utf-8")
         print(json.dumps(summary), flush=True)
 
-    if result.returncode or bad or len(cases) != 106:
+    if result.returncode or bad or len(cases) != 107:
         # Preserve genuine native failure outcomes using the accepted B4
         # sanitizer; never publish raw traceback/credentials or fabricate XML.
         if native.exists():
@@ -164,15 +180,38 @@ def main(label):
 
         safe = native_failure_views(native, retain_passed_original=True)
         safe['browser-failure.json'] = browser_failure_view(PRIVATE / (label + '-browser'))
+        secrets = fixture_secrets(fixture_roots(label))
         for name, raw in safe.items():
+            assert not any(secret and secret.encode() in raw for secret in secrets)
             assert not re.search(rb'Bearer\s+|eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]+\.', raw)
             (public / name).write_bytes(raw)
         summary['public_file_sha256'] = {name: sha(raw) for name, raw in safe.items()}
         publish_summary("TRUE_BROWSER_RED_RETAINED_PRIVATE")
         raise SystemExit(1)
     browser_root = PRIVATE / (label + "-browser")
-    roots = list((ROOT / "integration/ra4c_b5p0/.runtime").glob(label + "-legacy-security-*"))
-    roots += list(PRIVATE.glob(label + "-new-pg-*")) + [browser_root]
+    roots = fixture_roots(label)
+    secrets = fixture_secrets(roots)
+    # Retain actual evidence BEFORE any post-browser integrity assertion. A
+    # failed invariant must still upload a truthful NOT_CLEARED diagnostic.
+    from .publication import native_failure_views, browser_failure_view, verify_protected_observations
+    from integration.ra4b.evidence import safe_case_name
+
+    observations = [json.loads(p.read_bytes()) for root in roots for p in root.rglob('observations.json')]
+    pending = native_failure_views(native, retain_passed_original=True)
+    pending['browser-stage.json'] = browser_failure_view(browser_root, stage='POST_BROWSER_GATES_NOT_CLEARED')
+    pending['protection-gate.json'] = json.dumps([
+        {'case_id': safe_case_name(o['case_id']),
+         'protected_roots_before': o['protected_roots_before'],
+         'protected_roots_after': o['protected_roots_after'], 'counts': o['counts']}
+        for o in observations
+    ], sort_keys=True).encode()
+    for name, raw in pending.items():
+        assert not any(secret and secret.encode() in raw for secret in secrets)
+        assert not re.search(rb'Bearer\s+|eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]+\.', raw)
+        (public / name).write_bytes(raw)
+    summary['public_file_sha256'] = {name: sha(raw) for name, raw in pending.items()}
+    summary['browser_command_exit'] = browser.returncode
+    publish_summary('POST_BROWSER_GATES_NOT_CLEARED')
     assert len(roots) == 3
     cleanup = [json.loads(p.read_bytes()) for root in roots for p in root.rglob("cleanup.json")]
     assert len(cleanup) == 87
@@ -187,13 +226,11 @@ def main(label):
         json.loads(p.read_bytes()) for root in roots for p in root.rglob("observations.json")
     ]
     assert len(observations) == 85
-    assert all(o["protected_roots_before"] == o["protected_roots_after"] for o in observations)
-    secrets = []
-    for root in roots:
-        for p in root.rglob("scan-secrets.json"):
-            secrets += json.loads(p.read_bytes())
-        for p in root.rglob("bridge.json"):
-            secrets.append(json.loads(p.read_bytes())["key_secret"])
+    original = [json.loads(p.read_bytes()) for p in roots[0].rglob('observations.json')]
+    consumer = [json.loads(p.read_bytes()) for root in roots[1:] for p in root.rglob('observations.json')]
+    # Original source/fixtures stay frozen; only the new consumer aggregation
+    # corrects its over-broad assumption about the accepted v2-race negative.
+    protection = verify_protected_observations(original, consumer)
     safe = {
         "native-junit.xml": native.read_bytes(),
         "cleanup.json": json.dumps(cleanup, sort_keys=True).encode(),
@@ -203,8 +240,8 @@ def main(label):
     retention = {
         "sha256": sha(native.read_bytes()),
         "crc32": format(zlib.crc32(native.read_bytes()) & 0xFFFFFFFF, "08x"),
-        "cases": 106,
-        "passed": 106,
+        "cases": 107,
+        "passed": 107,
         "failed": 0,
         "errors": 0,
         "skipped": 0,
@@ -246,11 +283,14 @@ def main(label):
             "original_browser": "UNCHANGED_INDEPENDENT_B5P0_CI_NOT_DUPLICATED",
             "cleanup_records": 87,
             "protected_originals_unchanged": True,
+            "protected_observation_verification": protection,
             "external_delivery_sends": 0,
             "publication_secret_matches": 0,
             "public_file_sha256": {name: sha(raw) for name, raw in safe.items()},
         }
     )
+    (public / 'browser-stage.json').unlink()
+    (public / 'protection-gate.json').unlink()
     publish_summary("B5B_INCREMENTAL_NATIVE_PASS_RESULT_PORTS_STILL_BLOCKED")
 
 

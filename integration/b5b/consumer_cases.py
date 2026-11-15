@@ -83,3 +83,29 @@ def test_browser_failure_can_retain_exact_original_passed_xml_but_never_raw_red(
     v = native_failure_views(p, retain_passed_original=True)
     assert v['native-junit.xml'] != red and b'PRIVATE_TRACE' not in v['native-junit.xml']
     assert json.loads(v['native-retention.json'])['raw_xml_private']
+
+
+def test_only_exact_frozen_original_revision_fixture_can_change_protected_root():
+    from copy import deepcopy
+    from integration.b5b.publication import verify_protected_observations, REVISION_CASE, REVISION_BEFORE, REVISION_AFTER
+
+    # Explicit verifier unit fixtures, not PG/native business evidence.
+    original = [{'case_id':str(i), 'protected_roots_before':'a'*64, 'protected_roots_after':'a'*64} for i in range(52)]
+    original.append({'case_id':REVISION_CASE, 'protected_roots_before':REVISION_BEFORE,
+                     'protected_roots_after':REVISION_AFTER,
+                     'counts':{k:0 for k in ('states','intents','claims','sections','audit','outbox')}})
+    consumer = [{'case_id':str(i), 'protected_roots_before':'b'*64, 'protected_roots_after':'b'*64} for i in range(32)]
+    assert verify_protected_observations(original, consumer)['consumer_and_browser_unchanged'] == 32
+    for field, value in [('protected_roots_before','f'*64), ('protected_roots_after','f'*64), ('case_id','unknown')]:
+        bad = deepcopy(original)
+        bad[-1][field] = value
+        with pytest.raises(AssertionError):
+            verify_protected_observations(bad, consumer)
+    bad = deepcopy(original)
+    bad[-1]['counts']['intents'] = 1
+    with pytest.raises(AssertionError):
+        verify_protected_observations(bad, consumer)
+    bad = deepcopy(consumer)
+    bad[0]['protected_roots_after'] = REVISION_AFTER
+    with pytest.raises(AssertionError):
+        verify_protected_observations(original, bad)
