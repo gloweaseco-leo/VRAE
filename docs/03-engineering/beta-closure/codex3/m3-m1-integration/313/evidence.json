@@ -1,0 +1,141 @@
+{
+  "M2": "PENDING_OWNER_MERGE_NOT_WHOLE_APP_PASS",
+  "actual_pg_restart": true,
+  "api_worker": {
+    "accepted_processing": "vrae.application.ra4b_p2.m1.runtime",
+    "app_uid": 10001,
+    "generated_rows_seeded": 0,
+    "mode": "M1_REAL_GENERATION",
+    "worker_entry": "integration.beta_review.codex3.m3_worker",
+    "worker_uid": 10002
+  },
+  "cleanup": [
+    {
+      "absent_or_port_closed": true,
+      "resource": "native_client"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "original_ssr"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "pg_container_network_volume"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "source_volume"
+    }
+  ],
+  "cleanup_errors": [],
+  "errors": 0,
+  "executable_source_root": "9d4bc2092a4899c477fbe982f03219e803a96ca2a4baf3a454ec10978f3daa13",
+  "failures": 0,
+  "host_python": "3.13.13",
+  "jobs": [
+    {
+      "app_http_status": 202,
+      "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+      "browser": {
+        "external_network_blocked": true,
+        "html_sha256": "667f2fbc35b1505238d77f708c16e5439909f73b3ac72b3c6cbe9b327d3e5258",
+        "pass": true,
+        "scope": "AUTHORIZED_M1_DIAGNOSTIC_NOT_M2",
+        "screenshot_sha256": "d5824179663c1d9097cc9fa60ea56ab64d75a4dc0d326c95f759f0bcf2bad566",
+        "scripts": 0
+      },
+      "browser_cleanup": {
+        "exit_observed": true
+      },
+      "case": "404",
+      "editorial_selection": {
+        "full_evidence_retained": true,
+        "full_fact_count": 8,
+        "omitted_positive_facts": 5,
+        "selected_fact_count": 3,
+        "version": "m1-relevant-facts-v1"
+      },
+      "html_sha256": "667f2fbc35b1505238d77f708c16e5439909f73b3ac72b3c6cbe9b327d3e5258",
+      "identity_sha256": {
+        "job_id": "47228b17bbcdb3e98f91a857f40f6196aef522f31d1178877299004673303b3a",
+        "request_id": "3f4cf210418d8d1c85e19a33817ad7b29234b1dabbb4c6aeac20074168d6a4b7",
+        "run_id": "c9dbff20a075ddad3857434aa84566e032e4cacb6f815340eee4f542dab94e53"
+      },
+      "report_sha256": "0d4548ea53e5db48f18f5b4f3aef6bd3d9fe2081db7ba2afba76d73d81785e44",
+      "report_version": 1,
+      "source_sha256": "bf3e7990f9e3ea53798046b370b5b561cf1d62d35ccc6a3865357d9c5e8b5f2f"
+    },
+    {
+      "app_http_status": 202,
+      "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+      "browser": {
+        "external_network_blocked": true,
+        "html_sha256": "07dc0a68fbd6fba57f9b99423fa4286a99695670acc6456aab20ea27a41c6372",
+        "pass": true,
+        "scope": "AUTHORIZED_M1_DIAGNOSTIC_NOT_M2",
+        "screenshot_sha256": "91aca041761d83318066181ff261237f5b6727f205a9ae8a7309b0a4f1cc7ac6",
+        "scripts": 0
+      },
+      "browser_cleanup": {
+        "exit_observed": true
+      },
+      "case": "200",
+      "editorial_selection": {
+        "full_evidence_retained": true,
+        "full_fact_count": 17,
+        "omitted_positive_facts": 14,
+        "selected_fact_count": 3,
+        "version": "m1-relevant-facts-v1"
+      },
+      "html_sha256": "07dc0a68fbd6fba57f9b99423fa4286a99695670acc6456aab20ea27a41c6372",
+      "identity_sha256": {
+        "job_id": "6d67785608767f7fa99b5de5462d61ecd18ac5f778785579de35e28d2b210401",
+        "request_id": "7728e8b758a3e768084489cac2a303d24d91682da83454c665860763ffa0c046",
+        "run_id": "d4d47e4da22064a198da079737f9b5b126a414ca634e67c56848d2a4542fa0c4"
+      },
+      "report_sha256": "d0cde42df2d9ad1e48121ed0c56ecb477aac330193e311791b170aac5af295d9",
+      "report_version": 1,
+      "source_sha256": "a1c4f7f95e3b0ea7edfad1d5abcbd869da4ea9e08b21897fc234c968db810f5c"
+    }
+  ],
+  "m1_bootstrap": {
+    "legacy_migrations_changed": false,
+    "seeded_results": 0,
+    "sources": [
+      "accepted-404",
+      "accepted-200"
+    ],
+    "sql_sha256": "014b064d1e55b1d1c7218075808a9abda6f16138e9681804f17df4723e515918"
+  },
+  "native_pytest": {
+    "bytes": 2029,
+    "crc32": "fec6259f",
+    "path": "integration/beta_review/codex3/.private/m3-final1-313.xml",
+    "sha256": "663a223fbcc7b5951ac28c93de720975a1ef1494e5dc2a9800cb35ef85aa9da6"
+  },
+  "native_python": "3.13.18",
+  "restart_no_migrations_or_reseed": true,
+  "restart_transport": {
+    "observed_owned_loopback_port": 57691,
+    "ownership_verified_by_accepted_lab": true,
+    "previous_port": 52313
+  },
+  "run": "c3-m1-integration-313-final1",
+  "runtime_image_id": "sha256:565684bd0fb794494ce95e62b7b448ab8b31d098704b24b7795f92104b482610",
+  "source_report_html_exact_after_restart": true,
+  "ssr_native_observation": {
+    "own_wer_crashes": 0,
+    "passive_fatal_capture": true,
+    "periodic_sampler": false,
+    "runtime_pids": [
+      15680,
+      25256
+    ],
+    "unexpected_exits": 0
+  },
+  "supervisor_exit": {
+    "exitcode": 0
+  },
+  "tested_sha": "77aa6177e6c15495412a422adc0c6a01b6bde5b6",
+  "tests": 12
+}
