@@ -23,7 +23,22 @@ def main():
     old.STATE.chmod(0o600)
     native.OUT = Path("/evidence")
     try:
-        app_path, _ = native.provision("APP", 10001)
+        app_path, app_config = native.provision("APP", 10001)
+        consumer_dir = Path("/tmp/m3-consumer")
+        consumer_dir.mkdir(mode=0o700)
+        consumer_profile = consumer_dir / "config.json"
+        consumer_profile.write_text(
+            json.dumps(
+                {
+                    "bearer": app_config["bearer"],
+                    "tenant_id": app_config["tenant"],
+                    "source_refs": ["accepted-404", "accepted-200"],
+                }
+            )
+        )
+        consumer_profile.chmod(0o600)
+        os.chown(consumer_profile, 10003, 10003)
+        os.chown(consumer_dir, 10003, 10003)
         worker_path, _ = native.provision("WORKER", 10002)
         api, _ = native.spawn("APP", app_path)
         native.wait_for(lambda: native.LOGS[0].exists() and b"READY" in native.LOGS[0].read_bytes())
@@ -62,6 +77,10 @@ def main():
                     "native_python": sys.version.split()[0],
                     "mode": "M1_REAL_GENERATION",
                     "app_uid": 10001,
+                    "consumer_uid": 10003,
+                    "consumer_entry": "vrae.application.ra4b_p2.m1.consumer.TaskClient",
+                    "consumer_profile_fields": ["bearer", "tenant_id", "source_refs"],
+                    "canonical_worker_entry": "vrae.application.ra4b_p2.m1.runtime",
                     "worker_uid": 10002,
                     "worker_entry": "integration.beta_review.codex3.m3_worker",
                     "accepted_processing": "vrae.application.ra4b_p2.m1.runtime",

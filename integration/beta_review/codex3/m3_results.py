@@ -9,6 +9,7 @@ from uuid import UUID
 import psycopg
 
 from tests.identity.issuer import AUDIENCE, ISSUER, Issuer
+from vrae.application.ra4b_p2.m1.consumer import ConsumerDenied
 from vrae.application.ra4b_p2.m1.reader import JobAssignment, SignedGeneratedReader
 from vrae.identity.boundary import TrustAnchor
 
@@ -33,7 +34,7 @@ def api(label, action, **args):
         "docker",
         "exec",
         "--user",
-        "10001:10001",
+        "10003:10003",
         "--env",
         "VRAE_RA4B_TEST_ONLY=1",
         client,
@@ -46,9 +47,14 @@ def api(label, action, **args):
     for name, value in args.items():
         command.extend(["--" + name, str(value)])
     p = subprocess.run(command, cwd=ROOT, capture_output=True, timeout=15, check=False)
+    if p.returncode == 2 and len(p.stdout) < 65536:
+        denial = json.loads(p.stdout)
+        assert denial == {"decision": "DENIED", "reason": "M1_CONSUMER_DENIED", "uid": 10003}
+        raise ConsumerDenied()
     assert p.returncode == 0 and len(p.stdout) < 65536, "M3_ORIGINAL_API_REQUEST_FAILED"
     result = json.loads(p.stdout)
-    assert result["uid"] == 10001
+    assert result["uid"] == 10003
+    assert result["adapter"] == "vrae.application.ra4b_p2.m1.consumer.TaskClient"
     return result
 
 
@@ -59,10 +65,11 @@ def submit(label, source, key=None):
     result = api(label, "submit", source=source, key=key)
     assert result["http_status"] == 202
     body = result["body"]
-    for name in ("request_id", "run_id", "job_id"):
+    for name in ("request_id", "run_id", "job_id", "event_id"):
         assert str(UUID(body[name])) == body[name]
     task = {
-        **{k: body[k] for k in ("request_id", "run_id", "job_id")},
+        **{k: body[k] for k in ("request_id", "run_id", "job_id", "event_id")},
+        "task_handle": body,
         "source": source,
         "source_ref": "accepted-" + source,
         "http_status": 202,
@@ -94,7 +101,7 @@ def owned_task(label, job):
 
 def task_status(label, job):
     _, task = owned_task(label, job)
-    result = api(label, "status", request=task["request_id"])
+    result = api(label, "status", handle=json.dumps(task["task_handle"], separators=(",", ":")))
     body = result["body"]
     assert result["http_status"] == 200 and all(
         body[k] == task[k] for k in ("request_id", "run_id", "job_id")

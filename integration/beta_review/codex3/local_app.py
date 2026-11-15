@@ -9,7 +9,7 @@ import sys
 
 from .runner import PRIVATE, ROOT, cmd, write
 
-ACCEPTED_MAIN = "08a999d8b7061af925f1f35cfcc55193a3c73b35"
+ACCEPTED_MAIN = "85f6fe854cc2058672c136b52e4ce35588d9357f"
 M1_MODE = "M1_GENERATED_REPORTS_M2_UI_PENDING"
 LEGACY_MODE = "EXISTING_COMPONENT_PREVIEW_NOT_WHOLE_APP_PASS"
 MISSING_PORTS = ("C2_SIGNED_SSR_NEW_TASK_GENERATED_REPORT_REVIEW_RECEIPT_EXPORT",)
@@ -34,6 +34,7 @@ def doctor():
         "mode": "SYNTHETIC_ONLY_INTERNAL_NOT_APPROVED",
         "business_flow": "M1_ACCEPTED_M2_PENDING",
         "M1_accepted": True,
+        "TaskClient_accepted_PR105": True,
         "missing_ports": list(MISSING_PORTS),
         "accepted_C1_result_namespace_files": [
             p for p in paths if p.startswith(("db/ra4b_p2/", "vrae/application/ra4b_p2/"))

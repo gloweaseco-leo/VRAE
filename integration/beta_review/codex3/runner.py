@@ -189,7 +189,7 @@ class Run:
         self.result["native_python"]=value["native_python"]
         write(self.folder/"native-linkage.private.json",value)
         if value.get("mode")=="M1_REAL_GENERATION":
-            self.result["api_worker"]={k:value[k] for k in ("mode","app_uid","worker_uid","worker_entry","accepted_processing","generated_rows_seeded")}
+            self.result["api_worker"]={k:value[k] for k in ("mode","app_uid","worker_uid","worker_entry","accepted_processing","generated_rows_seeded","consumer_uid","consumer_entry","consumer_profile_fields","canonical_worker_entry")}
             return
         self.result["api_worker"]={"records":[{"case":r["case"],"request_sha256":sha(r["receipt"]["request_id"].encode()),
             "run_sha256":sha(r["receipt"]["run_id"].encode()),"job_sha256":sha(r["receipt"]["job_id"].encode()),
