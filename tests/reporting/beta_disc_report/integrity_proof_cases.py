@@ -55,8 +55,12 @@ def test_unmodified_b5a_detector_rejects_tampered_disposable_legacy_copy(tmp_pat
     sandbox = tmp_path / 'isolated-source'
     hooks = tmp_path / 'empty-hooks'
     hooks.mkdir()
+    # Historical evidence paths exceed Windows MAX_PATH beneath pytest's temp
+    # prefix. Scope long-path support to this disposable clone, including the
+    # unchanged detector's subsequent Git reads; never alter the real repo.
     subprocess.run(['git', '-c', 'core.autocrlf=false', '-c', 'core.hooksPath='+str(hooks),
-                    'clone', '--shared', '--no-checkout', str(ROOT), str(sandbox)],
+                    'clone', '--config', 'core.longpaths=true', '--shared', '--no-checkout',
+                    str(ROOT), str(sandbox)],
                    cwd=ROOT, check=True, capture_output=True)
     subprocess.run(['git', '-C', str(sandbox), '-c', 'core.autocrlf=false',
                     '-c', 'core.hooksPath='+str(hooks), 'checkout', '--detach', publication.ENTRY],
