@@ -88,7 +88,9 @@ def main():
                 api.wait(timeout=5)
                 api,new_log=native.spawn("APP",app_path)
                 native.wait_for(lambda: new_log.exists() and b"READY" in new_log.read_bytes())
-                restarted.write_text(json.dumps({"original_api_restarted":True,"app_uid":10001,"new_admissions":0}))
+                pending=restarted.with_suffix(".tmp")
+                pending.write_text(json.dumps({"original_api_restarted":True,"app_uid":10001,"new_admissions":0}))
+                pending.replace(restarted)
             if api.poll() is not None:
                 raise RuntimeError("API_EARLY_EXIT")
             time.sleep(0.2)

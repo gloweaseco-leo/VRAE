@@ -49,7 +49,9 @@ def restart_api(folder):
     receipt=out/"api-restart.receipt.json"
     if request.exists() or receipt.exists():
         raise TraceDenied("RESTART_ALREADY_REQUESTED")
-    write(request,{"action":"RESTART_OWN_ORIGINAL_API_ONCE"})
+    pending=request.with_suffix(".tmp")
+    write(pending,{"action":"RESTART_OWN_ORIGINAL_API_ONCE"})
+    pending.replace(request)
     deadline=time.monotonic()+20
     while time.monotonic()<deadline:
         if receipt.exists():
