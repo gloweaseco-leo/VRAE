@@ -18,13 +18,15 @@ def main():
     public = ROOT / 'docs/03-engineering/b5b/evidence' / ('m2-' + label)
     public.mkdir(parents=True, exist_ok=False)
     metadata = {'status': 'INCOMPLETE_NOT_PASS', 'label': label, 'native': [], 'files': {}}
+    (public/'publication.json').write_text(json.dumps(metadata, indent=2))
     values = []
     for path in private.rglob('private-credential-scan-values.json'):
         values.extend(json.loads(path.read_bytes()))
-    state = private / 'private-restart-state.json'
-    if state.exists():
-        d = json.loads(state.read_bytes())
-        values += [d['admin_password'], *d['runtime_passwords'].values()]
+    # Original fixture scan-values already include all actual role credentials.
+    # Full root-owned restart state remains private to the PG supervisor.
+    reviewer_file = private / 'private-m2-reviewers.json'
+    if reviewer_file.exists():
+        values += list(json.loads(reviewer_file.read_bytes()).values())
 
     def publish(name, raw):
         decoded = raw.decode('utf-8', errors='ignore')
@@ -73,7 +75,7 @@ def main():
             publish(name, (private/'browser'/name).read_bytes())
         for item in browser['shots']:
             name = item['file']
-            assert re.fullmatch('(report|a4)-(1280|375|320)-(404|200)\.png', name)
+            assert re.fullmatch(r'(report|a4)-(1280|375|320)-(404|200)\.png', name)
             raw = (private/'browser'/name).read_bytes()
             assert hashlib.sha256(raw).hexdigest() == item['sha256']
             publish(name, raw)

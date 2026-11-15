@@ -21,7 +21,7 @@ def run(out, ident, image):
     folder = out / 'browser'
     folder.mkdir(exist_ok=False)
     proof = json.loads((out / 'm2-restart-proof.json').read_bytes())
-    state = json.loads((out / 'private-restart-state.json').read_bytes())
+    reviewers = json.loads((out / 'private-m2-reviewers.json').read_bytes())
     issuer = Issuer()
     now = int(time.time())
     role = 'p2b1_test_a_reviewer'
@@ -30,7 +30,7 @@ def run(out, ident, image):
         'anchor': {'issuer': ISSUER, 'audience': AUDIENCE, 'jwks': json.loads(issuer.jwks()), 'expires': now + 1800},
         'assignments': [asdict(JobAssignment(ISSUER, 'synthetic-reviewer-1', role,
             'tenant-test', proof[case]['result']['job_id'], now + 1800)) for case in ('404', '200')],
-        'reviewers': {role: {'password': state['runtime_passwords'][role]}},
+        'reviewers': {role: {'password': reviewers[role]}},
         'tasks': {case: {'tenant': 'tenant-test', 'job_id': proof[case]['result']['job_id']} for case in ('404', '200')},
     }
     bridge = node = None

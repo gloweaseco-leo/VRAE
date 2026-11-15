@@ -18,6 +18,24 @@ ROOT = Path(__file__).resolve().parents[2]
 LABEL = "vrae.b5b.m2"
 
 
+def project_reviewers(docker, out, image):
+    # Preserve root-owned 0600 full state. Only the trusted supervisor reads it;
+    # the host runner/SSR receive one low-role secret, not APP/admin config.
+    projected = docker('run', '--rm', '--network', 'none', '--read-only',
+        '--cap-drop', 'ALL', '--mount', 'type=bind,src='
+        + str(out / 'private-restart-state.json') + ',dst=/run/state.json,readonly',
+        image, 'python', '-c',
+        "import json;from pathlib import Path;"
+        "s=json.loads(Path('/run/state.json').read_bytes());"
+        "r='p2b1_test_a_reviewer';"
+        "print(json.dumps({r:s['runtime_passwords'][r]}))").stdout
+    values = json.loads(projected)
+    assert set(values) == {'p2b1_test_a_reviewer'}
+    reviewer_file = out / 'private-m2-reviewers.json'
+    reviewer_file.write_bytes(projected)
+    reviewer_file.chmod(0o600)
+
+
 def main():
     minor = sys.argv[1]
     assert minor in ("311", "313")
@@ -326,6 +344,7 @@ def main():
             "M1_REAL_PG_RESTART_RED"
         )
         if os.environ.get('B5B_M2_BROWSER') == '1':
+            project_reviewers(docker, out, image)
             from integration.b5b.m2_browser_run import run
             print(json.dumps(run(out, ident, image)), flush=True)
     finally:
