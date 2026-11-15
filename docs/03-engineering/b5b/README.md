@@ -1,13 +1,16 @@
 # S2 / C2-2 B5B incremental consumer
 
 Owner authority: [Issue95 comment6893284620](https://github.com/gloweaseco-leo/VRAE/issues/95#issuecomment-6893284620).
-Accepted base: `d63ea0b007ab4841000ff80c6d8c651d6ff4956f` (PR89/99/92).
+Initial accepted base: `d63ea0b007ab4841000ff80c6d8c651d6ff4956f` (PR89/99/92).
+Normally synchronized accepted main: `67acff97689514fdede01f2aab81dd5a7a96b9cd`
+(Owner merged PR100 S1 DISC; no lease-bound Worker result interface).
 
 This adds an entry in the existing signed `/b5a/` SSR and consumes the accepted
 B5-P0/B3 and B6-P0 ports. There is one HTTP server and no second SPA, identity
 provider, persistence implementation, report generator or delivery transport.
 All existing B5A/B5P0, B3/B4, identity, SQL/roles/RLS, Guard and original workflow
-files remain unchanged. No PR100 or PR102 source is imported.
+files remain unchanged by B5B. PR100 is incorporated only through its independently
+accepted main merge; no unmerged PR100/102 or sibling source is imported.
 
 ## What can be used
 
@@ -30,7 +33,9 @@ files remain unchanged. No PR100 or PR102 source is imported.
 | `BLOCKED_NO_ACCEPTED_REVIEWER_TASK_STATUS_PORT` / UNKNOWN | PR99's actual B4 APP status reader exists, but its APP-authenticated `/v1/audit-requests/{request_id}` is not Reviewer authority. There is no independently accepted authenticated mapping from this signed Reviewer task/assignment to that request/run/job. No APP config, bearer, DB query or caller-supplied status enters SSR. |
 | `BLOCKED_NO_ACCEPTED_LEASE_BOUND_RESULT_PORT` / UNKNOWN | No accepted current-lease/epoch-bound Worker result producer/read contract joins an actual result manifest/report version to its request/run/job and current authorized Reviewer assignment. PR100 is Draft. Configured input references, source JOINs and sealed 404/200 reports are not generated Worker output. |
 
-These states cannot be enabled by a query, uploaded JSON, caller UUID, claimed
+Accepted PR100 supplies a versioned DISC renderer and46 default tests, not the
+missing current-lease-bound result or Reviewer task-state ports. These states
+cannot be enabled by a query, uploaded JSON, caller UUID, claimed
 DONE flag, approval or share grant. The new result URL returns HTTP409 after
 current authorization. Unauthenticated, revoked, cross-tenant/task and invalid
 version requests reveal no private data. New routes reject all query metadata.
@@ -72,7 +77,8 @@ failed label or rerun unchanged source to select green. The runner:
   30 screenshots, source hashes and cleanup. Raw logs, profile files, signer,
    passwords, cookies, private journals and failed native XML stay private.
 
-New tests live outside default `tests/`: original default2518 IDs and25 original
+New tests live outside default `tests/`: accepted default2564 IDs (original2473,
+B5two, B643, DISC46) and25 original
 skips, QA118/Review127, B4 Worker/restore and original CI are not extended or
 modified. `.github/workflows/b5b.yml` adds dual-minor genuine PG/signed SSR/browser
 acceptance alongside every original workflow. Read all actual current Jobs;

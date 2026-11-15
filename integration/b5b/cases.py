@@ -31,13 +31,19 @@ def test_same_signed_workspace_preview_original_document_and_durable_receipt(run
     assert doc[0] == 200 and doc[1] == package.private_html
     assert hashlib.sha256(doc[1]).hexdigest() == package.candidate.document["private_html_sha256"]
     assert runtime.data() == before
+    # Preview and mutation are independent positive groups under the original
+    # short-lived identity. Authenticate the mutation group freshly rather than
+    # assuming that an arbitrarily long inspection extends the first token.
+    assert c.login(runtime.issuer, "task-" + case)[0][0] == 303
     p, fields, _ = runtime.form(c, case)
     saved = submit(c, p, fields)
     assert saved[0] == 200 and b"NOT APPROVED" in saved[1]
     counts = runtime.data()
     assert counts["intents"] == counts["audit"] == counts["outbox"] == 1
     assert c.request("GET", p + "/receipt")[1] == saved[1]
-    assert submit(c, p, fields)[1] == saved[1] and runtime.data() == counts
+    repeated = submit(c, p, fields)
+    assert repeated[0] == 200
+    assert repeated[1] == saved[1] and runtime.data() == counts
 
 
 @pytest.mark.parametrize("route", ["private-preview", "private-document", "worker-result"])

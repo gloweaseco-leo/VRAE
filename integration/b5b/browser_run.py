@@ -79,6 +79,10 @@ def main(label):
                         raise AssertionError("B5B_UNKNOWN_FIXTURE_RPC")
                     node.stdin.write(json.dumps({"id": msg["id"], "result": value}) + "\n")
                     node.stdin.flush()
+                # The finite signer protocol ends at `done`; release stdin so
+                # Node can close its readline/Chrome lifecycle within the same
+                # original wait. No timer, browser assertion or auth TTL changes.
+                node.stdin.close()
                 code = node.wait(timeout=30)
                 assert done and done["pass"] and code == 0, "B5B_ACTUAL_CHROMIUM_RED"
             cleanup = json.loads((out / "browser-process-cleanup.json").read_bytes())
