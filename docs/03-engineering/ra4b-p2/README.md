@@ -1,6 +1,9 @@
 # S2 C1-2: generated-result bridge, isolated permission entry
 
-Current checkpoint under Owner6894393962: **L3 STORAGE / GUARD STOP**.
+Owner 最新阶段纲领下的当前业务实现见 [M1 合成闭环](M1.md)。它使用新增私有结果表、
+真实 Worker 生成/原子提交和签名读取；旧图写入继续 HOLD。以下均为保留的历史 S2 入口记录。
+
+Historical checkpoint under Owner6894393962: **L3 STORAGE / GUARD STOP**.
 The real new Worker generates and persists an unsealed candidate; PG16 Python3.11
 finished39/40 with accepted-200 failing the original16-Guard-bundle limit.
 No further native run, push or CI. See [exact STOP](L3_WRITE_SEAM_STOP.md),
