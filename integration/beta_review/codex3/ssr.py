@@ -22,6 +22,11 @@ def main():
         def sink(event):
             with audit.open("ab") as stream:
                 stream.write(json.dumps(event).encode()+b"\n")
+        # Private diagnostic watchdog: records stacks, never decides authorization.
+        import faulthandler
+        stacks = audit.with_suffix(".stacks.private.log").open("ab")
+        faulthandler.enable(file=stacks)
+        faulthandler.dump_traceback_later(20,repeat=True,file=stacks)
         app = load(profile, bridge, audit=sink)
     else:
         app = ProvisionedApplication(profile)
