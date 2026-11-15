@@ -1,7 +1,8 @@
 # DISC private report v1
 
-S1 of Issue94 / Issue97, based on accepted main
-`447005b2951f43e8d8643632d663de268f278329`. This is an offline synthetic
+S1 of Issue94 / Issue97, normally merged with accepted main
+`ea49547205c2ec8fdf6bcbd64e9fef90d7aa931a`. The original `447005b` candidate
+is retained in local checkpoint `8084a59` and the historical evidence. This is an offline synthetic
 engineering route. It does not approve a report, share it, or change Beta EXIT.
 B1/B2 remain 2/7; Human Gold remains 0/26; G1/G2/G3 remain NO-GO.
 
@@ -12,6 +13,15 @@ worktree and pins the 46 new IDs plus their test-source hash. Its hash is fixed
 independently in the host acceptance step. No unknown additions, duplicate IDs
 or new skips are accepted. All original QA/Review/skip/XML/cleanup invariants
 remain independent. The protected container checker and workflows are unchanged.
+
+Owner comment 6889940278 releases the optional forensic-controller STOP while
+retaining its D RED / NOT PERFORMED result. The accepted main `ea495472` adds the
+two PR89 B5 default tests. The reconciled exact manifest preserves the original
+2473, accepted B5 two, and DISC 46 as separate sets (2521 total). Unfiltered
+native pytest runs all of them. The unchanged accepted B5 verifier validates
+its complete 2475-case layer; the new host-only DISC check validates the disjoint
+46-case layer and the exact full union. PR89 producer immutability, host-owned
+retention, original skip multiset and all independent security checks remain.
 
 ## Explicit version route
 

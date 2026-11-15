@@ -1,0 +1,166 @@
+{
+  "branch": "codex3/beta-integration-20261114",
+  "cleanup": [
+    {
+      "absent": true,
+      "resource": "native_client"
+    },
+    {
+      "absent": true,
+      "resource": "pg_container_network_volume"
+    },
+    {
+      "absent": true,
+      "resource": "source_volume"
+    }
+  ],
+  "dependencies": [
+    {
+      "interface": "B4 Worker -> live Collector/RuleExecution/report persistence",
+      "minimal_change": "Versioned low-role processing/status bridge; no admin runtime or raw table grants.",
+      "owner": "Codex1/Owner",
+      "stage": "S1/S2",
+      "state": "BLOCKED_NO_ACCEPTED_INTERFACE"
+    },
+    {
+      "interface": "DISC-01/02 finding -> guarded fact -> report",
+      "owner": "Codex1 Issue94",
+      "stage": "S1/S2",
+      "state": "BLOCKED_ACCEPTED_GUARD_RENDERER_CTA_ONLY"
+    },
+    {
+      "interface": "B4 request/run/job -> assigned Reviewer task",
+      "owner": "Codex1 B4-P2",
+      "stage": "S2",
+      "state": "BLOCKED_NOT_MERGED"
+    },
+    {
+      "interface": "Signed SSR -> B3 durable per-claim TEST_ONLY intent",
+      "owner": "Codex2 PR89",
+      "stage": "S2",
+      "state": "BLOCKED_NOT_MERGED"
+    },
+    {
+      "interface": "Private exact-version B6 read/revoke/refusal",
+      "owner": "Codex2 PR92",
+      "stage": "S3",
+      "state": "BLOCKED_NOT_MERGED"
+    },
+    {
+      "interface": "B7 old-first deterministic provenance / protected permissions",
+      "owner": "Owner",
+      "stage": "S4",
+      "state": "L3_GO_REQUIRED_A1_MAX3_NOT_RESET"
+    },
+    {
+      "interface": "Single accepted-SHA full B1-B7 EXIT",
+      "owner": "Owner",
+      "stage": "S5",
+      "state": "NOT_READY_2_OF_7"
+    }
+  ],
+  "host_python": "3.11.15",
+  "human_gold": "0/26",
+  "junit_sha256": "2cafb3d10173d49d55ac307d4360da347cb75af98eed5000790577f3b0a7cde0",
+  "native_python_minor": "3.11",
+  "parents": [
+    "ae2505f74f7a81d7a563c05d1a811aaa526c2839",
+    "c3641aea6eba26ce80e388bbc01c24fa993390ee"
+  ],
+  "pg": {
+    "egress_kernel_denial": false,
+    "internal_network": false,
+    "loopback_only": true,
+    "migration_0001_0004": "UNCHANGED_ACCEPTED",
+    "private_port": 51054,
+    "server": "PostgreSQL16"
+  },
+  "pipeline": [
+    {
+      "case": "404",
+      "disabled_rules": 10,
+      "draft_ref": "rd-9f9a66573a42111ae0660921aa505b16684ac3d1aaf9f37fc2b03fba308b7faf",
+      "enabled_rules": [
+        "DISC-01",
+        "DISC-02",
+        "INFO-01",
+        "TRUST-01",
+        "CTA-02",
+        "SEO-01"
+      ],
+      "execution": "LIVE_OFFLINE_COLLECTOR_NOT_PRECOMPUTED_REPORT",
+      "execution_ref": "rx-710c8740ddabde69bbb604004476d89550f537bd8f16c941b1eaafa4cdb9e731",
+      "finding_failures": [
+        {
+          "observation_id": "obs-aabf79b6e11bbf598e686eac722dc33b4289e2f028a482723d7f2ca0922fc755",
+          "rule": "CTA-02"
+        }
+      ],
+      "html_sha256": "2454ab36687bec26f00287c0195a165f0102dbc3b92fc5cc6495ca0ec5e0123f",
+      "pack_ref": "ep-8bd885cbfdd05803956eb01a3f3c3316e1178984a09b7d276697b383abdcff86",
+      "package_ref": "fp-1d7fdd17ce6dc74658cbbfd988574b5d2924e86f57e165fc1cd1e74003b86118",
+      "report_issues": 1,
+      "run_id": "run-beta-404",
+      "seconds": 5.625,
+      "unsupported_rule_findings": 0,
+      "worker_connection": "BLOCKED_NO_ACCEPTED_PROCESSING_BRIDGE"
+    },
+    {
+      "case": "200",
+      "disabled_rules": 10,
+      "draft_ref": "rd-d752db5dbda9d23bd0697de227511f9fac90004fabfb4c946e79a89bab8cd760",
+      "enabled_rules": [
+        "DISC-01",
+        "DISC-02",
+        "INFO-01",
+        "TRUST-01",
+        "CTA-02",
+        "SEO-01"
+      ],
+      "execution": "LIVE_OFFLINE_COLLECTOR_NOT_PRECOMPUTED_REPORT",
+      "execution_ref": "rx-b0b33869eb954e347868b054fc396067700cbbebd4f2fb5e6d7c83c40472478b",
+      "finding_failures": [],
+      "html_sha256": "81f60758262825c76fb47626b19ab5f870b1ed3a539b2a4a086aaf3a1b4b42a3",
+      "pack_ref": "ep-563ea858e119f9a906930c661dd647227088a09eca81abfa01fb68fb2d786734",
+      "package_ref": "fp-7f53524083cae46aa822d6da0103f5ce3a3c059f5a6ee95c39958b24272e7a0d",
+      "report_issues": 0,
+      "run_id": "run-beta-200",
+      "seconds": 4.125,
+      "unsupported_rule_findings": 0,
+      "worker_connection": "BLOCKED_NO_ACCEPTED_PROCESSING_BRIDGE"
+    },
+    {
+      "case": "disc-404",
+      "disabled_rules": 10,
+      "draft_ref": "rd-f92e26d6075c5c7616bb5895e80717151bcc6f7558c83aa9f57af050ba12d745",
+      "enabled_rules": [
+        "DISC-01",
+        "DISC-02",
+        "INFO-01",
+        "TRUST-01",
+        "CTA-02",
+        "SEO-01"
+      ],
+      "execution": "LIVE_OFFLINE_COLLECTOR_NOT_PRECOMPUTED_REPORT",
+      "execution_ref": "rx-65727c63766235cb2de6c73a7035cb51bd1e6e8a6fad01d6da2382e40efd9ed0",
+      "finding_failures": [
+        {
+          "observation_id": "obs-3b7c62a9046d3a5b0a972dda4ce8410dd41b140ad87be2b0fa80628ab6228911",
+          "rule": "DISC-01"
+        }
+      ],
+      "html_sha256": "affb21d7892bf477d1c07375c6f0a25a6f5204f58a1b79921654631f9c3efe34",
+      "pack_ref": "ep-de80748208fa9d0eb7b27d842aee59565bacb16ddf7b9ba9c36b97ca0fe62419",
+      "package_ref": "fp-c0b79ff6b1a721cd6535642487652ed537f92c99053c2dee901d8f51c26a3f4f",
+      "report_issues": 0,
+      "run_id": "run-beta-disc-404",
+      "seconds": 1.359,
+      "unsupported_rule_findings": 1,
+      "worker_connection": "BLOCKED_NO_ACCEPTED_PROCESSING_BRIDGE"
+    }
+  ],
+  "runtime_image_id": "sha256:a783d7b6e9ec09d9c594d198d8679245f45284111bb885a46070bf694889a415",
+  "scope": "TEST_ONLY_NOT_APPROVED_NOT_BETA_READY",
+  "source_sha": "447005b2951f43e8d8643632d663de268f278329",
+  "status": "STOP_NATIVE_RED_PRESERVED"
+}
