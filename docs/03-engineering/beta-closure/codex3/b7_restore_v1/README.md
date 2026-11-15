@@ -82,3 +82,12 @@ The terminal retained its diagnostic tail; a complete raw preflight log was not
 saved for that initial check. The runner now records native preflight output and
 exit before starting any PostgreSQL resource, with the tracked accepted catalog
 included. No same-source full recovery run is retried.
+
+`local-311-v3`, source `802774cd043c505824c794ee56a38e1eed423239`:
+original Worker actually emitted LEASED and TEST_ONLY_DONE. The new observer
+incorrectly expected the string DONE. Its cleanup then tried to unlink a config
+inside the Worker-owned 0700 directory without DAC capabilities. The correction
+matches the original TEST_ONLY_DONE protocol and relies on destruction of the
+private container tmpfs for its UID-owned config. It adds no capability, lease
+extension, business SQL change or authority workaround. All three clusters and
+the Worker container were destroyed; native RED and hashes remain.

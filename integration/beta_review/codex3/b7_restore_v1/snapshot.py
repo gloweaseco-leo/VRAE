@@ -75,6 +75,10 @@ def evidence(snapshot):
     return {k: snapshot[k] for k in ('root', 'data_root', 'catalog_root')} | {
         'tables': {name: {k: v for k, v in row.items() if k != 'rows'}
                    for name, row in snapshot['tables'].items()},
+        'job_state_counts': {state: sum(row['state'] == state for row in snapshot['tables']['ra4a.jobs']['rows'])
+                             for state in ('PENDING', 'LEASED', 'TEST_ONLY_DONE', 'DEAD_LETTER')},
+        'dead_letter_coverage': ('SEEDED' if any(row['state'] == 'DEAD_LETTER' for row in snapshot['tables']['ra4a.jobs']['rows'])
+                                 else 'ZERO/NOT_TESTED'),
         'schemas': SCHEMAS, 'raw_acls_sha256': digest(encode(snapshot['raw_acls']))}
 
 

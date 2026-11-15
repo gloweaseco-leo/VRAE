@@ -42,10 +42,10 @@ def main():
             assert child.wait(timeout=5) == -signal.SIGKILL
         else:
             assert child.wait(timeout=8) == 0
-            assert b'"DONE"' in log.read_bytes(), 'WORKER_EXIT_WITHOUT_DONE'
+            assert b'"TEST_ONLY_DONE"' in log.read_bytes(), 'WORKER_EXIT_WITHOUT_DONE'
         result = {'phase': supplied['phase'], 'pid': child.pid, 'uid': child.b4_uid,
                   'native_returncode': child.returncode, 'leased': True,
-                  'done': b'"DONE"' in log.read_bytes(), 'no_default_route': True,
+                  'done': b'"TEST_ONLY_DONE"' in log.read_bytes(), 'no_default_route': True,
                   'python': sys.version, 'original_module': 'worker.ra4b.main', 'child_admin_credentials': False}
         print(json.dumps(result), flush=True)
     finally:
@@ -53,8 +53,8 @@ def main():
             accepted.signal_child(child, signal.SIGKILL)
             child.wait(timeout=5)
         old.STATE.unlink(missing_ok=True)
-        if 'path' in locals():
-            path.unlink(missing_ok=True)
+        # UID-owned config is on the container's private tmpfs; --rm destroys
+        # it without adding DAC capabilities or changing the frozen ownership.
 
 
 if __name__ == '__main__':
