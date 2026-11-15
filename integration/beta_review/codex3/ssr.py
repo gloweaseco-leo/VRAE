@@ -1,4 +1,4 @@
-﻿"""Original accepted SSR, restricted Reviewer profile only."""
+"""Original accepted SSR, restricted Reviewer profile only."""
 import argparse
 import json
 from pathlib import Path
@@ -50,4 +50,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

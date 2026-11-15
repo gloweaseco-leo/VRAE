@@ -1,4 +1,4 @@
-﻿"""C3-only passive process/signing observations and one focused native case."""
+"""C3-only passive process/signing observations and one focused native case."""
 import base64
 from datetime import datetime,timezone
 import hashlib
