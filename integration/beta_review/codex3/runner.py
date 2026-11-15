@@ -363,15 +363,15 @@ class Run:
              "owner":"Codex1/Owner","state":"BLOCKED_NO_ACCEPTED_INTERFACE",
              "minimal_change":"Versioned low-role processing/status bridge; no admin runtime or raw table grants."},
             {"stage":"S1/S2","interface":"DISC-01/02 finding -> guarded fact -> report",
-             "owner":"Codex1 Issue94","state":"BLOCKED_ACCEPTED_GUARD_RENDERER_CTA_ONLY"},
+             "owner":"Codex1 Issue94","state":"ACCEPTED_DISC_ADAPTER_LIVE_OFFLINE_CONNECTED"},
             {"stage":"S2","interface":"B4 request/run/job -> assigned Reviewer task",
              "owner":"Codex1 B4-P2","state":"BLOCKED_NOT_MERGED"},
             {"stage":"S2","interface":"Signed SSR -> B3 durable per-claim TEST_ONLY intent",
              "owner":"Codex2 PR89","state":"ACCEPTED_B5P0_SEALED_LANE_AVAILABLE_B4_RESULT_BINDING_BLOCKED"},
             {"stage":"S3","interface":"Private exact-version B6 read/revoke/refusal",
-             "owner":"Codex2 PR92","state":"BLOCKED_NOT_MERGED"},
+             "owner":"Codex2 PR92","state":"ACCEPTED_B6_P0_PRIVATE_DENY_ONLY"},
             {"stage":"S4","interface":"B7 old-first deterministic provenance / protected permissions",
-             "owner":"Owner","state":"L3_GO_REQUIRED_A1_MAX3_NOT_RESET"},
+             "owner":"Owner","state":"DEFERRED_BY_OWNER6895932668_MAX3_HISTORY_PRESERVED"},
             {"stage":"S5","interface":"Single accepted-SHA full B1-B7 EXIT",
              "owner":"Owner","state":"NOT_READY_2_OF_7"}]
         self.result["component_stages_sha256"]=sha((self.public/"component-stages.xml").read_bytes())
