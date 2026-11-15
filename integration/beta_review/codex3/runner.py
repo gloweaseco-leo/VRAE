@@ -359,13 +359,23 @@ def restore_issuer(path):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument("action",choices=("verify","start","stop","status","session","open"))
+    parser.add_argument("action",choices=("verify","start","stop","status","session","open","trace","restart-api"))
     parser.add_argument("--run",required=True)
     parser.add_argument("--minor",choices=("3.11","3.13"),default="3.11")
     parser.add_argument("--task",choices=("404","200"),default="404")
+    parser.add_argument("--phase",choices=("s1","s2"),default="s1")
+    parser.add_argument("--request")
     args=parser.parse_args()
     assert re.fullmatch(r"[a-z0-9-]{3,48}",args.run)
     folder=PRIVATE/args.run
+    if args.action in ("trace","restart-api"):
+        from .s2_runtime import trace_case,trace_request,restart_api
+        if args.action=="restart-api":
+            print(json.dumps(restart_api(folder),sort_keys=True))
+        else:
+            value=trace_request(folder,args.request) if args.request else trace_case(folder,args.task)
+            print(json.dumps(value.get("summary",value),sort_keys=True))
+        return
     if args.action in ("stop","status","session","open"):
         control=json.loads((folder/"control.json").read_text())
         if args.action=="stop":
@@ -398,19 +408,20 @@ def main():
         with (raw_folder/"pytest.log").open("wb") as stream:
             result=subprocess.run([sys.executable,"-B","-m","pytest","-x","-q","-p","no:cacheprovider",
                 "--confcutdir=integration/beta_review/codex3","--import-mode=importlib",
-                "integration/beta_review/codex3/test_current_main.py",
+                ("integration/beta_review/codex3/test_s2_consumer.py" if args.phase=="s2" else "integration/beta_review/codex3/test_current_main.py"),
                 "--basetemp="+str(raw_folder/"temp"),"--junitxml="+str(raw_folder/"raw-junit.xml")],
                 cwd=ROOT,env=env,stdout=stream,stderr=stream)
         raw=(raw_folder/"raw-junit.xml").read_bytes()
         original=ET.fromstring(raw)
         safe=ET.Element("testsuites")
         for suite in original.findall("testsuite"):
-            target=ET.SubElement(safe,"testsuite",dict(suite.attrib))
+            target=ET.SubElement(safe,"testsuite",{k:v for k,v in suite.attrib.items() if k in ("name","tests","failures","errors","skipped","time")})
             for case in suite.findall("testcase"):
-                item=ET.SubElement(target,"testcase",dict(case.attrib))
+                item=ET.SubElement(target,"testcase",{k:v for k,v in case.attrib.items() if k in ("name","classname","time")})
                 for kind in ("failure","error","skipped"):
                     if case.find(kind) is not None:
                         ET.SubElement(item,kind,message="NATIVE_RESULT_PRESERVED_PRIVATELY")
+        (DOC/args.run).mkdir(parents=True,exist_ok=True)
         ET.ElementTree(safe).write(DOC/args.run/"junit.xml",encoding="utf-8",xml_declaration=True)
         import zlib
         receipt={"returncode":result.returncode,"python":sys.version.split()[0],
@@ -430,8 +441,14 @@ def main():
         run.case("owned_pg16_accepted_migrations_loopback_network",run.start_pg)
         run.case("real_http202_commit_low_uid_worker_done_security",run.start_native)
         run.case("original_reviewer_ssr_start",run.start_ssr)
-        run.case("signed_original_reads_version_tenant_share_denial",run.signed_reads)
-        run.case("chromium_desktop_mobile_readonly",run.browser)
+        if args.phase=="s1":
+            run.case("signed_original_reads_version_tenant_share_denial",run.signed_reads)
+            run.case("chromium_desktop_mobile_readonly",run.browser)
+        else:
+            from .s2_runtime import trace_case
+            run.result["s2_task_traces"]=[trace_case(run.folder,c)["summary"] for c in ("404","200")]
+            assert all(t["generated_report"] is None for t in run.result["s2_task_traces"])
+
         run.result["status"]="COMPONENTS_VERIFIED_CHAIN_BLOCKED"
         write(folder/"started.json",{"origin":run.r.origin,"source_sha":run.result["source_sha"]})
         if args.action=="start":
