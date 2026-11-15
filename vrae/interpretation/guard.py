@@ -14,6 +14,7 @@ from vrae.domain.contracts import validate_contract
 from vrae.findings import FindingPackage
 
 VERSION = 'ra3b-1.0.0'
+_DISC_GUARD_VERSION = 'ra3b-disc-1.0.0'
 MAX_BYTES = 1_000_000
 FIELDS = {'hypotheses': {'OBJECTIVE_SOURCE_FACT', 'HYPOTHESIS'},
           'recommendations': {'RECOMMENDATION'}, 'missing_information': {'MISSING_INFORMATION'}}
@@ -57,12 +58,13 @@ def _contains_instruction(value):
     return False
 
 
-def _context(pack, package, pins):
+def _context(pack, package, pins, *, guard_version=VERSION):
     if set(pins) != {'expected_pack_ref', 'expected_execution_ref', 'expected_package_ref',
                      'expected_builder_version', 'expected_evaluator_version',
                      'expected_scope', 'expected_guard_version'}:
         _fail('PIN_MISMATCH')
-    if (pins['expected_guard_version'] != VERSION
+    if (guard_version not in (VERSION, _DISC_GUARD_VERSION)
+            or pins['expected_guard_version'] != guard_version
             or pins['expected_builder_version'] != 'ra2c3-1.0.0'
             or pins['expected_evaluator_version'] != 'ra2b6-1.0.0'):
         _fail('VERSION_MISMATCH')
@@ -72,23 +74,25 @@ def _context(pack, package, pins):
     package.verify(pack, **{k: v for k, v in pins.items()
                            if k not in ('expected_scope', 'expected_guard_version')})
     doc = package.document
-    return {'version': VERSION, 'pins': _detach(pins), 'scope': scope,
+    return {'version': guard_version, 'pins': _detach(pins), 'scope': scope,
             'catalog_sha256': doc['catalog_sha256'], 'coverage': doc['coverage'],
             'recorded_capture_scope': doc['recorded_capture_scope']}
 
 
-def _catalog(pack, package):
+def _catalog(pack, package, *, _disc=False):
     """Allow only narrow, generated literal statements over replayed C3 rows."""
     output = []
+    link_rules = ('CTA-02', 'DISC-01', 'DISC-02') if _disc else ('CTA-02',)
+    allowed = ('TRUST-01', 'SEO-01', 'INFO-01') + link_rules
     execution = package.document['rule_execution']
     for rule in execution['executions']:
         for row in rule['observations']:
             obs = row['observation']
             if obs['result'] not in ('PASS', 'FAIL_WITH_EVIDENCE'):
                 continue
-            if rule['rule_id'] not in ('TRUST-01', 'SEO-01', 'INFO-01', 'CTA-02'):
+            if rule['rule_id'] not in allowed:
                 continue
-            if rule['rule_id'] == 'CTA-02' and obs['result'] != 'FAIL_WITH_EVIDENCE':
+            if rule['rule_id'] in link_rules and obs['result'] != 'FAIL_WITH_EVIDENCE':
                 continue
             for index, citation in enumerate(row['citations']):
                 raw = citation.get('raw_element') or citation.get('element', {}).get('raw_element')
@@ -96,7 +100,7 @@ def _catalog(pack, package):
                 body = resolved['content']
                 if body is None:
                     continue
-                sig = rule['rule_id'] in ('SEO-01', 'CTA-02')
+                sig = rule['rule_id'] in ('SEO-01',) + link_rules
                 text = body.decode('utf-8-sig' if sig else 'utf-8')
                 pos = citation.get('element', citation)
                 start = sum(len(s) + 1 for s in text.split('\n')[:pos['line'] - 1]) + pos['column']
@@ -127,12 +131,13 @@ def _catalog(pack, package):
                              + json.dumps(raw, ensure_ascii=False))
                 proof_kind = 'LITERAL_SOURCE_ELEMENT'
                 if obs['result'] == 'FAIL_WITH_EVIDENCE':
-                    if rule['rule_id'] != 'CTA-02' or row['target_response']['http_status'] not in (404, 410):
+                    if rule['rule_id'] not in link_rules or row['target_response']['http_status'] not in (404, 410):
                         continue
                     source['target_response'] = row['target_response']
                     statement = (f"Captured static href {json.dumps(citation['raw_href'])} returned "
                                  f"HTTP {row['target_response']['http_status']} at capture time only.")
-                    proof_kind = 'CAPTURED_CTA_HTTP_FAILURE'
+                    proof_kind = ('CAPTURED_CTA_HTTP_FAILURE' if rule['rule_id'] == 'CTA-02'
+                                  else 'CAPTURED_DISC_HTTP_FAILURE')
                 elif rule['rule_id'] not in ('TRUST-01', 'SEO-01', 'INFO-01'):
                     continue
                 fact = {'observation_id': obs['observation_id'], 'rule_id': rule['rule_id'],
@@ -147,14 +152,19 @@ def _catalog(pack, package):
     return output
 
 
-def catalog(pack, package: FindingPackage, **pins):
+def _catalog_for_version(pack, package, pins, *, guard_version=VERSION):
     try:
-        context = _context(pack, package, pins)
-        return _detach({'context': context, 'facts': _catalog(pack, package)})
+        context = _context(pack, package, pins, guard_version=guard_version)
+        return _detach({'context': context, 'facts': _catalog(
+            pack, package, _disc=guard_version == _DISC_GUARD_VERSION)})
     except GuardError:
         raise
     except Exception:
         raise GuardError('SOURCE_INTEGRITY') from None
+
+
+def catalog(pack, package: FindingPackage, **pins):
+    return _catalog_for_version(pack, package, pins)
 
 
 def binding(*, pointer, text, claim_type, fact, context):
@@ -165,7 +175,7 @@ def binding(*, pointer, text, claim_type, fact, context):
     return _detach(value)
 
 
-def _project(interpretation, bindings, pack, package, pins):
+def _project(interpretation, bindings, pack, package, pins, *, _guard_version=VERSION):
     interpretation, bindings = _detach(interpretation), _detach(bindings)
     validate_contract('AIInterpretation', interpretation)
     for field in ('interpretation_id', 'model_id', 'observation_ids', 'evidence_ids'):
@@ -173,7 +183,7 @@ def _project(interpretation, bindings, pack, package, pins):
         if any(isinstance(v, str) and (_contains_instruction(v) or
                _contains_instruction(re.sub(r'[_.-]+', ' ', v))) for v in values):
             _fail('UNTRUSTED_INSTRUCTION')
-    current = catalog(pack, package, **pins)
+    current = _catalog_for_version(pack, package, pins, guard_version=_guard_version)
     context, facts = current['context'], current['facts']
     fact_bytes = {_encode(fact) for fact in facts}
     if any(interpretation[k] != context['scope'][k] for k in ('tenant_id', 'run_id')):
@@ -203,7 +213,7 @@ def _project(interpretation, bindings, pack, package, pins):
         computed_ref = 'cb-' + document_hash({k: v for k, v in b.items() if k != 'binding_ref'})
         reason = None
         if (b['binding_ref'] != computed_ref
-                or b['binding_version'] != VERSION or _encode(b['context']) != _encode(context)):
+                or b['binding_version'] != _guard_version or _encode(b['context']) != _encode(context)):
             reason = 'BINDING_INTEGRITY'
         elif b['text'] != text or b['claim_type'] not in types:
             reason = 'CLAIM_MISMATCH'
@@ -224,7 +234,7 @@ def _project(interpretation, bindings, pack, package, pins):
                            else 'SEMANTICS_REQUIRE_HUMAN')
         results.append({'pointer': pointer, 'binding_ref': computed_ref,
                         'status': status, 'reason': trace})
-    result = {'guard_version': VERSION, 'context': context,
+    result = {'guard_version': _guard_version, 'context': context,
               'interpretation_sha256': document_hash(interpretation),
               'bindings_sha256': hashlib.sha256(_encode(bindings)).hexdigest(), 'claims': results,
               'private': True, 'approval_status': 'NOT_APPROVED', 'shareable': False,

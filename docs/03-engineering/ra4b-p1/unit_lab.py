@@ -131,9 +131,22 @@ def main(label):
         root = ET.fromstring(raw)
         cases = list(root.iter("testcase"))
         skipped = [case for case in cases if case.find("skipped") is not None]
-        # User authorized accepted main ae2505f: CBC plus five B3 contracts.
-        # The unchanged full selection is now 2448 PASS + 25 original SKIP.
-        assert len(cases) == 2473 and len(skipped) == 25
+        # Owner #6886105818: exact additive DISC inventory; original gates below
+        # remain independent. Expected IDs come from clean accepted collection,
+        # never from the candidate JUnit being checked here.
+        inventory_raw = (ROOT / "docs/03-engineering/beta-disc-report/exact-test-ids.json").read_bytes().replace(b"\r\n", b"\n")
+        assert hashlib.sha256(inventory_raw).hexdigest() == "43ccd6c631596c943a0cfe5dc9e4800d394a4bf1f4b3ead5609e71e68dc2e259"
+        inventory = json.loads(inventory_raw)
+        baseline, added = inventory["baseline_ids"], inventory["added_ids"]
+        assert len(baseline) == len(set(baseline)) == 2473
+        assert len(added) == len(set(added)) == 46 and set(baseline).isdisjoint(added)
+        actual_ids = [case.get("classname", "") + "::" + case.get("name", "") for case in cases]
+        assert len(actual_ids) == len(set(actual_ids)) == 2519
+        assert set(baseline) <= set(actual_ids) and set(actual_ids) - set(baseline) == set(added)
+        assert all(case.find("skipped") is None for case, ident in zip(cases, actual_ids) if ident in set(added))
+        for relative, expected in inventory["added_test_sources"].items():
+            assert hashlib.sha256((ROOT / relative).read_bytes().replace(b"\r\n", b"\n")).hexdigest() == expected
+        assert len(skipped) == 25
         assert not list(root.iter("failure")) and not list(root.iter("error"))
         qa = [case for case in cases if "test_ra3c_owner_adjudicated_v2" in case.get("classname", "")]
         review = [case for case in cases if case.get("classname", "").startswith("tests.reviewing.")]
