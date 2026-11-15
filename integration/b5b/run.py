@@ -18,6 +18,7 @@ TARGETS = [
     "integration/ra4c_b5p0/cases.py",
     "integration/b5b/cases.py",
     "integration/b5b/pure_cases.py",
+    "integration/b5b/consumer_cases.py",
 ]
 
 
@@ -121,7 +122,7 @@ def main(label):
         (public / "source.json").write_text(json.dumps(frozen, sort_keys=True), encoding="utf-8")
         print(json.dumps(summary), flush=True)
 
-    if result.returncode or bad or len(cases) != 94:
+    if result.returncode or bad or len(cases) != 104:
         # Preserve genuine native failure outcomes using the accepted B4
         # sanitizer; never publish raw traceback/credentials or fabricate XML.
         if native.exists():
@@ -159,6 +160,14 @@ def main(label):
             stderr=err,
         )
     if browser.returncode:
+        from .publication import native_failure_views, browser_failure_view
+
+        safe = native_failure_views(native)
+        safe['browser-failure.json'] = browser_failure_view(PRIVATE / (label + '-browser'))
+        for name, raw in safe.items():
+            assert not re.search(rb'Bearer\s+|eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]+\.', raw)
+            (public / name).write_bytes(raw)
+        summary['public_file_sha256'] = {name: sha(raw) for name, raw in safe.items()}
         publish_summary("TRUE_BROWSER_RED_RETAINED_PRIVATE")
         raise SystemExit(1)
     browser_root = PRIVATE / (label + "-browser")
@@ -194,8 +203,8 @@ def main(label):
     retention = {
         "sha256": sha(native.read_bytes()),
         "crc32": format(zlib.crc32(native.read_bytes()) & 0xFFFFFFFF, "08x"),
-        "cases": 94,
-        "passed": 94,
+        "cases": 104,
+        "passed": 104,
         "failed": 0,
         "errors": 0,
         "skipped": 0,
@@ -203,7 +212,7 @@ def main(label):
     }
     safe["native-retention.json"] = json.dumps(retention, sort_keys=True).encode()
     counts = {}
-    for name, shots in [("accepted", 12), ("b5b", 18)]:
+    for name, shots in [("b5b", 18)]:
         folder = browser_root / (name + "-browser")
         raw = (folder / "browser.json").read_bytes()
         report = json.loads(raw)
@@ -223,7 +232,7 @@ def main(label):
             image = (folder / shot["file"]).read_bytes()
             assert sha(image) == shot["sha256"]
             safe[name + "-" + shot["file"]] = image
-    assert counts["accepted"] == 63
+    assert counts["b5b"] == 94
     for name, raw in safe.items():
         if not name.endswith(".png"):
             assert not any(secret and secret.encode() in raw for secret in secrets)
@@ -233,7 +242,8 @@ def main(label):
     summary.update(
         {
             "browser_assertions": counts,
-            "screenshots": 30,
+            "screenshots": 18,
+            "original_browser": "UNCHANGED_INDEPENDENT_B5P0_CI_NOT_DUPLICATED",
             "cleanup_records": 86,
             "protected_originals_unchanged": True,
             "external_delivery_sends": 0,

@@ -1,5 +1,20 @@
 # S2 / C2-2 B5B incremental consumer
 
+Current continuation: [Owner6896489543](https://github.com/gloweaseco-leo/VRAE/pull/103#issuecomment-6896489543),
+[M2 delivery](https://github.com/gloweaseco-leo/VRAE/pull/103#issuecomment-6895931265),
+and the accepted [synthetic L0/L1 charter](../L0_L1_STAGE_CHARTER_V1.1.md).
+Normal accepted-main sync: `a210d52ff10616113b9a5c2712fe7c0d8ac37be7` (documentation only).
+Continue this PR autonomously within new modules; no self ready/merge/deploy.
+Only synthetic websites. No real customer, external recipient or paid model.
+
+M2 entry: existing signed home → **合成任务审核工作区** (`/b5a/tasks/{task}/b5b/m2`).
+This currently returns409 with explicit missing-port states. Source selection,
+internal approve/reject/revise, version receipt and Chinese A4 export controls
+remain disabled until C1's authenticated generated-result/task port is merged.
+The prepared review form binds version/hash and at most3 issue IDs; it is not
+mounted as an authority or write endpoint. No new review database or alternate
+report source is invented. This is UI preparation, **not M2 business PASS**.
+
 Owner authority: [Issue95 comment6893284620](https://github.com/gloweaseco-leo/VRAE/issues/95#issuecomment-6893284620).
 Initial accepted base: `d63ea0b007ab4841000ff80c6d8c651d6ff4956f` (PR89/99/92).
 Normally synchronized accepted main: `67acff97689514fdede01f2aab81dd5a7a96b9cd`
@@ -33,7 +48,7 @@ accepted main merge; no unmerged PR100/102 or sibling source is imported.
 | UI state | Exact missing interface and current accepted seam |
 |---|---|
 | `BLOCKED_NO_ACCEPTED_REVIEWER_TASK_STATUS_PORT` / UNKNOWN | PR99's actual B4 APP status reader exists, but its APP-authenticated `/v1/audit-requests/{request_id}` is not Reviewer authority. There is no independently accepted authenticated mapping from this signed Reviewer task/assignment to that request/run/job. No APP config, bearer, DB query or caller-supplied status enters SSR. |
-| `BLOCKED_NO_ACCEPTED_LEASE_BOUND_RESULT_PORT` / UNKNOWN | No accepted current-lease/epoch-bound Worker result producer/read contract joins an actual result manifest/report version to its request/run/job and current authorized Reviewer assignment. PR100 is Draft. Configured input references, source JOINs and sealed 404/200 reports are not generated Worker output. |
+| `BLOCKED_NO_ACCEPTED_LEASE_BOUND_RESULT_PORT` / UNKNOWN | No accepted current-lease/epoch-bound Worker result producer/read contract joins an actual result manifest/report version to its request/run/job and current authorized Reviewer assignment. Configured input references, source JOINs and sealed 404/200 reports are not generated Worker output. |
 
 Accepted PR100 supplies a versioned DISC renderer and46 default tests, not the
 missing current-lease-bound result or Reviewer task-state ports. These states
@@ -65,22 +80,30 @@ failed label or rerun unchanged source to select green. The runner:
 
 1. Verifies current source bytes against committed Git blobs.
 2. Runs original B5 55 assertions unchanged using its original fixture, plus
-   30 real B5B PG/HTTP cases and9 pure boundary cases: native94/94, no skips.
+   30 real B5B PG/HTTP cases and19 pure boundary/publication/UI cases:104 expected,
+   no skips. A count is not a PASS claim; inspect actual current native XML.
    Cases cover tenant/version/revocation, original unknown/half-commit/lost
    response, actual child restart and original-key receipt, and11 deny operations.
-3. Runs **unchanged** original PR89 Chromium63 assertions/12 screenshots on the
-   combined B5B server, followed by new current-only preview, original B6 document,
+3. The **unchanged** independent B5-P0 hosted job runs original PR89 Chromium63
+   assertions/12 screenshots. The new B5B job runs current-only preview, original B6 document,
    BLOCKED result and actual PG revocation journeys at1280/375/320 (18 screenshots).
    The new browser reuses original CDP transport, input and cleanup code;
    HTTP25s/CDP30s and original authentication/transaction thresholds are unchanged.
    New browser inspection, denial and blocked-result groups authenticate with
    separate fresh signatures under the same original90s lifetime; no expired
-   session is treated as a positive authorization. The new suite has93 assertions.
+   session is treated as a positive authorization. The new suite expects94 assertions
+   on one real browser tab, including explicit M2 blocked UI. It creates zero
+   duplicate rehearsal intents. The duplicated old-receipt browser assertion was
+   removed only from the new consumer suite; original receipt/revocation tests
+   and the complete original browser workflow are unchanged.
 4. Verifies original-byte/catalog roots, three owned PG resource groups,
    all83 case databases dropped, actual Chrome exit and child termination.
 5. Exports only scanned native JUnit, SHA/CRC retention, bounded browser metadata,
-  30 screenshots, source hashes and cleanup. Raw logs, profile files, signer,
-   passwords, cookies, private journals and failed native XML stay private.
+   18 screenshots, source hashes and cleanup. Raw logs, profile files, signer,
+   passwords, cookies, private journals and raw failed native XML stay private.
+   Browser RED now retains accepted-sanitized actual native XML/raw SHA+CRC,
+   failure suite/code/phase/assertion counts and actual cleanup flags, including
+   false flags. Never publish raw headers, token-bearing CDP commands or stacks.
 
 New tests live outside default `tests/`: accepted default2564 IDs (original2473,
 B5two, B643, DISC46) and25 original
@@ -105,7 +128,9 @@ runtime material is ignored and confined to the owned checkout. Historical
 PR89/PR92 RED in their original worktrees remains untouched. No production
 customer, paid model, real ShareGrant, notification, deployment or merge is run.
 
-STOP after the new Draft PR/current real CI for Owner's independent decision.
+Owner's current autonomy charter supersedes the first delivery's STOP. Ordinary
+new-module RED is diagnosed and corrected within scope. C1's unmerged dependency
+does not authorize fake output or legacy permission changes.
 
 ## Local RED retained for independent review
 
@@ -121,8 +146,15 @@ its independent positive groups now authenticate separately.3.13 native remains
 operation was reached. Its exact root cause is UNKNOWN. No timeout, permission,
 old test or source-current check was relaxed to turn this local failure green.
 
-The Draft submission must explicitly carry this local RED / NOT READY status.
-Fresh hosted CI is independent evidence, not retrospective local PASS. The default
-CI command still runs all94 native tests, the unchanged original63 browser tests
-and all93 new browser assertions. A focused `browser_run LABEL b5b` mode exists
-only for changed-new-browser verification and is not used by CI/publication.
+Original PR103 `d607d39` remains22/24 hosted jobs, both B5B browser jobs RED;
+all21 original ZIPs have been downloaded/hash-verified privately. R3 focused
+browser RED and false Chrome cleanup flags are also retained without rewriting.
+
+Current continuation's10 new pure tests pass on both Python minors. A focused
+private-stack diagnostic also caught native ReportDraft/ReviewTarget recursive
+replay during a25s HTTP timeout. The single-tab focused browser still reached
+30s CDP timeout at first1280/404 signed session, with original PG bytes already
+returned and target replay in progress. This is **not a browser fix PASS** or
+proof of the historical hosted failure's root. No original replay, authorization,
+PG timeout, session90s or HTTP25s/CDP30s threshold was relaxed. Current hosted
+RED publication will identify its actual first browser phase independently.

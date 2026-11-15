@@ -9,7 +9,7 @@ from .process import Child
 from .support import Runtime, ROOT
 
 
-def main(label, suite="all"):
+def main(label, suite="b5b"):
     assert suite in {"all", "b5b"}
     r = Runtime(label)
     child = None
@@ -27,16 +27,8 @@ def main(label, suite="all"):
             ("integration/b5b/browser.mjs", "b5b"),
         ]
         if suite == "b5b":
-            # Focused new-browser verification still prepares genuine sealed
-            # rehearsal receipts through signed HTTP/B3, never fabricated joins.
-            from integration.ra4c_b5a.support import Client
-            from integration.ra4c_b5p0.cases import submit
-
-            for case in ("404", "200"):
-                client = Client(child.origin)
-                assert client.login(r.issuer, "task-" + case)[0][0] == 303
-                path, fields, _ = r.form(client, case)
-                assert submit(client, path, fields)[0] == 200
+            # Original B5-P0 has its unchanged independent hosted browser job.
+            # This consumer journey does not require creating duplicate intents.
             scripts = scripts[1:]
         for script, name in scripts:
             out = r.lab.private / (name + "-browser")
@@ -110,7 +102,7 @@ def main(label, suite="all"):
                 {
                     "scope": "ALL_ORIGINAL_AND_B5B"
                     if suite == "all"
-                    else "FOCUSED_B5B_ONLY_NOT_ORIGINAL63",
+                    else "B5B_CONSUMER_ONLY_ORIGINAL63_INDEPENDENT_CI",
                     "suite": name,
                     "assertions": len(report["records"]),
                     "screenshots": len(report["shots"]),
@@ -119,7 +111,7 @@ def main(label, suite="all"):
             )
         assert (
             r.roots() == before
-            and r.data()["intents"] == r.data()["audit"] == r.data()["outbox"] == 2
+            and r.data()["intents"] == r.data()["audit"] == r.data()["outbox"] == (2 if suite == 'all' else 0)
         )
         (r.lab.private / "browser-summary.json").write_text(
             json.dumps(
@@ -144,4 +136,4 @@ def main(label, suite="all"):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "all")
+    main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "b5b")

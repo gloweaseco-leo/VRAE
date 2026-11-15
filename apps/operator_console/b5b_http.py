@@ -53,6 +53,11 @@ class Application:
                     # changing the original read, save or receipt implementation.
                     app.capture(sid)
                     action = parts[3]
+                    if action == 'm2' and method in ('GET', 'HEAD'):
+                        from .b5b_m2_views import workspace
+
+                        app.current(sid, session)
+                        return self._reply(409, workspace(session.task_id))
                     if action == "worker-result" and method in ("GET", "HEAD"):
                         return self._reply(409, views.blocked())
                     if action in ("private-preview", "private-document") and method in (

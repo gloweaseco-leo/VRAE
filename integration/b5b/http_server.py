@@ -2,6 +2,11 @@
 
 import argparse
 import json
+import os
+import sys
+import threading
+import time
+import traceback
 from pathlib import Path
 from apps.operator_console.b5a_http import server
 from apps.operator_console.b5b_profile import load
@@ -12,6 +17,14 @@ def main():
     for key in ("profile", "bridge", "policies", "audit", "ready"):
         parser.add_argument("--" + key, required=True)
     args = parser.parse_args()
+    if os.environ.get('B5B_DIAGNOSTIC_STACKS') == '1':
+        def stacks():
+            while True:
+                time.sleep(20)
+                for stack in sys._current_frames().values():
+                    sys.stderr.write('PRIVATE_B5B_DIAGNOSTIC_STACK\n' + ''.join(traceback.format_stack(stack)))
+                sys.stderr.flush()
+        threading.Thread(target=stacks, daemon=True).start()
     root = (Path(__file__).resolve().parent / ".runtime").resolve()
     paths = {
         k: Path(getattr(args, k)).resolve()

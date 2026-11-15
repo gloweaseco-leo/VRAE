@@ -40,6 +40,7 @@ def navigation(task):
                 link(root + "/rehearsal/receipt", "按原键核对持久回执", key="b5b-receipt"),
                 link(root + "/b5b/private-preview", "当前权限私有预览", key="b5b-preview"),
                 link(root + "/b5b/worker-result", "查看生成结果阻断原因", key="b5b-worker-result"),
+                link(root + "/b5b/m2", "合成任务审核工作区", key="b5b-m2"),
             )
         )
         + "</nav>"

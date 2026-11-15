@@ -57,9 +57,15 @@ class Child:
         return self
 
     def stop(self):
+        before = self.process.poll() if self.process else None
         if self.process and self.process.poll() is None:
             self.process.terminate()
             self.process.wait(timeout=15)
         assert self.process is None or self.process.poll() is not None
         for stream in self.streams:
             stream.close()
+        if self.process:
+            (self.runtime.lab.private / 'child-process-cleanup.json').write_text(
+                json.dumps({'exit_before_cleanup': before, 'exit_after_cleanup': self.process.poll()}),
+                encoding='utf-8',
+            )
