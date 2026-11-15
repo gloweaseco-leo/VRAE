@@ -98,5 +98,17 @@ original B5A integrity oracle. The explicit focused proof module
 `tests/reporting/beta_disc_report/integrity_proof_cases.py` exercises that exact
 oracle against a real disposable Git checkout with a deliberately altered legacy
 copy. It requires Git and the integration module, is explicitly selected locally,
-and adds no default IDs; DISC remains46 and total default2521. The original
+and adds no default IDs; DISC remains46. The original
 B5A dual-minor signed PG/HTTP/Chromium CI remains independently mandatory.
+
+Owner PR100 comment 6893257476 authorizes one diagnostic hosted candidate after
+normal merge of accepted main `d63ea0b007ab4841000ff80c6d8c651d6ff4956f`.
+Its 43 accepted B6 default IDs join the immutable original2473, B5two and DISC46
+partitions: total2564. Their exact multiset matches the unchanged accepted B6
+digest. The DISC adapter passes the complete2518-case accepted layer to the
+unchanged B6 verifier, which still calls the unchanged B5 verifier. No frozen
+test, source oracle, workflow or business timeout changes.
+
+LOCAL_B5A_HTTP_25S_RED_PRESERVED / HTML_TAMPER_NEGATIVE_NOT_PROVEN_LOCALLY /
+DIAGNOSTIC_ONLY: local real HTTP 18/19 remains RED. This submission is NOT READY;
+only one natural hosted cycle is authorized. Owner alone decides final merge.
