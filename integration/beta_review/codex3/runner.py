@@ -155,15 +155,17 @@ class Run:
         image="vrae-ra4b-p1:"+self.minor.replace(".","")
         image_id=cmd(["docker","image","inspect","--format","{{.Id}}",image]).decode().strip()
         self.result["runtime_image_id"]=image_id
-        cmd(["docker","volume","create","--label",OWNER_LABEL+"="+self.label,self.source_volume])
-        self.created_volume=True
-        cmd(["docker","run","--rm","-i","--network","none","--read-only","--cap-drop","ALL",
-            "--mount","type=volume,src="+self.source_volume+",dst=/source",image_id,
-            "python","-c","import sys,tarfile;tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/source',filter='data')"],
-            input=(self.folder/"source.tar.gz").read_bytes())
-        out=self.folder/"native"
-        out.mkdir()
-        log=(self.folder/"native-supervisor.log").open("wb")
+        if not self.created_volume:
+            cmd(["docker","volume","create","--label",OWNER_LABEL+"="+self.label,self.source_volume])
+            self.created_volume=True
+            cmd(["docker","run","--rm","-i","--network","none","--read-only","--cap-drop","ALL",
+                "--mount","type=volume,src="+self.source_volume+",dst=/source",image_id,
+                "python","-c","import sys,tarfile;tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/source',filter='data')"],
+                input=(self.folder/"source.tar.gz").read_bytes())
+        assert json.loads(cmd(["docker","volume","inspect",self.source_volume]))[0]["Labels"][OWNER_LABEL]==self.label
+        out=getattr(self,"native_out",self.folder/"native")
+        out.mkdir(parents=True,exist_ok=False)
+        log=(getattr(self,"native_out",self.folder)/"native-supervisor.log").open("wb")
         self.logs.append(log)
         args=["docker","run","--rm","-i","--name",self.client_name,
             "--label",OWNER_LABEL+"="+self.label,
@@ -173,7 +175,7 @@ class Run:
             "--tmpfs","/tmp:rw,nosuid,nodev,size=256m",
             "--mount","type=volume,src="+self.source_volume+",dst=/work,readonly",
             "--mount","type=bind,src="+str(out.resolve())+",dst=/evidence",
-            image_id,"python","-m","integration.beta_review.codex3.native"]
+            image_id,"python","-m",getattr(self,"native_module","integration.beta_review.codex3.native")]
         self.client=subprocess.Popen(args,cwd=ROOT,stdin=subprocess.PIPE,stdout=log,stderr=log)
         self.client.stdin.write(json.dumps(self.r.lab.state).encode())
         self.client.stdin.close()
@@ -186,6 +188,9 @@ class Run:
         assert value["native_python"].startswith(self.minor+".")
         self.result["native_python"]=value["native_python"]
         write(self.folder/"native-linkage.private.json",value)
+        if value.get("mode")=="M1_REAL_GENERATION":
+            self.result["api_worker"]={k:value[k] for k in ("mode","app_uid","worker_uid","worker_entry","accepted_processing","generated_rows_seeded")}
+            return
         self.result["api_worker"]={"records":[{"case":r["case"],"request_sha256":sha(r["receipt"]["request_id"].encode()),
             "run_sha256":sha(r["receipt"]["run_id"].encode()),"job_sha256":sha(r["receipt"]["job_id"].encode()),
             "origin_epoch":r["origin_epoch"],"job_state":r["job_state"],
@@ -306,7 +311,7 @@ class Run:
         def native_stop():
             if not self.client:
                 return
-            write(self.folder/"native/stop.json",{"stop":True})
+            write(getattr(self,"native_out",self.folder/"native")/"stop.json",{"stop":True})
             try:
                 self.client.wait(timeout=15)
             except subprocess.TimeoutExpired:
@@ -322,7 +327,8 @@ class Run:
                 return
             if self.b5:
                 from .native_observation import stopped
-                stopped(self,"owned_cleanup")
+                if getattr(self,"intentional_ssr_stop",None) is not self.ssr:
+                    stopped(self,"owned_cleanup")
             else:
                 self.ssr.terminate()
                 self.ssr.wait(timeout=15)
@@ -377,6 +383,8 @@ class Run:
              "owner":"Owner","state":"DEFERRED_BY_OWNER6895932668_MAX3_HISTORY_PRESERVED"},
             {"stage":"S5","interface":"Single accepted-SHA full B1-B7 EXIT",
              "owner":"Owner","state":"NOT_READY_2_OF_7"}]
+        if hasattr(self,"generated_dependencies"):
+            self.result["dependencies"]=self.generated_dependencies
         self.result["component_stages_sha256"]=sha((self.public/"component-stages.xml").read_bytes())
         write(self.public/"result.json",self.result)
         secrets=[self.r.lab.state["admin_password"],*self.r.lab.state["runtime_passwords"].values()]

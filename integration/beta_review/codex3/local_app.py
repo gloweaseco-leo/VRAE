@@ -9,11 +9,10 @@ import sys
 
 from .runner import PRIVATE, ROOT, cmd, write
 
-ACCEPTED_MAIN = "a210d52ff10616113b9a5c2712fe7c0d8ac37be7"
-MISSING_PORTS = (
-    "C1_CURRENT_LEASE_GENERATED_RESULT_COMMIT_AND_ASSIGNED_REVIEWER_READ",
-    "C2_SIGNED_SSR_NEW_TASK_GENERATED_REPORT_REVIEW_RECEIPT_EXPORT",
-)
+ACCEPTED_MAIN = "08a999d8b7061af925f1f35cfcc55193a3c73b35"
+M1_MODE = "M1_GENERATED_REPORTS_M2_UI_PENDING"
+LEGACY_MODE = "EXISTING_COMPONENT_PREVIEW_NOT_WHOLE_APP_PASS"
+MISSING_PORTS = ("C2_SIGNED_SSR_NEW_TASK_GENERATED_REPORT_REVIEW_RECEIPT_EXPORT",)
 
 
 def folder_for(label):
@@ -33,7 +32,8 @@ def doctor():
         "accepted_main_inspected": ACCEPTED_MAIN,
         "candidate_sha": cmd(["git", "rev-parse", "HEAD"]).decode().strip(),
         "mode": "SYNTHETIC_ONLY_INTERNAL_NOT_APPROVED",
-        "business_flow": "BLOCKED_MISSING_ACCEPTED_PORTS",
+        "business_flow": "M1_ACCEPTED_M2_PENDING",
+        "M1_accepted": True,
         "missing_ports": list(MISSING_PORTS),
         "accepted_C1_result_namespace_files": [
             p for p in paths if p.startswith(("db/ra4b_p2/", "vrae/application/ra4b_p2/"))
@@ -66,7 +66,7 @@ def control_write(path, value):
 def request_stop(label):
     launch = launch_for(label)
     metadata = json.loads((launch / "local-launch.json").read_text(encoding="utf-8"))
-    if metadata.get("mode") != "EXISTING_COMPONENT_PREVIEW_NOT_WHOLE_APP_PASS":
+    if metadata.get("mode") not in (LEGACY_MODE, M1_MODE):
         raise ValueError("OWN_LOCAL_LAUNCH_REQUIRED")
     if metadata.get("run", label) != label:
         raise ValueError("OWN_LOCAL_LAUNCH_REQUIRED")
@@ -79,12 +79,17 @@ def status(label):
     folder = folder_for(label)
     launch = launch_for(label)
     reserved = (launch / "local-launch.json").is_file()
+    mode = (
+        json.loads((launch / "local-launch.json").read_bytes()).get("mode")
+        if reserved
+        else LEGACY_MODE
+    )
     if not folder.is_dir() and not reserved:
         return {"run": label, "state": "ABSENT"}
     if (launch / "stop.json").exists() or (folder / "stop.json").exists():
         state = "STOP_REQUESTED"
     elif (folder / "started.json").exists():
-        state = "COMPONENT_PREVIEW_READY"
+        state = "M1_READY_M2_UI_PENDING" if mode == M1_MODE else "COMPONENT_PREVIEW_READY"
     else:
         state = "STARTING"
     result = {"run": label, "state": state, "business_flow": "BLOCKED_MISSING_ACCEPTED_PORTS"}
@@ -98,6 +103,11 @@ def status(label):
             raise ValueError("LOOPBACK_ORIGIN_REQUIRED")
         result["url"] = value["origin"] + "/b5a/login"
         result["source_sha"] = value["source_sha"]
+    if mode == M1_MODE:
+        result["business_flow"] = M1_MODE
+        result["review_ui"] = "PENDING_OWNER_MERGED_M2"
+        result["legacy_ssr_url"] = result.pop("url", None)
+        result["ssr_is_generated_job_reviewer"] = False
     evidence = ROOT / "docs/03-engineering/beta-closure/codex3/.private" / label / "result.json"
     if evidence.exists():
         final = json.loads(evidence.read_text(encoding="utf-8"))
@@ -107,6 +117,7 @@ def status(label):
         )
         result["component_result"] = final["status"]
         result.pop("url", None)
+        result.pop("legacy_ssr_url", None)
     elif (launch / "supervisor-end.json").exists():
         end = json.loads((launch / "supervisor-end.json").read_text(encoding="utf-8"))
         cancelled = launch / "cancelled-before-start.json"
@@ -123,6 +134,7 @@ def status(label):
             "CANCELLED_BEFORE_RESOURCES" if before_start else "STARTUP_FAILED"
         )
         result.pop("url", None)
+        result.pop("legacy_ssr_url", None)
     return result
 
 
@@ -131,10 +143,7 @@ def supervise(label, minor):
 
     launch = launch_for(label)
     metadata = json.loads((launch / "local-launch.json").read_text(encoding="utf-8"))
-    if (
-        metadata.get("run") != label
-        or metadata.get("mode") != "EXISTING_COMPONENT_PREVIEW_NOT_WHOLE_APP_PASS"
-    ):
+    if metadata.get("run") != label or metadata.get("mode") not in (LEGACY_MODE, M1_MODE):
         raise ValueError("OWN_LOCAL_LAUNCH_REQUIRED")
     code = 0
     previous = sys.argv
@@ -158,7 +167,12 @@ def supervise(label, minor):
                 "--phase",
                 "s2",
             ]
-            runner.main()
+            if metadata["mode"] == M1_MODE:
+                from .m3_application import main as generated_main
+
+                generated_main(label, minor)
+            else:
+                runner.main()
     except BaseException:
         code = 1
         raise
@@ -170,10 +184,6 @@ def supervise(label, minor):
 
 def start(label, minor, component_preview):
     evidence = doctor()
-    if not component_preview:
-        # A proper whole-app launch will bind C1/C2 ports after Owner merges them.
-        # Do not fall back to presenting sealed fixture reports as generated output.
-        return {**evidence, "started": False}, 2
     folder = folder_for(label)
     PRIVATE.mkdir(parents=True, exist_ok=True)
     if folder.exists():
@@ -191,7 +201,7 @@ def start(label, minor, component_preview):
         "run": label,
         "supervisor_pid": None,
         "source_sha": evidence["candidate_sha"],
-        "mode": "EXISTING_COMPONENT_PREVIEW_NOT_WHOLE_APP_PASS",
+        "mode": LEGACY_MODE if component_preview else M1_MODE,
     }
     control_write(launch / "local-launch.json", metadata)
     command = [
@@ -233,16 +243,52 @@ def start(label, minor, component_preview):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=("doctor", "start", "status", "stop", "supervise"))
+    parser.add_argument(
+        "action",
+        choices=(
+            "doctor",
+            "start",
+            "status",
+            "stop",
+            "supervise",
+            "submit",
+            "task",
+            "report",
+            "restart-pg",
+        ),
+    )
     parser.add_argument("--run")
     parser.add_argument("--minor", choices=("3.11", "3.13"), default="3.11")
     parser.add_argument("--component-preview", action="store_true")
+    parser.add_argument("--source", choices=("404", "200"))
+    parser.add_argument("--key")
+    parser.add_argument("--job")
+    parser.add_argument("--wait", type=int, default=90)
     args = parser.parse_args(argv)
     code = 0
     if args.action == "doctor":
         result = doctor()
     elif not args.run:
         parser.error("--run is required")
+    elif args.action in ("submit", "task", "report", "restart-pg"):
+        from . import m3_results
+
+        if args.action == "submit":
+            if args.source is None:
+                parser.error("--source is required")
+            result = m3_results.submit(args.run, args.source, args.key)
+        elif args.action == "restart-pg":
+            result = m3_results.restart_pg(args.run)
+        else:
+            if not args.job:
+                parser.error("--job is required")
+            if not 0 <= args.wait <= 120:
+                parser.error("--wait must be 0..120")
+            result = (
+                m3_results.task_status(args.run, args.job)
+                if args.action == "task"
+                else m3_results.materialize(args.run, args.job, args.wait)
+            )
     elif args.action == "supervise":
         return supervise(args.run, args.minor)
     elif args.action == "start":
