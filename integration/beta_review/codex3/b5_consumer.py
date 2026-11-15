@@ -1,4 +1,6 @@
 ﻿"""Consume accepted B5P0 in the existing SSR; no Worker/report association."""
+from html import unescape
+from uuid import UUID
 import json
 import os
 import re
@@ -13,6 +15,17 @@ def receipt_digest(body):
     assert found and b"TEST_ONLY_REVIEW_INTENT" in body and b"NOT APPROVED" in body
     assert b"idempotency_key" not in body and b"witness" not in body.lower()
     return found[1].decode()
+
+def receipt_metadata(body):
+    match=re.search(r"<pre>(.*?)</pre>",body.decode("utf-8"),re.S)
+    assert match
+    document=json.loads(unescape(match[1]))
+    assert document["report_version"]==1 and document["durable"] is True
+    assert document["effective_approval"] is False and document["external_visibility"] is False
+    assert document["native_decision"] is None and document["person_id"] is None and document["share_grant"] is None
+    for field in ("intent_id","event_id","report_id","ref_id","source_run_id"):
+        assert str(UUID(document[field]))==document[field]
+    return document
 
 def browser_save(run):
     out=run.folder/"b5-browser"

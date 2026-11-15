@@ -92,7 +92,8 @@ def test_accepted_b5p0_browser_saves_real_signed_intents(beta):
 
 @pytest.mark.parametrize('case',['404','200'])
 def test_b5p0_actual_originals_and_version_bound_receipt(beta,case):
-    from .b5_consumer import read_receipt,LANE
+    from .b5_consumer import read_receipt,receipt_metadata,LANE
+    from .runner import sha
     client,path,digest,body_sha=read_receipt(beta,case)
     other='200' if case=='404' else '404'
     assert client.request('GET','/b5a/tasks/task-'+other+'/rehearsal/receipt')[0]==403
@@ -100,9 +101,13 @@ def test_b5p0_actual_originals_and_version_bound_receipt(beta,case):
     profile=json.loads(beta.profile.read_text(encoding='utf-8'))
     draft=profile['tasks'][case]['report_pins']['expected_draft_ref']
     assert client.request('GET','/b5a/tasks/task-'+case+'/review?'+urlencode({'version':999,'draft':draft}))[0]==409
+    document=receipt_metadata((beta.folder/("b5-receipt-"+case+".private.html")).read_bytes())
+    location=beta.r.bindings["task-"+case].location
+    assert document["report_id"]==location.report and document["source_run_id"]==location.source_run
+    assert document["ref_id"]==location.ref_id
     originals=beta.r.original_facts(case)
     beta.b5_receipts[case]={'lane':LANE,'receipt_sha256':digest,'page_sha256':body_sha,
-        'originals':originals,'report_version':1,'worker_result_binding':'BLOCKED','approval':'NOT_APPROVED'}
+        'originals':originals,'identity_sha256':{k:sha(document[k].encode()) for k in ('intent_id','event_id','report_id','ref_id','source_run_id')},'report_version':1,'worker_result_binding':'BLOCKED','approval':'NOT_APPROVED'}
     beta.result['b5_receipts']=beta.b5_receipts
     assert beta.r.data()==beta.result['b5_counts']
 
