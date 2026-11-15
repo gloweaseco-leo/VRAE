@@ -5,8 +5,8 @@ import subprocess
 import sys
 import time
 
-from .local_app import folder_for, start, status
-from .runner import ROOT, write
+from .local_app import folder_for, request_stop, start, status
+from .runner import ROOT
 
 
 def test_one_command_existing_component_preview_lifecycle():
@@ -58,6 +58,15 @@ def test_one_command_existing_component_preview_lifecycle():
             timeout=60,
         )
         assert process.returncode == 0
+        session = json.loads((folder / "operator-session.private.json").read_bytes())[0]
+        assert session["case"] == "200" and session["origin"] == f"http://127.0.0.1:{url.port}"
+        from integration.ra4c_b5a.support import Client
+
+        reader = Client(session["origin"])
+        reader.cookies = session["cookies"]
+        code, body, _ = reader.request("GET", session["path"])
+        assert code == 200 and b"Reviewer" in body
+
         native = json.loads((folder / "native/native-result.json").read_bytes())
         assert native["native_python"].startswith(minor + ".")
         assert len(native["records"]) == 2
@@ -69,7 +78,7 @@ def test_one_command_existing_component_preview_lifecycle():
         )
     finally:
         if folder.exists():
-            write(folder / "stop.json", {"stop": True})
+            request_stop(label)
             deadline = time.monotonic() + 90
             while time.monotonic() < deadline and status(label)["state"] != "CLOSED":
                 time.sleep(0.25)

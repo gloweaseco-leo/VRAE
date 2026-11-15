@@ -1,7 +1,7 @@
 # Local synthetic Beta entry
 
 Owner scheduling: Issue96 comment6895932668 / Issue97 comment6895902508.
-Accepted main inspected: 4aa0f02d7feae58b1ebd20d72b8cab3f37f31c7a.
+Accepted main inspected: a210d52ff10616113b9a5c2712fe7c0d8ac37be7.
 
 Use the existing locked Python 3.11 or 3.13 environment, Docker Desktop, Node
 and installed Chrome. Run from the repository root:
@@ -37,3 +37,15 @@ or signer material. Private logs, per-run controls and evidence remain under
 the existing .private directories; no public screenshot is generated here.
 The original 375/200 CDP navigation RED remains preserved as c3-s2-disc-311-v1.
 No authentication, SQL, RLS, Worker, HTTP/CDP thresholds or production path changed.
+
+Stop is safe immediately after start: its signal lives in the reserved launch
+directory, so it cannot pre-create the existing Run's exclusive directory.
+Cancellation before startup reports CLOSED / CANCELLED_BEFORE_RESOURCES.
+During startup it completes the current step and executes owned cleanup before
+CLOSED. A startup/spawn exception without confirmed cleanup is reported as
+FAILED_START_CLEANUP_UNCONFIRMED, never as ready or cleaned.
+
+The internal supervise command only runs the existing local supervisor; it adds
+no HTTP listener, role, business status or report authority. Control-only process
+fault tests are separate from the actual PG/API/SSR lifecycle test. Neither
+implies that the missing generated-result/Reviewer ports have been accepted.

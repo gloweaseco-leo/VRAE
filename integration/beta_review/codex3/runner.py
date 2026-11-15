@@ -478,15 +478,26 @@ def main():
         write(DOC/args.run/"native-pytest-receipt.json",receipt)
         print(json.dumps(receipt),flush=True)
         raise SystemExit(result.returncode)
+    launch=PRIVATE/"local-launches"/args.run
+    stop=launch/"stop.json"
+    if args.action=="start" and stop.is_file():
+        write(launch/"cancelled-before-start.json",{"cancelled_before_run":True,"resources_started":False})
+        return
     run=Run(args.run,args.minor,b5=args.phase=="s2")
+    class StartupCancelled(Exception):
+        pass
+    def start_case(name,operation):
+        if args.action=="start" and (stop.is_file() or (folder/"stop.json").is_file()):
+            raise StartupCancelled()
+        return run.case(name,operation)
     try:
-        run.case("live_offline_source_policy_six_rules_guard_report",run.pipeline)
-        run.case("owned_pg16_accepted_migrations_loopback_network",run.start_pg)
-        run.case("real_http202_commit_low_uid_worker_done_security",run.start_native)
-        run.case("original_reviewer_ssr_start",run.start_ssr)
+        start_case("live_offline_source_policy_six_rules_guard_report",run.pipeline)
+        start_case("owned_pg16_accepted_migrations_loopback_network",run.start_pg)
+        start_case("real_http202_commit_low_uid_worker_done_security",run.start_native)
+        start_case("original_reviewer_ssr_start",run.start_ssr)
         if args.phase=="s1":
-            run.case("signed_original_reads_version_tenant_share_denial",run.signed_reads)
-            run.case("chromium_desktop_mobile_readonly",run.browser)
+            start_case("signed_original_reads_version_tenant_share_denial",run.signed_reads)
+            start_case("chromium_desktop_mobile_readonly",run.browser)
         else:
             from .s2_runtime import trace_case
             run.result["s2_task_traces"]=[trace_case(run.folder,c)["summary"] for c in ("404","200")]
@@ -498,10 +509,12 @@ def main():
             print(json.dumps({"run":args.run,"origin":run.r.origin,"url":run.r.origin+"/b5a/login","mode":"TEST_ONLY_NOT_APPROVED",
                 "chain":"BLOCKED","auto_stop_seconds":1800}),flush=True)
             deadline=time.monotonic()+1800
-            while time.monotonic()<deadline and not (folder/"stop.json").exists():
+            while time.monotonic()<deadline and not (folder/"stop.json").exists() and not stop.exists():
                 if run.client.poll() is not None or run.ssr.poll() is not None:
                     raise RuntimeError("COMPONENT_EXITED")
                 time.sleep(.25)
+    except StartupCancelled:
+        run.result["status"]="CANCELLED_DURING_STARTUP"
     except BaseException:
         run.result["status"]="STOP_NATIVE_RED_PRESERVED"
         raise
