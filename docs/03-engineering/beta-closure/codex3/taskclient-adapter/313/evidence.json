@@ -1,0 +1,109 @@
+{
+  "M2": "PENDING_OWNER_MERGE_NOT_FINAL_M3_PASS",
+  "api_worker": {
+    "accepted_processing": "vrae.application.ra4b_p2.m1.runtime",
+    "app_uid": 10001,
+    "canonical_worker_entry": "vrae.application.ra4b_p2.m1.runtime",
+    "consumer_entry": "vrae.application.ra4b_p2.m1.consumer.TaskClient",
+    "consumer_profile_fields": [
+      "bearer",
+      "tenant_id",
+      "source_refs"
+    ],
+    "consumer_uid": 10003,
+    "generated_rows_seeded": 0,
+    "mode": "M1_REAL_GENERATION",
+    "worker_entry": "integration.beta_review.codex3.m3_worker",
+    "worker_uid": 10002
+  },
+  "canonical_worker_starts": 2,
+  "cases": 4,
+  "cleanup": [
+    {
+      "absent_or_port_closed": true,
+      "resource": "native_client"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "original_ssr"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "pg_container_network_volume"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "source_volume"
+    }
+  ],
+  "database_configs_unreadable_by_consumer": true,
+  "executable_source_root": "3e17fcdcba75ebe440df813dbb4750c2dc8e1cc0e414bbc990b7bf29172b16f9",
+  "host_python": "3.13.13",
+  "native_junit": {
+    "bytes": 872,
+    "crc32": "135783c6",
+    "sha256": "e1815ae5c4940b50295e88a57bb2e48784ad25bc678ea58d083b2084e8634a12"
+  },
+  "native_python": "3.13.18",
+  "pending_to_done_actual": true,
+  "private_consumer_identity_test_passed": true,
+  "private_profile_fields": [
+    "bearer",
+    "tenant_id",
+    "source_refs"
+  ],
+  "restart_reprovisioned_identity_and_same_handle_readback": true,
+  "restart_transport": {
+    "observed_owned_loopback_port": 50441,
+    "ownership_verified_by_accepted_lab": true,
+    "previous_port": 56558
+  },
+  "ssr_native_observation": {
+    "own_wer_crashes": 0,
+    "passive_fatal_capture": true,
+    "periodic_sampler": false,
+    "runtime_pids": [
+      21324,
+      16592
+    ],
+    "unexpected_exits": 0
+  },
+  "tasks": [
+    {
+      "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+      "case": "200",
+      "handle_identity_sha256": {
+        "event_id": "586bcbb64a4dd5398ba5d512a4febf076cc89642291b469f3ac34424842cd253",
+        "job_id": "f943860799822a9fe0da43f515e68b2bf6202d30c1d50f5667822fca47086a22",
+        "request_id": "4eabff15b8238a3da19615dc5129f42cad9c86bab91aa2ad12b54673044d0197",
+        "run_id": "f8d6cc23f8efddf0c735c2b3f6c25c2c8d784db923b9e1d6562edcd50193e281"
+      },
+      "http_status": 202,
+      "locator_hashes": {
+        "html_sha256": "b0c3dc776b62362fa813e4fefde8f6690a6f4b80a9e87f9a5010faa9f36054d3",
+        "report_sha256": "b162b39b80be50f7f25081f10d20de7e3cffdf721f11f4926c01cef28f1ce2d1",
+        "source_sha256": "c8ee6c3a45e1734796d7ac6e93cf8efde659051444b2cf3dd866c1c7b3eb829a"
+      },
+      "report_version": 1
+    },
+    {
+      "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+      "case": "404",
+      "handle_identity_sha256": {
+        "event_id": "8033a61f06bc4293cc9a8899b2f1d3fe267154190563b09765800e62730d53fd",
+        "job_id": "178c79b11ccb4f48d98160d3ea4ebd1494db34cd71e5a276fc5b8fec28c216e2",
+        "request_id": "e1e5b33c08132fd5794bd7109676748e667e7623b5e08cc9ab5712f5171ae33f",
+        "run_id": "4fd25fa0cfaaed47b828edc01fde8012024b5dd21a860c8b29b653ec2239935d"
+      },
+      "http_status": 202,
+      "locator_hashes": {
+        "html_sha256": "3b4f938dbe9f10eaddf5db8035bc041aeb47347a0c0c17256bb6226b6dbca85f",
+        "report_sha256": "a74e958a534dc5be9c04bf669fa5b299b374284a83637ad1d771de1e76606942",
+        "source_sha256": "cd841a08b469c29dfb1f2386caaff7218b94a52f84bd0fd447325e0410747ba6"
+      },
+      "report_version": 1
+    }
+  ],
+  "tested_sha": "f76bdb8ad8a79a5ceb8be2a351193e2e8fcbc83e",
+  "wrong_job_source_and_idempotency_conflict_denied": true
+}
