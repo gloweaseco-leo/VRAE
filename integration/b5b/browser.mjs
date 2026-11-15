@@ -124,4 +124,3 @@ finally{
   await writeFile(path.join(out,'browser-process-cleanup.json'),JSON.stringify({exit_observed:!!chrome&&(chrome.exitCode!==null||chrome.signalCode!==null),exit_code:chrome?.exitCode??null,signal:chrome?.signalCode??null,graceful,forced}));
   lines.close()
 }
-
