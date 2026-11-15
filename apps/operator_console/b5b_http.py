@@ -1,5 +1,6 @@
 """Additive consumer of accepted B5/B6 ports on the SAME signed SSR server."""
 
+import re
 from vrae.b6_p0.reader import PrivateHandoffReader
 from vrae.b6_p0.delivery import DeliveryAuthorizationGate
 from vrae.b6_p0.contracts import B6Denied
@@ -84,6 +85,27 @@ class Application:
                         return self._reply(403, views.denial(receipt))
                     refuse("NOT_IMPLEMENTED")
                 reply = app.handle(method, target, headers, raw)
+                if reply.response.status >= 400:
+                    # Bounded private diagnostics at the new consumer seam.
+                    # Never retain a request, cookie, body, subject or capability;
+                    # audit availability cannot alter the accepted response.
+                    match = re.search(rb'data-code="([A-Z0-9_]{1,64})"', reply.response.body)
+                    code = match[1].decode("ascii") if match else "UNKNOWN"
+                    if code not in {
+                        "UNAUTHORIZED",
+                        "B5P0_UNKNOWN_COMMIT",
+                        "B5P0_CONFLICT",
+                        "INVALID_INPUT",
+                        "SOURCE_INTEGRITY",
+                        "STALE_VERSION",
+                    }:
+                        code = "UNKNOWN"
+                    try:
+                        app.audit(
+                            "b5b_accepted_port_rejection", status=reply.response.status, code=code
+                        )
+                    except Exception:
+                        pass
                 # Keep all original mutations and receipt bytes untouched. Add
                 # navigation only to an already-authorized signed home/task page.
                 decorate = method in ("GET", "HEAD") and (
