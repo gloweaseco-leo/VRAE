@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[3]
 LABEL = "vrae.ra4b_p2.m1"
 
 
-def main():
+def main(*, consumer=False):
     minor = sys.argv[1]
     assert minor in ("311", "313")
     label = sys.argv[2] if len(sys.argv) > 2 else minor
@@ -207,7 +207,7 @@ def main():
             "-p",
             "no:cacheprovider",
             (
-                "integration/ra4b_p2/m1/native_cases.py"
+                "integration/ra4b_p2/m1/consumer_cases.py" if consumer else "integration/ra4b_p2/m1/native_cases.py"
                 if experiment
                 else "integration/ra4b_p2/audit_cases.py"
             ),
@@ -225,7 +225,7 @@ def main():
             if any(c.find(k) is not None for k in ("failure", "error", "skipped"))
         ]
         receipt = {
-            "kind": "M1_NATIVE_GENERATED_RESULT_NOT_FULL_BETA_EXIT",
+            "kind": "M1_CONSUMER_INTEGRATION_NOT_M2_M3_EXIT" if consumer else "M1_NATIVE_GENERATED_RESULT_NOT_FULL_BETA_EXIT",
             "minor": minor,
             "image_id": image,
             "source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT)
@@ -244,6 +244,9 @@ def main():
         (out / "receipt.json").write_bytes((json.dumps(receipt, indent=2) + "\n").encode())
         print(json.dumps(receipt), flush=True)
         assert p.returncode == 0 and not red, "REAL_NATIVE_AUDIT_RED"
+        if consumer:
+            assert len(cs) == 2, "CONSUMER_CASE_INVENTORY"
+            return
         # A second client joins the restarted PG namespace, with no migration,
         # seed, result rewrite or role/credential substitution.
         docker("restart", ident + "-pg")
