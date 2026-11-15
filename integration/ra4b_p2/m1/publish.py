@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[3]
 
 
-def main():
+def main(*, consumer=False):
     label = sys.argv[1]
     assert re.fullmatch("[a-z0-9-]{3,40}", label)
     private = ROOT / "docs/03-engineering/ra4b-p2/.runtime" / ("m1-" + label)
@@ -24,10 +24,11 @@ def main():
             secrets += json.loads(p.read_bytes())
         sources = json.loads((private / "source-manifest.json").read_bytes())
         receipts = []
-        for name, folder, expected in [
+        gates = [("consumer", private, 2)] if consumer else [
             ("runtime", private, 17),
             ("restarted", private / "recovered", 2),
-        ]:
+        ]
+        for name, folder, expected in gates:
             raw = (folder / "native-junit.xml").read_bytes()
             receipt = json.loads((folder / "receipt.json").read_bytes())
             assert receipt["native_junit_sha256"] == hashlib.sha256(raw).hexdigest()
@@ -41,6 +42,12 @@ def main():
             assert not re.search(r"eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+", decoded)
             assert "<html" not in decoded.lower() and "objects_base64" not in decoded
             ids = [c.get("classname") + "::" + c.get("name") for c in cases]
+            if consumer:
+                assert secrets, "CONSUMER_CREDENTIAL_SCAN_REQUIRED"
+                assert ids == [
+                    "integration.ra4b_p2.m1.consumer_cases::test_http_only_consumer_current_task_to_signed_result[" + case + "]"
+                    for case in ("404", "200")
+                ], "CONSUMER_EXACT_TEST_IDS"
             receipts.append(
                 (
                     name,
@@ -67,16 +74,16 @@ def main():
         shutil.copyfile(private / "source-manifest.json", public / "source-manifest.json")
         shutil.copyfile(private / "m1-proof.json", public / "m1-proof.json")
         metadata.update(
-            status="M1_NATIVE_PASS_NOT_FULL_BETA_EXIT",
-            actual_pg_restart=True,
+            status="M1_CONSUMER_PASS_NOT_M2_M3_EXIT" if consumer else "M1_NATIVE_PASS_NOT_FULL_BETA_EXIT",
+            actual_pg_restart=not consumer,
             sources_sha256=hashlib.sha256(json.dumps(sources, sort_keys=True).encode()).hexdigest(),
             all_four_owned_resources_absent=True,
             raw_junit_preserved=True,
         )
     finally:
         (public / "publication.json").write_text(json.dumps(metadata, indent=2))
-    assert metadata["status"] == "M1_NATIVE_PASS_NOT_FULL_BETA_EXIT"
-    print(json.dumps({"status": metadata["status"], "native_cases": 19, "public": str(public)}))
+    assert metadata["status"] == ("M1_CONSUMER_PASS_NOT_M2_M3_EXIT" if consumer else "M1_NATIVE_PASS_NOT_FULL_BETA_EXIT")
+    print(json.dumps({"status": metadata["status"], "native_cases": 2 if consumer else 19, "public": str(public)}))
 
 
 if __name__ == "__main__":

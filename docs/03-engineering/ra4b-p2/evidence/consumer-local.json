@@ -1,0 +1,49 @@
+{
+  "accepted_main": "08a999d8b7061af925f1f35cfcc55193a3c73b35",
+  "scope": "NEW_CONSUMER_ONLY_NOT_M1_REACCEPTANCE_NOT_M2_M3_EXIT",
+  "runs": [
+    {
+      "minor": "311",
+      "image_id": "sha256:1d6b7a70526c8437a9534305cb38452982390abbfb4a12b831e38435eea656e3",
+      "native": [
+        {
+          "gate": "consumer",
+          "cases": 2,
+          "native_junit_sha256": "dafc569e5f5b271f8e3df854d160aa15b8ca5dde5664d7868c8aa0543e8197d9",
+          "ids": [
+            "integration.ra4b_p2.m1.consumer_cases::test_http_only_consumer_current_task_to_signed_result[404]",
+            "integration.ra4b_p2.m1.consumer_cases::test_http_only_consumer_current_task_to_signed_result[200]"
+          ],
+          "exact_ids_sha256": "4b7fcb681080a4b5b4503b42f0c8b0d1b89aa6eef97c7232e76f7b4233d53969"
+        }
+      ],
+      "four_owned_resources_absent": true,
+      "actual_pg_restart": false,
+      "consumer_source_sha256": "d7283185d8865e42855fb8e629225cee74a5ea96a117d57e8e1878b64b5cd291",
+      "manifest_file_sha256": "0f1578e0776a456dac65f15d00b9fee101e71e69600da5f9de39f68ca91abcdf",
+      "private_evidence": ".runtime\\m1-consumer-311-r1"
+    },
+    {
+      "minor": "313",
+      "image_id": "sha256:565684bd0fb794494ce95e62b7b448ab8b31d098704b24b7795f92104b482610",
+      "native": [
+        {
+          "gate": "consumer",
+          "cases": 2,
+          "native_junit_sha256": "193026856d9ec7a3afa5661de0a097603284e8a95a8fbe934e63e1723eb9022a",
+          "ids": [
+            "integration.ra4b_p2.m1.consumer_cases::test_http_only_consumer_current_task_to_signed_result[404]",
+            "integration.ra4b_p2.m1.consumer_cases::test_http_only_consumer_current_task_to_signed_result[200]"
+          ],
+          "exact_ids_sha256": "4b7fcb681080a4b5b4503b42f0c8b0d1b89aa6eef97c7232e76f7b4233d53969"
+        }
+      ],
+      "four_owned_resources_absent": true,
+      "actual_pg_restart": false,
+      "consumer_source_sha256": "d7283185d8865e42855fb8e629225cee74a5ea96a117d57e8e1878b64b5cd291",
+      "manifest_file_sha256": "9536b847e83bd2b798f537ec62cc6f66a72bc6969984d09bafe065be66997783",
+      "private_evidence": ".runtime\\m1-consumer-313-r1"
+    }
+  ],
+  "source_note": "Local working source is identified by per-run byte SHA manifest, not by the unchanged base HEAD. 311 lint-only noqa correction occurred after its snapshot; executable consumer bytes match both runs. CI will pin the committed source."
+}

@@ -1,0 +1,41 @@
+name: M1 server consumer integration
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  consumer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.11'
+            slug: '311'
+          - python: '3.13'
+            slug: '313'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -r requirements-ra4b-p1.lock
+      - name: New consumer lint and type check
+        run: |
+          python -m ruff check vrae/application/ra4b_p2/m1 integration/ra4b_p2/m1 --select E4,E7,E9,F
+          python -m mypy vrae
+      - name: Build accepted isolated image
+        run: python docs/03-engineering/ra4b-p1/runtime_lab.py consumer-build-${{ matrix.slug }} --build-only --private-output
+      - name: Only new HTTP consumer and signed-result integration cases
+        run: python -m integration.ra4b_p2.m1.consumer_lab ${{ matrix.slug }} consumer-ci-${{ matrix.slug }}
+      - name: Preserve scanned original consumer JUnit
+        if: always()
+        run: python -m integration.ra4b_p2.m1.consumer_publish consumer-ci-${{ matrix.slug }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m1-consumer-${{ matrix.slug }}
+          retention-days: 7
+          if-no-files-found: error
+          path: docs/03-engineering/ra4b-p2/.runtime/public-consumer-ci-${{ matrix.slug }}/
