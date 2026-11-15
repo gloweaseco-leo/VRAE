@@ -66,7 +66,7 @@ def snapshot(path):
     return manifest
 
 class Run:
-    def __init__(self,label,minor):
+    def __init__(self,label,minor,*,b5=False):
         from integration.ra4c_b5a import lab as lab_module
         from integration.ra4c_b5a.support import Runtime
         assert re.fullmatch(r"[a-z0-9-]{3,48}",label)
@@ -75,6 +75,10 @@ class Run:
         self.folder.mkdir(parents=True,exist_ok=False)
         self.public=DOC/label
         self.public.mkdir(parents=True,exist_ok=False)
+        self.b5=b5
+        if b5:
+            from integration.ra4c_b5p0 import lab as lab_module
+            from integration.ra4c_b5p0.support import Runtime
         lab_module.RUNTIME=self.folder/"pg"
         self.r=Runtime("beta-"+uuid.uuid4().hex[:12])
         self.minor=minor
@@ -141,6 +145,9 @@ class Run:
             "pg":self.r.lab.name,"label":OWNER_LABEL,"value":self.label})
         self.profile=self.folder/"reviewer-profile.json"
         write(self.profile,self.r.profile())
+        if self.b5:
+            self.bridge=self.folder/"b5-bridge.private.json"
+            write(self.bridge,self.r.bridge_profile())
 
     def start_native(self):
         image="vrae-ra4b-p1:"+self.minor.replace(".","")
@@ -190,10 +197,12 @@ class Run:
 
     def start_ssr(self):
         self.ready=self.folder/"ssr-ready.json"
-        log=(self.folder/"ssr.log").open("wb")
+        self.ready.unlink(missing_ok=True)
+        log=(self.folder/"ssr.log").open("ab")
         self.logs.append(log)
+        extra=(["--bridge",str(self.bridge),"--audit",str(self.folder/"b5-audit.private.jsonl")] if self.b5 else [])
         self.ssr=subprocess.Popen([sys.executable,"-B","-m","integration.beta_review.codex3.ssr",
-            "--profile",str(self.profile),"--ready",str(self.ready)],
+            "--profile",str(self.profile),"--ready",str(self.ready),*extra],
             cwd=ROOT,stdin=subprocess.DEVNULL,stdout=log,stderr=log,
             env={**{k:v for k,v in os.environ.items() if k.upper() in
                 {"PATH","SYSTEMROOT","WINDIR","TEMP","TMP","COMSPEC"}},
@@ -208,6 +217,11 @@ class Run:
         write(self.folder/"control.json",{"origin":self.r.origin,"pid":os.getpid(),
             "profile":str(self.profile),"mode":"TEST_ONLY_NOT_APPROVED"})
         write(self.folder/"signer.private.json",{k:base64_key(v) for k,v in self.r.issuer.keys.items()})
+
+    def restart_ssr(self):
+        self.ssr.terminate()
+        self.ssr.wait(timeout=15)
+        self.start_ssr()
 
     def signed_reads(self):
         from integration.ra4c_b5a.support import Client
@@ -326,7 +340,7 @@ class Run:
             {"stage":"S2","interface":"B4 request/run/job -> assigned Reviewer task",
              "owner":"Codex1 B4-P2","state":"BLOCKED_NOT_MERGED"},
             {"stage":"S2","interface":"Signed SSR -> B3 durable per-claim TEST_ONLY intent",
-             "owner":"Codex2 PR89","state":"BLOCKED_NOT_MERGED"},
+             "owner":"Codex2 PR89","state":"ACCEPTED_B5P0_SEALED_LANE_AVAILABLE_B4_RESULT_BINDING_BLOCKED"},
             {"stage":"S3","interface":"Private exact-version B6 read/revoke/refusal",
              "owner":"Codex2 PR92","state":"BLOCKED_NOT_MERGED"},
             {"stage":"S4","interface":"B7 old-first deterministic provenance / protected permissions",
@@ -435,7 +449,7 @@ def main():
         write(DOC/args.run/"native-pytest-receipt.json",receipt)
         print(json.dumps(receipt),flush=True)
         raise SystemExit(result.returncode)
-    run=Run(args.run,args.minor)
+    run=Run(args.run,args.minor,b5=args.phase=="s2")
     try:
         run.case("live_offline_source_policy_six_rules_guard_report",run.pipeline)
         run.case("owned_pg16_accepted_migrations_loopback_network",run.start_pg)

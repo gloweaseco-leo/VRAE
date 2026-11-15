@@ -10,17 +10,18 @@ from .task_trace import TaskObservation,TraceDenied,RESULT_BLOCK,require_generat
 
 @pytest.fixture(scope="module")
 def beta(request):
-    r=Run(os.environ["BETA_CODEX3_RUN"],os.environ["BETA_CODEX3_MINOR"])
+    r=Run(os.environ["BETA_CODEX3_RUN"],os.environ["BETA_CODEX3_MINOR"],b5=True)
     try:
         r.case("s2_owned_pg16_original_interfaces",r.start_pg)
         r.case("s2_real_app_commit_worker",r.start_native)
         r.case("s2_independent_live_diagnostic_candidate",r.pipeline)
+        r.case("s2_accepted_b5p0_same_ssr",r.start_ssr)
         yield r
     finally:
         try:
             r.case("s2_owned_cleanup",r.cleanup)
         finally:
-            clean=(len(r.cases)==4 and all(c["result"]=="PASS" for c in r.cases))
+            clean=(len(r.cases)==5 and all(c["result"]=="PASS" for c in r.cases))
             r.result["status"]=("S2_NATIVE_RED_PRESERVED" if request.session.testsfailed or not clean else "S2_READ_CONSUMER_READY_PROCESSING_RESULT_BLOCKED")
             r.publish()
 
@@ -76,3 +77,59 @@ def test_original_api_restart_reloads_exact_durable_status_without_new_admission
     assert before==after
     beta.result["s2_original_api_restart"]={"receipt":receipt,"exact_durable_status":True,
         "generated_result":"BLOCKED","new_admissions":0}
+
+def test_accepted_b5p0_browser_saves_real_signed_intents(beta):
+    from .b5_consumer import browser_save
+    before=beta.r.roots()
+    assert all(v==0 for v in beta.r.data().values())
+    browser_save(beta)
+    counts=beta.r.data()
+    assert counts['intents']==counts['audit']==counts['outbox']==2
+    assert counts['claims']==9 and beta.r.roots()==before
+    beta.result['b5_counts']=counts
+    beta.b5_roots=before
+    beta.b5_receipts={}
+
+@pytest.mark.parametrize('case',['404','200'])
+def test_b5p0_actual_originals_and_version_bound_receipt(beta,case):
+    from .b5_consumer import read_receipt,LANE
+    client,path,digest,body_sha=read_receipt(beta,case)
+    other='200' if case=='404' else '404'
+    assert client.request('GET','/b5a/tasks/task-'+other+'/rehearsal/receipt')[0]==403
+    from urllib.parse import urlencode
+    profile=json.loads(beta.profile.read_text(encoding='utf-8'))
+    draft=profile['tasks'][case]['report_pins']['expected_draft_ref']
+    assert client.request('GET','/b5a/tasks/task-'+case+'/review?'+urlencode({'version':999,'draft':draft}))[0]==409
+    originals=beta.r.original_facts(case)
+    beta.b5_receipts[case]={'lane':LANE,'receipt_sha256':digest,'page_sha256':body_sha,
+        'originals':originals,'report_version':1,'worker_result_binding':'BLOCKED','approval':'NOT_APPROVED'}
+    beta.result['b5_receipts']=beta.b5_receipts
+    assert beta.r.data()==beta.result['b5_counts']
+
+def test_b5p0_real_ssr_process_restart_reauthenticates_and_rereads_same_receipts(beta):
+    from integration.ra4c_b5a.support import Client
+    from .b5_consumer import read_receipt
+    stale,path,_,_=read_receipt(beta,'404')
+    beta.restart_ssr()
+    old=Client(beta.r.origin)
+    old.cookies=dict(stale.cookies)
+    assert old.request('GET',path+'/receipt')[0]==403
+    for case in ('404','200'):
+        _,_,digest,body_sha=read_receipt(beta,case)
+        assert digest==beta.b5_receipts[case]['receipt_sha256']
+        assert body_sha==beta.b5_receipts[case]['page_sha256']
+    assert beta.r.data()==beta.result['b5_counts']
+    assert beta.r.roots()==beta.b5_roots
+    beta.result['b5_process_restart']={'old_cookie_denied':403,'fresh_signed_receipts_identical':True,
+        'original_journal_and_b3_pg_retained':True,'new_intents':0,'worker_binding':'BLOCKED'}
+
+def test_b5p0_current_provisioning_revocation_denies_saved_receipt(beta):
+    from .b5_consumer import read_receipt
+    client,path,_,_=read_receipt(beta,'404')
+    # Accepted loader's real private-provisioning invalidation, no DB/ACL edits.
+    beta.bridge.write_bytes(beta.bridge.read_bytes()+b'\n')
+    status,body,_=client.request('GET',path+'/receipt')
+    assert status==403 and b'data-key="receipt-sha"' not in body
+    assert beta.r.data()==beta.result['b5_counts']
+    assert beta.r.roots()==beta.b5_roots
+    beta.result['b5_current_revocation']={'http_status':403,'receipt_leaked':False,'new_intents':0}
