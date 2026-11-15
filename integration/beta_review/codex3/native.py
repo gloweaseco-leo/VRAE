@@ -80,6 +80,17 @@ def main():
         # Keep original API live for the owner-start session; no remote control endpoint.
         deadline = time.monotonic()+1800
         while not (native.OUT/"stop.json").exists() and time.monotonic()<deadline:
+            restart=native.OUT/"api-restart.request.json"
+            restarted=native.OUT/"api-restart.receipt.json"
+            if restart.exists() and not restarted.exists():
+                assert json.loads(restart.read_text())=={"action":"RESTART_OWN_ORIGINAL_API_ONCE"}
+                native.signal_child(api,signal.SIGTERM)
+                api.wait(timeout=5)
+                api,new_log=native.spawn("APP",app_path)
+                native.wait_for(lambda: new_log.exists() and b"READY" in new_log.read_bytes())
+                pending=restarted.with_suffix(".tmp")
+                pending.write_text(json.dumps({"original_api_restarted":True,"app_uid":10001,"new_admissions":0}))
+                pending.replace(restarted)
             if api.poll() is not None:
                 raise RuntimeError("API_EARLY_EXIT")
             time.sleep(0.2)
