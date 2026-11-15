@@ -37,7 +37,7 @@ def main():
         metadata['files'][name] = {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
 
     try:
-        for name, folder, expected in [('native', private, 23), ('restarted', private/'recovered', 4)]:
+        for name, folder, expected in [('native', private, 24), ('restarted', private/'recovered', 4)]:
             raw = (folder/'native-junit.xml').read_bytes()
             receipt = json.loads((folder/'receipt.json').read_bytes())
             assert hashlib.sha256(raw).hexdigest() == receipt['native_junit_sha256']

@@ -479,3 +479,35 @@ def test_tenant_or_source_mismatch_never_admits_task(ledger, tenant, source):
         http.shutdown()
         http.server_close()
         thread.join(timeout=5)
+
+
+def test_revocation_during_actual_status_http_denies_return(ledger):
+    workflow = task_workflow(ledger, 'status-revoke')
+    app, http, thread, issuer, generated = launch(ledger, workflow=workflow)
+    parent = ledger['results']['404']['job_id']
+    task = None
+    try:
+        sid = signin(app, generated, issuer, '404').split('=', 1)[1]
+        ticket = workflow.create(generated.sessions, sid, '404')
+        task = workflow.task(ticket, generated.sessions.require(sid))
+        original = workflow.client.status
+        observed = []
+
+        def revoke_after_real_http(handle):
+            observed.append(original(handle))
+            with support.connect() as c:
+                c.execute('UPDATE ra4b_p2.m1_assignments SET active=false WHERE job_id=%s', (parent,))
+            return observed[-1]
+
+        workflow.client.status = revoke_after_real_http
+        with pytest.raises(psycopg.Error) as error:
+            workflow.status(ticket, generated.sessions, sid)
+        assert error.value.sqlstate == '42501' and observed[0]['job_id'] == task.job_id
+    finally:
+        with support.connect() as c:
+            c.execute('UPDATE ra4b_p2.m1_assignments SET active=true WHERE job_id=%s', (parent,))
+        if task is not None:
+            assert ledger['spawn']()['job_id'] == task.job_id
+        http.shutdown()
+        http.server_close()
+        thread.join(timeout=5)

@@ -105,6 +105,11 @@ class TaskWorkflow:
                 return None, None
             state = self.client.status(task)
             sessions.require(sid)
+            # Status HTTP uses the separate APP service identity. Fence its
+            # return with a NEW native Reviewer read as well, so a DB revoke
+            # during that HTTP call cannot escape as a successful status view.
+            with sessions.request(sid):
+                pass
             return task, state
 
     def challenge(self, ticket, sessions, sid):
