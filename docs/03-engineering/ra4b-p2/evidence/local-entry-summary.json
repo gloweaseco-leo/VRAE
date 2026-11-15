@@ -1,0 +1,245 @@
+{
+  "status": "PARTIAL_ALLOWED_CODE_PASS_SPECIFIC_L3_DATABASE_ACTIONS_HELD",
+  "accepted_entry": "67acff97689514fdede01f2aab81dd5a7a96b9cd",
+  "native": [
+    {
+      "minor": "311",
+      "native_pg_audit": {
+        "path": "audit-311-private-root/native-junit.xml",
+        "sha256": "9a5a036b9c5b883e18a879f249dbbdddd73a1bcbe1f0acb3f925637689537f66",
+        "crc32": "e7d9f162",
+        "cases": 10,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "ids": [
+          "integration.ra4b_p2.audit_cases::test_committed_app_202_precedes_original_uid_worker_done",
+          "integration.ra4b_p2.audit_cases::test_claim_and_finish_are_the_only_current_worker_ports",
+          "integration.ra4b_p2.audit_cases::test_low_uid_cannot_read_supervisor_bootstrap_credentials[10001]",
+          "integration.ra4b_p2.audit_cases::test_low_uid_cannot_read_supervisor_bootstrap_credentials[10002]",
+          "integration.ra4b_p2.audit_cases::test_original_worker_source_epoch_and_result_write_are_42501[SELECT source_ref FROM ra4a.requests LIMIT 1]",
+          "integration.ra4b_p2.audit_cases::test_original_worker_source_epoch_and_result_write_are_42501[SELECT epoch FROM ra4b_test.origin_epochs LIMIT 1]",
+          "integration.ra4b_p2.audit_cases::test_original_worker_source_epoch_and_result_write_are_42501[query2]",
+          "integration.ra4b_p2.audit_cases::test_original_worker_source_epoch_and_result_write_are_42501[SELECT ra4a_bytes.register('tenant-test','accepted-404',NULL,NULL,NULL,NULL,NULL)]",
+          "integration.ra4b_p2.audit_cases::test_current_reviewer_cannot_read_b4_status_or_origin",
+          "integration.ra4b_p2.audit_cases::test_no_existing_authoritative_generated_result_namespace"
+        ]
+      },
+      "pure_candidate": {
+        "path": "producer-311-navigation.xml",
+        "sha256": "cd688c502553d51b00571f574015c4ff4c069d6159f7589c10d317dcf871d260",
+        "crc32": "332dbae8",
+        "cases": 20,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "ids": [
+          "tests.ra4b_p2.producer_cases::test_new_raw_capture_generates_same_job_six_rule_disc_candidate",
+          "tests.ra4b_p2.producer_cases::test_fresh_success_capture_never_copies_old_404_result",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[worker-ra4b_test_b_worker]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[tenant_id-tenant-beta]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[lease_seq-0]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[lease_seq-True]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[origin_epoch-0]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[lease_until-2026-11-15T12:00:00+00:00]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[lease_until-2026-11-15T12:00:31+00:00]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[job_id-not-a-job]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[job_id]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[origin_epoch]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[source_ref]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[guard_version]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[committed]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[html]",
+          "tests.ra4b_p2.producer_cases::test_source_policy_scope_and_raw_digest_mutation_deny",
+          "tests.ra4b_p2.producer_cases::test_live_policy_revocation_denies_fresh_generation",
+          "tests.ra4b_p2.producer_cases::test_no_public_persistence_or_reviewer_api_in_candidate",
+          "tests.ra4b_p2.producer_cases::test_closed_candidate_contract_never_accepts_commit_claim_or_token"
+        ]
+      },
+      "actual_app_http": 202,
+      "actual_worker_uid": 10002,
+      "native42501": 6,
+      "all_owned_resources_absent": true,
+      "permission_audit_not_functional_pass": true
+    },
+    {
+      "minor": "313",
+      "native_pg_audit": {
+        "path": "audit-313-private-root/native-junit.xml",
+        "sha256": "f0266fe3e0986dde0e8ca0b268a060b6f93cb46647497fd8f4074d2efa71b6ab",
+        "crc32": "9a5de347",
+        "cases": 10,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "ids": [
+          "integration.ra4b_p2.audit_cases::test_committed_app_202_precedes_original_uid_worker_done",
+          "integration.ra4b_p2.audit_cases::test_claim_and_finish_are_the_only_current_worker_ports",
+          "integration.ra4b_p2.audit_cases::test_low_uid_cannot_read_supervisor_bootstrap_credentials[10001]",
+          "integration.ra4b_p2.audit_cases::test_low_uid_cannot_read_supervisor_bootstrap_credentials[10002]",
+          "integration.ra4b_p2.audit_cases::test_original_worker_source_epoch_and_result_write_are_42501[SELECT source_ref FROM ra4a.requests LIMIT 1]",
+          "integration.ra4b_p2.audit_cases::test_original_worker_source_epoch_and_result_write_are_42501[SELECT epoch FROM ra4b_test.origin_epochs LIMIT 1]",
+          "integration.ra4b_p2.audit_cases::test_original_worker_source_epoch_and_result_write_are_42501[query2]",
+          "integration.ra4b_p2.audit_cases::test_original_worker_source_epoch_and_result_write_are_42501[SELECT ra4a_bytes.register('tenant-test','accepted-404',NULL,NULL,NULL,NULL,NULL)]",
+          "integration.ra4b_p2.audit_cases::test_current_reviewer_cannot_read_b4_status_or_origin",
+          "integration.ra4b_p2.audit_cases::test_no_existing_authoritative_generated_result_namespace"
+        ]
+      },
+      "pure_candidate": {
+        "path": "producer-313-navigation.xml",
+        "sha256": "2eaff46caae0173ad29428f4f397552076a4e5169ec617aac2a354fba0b7fb75",
+        "crc32": "75f1f0fb",
+        "cases": 20,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "ids": [
+          "tests.ra4b_p2.producer_cases::test_new_raw_capture_generates_same_job_six_rule_disc_candidate",
+          "tests.ra4b_p2.producer_cases::test_fresh_success_capture_never_copies_old_404_result",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[worker-ra4b_test_b_worker]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[tenant_id-tenant-beta]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[lease_seq-0]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[lease_seq-True]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[origin_epoch-0]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[lease_until-2026-11-15T12:00:00+00:00]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[lease_until-2026-11-15T12:00:31+00:00]",
+          "tests.ra4b_p2.producer_cases::test_invalid_lease_context_denies_before_generation[job_id-not-a-job]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[job_id]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[origin_epoch]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[source_ref]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[guard_version]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[committed]",
+          "tests.ra4b_p2.producer_cases::test_candidate_replay_denies_forged_result_or_other_job[html]",
+          "tests.ra4b_p2.producer_cases::test_source_policy_scope_and_raw_digest_mutation_deny",
+          "tests.ra4b_p2.producer_cases::test_live_policy_revocation_denies_fresh_generation",
+          "tests.ra4b_p2.producer_cases::test_no_public_persistence_or_reviewer_api_in_candidate",
+          "tests.ra4b_p2.producer_cases::test_closed_candidate_contract_never_accepts_commit_claim_or_token"
+        ]
+      },
+      "actual_app_http": 202,
+      "actual_worker_uid": 10002,
+      "native42501": 6,
+      "all_owned_resources_absent": true,
+      "permission_audit_not_functional_pass": true
+    }
+  ],
+  "historical_xml_retained": [
+    {
+      "path": "audit-311/native-junit.xml",
+      "sha256": "ecb375d596c99c0c5965c0b306ad4ce10f8b1ab8aac7361cb2520dd9cd54d948",
+      "cases": 8,
+      "failures": 0,
+      "errors": 1,
+      "skips": 0
+    },
+    {
+      "path": "audit-311-private-root/native-junit.xml",
+      "sha256": "9a5a036b9c5b883e18a879f249dbbdddd73a1bcbe1f0acb3f925637689537f66",
+      "cases": 10,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "audit-311-sameuid/native-junit.xml",
+      "sha256": "cde634deea1efa44610710c0b116bad27ab2aad77d697870f0dc1cea455fdf7b",
+      "cases": 8,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "audit-313-private-root/native-junit.xml",
+      "sha256": "f0266fe3e0986dde0e8ca0b268a060b6f93cb46647497fd8f4074d2efa71b6ab",
+      "cases": 10,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "audit-313-sameuid/native-junit.xml",
+      "sha256": "a0c716835009898a58d41bc2c2687e705422b3ca04576b4f33c1b3372d25b787",
+      "cases": 8,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "producer-311-metadata.xml",
+      "sha256": "e895121675ac1ae1ccbcce37a589b9aebf38b1c06d1602e9169b7410d6d98762",
+      "cases": 20,
+      "failures": 1,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "producer-311-navigation.xml",
+      "sha256": "cd688c502553d51b00571f574015c4ff4c069d6159f7589c10d317dcf871d260",
+      "cases": 20,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "producer-311.xml",
+      "sha256": "7041e490486b29c09a273f5d07f8ff91a8c21991d5e7d7f6c89ff26b22ec2d2a",
+      "cases": 19,
+      "failures": 1,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "producer-313-metadata.xml",
+      "sha256": "673a012a24773f2421891436753b108b649aa8847693b4c732d227c6d19cfa3a",
+      "cases": 20,
+      "failures": 1,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "producer-313-navigation.xml",
+      "sha256": "2eaff46caae0173ad29428f4f397552076a4e5169ec617aac2a354fba0b7fb75",
+      "cases": 20,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "producer-313.xml",
+      "sha256": "7a990e52a618992e70fa5d4a3f4ecf4370d2adf5bcbba66efd41f56cad9778df",
+      "cases": 19,
+      "failures": 1,
+      "errors": 0,
+      "skips": 0
+    }
+  ],
+  "old_checkpoint_original_source_files_exact": 250,
+  "old_checkpoint_private_xml_exact": 145,
+  "additional_original_pause_receipt_retained": true,
+  "protected_source_diff_empty": true,
+  "legacy_guard_blob": "3c068f86c5d553468e14941a0fa944d15a8240f7",
+  "policy_proposal_sha256": "faf3a966a85273639172c7eeba1d8d53b68e518c608bedeaf8d4ddfc37c39bc0",
+  "new_database_schema_or_policy_applied": false,
+  "new_runtime_grant_applied": false,
+  "draft_pr": false,
+  "pushes": 0,
+  "new_ci": 0,
+  "merged": false,
+  "deployed": false,
+  "authoritative_worker_result_signed_reviewer_restart_race_recovery": "NOT_PERFORMED_BLOCKED_BY_MISSING_PORTS",
+  "new_file_sha256": {
+    "contracts/ra4b_p2/GeneratedCandidate.schema.json": "ea1bb38e1bb5814183cf685d3eaa399008814d2be4ec5abbfa70f812a485557b",
+    "docs/03-engineering/ra4b-p2/.gitignore": "c740db8c5771bc53deca3faf16465ffd78a57c5bc6df70143f0a8f422fb469ab",
+    "docs/03-engineering/ra4b-p2/L3_REQUIRED_PORTS.md": "7715c18f0125aa20467c39b5cb869137b7cfa9eea8c26e5851c53855566f3681",
+    "docs/03-engineering/ra4b-p2/PROPOSED_ORIGIN_READ_LOCK.diff": "faf3a966a85273639172c7eeba1d8d53b68e518c608bedeaf8d4ddfc37c39bc0",
+    "docs/03-engineering/ra4b-p2/README.md": "3d275ccbaa2f3bfaf5700bae9e31eb2bbebb625aded9cb02518c2e5b7a97fe46",
+    "integration/ra4b_p2/.gitignore": "0b2aeda4a5309f3271f2aea97905052040c1dbf32a9bc181852a74030419e89a",
+    "integration/ra4b_p2/__init__.py": "e0271f5619e8027447053ee18beb8a4a185ec77bb1a791ddcb7a356e7e13bf7a",
+    "integration/ra4b_p2/audit_cases.py": "80e8557a0fbfab535b86c8c9656f344b925201685836902576d20a0f4707eacc",
+    "integration/ra4b_p2/audit_lab.py": "3d995e3374395ae59be798224a5e955f3c1ab62a9f6b726a0fe379a877816b56",
+    "tests/ra4b_p2/__init__.py": "2e94fab5d9eccef0ab17bdf537bba9b4747d80308d4e71c415a97cf39374b4d2",
+    "tests/ra4b_p2/producer_cases.py": "c4790f09b0be196bac6fe1a618de7e25a9d852ec0685c2f2916936f84dcf87d6",
+    "vrae/application/ra4b_p2/__init__.py": "7c607acef1d2ca353eef109d399d27705806e0c64af3c7e351d0b3812e0588ea",
+    "vrae/application/ra4b_p2/producer.py": "6ab2221f02affd6e97f099d5d92b8917cd68b32a8ab16a2ab4a60655441c5011"
+  }
+}
