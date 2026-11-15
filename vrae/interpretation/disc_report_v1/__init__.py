@@ -3,12 +3,14 @@
 from vrae.collection.manifest import document_hash
 from vrae.interpretation import guard as legacy
 
-VERSION = legacy._DISC_GUARD_VERSION
+from . import _guard_core as core
+
+VERSION = core.VERSION
 GuardError = legacy.GuardError
 
 
 def catalog(pack, package, **pins):
-    return legacy._catalog_for_version(pack, package, pins, guard_version=VERSION)
+    return core.catalog(pack, package, **pins)
 
 
 def binding(*, pointer, text, claim_type, fact, context):
@@ -45,9 +47,7 @@ def validate(interpretation, bindings, pack, package, **pins):
     try:
         return GuardResult(
             legacy._encode(
-                legacy._project(
-                    interpretation, bindings, pack, package, pins, _guard_version=VERSION
-                )
+                core._project(interpretation, bindings, pack, package, pins)
             )
         )
     except GuardError:

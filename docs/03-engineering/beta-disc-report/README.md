@@ -42,8 +42,10 @@ ReportVersion validation, metadata rules, immutable draft envelope, CSS,
 escaping and evidence renderer. Its version-specific projection and presentation
 live in the new directory because the frozen QA pins the complete legacy
 `draft.py` and `renderer.py` sources. Those two legacy files and all frozen tests
-remain unchanged. The only protected-source difference is the explicit Guard
-version branch; its original public route retains its original behavior.
+remain unchanged. The legacy Guard is restored byte-for-byte to accepted blob
+`3c068f86c5d553468e14941a0fa944d15a8240f7`. DISC context, catalog and
+projection live in the new pinned `_guard_core.py`; only accepted stateless
+utilities and the immutable result carrier are reused, without module mutation.
 
 At most three independently bound issues are shown. Missing sources/targets,
 blocked access and UNKNOWN do not become negative facts. Static path roles do
@@ -90,3 +92,11 @@ accepts and merges. S2 requires S1 Owner merge and a new precise Owner entry
 before reopening the paused Issue90 worktree. No unmerged sibling code, SQL,
 Worker, migration, role/ACL, frozen assertion or existing workflow is imported
 or changed here.
+
+Owner PR100 comment 6892454721 requires namespace isolation and preserves the
+original B5A integrity oracle. The explicit focused proof module
+`tests/reporting/beta_disc_report/integrity_proof_cases.py` exercises that exact
+oracle against a real disposable Git checkout with a deliberately altered legacy
+copy. It requires Git and the integration module, is explicitly selected locally,
+and adds no default IDs; DISC remains46 and total default2521. The original
+B5A dual-minor signed PG/HTTP/Chromium CI remains independently mandatory.

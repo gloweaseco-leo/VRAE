@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / 'docs/03-engineering/beta-disc-report/exact-test-ids.json'
-MANIFEST_SHA256 = '42f922514d76923338ef548316ea7f0a69f034af3b3aa63d2815a8a7d368967f'
+MANIFEST_SHA256 = 'adec17afaa480177f5891c314317c1243ce5db256e874757d83de16e943654cb'
 
 
 def verify_inventory(cases):
