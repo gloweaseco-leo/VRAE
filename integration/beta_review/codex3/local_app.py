@@ -78,6 +78,7 @@ def status(label):
             "CLOSED" if cleanup and not final.get("cleanup_errors") else "CLEANUP_REQUIRES_REVIEW"
         )
         result["component_result"] = final["status"]
+        result.pop("url", None)
     return result
 
 
