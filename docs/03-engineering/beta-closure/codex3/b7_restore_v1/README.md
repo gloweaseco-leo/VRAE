@@ -99,3 +99,36 @@ it as an invalid placeholder before PostgreSQL execution. The new query now uses
 PostgreSQL starts_with for exact role prefixes, avoiding percent interpolation.
 No business permission failure occurred. All three clusters were destroyed; this
 RED remains. No complete backup/restore chain has passed at this point.
+
+## Post-run permission evidence
+
+`audit.py RUN_ID` independently checks every published file's hash and the private
+native snapshots, confirms the final Worker did not alter the catalog, and exports
+only synthetic catalog/permission tuples (function bodies hashed, no business rows).
+Each audit has a separate credential-scanned publication inventory. The native
+3.11 run observed 24 owner-only table ACLs represented explicitly in the source
+and as SQL NULL after pg_restore. All 24 corresponding expanded grant tuples,
+RLS/FORCE flags, and all role/table/column effective privileges were identical;
+the raw differences remain listed individually. This extends the new package's
+read-only comparison; the old B7 P0 manifest and its 13-table scope are untouched.
+No ALTER/GRANT/RLS write repairs were performed.
+
+## Native candidate verification
+
+Both native Windows minors passed the complete real pipeline on identical package
+source `d03e1b2f6d36c55a280bca50d63323294cff346d`: 3.11.15 (`local-311-v5`,
+192.656 seconds) and 3.13.13 (`local-313-v1`, 252.879 seconds). Each has native
+JUnit 1 passed / 0 failed, three distinct PG16 cluster identities, two genuine
+custom archives in the restore chain, 31 permission/identity denials per environment,
+actual SIGKILL return -9, old token rejection 55000, and exact owned cleanup.
+The final Worker preserved catalog fingerprints, B3 state and report bytes; all
+original audit/outbox rows remain, with expected additions 5/3. Dead-letter data
+is explicitly ZERO/NOT_TESTED. Earlier fixture REDs remain and do not count as PASS.
+
+See [local-verification.json](local-verification.json), the two run directories,
+and their separate `-audit` directories for hashes, actual native exits, measured
+lab durations, complete safe permission matrices, raw ACL differences and cleanup.
+Local public ZIPs remain private, with their SHA256 and every entry's verified CRC
+listed in the verification receipt. Raw dumps, native diagnostic logs/JUnit and
+row bytes remain local; public JUnit is sanitized and linked by original hash.
+The final evidence/CI-only commit leaves all nine tested package file hashes intact.
