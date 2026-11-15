@@ -70,9 +70,16 @@ def browser_save(run):
 def read_receipt(run,case):
     from integration.ra4c_b5a.support import Client
     client=Client(run.r.origin)
+    started=time.monotonic_ns()
+    def phase(name):
+        with (run.folder/"b5-consumer-timing.private.jsonl").open("a",encoding="utf-8") as log:
+            log.write(json.dumps({"case":case,"phase":name,"ns":time.monotonic_ns(),"elapsed_ns":time.monotonic_ns()-started,"ssr_exit":run.ssr.poll()})+"\n")
+    phase("SIGNED_LOGIN_BEGIN")
     assert client.login(run.r.issuer,"task-"+case)[0][0]==303
+    phase("SIGNED_LOGIN_DONE")
     path="/b5a/tasks/task-"+case+"/rehearsal"
     code,body,_=client.request("GET",path+"/receipt")
+    phase("RECEIPT_HTTP_DONE")
     assert code==200
     digest=receipt_digest(body)
     (run.folder/("b5-receipt-"+case+".private.html")).write_bytes(body)

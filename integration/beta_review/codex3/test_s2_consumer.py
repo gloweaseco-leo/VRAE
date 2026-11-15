@@ -18,6 +18,12 @@ def beta(request):
         r.case("s2_accepted_b5p0_same_ssr",r.start_ssr)
         yield r
     finally:
+        if request.session.testsfailed and r.started_pg:
+            # Out-of-band own fixture diagnostics only; never result authority.
+            from .runner import write,sha
+            with r.r.lab.connect() as observer:
+                rows=observer.execute("SELECT pid,state,wait_event_type,wait_event,usename,query FROM pg_stat_activity WHERE datname=%s",(r.r.lab.dbname,)).fetchall()
+            write(r.folder/"failed-own-backends.private.json",[{"pid":v[0],"state":v[1],"wait_type":v[2],"wait":v[3],"role":v[4],"query_sha256":sha(v[5].encode())} for v in rows])
         try:
             r.case("s2_owned_cleanup",r.cleanup)
         finally:
