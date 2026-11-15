@@ -13,7 +13,7 @@ class Transport:
         self.private, self.proof, self.records = private, proof, []
         self.source = private / 'worker-source'
         self.source.mkdir()
-        prefixes = ('contracts/', 'vrae/', 'worker/ra4b/', 'apps/api/', 'integration/ra4a/',
+        prefixes = ('industry-packs/', 'contracts/', 'vrae/', 'worker/ra4b/', 'apps/api/', 'integration/ra4a/',
                     'integration/ra4b/', 'integration/b3_p0/', 'integration/ra4e/',
                     'integration/beta_review/codex3/b7_restore_v1/', 'tests/reviewing/',
                     'tests/identity/', 'infra/ra4a/', 'db/migrations/')
@@ -32,6 +32,20 @@ class Transport:
             inventory[name] = digest(raw)
         assert 'integration/beta_review/codex3/b7_restore_v1/worker_probe.py' in inventory
         (proof / 'worker-source.json').write_bytes(encode(inventory))
+
+    def preflight(self, minor):
+        name = 'vrae-b7rv1-preflight-' + self.private.name
+        assert invoke('container', 'inspect', name).returncode != 0
+        self.command('worker-source-preflight', ['run', '--rm', '--name', name,
+            '--label', LABEL + '=' + self.private.name, '--network', 'none',
+            '--cap-drop=ALL', '--read-only', '--user', '10002:10002',
+            '--mount', 'type=bind,src=' + str(self.source) + ',dst=/work,readonly',
+            '-w', '/work', '--env', 'PYTHONDONTWRITEBYTECODE=1',
+            'vrae-ra4b-p1:' + minor, 'python', '-B', '-c',
+            'from integration.ra4a.support import references; assert len(references())==2; '
+            'import integration.beta_review.codex3.b7_restore_v1.worker_probe; '
+            'print("ACCEPTED_SOURCE_BUNDLE_PASS")'])
+        assert invoke('container', 'inspect', name).returncode != 0
 
     def command(self, label, args, *, data=None, expected=0, timeout=90):
         started = time.monotonic()

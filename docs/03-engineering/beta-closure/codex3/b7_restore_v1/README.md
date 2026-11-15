@@ -74,3 +74,11 @@ accepted `contracts/` JSON schemas, so the original source verifier refused conf
 provisioning before spawning Worker. This is a new fixture source-packaging error;
 no original permissions or schema were changed. All three clusters were destroyed.
 The whitelist correction adds only tracked, accepted contracts from this checkout.
+
+The no-DB source-bundle preflight at `20e09af48f101f05cf96ab90c47ea4c4bd156894`
+returned native exit 1 for a second omitted accepted resource,
+`industry-packs/rule_catalog.v1.json`. This was not another PG/full recovery run.
+The terminal retained its diagnostic tail; a complete raw preflight log was not
+saved for that initial check. The runner now records native preflight output and
+exit before starting any PostgreSQL resource, with the tracked accepted catalog
+included. No same-source full recovery run is retried.

@@ -27,6 +27,7 @@ def test_three_environment_six_schema_recovery():
         publish(name, evidence(value))
         return value
     try:
+        transport.preflight(minor)
         for tag in ('source', 'verification', 'target'):
             env = Environment(tag, private / tag, public / tag)
             environments.append(env)
