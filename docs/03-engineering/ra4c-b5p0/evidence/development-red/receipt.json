@@ -1,0 +1,34 @@
+{
+  "focused_311": {
+    "tests": 5,
+    "failed": [
+      "test_real_session_expiry_after_candidate_before_commit"
+    ],
+    "raw_sha256": "f4a0122313729be2fa080d74976e49eebc1d72a9fe9a2552cef92512ab56f6b1",
+    "cause": "15s test token expired before intended candidate phase under load; use actual 60s expiry and wait inside commit-entry with HTTP 90s timeout"
+  },
+  "browser_first": {
+    "code": "BROWSER_LOAD_TIMEOUT",
+    "cause": "CDP Enter keyDown lacked native carriage-return text; fixed actual keyboard protocol",
+    "raw_failure_sha256": "2e59b80d78f5a363fd0e9476ff0ffc0573622b6d0136d1ae75140cd19b8b330f"
+  },
+  "browser_second": {
+    "pass": true,
+    "assertions": 63,
+    "screenshots": 12,
+    "private_browser_json_sha256": "8d3a594e001646e2d5a78d53edc16c1fa01432a9efce50354c95f8cf0c2a552a"
+  },
+  "development_49": {
+    "authority": "TEST_ONLY_REVIEW_INTENT",
+    "effective_approval": false,
+    "external_visibility": false,
+    "native_junit_sha256": "ec93f8b30dc1a45cf2a3fb7f70f8f2bb6bc61ba124919ced5e4f8eaf3eea051b",
+    "passed": 49,
+    "python": "3.11.15",
+    "red_or_skipped": [],
+    "security_returncode": 0,
+    "source_unchanged": false,
+    "tests": 49
+  },
+  "development_source_change": "49 PG/HTTP cases passed; evidence helper and extra cases were added during development run; source-change gate refused to classify it as final PASS"
+}
