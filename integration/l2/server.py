@@ -21,12 +21,30 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--profile',required=True)
     parser.add_argument('--ready',required=True)
+    parser.add_argument('--native-component',action='store_true')
     args=parser.parse_args()
     profile=Path(args.profile).resolve()
     root=Path(__file__).resolve().parent/'.runtime'
     if not profile.is_relative_to(root.resolve()) or not Path(args.ready).resolve().is_relative_to(root.resolve()):
         raise ValueError('L2_CONTROLLED_OWNED_FILES_REQUIRED')
-    deep=load(profile)
+    if args.native_component:
+        from .native_component import source
+        from vrae.l2.identity import Directory, Person
+        from vrae.l2.ledger import Ledger
+        from apps.operator_console.l2_http import DeepConsole
+        profile_raw=profile.read_bytes()
+        cfg=json.loads(profile_raw)
+        settings=dict(cfg['directory'])
+        settings['people']=[Person(**{**p,'report_ids':tuple(p['report_ids'])}) for p in settings['people']]
+        directory=Directory(**settings)
+        native=source()
+        rid=native.read().version['report_id']
+        def fresh():
+            if profile.read_bytes()!=profile_raw:
+                raise ValueError('L2_PROFILE_CHANGED_REAUTH_REQUIRED')
+        deep=DeepConsole(directory,{rid:Ledger(cfg['ledger'],native,directory)},fresh)
+    else:
+        deep=load(profile)
     directory=deep.directory
     if directory.mode!='CONTROLLED':
         raise ValueError('L2_DEMO_CANNOT_ASSERT_FORMAL_HUMAN_REVIEW')
@@ -39,6 +57,8 @@ def main():
     ready={'origin':app.origin,'entry':app.origin+'/b5a/l2/','mode':'L2_CONTROLLED_OFFLINE_SAME_B5B_SSR',
         'composition':'apps.operator_console.b5b_http.Application','private_signer_in_ssr':False,
         'external_customer_access':False,'database':'PRIVATE_SQLITE_OFFLINE_REVIEW_NOT_M1_PG'}
+    if args.native_component:
+        ready['mode']='L2_NATIVE_C1_C2_CONTROLLED_COMPONENT_NOT_APP202_E2E'
     Path(args.ready).write_text(json.dumps(ready),encoding='utf-8')
     print(json.dumps({'ready':True}),flush=True)
     try:

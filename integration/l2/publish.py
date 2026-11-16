@@ -138,6 +138,11 @@ def main():
             source_bundle_sha256=PIN,report_version=2,display_hash=versions[-1].display_hash,
             content_hash=versions[-1].version['content_hash'],formal_human_reviews_claimed=0,
             actual_external_customers=0,source_integrity_replayed=True,owner_acceptance_pending=True)
+        from .native_publish import publish as publish_native
+        metadata['native_component']=publish_native(args.label,public)
+        metadata['status']='L2_LEGACY_AND_NATIVE_COMPONENT_PASS_NOT_WORKER_E2E'
+        metadata['primary_report']='native/l2-deep-report.pdf'
+        metadata['primary_blueprint']='native/l2-rebuild-blueprint.pdf'
     finally:
         (public/'publication.json').write_bytes(json.dumps(metadata,ensure_ascii=False,indent=2).encode())
     print(json.dumps({'status':metadata['status'],'public':str(public.relative_to(ROOT)),'pdf_pages':metadata.get('actual_pdf_pages')}))
