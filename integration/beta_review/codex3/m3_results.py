@@ -21,7 +21,7 @@ from .s2_runtime import owned_client
 def context(label):
     folder = folder_for(label)
     state = json.loads((folder / "m3-runtime.json").read_bytes())
-    assert state["mode"] == "M1_GENERATED_REPORTS_M2_UI_PENDING"
+    assert state["mode"] in ("M1_GENERATED_REPORTS_M2_UI_PENDING", "M3_SYNTHETIC_BROWSER_WORKBENCH")
     current = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
     assert current == state["source_sha"], "M3_SOURCE_CHANGED_RESTART_FULL_RUN_REQUIRED"
     return folder, state
@@ -179,7 +179,9 @@ def materialize(label, job, wait_seconds=90):
     proof = {
         "locator": result.locator,
         "editorial_selection": result.editorial_selection,
-        "review_ui": "PENDING_OWNER_MERGED_M2",
+        "review_ui": "M2_CONNECTED"
+        if context(label)[1]["mode"] == "M3_SYNTHETIC_BROWSER_WORKBENCH"
+        else "PENDING_OWNER_MERGED_M2",
         "scope": "AUTHORIZED_LOCAL_DIAGNOSTIC_NOT_EXTERNAL_DELIVERY",
         "private_html": str(output / "report.html"),
     }

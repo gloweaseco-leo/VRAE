@@ -9,10 +9,11 @@ import sys
 
 from .runner import PRIVATE, ROOT, cmd, write
 
-ACCEPTED_MAIN = "85f6fe854cc2058672c136b52e4ce35588d9357f"
+ACCEPTED_MAIN = "df5428c503f22a86429b2b9a4263551776d7253a"
+WORKBENCH_MODE = "M3_SYNTHETIC_BROWSER_WORKBENCH"
 M1_MODE = "M1_GENERATED_REPORTS_M2_UI_PENDING"
 LEGACY_MODE = "EXISTING_COMPONENT_PREVIEW_NOT_WHOLE_APP_PASS"
-MISSING_PORTS = ("C2_SIGNED_SSR_NEW_TASK_GENERATED_REPORT_REVIEW_RECEIPT_EXPORT",)
+MISSING_PORTS = ()
 
 
 def folder_for(label):
@@ -32,7 +33,8 @@ def doctor():
         "accepted_main_inspected": ACCEPTED_MAIN,
         "candidate_sha": cmd(["git", "rev-parse", "HEAD"]).decode().strip(),
         "mode": "SYNTHETIC_ONLY_INTERNAL_NOT_APPROVED",
-        "business_flow": "M1_ACCEPTED_M2_PENDING",
+        "business_flow": "M1_M2_ACCEPTED_M3_CONNECTED",
+        "M2_accepted_PR103": True,
         "M1_accepted": True,
         "TaskClient_accepted_PR105": True,
         "missing_ports": list(MISSING_PORTS),
@@ -67,7 +69,7 @@ def control_write(path, value):
 def request_stop(label):
     launch = launch_for(label)
     metadata = json.loads((launch / "local-launch.json").read_text(encoding="utf-8"))
-    if metadata.get("mode") not in (LEGACY_MODE, M1_MODE):
+    if metadata.get("mode") not in (LEGACY_MODE, M1_MODE, WORKBENCH_MODE):
         raise ValueError("OWN_LOCAL_LAUNCH_REQUIRED")
     if metadata.get("run", label) != label:
         raise ValueError("OWN_LOCAL_LAUNCH_REQUIRED")
@@ -90,7 +92,13 @@ def status(label):
     if (launch / "stop.json").exists() or (folder / "stop.json").exists():
         state = "STOP_REQUESTED"
     elif (folder / "started.json").exists():
-        state = "M1_READY_M2_UI_PENDING" if mode == M1_MODE else "COMPONENT_PREVIEW_READY"
+        state = (
+            "M3_READY"
+            if mode == WORKBENCH_MODE
+            else "M1_READY_M2_UI_PENDING"
+            if mode == M1_MODE
+            else "COMPONENT_PREVIEW_READY"
+        )
     else:
         state = "STARTING"
     result = {"run": label, "state": state, "business_flow": "BLOCKED_MISSING_ACCEPTED_PORTS"}
@@ -109,6 +117,12 @@ def status(label):
         result["review_ui"] = "PENDING_OWNER_MERGED_M2"
         result["legacy_ssr_url"] = result.pop("url", None)
         result["ssr_is_generated_job_reviewer"] = False
+    if mode == WORKBENCH_MODE:
+        result["business_flow"] = WORKBENCH_MODE
+        result["review_ui"] = "M2_CONNECTED"
+        result["ssr_is_generated_job_reviewer"] = True
+        if started.exists():
+            result["url"] = value["origin"] + "/b5a/m2/"
     evidence = ROOT / "docs/03-engineering/beta-closure/codex3/.private" / label / "result.json"
     if evidence.exists():
         final = json.loads(evidence.read_text(encoding="utf-8"))
@@ -144,7 +158,11 @@ def supervise(label, minor):
 
     launch = launch_for(label)
     metadata = json.loads((launch / "local-launch.json").read_text(encoding="utf-8"))
-    if metadata.get("run") != label or metadata.get("mode") not in (LEGACY_MODE, M1_MODE):
+    if metadata.get("run") != label or metadata.get("mode") not in (
+        LEGACY_MODE,
+        M1_MODE,
+        WORKBENCH_MODE,
+    ):
         raise ValueError("OWN_LOCAL_LAUNCH_REQUIRED")
     code = 0
     previous = sys.argv
@@ -168,7 +186,11 @@ def supervise(label, minor):
                 "--phase",
                 "s2",
             ]
-            if metadata["mode"] == M1_MODE:
+            if metadata["mode"] == WORKBENCH_MODE:
+                from .m3_workbench import main as workbench_main
+
+                workbench_main(label, minor)
+            elif metadata["mode"] == M1_MODE:
                 from .m3_application import main as generated_main
 
                 generated_main(label, minor)
@@ -183,7 +205,7 @@ def supervise(label, minor):
     return code
 
 
-def start(label, minor, component_preview):
+def start(label, minor, component_preview, *, workbench=False):
     evidence = doctor()
     folder = folder_for(label)
     PRIVATE.mkdir(parents=True, exist_ok=True)
@@ -202,7 +224,7 @@ def start(label, minor, component_preview):
         "run": label,
         "supervisor_pid": None,
         "source_sha": evidence["candidate_sha"],
-        "mode": LEGACY_MODE if component_preview else M1_MODE,
+        "mode": WORKBENCH_MODE if workbench else LEGACY_MODE if component_preview else M1_MODE,
     }
     control_write(launch / "local-launch.json", metadata)
     command = [
@@ -256,6 +278,8 @@ def main(argv=None):
             "task",
             "report",
             "restart-pg",
+            "open",
+            "verify",
         ),
     )
     parser.add_argument("--run")
@@ -290,10 +314,16 @@ def main(argv=None):
                 if args.action == "task"
                 else m3_results.materialize(args.run, args.job, args.wait)
             )
+    elif args.action in ("open", "verify"):
+        from .m3_browser_run import run
+
+        result = run(args.run, interactive=args.action == "open")
     elif args.action == "supervise":
         return supervise(args.run, args.minor)
     elif args.action == "start":
-        result, code = start(args.run, args.minor, args.component_preview)
+        result, code = start(
+            args.run, args.minor, args.component_preview, workbench=not args.component_preview
+        )
     elif args.action == "status":
         result = status(args.run)
     else:
