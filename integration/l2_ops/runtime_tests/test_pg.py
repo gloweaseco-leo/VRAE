@@ -117,3 +117,39 @@ def test_pg_real_commit_after_source_deadline_rolls_back(database, bundle, reade
         BriefService(reader).save_current(BriefLedger(delayed_commit), document)
     with pytest.raises(OperationsDenied, match="NOT_FOUND"):
         BriefLedger(database).get(bundle.tenant_id, "auth-expired-at-commit")
+
+
+def test_pg_native_c2_bridge_holds_review_and_task_context_through_real_commit(
+        database, native_result, native_source, reviewed, monkeypatch):
+    # Actual C1/C2 + controlled signed review + actual PG COMMIT. The original
+    # task context alone is DETACHED/observed, explicitly NOT an APP/Worker E2E.
+    import sqlite3
+    from integration.l2_ops.checks.test_native_report import detached_reader
+    from vrae.l2.ledger import Ledger
+    from vrae.l2.report import L2Denied
+    reader, state, deadline = detached_reader(monkeypatch, native_result, native_source, reviewed)
+    review_ledger, sid, rid = reviewed
+    document = BriefService(reader).prepare(native_source[1], brief_ref="native-c2-bridge-component",
+        activities=native_result.activities)
+
+    class ObservedCommit(BriefLedger):
+        def put(self, value, *, authority_expires_at):
+            assert state["task_locked"] and authority_expires_at == deadline
+            with sqlite3.connect(review_ledger.path, timeout=0) as other:
+                with pytest.raises(sqlite3.OperationalError, match="locked"):
+                    other.execute("BEGIN IMMEDIATE")
+            return super().put(value, authority_expires_at=authority_expires_at)
+
+    ledger = ObservedCommit(database)
+    service = BriefService(reader)
+    assert service.save_current(ledger, document) == document["content_sha256"]
+    assert not state["task_locked"]
+    # Reopen original durable C2 and C3 ledgers; no recreated receipt or hashes.
+    reopened = Ledger(review_ledger.path, review_ledger.source, review_ledger.directory)
+    assert reopened.read(sid, rid).display_hash == document["pins"]["report_sha256"]
+    reader.ledger = reopened
+    assert service.load_current(BriefLedger(database), document["brief_ref"]) == document
+    reopened.directory.revoked_keys.add(next(iter(reopened.directory.jwks["keys"]))["kid"])
+    with pytest.raises(L2Denied):
+        service.load_current(BriefLedger(database), document["brief_ref"])
+    assert not state["task_locked"]

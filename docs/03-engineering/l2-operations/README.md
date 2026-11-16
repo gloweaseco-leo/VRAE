@@ -2,8 +2,8 @@
 
 PR106 M3 remains accepted. Its `app start/status/open/restart-pg/verify/stop`
 operations are preserved. This Draft adds source preparation and internal
-business handoff; PR110/111 are now Owner-merged on main11efc13. The native C2 runtime producer
-and the reproduced original M1 lease performance issue remain specific blockers
+business handoff; PR110/111/113 are Owner-merged on main6b2a2dff. The reproduced
+original M1 lease performance issue remains a specific blocker
 to the same-task L2 business demonstration. See STAGE-20261116.md.
 A successful source check does not create a task, diagnosis, report or grant.
 
@@ -89,3 +89,5 @@ accepts `--source-profile industrial-p40-v3 --native-l2`, but MUST NOT be used t
 repeat the recorded lease failure while its protected correction is pending.
 Normal P40 job execution resumes only on an accepted causal correction, followed
 by same-task native C1 and accepted C2 production/report/current-review assembly.
+The C3 current-report bridge now directly consumes the accepted PR113 adapter;
+see contracts/l2_ops/NATIVE-TASK-v1.md for its ports and remaining runtime limits.

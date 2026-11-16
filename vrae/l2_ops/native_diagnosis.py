@@ -31,7 +31,7 @@ class NativeDiagnosis:
 
     def metadata(self):
         d = self.document
-        return {"state": "NATIVE_L2_VERIFIED_REPORT_ADAPTER_PENDING", "task": asdict(self.evidence.task),
+        return {"state": "NATIVE_L2_VERIFIED_REPORT_NOT_PRODUCED", "task": asdict(self.evidence.task),
                 "worker_pack_ref": self.evidence.pack.ref, "industry_ref": self.industry_ref,
                 "diagnosis_ref": self.result_ref, "diagnosis_sha256": sha(self.payload),
                 "source_bundle_sha256": self.evidence.source_bundle_sha256,

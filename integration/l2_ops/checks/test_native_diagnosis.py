@@ -1,54 +1,13 @@
 """Actual offline Worker producer + C1 native replay, not APP/PG/browser proof."""
 from dataclasses import replace
-from datetime import UTC, datetime, timedelta
 import json
 
 import pytest
 
-from integration.l2_ops.source_profiles import selected
-from tests.collection.test_security import fixture
-from vrae.application.ra4b_p2.m1.consumer import AppEndpoint, TaskClient, TaskHandle
-from vrae.application.ra4b_p2.m1.reader import GeneratedReport
-from vrae.application.ra4b_p2.m1.runtime import build
 from vrae.collection.manifest import document_hash
 from vrae.evidence import EvidenceError
-from vrae.l2_ops.native_diagnosis import analyze
 from vrae.l2_ops.sources import OperationsDenied
-from vrae.l2_ops.tasks import L2Tasks, RegisteredSource
 from vrae.reporting.common import encode
-
-
-@pytest.fixture(scope="module")
-def native_result():
-    ref, _, native = selected("industrial-p40-v3")
-    now = datetime.now(UTC)
-    ids = [f"00000000-0000-4000-8000-{i:012d}" for i in range(11, 16)]
-    task = TaskHandle("tenant-test", ref, *ids[:4])
-    policy = fixture("SourcePolicy")
-    policy.update(tenant_id=task.tenant_id, permitted_hosts=["example.org"], scope_paths=["/"],
-                  expires_at=(now + timedelta(hours=1)).isoformat(), revoked_at=None)
-    audit = fixture("AuditRequest")
-    audit.update(tenant_id=task.tenant_id, source_policy_ref=policy["policy_id"], source_policy_version=policy["policy_version"])
-    from integration.l2_ops.catalog import admission
-    _, raw = admission(native, source_ref=ref)
-    # Catalog preparation precedes claim in the real runtime; start the
-    # detached fixture lease only once that preparation has completed.
-    loaded = datetime.now(UTC)
-    row = {"raw_source": raw, "policy_document": policy, "audit_document": audit, "tenant_id": task.tenant_id,
-           "request_id": task.request_id, "run_id": task.run_id, "job_id": task.job_id,
-           "worker_role": "ra4b_test_a_worker", "lease_until": loaded + timedelta(seconds=30), "origin_epoch": 1,
-           "source_ref": ref, "reference_sha256": "a" * 64, "loaded_at": loaded}
-    output = build(row, (task.job_id, None, ids[4], 1))
-    result = GeneratedReport({k: getattr(task, k) for k in ("tenant_id", "request_id", "run_id", "job_id")},
-                             output.source, output.report, output.html)
-    client = TaskClient(AppEndpoint("x" * 40, task.tenant_id, frozenset({ref})))
-    adapter = L2Tasks(client, [RegisteredSource(ref, native)])
-    # Detached contract fixture only. Runtime read paths call original signed
-    # reader/session before this internal parser; no test grant is published.
-    evidence = adapter._from_authorized_result(task, native_source := adapter.sources[ref], result)
-    assert native_source.native.pack.ref != evidence.pack.ref
-    return analyze(evidence)
-
 
 def test_actual_c1_native_diagnosis_uses_new_worker_scope_and_all_19_assessments(native_result):
     value = native_result
@@ -57,7 +16,7 @@ def test_actual_c1_native_diagnosis_uses_new_worker_scope_and_all_19_assessments
     assert meta["models"] == ["P40", "V25"] and meta["assessment_count"] == 19
     assert meta["source_fact_count"] == 81 and meta["procurement_chain_count"] == 2
     assert all(len(chain["stages"]) == 5 for chain in value.document["procurement_chains"])
-    assert meta["state"] == "NATIVE_L2_VERIFIED_REPORT_ADAPTER_PENDING"
+    assert meta["state"] == "NATIVE_L2_VERIFIED_REPORT_NOT_PRODUCED"
     assert meta["report_complete"] is False and meta["review_authority"] is False
     assert meta["cost_status"] == "UNKNOWN" and meta["activities"][0]["actor_kind"] == "SYSTEM"
     assert meta["activities"][0]["human_labor_claim"] is False

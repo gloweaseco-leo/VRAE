@@ -34,7 +34,7 @@ class PreparationWorkbench(Workbench):
                     "depth": "L2", "enabled": False},
         }
         self.result["l2_readiness"] = {"mode": "PREPARATION_NOT_L2_E2E", "p40_submit_enabled": False,
-            "worker_lease_red_retained": "nativep40scope311a", "c2_native_producer": "PENDING_OWNER_ACCEPTANCE",
+            "worker_lease_red_retained": "nativep40scope311a", "c2_native_producer": "ACCEPTED_PR113_RUNTIME_ASSEMBLY_PENDING",
             "single_original_ssr": True, "consultation": "UNLINKED", "cost_status": "UNKNOWN"}
         write(self.folder / "l2-readiness.json", self.result["l2_readiness"])
 
