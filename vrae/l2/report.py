@@ -15,6 +15,7 @@ from vrae.domain.reviews import report_content_hash
 from vrae.reviewing.canonical import canonical, parse
 
 CONTRACT = 'vrae.l2.deep-result.v1'
+NATIVE_CONTRACT = 'vrae.l2.native-deep-result.v1'
 TASKS = ('DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL')
 
 
@@ -42,6 +43,21 @@ def bounded(value, maximum=4000):
     return value
 
 
+def revise_proposals(source,previous,changes,actor_id,created_at):
+    """Same version transition, with each producer retaining its own validator."""
+    d = copy.deepcopy(previous.document)
+    if not changes or set(changes) - {b['id'] for b in d['blueprint']}:
+        deny('L2_REVISION_SCOPE_DENIED')
+    for b in d['blueprint']:
+        if b['id'] in changes:
+            b['change'] = bounded(changes[b['id']], 2000)
+    d['meta']['version'] += 1
+    d['meta']['created_by'] = actor_id
+    d['meta']['created_at'] = created_at
+    source.validate(d)
+    return DeepReport(encoded(d), source.expected)
+
+
 @dataclass(frozen=True)
 class DeepReport:
     payload: bytes
@@ -61,6 +77,9 @@ class DeepReport:
         meta = d['meta']
         rows = []
         for f in d['findings']:
+            if d['contract']==NATIVE_CONTRACT:
+                rows.append(copy.deepcopy(f['native_finding']))
+                continue
             rows.append({'schema_version':'1.0', 'tenant_id':meta['tenant_id'],
                 'finding_id':f['id'], 'run_id':meta['run_id'], 'observation_id':f['id'],
                 'kind':f['kind'], 'evidence_ids':f['evidence_ids'], 'statement':f['statement'],
@@ -183,14 +202,4 @@ class OfflineSource:
         view.version
 
     def revision(self, previous, changes, actor_id, created_at):
-        d = copy.deepcopy(previous.document)
-        if not changes or set(changes) - {b['id'] for b in d['blueprint']}:
-            deny('L2_REVISION_SCOPE_DENIED')
-        for b in d['blueprint']:
-            if b['id'] in changes:
-                b['change'] = bounded(changes[b['id']], 2000)
-        d['meta']['version'] += 1
-        d['meta']['created_by'] = actor_id
-        d['meta']['created_at'] = created_at
-        self.validate(d)
-        return DeepReport(encoded(d), self.expected)
+        return revise_proposals(self,previous,changes,actor_id,created_at)

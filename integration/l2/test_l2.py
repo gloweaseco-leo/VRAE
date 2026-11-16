@@ -10,6 +10,16 @@ import pytest
 from vrae.domain.errors import DomainError
 from vrae.l2.report import OfflineSource, L2Denied, encoded
 from .support import ROOT, REPORT, PIN, create, login, pins, approve
+from .support import Issuer, people
+import sqlite3
+from integration.industry_l2.fixture import evidence_pack, DIRECTORY
+from vrae.collection.manifest import document_hash
+from vrae.evidence import EvidencePack
+from vrae.industry.l2_v1 import diagnose, load
+from vrae.l2.identity import Directory
+from vrae.l2.ledger import Ledger
+from vrae.l2.report import sha
+from vrae.l2.native import NativeSource, NativeTask, ASSURANCE, current_report
 
 
 def test_committed_review_artifacts_preserve_original_byte_hashes():
@@ -283,3 +293,179 @@ def test_consumer_fixture_bytes_and_hash_pin_are_deterministic():
     path=ROOT/'fixtures/l2/pump-maker-v1/result.json'
     assert hashlib.sha256(path.read_bytes()).hexdigest()==PIN
     assert json.loads(path.read_bytes())['meta']['source_mode']=='SYNTHETIC_OFFLINE'
+
+
+# Native production component checks remain in the existing explicit CI entrypoint.
+def assemble(pack):
+    industry=load(tenant_id=pack.document['tenant_id'])
+    diagnosis=diagnose(pack,expected_pack_ref=pack.ref,expected_industry_ref=industry['industry_ref'])
+    held=NativeTask(pack.document['tenant_id'],'component-request-not-app202',pack.document['run_id'],
+        'component-job-not-worker','component-event','component-source',pack.ref,industry['industry_ref'],
+        diagnosis['diagnosis_ref'],'1'*64,'OFFLINE_SYNTHETIC','2026-11-16T12:00:00+00:00')
+    return pack,diagnosis,held,NativeSource(pack,diagnosis,held=held)
+
+
+@pytest.fixture(scope='module')
+def native():
+    pack,_,transport=evidence_pack()
+    result=assemble(pack)
+    assert all(method=='GET' for method,_ in transport.requests)
+    return result
+
+
+def reviewed(tmp_path,source,action='APPROVE'):
+    issuer=Issuer()
+    rid=source.read().version['report_id']
+    directory=Directory(issuer=issuer.issuer,audience=issuer.audience,jwks=issuer.jwks,
+        people=[replace(p,report_ids=(rid,)) for p in people()],expires=issuer.clock()+3600)
+    ledger=Ledger(tmp_path/'native.sqlite',source,directory)
+    sid=login(issuer,directory,'owner-demo')
+    view=ledger.read(sid,rid)
+    receipt=ledger.review(sid,rid,**pins(view),action=action,
+        reason='组件原生数据逐项受控复核；非正式人审，不代表同一Worker E2E。',
+        items={r['id']:'ACK' if action=='APPROVE' else action for r in view.document['findings']+view.document['blueprint']},attest=True)
+    return issuer,directory,ledger,sid,rid,view,receipt
+
+
+def test_native_c1_rows_and_all_original_bytes_survive(native):
+    pack,data,held,source=native
+    view=source.read()
+    doc=view.document
+    assert view.findings==[a['finding'] for a in data['assessments']]
+    assert len(view.findings)==19 and len(doc['snapshots'])==8 and len(data['source_facts'])==81
+    assert doc['producer']['assurance']==ASSURANCE
+    assert doc['native_context']==json.loads(encoded(held.__dict__))
+    assert {o['sha256'] for o in doc['producer']['source_descriptor']['objects']}==set(pack.objects)
+    refs={e['id']:e for e in doc['evidence']}
+    assert set(e['evidence_ref'] for e in pack.document['evidence'])<=refs.keys()
+    for fact in data['source_facts']:
+        e=refs[fact['fact_ref']]
+        body=source.object_bytes(e['blob_ref'])
+        assert body==pack.objects[e['blob_ref']] and sha(body)==e['content_sha256']
+        assert body[e['byte_start']:e['byte_end']]==e['quote'].encode()
+    assert doc['procurement_chains']==data['procurement_chains']
+    assert doc['rfq_packets']==data['rfq_packets']
+    assert doc['industry_rule_coverage']==data['industry_rule_coverage']
+
+
+def test_procurement_semantics_not_mp25_or_four_site_faults(native):
+    _,data,_,source=native
+    doc=source.read().document
+    assert 'MP25' not in source.read().payload.decode()
+    assert {a['model'] for a in data['assessments']}=={'P40','V25'}
+    assert sum(a['reason']=='EXPLICIT_SOURCE_SCALAR_CONFLICT' for a in data['assessments'])==2
+    assert len(doc['findings'])==19 and not any(f['priority']=='P1' for f in doc['findings'])
+    for f in doc['findings']:
+        if f['native_rule_id']=='IND-DUTY':
+            assert '工程' in f['statement'] or f['native_result']=='NOT_APPLICABLE'
+        if f['kind']=='UNKNOWN':
+            assert f['priority']=='UNRANKED' and f['evidence_ids']==[]
+        if f['native_rule_id']=='IND-RFQ':
+            assert '不是网站缺陷' in f['statement'] and '未发送' in f['statement']
+        if f['native_rule_id']=='IND-PROOF':
+            assert '不证明真实证书失效' in f['statement']
+    proof=[b for b in doc['blueprint'] if b['title'].startswith('共享供应商')]
+    assert len(proof)==1 and len(proof[0]['finding_ids'])==2
+    assert all(b['evidence_ids'] and b['customer_inputs'] and b['acceptance'] and b['owner_role'] for b in doc['blueprint'])
+
+
+@pytest.mark.parametrize('field,value',[
+    ('tenant_id','other-tenant'),('run_id','other-run'),('native_pack_ref','ep-'+'0'*64),
+    ('industry_ref','ip-'+'0'*64),('diagnosis_ref','l2-'+'0'*64)])
+def test_held_refs_are_independent_and_mismatches_refuse(native,field,value):
+    pack,data,held,_=native
+    with pytest.raises(L2Denied):
+        NativeSource(pack,data,held=replace(held,**{field:value}))
+
+
+def test_forged_rehashed_guard_export_still_fails_full_native_replay(native):
+    pack,data,held,_=native
+    forged=copy.deepcopy(data)
+    forged['source_guard_inputs'][0]['guard']['claims'][0]['status']='FAKE_VALID'
+    forged.pop('diagnosis_ref')
+    forged['diagnosis_ref']='l2-'+document_hash(forged)
+    with pytest.raises(L2Denied,match='NATIVE_REPLAY_DENIED'):
+        NativeSource(pack,forged,held=replace(held,diagnosis_ref=forged['diagnosis_ref']))
+
+
+def test_changed_blob_and_changed_frozen_report_refuse(native,tmp_path):
+    pack,data,held,source=native
+    objects=dict(pack.objects)
+    first=next(iter(objects))
+    objects[first]+=b'altered'
+    bad=EvidencePack(pack._payload,tuple(sorted(objects.items())))
+    with pytest.raises(L2Denied):
+        NativeSource(bad,data,held=held)
+    edited=source.read().document
+    edited['findings'][0]['statement']='MP25询价404'
+    with pytest.raises(L2Denied):
+        source.validate(edited)
+    raw=source.read().payload
+    (tmp_path/'result.json').write_bytes(raw)
+    with pytest.raises(L2Denied):
+        OfflineSource(tmp_path,sha(raw)).read()
+
+
+@pytest.mark.parametrize('action,mapped',[('APPROVE','APPROVE_INTERNAL'),('REJECT','REJECT_INTERNAL'),('REQUEST_CHANGES','REVISE_INTERNAL')])
+def test_actual_durable_receipt_and_c3_current_dto(native,tmp_path,action,mapped):
+    # Existing accepted C3 contract is a validator here, not a copied E2E.
+    from vrae.l2_ops.briefs import CurrentL2
+    _,data,_,source=native
+    _,directory,ledger,sid,rid,view,receipt=reviewed(tmp_path,source,action)
+    assert not receipt['formal_human_review'] and not receipt['external_delivery']
+    with current_report(ledger,sid,rid) as current:
+        assert current.payload==data and current.report_bytes==view.payload
+        assert current.pins['report_sha256']==view.display_hash
+        assert current.pins['report_sha256']!=view.version['content_hash']
+        assert current.pins['report_sha256']!=data['diagnosis_ref'][3:]
+        assert current.review['receipt_ref']==receipt['decision']['decision_id']
+        assert current.review['receipt_sha256']==sha(encoded(receipt))
+        assert current.review['decision']==mapped
+        dto=CurrentL2(current.pins,current.payload,current.review,current.blueprint,current.authority_expires_at)
+        assert dto.snapshot()==(current.pins,current.payload,current.review,current.blueprint)
+        with sqlite3.connect(ledger.path,timeout=0) as other:
+            with pytest.raises(sqlite3.OperationalError,match='locked'):
+                other.execute('BEGIN IMMEDIATE')
+    restarted=Ledger(ledger.path,source,directory)
+    with current_report(restarted,sid,rid) as current:
+        assert current.report_bytes==view.payload and current.review['receipt_sha256']==sha(encoded(receipt))
+
+
+def test_native_revision_requires_new_decision_and_invalidates_grant(native,tmp_path):
+    *_,source=native
+    issuer,directory,ledger,sid,rid,view,_=reviewed(tmp_path,source)
+    grant,secret=ledger.issue(sid,rid,**pins(view),recipient_id='recipient-a')
+    reader=login(issuer,directory,'recipient-a')
+    assert ledger.access(reader,rid,grant['grant_id'],sha(secret.encode())).payload==view.payload
+    updated=ledger.revise(sid,rid,**pins(view),changes={view.document['blueprint'][0]['id']:'企业确认技术资料版本后再调整资料卡；保持原生事实不变。'})
+    assert updated.version['version']==2 and updated.findings==view.findings
+    with pytest.raises(L2Denied):
+        current_report(ledger,sid,rid).__enter__()
+    with pytest.raises(L2Denied):
+        ledger.access(reader,rid,grant['grant_id'],sha(secret.encode()))
+    with pytest.raises(L2Denied,match='STALE_VERSION'):
+        ledger.revise(sid,rid,**pins(view),changes={view.document['blueprint'][0]['id']:'错误版本'})
+
+
+def test_native_unknown_input_is_not_a_site_failure():
+    raw=(DIRECTORY/'pump.html').read_bytes().replace(b'10 bar',b'on request')
+    pack,_,_=evidence_pack(overrides={'/products/pump-p40':raw})
+    _,data,_,source=assemble(pack)
+    native=[a for a in data['assessments'] if a['model']=='P40' and a['details'].get('attribute')=='pressure']
+    assert native and all(a['observation']['result']=='UNKNOWN' for a in native)
+    assert all(f['priority']=='UNRANKED' for f in source.read().document['findings'] if f['id'] in {a['finding']['finding_id'] for a in native})
+
+
+def test_native_handoff_refuses_cross_tenant_or_relabelled_formal_receipt(native,tmp_path):
+    *_,source=native
+    issuer,directory,ledger,sid,rid,_,receipt=reviewed(tmp_path,source)
+    wrong=login(issuer,directory,'other-tenant')
+    with pytest.raises(L2Denied):
+        with current_report(ledger,wrong,rid):
+            pytest.fail('cross-tenant DTO must not be yielded')
+    receipt['formal_human_review']=True
+    with ledger.transaction() as c:
+        c.execute('UPDATE decisions SET receipt=?',(encoded(receipt),))
+    with pytest.raises(L2Denied,match='CONTROLLED_RECEIPT_REQUIRED'):
+        with current_report(ledger,sid,rid):
+            pytest.fail('a formal relabel is not a controlled receipt')
