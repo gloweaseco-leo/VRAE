@@ -27,6 +27,11 @@ def main():
     native.OUT = Path("/evidence")
     try:
         app_path, app_config = native.provision("APP", 10001)
+        if extra_sources:
+            from integration.l2_ops.provisioning import extend_app_sources
+            extend_app_sources(app_config, state["l2_source_binding"])
+            # Same private file, owner/mode and original API validation remain.
+            app_path.write_text(json.dumps(app_config))
         consumer_dir = Path("/tmp/m3-consumer")
         consumer_dir.mkdir(mode=0o700)
         consumer_profile = consumer_dir / "config.json"

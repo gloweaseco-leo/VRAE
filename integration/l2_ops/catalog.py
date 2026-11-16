@@ -71,4 +71,4 @@ def install(lab, native):
             (reference["tenant_id"], SOURCE_REF, reference["ref_sha256"], raw, Jsonb(policy), Jsonb(audit), "p2b1_test_a_reviewer"))
         assert c.execute("SELECT count(*) FROM ra4b_p2.m1_results").fetchone() == (before,)
     return {"source_ref": SOURCE_REF, "source_record_sha256": sha(raw), "original_pack_ref": native.pack.ref,
-            "seeded_worker_results": 0, "input_preview": "SYNTHETIC_NEUTRAL_COVERAGE_NOT_L2"}
+            "reference_sha256": reference["ref_sha256"], "seeded_worker_results": 0, "input_preview": "SYNTHETIC_NEUTRAL_COVERAGE_NOT_L2"}

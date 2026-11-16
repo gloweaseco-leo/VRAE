@@ -130,3 +130,35 @@ def test_admission_preview_replays_same_input_without_a_deep_report(generated):
     assert reference["metadata"]["source_record_sha256"] == __import__("hashlib").sha256(source).hexdigest()
     assert reference["kind"] == "COVERAGE_ONLY" and reference["issue_count"] == 0
     assert reference["native_id"] is None and reference["native_h0"] is None
+
+
+@pytest.mark.parametrize("bad", ["hash", "policy", "tenant", "role", "kind", "old_sources", "version"])
+def test_private_app_source_provisioning_fails_closed(bad):
+    from integration.l2_ops.provisioning import extend_app_sources
+    config = {"kind": "APP", "tenant": "tenant-test", "role": "ra4b_test_a_app",
+              "sources": {"accepted-404": {"unchanged": 1}, "accepted-200": {"unchanged": 2}}}
+    binding = {"sha256": "a" * 64, "policy_id": "pol-001", "policy_version": 1}
+    if bad == "hash":
+        binding["sha256"] = "not-a-hash"
+    elif bad == "policy":
+        binding["policy_id"] = "other"
+    elif bad == "version":
+        binding["policy_version"] = True
+    elif bad == "old_sources":
+        config["sources"] = {}
+    else:
+        config[{"tenant": "tenant", "role": "role", "kind": "kind"}[bad]] = "other"
+    with pytest.raises(ValueError, match="PROVISIONING_DENIED"):
+        extend_app_sources(config, binding)
+
+
+def test_private_app_binding_preserves_existing_sources_and_credentials():
+    from copy import deepcopy
+    from integration.l2_ops.provisioning import extend_app_sources
+    config = {"kind": "APP", "tenant": "tenant-test", "role": "ra4b_test_a_app", "password": "test-only",
+              "sources": {"accepted-404": {"unchanged": 1}, "accepted-200": {"unchanged": 2}}}
+    old = deepcopy(config)
+    binding = {"sha256": "a" * 64, "policy_id": "pol-001", "policy_version": 1}
+    extend_app_sources(config, binding)
+    assert config["sources"].pop("l2-industrial-native-v1") == binding
+    assert config == old

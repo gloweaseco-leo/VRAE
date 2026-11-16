@@ -29,7 +29,7 @@ def main():
     args = parser.parse_args()
     if sys.version_info[:2] != tuple(map(int, args.minor.split("."))):
         parser.error("Actual native interpreter version mismatch")
-    source_paths = ["vrae/l2_ops", "integration/l2_ops", "integration/beta_review/codex3/m3_native.py"]
+    source_paths = ["vrae/l2_ops", "integration/l2_ops", "integration/beta_review/codex3/m3_native.py", "scripts/beta_internal.py", ".github/workflows/l2-ops.yml"]
     cmd(["git", "diff", "--exit-code", "HEAD", "--", *source_paths])
     run = GeneratedRun(args.label, args.minor)
     output = ROOT / "docs/03-engineering/l2-operations" / args.label
@@ -59,6 +59,8 @@ def main():
             expected_capture_run_id="l2-industrial-capture-v1")
         proof["input"] = run.case("independent_synthetic_input_not_seeded_result", lambda: install(run.r.lab, native))
         run.r.lab.state["l2_source_refs"] = [SOURCE_REF]
+        run.r.lab.state["l2_source_binding"] = {"sha256": proof["input"]["reference_sha256"],
+                                              "policy_id": "pol-001", "policy_version": 1}
         run.r.lab.save()
         run.case("original_api_independent_worker", run.start_native)
         created = run.case("real_app202", lambda: probe("create", {"key": "l2-industrial-native-0001"}))
@@ -89,6 +91,8 @@ def main():
         proof["observed_states"] = [before["job_state"], *observed]
         proof["automated_wall_ns"] = time.monotonic_ns() - started
         proof["cost_status"] = "UNKNOWN"
+        cmd(["git", "diff", "--exit-code", "HEAD", "--", *source_paths])
+        assert cmd(["git", "rev-parse", "HEAD"]).decode().strip() == proof["candidate_sha"]
         proof["status"] = "PASS_WORKER_INTAKE_ONLY"
     except BaseException:
         proof["status"] = "RED_PRESERVED"

@@ -49,3 +49,23 @@ Brief rendering shows supplied proposals in the business view and retains the
 intact blueprint and all task/version pins in collapsed verification details.
 Missing human labor, rates, consultation and customer confirmation stay unknown;
 automated timing is not human labor and no E2/E3 is created.
+
+## First native RED and precise correction
+
+abfa00a895d90e4bb51a805a0654487ee5c0c179, intake311a: original PG bootstrap,
+new source INSERT and independent API/Worker startup passed. Real TaskClient
+create was denied; raw stderr/stdout are preserved privately, public JSON keeps
+all case results and successful owned cleanup. No Worker result was generated.
+Root cause: supervisor extended consumer allowlist but original dependency
+provisioner still built API config.sources from only the two accepted legacy
+fixtures. Original API's fixed-source gate therefore cannot admit the new ref.
+Corrected only C3 trusted configuration: the new source's exact registered
+reference SHA/policy tuple is passed to the existing private APP config, with
+original fields/owner/mode retained. New tests deny foreign tenant/role/kind,
+policy/version, bad hash and unexpected existing-source catalog. Old API,
+identity, TTL, SQL/RLS and Worker implementation are unchanged. This is ordinary
+integration correction, not a permission expansion or random retry.
+
+Operator entry: `python scripts/beta_internal.py l2 worker-intake --label NAME
+--minor 3.11` (or3.13). This intake intentionally exits after owned cleanup;
+complete L2/report/review mode is pending accepted C1/C2 composition.

@@ -1,6 +1,8 @@
 """L2 operations in the existing beta entrypoint. No alternate web server."""
 import argparse
 import json
+import subprocess
+import sys
 
 from vrae.l2_ops.ingest import load_source
 from vrae.l2_ops.native_input import load_native
@@ -16,7 +18,13 @@ def main(argv=None):
     native.add_argument("--reference", required=True)
     native.add_argument("--pack-ref", required=True)
     native.add_argument("--capture-run-id", required=True)
+    intake = sub.add_parser("worker-intake", help="Real controlled APP202/Worker input; deep stage remains pending")
+    intake.add_argument("--label", required=True)
+    intake.add_argument("--minor", required=True, choices=("3.11", "3.13"))
     args = parser.parse_args(argv)
+    if args.operation == "worker-intake":
+        return subprocess.run([sys.executable, "-m", "integration.l2_ops.verify_worker",
+                               "--label", args.label, "--minor", args.minor], check=False).returncode
     if args.operation == "native-check":
         result = load_native(load_source(args.manifest), args.reference,
                              expected_pack_ref=args.pack_ref,
