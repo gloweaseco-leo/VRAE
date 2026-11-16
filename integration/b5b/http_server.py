@@ -17,6 +17,7 @@ def main():
     for key in ("profile", "bridge", "policies", "audit", "ready"):
         parser.add_argument("--" + key, required=True)
     parser.add_argument('--generated-profile')
+    parser.add_argument('--deep-profile')
     args = parser.parse_args()
     if os.environ.get('B5B_DIAGNOSTIC_STACKS') == '1':
         def stacks():
@@ -33,6 +34,8 @@ def main():
     }
     if args.generated_profile is not None:
         paths['generated_profile'] = Path(args.generated_profile).resolve()
+    if args.deep_profile is not None:
+        paths['deep_profile'] = Path(args.deep_profile).resolve()
     if not all(p.is_relative_to(root) for p in paths.values()):
         raise ValueError("B5B_OWNED_PRIVATE_PROFILE_REQUIRED")
 
@@ -41,15 +44,15 @@ def main():
             stream.write(json.dumps(event, separators=(",", ":")).encode() + b"\n")
 
     app = load(paths["profile"], paths["bridge"], paths["policies"], audit=audit,
-               generated_profile=paths.get('generated_profile'))
+               generated_profile=paths.get('generated_profile'), deep_profile=paths.get('deep_profile'))
     http = server(app)
     pending = paths["ready"].with_suffix(".tmp")
     pending.write_text(json.dumps({"origin": app.origin}), encoding="utf-8")
     pending.replace(paths["ready"])
     print(
         json.dumps(
-            {"url": app.origin + ('/b5a/m2/' if args.generated_profile else '/b5a/login'),
-             "mode": 'M2_SAME_SIGNED_SSR_GENERATED_TASKS' if args.generated_profile else 'B5B_EXISTING_SIGNED_SSR_NOT_WORKER_OUTPUT'}
+            {"url": app.origin + ('/b5a/l2/' if args.deep_profile else ('/b5a/m2/' if args.generated_profile else '/b5a/login')),
+             "mode": 'L2_SAME_SIGNED_SSR_OFFLINE_DEEP_REPORT' if args.deep_profile else ('M2_SAME_SIGNED_SSR_GENERATED_TASKS' if args.generated_profile else 'B5B_EXISTING_SIGNED_SSR_NOT_WORKER_OUTPUT')}
         ),
         flush=True,
     )

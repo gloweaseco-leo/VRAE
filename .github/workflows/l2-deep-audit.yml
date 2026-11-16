@@ -1,0 +1,65 @@
+name: L2 deep report, responsible review and controlled directed access
+on:
+  pull_request:
+    paths:
+      - 'vrae/l2/**'
+      - 'contracts/l2_consumer/**'
+      - 'apps/operator_console/l2*'
+      - 'apps/operator_console/b5b_http.py'
+      - 'apps/operator_console/b5b_profile.py'
+      - 'integration/l2/**'
+      - 'integration/b5b/http_server.py'
+      - 'integration/b5b/m2_bridge.py'
+      - 'fixtures/l2/**'
+      - 'docs/03-engineering/l2-deep-audit/**'
+      - '.github/workflows/l2-deep-audit.yml'
+permissions:
+  contents: read
+jobs:
+  deep-product-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.11'
+            slug: '311'
+          - python: '3.13'
+            slug: '313'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Existing pinned dependencies
+        run: python -m pip install -r requirements-ra4b-p1.lock
+      - name: Focused source checks
+        run: |
+          python -m ruff check vrae/l2 apps/operator_console/l2*.py integration/l2 --select E4,E7,E9,F
+          python -m mypy vrae
+          node --check integration/l2/browser.mjs
+          mkdir -p integration/l2/.runtime
+      - name: Source bindings, current identity, durable versions and revocation
+        run: python -B -m pytest -q integration/l2/test_l2.py integration/l2/test_codex1.py -p no:cacheprovider --basetemp=integration/l2/.runtime/pytest-ci-${{ matrix.slug }} --junitxml=integration/l2/.runtime/native-ci-${{ matrix.slug }}.xml
+      - name: Chinese glyphs for actual PDF
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Same signed SSR, real review/revision/access/restart and actual PDF
+        env:
+          L2_CHROMIUM: /usr/bin/google-chrome
+        run: python -B -m integration.l2.lab ci-${{ matrix.slug }}
+      - name: Source-replayed allowlist publication
+        if: always()
+        run: python -B -m integration.l2.publish ci-${{ matrix.slug }} --junit integration/l2/.runtime/native-ci-${{ matrix.slug }}.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: l2-deep-product-${{ matrix.slug }}
+          retention-days: 7
+          if-no-files-found: error
+          path: docs/03-engineering/l2-deep-audit/evidence/ci-${{ matrix.slug }}/

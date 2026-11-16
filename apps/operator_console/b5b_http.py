@@ -12,7 +12,7 @@ from . import b5b_views as views
 
 
 class Application:
-    def __init__(self, rehearsal, handoff, *, refresh=lambda: None, generated=None):
+    def __init__(self, rehearsal, handoff, *, refresh=lambda: None, generated=None, deep=None):
         if (
             type(rehearsal) is not RehearsalApplication
             or type(handoff) is not PrivateHandoffReader
@@ -26,6 +26,12 @@ class Application:
             if type(generated) is not GeneratedConsole:
                 raise ValueError('M2_ACCEPTED_GENERATED_CONSOLE_REQUIRED')
         self.generated = generated
+        if deep is not None:
+            from .l2_http import DeepConsole
+            if type(deep) is not DeepConsole:
+                raise ValueError('L2_PINNED_DEEP_CONSOLE_REQUIRED')
+            deep.l1_enabled = generated is not None
+        self.deep = deep
 
     @property
     def origin(self):
@@ -44,10 +50,25 @@ class Application:
             try:
                 app.base._headers(method, headers)
                 path, query = app.base._path(target)
+                if path.startswith('/b5a/l2/') and self.deep is not None:
+                    if query:
+                        refuse('INVALID_INPUT')
+                    return self.deep.handle(method, path, headers, raw)
                 if path.startswith('/b5a/m2/') and self.generated is not None:
                     if query:
                         refuse('INVALID_INPUT')
-                    return self.generated.handle(method, path, headers, raw)
+                    reply = self.generated.handle(method, path, headers, raw)
+                    response = reply.response
+                    if (self.deep is not None and method in ('GET', 'HEAD') and response.status == 200
+                            and response.content_type.startswith('text/html')
+                            and b'class="m2-export"' not in response.body):
+                        from .views import link
+                        html = response.body.decode('utf-8')
+                        marker = '<main id="main" tabindex="-1">'
+                        if html.count(marker) == 1:
+                            html = html.replace(marker, marker + link('/b5a/l2/', 'L2 深度诊断与 Rebuild 蓝图', key='l2-entry'), 1)
+                            return Reply(Response(response.status, html.encode('utf-8'), response.content_type), reply.headers)
+                    return reply
                 parts = path.removeprefix(PREFIX).split("/")
                 own = len(parts) >= 3 and parts[0] == "tasks" and parts[2] == "b5b"
                 if own:
@@ -144,6 +165,9 @@ class Application:
                     if html.count(marker) != 1:
                         refuse("SOURCE_INTEGRITY")
                     html = html.replace(marker, marker + views.navigation(session.task_id), 1)
+                    if self.deep is not None:
+                        from .views import link
+                        html = html.replace(marker, marker + link('/b5a/l2/', '打开 L2 深度诊断与 Rebuild', key='l2-entry'), 1)
                     if self.generated is not None:
                         from .views import link
                         html = html.replace(marker, marker + link('/b5a/m2/', '打开本次 Worker 生成任务', key='m2-generated-entry'), 1)

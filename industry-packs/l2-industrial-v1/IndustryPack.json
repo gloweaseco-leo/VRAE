@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "tenant_id": "tenant-example",
+  "industry_id": "industrial-procurement",
+  "version": "1.0.0",
+  "methodology_version": "V1.1-L2-industrial-1.0.0",
+  "buyer_tasks": ["DISCOVER", "UNDERSTAND", "TRUST", "INQUIRE"],
+  "applicable_rule_ids": ["IND-SELECTION", "IND-SPEC", "IND-DUTY", "IND-FIT", "IND-PROOF", "IND-RFQ"],
+  "critical_attributes": ["declared model and product family", "pump flow/head/power/supply", "valve bore/pressure/material/connection", "named application operating conditions", "supplier proof context and validity date", "product-linked RFQ inputs and contact path"],
+  "false_positive_risks": ["Missing or unparsed information is UNKNOWN, never an absence finding.", "Catalog scalar comparison is not an engineering operating point or fit approval.", "A supplier statement or certificate date is not third-party authentication.", "Same model text is a declared association, not independently verified SKU identity.", "A captured contact link is not a successful inquiry.", "Configured required attributes are this procurement profile, not universal industry law."]
+}
