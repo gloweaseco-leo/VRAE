@@ -95,8 +95,12 @@ try{
     await check('original-task-catalog-plus-closed-P40-preparation',options.length===3&&options[0].value==='404'&&options[1].value==='200'&&options[2].value==='p40'&&options[2].disabled&&options[2].label.includes('P40/V25'),{options});
     await check('no-prebuilt-deep-report-used',await ev("!document.querySelector('.l2-report')&&!document.body.innerText.includes('MP25')"));
     await screenshot('l2-task-preparation.png');
-    const rejected=await ev(`(async()=>{const f=document.querySelector('form[action="/b5a/m2/create"]');const data=new URLSearchParams(new FormData(f));data.set('case','p40');const r=await fetch(f.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data,redirect:'manual'});return {status:r.status,text:await r.text()}})()`);
-    await check('unready-P40-submission-refused-in-real-SSR',rejected.status===403&&rejected.text.includes('M2_REQUEST_DENIED'),{status:rejected.status});
+    // Adversarial client may remove disabled in its own DOM. Submit the real
+    // native form; never relax the original CSP to permit fetch in product UI.
+    await ev("document.querySelector('[name=case] option[value=p40]').disabled=false;document.querySelector('[name=case]').value='p40';true");
+    await click('[data-key=m2-create]',true);
+    const rejected=network.filter(n=>n.path==='/b5a/m2/create').at(-1);
+    await check('unready-P40-submission-refused-in-real-SSR',rejected?.status===403&&await ev("document.body.innerText.includes('M2_REQUEST_DENIED')"),{status:rejected?.status});
     await check('no-browser-exceptions',exceptions.length===0);
     await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'L2_PREPARATION_BROWSER_ONLY_NOT_E2E',version,records,shots,network,exceptions,p40_task_submitted:false,native_report_complete:false},null,2));
     await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);

@@ -82,9 +82,12 @@ class GeneratedConsole:
             options = ''.join('<option value="' + e(case) + '"' + ('' if workflow.source_enabled[case] else ' disabled')
                               + '>' + e(workflow.source_labels[case]) + '</option>'
                               for case in workflow.source_refs)
+            unavailable = ''.join('<p class="m2-outcome" data-key="l2-source-readiness">'
+                + e(workflow.source_labels[case]) + '：暂不可提交。</p>' for case in workflow.source_refs
+                if workflow.source_depths[case] == 'L2' and not workflow.source_enabled[case])
             html = ('<section class="card"><h1>提交新的合成制造业诊断</h1>'
                 '<p>仅固定授权的合成来源；任务完成后须重新签名打开该任务报告。</p>'
-                '<form method="post" action="/b5a/m2/create">' + hidden('_csrf', csrf)
+                + unavailable + '<form method="post" action="/b5a/m2/create">' + hidden('_csrf', csrf)
                 + '<label>合成来源<select name="case">' + options + '</select></label>'
                 '<button type="submit" data-key="m2-create">提交新诊断任务</button></form></section>'
                 '<section class="card"><h2>当前 Reviewer 的已提交任务</h2>')
