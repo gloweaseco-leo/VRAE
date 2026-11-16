@@ -91,3 +91,5 @@ Normal P40 job execution resumes only on an accepted causal correction, followed
 by same-task native C1 and accepted C2 production/report/current-review assembly.
 The C3 current-report bridge now directly consumes the accepted PR113 adapter;
 see contracts/l2_ops/NATIVE-TASK-v1.md for its ports and remaining runtime limits.
+Current PR113 integration evidence is in PR113-INTEGRATION.md; earlier stage
+receipts retain their original SHA and scope.

@@ -1,3 +1,5 @@
+> Historical intake-only contract below. PR110/111/113 are now Owner-merged on accepted main6b2a2dff; current C3 native report/current-reader/business ports are in NATIVE-TASK-v1.md. Actual P40 commit remains blocked on the separately authorized C1 performance correction.
+
 # C3 L2 task intake v1
 
 Accepted integration baseline: c96c4a8f9cc8dc95e05224ca45efdc2bbe90fd17.
