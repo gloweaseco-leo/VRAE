@@ -36,6 +36,8 @@ class Workbench(GeneratedRun):
         self.transport_lock = threading.RLock()
         self.pending_jobs = queue.Queue()
         self.woken = set()
+        self.committed = {}
+        self.wake_serial = 0
         self.nonces = {}
         self.web_tasks = {}
         self.http_observations = []
@@ -56,6 +58,9 @@ class Workbench(GeneratedRun):
         import hashlib
 
         self.result["m2_migration_sha256"] = hashlib.sha256(sql.read_bytes()).hexdigest()
+        self.secret_values.extend(
+            [self.r.lab.state["admin_password"], *self.r.lab.state["runtime_passwords"].values()]
+        )
 
     def bootstrap_identity(self):
         from .m3_results import materialize, submit
@@ -263,6 +268,7 @@ class Workbench(GeneratedRun):
                         assert not any(s.encode() in wire for s in owner.secret_values), (
                             "M3_SECRET_IN_RESPONSE"
                         )
+                        owner.observe(self.command, self.path, reply["status"], raw)
                         self.send_response_only(reply["status"])
                         for key, value in reply["headers"]:
                             self.send_header(key, value)
@@ -270,7 +276,6 @@ class Workbench(GeneratedRun):
                         if self.command != "HEAD":
                             self.wfile.write(raw)
                             self.wfile.flush()
-                        owner.observe(self.command, self.path, reply["status"], raw)
                 except Exception as exc:
                     write(
                         owner.folder / "transport-failure.private.json",
@@ -312,39 +317,61 @@ class Workbench(GeneratedRun):
                 self.web_tasks[task["job_id"]] = task
                 self.pending_jobs.put(task["job_id"])
 
+    def read_commits(self):
+        path = self.native_out / "m1-worker.log"
+        rows = []
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("{") and line.endswith("}"):
+                row = json.loads(line)
+                rows.append(row)
+                if "job_id" in row:
+                    old = self.committed.get(row["job_id"])
+                    assert old is None or old == row, "M3_CHANGED_COMMITTED_LOCATOR"
+                    self.committed[row["job_id"]] = row
+        return rows
+
     def dispatch(self):
         while True:
             try:
                 job = self.pending_jobs.get_nowait()
             except queue.Empty:
                 return
-            if job in self.woken:
+            self.read_commits()
+            if job in self.committed:
                 continue
+            # Serialize this app's locked signed reads with each canonical
+            # Worker invocation. Keep all original DB/lease/time budgets.
+            # Claim still chooses its own legal job; no UUID is passed to it.
+            with self.transport_lock:
+                prior = set(self.committed)
+                before = len(self.read_commits())
+                self.wake_serial += 1
+                path = self.native_out / ("auto-" + str(self.wake_serial) + ".wake.json")
+                temporary = path.with_suffix(".tmp")
+                write(temporary, {"process_one": True})
+                temporary.replace(path)
+                deadline = time.monotonic() + 90
+                while not (set(self.committed) - prior):
+                    assert self.client.poll() is None, "M3_CANONICAL_WORKER_EXIT"
+                    rows = self.read_commits()
+                    assert not any(
+                        r.get("status") == "NO_LEGAL_PENDING_JOB" for r in rows[before:]
+                    ), "M3_PENDING_ADMISSION_LOST"
+                    assert time.monotonic() < deadline, "M3_REAL_WORKER_RESULT_DEADLINE"
+                    time.sleep(0.05)
             self.woken.add(job)
-            path = self.native_out / (job + ".wake.json")
-            temporary = path.with_suffix(".tmp")
-            write(temporary, {"process_one": True})
-            temporary.replace(path)
+            # If another legal pending job sorted first, process the remaining
+            # real queue; never force/select/rewrite a job or retry a failure.
+            if job not in self.committed:
+                self.pending_jobs.put(job)
 
     def await_job(self, job):
         assert str(UUID(job)) == job and job in self.web_tasks
-        deadline = time.monotonic() + 90
-        while time.monotonic() < deadline:
-            self.dispatch()
-            assert self.client.poll() is None
-            for line in (
-                (self.native_out / "m1-worker.log").read_text(encoding="utf-8").splitlines()
-            ):
-                if line.startswith("{") and line.endswith("}"):
-                    row = json.loads(line)
-                    if row.get("job_id") == job:
-                        assert all(
-                            row[k] == self.web_tasks[job][k]
-                            for k in ("request_id", "run_id", "job_id")
-                        )
-                        return row
-            time.sleep(0.1)
-        raise TimeoutError("M3_REAL_WORKER_RESULT_DEADLINE")
+        self.dispatch()
+        self.read_commits()
+        result = self.committed[job]
+        assert all(result[k] == self.web_tasks[job][k] for k in ("request_id", "run_id", "job_id"))
+        return result
 
     def sign(self, nonce):
         observed = self.nonces.pop(nonce, None)
@@ -451,6 +478,11 @@ class Workbench(GeneratedRun):
                 self.http.server_close()
                 self.http_thread.join(timeout=5)
                 assert not self.http_thread.is_alive()
+                import socket
+
+                with socket.socket() as probe:
+                    probe.settimeout(1)
+                    assert probe.connect_ex(("127.0.0.1", self.http.server_port)) != 0
                 extra.append(
                     {"resource": "finite_loopback_transport", "absent_or_port_closed": True}
                 )
@@ -458,6 +490,24 @@ class Workbench(GeneratedRun):
             extra.append({"resource": "single_m2_ssr", "absent_or_port_closed": True})
         except Exception as exc:
             errors.append(type(exc).__name__)
+            if self.bridge_process is not None:
+                owned = (
+                    cmd(
+                        [
+                            "docker",
+                            "inspect",
+                            "--format",
+                            '{{index .Config.Labels "vrae.beta.codex3"}}',
+                            self.ssr_name,
+                        ]
+                    )
+                    .decode()
+                    .strip()
+                )
+                assert owned == self.label
+                cmd(["docker", "rm", "-f", self.ssr_name])
+                self.bridge_process.wait(timeout=15)
+                self.pipe_thread.join(timeout=5)
         finally:
             try:
                 super().cleanup()
@@ -494,6 +544,32 @@ class Workbench(GeneratedRun):
                 write(self.folder / "http-observations.private.json", self.http_observations)
                 write(self.folder / "browser-tasks.private.json", self.web_tasks)
                 assert not errors
+
+    def publish(self):
+        candidate = self.folder / "browser-acceptance"
+        allowed = {"browser.json", "assertions.json", "browser-process-cleanup.json"}
+        inputs = [
+            p for p in candidate.glob("*") if p.suffix in (".png", ".pdf") or p.name in allowed
+        ]
+        for path in inputs:
+            raw = path.read_bytes()
+            assert not any(value.encode() in raw for value in self.secret_values), (
+                "M3_PUBLICATION_SECRET_MATCH"
+            )
+        fatal = []
+        for path in self.folder.glob("ssr-boot-*.stderr.private.log"):
+            raw = path.read_bytes()
+            if b"Fatal Python error" in raw or b"Segmentation fault" in raw:
+                fatal.append(path.name)
+        self.result["browser_publication"] = {
+            "files_checked": len(inputs),
+            "exact_private_credential_matches": 0,
+            "raw_report_source_profiles_controls_excluded": True,
+            "fatal_capture": True,
+            "fatal_files": fatal,
+        }
+        assert not fatal, "M3_SSR_NATIVE_FATAL"
+        super().publish()
 
 
 def main(label, minor):
@@ -532,13 +608,16 @@ def main(label, minor):
                 body = json.loads(request.read_bytes())
                 operation = body.get("operation")
                 if operation == "sign" and set(body) == {"operation", "nonce"}:
-                    result = run.sign(body["nonce"])
+                    try:
+                        result = run.sign(body["nonce"])
+                    except AssertionError:
+                        result = {"denied": "M3_OBSERVED_FRESH_CHALLENGE_REQUIRED"}
                 elif operation == "await-job" and set(body) == {"operation", "job"}:
                     result = run.await_job(body["job"])
                 elif operation == "restart-pg" and set(body) == {"operation"}:
                     result = run.case("actual_pg_restart_" + str(run.boot), run.restart_pg)
                 else:
-                    raise ValueError("M3_PRIVATE_CONTROL_DENIED")
+                    result = {"denied": "M3_PRIVATE_CONTROL_DENIED"}
                 temporary = response.with_suffix(".tmp")
                 write(temporary, result)
                 temporary.chmod(0o600)

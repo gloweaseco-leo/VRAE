@@ -22,7 +22,10 @@ def control(label, operation, **args):
             raise RuntimeError("M3_SUPERVISOR_EXIT_SEE_PRIVATE_EVIDENCE")
         assert time.monotonic() < deadline, "M3_PRIVATE_CONTROL_DEADLINE"
         time.sleep(0.05)
-    return json.loads(response.read_bytes())
+    result = json.loads(response.read_bytes())
+    if isinstance(result, dict) and "denied" in result:
+        raise RuntimeError(result["denied"])
+    return result
 
 
 def run(label, *, interactive=False):
@@ -31,7 +34,13 @@ def run(label, *, interactive=False):
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
     assert current["source_sha"] == head, "M3_FROZEN_SOURCE_REQUIRED"
     folder = folder_for(label)
-    output = folder / ("browser-interactive" if interactive else "browser-acceptance")
+    name = "browser-acceptance"
+    if interactive:
+        index = 1
+        while (folder / ("browser-interactive-" + str(index))).exists():
+            index += 1
+        name = "browser-interactive-" + str(index)
+    output = folder / name
     output.mkdir(exist_ok=False)
     errors = (output / "node.stderr.private.log").open("wb")
     env = {
@@ -74,7 +83,7 @@ def run(label, *, interactive=False):
                 break
             if message["kind"] == "sign":
                 value = control(label, "sign", nonce=message["nonce"])
-            elif message["kind"] == "worker":
+            elif message["kind"] == "result":
                 value = control(label, "await-job", job=message["job"])
             elif message["kind"] == "restart":
                 value = control(label, "restart-pg")

@@ -111,7 +111,7 @@ def test_10_real_browser_new_tasks_review_pdf_restart_and_denials(business):
 def test_20_all_browser_jobs_and_receipts_are_real_same_version(business):
     with connection(business) as c:
         rows = c.execute(
-            "SELECT job_id,request_id,run_id,source_ref,report_version,source_sha256,report_sha256,html_sha256,report FROM ra4b_p2.m1_results ORDER BY job_id"
+            "SELECT job_id,request_id,run_id,source_ref,report_version,source_sha256,report_sha256,html_sha256,report,source_record,html FROM ra4b_p2.m1_results ORDER BY job_id"
         ).fetchall()
         receipts = c.execute(
             "SELECT job_id,command_id,receipt FROM b5b_m2.receipts ORDER BY command_id"
@@ -120,8 +120,25 @@ def test_20_all_browser_jobs_and_receipts_are_real_same_version(business):
         assert c.execute(
             "SELECT count(*) FROM ra4a.jobs WHERE state<>'TEST_ONLY_DONE'"
         ).fetchone() == (0,)
+    assert {r[2]["decision"] for r in receipts} == {
+        "APPROVE_INTERNAL",
+        "REJECT_INTERNAL",
+        "REVISE_INTERNAL",
+    }
     known = {str(r[0]): r for r in rows}
+    archive = business["folder"] / "actual-generated.private"
+    archive.mkdir()
     for row in rows:
+        saved = archive / str(row[0])
+        saved.mkdir()
+        for name, index, hash_index in (
+            ("source.json", 9, 5),
+            ("report.json", 8, 6),
+            ("report.html", 10, 7),
+        ):
+            raw = bytes(row[index])
+            assert hashlib.sha256(raw).hexdigest() == row[hash_index]
+            (saved / name).write_bytes(raw)
         doc = json.loads(bytes(row[8]))
         assert row[4] == 1 and hashlib.sha256(bytes(row[8])).hexdigest() == row[6]
         assert doc["metadata"]["version"] == 1 and doc["scope"]["run_id"] == str(row[2])

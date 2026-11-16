@@ -119,9 +119,16 @@ try{
     await check('pending-no-report-authority-'+phase,await ev("!document.querySelector('[data-key=m2-new-report]')&&!document.querySelector('.m2-issue')"));
     await bounded('bounded-task-status-'+phase);
     await screenshot('task-'+width+'-'+caseName+'.png');
-    step='worker';const pins=await rpc('worker',{job:task.job_id});
+    step='worker';
+    let observedDone=false;
+    for(let poll=0;poll<90;poll++) {
+      await click('[data-key=m2-status-refresh]',true);
+      if(await ev("document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'")){observedDone=true;break}
+      await new Promise(r=>setTimeout(r,250));
+    }
+    await check('automatic-worker-without-browser-producer-RPC-'+phase,observedDone);
+    const pins=await rpc('result',{job:task.job_id});
     await check('actual-worker-same-job-'+phase,['request_id','run_id','job_id'].every(k=>pins[k]===task[k]),{job_id:pins.job_id});
-    await click('[data-key=m2-status-refresh]',true);
     await check('DONE-still-requires-signature-'+phase,await ev("document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'&&!!document.querySelector('[data-key=m2-new-report]')&&!document.querySelector('.m2-issue')"));
     await openNewReport();await assertNewSession();
     await check('exact-new-job-and-file-hash-'+phase,await ev(`document.body.innerText.includes(${JSON.stringify(pins.job_id)})&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})`));
@@ -130,17 +137,19 @@ try{
     else await check('actual-supported-issue-on-404-'+phase,await ev("document.querySelectorAll('.m2-issue').length===1&&document.body.innerText.includes('HTTP 404')"));
     await bounded('bounded-generated-report-'+phase);
     await screenshot('report-'+width+'-'+caseName+'.png');
-    for(const selector of await ev("[...document.querySelectorAll('select[name^=decision]')].map(e=>'[name=\"'+e.name+'\"]')")) await select(selector,3);
+    const decisionIndex=width===1280?3:width===375?2:1;
+    const decision=['','APPROVE_INTERNAL','REJECT_INTERNAL','REVISE_INTERNAL'][decisionIndex];
+    for(const selector of await ev("[...document.querySelectorAll('select[name^=decision]')].map(e=>'[name=\"'+e.name+'\"]')")) await select(selector,decisionIndex);
     for(const selector of await ev("[...document.querySelectorAll('textarea')].map(e=>'[name=\"'+e.name+'\"]')")) {
-      await click(selector);await call('Input.insertText',{text:'内部合成审核修订，请复核本版来源与证据。'});
+      await click(selector);await call('Input.insertText',{text:'内部合成审核说明，请复核本版来源与证据。'});
     }
     step='save';await click('button[type=submit]',true);
-    await check('real-persistent-review-receipt-'+phase,await ev("location.pathname.startsWith('/b5a/m2/receipt/')&&document.body.innerText.includes('已持久化')&&document.body.innerText.includes('REVISE_INTERNAL')"));
+    await check('real-persistent-review-receipt-'+phase,await ev(`location.pathname.startsWith('/b5a/m2/receipt/')&&document.body.innerText.includes('已持久化')&&document.body.innerText.includes(${JSON.stringify(decision)})`));
     await check('not-human-or-external-approval-'+phase,await ev("document.body.innerText.includes('NOT_APPROVED')&&document.body.innerText.includes('false')&&document.body.innerText.includes('不是实际人工批准')"));
     const receiptPath=await ev('location.pathname');
     if(firstReceipt===null)firstReceipt=receiptPath;
     await click('[data-key=m2-a4]',true);
-    await check('watermarked-version-bound-a4-'+phase,await ev(`document.querySelector('.m2-watermark')?.textContent.includes('合成样本')&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})&&document.body.innerText.includes('REVISE_INTERNAL')`));
+    await check('watermarked-version-bound-a4-'+phase,await ev(`document.querySelector('.m2-watermark')?.textContent.includes('合成样本')&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})&&document.body.innerText.includes(${JSON.stringify(decision)})`));
     await check('bounded-a4-screen-'+phase,await ev("document.documentElement.scrollWidth<=innerWidth&&document.scripts.length===0"));
     await screenshot('a4-'+width+'-'+caseName+'.png');
     if(width===1280) {
