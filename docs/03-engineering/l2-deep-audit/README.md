@@ -42,6 +42,6 @@ python -B -m integration.l2.lab owner-review-unique-label --interactive
 
 [本地原始发布清单](sample/publication.json)包含 26 项真实浏览器检查、12 张页面截图、实际进程重启、两份 Chromium PDF 及 SHA256。覆盖错版本、越权、接收人不符、撤销后再读、换版使旧访问失效、重启回读、中文打印和移动布局。PDF 是完整自然分页的 L2 成果，未压缩成 L1 一页。
 
-样例清单对应本地 15 项原生检查，另增加两项实际 Codex1 契约数据检查；最终托管 CI 在本 PR 精确提交上运行完整 17 项及浏览器。样例 `run.json` 保留当时基线 HEAD 和工作文件 SHA，不冒称提交后 CI。原始失败保留于私有 `.runtime`，包含早期测试工具问题和沙箱 Chrome 超时；针对原因修复后取得当前结果，不改写 RED 为 PASS。
+样例清单对应本地 15 项原生检查，另增加两项实际 Codex1 契约数据检查及一项工件原始字节完整性检查；最终托管 CI 在本 PR 精确提交上运行完整 18 项及浏览器。样例 `run.json` 保留当时基线 HEAD 和工作文件 SHA，不冒称提交后 CI。原始失败保留于私有 `.runtime`，包含早期测试工具问题和沙箱 Chrome 超时；针对原因修复后取得当前结果，不改写 RED 为 PASS。
 
 本轮使用明确离线来源、独立离线审核库，没有伪造 Worker/APP202 任务或 PG 验收。Codex1 原生深度结果的消费契约已校验，但接入已验收生产者的完整源/Guard 重放仍是后续集成边界。旧 SQL、RLS、Guard、认证 TTL 和原审核持久化逻辑未改变。Owner 尚未验收本候选，不自行合并或部署。

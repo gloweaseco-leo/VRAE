@@ -12,6 +12,14 @@ from vrae.l2.report import OfflineSource, L2Denied, encoded
 from .support import ROOT, REPORT, PIN, create, login, pins, approve
 
 
+def test_committed_review_artifacts_preserve_original_byte_hashes():
+    root=ROOT/'docs/03-engineering/l2-deep-audit/sample'
+    manifest=json.loads((root/'publication.json').read_text(encoding='utf-8'))
+    for name,meta in manifest['files'].items():
+        raw=(root/name).read_bytes()
+        assert len(raw)==meta['bytes'] and hashlib.sha256(raw).hexdigest()==meta['sha256'],name
+
+
 def test_deep_content_is_actionable_and_unknown_is_not_failure(tmp_path):
     issuer,directory,ledger,_=create(tmp_path)
     sid=login(issuer,directory,'reviewer-demo')
