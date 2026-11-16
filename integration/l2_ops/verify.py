@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import secrets
 import subprocess
 import sys
@@ -31,7 +32,9 @@ def main():
     parser.add_argument("--python311")
     parser.add_argument("--python313")
     parser.add_argument("--python-current")
-    parser.add_argument("--business-only", action="store_true", help="Only the new native business routes and actual PG restart marker; not the full package")
+    focused = parser.add_mutually_exclusive_group()
+    focused.add_argument("--business-only", action="store_true", help="Only the new native business routes and actual PG restart marker; not the full package")
+    focused.add_argument("--lifecycle-only", action="store_true", help="Only real PG commit/restart/owned-volume cleanup; not package or Worker proof")
     parser.add_argument("--pg-image", default="postgres:16-alpine")
     args = parser.parse_args()
     version_code = "import sys; print(str(sys.version_info.major)+str(sys.version_info.minor))"
@@ -73,13 +76,16 @@ def main():
         envfile.write_text(f"POSTGRES_PASSWORD={password}\nPOSTGRES_DB=l2ops\n", encoding="utf-8")
         started = time.monotonic_ns()
         container_started = network_started = False
+        container_id = None
         try:
             command(["docker", "network", "create", network])
             network_started = True
-            command(["docker", "run", "-d", "--pull", "never", "--name", name,
+            container_id = command(["docker", "run", "-d", "--pull", "never", "--name", name,
                      "--network", network, "--env-file", str(envfile),
                      "-p", "127.0.0.1::5432", image])
             container_started = True
+            if not re.fullmatch(r"[a-f0-9]{64}", container_id):
+                raise RuntimeError("owned PG container ID was not recorded")
             port = command(["docker", "port", name, "5432/tcp"]).rsplit(":", 1)[1]
             for _ in range(60):
                 p = subprocess.run(["docker", "exec", name, "pg_isready", "-U", "postgres", "-d", "l2ops"], check=False, capture_output=True)
@@ -94,7 +100,8 @@ def main():
             env["L2OPS_TEST_DSN"] = f"host=127.0.0.1 port={port} user=postgres password={password} dbname=l2ops connect_timeout=5"
             version = command([interpreter, "--version"])
             xml = output / f"native-{minor}.xml"
-            suites = (["integration/l2_ops/checks/test_panel.py",
+            suites = (["integration/l2_ops/runtime_tests/test_pg.py::test_pg_restart_marker"] if args.lifecycle_only else
+                      ["integration/l2_ops/checks/test_panel.py",
                        "integration/l2_ops/checks/test_native_report.py::test_production_keeps_task_context_and_records_separate_c2_runtime",
                        "integration/l2_ops/runtime_tests/test_pg.py::test_pg_native_business_ui_preview_save_readback_and_nonce_replay",
                        "integration/l2_ops/runtime_tests/test_pg.py::test_pg_native_business_ui_denies_without_current_dual_authority",
@@ -133,7 +140,8 @@ def main():
                             "pg_image_id": image, "restart_readback": before, "xml_sha256": hashlib.sha256(xml.read_bytes()).hexdigest(),
                             "measurement_wall_ns": time.monotonic_ns() - started,
                             "cost_status": "UNKNOWN", "amount_micros": None,
-                            "scope": ("C3_BUSINESS_ROUTES_REAL_PG_SYNTHETIC_TASK_NOT_FULL_PACKAGE_OR_WORKER_E2E" if args.business_only
+                            "scope": ("C3_PG_LIFECYCLE_ONLY_NOT_PACKAGE_OR_WORKER_E2E" if args.lifecycle_only else
+                                      "C3_BUSINESS_ROUTES_REAL_PG_SYNTHETIC_TASK_NOT_FULL_PACKAGE_OR_WORKER_E2E" if args.business_only
                                       else "C3_PACKAGE_REAL_PG_SYNTHETIC_UPSTREAM_NOT_FULL_L2_E2E")})
         except Exception as exc:  # noqa: BLE001 -- archive/redact every failure, then propagate
             from psycopg.conninfo import conninfo_to_dict
@@ -161,14 +169,31 @@ def main():
                 "credentials_redacted": True}, ensure_ascii=False, indent=2), encoding="utf-8")
             raise RuntimeError(safe) from None
         finally:
+            removed_volumes = []
             if container_started:
-                command(["docker", "rm", "-f", name])
+                actual_id = command(["docker", "inspect", name, "--format", "{{.Id}}"])
+                if actual_id != container_id:
+                    raise RuntimeError("owned PG container identity changed; do not remove another resource")
+                mounts = json.loads(command(["docker", "inspect", name, "--format", "{{json .Mounts}}"] ))
+                volumes = [m["Name"] for m in mounts if m.get("Type") == "volume"
+                           and m.get("Destination") == "/var/lib/postgresql/data"]
+                if len(mounts) != 1 or len(volumes) != 1 or not re.fullmatch(r"[a-f0-9]{64}", volumes[0]):
+                    raise RuntimeError("expected owned anonymous PG data volume was not identified")
+                command(["docker", "rm", "-f", "-v", name])
+                for volume in volumes:
+                    if command(["docker", "volume", "ls", "-q", "--filter", "name=^" + volume + "$"]):
+                        raise RuntimeError("owned anonymous PG data volume remains")
+                removed_volumes = volumes
             if network_started:
                 command(["docker", "network", "rm", network])
             remaining = command(["docker", "ps", "-a", "--filter", f"name=^{name}$", "--format", "{{.Names}}"])
             if remaining:
                 raise RuntimeError("owned container remains")
-            (output / "cleanup.json").write_text(json.dumps({"owned_containers_remaining": [], "label": args.label}), encoding="utf-8")
+            cleanup = {"owned_containers_remaining": [], "owned_pg_volumes_remaining": [],
+                       "removed_anonymous_pg_volumes": removed_volumes,
+                       "container_id": container_id, "label": args.label, "minor": minor}
+            (output / f"cleanup-{minor}.json").write_text(json.dumps(cleanup, indent=2), encoding="utf-8")
+            (output / "cleanup.json").write_text(json.dumps(cleanup, indent=2), encoding="utf-8")
     command(["git", "diff", "--exit-code", "HEAD", "--", *source_paths])
     if command(["git", "rev-parse", "HEAD"]) != candidate_sha or any(
         hashlib.sha256((ROOT / p).read_bytes()).hexdigest() != expected for p, expected in source_manifest.items()
