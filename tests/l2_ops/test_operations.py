@@ -139,8 +139,12 @@ def test_rehash_does_not_create_business_authority(bundle, reader, tamper):
         service.read_current(document)
 
 
-def test_installer_refuses_using_existing_app_or_reviewer_role():
+def test_installer_refuses_using_existing_app_or_reviewer_role(monkeypatch):
+    import sys
+
     from vrae.l2_ops.ledger import install
+    # The base domain CI intentionally has no optional PostgreSQL driver.
+    monkeypatch.setitem(sys.modules, "psycopg", None)
     for role in ("vrae_app", "vrae_reviewer", "postgres"):
         with pytest.raises(OperationsDenied, match="DEDICATED_RUNTIME_ROLE"):
             install(None, role)
