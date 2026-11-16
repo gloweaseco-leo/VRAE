@@ -1,0 +1,7 @@
+{
+  "stage": "PG_TEST_TRANSPORT_BEFORE_TESTS",
+  "error": "docker port: no public port 5432/tcp published for vrae-l2ops-r1-311",
+  "root_cause": "Docker internal network did not expose requested host binding. No pytest test or Worker ran.",
+  "correction": "Use own bridge network and explicit loopback-only published port; no external fetch code is invoked. All owned r1 resources removed.",
+  "retained": true
+}
