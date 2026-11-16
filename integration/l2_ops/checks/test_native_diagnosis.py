@@ -31,10 +31,13 @@ def native_result():
     audit.update(tenant_id=task.tenant_id, source_policy_ref=policy["policy_id"], source_policy_version=policy["policy_version"])
     from integration.l2_ops.catalog import admission
     _, raw = admission(native, source_ref=ref)
+    # Catalog preparation precedes claim in the real runtime; start the
+    # detached fixture lease only once that preparation has completed.
+    loaded = datetime.now(UTC)
     row = {"raw_source": raw, "policy_document": policy, "audit_document": audit, "tenant_id": task.tenant_id,
            "request_id": task.request_id, "run_id": task.run_id, "job_id": task.job_id,
-           "worker_role": "ra4b_test_a_worker", "lease_until": now + timedelta(seconds=30), "origin_epoch": 1,
-           "source_ref": ref, "reference_sha256": "a" * 64, "loaded_at": now}
+           "worker_role": "ra4b_test_a_worker", "lease_until": loaded + timedelta(seconds=30), "origin_epoch": 1,
+           "source_ref": ref, "reference_sha256": "a" * 64, "loaded_at": loaded}
     output = build(row, (task.job_id, None, ids[4], 1))
     result = GeneratedReport({k: getattr(task, k) for k in ("tenant_id", "request_id", "run_id", "job_id")},
                              output.source, output.report, output.html)
