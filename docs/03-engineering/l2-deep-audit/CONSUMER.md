@@ -10,6 +10,17 @@
 
 ## Codex1 PR110 对接
 
+### 给 Codex3 的来源边界
+
+Owner 续行授权：[PR111 复核](https://github.com/gloweaseco-leo/VRAE/pull/111#issuecomment-6911359217)。本分支已正常合入已验收 main `c96c4a8f9cc8dc95e05224ca45efdc2bbe90fd17`，其中 PR109 是 C3 来源运营能力和精确 PR108 文档兼容修复；未复制未合并的 C1 实现。
+
+| 材料 | 来源与用途 | 不能宣称 |
+| --- | --- | --- |
+| 本工作台 MP25 报告与蓝图 | `fixtures/l2/pump-maker-v1`，独立版本化离线展示/审核样本 | C1 P40/V25 同一次任务的报告，或真实 Worker E2E |
+| Codex1 P40/V25 契约导出 | `fixtures/l2/codex1-contract-v1`，只校验生产者消费契约 | 本工作台 MP25 的来源、正式人审、APP202 或任务分配 |
+
+后续整机必须使用 **Owner 已验收** C1 原生 `verify`，绑定真实 Worker pack/run、当前租户/任务及实际报告版本，再进入现有签名阅读与审核链。不能靠拷贝 C1 JSON、替换型号文字或重用离线 fixture 把两份不同来源拼成 E2E。当前模块可以展示和审核 L2 内容，尚未完成这个同一 Worker 来源闭环。正式真人审核、真实客户外发及生产均未授权。
+
 协同记录见 [Issue94](https://github.com/gloweaseco-leo/VRAE/issues/94#issuecomment-6907739497)。消费契约固定于 Codex1 PR110 提交 `e661926628250cfaff84798b8dbbb716b39fe5fc`：原 `contracts/v1/industry/BuyerDiagnosis.schema.json` 的只读快照保存在 `contracts/l2_consumer/`；实际离线示例及来源记录在 `fixtures/l2/codex1-contract-v1/`。未导入或运行未合并的 Codex1 代码。
 
 `vrae.l2.codex1.inspect_export(raw, held)` 使用本地封闭 schema 注册表和独立保留的 tenant/run/industry/pack/diagnosis 引用及原始文件 SHA。结果明确 `OFFLINE_CONTRACT_INSPECTED_NOT_NATIVE_REPLAYED`，只能做契约分析，不产生 ReportVersion、APP202、任务分配、批准或分享。测试使用真实上游导出，不伪造 Guard 成功：81 条 literal source facts、19 项分析，不等于 81 个独立问题；工程适配 UNKNOWN、影响及建议 HUMAN_REVIEW_REQUIRED 原样保留。
