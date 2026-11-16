@@ -131,7 +131,9 @@ try{
     await check('actual-worker-same-job-'+phase,['request_id','run_id','job_id'].every(k=>pins[k]===task[k]),{job_id:pins.job_id});
     await check('DONE-still-requires-signature-'+phase,await ev("document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'&&!!document.querySelector('[data-key=m2-new-report]')&&!document.querySelector('.m2-issue')"));
     await openNewReport();await assertNewSession();
+    await click('.m2-diagnosis > .m2-technical > summary');
     await check('exact-new-job-and-file-hash-'+phase,await ev(`document.body.innerText.includes(${JSON.stringify(pins.job_id)})&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})`));
+    await click('.m2-diagnosis > .m2-technical > summary');
     await check('actual-evidence-and-guard-'+phase,await ev("document.body.innerText.includes('Evidence')&&document.body.innerText.includes('Guard')&&document.body.innerText.includes('NOT APPROVED')"));
     if(caseName==='200') await check('no-invented-issue-on-200-'+phase,await ev("document.querySelectorAll('.m2-issue').length===0&&document.body.innerText.includes('证据不足')"));
     else await check('actual-supported-issue-on-404-'+phase,await ev("document.querySelectorAll('.m2-issue').length===1&&document.body.innerText.includes('HTTP 404')"));
@@ -144,12 +146,16 @@ try{
       await click(selector);await call('Input.insertText',{text:'内部合成审核说明，请复核本版来源与证据。'});
     }
     step='save';await click('button[type=submit]',true);
+    await click('.m2-technical > summary');
     await check('real-persistent-review-receipt-'+phase,await ev(`location.pathname.startsWith('/b5a/m2/receipt/')&&document.body.innerText.includes('已持久化')&&document.body.innerText.includes(${JSON.stringify(decision)})`));
     await check('not-human-or-external-approval-'+phase,await ev("document.body.innerText.includes('NOT_APPROVED')&&document.body.innerText.includes('false')&&document.body.innerText.includes('不是实际人工批准')"));
     const receiptPath=await ev('location.pathname');
+    await click('.m2-technical > summary');
     if(firstReceipt===null)firstReceipt=receiptPath;
     await click('[data-key=m2-a4]',true);
+    await click('.m2-export-technical > summary');
     await check('watermarked-version-bound-a4-'+phase,await ev(`document.querySelector('.m2-watermark')?.textContent.includes('合成样本')&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})&&document.body.innerText.includes(${JSON.stringify(decision)})`));
+    await click('.m2-export-technical > summary');
     await check('bounded-a4-screen-'+phase,await ev("document.documentElement.scrollWidth<=innerWidth&&document.scripts.length===0"));
     await screenshot('a4-'+width+'-'+caseName+'.png');
     if(width===1280) {
@@ -166,14 +172,17 @@ try{
       await login(caseName,false);await nav(taskURL);
       await check('restart-routing-task-and-status-'+caseName,await ev(`document.querySelector('[data-key=m2-job_id]')?.textContent===${JSON.stringify(task.job_id)}&&document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'`));
       await openNewReport();
+      await click('.m2-diagnosis > .m2-technical > summary');
       await check('restart-signed-current-report-'+caseName,await ev(`document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})&&document.body.innerText.includes(${JSON.stringify(task.job_id)})`));
       await nav(origin+receiptPath);
+      await click('.m2-technical > summary');
       await check('restart-persistent-receipt-'+caseName,await ev(`document.body.innerText.includes('REVISE_INTERNAL')&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})`));
       if(caseName==='200') {
         await nav(origin+firstReceipt);
         await check('cross-job-receipt-denied',await ev("document.body.innerText.includes('M2_REQUEST_DENIED')&&!document.querySelector('.m2-issue')"));
       }
       await nav(origin+receiptPath.replace('/receipt/','/export/'));
+      await click('.m2-export-technical > summary');
       await check('restart-A4-same-report-'+caseName,await ev(`!!document.querySelector('.m2-watermark')&&document.body.innerText.includes(${JSON.stringify(pins.report_sha256)})`));
     }
   }

@@ -70,7 +70,8 @@ def generated_decision_fields(view, csrf):
            + hidden('_csrf', csrf)
            + hidden('report_version', str(view.pins['report_version']))
            + hidden('report_sha256', view.pins['report_sha256'])
-           + '<h2>保存内部合成审核</h2><p>决定不修改报告原件，不构成真实人工批准或外部交付。</p>')
+           + '<h2>复核这份诊断报告</h2><p>核对上方事实与证据后，保存内部审核结果。'
+           '如选择修订，请填写说明。决定不修改报告原件，不构成真实人工批准或外部交付。</p>')
     for key, label in [('', '整份报告')] + [(i, '问题 ' + str(n)) for n, i in enumerate(view.issue_ids, 1)]:
         suffix = '.' + key if key else ''
         out += ('<fieldset><legend>' + e(label) + '</legend><label>内部决定'

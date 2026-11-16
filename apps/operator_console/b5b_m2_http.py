@@ -18,10 +18,10 @@ from vrae.identity.boundary import IdentityDenied
 from .b5a_http import Reply, FORM, form
 from .interface import Response
 from .contracts import ConsoleError
-from .views import e, frame, dump, link
+from .views import e, frame, link
 from .proposal_views import hidden
 from .b5b_m2_sessions import GeneratedSessions
-from .b5b_m2_report import report_body, a4
+from .b5b_m2_report import report_body, a4, receipt_body, review_label
 from .b5b_m2_review import ReviewCommand
 from .b5b_m2_views import generated_decision_fields
 from .b5b_m2_tasks import TaskWorkflow
@@ -125,11 +125,16 @@ class GeneratedConsole:
             action = 'retry'
             label = '核对原提交结果'
         else:
+            state_label = {'PENDING': '任务已提交，正在等待生成诊断报告',
+                           'TEST_ONLY_DONE': '诊断报告已生成，请打开查看'}.get(
+                               state['job_state'], '任务尚未完成，请刷新状态核对')
+            html += '<p class="m2-outcome">' + e(state_label) + '</p>'
+            html += '<details class="m2-technical"><summary>技术详情：提交响应与任务标识</summary>'
             html += '<p data-app-status="202">原 APP 202 已提交</p><dl>'
             for key in ('request_id', 'run_id', 'job_id', 'source_ref'):
                 html += '<dt>' + e(key) + '</dt><dd data-key="m2-' + e(key) + '">' + e(getattr(task, key)) + '</dd>'
             html += '</dl><p data-key="m2-job-state">' + e(state['job_state']) + '</p>'
-            html += '<p>状态与 request/run/job/来源已核对；状态字段不是报告版本或读取授权。</p>'
+            html += '<p>状态与 request/run/job/来源已核对；状态字段不是报告版本或读取授权。</p></details>'
             action = 'challenge' if state['job_state'] == 'TEST_ONLY_DONE' else None
             label = '签名打开本次新生成报告'
         if action:
@@ -192,14 +197,14 @@ class GeneratedConsole:
                     csrf = self.sessions.action(sid, PREFIX + 'review')
                     html = report_body(view) + generated_decision_fields(view, csrf)
                     receipts = c.execute('SELECT b5b_m2.list_receipts(%s,%s)', (a.tenant, a.job_id)).fetchone()[0]
-                    html += '<section class="card"><h2>本版本已持久化的内部回执</h2><p>最近 20 条；重启后重新签名登录仍可回读。</p>'
+                    html += '<section class="card"><h2>本版本的内部审核记录</h2><p>以下是操作记录；诊断内容请以上方报告为准。最近 20 条，重新登录仍可回读。</p>'
                     for item in receipts:
                         html += link(PREFIX + 'receipt/' + item['command_id'],
-                            item['recorded_at'] + ' · ' + item['decision'], key='m2-saved-receipt')
+                            review_label(item['decision']) + ' · ' + item['recorded_at'], key='m2-saved-receipt')
                     html += '</section>'
                     if self.workflow is not None:
                         html += link(PREFIX + 'tasks', '提交／查询新的合成任务', key='m2-tasks')
-                    html += link(PREFIX + 'export', '查看中文 A4 合成样本', key='m2-a4')
+                    html += link(PREFIX + 'export', '查看中文 A4 单页诊断成果', key='m2-a4')
                     response = Reply(Response(200, page('实际生成报告', html).encode()))
                 elif route == 'review' and method == 'POST':
                     if headers.get('Content-Type') != FORM:
@@ -223,9 +228,7 @@ class GeneratedConsole:
                         receipt = c.execute('SELECT b5b_m2.read_receipt(%s,%s,%s)',
                                             (a.tenant, a.job_id, command_id)).fetchone()[0]
                     if route.startswith('receipt/'):
-                        html = '<section class="card"><h1>已持久化的内部合成审核回执</h1>' + dump(receipt)
-                        html += link(PREFIX + 'export/' + command_id, '查看／导出本版本 A4', key='m2-a4')
-                        html += link(PREFIX + 'report', '返回实际生成报告') + '</section>'
+                        html = receipt_body(view, receipt, command_id)
                         response = Reply(Response(200, page('持久审核回执', html).encode()))
                     else:
                         response = Reply(Response(200, a4(view, receipt=receipt).encode()),
