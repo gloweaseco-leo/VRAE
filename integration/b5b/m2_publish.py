@@ -72,7 +72,7 @@ def main():
                 'old-session-denied-after-real-restart', 'restart-routing-task-and-status',
                 'restart-signed-current-report', 'restart-persistent-receipt', 'restart-A4-same-report')]
         assert Counter(r['name'] for r in records) == Counter(names)
-        assert all(r['pass'] for r in records) and len(browser['shots']) == 18
+        assert all(r['pass'] for r in records) and len(browser['shots']) == 24
         cleanup = json.loads((private/'cleanup.json').read_bytes())
         assert len(cleanup) == 6 and all(r['absent'] for r in cleanup)
         transport = json.loads((private/'browser/transport-cleanup.json').read_bytes())
@@ -88,7 +88,7 @@ def main():
             publish(name, (private/'browser'/name).read_bytes())
         for item in browser['shots']:
             name = item['file']
-            assert re.fullmatch(r'(task|report|a4)-(1280|375|320)-(404|200)\.png', name)
+            assert re.fullmatch(r'(task|report|receipt|a4)-(1280|375|320)-(404|200)\.png', name)
             raw = (private/'browser'/name).read_bytes()
             assert hashlib.sha256(raw).hexdigest() == item['sha256']
             publish(name, raw)
@@ -101,7 +101,7 @@ def main():
         publish('source-manifest.json', (private/'source-manifest.json').read_bytes())
         publish('cleanup.json', (private/'cleanup.json').read_bytes())
         metadata.update(status='M2_FINAL_PASS_CANDIDATE_SYNTHETIC_INTERNAL_ONLY',
-            real_pg_restart=True, browser_assertions=len(records), screenshots=18,
+            real_pg_restart=True, browser_assertions=len(records), screenshots=24,
             actual_a4_pdf_pages={'404': 1, '200': 1}, full_m2_exit=False,
             full_m2_functional_flow_verified=True, owner_acceptance_pending=True,
             signing_key_outside_ssr=True, worker_uid=10002, ssr_uid=10003)

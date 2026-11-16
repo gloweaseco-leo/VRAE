@@ -2,6 +2,23 @@
 .m2-workspace p, .m2-workspace legend, .m2-workspace .action { overflow-wrap: anywhere; }
 .m2-workspace fieldset { min-inline-size: 0; max-width: 100%; margin: 14px 0; }
 .m2-workspace select { min-width: 0; max-width: 100%; }
+.m2-outcome { font-size: 23px; font-weight: 700; line-height: 1.5; color: #245e50; }
+.m2-diagnosis > .action, .m2-success > .action:first-of-type {
+  background: #245e50; color: white; padding: 12px 18px; border-radius: 4px; margin: 18px 0;
+}
+.m2-issue { border-top: 1px solid #cedbd4; padding: 24px 0 10px; margin-top: 24px; }
+.m2-issue h3 { font-size: 15px; margin-bottom: 8px; }
+.m2-fact { padding: 14px; background: #edf2ea; border-left: 3px solid #4a7960; }
+.m2-scope, .m2-source { color: #52686a; font-size: 14px; }
+.m2-next { background: #f4eee1; padding: 18px; margin: 20px 0; }
+.m2-review-note { white-space: pre-wrap; overflow-wrap: anywhere; }
+.m2-sources { border-top: 1px solid #cedbd4; padding-top: 20px; margin-top: 20px; }
+.m2-sources li { margin-bottom: 8px; font-size: 14px; overflow-wrap: anywhere; }
+.m2-export-tools, .m2-export-technical { max-width: 186mm; margin: 16px auto; padding: 12px 10mm; }
+.m2-export-tools { display: block; background: white; }
+.m2-export-tools a { min-height: 44px; display: flex; align-items: center; color: #245e50; }
+.m2-export-technical summary { min-height: 44px; padding: 12px 0; cursor: pointer; }
+.m2-export-technical pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 @page { size: A4 portrait; margin: 12mm; }
 * { box-sizing: border-box; }
 body.m2-export { margin: 0; background: #eef1f4; color: #17252e;
@@ -12,9 +29,12 @@ body.m2-export { margin: 0; background: #eef1f4; color: #17252e;
   color: #744208; font-weight: 700; text-align: center; letter-spacing: .15em; }
 .m2-sheet h1 { font-size: 23px; margin: 8px 0; }
 .m2-sheet h2 { font-size: 14px; margin: 10px 0 4px; }
+.m2-sheet h3 { font-size: 12px; margin: 4px 0; }
+.m2-sheet .m2-outcome { font-size: 16px; margin: 10px 0 4px; }
+.m2-sheet .m2-fact { padding: 4px 8px; margin: 4px 0; }
 .m2-sheet p { margin: 4px 0; }
 .m2-sheet header { border-bottom: 1px solid #ccd8d8; padding: 8px 0; }
-.m2-sheet article { padding: 4px 0 7px; border-bottom: 1px solid #d9e0e1; break-inside: avoid; }
+.m2-sheet article { padding: 4px 0 7px; margin: 6px 0; border-bottom: 1px solid #d9e0e1; break-inside: avoid; }
 .m2-source, .m2-pins, .m2-sheet footer { font-size: 10px; color: #455860; }
 .m2-pins dl { display: grid; grid-template-columns: 105px 1fr; gap: 3px 8px; margin: 6px 0; }
 .m2-pins dd, .m2-pins dt { margin: 0; }
@@ -22,9 +42,15 @@ body.m2-export { margin: 0; background: #eef1f4; color: #17252e;
 .m2-review { border: 1px solid #d4dedb; padding: 5px 9px; margin: 8px 0; }
 .m2-sheet footer { border-top: 1px solid #ccd8d8; padding-top: 6px; }
 @media (max-width: 720px) { .m2-sheet { margin: 0; padding: 16px; }
+  .m2-export-tools, .m2-export-technical { margin: 0; padding: 16px; }
   .m2-pins dl { grid-template-columns: 1fr; } }
 @media print { body.m2-export { background: white; font-size: 10px; }
+  .m2-export-tools, .m2-export-technical { display: none !important; }
+  .m2-sheet, .m2-sheet header, .m2-sheet footer { box-sizing: border-box; }
   .m2-sheet { width: 186mm; max-width: none; margin: 0; padding: 0; border: 0; }
+  .m2-sheet header { display: block; max-width: none; margin: 0; }
+  .m2-sheet footer { max-width: none; margin: 8px 0 0; }
+  .m2-sheet section, .m2-sheet header, .m2-sheet footer { break-inside: avoid; }
   .m2-sheet h1 { font-size: 19px; } .m2-sheet h2 { font-size: 12px; }
   .m2-source, .m2-pins, .m2-sheet footer { font-size: 8px; }
   .m2-pins dl { grid-template-columns: 100px 1fr; }
