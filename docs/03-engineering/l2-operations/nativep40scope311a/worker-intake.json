@@ -1,0 +1,99 @@
+{
+  "candidate_sha": "800594623b5685fe73ab719ccf704b65caced496",
+  "cases": [
+    {
+      "name": "actual_restricted_linux_owner_write",
+      "result": "PASS",
+      "seconds": 9.703000000037719
+    },
+    {
+      "name": "pg16_original_migrations",
+      "result": "PASS",
+      "seconds": 27.14100000000326
+    },
+    {
+      "name": "independent_synthetic_input_not_seeded_result",
+      "result": "PASS",
+      "seconds": 13.84399999998277
+    },
+    {
+      "name": "original_api_independent_worker",
+      "result": "PASS",
+      "seconds": 18.93800000002375
+    },
+    {
+      "name": "real_app202",
+      "result": "PASS",
+      "seconds": 2.8130000000237487
+    },
+    {
+      "error_type": "RuntimeError",
+      "name": "actual_worker_commit",
+      "result": "FAIL",
+      "seconds": 32.375
+    },
+    {
+      "name": "owned_cleanup",
+      "result": "PASS",
+      "seconds": 5.5939999999827705
+    }
+  ],
+  "cleanup": [
+    {
+      "absent_or_port_closed": true,
+      "resource": "native_client"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "original_ssr"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "pg_container_network_volume"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "source_volume"
+    }
+  ],
+  "cleanup_errors": [],
+  "host_python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+  "input": {
+    "input_preview": "SYNTHETIC_NEUTRAL_COVERAGE_NOT_L2",
+    "original_pack_ref": "ep-6d856d7718027b0895d3b450c34f7d27838f898df7c7ea369a6b060d6a2d4b60",
+    "policy_expires_at": "2026-11-17T11:55:29.052913+00:00",
+    "reference_sha256": "7f9774a3eb0b527d1fa694cd54ffbd8cbed47343e484bf1210835812c5c9ca8a",
+    "seeded_worker_results": 0,
+    "source_record_sha256": "e1039107f581d98b5a4723d217e12e5846312bb38421ab88f8631c9bc3dfcf17",
+    "source_ref": "l2-industrial-p40-v3"
+  },
+  "junit_sha256": "6216330bed16c8df45325c5cfdf9237827fa91f35f399e01a486816fc028173d",
+  "native_python": "3.11.17",
+  "pg_version_num": "160015",
+  "private_profile_owner_check": {
+    "actual_linux_uid_check": "PASS",
+    "app_owner_uid": 10001,
+    "consumer_uid10003_denied": true,
+    "evidence_mount_check": {
+      "before": {
+        "gid": 1001,
+        "mode": "0o755",
+        "uid": 1001
+      },
+      "host_gid": 1001,
+      "host_uid": 1001,
+      "mode": "0770",
+      "new_capabilities": [],
+      "supervisor_uid": 0
+    },
+    "mode": "0600",
+    "network": "none",
+    "other_uid_evidence_denied": true
+  },
+  "private_supervisor_log_sha256": "cec82917cdccac70db80b9caf819922e570153764b075a55367fbe83b12af1d0",
+  "private_worker_log_sha256": "ab6d4df452b24049e03fd08410cffb1748008b6f317d27f1a54db43469ab1677",
+  "scope": "REAL_PG16_APP202_WORKER_EVIDENCE_NOT_COMPLETE_L2_E2E",
+  "source_manifest_sha256": "6a9eb8b240977b337e2e6bfd5a1d93f2f39272aff8a0c9b4efceaf824409e8c2",
+  "status": "RED_PRESERVED",
+  "worker_image_id": "sha256:1d6b7a70526c8437a9534305cb38452982390abbfb4a12b831e38435eea656e3"
+}

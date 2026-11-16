@@ -1,3 +1,5 @@
+> Historical first-package receipt below; its final SHA/results are not the current PR112 runtime acceptance. Current staged results and explicit remaining blockers are in STAGE-20261116.md. All historical RED remains retained.
+
 ﻿# C3 L2 operations: actual evidence and limits
 
 Final tested code: `752936a79f80fc6fd429b3033521cb9f5fab6d57`. The next commit
