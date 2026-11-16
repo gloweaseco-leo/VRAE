@@ -31,7 +31,7 @@
 - AIInterpretation、ReportVersion、ReviewDecision、ShareGrant、SalesHandoff；
 - EventEnvelope、UsageRecord、ErrorCode、IndustryPack。
 
-需要具备两个 distinct SourcePolicy：PUBLIC_READONLY_RESEARCH（限制公开访问）与 OWNER_AUTHORIZED_DEEP（严格授权后深检）。它们不自动相互升级。
+需要具备两个 distinct SourcePolicy：PUBLIC_READONLY_RESEARCH（限制公开访问）与 OWNER_AUTHORIZED_DEEP（允许经逐项授权的非公开/受保护来源或额外操作）。**这两个是访问许可模式，不是 L0/L1/L2 产品能力模式，也不自动相互升级。** L2 深度方法论及完整产品能力可在合成/离线、合法持有或允许的公开只读数据上研发、验证和运行；不能仅因没有属主授权就禁止建设 L2。具体非公开数据和需特别许可的操作仍按 SourcePolicy 拒绝或经授权后访问；不能观察的事实标 UNKNOWN。
 
 所有业务对象需 tenant_id、schema_version、idempotency_key、source/evidence reference（适用时）和清晰的写入权限。JSON Schema 是合同，不代表数据库结构已经确定。
 
