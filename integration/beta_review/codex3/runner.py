@@ -155,15 +155,17 @@ class Run:
         image="vrae-ra4b-p1:"+self.minor.replace(".","")
         image_id=cmd(["docker","image","inspect","--format","{{.Id}}",image]).decode().strip()
         self.result["runtime_image_id"]=image_id
-        cmd(["docker","volume","create","--label",OWNER_LABEL+"="+self.label,self.source_volume])
-        self.created_volume=True
-        cmd(["docker","run","--rm","-i","--network","none","--read-only","--cap-drop","ALL",
-            "--mount","type=volume,src="+self.source_volume+",dst=/source",image_id,
-            "python","-c","import sys,tarfile;tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/source',filter='data')"],
-            input=(self.folder/"source.tar.gz").read_bytes())
-        out=self.folder/"native"
-        out.mkdir()
-        log=(self.folder/"native-supervisor.log").open("wb")
+        if not self.created_volume:
+            cmd(["docker","volume","create","--label",OWNER_LABEL+"="+self.label,self.source_volume])
+            self.created_volume=True
+            cmd(["docker","run","--rm","-i","--network","none","--read-only","--cap-drop","ALL",
+                "--mount","type=volume,src="+self.source_volume+",dst=/source",image_id,
+                "python","-c","import sys,tarfile;tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/source',filter='data')"],
+                input=(self.folder/"source.tar.gz").read_bytes())
+        assert json.loads(cmd(["docker","volume","inspect",self.source_volume]))[0]["Labels"][OWNER_LABEL]==self.label
+        out=getattr(self,"native_out",self.folder/"native")
+        out.mkdir(parents=True,exist_ok=False)
+        log=(getattr(self,"native_out",self.folder)/"native-supervisor.log").open("wb")
         self.logs.append(log)
         args=["docker","run","--rm","-i","--name",self.client_name,
             "--label",OWNER_LABEL+"="+self.label,
@@ -173,7 +175,7 @@ class Run:
             "--tmpfs","/tmp:rw,nosuid,nodev,size=256m",
             "--mount","type=volume,src="+self.source_volume+",dst=/work,readonly",
             "--mount","type=bind,src="+str(out.resolve())+",dst=/evidence",
-            image_id,"python","-m","integration.beta_review.codex3.native"]
+            image_id,"python","-m",getattr(self,"native_module","integration.beta_review.codex3.native")]
         self.client=subprocess.Popen(args,cwd=ROOT,stdin=subprocess.PIPE,stdout=log,stderr=log)
         self.client.stdin.write(json.dumps(self.r.lab.state).encode())
         self.client.stdin.close()
@@ -186,6 +188,9 @@ class Run:
         assert value["native_python"].startswith(self.minor+".")
         self.result["native_python"]=value["native_python"]
         write(self.folder/"native-linkage.private.json",value)
+        if value.get("mode")=="M1_REAL_GENERATION":
+            self.result["api_worker"]={k:value[k] for k in ("mode","app_uid","worker_uid","worker_entry","accepted_processing","generated_rows_seeded","consumer_uid","consumer_entry","consumer_profile_fields","canonical_worker_entry")}
+            return
         self.result["api_worker"]={"records":[{"case":r["case"],"request_sha256":sha(r["receipt"]["request_id"].encode()),
             "run_sha256":sha(r["receipt"]["run_id"].encode()),"job_sha256":sha(r["receipt"]["job_id"].encode()),
             "origin_epoch":r["origin_epoch"],"job_state":r["job_state"],
@@ -205,6 +210,8 @@ class Run:
         deps=self.folder/"b5-deps.ready.json"
         deps.unlink(missing_ok=True)
         extra=(["--bridge",str(self.bridge),"--audit",str(self.folder/"b5-audit.private.jsonl"),"--deps-ready",str(deps)] if self.b5 else [])
+        if os.environ.get("C3_OBSERVE_LEGACY_REVIEW")=="1":
+            extra.append("--observe-legacy-review")
         self.ssr=subprocess.Popen([sys.executable,"-B","-m","integration.beta_review.codex3.ssr",
             "--profile",str(self.profile),"--ready",str(self.ready),*extra],
             cwd=ROOT,stdin=subprocess.DEVNULL,stdout=log,stderr=log,
@@ -229,7 +236,8 @@ class Run:
         self.r.origin=json.loads(self.ready.read_text())["origin"]
         self.result["ssr_origin"]=self.r.origin
         write(self.folder/"control.json",{"origin":self.r.origin,"pid":os.getpid(),
-            "profile":str(self.profile),"mode":"TEST_ONLY_NOT_APPROVED"})
+            "profile":str(self.profile),"mode":"TEST_ONLY_NOT_APPROVED",
+            "review_lane":"B5P0_SEALED_INTERNAL_INTENT" if self.b5 else "B5A_READ_ONLY"})
         write(self.folder/"signer.private.json",{k:base64_key(v) for k,v in self.r.issuer.keys.items()})
 
     def restart_ssr(self):
@@ -303,7 +311,7 @@ class Run:
         def native_stop():
             if not self.client:
                 return
-            write(self.folder/"native/stop.json",{"stop":True})
+            write(getattr(self,"native_out",self.folder/"native")/"stop.json",{"stop":True})
             try:
                 self.client.wait(timeout=15)
             except subprocess.TimeoutExpired:
@@ -319,7 +327,8 @@ class Run:
                 return
             if self.b5:
                 from .native_observation import stopped
-                stopped(self,"owned_cleanup")
+                if getattr(self,"intentional_ssr_stop",None) is not self.ssr:
+                    stopped(self,"owned_cleanup")
             else:
                 self.ssr.terminate()
                 self.ssr.wait(timeout=15)
@@ -363,17 +372,19 @@ class Run:
              "owner":"Codex1/Owner","state":"BLOCKED_NO_ACCEPTED_INTERFACE",
              "minimal_change":"Versioned low-role processing/status bridge; no admin runtime or raw table grants."},
             {"stage":"S1/S2","interface":"DISC-01/02 finding -> guarded fact -> report",
-             "owner":"Codex1 Issue94","state":"BLOCKED_ACCEPTED_GUARD_RENDERER_CTA_ONLY"},
+             "owner":"Codex1 Issue94","state":"ACCEPTED_DISC_ADAPTER_LIVE_OFFLINE_CONNECTED"},
             {"stage":"S2","interface":"B4 request/run/job -> assigned Reviewer task",
              "owner":"Codex1 B4-P2","state":"BLOCKED_NOT_MERGED"},
             {"stage":"S2","interface":"Signed SSR -> B3 durable per-claim TEST_ONLY intent",
              "owner":"Codex2 PR89","state":"ACCEPTED_B5P0_SEALED_LANE_AVAILABLE_B4_RESULT_BINDING_BLOCKED"},
             {"stage":"S3","interface":"Private exact-version B6 read/revoke/refusal",
-             "owner":"Codex2 PR92","state":"BLOCKED_NOT_MERGED"},
+             "owner":"Codex2 PR92","state":"ACCEPTED_B6_P0_PRIVATE_DENY_ONLY"},
             {"stage":"S4","interface":"B7 old-first deterministic provenance / protected permissions",
-             "owner":"Owner","state":"L3_GO_REQUIRED_A1_MAX3_NOT_RESET"},
+             "owner":"Owner","state":"DEFERRED_BY_OWNER6895932668_MAX3_HISTORY_PRESERVED"},
             {"stage":"S5","interface":"Single accepted-SHA full B1-B7 EXIT",
              "owner":"Owner","state":"NOT_READY_2_OF_7"}]
+        if hasattr(self,"generated_dependencies"):
+            self.result["dependencies"]=self.generated_dependencies
         self.result["component_stages_sha256"]=sha((self.public/"component-stages.xml").read_bytes())
         write(self.public/"result.json",self.result)
         secrets=[self.r.lab.state["admin_password"],*self.r.lab.state["runtime_passwords"].values()]
@@ -434,9 +445,16 @@ def main():
             from urllib.parse import urlencode
             profile=json.loads((folder/"reviewer-profile.json").read_text())
             draft=profile["tasks"][args.task]["report_pins"]["expected_draft_ref"]
-            path="/b5a/tasks/task-"+args.task+"/review?"+urlencode({"version":1,"draft":draft})
+            lane=control.get("review_lane","B5A_READ_ONLY")
+            if lane=="B5P0_SEALED_INTERNAL_INTENT":
+                path="/b5a/tasks/task-"+args.task+"/rehearsal"
+            elif lane=="B5A_READ_ONLY":
+                path="/b5a/tasks/task-"+args.task+"/review?"+urlencode({"version":1,"draft":draft})
+            else:
+                raise ValueError("UNKNOWN_REVIEW_LANE")
             session_path=folder/"operator-session.private.json"
-            write(session_path,[{"case":args.task,"origin":control["origin"],"cookies":client.cookies,"path":path}])
+            write(session_path,[{"case":args.task,"origin":control["origin"],"cookies":client.cookies,"path":path,
+                "entry_kind":lane,"expected_draft_ref":draft}])
             if args.action=="open":
                 subprocess.run(["node",str(OWN/"browser.mjs"),str(session_path),str(folder/"operator-browser"),
                     "--interactive"],cwd=ROOT,check=True)
@@ -451,7 +469,7 @@ def main():
         with (raw_folder/"pytest.log").open("wb") as stream:
             result=subprocess.run([sys.executable,"-B","-m","pytest","-x","-q","-p","no:cacheprovider",
                 "--confcutdir=integration/beta_review/codex3","--import-mode=importlib",
-                ("integration/beta_review/codex3/test_s2_consumer.py" if args.phase=="s2" else "integration/beta_review/codex3/test_current_main.py"),
+                *(["integration/beta_review/codex3/test_s2_consumer.py","integration/beta_review/codex3/test_accepted_chain.py"] if args.phase=="s2" else ["integration/beta_review/codex3/test_current_main.py"]),
                 "--basetemp="+str(raw_folder/"temp"),"--junitxml="+str(raw_folder/"raw-junit.xml")],
                 cwd=ROOT,env=env,stdout=stream,stderr=stream)
         raw=(raw_folder/"raw-junit.xml").read_bytes()
@@ -478,15 +496,26 @@ def main():
         write(DOC/args.run/"native-pytest-receipt.json",receipt)
         print(json.dumps(receipt),flush=True)
         raise SystemExit(result.returncode)
+    launch=PRIVATE/"local-launches"/args.run
+    stop=launch/"stop.json"
+    if args.action=="start" and stop.is_file():
+        write(launch/"cancelled-before-start.json",{"cancelled_before_run":True,"resources_started":False})
+        return
     run=Run(args.run,args.minor,b5=args.phase=="s2")
+    class StartupCancelled(Exception):
+        pass
+    def start_case(name,operation):
+        if args.action=="start" and (stop.is_file() or (folder/"stop.json").is_file()):
+            raise StartupCancelled()
+        return run.case(name,operation)
     try:
-        run.case("live_offline_source_policy_six_rules_guard_report",run.pipeline)
-        run.case("owned_pg16_accepted_migrations_loopback_network",run.start_pg)
-        run.case("real_http202_commit_low_uid_worker_done_security",run.start_native)
-        run.case("original_reviewer_ssr_start",run.start_ssr)
+        start_case("live_offline_source_policy_six_rules_guard_report",run.pipeline)
+        start_case("owned_pg16_accepted_migrations_loopback_network",run.start_pg)
+        start_case("real_http202_commit_low_uid_worker_done_security",run.start_native)
+        start_case("original_reviewer_ssr_start",run.start_ssr)
         if args.phase=="s1":
-            run.case("signed_original_reads_version_tenant_share_denial",run.signed_reads)
-            run.case("chromium_desktop_mobile_readonly",run.browser)
+            start_case("signed_original_reads_version_tenant_share_denial",run.signed_reads)
+            start_case("chromium_desktop_mobile_readonly",run.browser)
         else:
             from .s2_runtime import trace_case
             run.result["s2_task_traces"]=[trace_case(run.folder,c)["summary"] for c in ("404","200")]
@@ -498,10 +527,12 @@ def main():
             print(json.dumps({"run":args.run,"origin":run.r.origin,"url":run.r.origin+"/b5a/login","mode":"TEST_ONLY_NOT_APPROVED",
                 "chain":"BLOCKED","auto_stop_seconds":1800}),flush=True)
             deadline=time.monotonic()+1800
-            while time.monotonic()<deadline and not (folder/"stop.json").exists():
+            while time.monotonic()<deadline and not (folder/"stop.json").exists() and not stop.exists():
                 if run.client.poll() is not None or run.ssr.poll() is not None:
                     raise RuntimeError("COMPONENT_EXITED")
                 time.sleep(.25)
+    except StartupCancelled:
+        run.result["status"]="CANCELLED_DURING_STARTUP"
     except BaseException:
         run.result["status"]="STOP_NATIVE_RED_PRESERVED"
         raise

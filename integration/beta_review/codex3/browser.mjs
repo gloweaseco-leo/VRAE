@@ -82,7 +82,10 @@ try{
      const v=await ev(`({width:innerWidth,scroll:document.documentElement.scrollWidth,
        scripts:document.scripts.length,text:document.body.innerText,
        height:document.documentElement.scrollHeight})`);
-     assert(v.text.includes('Reviewer') && (v.text.includes('NOT_APPROVED')||v.text.includes('NOT APPROVED')),'SIGNED_PG_ORIGINAL_NOT_DISPLAYED');
+     const visible=s.entry_kind==='B5P0_SEALED_INTERNAL_INTENT'
+       ? await ev("!!document.querySelector('#proposal-form')&&!!document.querySelector('#save-rehearsal')")
+       : v.text.includes('Reviewer');
+     assert(visible && (v.text.includes('NOT_APPROVED')||v.text.includes('NOT APPROVED')),'SIGNED_PG_ORIGINAL_NOT_DISPLAYED');
      assert(v.scripts===0 && v.scroll<=v.width,'SSR_LAYOUT_OR_SCRIPT_RED');
      const shot=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:true,
        clip:{x:0,y:0,width,height:v.height,scale:1}});
@@ -95,7 +98,7 @@ try{
  }
  await writeFile(path.join(out,'metrics.json'),JSON.stringify(measurements,null,2));
  const result={status:'PASS',widths:[1280,375,320],cases:sessions.length,screenshots:shots,
-    remote_requests_blocked:blocked.length,sandbox_disabled:false,scope:'SIGNED_READ_ONLY_NOT_APPROVAL'};
+    remote_requests_blocked:blocked.length,sandbox_disabled:false,scope:sessions.every(s=>s.entry_kind==='B5P0_SEALED_INTERNAL_INTENT')?'SIGNED_SEALED_INTERNAL_INTENT_NOT_WORKER_OUTPUT':'SIGNED_READ_ONLY_NOT_APPROVAL'};
  process.stdout.write(JSON.stringify(result));
  if(interactive){await call('Emulation.clearDeviceMetricsOverride');await new Promise(resolve=>chrome.once('exit',resolve))}
 }finally{
