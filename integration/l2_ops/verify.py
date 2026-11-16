@@ -76,7 +76,7 @@ def main():
             env["L2OPS_TEST_DSN"] = f"host=127.0.0.1 port={port} user=postgres password={password} dbname=l2ops connect_timeout=5"
             version = command([interpreter, "--version"])
             xml = output / f"native-{minor}.xml"
-            tests = command([interpreter, "-m", "pytest", "-q", "tests/l2_ops", "--ignore=tests/l2_ops/test_pg_restart.py", f"--junitxml={xml}"], env=env)
+            tests = command([interpreter, "-m", "pytest", "-q", "tests/l2_ops", "integration/l2_ops/runtime_tests", "--ignore=integration/l2_ops/runtime_tests/test_pg_restart.py", f"--junitxml={xml}"], env=env)
             (output / f"native-{minor}.txt").write_text(tests, encoding="utf-8")
             before = command(["docker", "exec", name, "psql", "-U", "postgres", "-d", "l2ops", "-Atc",
                               "SELECT content_sha256 || ':' || md5(document) FROM l2_ops_v1.briefs WHERE brief_ref='restart-readback'"])
@@ -100,7 +100,7 @@ def main():
             (output / f"transport-{minor}.json").write_text(json.dumps(
                 {"before_loopback_port": port, "after_loopback_port": restarted_port,
                  "binding": "127.0.0.1", "rediscovered_after_restart": True}, indent=2), encoding="utf-8")
-            restart_tests = command([interpreter, "-m", "pytest", "-q", "tests/l2_ops/test_pg_restart.py",
+            restart_tests = command([interpreter, "-m", "pytest", "-q", "integration/l2_ops/runtime_tests/test_pg_restart.py",
                                      f"--junitxml={output / f'restart-{minor}.xml'}"], env=env)
             (output / f"restart-{minor}.txt").write_text(restart_tests, encoding="utf-8")
             server_version = command(["docker", "exec", name, "psql", "-U", "postgres", "-Atc", "SHOW server_version_num"])

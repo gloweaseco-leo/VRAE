@@ -14,8 +14,7 @@ from vrae.reviewing.canonical import canonical, sha
 @pytest.fixture(scope="module")
 def database():
     dsn = os.environ.get("L2OPS_TEST_DSN")
-    if not dsn:
-        pytest.skip("L2OPS_TEST_DSN: isolated PG16 required")
+    assert dsn, "Explicit isolated PG16 DSN is required for this integration suite"
     import psycopg
     from psycopg import sql
     from psycopg.conninfo import make_conninfo

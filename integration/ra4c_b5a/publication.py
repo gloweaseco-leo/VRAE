@@ -8,7 +8,9 @@ import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from .lab import ROOT, RUNTIME
+# Publication/source checks require no database driver or bootstrap side effects.
+ROOT = Path(__file__).resolve().parents[2]
+RUNTIME = ROOT / "integration/ra4c_b5a/.runtime"
 
 ENTRY = "6257ad3acb09d046d954301117134f6992c02d84"
 # Owner accepted PR108 / main6a7c39b2: documentation only. Exact Git blobs,

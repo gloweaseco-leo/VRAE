@@ -4,7 +4,6 @@ import subprocess
 
 import pytest
 
-pytest.importorskip("psycopg")
 publication = importlib.import_module("integration.ra4c_b5a.publication")
 
 ORIGINALS = ('vrae/identity/boundary.py', 'apps/operator_console/native.py',

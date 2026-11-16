@@ -1,16 +1,13 @@
 """Executed only after an actual docker restart by integration/l2_ops/verify.py."""
 import os
 
-import pytest
-
 from vrae.l2_ops.briefs import BriefService
 from vrae.l2_ops.ledger import BriefLedger
 
 
 def test_real_pg_restart_current_read_and_role_limits(bundle, reader):
     dsn = os.environ.get("L2OPS_RUNTIME_DSN")
-    if not dsn:
-        pytest.skip("requires explicit post-restart runtime connection")
+    assert dsn, "Explicit post-restart runtime connection is required"
     import psycopg
     def connect():
         return psycopg.connect(dsn)
