@@ -5,7 +5,7 @@ Private NOT_APPROVED business data; not engineering approval or a shared report.
 - Source: eight local HTML pages; fixed recorded transport, no live domain request.
 - Models: P40 pump equipment and V25 industrial valve component.
 - Native refs: rx-e87afcd9c27b775e82a1cf0b31fd750fe696cd9a72e0c42a67b98a3a139af620, cg-f51bc7d3f71fba08677790a0b6a3d4ee3e737bfc52e8c409ccc2d687d2e249a5, cg-bb59577abe92a8af31db30add072046127d327e44374e518acf1e659ca4ebdaa, cg-35db813a5e056e08b7dff627481ea4eb60debb86ade294ff314413d0fe5976b7, cg-f493d4640e7fbb0a7b9a051af94dcbfa9da2cc777b5e2b56ba33989e90a06c67, cg-e54c00d14d9184715ec977f8bdb3b22950732fa18e7b0974d20ca09cfa361779
-- Diagnosis: l2-8d6d6a404ed7d01f89e6f031a969c68716cbf462f5d24cd6c8490d69dbdf86d8
+- Diagnosis: l2-a1172d07813d42010a0ce1e8a6b1d4eadccc18ea1ccdbf2eb3d06474f01edef3
 - Result counts: {"PASS": 10, "FAIL_WITH_EVIDENCE": 4, "UNKNOWN": 4, "NOT_APPLICABLE": 1}
 
 ## Evidence-backed comparisons and unresolved questions
