@@ -1,10 +1,12 @@
 """Content-addressed projection with replayed source verification, not provenance signatures."""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
+import os
 from pathlib import Path
 from types import MappingProxyType
 from typing import Mapping, Sequence
 from urllib.parse import urlsplit
+from weakref import ref, ReferenceType
 
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -234,10 +236,44 @@ def _project(sources: list[dict], blobs: Mapping[str, bytes]) -> dict:
 
 
 @dataclass(frozen=True, slots=True)
+class _Verification:
+    owner: ReferenceType
+    process: int
+    payload: bytes
+    blobs: tuple
+    schemas: tuple
+    configuration: bytes
+    pack_ref: str
+
+
+def _verification_schemas():
+    # These are the complete, currently self-contained schemas read by verify,
+    # CaptureBundle.verify and BrowserBundle.verify. Content, not mtime/size,
+    # controls reuse. External schema graphs never qualify.
+    from vrae.collection.contracts import ROOT as capture_root
+    root = Path(__file__).parents[2] / 'contracts/v1'
+    paths = (root / 'evidence/EvidencePack.schema.json',
+             capture_root / 'CaptureManifest.schema.json',
+             root / 'browser/BrowserObservation.schema.json')
+    return tuple((str(path), path.read_bytes()) for path in paths)
+
+
+def _local_schema(value):
+    if isinstance(value, dict):
+        return all(key not in value or type(value[key]) is str and value[key].startswith('#')
+                   for key in ('$ref', '$dynamicRef', '$recursiveRef')) and all(
+                       _local_schema(v) for v in value.values())
+    if isinstance(value, list):
+        return all(_local_schema(v) for v in value)
+    return True
+
+
+@dataclass(frozen=True, slots=True, weakref_slot=True)
 class EvidencePack:
     """Immutable canonical bytes and blob tuples. Public document views are detached copies."""
     _payload: bytes
     _blobs: tuple[tuple[str, bytes], ...]
+    __verification: _Verification | None = field(default=None, init=False, repr=False, compare=False)
 
     def __post_init__(self):
         if (not isinstance(self._payload, bytes) or not isinstance(self._blobs, tuple)
@@ -245,6 +281,17 @@ class EvidencePack:
                        or not isinstance(pair[0], str) or not isinstance(pair[1], bytes)
                        for pair in self._blobs)):
             _fail()
+
+    def __getstate__(self):
+        # Copy/unpickle is a new verification boundary; never serialize proof.
+        return self._payload, self._blobs
+
+    def __setstate__(self, state):
+        payload, blobs = state
+        object.__setattr__(self, '_payload', payload)
+        object.__setattr__(self, '_blobs', blobs)
+        object.__setattr__(self, '_EvidencePack__verification', None)
+        EvidencePack.__post_init__(self)
 
     @property
     def document(self) -> dict:
@@ -269,6 +316,26 @@ class EvidencePack:
 
     def verify(self, *, expected_ref: str | None = None) -> None:
         try:
+            previous = self.__verification
+            object.__setattr__(self, '_EvidencePack__verification', None)
+            EvidencePack.__post_init__(self)
+            if expected_ref is not None and type(expected_ref) is not str:
+                _fail()
+            payload, blobs = self._payload, self._blobs
+            primitive = (type(self) is EvidencePack and type(payload) is bytes
+                         and type(blobs) is tuple and all(type(p) is tuple
+                         and type(p[0]) is str and type(p[1]) is bytes for p in blobs))
+            schemas = _verification_schemas() if primitive else ()
+            configuration = _encode({'scope': SCOPE, 'limitations': LIMITATIONS,
+                                     'viewports': VIEWPORTS}) if primitive else b''
+            if (primitive and type(previous) is _Verification
+                    and previous.owner() is self and previous.process == os.getpid()
+                    and previous.payload is payload and previous.blobs is blobs
+                    and previous.schemas == schemas and previous.configuration == configuration):
+                if expected_ref is not None and previous.pack_ref != expected_ref:
+                    _fail()
+                object.__setattr__(self, '_EvidencePack__verification', previous)
+                return
             if len(self._payload) > 8_000_000 or len(dict(self._blobs)) != len(self._blobs):
                 _fail()
             doc = self.document
@@ -280,6 +347,16 @@ class EvidencePack:
             rebuilt = _project(doc['sources'], self.objects)
             if _encode(doc) != _encode(rebuilt):
                 _fail()
+            if primitive:
+                if (self._payload is not payload or self._blobs is not blobs
+                        or schemas != _verification_schemas()
+                        or configuration != _encode({'scope': SCOPE, 'limitations': LIMITATIONS,
+                                                      'viewports': VIEWPORTS})):
+                    _fail()
+                if all(_local_schema(json.loads(raw)) for _, raw in schemas):
+                    object.__setattr__(self, '_EvidencePack__verification',
+                        _Verification(ref(self), os.getpid(), payload, blobs, schemas,
+                                      configuration, doc['pack_ref']))
         except Exception as exc:
             # Schema/source errors are normalized; no source contents leak in safe errors.
             raise EvidenceError('EVIDENCE_INTEGRITY') from exc
