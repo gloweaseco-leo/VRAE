@@ -34,12 +34,15 @@ class TestOnlyReader:
 
 @pytest.fixture
 def reader(bundle):
-    payload = {"diagnostic_level": "L2", "test_fixture_only": True,
+    payload = {"diagnostic_depth": "L2", "tenant_id": bundle.tenant_id,
+               "run_id": "test-run", "expected_pack_ref": "ep-" + "d" * 64,
+               "diagnosis_ref": "l2-" + "e" * 64, "test_fixture_only": True,
                "findings": [{"id": "f-1", "observation": "目录缺少材料牌号。",
                              "evidence_refs": ["catalog"], "hypothesis": "待客户验证"}]}
     pins = {"tenant_id": bundle.tenant_id, "request_id": "test-request",
             "run_id": "test-run", "job_id": "test-job", "event_id": "test-event", "source_ref": "test-source", "report_ref": "test-report",
-            "report_version": "test-version-1", "report_sha256": "a" * 64,
+            "report_version": "test-version-1", "native_pack_ref": payload["expected_pack_ref"],
+            "diagnosis_ref": payload["diagnosis_ref"], "report_sha256": "a" * 64,
             "source_bundle_sha256": bundle.document()["content_sha256"],
             "industry_pack_sha256": "b" * 64, "payload_sha256": sha(canonical(payload))}
     review = {"receipt_ref": "test-review", "receipt_sha256": "c" * 64,

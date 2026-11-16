@@ -89,7 +89,7 @@ def test_cross_task_version_and_l1_cannot_form_deep_brief(bundle, reader, kind):
     elif kind in {"review", "blueprint"}:
         reader.value = replace(current, **{kind: {**getattr(current, kind), "report_version": "other-version"}})
     else:
-        payload = {**current.payload, "diagnostic_level": "L1"}
+        payload = {**current.payload, "diagnostic_depth": "L1"}
         reader.value = replace(current, payload=payload, pins={**current.pins, "payload_sha256": sha(canonical(payload))})
     with pytest.raises(OperationsDenied):
         BriefService(reader).prepare(bundle, brief_ref="denied")
@@ -148,3 +148,15 @@ def test_installer_refuses_using_existing_app_or_reviewer_role(monkeypatch):
     for role in ("vrae_app", "vrae_reviewer", "postgres"):
         with pytest.raises(OperationsDenied, match="DEDICATED_RUNTIME_ROLE"):
             install(None, role)
+
+
+@pytest.mark.parametrize("field,value", [("tenant_id", "another-tenant"), ("run_id", "another-source-run"),
+                                       ("expected_pack_ref", "ep-" + "f" * 64),
+                                       ("diagnosis_ref", "l2-" + "f" * 64)])
+def test_rehashed_standalone_diagnosis_cannot_be_attached_to_another_task(bundle, reader, field, value):
+    original = reader.value
+    payload = {**original.payload, field: value}
+    reader.value = replace(original, payload=payload,
+                           pins={**original.pins, "payload_sha256": sha(canonical(payload))})
+    with pytest.raises(OperationsDenied, match="NATIVE_TASK_BINDING_MISMATCH"):
+        BriefService(reader).prepare(bundle, brief_ref="not-a-real-task-result")

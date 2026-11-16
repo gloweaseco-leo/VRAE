@@ -1,1 +1,1 @@
-from tests.l2_ops.conftest import bundle, reader  # noqa: F401
+from integration.l2_ops.checks.conftest import bundle, reader  # noqa: F401

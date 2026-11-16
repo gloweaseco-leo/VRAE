@@ -28,17 +28,34 @@ def command(args, **kwargs):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--label", required=True)
-    parser.add_argument("--python311", required=True)
-    parser.add_argument("--python313", required=True)
+    parser.add_argument("--python311")
+    parser.add_argument("--python313")
+    parser.add_argument("--python-current")
+    parser.add_argument("--pg-image", default="postgres:16-alpine")
     args = parser.parse_args()
+    version_code = "import sys; print(str(sys.version_info.major)+str(sys.version_info.minor))"
+    if args.python_current:
+        if args.python311 or args.python313:
+            parser.error("Use current interpreter or the explicit dual-version pair")
+        minor = command([args.python_current, "-c", version_code])
+        if minor not in {"311", "313"}:
+            parser.error("Native Python3.11 or3.13 required")
+        interpreters = ((minor, args.python_current),)
+    else:
+        if not args.python311 or not args.python313:
+            parser.error("Supply both native interpreters for dual-version validation")
+        interpreters = (("311", args.python311), ("313", args.python313))
+    for minor, interpreter in interpreters:
+        if command([interpreter, "-c", version_code]) != minor:
+            parser.error("Actual interpreter does not match the requested version")
     if not args.label.isalnum() or len(args.label) > 30:
         raise ValueError("bounded alphanumeric label")
     folder = ROOT / "integration/l2_ops/.private" / args.label
     folder.mkdir(parents=True, exist_ok=False)
     output = ROOT / "docs/03-engineering/l2-operations" / args.label
     output.mkdir(parents=True, exist_ok=False)
-    image = command(["docker", "image", "inspect", "postgres:16-alpine", "--format", "{{.Id}}"])
-    source_paths = ["vrae/l2_ops", "tests/l2_ops", "integration/l2_ops", "scripts/beta_internal.py", "integration/ra4c_b5a/publication.py"]
+    image = command(["docker", "image", "inspect", args.pg_image, "--format", "{{.Id}}"])
+    source_paths = ["vrae/l2_ops", "integration/l2_ops", "scripts/beta_internal.py", "integration/ra4c_b5a/publication.py", ".github/workflows/l2-ops.yml"]
     command(["git", "diff", "--exit-code", "HEAD", "--", *source_paths])
     candidate_sha = command(["git", "rev-parse", "HEAD"])
     files = command(["git", "ls-files", "--", *source_paths]).splitlines()
@@ -46,7 +63,7 @@ def main():
     (output / "source-manifest.json").write_text(json.dumps({"candidate_sha": candidate_sha,
         "files_sha256": source_manifest}, indent=2), encoding="utf-8")
     results = []
-    for minor, interpreter in (("311", args.python311), ("313", args.python313)):
+    for minor, interpreter in interpreters:
         # No random queue selection. Name randomness is not diagnostic sampling.
         name = f"vrae-l2ops-{args.label}-{minor}"
         network = name + "-net"
@@ -76,7 +93,7 @@ def main():
             env["L2OPS_TEST_DSN"] = f"host=127.0.0.1 port={port} user=postgres password={password} dbname=l2ops connect_timeout=5"
             version = command([interpreter, "--version"])
             xml = output / f"native-{minor}.xml"
-            tests = command([interpreter, "-m", "pytest", "-q", "tests/l2_ops", "integration/l2_ops/runtime_tests", "--ignore=integration/l2_ops/runtime_tests/test_pg_restart.py", f"--junitxml={xml}"], env=env)
+            tests = command([interpreter, "-m", "pytest", "-q", "integration/l2_ops/checks", "integration/l2_ops/runtime_tests", "--ignore=integration/l2_ops/runtime_tests/test_pg_restart.py", f"--junitxml={xml}"], env=env)
             (output / f"native-{minor}.txt").write_text(tests, encoding="utf-8")
             before = command(["docker", "exec", name, "psql", "-U", "postgres", "-d", "l2ops", "-Atc",
                               "SELECT content_sha256 || ':' || md5(document) FROM l2_ops_v1.briefs WHERE brief_ref='restart-readback'"])

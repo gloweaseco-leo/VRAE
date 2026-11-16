@@ -1,4 +1,4 @@
-﻿# C3 L2 operations / business handoff v1
+# C3 L2 operations / business handoff v1
 
 Baseline: accepted main `6a7c39b2bec48842de2236490aa6157a57606e08`.
 
@@ -27,10 +27,10 @@ static fixture, hash alone or user-chosen subject can implement this authority.
 It yields `CurrentL2`:
 
 - `pins`: tenant_id, request_id, run_id, job_id, event_id, source_ref, report_ref,
-  report_version; report_sha256 (original complete report bytes),
+  report_version, native_pack_ref(ep-SHA), diagnosis_ref(l2-SHA); report_sha256 (original complete report bytes),
   source_bundle_sha256 (C3 descriptor), industry_pack_sha256,
   payload_sha256 (complete canonical normalized deep payload).
-- `payload`: accepted full deep result with diagnostic_level=L2. C1 owns analysis,
+- `payload`: accepted full deep result with diagnostic_depth=L2, preserving C1 BuyerDiagnosis fields. Its tenant_id/run_id/expected_pack_ref/diagnosis_ref must exactly match the current task pins; even a correctly rehashed standalone result cannot be attached to another task. C1 owns analysis,
   evidence replay, IndustryPack and UNKNOWN semantics; C3 does not rerun/score or
   cap/expand findings. A payload SHA is distinct from the original report SHA.
 - `review`: receipt_ref, receipt_sha256, report_version, report_sha256, decision
@@ -86,3 +86,29 @@ can validate sources and exercise real PG durability now; it cannot yet claim
 operator-started L2 deep report/review/browser completion. C1/C2 coordination is
 on Issues94/95. After their Owner merge, normally sync main and compose these
 ports in original beta_internal / unique SSR; never replace with fixtures.
+
+
+## Native input replay
+
+`native_input.load_native(bundle, reference, expected_pack_ref=held_source_pack,
+expected_capture_run_id=held_original_capture_run)` loads the existing
+`{pack, objects_base64}` archive through accepted `EvidencePack.load` and full
+source-graph verification. Duplicate/nonfinite JSON, object/quote corruption,
+stale pins and tenant/run mismatch refuse. The single CaptureManifest profile
+preserves all original bytes/status/times/IDs. No HTTP request, task, diagnosis or
+report is created. A native pack is consistency evidence, not signed provenance
+or current website access authorization. Additional raw materials outside that
+pack are explicitly unconsumed; raw text is not invented as HTTP evidence.
+
+Original imported capture run and eventual Worker task run are distinct scopes.
+The accepted Worker owns fresh task materialization. The final CurrentReader
+must verify C1 data against the actual Worker output pack/run and held industry
+ref, then authenticate C2's report/review context. Importing a standalone example
+never creates this association. C1 PR110's public schema/API are the contract;
+its unmerged implementation is not imported by C3.
+
+New checks live only under integration/l2_ops/checks and runtime_tests. Dedicated
+l2-ops.yml runs the full explicit suite in both native Python versions with real
+PG/restart. Existing ordinary discovery and all its exact2564 IDs/25 skip guards
+are unchanged. The local interpreter and actual minor version must agree; CI
+uses --python-current, local dual invocation remains supported.

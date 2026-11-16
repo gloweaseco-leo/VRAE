@@ -74,3 +74,30 @@ skipped in ordinary tests/. The default C3 unit suite has33 passing cases and
 zero skips. Original exact25-skips/QA118/review127 assertions and all CI workflows
 remain unchanged. Only the B5A publication documentation baseline is adjusted to
 exact Owner-accepted PR108 blobs, with tamper negatives and truthful audit fields.
+
+
+## Native source preparation
+
+The versioned native input consumes an existing CaptureManifest archive, keeping
+original quote bytes, capture timestamps and pack identity. The included new
+industrial-native.archive is an actual accepted Collector/EvidencePack run over
+an explicitly synthetic recorded transport:8 pages, all recorded200,9 offline
+transport exchanges, zero network requests. Tenant was set to tenant-test before
+collection; importer never relabels a foreign tenant or run. It contains no
+report or diagnosis. All3 native-*.json wrappers remain synthetic scenarios.
+
+```
+python scripts/beta_internal.py l2 native-check integration/l2_ops/fixtures/native-offline_synthetic.json --reference industrial-native --pack-ref ep-735db2c276030e018f21ba7124fb61db6d46f3e922eca1b99df254512064582e --capture-run-id l2-industrial-capture-v1
+```
+
+Use native-public_readonly_capture.json or native-client_provided.json for the
+other declared provenance channels. This verifies already held data locally;
+no real site or customer authorization is implied. Raw supplemental materials
+are listed as not in the native pack instead of manufactured HTTP observations.
+
+All C3 checks are now outside tests/ and run explicitly: old ordinary discovery
+has exactly its original2564 IDs. l2-ops.yml adds independent dual-version PG16
+jobs; existing workflows and fixed inventory/classifier remain unchanged.
+Hosted single-version entry is verify.py --label hosted311 --python-current
+python --pg-image <held pinned image>; version mismatch fails before resources
+are started. Local --python311/--python313 pair is still supported.

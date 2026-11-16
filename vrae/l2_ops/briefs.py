@@ -14,7 +14,7 @@ from vrae.reviewing.canonical import canonical, parse, sha
 from .accounting import total_cost
 from .sources import OperationsDenied, SourceBundle, digest, text
 
-PIN_FIELDS = ("tenant_id", "request_id", "run_id", "job_id", "event_id", "source_ref", "report_ref", "report_version")
+PIN_FIELDS = ("tenant_id", "request_id", "run_id", "job_id", "event_id", "source_ref", "report_ref", "report_version", "native_pack_ref", "diagnosis_ref")
 HASH_FIELDS = ("report_sha256", "source_bundle_sha256", "industry_pack_sha256", "payload_sha256")
 CONFIRMATIONS = ("business_goals", "products_and_target_markets", "material_reuse_rights",
                  "included_and_excluded_scope", "legacy_urls_and_redirects", "acceptance_criteria",
@@ -32,6 +32,10 @@ def pin(value):
         text(value[key])
     for key in HASH_FIELDS:
         digest(value[key])
+    for key, prefix in (("native_pack_ref", "ep-"), ("diagnosis_ref", "l2-")):
+        if not value[key].startswith(prefix):
+            raise OperationsDenied("L2_NATIVE_RESULT_PIN_REQUIRED")
+        digest(value[key][len(prefix):])
     return parse(canonical(value))
 
 
@@ -49,8 +53,12 @@ class CurrentL2:
         payload = parse(canonical(self.payload, limit=1_000_000), limit=1_000_000)
         if sha(canonical(payload, limit=1_000_000)) != p["payload_sha256"]:
             raise OperationsDenied("L2_PAYLOAD_CHANGED")
-        if payload.get("diagnostic_level") != "L2":
+        if payload.get("diagnostic_depth") != "L2":
             raise OperationsDenied("L2_DEEP_RESULT_REQUIRED")
+        bindings = {"tenant_id": "tenant_id", "run_id": "run_id",
+                    "expected_pack_ref": "native_pack_ref", "diagnosis_ref": "diagnosis_ref"}
+        if any(payload.get(source) != p[target] for source, target in bindings.items()):
+            raise OperationsDenied("L2_NATIVE_TASK_BINDING_MISMATCH")
         # The accepted upstream producer owns content semantics. This adapter
         # only checks correlation, not a second diagnostic or review engine.
         r = parse(canonical(self.review))
