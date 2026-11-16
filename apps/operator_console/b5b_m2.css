@@ -1,0 +1,31 @@
+/* Additive M2 export asset; original report/CSP/assets stay byte-exact. */
+.m2-workspace p, .m2-workspace legend, .m2-workspace .action { overflow-wrap: anywhere; }
+.m2-workspace fieldset { min-inline-size: 0; max-width: 100%; margin: 14px 0; }
+.m2-workspace select { min-width: 0; max-width: 100%; }
+@page { size: A4 portrait; margin: 12mm; }
+* { box-sizing: border-box; }
+body.m2-export { margin: 0; background: #eef1f4; color: #17252e;
+  font: 12px/1.5 "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; }
+.m2-sheet { position: relative; max-width: 186mm; margin: 20px auto; padding: 10mm;
+  background: white; border-top: 5px solid #14665b; overflow-wrap: anywhere; }
+.m2-watermark { padding: 5px 8px; background: #fff0d3; border: 1px solid #a85c0c;
+  color: #744208; font-weight: 700; text-align: center; letter-spacing: .15em; }
+.m2-sheet h1 { font-size: 23px; margin: 8px 0; }
+.m2-sheet h2 { font-size: 14px; margin: 10px 0 4px; }
+.m2-sheet p { margin: 4px 0; }
+.m2-sheet header { border-bottom: 1px solid #ccd8d8; padding: 8px 0; }
+.m2-sheet article { padding: 4px 0 7px; border-bottom: 1px solid #d9e0e1; break-inside: avoid; }
+.m2-source, .m2-pins, .m2-sheet footer { font-size: 10px; color: #455860; }
+.m2-pins dl { display: grid; grid-template-columns: 105px 1fr; gap: 3px 8px; margin: 6px 0; }
+.m2-pins dd, .m2-pins dt { margin: 0; }
+.m2-pins dd { font-family: ui-monospace, monospace; }
+.m2-review { border: 1px solid #d4dedb; padding: 5px 9px; margin: 8px 0; }
+.m2-sheet footer { border-top: 1px solid #ccd8d8; padding-top: 6px; }
+@media (max-width: 720px) { .m2-sheet { margin: 0; padding: 16px; }
+  .m2-pins dl { grid-template-columns: 1fr; } }
+@media print { body.m2-export { background: white; font-size: 10px; }
+  .m2-sheet { width: 186mm; max-width: none; margin: 0; padding: 0; border: 0; }
+  .m2-sheet h1 { font-size: 19px; } .m2-sheet h2 { font-size: 12px; }
+  .m2-source, .m2-pins, .m2-sheet footer { font-size: 8px; }
+  .m2-pins dl { grid-template-columns: 100px 1fr; }
+}
