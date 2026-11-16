@@ -624,6 +624,10 @@ def serve(run):
                 elif operation == "native-proof" and set(body) == {"operation"}:
                     result = json.loads(cmd(["docker", "exec", "--user", "10003:10003", run.ssr_name,
                         "python", "-c", "from pathlib import Path; print(Path('/state/l2-native/active-proof.json').read_text())"]))
+                elif operation in ("s0-audit-queue", "s0-audit-result") and set(body) == {"operation", "case"}:
+                    from integration.l2_ops.workbench import PreparationWorkbench
+                    assert type(run) is PreparationWorkbench, "S0_PRIVATE_AUDIT_RUNTIME_REQUIRED"
+                    result = run.audit_control(body["case"], read=operation == "s0-audit-result")
                 elif operation == "restart-pg" and set(body) == {"operation"}:
                     result = run.case("actual_pg_restart_" + str(run.boot), run.restart_pg)
                 else:

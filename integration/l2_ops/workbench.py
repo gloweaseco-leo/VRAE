@@ -125,6 +125,23 @@ class PreparationWorkbench(Workbench):
             write(self.folder/("s0-worker-"+job+".json"), result)
         return result
 
+    def audit_control(self, case, *, read=False):
+        from integration.beta_review.codex3.runner import cmd
+        from .runtime_audit import CASES
+        assert case in CASES, "S0_CLOSED_AUDIT_CASE_REQUIRED"
+        if read:
+            return json.loads(cmd(["docker", "exec", "--user", "10003:10003", self.ssr_name,
+                "python", "-c", "from pathlib import Path; import sys; print(Path(sys.argv[1]).read_text())",
+                "/state/l2-native/s0-audit-" + case + ".json"]))
+        proof = json.loads(cmd(["docker", "exec", "--user", "10003:10003", self.ssr_name,
+            "python", "-c", "from pathlib import Path; print(Path('/state/l2-native/active-proof.json').read_text())"]))
+        assert proof["task"]["job_id"] in self.web_tasks
+        command = json.dumps({"case": case, "job_id": proof["task"]["job_id"]})
+        cmd(["docker", "exec", "--user", "10003:10003", self.ssr_name, "python", "-c",
+             "from pathlib import Path; import sys; p=Path('/state/l2-native/s0-audit-request.json'); "
+             "f=p.open('x'); f.write(sys.argv[1]); f.close(); p.chmod(0o600)", command])
+        return {"queued": case, "job_id": proof["task"]["job_id"]}
+
     def observe(self, method, path, status, raw):
         super().observe(method, path, status, raw)
         if method == "POST" and path == "/b5a/l2/challenge" and status == 200:

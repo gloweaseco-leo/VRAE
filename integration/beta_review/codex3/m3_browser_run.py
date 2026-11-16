@@ -89,6 +89,8 @@ def run(label, *, interactive=False, preparation_only=False, native_l2=False):
                 value = control(label, "await-job", job=message["job"])
             elif message["kind"] == "native-proof":
                 value = control(label, "native-proof")
+            elif message["kind"] in ("s0-audit-queue", "s0-audit-result"):
+                value = control(label, message["kind"], case=message["case"])
             elif message["kind"] == "restart":
                 value = control(label, "restart-pg")
             else:

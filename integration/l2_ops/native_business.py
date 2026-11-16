@@ -84,6 +84,11 @@ class NativeBusiness:
                     or reader.ledger is not deep.ledgers[rid] or reader.bundle != binding.bundle):
                 raise OperationsDenied("L2_NATIVE_BUSINESS_CURRENT_READER_REQUIRED")
             service = BriefService(reader)
+            if method == "POST" and self.app.native_tasks is not None:
+                from .runtime_audit import consume
+                audit = consume(self.app.native_tasks, reader, self.ledger, binding.bundle, binding.activities)
+                if audit is not None:
+                    return deep.reply("S0 内部故障演练", '<p data-key="s0-audit-pass">TEST_ONLY ' + audit["case"] + '</p>')
             with reader.current() as current:
                 # Each stored review has its own immutable internal Brief.
                 brief_ref = "rb-" + current.review["receipt_ref"]

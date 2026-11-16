@@ -86,3 +86,62 @@ pack -> native C1/C2 -> Chrome Controlled item review -> Brief COMMIT -> identic
 pins/report/receipt/Brief PG/service restart readback. Only then propose FINAL
 PASS and push the controlled new candidate for natural all-job CI on PR112.
 Current remote remains099b8a Draft; no push, CI retry, external site or production.
+
+
+## S0 A04 live verification protocol (2026-11-16)
+
+Accepted performance main a9604f570528e599a0b8215a8957208d76e47b89 and the
+PR115 docs are merged normally. Historical executable e39de059eb77dafea1af55d50369d7a99ae034cb
+completed independent 3.11/3.13 APP202 / original Worker / same eight-page P40+V25
+pack / full C1+C2 / Chrome item review / actual Brief / real restart positive
+journeys (12 assertions and seven screenshots each). Those are positive-only
+records, not A04 completion or FINAL PASS. The old lease RED remains retained.
+
+The completion record in the dedicated C3 PG database is a durable **pending
+fence**, not a distributed transaction or an access grant. The original M1
+signed request transaction and C2 directory + SQLite transaction are held while
+Brief bytes commit. The original task, assignment, anchor, policy and current C2
+review deadlines are minimized; a deferred C3-only PG constraint also checks the
+actual commit deadline. The adapter checks live task connection/session and C2
+ledger identity before writing and after writing. Both source contexts must exit
+successfully, followed by a fresh exact pins/review/blueprint CAS, before the
+completion fence is written. Every public read still invokes both original
+current contexts; the fence cannot make a stale or revoked Brief current.
+
+SQLite and the dedicated PG database cannot commit atomically. A source failure
+or revocation around a completed PG write may leave immutable bytes without a
+completion record. `get` refuses that pending row; HTTP never claims it is a
+current saved Brief. An authenticated retry of the same bytes can finish the
+fence; different bytes at the same Brief ref conflict. There is no delete,
+compensation by rewriting history, or resurrection of a revoked SID.
+
+`runtime_audit.py` is an explicitly TEST_ONLY **fault-injection protocol**, not an
+HTTP endpoint, signer, replacement authority or alternate report engine. Only
+the local operator can queue one of eight closed cases in this run's exact owned
+SSR volume. A real POST must first pass original C2 identity, origin, one-use
+CSRF, fixed actor mapping and exact native reader checks. The queue must name the
+currently active real job. Unknown cases, extra fields, wrong jobs and previous
+receipts are refused. Ordinary launches have no queue and no probe side effect.
+Audit Briefs have distinct `s0-audit-*` references and cannot replace the business
+Brief. No original SQL/RLS/Worker/lease/Guard or grants are changed.
+
+The live probes use the existing original reader and C2 ledger, with these actual
+fault points: duplicate same-byte PG writes; another tenant/run/job; termination
+of the C3 role's own PG backend before commit; loss of the original signed-reader
+PG connection; temporary unavailability of the same SQLite file (original bytes
+retained/restored); a real C2 decision committed after source-context exit; a
+competing real C2 review thread blocked by the original held lock; permanent C2
+key revocation at the C3 commit boundary. The last case requires a real new SSR
+boot/key and new login: the revoked key and old SID are never un-revoked.
+
+Chrome also performs an actual native blueprint revision, submits an unused old
+version form, replays a consumed Brief nonce, checks invalid actor/report scope,
+waits out the original task deadline, and signs in afresh to the same task. New
+Controlled decisions and versions are retained; a rejected current review may
+produce a clearly REJECTED internal preview, never display an older approved
+Brief as current. The final version and current receipt/Brief are checked after
+another real PG/service restart. Actual source hashes, full pins, fault results,
+PDFs/screenshots and exact owned-resource cleanup remain necessary evidence.
+
+Current execution status: A04 probes implemented, **not yet passed**. No new push
+or FINAL PASS assertion is authorized by the earlier positive-only journeys.
