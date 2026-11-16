@@ -17,3 +17,12 @@ def test_existing_ssr_business_fragment_escapes_and_rechecks(bundle, reader):
     reader.allowed = False
     with pytest.raises(OperationsDenied, match='REVOKED'):
         render_current(service, document)
+
+
+def test_business_proposal_precedes_folded_raw_json(bundle, reader):
+    service = BriefService(reader)
+    html = render_current(service, service.prepare(bundle, brief_ref="readable-brief"))
+    assert html.index("改造条目 1") < html.index("<details>") < html.index("<pre>")
+    assert "客户确认后补充材料与公差。" in html
+    assert "客户尚未确认目标" in html and "人工成本未知" in html
+    assert "已记录内部审核" in html

@@ -16,6 +16,9 @@ def main():
     assert os.geteuid() == 0 and not Path("/var/run/docker.sock").exists()
     state = json.load(sys.stdin)
     state["port"] = 5432
+    # Trusted TEST_ONLY provisioning only; no client-selected URL or DB grant.
+    extra_sources = state.get("l2_source_refs", [])
+    assert extra_sources in ([], ["l2-industrial-native-v1"])
     private = Path("/tmp/beta-supervisor")
     private.mkdir(mode=0o700)
     old.STATE = private / "state.json"
@@ -32,7 +35,7 @@ def main():
                 {
                     "bearer": app_config["bearer"],
                     "tenant_id": app_config["tenant"],
-                    "source_refs": ["accepted-404", "accepted-200"],
+                    "source_refs": ["accepted-404", "accepted-200"] + extra_sources,
                 }
             )
         )
