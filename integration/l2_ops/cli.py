@@ -23,7 +23,26 @@ def main(argv=None):
     intake.add_argument("--minor", required=True, choices=("3.11", "3.13"))
     intake.add_argument("--source-profile", choices=("industrial-v1", "industrial-p40-v3"), default="industrial-v1")
     intake.add_argument("--native-l2", action="store_true")
+    for operation in ("app-start", "app-status", "app-stop", "app-verify"):
+        app = sub.add_parser(operation, help="Original one SSR, L2 preparation only; no fake deep report")
+        app.add_argument("--run", required=True)
+        if operation == "app-start":
+            app.add_argument("--minor", choices=("3.11", "3.13"), default="3.11")
     args = parser.parse_args(argv)
+    if args.operation.startswith("app-"):
+        from integration.beta_review.codex3.local_app import start, status, request_stop
+        if args.operation == "app-verify":
+            from integration.beta_review.codex3.m3_browser_run import run
+            result, code = run(args.run, preparation_only=True), 0
+        elif args.operation == "app-start":
+            result, code = start(args.run, args.minor, False, workbench=True, l2_prepare=True)
+        else:
+            result = status(args.run) if args.operation == "app-status" else request_stop(args.run)
+            code = 0
+        result["l2_mode"] = "PREPARATION_NOT_L2_E2E"
+        result["p40_submit_enabled"] = False
+        print(json.dumps(result, ensure_ascii=False))
+        return code
     if args.operation == "worker-intake":
         return subprocess.run([sys.executable, "-m", "integration.l2_ops.verify_worker",
                                "--label", args.label, "--minor", args.minor, "--source-profile", args.source_profile,

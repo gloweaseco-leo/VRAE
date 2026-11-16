@@ -5,6 +5,7 @@ from contextlib import contextmanager
 import json
 from pathlib import Path
 import secrets
+import re
 import sqlite3
 
 from vrae.application.ra4b_p2.m1.consumer import TaskClient, TaskHandle
@@ -15,10 +16,33 @@ SOURCES = {'404': 'accepted-404', '200': 'accepted-200'}
 
 
 class TaskWorkflow:
-    def __init__(self, client, journal):
+    def __init__(self, client, journal, *, sources=None):
         if type(client) is not TaskClient or not set(SOURCES.values()) <= client.endpoint.source_refs:
             raise ValueError('M2_ACCEPTED_TASK_CLIENT_REQUIRED')
         self.client = client
+        defaults = {
+            '404': {'source_ref': SOURCES['404'], 'label': '制造业 · 联系路径404', 'depth': 'L1'},
+            '200': {'source_ref': SOURCES['200'], 'label': '制造业 · 静态路径200／证据不足', 'depth': 'L1'},
+        }
+        choices = defaults if sources is None else sources
+        if type(choices) is not dict or not 1 <= len(choices) <= 8:
+            raise ValueError('M2_PRIVATE_SOURCE_CATALOG_REQUIRED')
+        self.source_refs, self.source_labels, self.source_depths, self.source_enabled = {}, {}, {}, {}
+        for case, spec in choices.items():
+            if (type(case) is not str or not re.fullmatch('[A-Za-z0-9_-]{1,32}', case)
+                    or type(spec) is not dict or set(spec) not in ({'source_ref', 'label', 'depth'}, {'source_ref', 'label', 'depth', 'enabled'})
+                    or type(spec['source_ref']) is not str or spec['source_ref'] not in client.endpoint.source_refs
+                    or type(spec['label']) is not str or not 1 <= len(spec['label']) <= 160
+                    or any(ord(c) < 32 for c in spec['label']) or spec['depth'] not in ('L1', 'L2')
+                    or type(spec.get('enabled', True)) is not bool
+                    or (case in SOURCES and {k: v for k, v in spec.items() if k != 'enabled'} != defaults[case])):
+                raise ValueError('M2_PRIVATE_SOURCE_CATALOG_REQUIRED')
+            self.source_refs[case] = spec['source_ref']
+            self.source_labels[case] = spec['label']
+            self.source_depths[case] = spec['depth']
+            self.source_enabled[case] = spec.get('enabled', True)
+        if len(set(self.source_refs.values())) != len(self.source_refs):
+            raise ValueError('M2_PRIVATE_SOURCE_CATALOG_REQUIRED')
         self.path = Path(journal)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         if self.path.is_symlink():
@@ -63,7 +87,7 @@ class TaskWorkflow:
             # admission (which independently takes its original tenant locks).
             with sessions.request(sid):
                 pass
-            if session.assignment.tenant != self.client.endpoint.tenant_id or case not in SOURCES:
+            if session.assignment.tenant != self.client.endpoint.tenant_id or case not in self.source_refs or not self.source_enabled[case]:
                 denied()
             if ticket is None:
                 ticket, key = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
@@ -75,7 +99,7 @@ class TaskWorkflow:
             if case != held_case:
                 denied()
             if raw is None:
-                task = self.client.create(SOURCES[case], idempotency_key=key)
+                task = self.client.create(self.source_refs[case], idempotency_key=key)
                 # A lost/expired response is recovered with the SAME persisted
                 # key. No guessed handle or new key can stand in for APP202.
                 sessions.require(sid)
@@ -91,7 +115,7 @@ class TaskWorkflow:
         if row[3] is None:
             return None
         task = TaskHandle(**json.loads(row[3]))
-        if task.tenant_id != session.assignment.tenant or task.source_ref != SOURCES[row[1]]:
+        if task.tenant_id != session.assignment.tenant or task.source_ref != self.source_refs.get(row[1]):
             denied()
         return task
 

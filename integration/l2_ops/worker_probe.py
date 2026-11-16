@@ -72,7 +72,8 @@ def main():
                 print(json.dumps({"uid": os.geteuid(), "signing_nonce": nonce}), flush=True)
                 signed = json.loads(sys.stdin.readline())
                 sid = sessions.login(challenge, signed["bearer"], csrf)
-                with port.current_worker(task, sessions, sid,
+                from .current_worker import current_worker
+                with current_worker(port, task, sessions, sid,
                         policy_expires_at=datetime.fromisoformat(private["policy_expires_at"])) as (evidence, deadline):
                     diagnosis = analyze(evidence)
                     result = diagnosis.metadata()

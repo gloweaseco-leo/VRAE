@@ -28,13 +28,13 @@ def control(label, operation, **args):
     return result
 
 
-def run(label, *, interactive=False):
+def run(label, *, interactive=False, preparation_only=False):
     current = status(label)
     assert current["state"] == "M3_READY"
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
     assert current["source_sha"] == head, "M3_FROZEN_SOURCE_REQUIRED"
     folder = folder_for(label)
-    name = "browser-acceptance"
+    name = "browser-preparation" if preparation_only else "browser-acceptance"
     if interactive:
         index = 1
         while (folder / ("browser-interactive-" + str(index))).exists():
@@ -70,6 +70,7 @@ def run(label, *, interactive=False):
                     "private": str(output),
                     "bootstrap_pins": pins,
                     "interactive": interactive,
+                    "preparation_only": preparation_only,
                 }
             )
             + "\n"

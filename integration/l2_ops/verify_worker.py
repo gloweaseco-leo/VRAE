@@ -125,6 +125,8 @@ def main():
         proof["worker_image_id"] = run.result["runtime_image_id"]
         created = run.case("real_app202", lambda: probe("create", {"key": "l2-industrial-native-0001"}))
         task = created["task"]
+        proof["actual_app202_task"] = task
+        write(run.folder / "actual-app202-task.private.json", task)
         assert created["http_status"] == 202 and task["source_ref"] == source_ref
         before = probe("status", {"task": task})
         assert before["job_state"] == "PENDING"

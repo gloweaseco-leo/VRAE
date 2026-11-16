@@ -87,7 +87,20 @@ try{
   const attached=await call('Target.attachToTarget',{targetId:target.targetId,flatten:true},null);sid=attached.sessionId;
   await call('Page.enable');await call('Runtime.enable');await call('Network.enable');
   await call('Fetch.enable',{patterns:[{urlPattern:'*',requestStage:'Request'}]});
-  if(config.interactive) {
+  if(config.preparation_only) {
+    phase='L2-preparation-not-E2E';
+    await login('404');
+    await nav(base+'tasks');
+    const options=await ev("[...document.querySelector('[name=case]').options].map(o=>({value:o.value,label:o.textContent,disabled:o.disabled}))");
+    await check('original-task-catalog-plus-closed-P40-preparation',options.length===3&&options[0].value==='404'&&options[1].value==='200'&&options[2].value==='p40'&&options[2].disabled&&options[2].label.includes('P40/V25'),{options});
+    await check('no-prebuilt-deep-report-used',await ev("!document.querySelector('.l2-report')&&!document.body.innerText.includes('MP25')"));
+    await screenshot('l2-task-preparation.png');
+    const rejected=await ev(`(async()=>{const f=document.querySelector('form[action="/b5a/m2/create"]');const data=new URLSearchParams(new FormData(f));data.set('case','p40');const r=await fetch(f.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data,redirect:'manual'});return {status:r.status,text:await r.text()}})()`);
+    await check('unready-P40-submission-refused-in-real-SSR',rejected.status===403&&rejected.text.includes('M2_REQUEST_DENIED'),{status:rejected.status});
+    await check('no-browser-exceptions',exceptions.length===0);
+    await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'L2_PREPARATION_BROWSER_ONLY_NOT_E2E',version,records,shots,network,exceptions,p40_task_submitted:false,native_report_complete:false},null,2));
+    await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);
+  } else if(config.interactive) {
     await login('404');await nav(base+'tasks');
     while(chrome.exitCode===null&&chrome.signalCode===null) {
       try {
@@ -190,7 +203,7 @@ try{
   await check('no-browser-exceptions',exceptions.length===0);
   await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'M3_FULL_BROWSER_TASK_WORKER_REVIEW_A4_RESTART_PASS',version,records,shots,network,exceptions},null,2));
   }
-  process.stdout.write(JSON.stringify({kind:'done',pass:true,assertions:records.length,screenshots:shots.length})+'\n');
+  process.stdout.write(JSON.stringify({kind:'done',pass:true,assertions:records.length,screenshots:shots.length,...(config.preparation_only?{scope:'L2_PREPARATION_BROWSER_ONLY_NOT_E2E'}:{})})+'\n');
 }catch(error){await writeFile(path.join(out,'browser-failure.json'),JSON.stringify({status:'RED',code:error.message,phase,step,commands,version:browserVersion,records,network,exceptions},null,2));process.stdout.write(JSON.stringify({kind:'done',pass:false,code:error.message})+'\n');process.exitCode=1}
 finally{
   let graceful=false,forced=false;

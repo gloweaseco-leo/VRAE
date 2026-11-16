@@ -4,8 +4,6 @@ A fresh Worker pack is a prerequisite for native L2 analysis. It is deliberately
 not an L2 result or a reusable signed authorization context.
 """
 import base64
-from contextlib import contextmanager
-from datetime import UTC, datetime
 from dataclasses import asdict, dataclass, field
 
 from vrae.application.ra4b_p2.m1.consumer import TaskClient, TaskHandle
@@ -104,35 +102,6 @@ class L2Tasks:
         # actual locator correlation. No DONE-only or caller-provided DTO shortcut.
         result = self.client.read(task, reader, bearer, nonce=nonce)
         return self._from_authorized_result(task, source, result)
-
-    @contextmanager
-    def current_worker(self, task, sessions, sid, *, policy_expires_at):
-        """Hold the existing M2 signed session and actual PG source locks.
-
-        Yielded snapshot/deadline is usable only INSIDE this context, including
-        the caller's Brief COMMIT. This does not authenticate any C2 deep report.
-        """
-        from apps.operator_console.b5b_m2_sessions import GeneratedSessions
-
-        source = self._source(task)
-        if type(sessions) is not GeneratedSessions:
-            raise OperationsDenied("L2_ORIGINAL_GENERATED_SESSIONS_REQUIRED")
-        if (type(policy_expires_at) is not datetime or policy_expires_at.tzinfo is None
-                or policy_expires_at.utcoffset() is None):
-            raise OperationsDenied("L2_CURRENT_POLICY_DEADLINE_REQUIRED")
-        with sessions.request(sid) as (_, view):
-            session = sessions.require(sid)
-            bound = sessions.task_handles.get((task.tenant_id, task.job_id))
-            if bound is None or bound[1] != task:
-                raise OperationsDenied("L2_CURRENT_TASK_BINDING_REQUIRED")
-            deadline = min(policy_expires_at, datetime.fromtimestamp(min(
-                session.expires, session.assignment.expires, sessions.reader.anchor.expires), UTC))
-            if datetime.now(UTC) >= deadline:
-                raise OperationsDenied("L2_CURRENT_AUTHORITY_EXPIRED")
-            yield self._from_authorized_result(task, source, view.payload), deadline
-            sessions.require(sid)
-            if datetime.now(UTC) >= deadline:
-                raise OperationsDenied("L2_CURRENT_AUTHORITY_EXPIRED")
 
     def _from_authorized_result(self, task, source, result):
         # Only read_worker or the original GeneratedSessions.request context

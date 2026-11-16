@@ -189,7 +189,11 @@ def supervise(label, minor):
             if metadata["mode"] == WORKBENCH_MODE:
                 from .m3_workbench import main as workbench_main
 
-                workbench_main(label, minor)
+                if metadata.get("l2_prepare") is True:
+                    from integration.l2_ops.workbench import main as l2_main
+                    l2_main(label, minor)
+                else:
+                    workbench_main(label, minor)
             elif metadata["mode"] == M1_MODE:
                 from .m3_application import main as generated_main
 
@@ -205,7 +209,7 @@ def supervise(label, minor):
     return code
 
 
-def start(label, minor, component_preview, *, workbench=False):
+def start(label, minor, component_preview, *, workbench=False, l2_prepare=False):
     evidence = doctor()
     folder = folder_for(label)
     PRIVATE.mkdir(parents=True, exist_ok=True)
@@ -226,6 +230,9 @@ def start(label, minor, component_preview, *, workbench=False):
         "source_sha": evidence["candidate_sha"],
         "mode": WORKBENCH_MODE if workbench else LEGACY_MODE if component_preview else M1_MODE,
     }
+    if l2_prepare:
+        assert workbench and not component_preview
+        metadata["l2_prepare"] = True
     control_write(launch / "local-launch.json", metadata)
     command = [
         sys.executable,

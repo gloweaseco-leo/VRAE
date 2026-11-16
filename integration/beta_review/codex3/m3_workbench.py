@@ -313,7 +313,7 @@ class Workbench(GeneratedRun):
                 }
                 for key in ("request_id", "run_id", "job_id"):
                     assert str(UUID(task[key])) == task[key]
-                assert task["source_ref"] in ("accepted-404", "accepted-200")
+                assert task["source_ref"] in getattr(self, "allowed_source_refs", ("accepted-404", "accepted-200"))
                 self.web_tasks[task["job_id"]] = task
                 self.pending_jobs.put(task["job_id"])
 
@@ -573,7 +573,11 @@ class Workbench(GeneratedRun):
 
 
 def main(label, minor):
-    run = Workbench(label, minor)
+    return serve(Workbench(label, minor))
+
+
+def serve(run):
+    label = run.label
     stop = PRIVATE / "local-launches" / label / "stop.json"
     try:
         for name, function in (
