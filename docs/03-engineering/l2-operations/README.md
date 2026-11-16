@@ -1,4 +1,4 @@
-﻿# L2 C3 operator preparation and evidence
+# L2 C3 operator preparation and evidence
 
 PR106 M3 is FINAL PASS and retained; this work does not redo it.
 
@@ -45,3 +45,11 @@ No consultation receipt/rate supplied by Owner yet: consultation remains
 unlinked or unverified, and costs unknown. This does not block offline analysis.
 No new permissions, real customer claim, production deployment, external
 handoff, E2/E3 achievement, or L2M execution is implied.
+
+
+r3 at 80e26d9 stopped on Python3.11: 36 passed, one test fixture error. The
+immutability-conflict test changed consultation.reference while leaving its state
+UNLINKED, so new business validation correctly refused before SQL. Corrected the
+fixture to the valid UNVERIFIED_REFERENCE state, preserving the original conflict
+assertion and all production validation. Python3.13 was not run after this RED.
+Full raw JUnit/error and cleanup are retained under r3; no random retry.

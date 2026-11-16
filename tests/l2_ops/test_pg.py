@@ -39,7 +39,7 @@ def test_pg_append_only_replay_conflict_and_current_lock(database, bundle, reade
     assert service.save_current(ledger, document) == document["content_sha256"]
     assert service.save_current(ledger, document) == document["content_sha256"]
     assert service.load_current(ledger, "pg-brief") == document
-    altered = {**document, "consultation": {**document["consultation"], "reference": "another"}}
+    altered = {**document, "consultation": {**document["consultation"], "reference": "another", "state": "UNVERIFIED_REFERENCE"}}
     altered["content_sha256"] = sha(canonical({k: v for k, v in altered.items() if k != "content_sha256"}, limit=2_000_000))
     with pytest.raises(OperationsDenied, match="IMMUTABLE_BRIEF_CONFLICT"):
         service.save_current(ledger, altered)
