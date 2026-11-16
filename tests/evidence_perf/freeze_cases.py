@@ -116,6 +116,23 @@ def test_unlisted_original_identity_sql_runtime_and_document_rejected(history, n
         publication.source()
 
 
+@pytest.mark.parametrize('name', ['vrae/identity/boundary.py', 'db/migrations/0001_ra4a_test_only.sql'])
+@pytest.mark.parametrize('staged', [False, True])
+def test_committed_original_change_cannot_hide_by_restoring_entry(history, name, staged):
+    root, git, entry = history
+    original_bytes = subprocess.check_output(['git', 'show', entry + ':' + name], cwd=root)
+    (root / name).write_bytes(b'unapproved committed original source\n')
+    git('add', name)
+    git('commit', '-qm', 'unapproved original source change')
+    (root / name).write_bytes(original_bytes)
+    if staged:
+        git('add', name)
+    assert name not in git('diff', '--name-only', entry).splitlines()
+    assert name in git('diff', '--name-only', entry, 'HEAD').splitlines()
+    with pytest.raises(AssertionError, match='ACCEPTED_SOURCE_CHANGED'):
+        publication.source()
+
+
 @pytest.mark.parametrize('name', list(DOCUMENT_BYTES))
 @pytest.mark.parametrize('committed', [False, True])
 def test_original_five_documents_still_exact_and_clean(history, name, committed):

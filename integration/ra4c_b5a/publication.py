@@ -64,6 +64,7 @@ def source():
 
     original = dict(line.split("\t", 1)[::-1] for line in git("ls-tree", "-r", ENTRY).splitlines())
     changed = git("diff", "--name-only", ENTRY).splitlines()
+    changed += git("diff", "--name-only", ENTRY, "HEAD").splitlines()
     original_changes = set(original) & set(changed)
     assert not original_changes - set(OWNER_DOCUMENT_BLOBS) - {OWNER_EVIDENCE_PACK_PATH}, "ACCEPTED_SOURCE_CHANGED"
     pack_head_changed = bool(git("diff", "--name-only", ENTRY, "HEAD", "--", OWNER_EVIDENCE_PACK_PATH))
