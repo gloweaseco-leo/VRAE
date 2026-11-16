@@ -52,6 +52,14 @@ def main():
 
     started = time.monotonic_ns()
     try:
+        image = "vrae-ra4b-p1:" + args.minor.replace(".", "")
+        owner = run.case("actual_restricted_linux_owner_write", lambda: cmd([
+            "docker", "run", "--rm", "--network", "none", "--read-only", "--cap-drop", "ALL",
+            "--cap-add", "SETUID", "--cap-add", "SETGID", "--cap-add", "CHOWN",
+            "--tmpfs", "/tmp:rw,nosuid,nodev,size=32m",
+            "--mount", "type=bind,src=" + str(ROOT) + ",dst=/work,readonly",
+            image, "python", "-B", "-m", "integration.l2_ops.check_profile_owner"]))
+        proof["private_profile_owner_check"] = json.loads(owner)
         run.case("pg16_original_migrations", run.start_pg)
         bundle = load_source(ROOT / "integration/l2_ops/fixtures/native-offline_synthetic.json")
         native = load_native(bundle, "industrial-native",

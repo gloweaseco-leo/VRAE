@@ -30,8 +30,15 @@ def main():
         if extra_sources:
             from integration.l2_ops.provisioning import extend_app_sources
             extend_app_sources(app_config, state["l2_source_binding"])
-            # Same private file, owner/mode and original API validation remain.
-            app_path.write_text(json.dumps(app_config))
+            # Native provision already made this file UID10001/0600. Write as
+            # that same owner before API spawn; root has no DAC override here.
+            subprocess.run(
+                [sys.executable, "-B", "-m", "integration.l2_ops.provisioning", str(app_path)],
+                input=json.dumps(app_config).encode(), check=True, timeout=10,
+                capture_output=True, user=10001, group=10001, extra_groups=[],
+                env={"PATH": "/usr/local/bin:/usr/bin:/bin", "PYTHONPATH": "/work",
+                     "PYTHONDONTWRITEBYTECODE": "1", "VRAE_RA4B_TEST_ONLY": "1"},
+            )
         consumer_dir = Path("/tmp/m3-consumer")
         consumer_dir.mkdir(mode=0o700)
         consumer_profile = consumer_dir / "config.json"

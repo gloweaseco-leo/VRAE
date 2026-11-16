@@ -69,3 +69,12 @@ integration correction, not a permission expansion or random retry.
 Operator entry: `python scripts/beta_internal.py l2 worker-intake --label NAME
 --minor 3.11` (or3.13). This intake intentionally exits after owned cleanup;
 complete L2/report/review mode is pending accepted C1/C2 composition.
+
+Second native RED ef81136 (intake311b) stopped before API startup: the provisioner
+had already made APP config UID10001/0600. Container root intentionally has no
+DAC override, so writing it as root raised PermissionError. Cleanup passed;
+raw supervisor log remains private. Correction writes the already-provisioned
+file as its original UID10001 owner before spawning API. The helper checks exact
+path, ownership/modes, original config equality plus only the pinned extra
+source, and original validate_binding. No chmod/chown, new capability, database
+permission or authentication relaxation is introduced.
