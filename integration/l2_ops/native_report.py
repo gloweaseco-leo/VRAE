@@ -91,9 +91,12 @@ class NativeCurrentReader:
 def produce_current(port, task, sessions, sid, *, policy_expires_at, bundle, created_at):
     """Original signed task read -> full C1 -> full C2 replay, with live fencing."""
     with current_worker(port, task, sessions, sid, policy_expires_at=policy_expires_at) as (evidence, _):
+        from vrae.l2_ops.accounting import ActivityTimer
         diagnosis = analyze(evidence)
+        timer = ActivityTimer(task.job_id + "-c2-native-report", "DIAGNOSIS_RUNTIME", "SYSTEM")
         source = produce(diagnosis, bundle, created_at=created_at)
-    return source, diagnosis.activities
+        activities = (*diagnosis.activities, timer.finish().priced())
+    return source, activities
 
 
 def production_stamp(root, task, bundle):
@@ -171,3 +174,14 @@ def mount(app, source, directory, ledger_path, *, refresh):
     else:
         app.deep.ledgers[rid] = ledger
     return ledger
+
+
+def attach_business(app, brief_ledger, *, report_id, bundle, activities, subject, factory):
+    """Same original SSR, exact server-held actor and dual-authority reader factory."""
+    from .native_business import NativeBusiness
+    if app.native_business is None:
+        app.native_business = NativeBusiness(app, brief_ledger)
+    elif app.native_business.ledger is not brief_ledger:
+        raise OperationsDenied("L2_NATIVE_BRIEF_STORE_REPLACEMENT_DENIED")
+    app.native_business.bind(report_id, bundle=bundle, activities=activities, subject=subject, factory=factory)
+    return "/b5a/l2/r/" + report_id + "/brief"

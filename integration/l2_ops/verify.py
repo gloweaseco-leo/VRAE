@@ -31,6 +31,7 @@ def main():
     parser.add_argument("--python311")
     parser.add_argument("--python313")
     parser.add_argument("--python-current")
+    parser.add_argument("--business-only", action="store_true", help="Only the new native business routes and actual PG restart marker; not the full package")
     parser.add_argument("--pg-image", default="postgres:16-alpine")
     args = parser.parse_args()
     version_code = "import sys; print(str(sys.version_info.major)+str(sys.version_info.minor))"
@@ -55,7 +56,7 @@ def main():
     output = ROOT / "docs/03-engineering/l2-operations" / args.label
     output.mkdir(parents=True, exist_ok=False)
     image = command(["docker", "image", "inspect", args.pg_image, "--format", "{{.Id}}"])
-    source_paths = ["vrae/l2_ops", "integration/l2_ops", "scripts/beta_internal.py", "integration/ra4c_b5a/publication.py", ".github/workflows/l2-ops.yml"]
+    source_paths = ["vrae/l2_ops", "integration/l2_ops", "scripts/beta_internal.py", "integration/ra4c_b5a/publication.py", ".github/workflows/l2-ops.yml", "apps/operator_console/b5b_http.py", "vrae/l2", "vrae/industry/l2_v1"]
     command(["git", "diff", "--exit-code", "HEAD", "--", *source_paths])
     candidate_sha = command(["git", "rev-parse", "HEAD"])
     files = command(["git", "ls-files", "--", *source_paths]).splitlines()
@@ -93,7 +94,14 @@ def main():
             env["L2OPS_TEST_DSN"] = f"host=127.0.0.1 port={port} user=postgres password={password} dbname=l2ops connect_timeout=5"
             version = command([interpreter, "--version"])
             xml = output / f"native-{minor}.xml"
-            tests = command([interpreter, "-m", "pytest", "-q", "integration/l2_ops/checks", "integration/l2_ops/runtime_tests", "--ignore=integration/l2_ops/runtime_tests/test_pg_restart.py", f"--junitxml={xml}"], env=env)
+            suites = (["integration/l2_ops/checks/test_panel.py",
+                       "integration/l2_ops/checks/test_native_report.py::test_production_keeps_task_context_and_records_separate_c2_runtime",
+                       "integration/l2_ops/runtime_tests/test_pg.py::test_pg_native_business_ui_preview_save_readback_and_nonce_replay",
+                       "integration/l2_ops/runtime_tests/test_pg.py::test_pg_native_business_ui_denies_without_current_dual_authority",
+                       "integration/l2_ops/runtime_tests/test_pg.py::test_pg_restart_marker"] if args.business_only
+                      else ["integration/l2_ops/checks", "integration/l2_ops/runtime_tests",
+                            "--ignore=integration/l2_ops/runtime_tests/test_pg_restart.py"])
+            tests = command([interpreter, "-m", "pytest", "-q", *suites, f"--junitxml={xml}"], env=env)
             (output / f"native-{minor}.txt").write_text(tests, encoding="utf-8")
             before = command(["docker", "exec", name, "psql", "-U", "postgres", "-d", "l2ops", "-Atc",
                               "SELECT content_sha256 || ':' || md5(document) FROM l2_ops_v1.briefs WHERE brief_ref='restart-readback'"])
@@ -125,7 +133,8 @@ def main():
                             "pg_image_id": image, "restart_readback": before, "xml_sha256": hashlib.sha256(xml.read_bytes()).hexdigest(),
                             "measurement_wall_ns": time.monotonic_ns() - started,
                             "cost_status": "UNKNOWN", "amount_micros": None,
-                            "scope": "C3_PACKAGE_REAL_PG_SYNTHETIC_UPSTREAM_NOT_FULL_L2_E2E"})
+                            "scope": ("C3_BUSINESS_ROUTES_REAL_PG_SYNTHETIC_TASK_NOT_FULL_PACKAGE_OR_WORKER_E2E" if args.business_only
+                                      else "C3_PACKAGE_REAL_PG_SYNTHETIC_UPSTREAM_NOT_FULL_L2_E2E")})
         except Exception as exc:  # noqa: BLE001 -- archive/redact every failure, then propagate
             from psycopg.conninfo import conninfo_to_dict
             secret_values = [password]

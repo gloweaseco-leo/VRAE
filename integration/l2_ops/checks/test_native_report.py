@@ -8,19 +8,11 @@ import pytest
 
 from integration.l2.support import Issuer, login, pins
 from integration.l2_ops import native_report as assembly
-from integration.l2_ops.source_profiles import selected
 from vrae.l2.identity import Directory, Person
 from vrae.l2.ledger import Ledger
 from vrae.l2.report import L2Denied
 from vrae.l2_ops.briefs import BriefService
 from vrae.l2_ops.sources import OperationsDenied
-
-
-@pytest.fixture(scope="module")
-def native_source(native_result):
-    _, bundle, _ = selected("industrial-p40-v3")
-    source = assembly.produce(native_result, bundle, created_at="2026-11-16T12:00:00+00:00")
-    return source, bundle
 
 
 @pytest.fixture
@@ -153,7 +145,7 @@ def test_creation_stamp_survives_restart_without_new_time_or_scope(tmp_path, nat
         assembly.production_stamp(tmp_path/"custody", task, bundle)
 
 
-def test_mount_reuses_original_application_and_controlled_ledger(native_source, reviewed, tmp_path):
+def mounted_application(reviewed, tmp_path):
     import json
     import secrets
     from apps.operator_console.b5a_http import Application as Base
@@ -178,6 +170,13 @@ def test_mount_reuses_original_application_and_controlled_ledger(native_source, 
 
     generated = GeneratedConsole(GeneratedSessions(SignedGeneratedReader(anchor=anchor, assignments=(), connect=deny_connection)), {})
     app = Application(rehearsal, PrivateHandoffReader(legacy, {}), generated=generated)
+    return app, generated
+
+
+def test_mount_reuses_original_application_and_controlled_ledger(native_source, reviewed, tmp_path):
+    app, generated = mounted_application(reviewed, tmp_path)
+    ledger, sid, rid = reviewed
+    d = ledger.directory
     refreshes = []
     installed = assembly.mount(app, native_source[0], d, ledger.path, refresh=lambda: refreshes.append(True))
     assert app.generated is generated and app.deep.directory is d and app.deep.l1_enabled
@@ -187,3 +186,28 @@ def test_mount_reuses_original_application_and_controlled_ledger(native_source, 
     assert "P40" in response.response.body.decode() and "MP25" not in response.response.body.decode()
     with pytest.raises(OperationsDenied, match="REPLACEMENT_DENIED"):
         assembly.mount(app, native_source[0], d, tmp_path/"different.sqlite", refresh=lambda: None)
+
+
+def test_production_keeps_task_context_and_records_separate_c2_runtime(monkeypatch, native_result, native_source, reviewed):
+    _, state, deadline = detached_reader(monkeypatch, native_result, native_source, reviewed)
+    calls = []
+
+    def analyze(evidence):
+        assert state["task_locked"] and evidence is native_result.evidence
+        calls.append("c1-full-replay-port")
+        return native_result
+
+    def produce(diagnosis, bundle, *, created_at):
+        assert state["task_locked"] and diagnosis is native_result and bundle is native_source[1]
+        calls.append("c2-native-source-port")
+        return native_source[0]
+
+    monkeypatch.setattr(assembly, "analyze", analyze)
+    monkeypatch.setattr(assembly, "produce", produce)
+    result, activities = assembly.produce_current(None, native_result.evidence.task, None, "detached-only",
+        policy_expires_at=deadline, bundle=native_source[1], created_at=native_source[0].held.created_at)
+    assert result is native_source[0] and calls == ["c1-full-replay-port", "c2-native-source-port"]
+    assert not state["task_locked"] and activities[0] == native_result.activities[0]
+    assert activities[1]["operation_ref"].endswith("-c2-native-report")
+    assert activities[1]["actor_kind"] == "SYSTEM" and activities[1]["cost_status"] == "UNKNOWN"
+    assert activities[1]["human_labor_claim"] is False

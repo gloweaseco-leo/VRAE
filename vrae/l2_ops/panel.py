@@ -25,7 +25,10 @@ def _blueprint_summary(blueprint):
         return "<p>尚无可呈现的改造条目；请核对上游蓝图，不能据此承诺改造范围。</p>"
     cards = []
     labels = {"proposal": "建议改造", "finding_ref": "关联发现", "priority": "优先级",
-              "acceptance_criteria": "验证标准", "evidence_refs": "证据引用"}
+              "acceptance_criteria": "验证标准", "evidence_refs": "证据引用",
+              "page": "涉及页面", "phase": "执行次序", "change": "实际改法",
+              "customer_inputs": "待客户确认资料", "acceptance": "验收条件",
+              "owner_role": "责任人", "dependency": "依赖与边界", "service_basis": "服务范围依据"}
     for index, row in enumerate(rows, 1):
         if not isinstance(row, dict):
             continue
@@ -33,11 +36,16 @@ def _blueprint_summary(blueprint):
         for key, label in labels.items():
             if key in row:
                 value = row[key]
-                if isinstance(value, (dict, list)):
-                    value = json.dumps(value, ensure_ascii=False)
-                fields.append(f"<dt>{label}</dt><dd>{escape(str(value), quote=True)}</dd>")
+                if isinstance(value, list) and all(isinstance(v, str) for v in value):
+                    display = "<ul>" + "".join("<li>" + escape(v, quote=True) + "</li>" for v in value) + "</ul>"
+                elif isinstance(value, (dict, list)):
+                    display = escape(json.dumps(value, ensure_ascii=False), quote=True)
+                else:
+                    display = escape(str(value), quote=True)
+                fields.append(f"<dt>{label}</dt><dd>{display}</dd>")
         if fields:
-            cards.append(f"<article><h4>改造条目 {index}</h4><dl>{''.join(fields)}</dl></article>")
+            title = " · " + escape(str(row["title"]), quote=True) if "title" in row else ""
+            cards.append(f"<article><h4>改造条目 {index}{title}</h4><dl>{''.join(fields)}</dl></article>")
     return "".join(cards) or "<p>上游蓝图结构待适配，完整原文保留在核验详情。</p>"
 
 
