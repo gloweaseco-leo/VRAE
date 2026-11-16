@@ -1,10 +1,10 @@
-﻿# Native C3 package evidence (not complete L2 E2E)
+# Native C3 package evidence (not complete L2 E2E)
 
-Tested source: `80a8910a32a64e910af9e16be6885d4366ef1e28`.
-The subsequent evidence commit adds artifacts, public RED normalization and one
-ruff suppression comment explaining the verifier's deliberate archive/redact/
-propagate exception boundary. Application, domain, SQL and test behavior remain
-identical. This is not a claim that a future PR SHA was tested in advance.
+Tested source: `b38434c7e4e2227b2456f600be8924791276ae18`.
+The subsequent evidence commit changes documentation/artifacts only. The full
+C3 application, verifier and test trees remain byte-for-byte unchanged in Git.
+This is not a claim that a future PR SHA was tested in advance. r5 is retained
+as earlier passing evidence; r6 also verifies the optional-driver boundary fix.
 
 - Native Windows Python3.11.15: **37/37**, post-PG-restart **1/1**.
 - Native Windows Python3.13.13: **37/37**, post-PG-restart **1/1**.
@@ -28,8 +28,8 @@ identical. This is not a claim that a future PR SHA was tested in advance.
   under ignored `.private`; public failed copies redacted with original hashes.
 
 Raw JUnit/text, source manifest, actual port mappings, readback and measured wall
-nanoseconds are in `r5/`. Actual package-validation wall durations were
-26,125,000,000ns and23,344,000,000ns, excluding final cleanup. These are automated
+nanoseconds are in `r6/` (six unchanged CLI demonstrations remain in `r5/`). Actual package-validation wall durations were
+41,922,000,000ns and20,938,000,000ns, excluding final cleanup. These are automated
 validation measurements, not real diagnostic Worker costs or human labor.
 Monetary amount is UNKNOWN/null, no invoice reconciliation or paid model call.
 
