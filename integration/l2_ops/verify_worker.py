@@ -131,6 +131,8 @@ def main():
             proof["cases"] = run.cases
             proof["cleanup"] = run.result.get("cleanup")
             proof["cleanup_errors"] = run.result.get("cleanup_errors")
+            if proof["cleanup_errors"] or any(row["result"] != "PASS" for row in run.cases):
+                proof["status"] = "RED_PRESERVED"
             proof["source_manifest_sha256"] = hashlib.sha256((run.public / "source-manifest.json").read_bytes()).hexdigest()
             (output / "source-manifest.json").write_bytes((run.public / "source-manifest.json").read_bytes())
             if hasattr(run, "native_out") and (run.native_out / "m1-worker.log").is_file():
