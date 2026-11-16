@@ -23,6 +23,9 @@ OWNER_DOCUMENT_BLOBS = {
     "docs/03-engineering/DEVELOPMENT_MASTER_PLAN_V1.1.md": "d41e6f02aa4377b94d52bbe867c3afc062ad45ae",
     "docs/03-engineering/ROADMAP_AND_ACCEPTANCE_V1.1.md": "ec17142dc2c8d0164299be2e11902f7a9a5df499"
 }
+# Owner PR114 comment 6920145471: this single reviewed consistency-only blob.
+OWNER_EVIDENCE_PACK_PATH = "vrae/evidence/pack.py"
+OWNER_EVIDENCE_PACK_BLOB = "8d45d5882103323e62bc4bd61a4379899e759966"
 OWN = ROOT / "docs/03-engineering/ra4c-b5a"
 
 
@@ -61,8 +64,13 @@ def source():
 
     original = dict(line.split("\t", 1)[::-1] for line in git("ls-tree", "-r", ENTRY).splitlines())
     changed = git("diff", "--name-only", ENTRY).splitlines()
+    changed += git("diff", "--name-only", ENTRY, "HEAD").splitlines()
     original_changes = set(original) & set(changed)
-    assert not original_changes - set(OWNER_DOCUMENT_BLOBS), "ACCEPTED_SOURCE_CHANGED"
+    assert not original_changes - set(OWNER_DOCUMENT_BLOBS) - {OWNER_EVIDENCE_PACK_PATH}, "ACCEPTED_SOURCE_CHANGED"
+    pack_head_changed = bool(git("diff", "--name-only", ENTRY, "HEAD", "--", OWNER_EVIDENCE_PACK_PATH))
+    if OWNER_EVIDENCE_PACK_PATH in original_changes or pack_head_changed:
+        assert git("rev-parse", "HEAD:" + OWNER_EVIDENCE_PACK_PATH) == OWNER_EVIDENCE_PACK_BLOB, "OWNER_EVIDENCE_PACK_BASELINE_CHANGED"
+        assert not git("diff", "--name-only", "HEAD", "--", OWNER_EVIDENCE_PACK_PATH), "OWNER_EVIDENCE_PACK_WORKTREE_CHANGED"
     for name, blob in OWNER_DOCUMENT_BLOBS.items():
         assert git("rev-parse", "HEAD:" + name) == blob, "OWNER_DOCUMENT_BASELINE_CHANGED"
         assert not git("diff", "--name-only", "HEAD", "--", name), "OWNER_DOCUMENT_WORKTREE_CHANGED"

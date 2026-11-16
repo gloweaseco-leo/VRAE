@@ -1,0 +1,416 @@
+{
+  "base": "6b2a2dfff8d6de2cf16c2509e9cdcf30a2267d83",
+  "matched_fields": [
+    "capture_sha256",
+    "input_product_body_sha256",
+    "output_sha256",
+    "diagnosis_ref",
+    "diagnosis_bytes_sha256",
+    "assessment_results"
+  ],
+  "identical_outputs": true,
+  "baseline_pack_sha256": "07a8bbf28c81198c7410c609c1ee9581006dba49adb23be280325b0a572ec51f",
+  "candidate_pack_sha256": "b248e9376b0ee1d5959578e8534e625963406e10a2b99f7b42dfcb298ba45a48",
+  "receipts": [
+    {
+      "kind": "OFFLINE_ORIGINAL_PRODUCER_AND_GUARD_NOT_ACTUAL_PG_LEASE_OR_COMMIT",
+      "variant": "baseline",
+      "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+      "pid": 3832,
+      "clock": "perf_counter wall and process_time CPU; no cProfile",
+      "phases": [
+        {
+          "name": "original_m1_produce",
+          "wall_seconds": 29.937050500011537,
+          "cpu_seconds": 26.421875,
+          "verify_calls": 500,
+          "full_project_calls": 501,
+          "verify_wall_seconds": 27.45510590018239
+        },
+        {
+          "name": "mandatory_precommit_replay",
+          "wall_seconds": 21.742017699987628,
+          "cpu_seconds": 18.859375,
+          "verify_calls": 361,
+          "full_project_calls": 361,
+          "verify_wall_seconds": 20.41332369967131
+        },
+        {
+          "name": "new_industry_boundary_load",
+          "wall_seconds": 0.11203900002874434,
+          "cpu_seconds": 0.109375,
+          "verify_calls": 1,
+          "full_project_calls": 2,
+          "verify_wall_seconds": 0.0610109000117518
+        },
+        {
+          "name": "full_native_industry_diagnose",
+          "wall_seconds": 41.71929569996428,
+          "cpu_seconds": 37.703125,
+          "verify_calls": 732,
+          "full_project_calls": 732,
+          "verify_wall_seconds": 39.053839699423406
+        },
+        {
+          "name": "full_industry_export_verify",
+          "wall_seconds": 42.084260100033134,
+          "cpu_seconds": 37.359375,
+          "verify_calls": 732,
+          "full_project_calls": 732,
+          "verify_wall_seconds": 39.10755309963133
+        }
+      ],
+      "counts": {
+        "verify": 2326,
+        "project": 2328,
+        "verify_wall_seconds": 126.09083329892019
+      },
+      "memory": {
+        "peak_rss_bytes": 51773440,
+        "rss_bytes": 47656960
+      },
+      "lease_context_seconds": 30,
+      "actual_pg_worker_trial": "NOT_PERFORMED_C3_UNMERGED_PR112_LAUNCHER_NOT_IMPORTED",
+      "capture_sha256": "a22cecde3437c10de962ca2d164e66f0fee677f173041a59a1a86622583ec4e6",
+      "input_product_body_sha256": {
+        "https://example.org/": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467",
+        "https://example.org/products": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e",
+        "https://example.org/products/duty-selection": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae",
+        "https://example.org/contact": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61",
+        "https://example.org/products/pump-p40": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a",
+        "https://example.org/products/rfq-guide": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9",
+        "https://example.org/products/supplier-proof": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b",
+        "https://example.org/products/valve-v25": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d"
+      },
+      "output_sha256": {
+        "source": "3bbe8570afc0bbc64d0b763e2537b16ea8b0113557e12eae00ad98b268bb2cd0",
+        "report": "b36ee33f29b55629909b49c6ed5f603a6c98f17b942a31f7ab9ecf3b510a70c7",
+        "html": "12a3afec8e6d425f311feba40b0d52888f8860560d1ded6db18f5097f01be7ba",
+        "binding": "7ab27ca9da8281b183c8c0cf887849aa074674294c8840667dd8c272a05f4d7f"
+      },
+      "diagnosis_ref": "l2-f0e9aff728bc524a0cfad3fe1c61a23474ffbebc86f7937e6673df405ad238aa",
+      "diagnosis_bytes_sha256": "5e794770498f9d0fa2e8a51e88cb083d086517c2c46132d5a1aae658182bbc25",
+      "assessment_results": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "PASS",
+        "UNKNOWN",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN",
+        "PASS",
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "PASS",
+        "UNKNOWN",
+        "NOT_APPLICABLE",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN"
+      ]
+    },
+    {
+      "kind": "OFFLINE_ORIGINAL_PRODUCER_AND_GUARD_NOT_ACTUAL_PG_LEASE_OR_COMMIT",
+      "variant": "candidate",
+      "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+      "pid": 10040,
+      "clock": "perf_counter wall and process_time CPU; no cProfile",
+      "phases": [
+        {
+          "name": "original_m1_produce",
+          "wall_seconds": 4.0478755999938585,
+          "cpu_seconds": 3.265625,
+          "verify_calls": 500,
+          "full_project_calls": 2,
+          "verify_wall_seconds": 1.4665486994781531
+        },
+        {
+          "name": "mandatory_precommit_replay",
+          "wall_seconds": 1.9740254000062123,
+          "cpu_seconds": 1.890625,
+          "verify_calls": 361,
+          "full_project_calls": 1,
+          "verify_wall_seconds": 0.7631140994490124
+        },
+        {
+          "name": "new_industry_boundary_load",
+          "wall_seconds": 0.11236759996972978,
+          "cpu_seconds": 0.109375,
+          "verify_calls": 1,
+          "full_project_calls": 2,
+          "verify_wall_seconds": 0.06404049997217953
+        },
+        {
+          "name": "full_native_industry_diagnose",
+          "wall_seconds": 4.6982489000074565,
+          "cpu_seconds": 3.96875,
+          "verify_calls": 732,
+          "full_project_calls": 0,
+          "verify_wall_seconds": 1.7172494006808847
+        },
+        {
+          "name": "full_industry_export_verify",
+          "wall_seconds": 4.147199200000614,
+          "cpu_seconds": 3.875,
+          "verify_calls": 732,
+          "full_project_calls": 0,
+          "verify_wall_seconds": 1.4249176000012085
+        }
+      ],
+      "counts": {
+        "verify": 2326,
+        "project": 5,
+        "verify_wall_seconds": 5.435870299581438
+      },
+      "memory": {
+        "peak_rss_bytes": 51585024,
+        "rss_bytes": 47648768
+      },
+      "lease_context_seconds": 30,
+      "actual_pg_worker_trial": "NOT_PERFORMED_C3_UNMERGED_PR112_LAUNCHER_NOT_IMPORTED",
+      "capture_sha256": "a22cecde3437c10de962ca2d164e66f0fee677f173041a59a1a86622583ec4e6",
+      "input_product_body_sha256": {
+        "https://example.org/": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467",
+        "https://example.org/products": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e",
+        "https://example.org/products/duty-selection": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae",
+        "https://example.org/contact": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61",
+        "https://example.org/products/pump-p40": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a",
+        "https://example.org/products/rfq-guide": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9",
+        "https://example.org/products/supplier-proof": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b",
+        "https://example.org/products/valve-v25": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d"
+      },
+      "output_sha256": {
+        "source": "3bbe8570afc0bbc64d0b763e2537b16ea8b0113557e12eae00ad98b268bb2cd0",
+        "report": "b36ee33f29b55629909b49c6ed5f603a6c98f17b942a31f7ab9ecf3b510a70c7",
+        "html": "12a3afec8e6d425f311feba40b0d52888f8860560d1ded6db18f5097f01be7ba",
+        "binding": "7ab27ca9da8281b183c8c0cf887849aa074674294c8840667dd8c272a05f4d7f"
+      },
+      "diagnosis_ref": "l2-f0e9aff728bc524a0cfad3fe1c61a23474ffbebc86f7937e6673df405ad238aa",
+      "diagnosis_bytes_sha256": "5e794770498f9d0fa2e8a51e88cb083d086517c2c46132d5a1aae658182bbc25",
+      "assessment_results": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "PASS",
+        "UNKNOWN",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN",
+        "PASS",
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "PASS",
+        "UNKNOWN",
+        "NOT_APPLICABLE",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN"
+      ]
+    },
+    {
+      "kind": "OFFLINE_ORIGINAL_PRODUCER_AND_GUARD_NOT_ACTUAL_PG_LEASE_OR_COMMIT",
+      "variant": "candidate",
+      "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+      "pid": 24608,
+      "clock": "perf_counter wall and process_time CPU; no cProfile",
+      "phases": [
+        {
+          "name": "original_m1_produce",
+          "wall_seconds": 2.9817490000277758,
+          "cpu_seconds": 2.734375,
+          "verify_calls": 500,
+          "full_project_calls": 2,
+          "verify_wall_seconds": 1.184888300311286
+        },
+        {
+          "name": "mandatory_precommit_replay",
+          "wall_seconds": 2.2649254000280052,
+          "cpu_seconds": 2.0,
+          "verify_calls": 361,
+          "full_project_calls": 1,
+          "verify_wall_seconds": 0.9317706002038904
+        },
+        {
+          "name": "new_industry_boundary_load",
+          "wall_seconds": 0.10353219998069108,
+          "cpu_seconds": 0.109375,
+          "verify_calls": 1,
+          "full_project_calls": 2,
+          "verify_wall_seconds": 0.07720970001537353
+        },
+        {
+          "name": "full_native_industry_diagnose",
+          "wall_seconds": 6.106196900014766,
+          "cpu_seconds": 4.40625,
+          "verify_calls": 732,
+          "full_project_calls": 0,
+          "verify_wall_seconds": 2.832151399226859
+        },
+        {
+          "name": "full_industry_export_verify",
+          "wall_seconds": 4.228718600003049,
+          "cpu_seconds": 3.984375,
+          "verify_calls": 732,
+          "full_project_calls": 0,
+          "verify_wall_seconds": 1.5274525003042072
+        }
+      ],
+      "counts": {
+        "verify": 2326,
+        "project": 5,
+        "verify_wall_seconds": 6.553472500061616
+      },
+      "memory": {
+        "peak_rss_bytes": 51761152,
+        "rss_bytes": 47456256
+      },
+      "lease_context_seconds": 30,
+      "actual_pg_worker_trial": "NOT_PERFORMED_C3_UNMERGED_PR112_LAUNCHER_NOT_IMPORTED",
+      "capture_sha256": "a22cecde3437c10de962ca2d164e66f0fee677f173041a59a1a86622583ec4e6",
+      "input_product_body_sha256": {
+        "https://example.org/": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467",
+        "https://example.org/products": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e",
+        "https://example.org/products/duty-selection": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae",
+        "https://example.org/contact": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61",
+        "https://example.org/products/pump-p40": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a",
+        "https://example.org/products/rfq-guide": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9",
+        "https://example.org/products/supplier-proof": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b",
+        "https://example.org/products/valve-v25": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d"
+      },
+      "output_sha256": {
+        "source": "3bbe8570afc0bbc64d0b763e2537b16ea8b0113557e12eae00ad98b268bb2cd0",
+        "report": "b36ee33f29b55629909b49c6ed5f603a6c98f17b942a31f7ab9ecf3b510a70c7",
+        "html": "12a3afec8e6d425f311feba40b0d52888f8860560d1ded6db18f5097f01be7ba",
+        "binding": "7ab27ca9da8281b183c8c0cf887849aa074674294c8840667dd8c272a05f4d7f"
+      },
+      "diagnosis_ref": "l2-f0e9aff728bc524a0cfad3fe1c61a23474ffbebc86f7937e6673df405ad238aa",
+      "diagnosis_bytes_sha256": "5e794770498f9d0fa2e8a51e88cb083d086517c2c46132d5a1aae658182bbc25",
+      "assessment_results": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "PASS",
+        "UNKNOWN",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN",
+        "PASS",
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "PASS",
+        "UNKNOWN",
+        "NOT_APPLICABLE",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN"
+      ]
+    },
+    {
+      "kind": "OFFLINE_ORIGINAL_PRODUCER_AND_GUARD_NOT_ACTUAL_PG_LEASE_OR_COMMIT",
+      "variant": "baseline",
+      "python": "3.11.15 (main, May 10 2026, 19:31:25) [MSC v.1944 64 bit (AMD64)]",
+      "pid": 25872,
+      "clock": "perf_counter wall and process_time CPU; no cProfile",
+      "phases": [
+        {
+          "name": "original_m1_produce",
+          "wall_seconds": 31.668493399978615,
+          "cpu_seconds": 25.984375,
+          "verify_calls": 500,
+          "full_project_calls": 501,
+          "verify_wall_seconds": 29.686566499294713
+        },
+        {
+          "name": "mandatory_precommit_replay",
+          "wall_seconds": 23.564518800005317,
+          "cpu_seconds": 19.421875,
+          "verify_calls": 361,
+          "full_project_calls": 361,
+          "verify_wall_seconds": 22.140184699906968
+        },
+        {
+          "name": "new_industry_boundary_load",
+          "wall_seconds": 0.09146869997493923,
+          "cpu_seconds": 0.09375,
+          "verify_calls": 1,
+          "full_project_calls": 2,
+          "verify_wall_seconds": 0.051010900002438575
+        },
+        {
+          "name": "full_native_industry_diagnose",
+          "wall_seconds": 53.15318269998534,
+          "cpu_seconds": 42.203125,
+          "verify_calls": 732,
+          "full_project_calls": 732,
+          "verify_wall_seconds": 49.42954560031649
+        },
+        {
+          "name": "full_industry_export_verify",
+          "wall_seconds": 51.880515500030015,
+          "cpu_seconds": 41.671875,
+          "verify_calls": 732,
+          "full_project_calls": 732,
+          "verify_wall_seconds": 48.071004799043294
+        }
+      ],
+      "counts": {
+        "verify": 2326,
+        "project": 2328,
+        "verify_wall_seconds": 149.3783124985639
+      },
+      "memory": {
+        "peak_rss_bytes": 50622464,
+        "rss_bytes": 45813760
+      },
+      "lease_context_seconds": 30,
+      "actual_pg_worker_trial": "NOT_PERFORMED_C3_UNMERGED_PR112_LAUNCHER_NOT_IMPORTED",
+      "capture_sha256": "a22cecde3437c10de962ca2d164e66f0fee677f173041a59a1a86622583ec4e6",
+      "input_product_body_sha256": {
+        "https://example.org/": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467",
+        "https://example.org/products": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e",
+        "https://example.org/products/duty-selection": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae",
+        "https://example.org/contact": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61",
+        "https://example.org/products/pump-p40": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a",
+        "https://example.org/products/rfq-guide": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9",
+        "https://example.org/products/supplier-proof": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b",
+        "https://example.org/products/valve-v25": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d"
+      },
+      "output_sha256": {
+        "source": "3bbe8570afc0bbc64d0b763e2537b16ea8b0113557e12eae00ad98b268bb2cd0",
+        "report": "b36ee33f29b55629909b49c6ed5f603a6c98f17b942a31f7ab9ecf3b510a70c7",
+        "html": "12a3afec8e6d425f311feba40b0d52888f8860560d1ded6db18f5097f01be7ba",
+        "binding": "7ab27ca9da8281b183c8c0cf887849aa074674294c8840667dd8c272a05f4d7f"
+      },
+      "diagnosis_ref": "l2-f0e9aff728bc524a0cfad3fe1c61a23474ffbebc86f7937e6673df405ad238aa",
+      "diagnosis_bytes_sha256": "5e794770498f9d0fa2e8a51e88cb083d086517c2c46132d5a1aae658182bbc25",
+      "assessment_results": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "PASS",
+        "UNKNOWN",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN",
+        "PASS",
+        "PASS",
+        "FAIL_WITH_EVIDENCE",
+        "PASS",
+        "UNKNOWN",
+        "NOT_APPLICABLE",
+        "FAIL_WITH_EVIDENCE",
+        "UNKNOWN"
+      ]
+    }
+  ]
+}
