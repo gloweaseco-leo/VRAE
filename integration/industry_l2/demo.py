@@ -6,7 +6,8 @@ from collections import Counter
 import json
 from pathlib import Path
 
-from vrae.industry.l2_v1 import diagnose, load
+from vrae.evidence import EvidencePack
+from vrae.industry.l2_v1 import diagnose, load, verify
 from .fixture import evidence_pack
 
 
@@ -20,6 +21,14 @@ def main():
     (args.output / "diagnosis.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     source = {"pack": pack.document, "objects_base64": {k: base64.b64encode(v).decode() for k, v in pack.objects.items()}}
     (args.output / "source.json").write_text(json.dumps(source, indent=2) + "\n", encoding="utf-8")
+    # Actual consumer roundtrip, pinned to values held from this trusted
+    # production call, not refs copied from a caller-supplied exchange file.
+    restored = json.loads((args.output / "source.json").read_text(encoding="utf-8"))
+    restored_pack = EvidencePack.load(restored["pack"],
+        {k: base64.b64decode(v, validate=True) for k, v in restored["objects_base64"].items()}, expected_ref=pack.ref)
+    verify(json.loads((args.output / "diagnosis.json").read_text(encoding="utf-8")), restored_pack,
+           expected_result_ref=result["diagnosis_ref"], expected_pack_ref=pack.ref,
+           expected_industry_ref=load()["industry_ref"])
     counts = dict(Counter(a["observation"]["result"] for a in result["assessments"]))
     lines = ["# Synthetic industrial buyer-task execution", "", "Private NOT_APPROVED business data; not engineering approval or a shared report.", "", "- Source: eight local HTML pages; fixed recorded transport, no live domain request.", "- Models: P40 pump equipment and V25 industrial valve component.", "- Native refs: " + result["native_execution_ref"] + ", " + ", ".join(result["source_guard_refs"]), "- Diagnosis: " + result["diagnosis_ref"], "- Result counts: " + json.dumps(counts), "", "## Evidence-backed comparisons and unresolved questions", ""]
     for a in result["assessments"]:
@@ -34,7 +43,7 @@ def main():
         lines.append("- " + packet["model"] + ": unresolved buyer inputs=" + ", ".join(packet["missing_buyer_inputs"]) + "; product-context GET paths=" + str(len(packet["contact_observation_ids"])))
     lines += ["", "Exact source quotations, byte positions, HTML-body SHA and capture times are in diagnosis.json -> source_facts; source.json replays the same native EvidencePack.", "Hypotheses and recommendations remain HUMAN_REVIEW_REQUIRED. Missing information, unsupported units and unverified engineering/certification remain UNKNOWN."]
     (args.output / "summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(json.dumps({"source": "SYNTHETIC_LOCAL_ONLY", "pages": len(bundle.manifest["pages"]), "get_requests": len(transport.requests), "source_guard_facts": len(result["source_facts"]), "assessments": counts, "diagnosis_ref": result["diagnosis_ref"]}))
+    print(json.dumps({"source": "SYNTHETIC_LOCAL_ONLY", "pages": len(bundle.manifest["pages"]), "get_requests": len(transport.requests), "source_guard_facts": len(result["source_facts"]), "assessments": counts, "diagnosis_ref": result["diagnosis_ref"], "consumer_roundtrip": True}))
 
 
 if __name__ == "__main__":
