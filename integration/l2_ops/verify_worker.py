@@ -8,6 +8,7 @@ import secrets
 import subprocess
 import sys
 import time
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
@@ -50,6 +51,19 @@ def main():
         assert value["uid"] == 10003
         return value["result"]
 
+    def junit():
+        rows = run.cases
+        suite = ET.Element("testsuite", name="l2-real-worker-intake", tests=str(len(rows)),
+                           failures=str(sum(row["result"] != "PASS" for row in rows)), errors="0", skipped="0")
+        ET.SubElement(ET.SubElement(suite, "properties"), "property",
+                      name="candidate_sha", value=proof["candidate_sha"])
+        for row in rows:
+            case = ET.SubElement(suite, "testcase", classname="l2.actual_worker_intake",
+                                 name=row["name"], time=str(row["seconds"]))
+            if row["result"] != "PASS":
+                ET.SubElement(case, "failure", message=row.get("error_type", "FAILED"))
+        ET.ElementTree(suite).write(output / "worker-intake.xml", encoding="utf-8", xml_declaration=True)
+
     started = time.monotonic_ns()
     try:
         image = "vrae-ra4b-p1:" + args.minor.replace(".", "")
@@ -61,6 +75,9 @@ def main():
             image, "python", "-B", "-m", "integration.l2_ops.check_profile_owner"]))
         proof["private_profile_owner_check"] = json.loads(owner)
         run.case("pg16_original_migrations", run.start_pg)
+        with run.r.lab.connect(dbname="vrae_ra4a_p1") as c:
+            proof["pg_version_num"] = c.execute("SHOW server_version_num").fetchone()[0]
+            assert 160000 <= int(proof["pg_version_num"]) < 170000
         bundle = load_source(ROOT / "integration/l2_ops/fixtures/native-offline_synthetic.json")
         native = load_native(bundle, "industrial-native",
             expected_pack_ref="ep-735db2c276030e018f21ba7124fb61db6d46f3e922eca1b99df254512064582e",
@@ -71,6 +88,8 @@ def main():
                                               "policy_id": "pol-001", "policy_version": 1}
         run.r.lab.save()
         run.case("original_api_independent_worker", run.start_native)
+        proof["native_python"] = run.result["native_python"]
+        proof["worker_image_id"] = run.result["runtime_image_id"]
         created = run.case("real_app202", lambda: probe("create", {"key": "l2-industrial-native-0001"}))
         task = created["task"]
         assert created["http_status"] == 202 and task["source_ref"] == SOURCE_REF
@@ -113,6 +132,11 @@ def main():
             proof["cleanup"] = run.result.get("cleanup")
             proof["cleanup_errors"] = run.result.get("cleanup_errors")
             proof["source_manifest_sha256"] = hashlib.sha256((run.public / "source-manifest.json").read_bytes()).hexdigest()
+            (output / "source-manifest.json").write_bytes((run.public / "source-manifest.json").read_bytes())
+            if hasattr(run, "native_out") and (run.native_out / "m1-worker.log").is_file():
+                proof["private_worker_log_sha256"] = hashlib.sha256((run.native_out / "m1-worker.log").read_bytes()).hexdigest()
+            junit()
+            proof["junit_sha256"] = hashlib.sha256((output / "worker-intake.xml").read_bytes()).hexdigest()
             write(output / "worker-intake.json", proof)
     print(json.dumps(proof), flush=True)
 

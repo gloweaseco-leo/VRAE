@@ -56,6 +56,7 @@ class WorkerEvidence:
         return {"state": "WORKER_EVIDENCE_VERIFIED_DEEP_ANALYSIS_PENDING",
                 "task": asdict(self.task), "source_bundle_sha256": self.source_bundle_sha256,
                 "original_pack_ref": self.original_pack_ref, "worker_pack_ref": self.pack.ref,
+                "worker_result_locator": dict(self.signed_locator),
                 "snapshot_count": len(self.pack.document["snapshots"]),
                 "l2_complete": False, "review_authority": False,
                 "authority": "SIGNED_M1_READ_SNAPSHOT_NOT_CURRENT_L2_REVIEW_AUTHORITY"}
