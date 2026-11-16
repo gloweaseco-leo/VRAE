@@ -91,7 +91,15 @@ def main():
                              "SELECT content_sha256 || ':' || md5(document) FROM l2_ops_v1.briefs WHERE brief_ref='restart-readback'"])
             if not before or before != after:
                 raise RuntimeError("restart readback mismatch")
-            env["L2OPS_RUNTIME_DSN"] = Path(env["L2OPS_RUNTIME_OUTPUT"]).read_text(encoding="utf-8")
+            from psycopg.conninfo import make_conninfo
+            # Docker Desktop allocates a NEW ephemeral host port on restart.
+            # Re-discover the actual loopback mapping; do not reuse the old DSN.
+            restarted_port = command(["docker", "port", name, "5432/tcp"]).rsplit(":", 1)[1]
+            env["L2OPS_RUNTIME_DSN"] = make_conninfo(
+                Path(env["L2OPS_RUNTIME_OUTPUT"]).read_text(encoding="utf-8"), port=restarted_port)
+            (output / f"transport-{minor}.json").write_text(json.dumps(
+                {"before_loopback_port": port, "after_loopback_port": restarted_port,
+                 "binding": "127.0.0.1", "rediscovered_after_restart": True}, indent=2), encoding="utf-8")
             restart_tests = command([interpreter, "-m", "pytest", "-q", "tests/l2_ops/test_pg_restart.py",
                                      f"--junitxml={output / f'restart-{minor}.xml'}"], env=env)
             (output / f"restart-{minor}.txt").write_text(restart_tests, encoding="utf-8")
@@ -102,8 +110,30 @@ def main():
                             "cost_status": "UNKNOWN", "amount_micros": None,
                             "scope": "C3_PACKAGE_REAL_PG_SYNTHETIC_UPSTREAM_NOT_FULL_L2_E2E"})
         except Exception as exc:
-            (output / f"red-{minor}.json").write_text(json.dumps({"error": str(exc), "stage": "C3_PACKAGE_VALIDATION", "retained": True}, ensure_ascii=False, indent=2), encoding="utf-8")
-            raise
+            from psycopg.conninfo import conninfo_to_dict
+            secret_values = [password]
+            runtime_file = folder / f"runtime-{minor}.private"
+            if runtime_file.is_file():
+                secret_values.append(conninfo_to_dict(runtime_file.read_text(encoding="utf-8"))["password"])
+            original = str(exc)
+            (folder / f"original-red-{minor}.txt").write_text(original, encoding="utf-8")
+            safe = original
+            for secret in secret_values:
+                safe = safe.replace(secret, "[REDACTED_EPHEMERAL_TEST_PASSWORD]")
+            originals = folder / f"original-xml-{minor}"
+            originals.mkdir(exist_ok=True)
+            for xml_path in output.glob("*.xml"):
+                raw = xml_path.read_bytes()
+                (originals / xml_path.name).write_bytes(raw)
+                content = raw.decode("utf-8")
+                for secret in secret_values:
+                    content = content.replace(secret, "[REDACTED_EPHEMERAL_TEST_PASSWORD]")
+                xml_path.write_text(content, encoding="utf-8")
+            (output / f"red-{minor}.json").write_text(json.dumps({"error": safe,
+                "private_original_sha256": hashlib.sha256(original.encode()).hexdigest(),
+                "stage": "C3_PACKAGE_VALIDATION", "retained": True,
+                "credentials_redacted": True}, ensure_ascii=False, indent=2), encoding="utf-8")
+            raise RuntimeError(safe) from None
         finally:
             if container_started:
                 command(["docker", "rm", "-f", name])

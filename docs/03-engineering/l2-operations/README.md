@@ -53,3 +53,16 @@ UNLINKED, so new business validation correctly refused before SQL. Corrected the
 fixture to the valid UNVERIFIED_REFERENCE state, preserving the original conflict
 assertion and all production validation. Python3.13 was not run after this RED.
 Full raw JUnit/error and cleanup are retained under r3; no random retry.
+
+
+r4 at 46df3aa: Python3.11 37/37 PASS, including real deferred-COMMIT rollback.
+Post-restart native readback timed out; stopped before3.13. A separate single
+transport-only probe proved Docker Desktop changes dynamic loopback ports on
+restart (49677 ->56036). Fix: re-discover current mapping and reconstruct runtime
+DSN before native readback. No authorization, database or application timeout
+was increased. The failure repr contained a disposable test runtime password:
+original raw files are retained privately with hashes, public copies redacted,
+and the isolated database/container was destroyed. The verifier now privately
+archives failure originals and redacts known disposable credentials from public
+JUnit/error output automatically. These are new L2 package tests, unrelated to
+paused old A1/B7 MAX3.
