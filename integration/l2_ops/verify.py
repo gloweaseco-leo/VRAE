@@ -109,7 +109,7 @@ def main():
                             "measurement_wall_ns": time.monotonic_ns() - started,
                             "cost_status": "UNKNOWN", "amount_micros": None,
                             "scope": "C3_PACKAGE_REAL_PG_SYNTHETIC_UPSTREAM_NOT_FULL_L2_E2E"})
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 -- archive/redact every failure, then propagate
             from psycopg.conninfo import conninfo_to_dict
             secret_values = [password]
             runtime_file = folder / f"runtime-{minor}.private"

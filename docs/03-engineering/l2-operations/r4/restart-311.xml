@@ -1,81 +1,161 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="8.062" timestamp="2026-11-15T23:42:54.993731-05:00" hostname="dong"><testcase classname="tests.l2_ops.test_pg_restart" name="test_real_pg_restart_current_read_and_role_limits" time="6.301"><failure message="psycopg.errors.ConnectionTimeout: connection timeout expired">bundle = SourceBundle(tenant_id='tenant-test', bundle_id='controlled-manufacturer-v1', access_mode='OFFLINE_SYNTHETIC', inputs=...ternal-synthetic-analysis', synthetic=True, reuse_permission_reference=None),), external_run_permission_reference=None)
-reader = &lt;tests.l2_ops.conftest.TestOnlyReader object at 0x0000013130F55A90&gt;
-
-    def test_real_pg_restart_current_read_and_role_limits(bundle, reader):
-        dsn = os.environ.get("L2OPS_RUNTIME_DSN")
-        if not dsn:
-            pytest.skip("requires explicit post-restart runtime connection")
-        import psycopg
-        connect = lambda: psycopg.connect(dsn)
-        service = BriefService(reader)
-        expected = service.prepare(bundle, brief_ref="restart-readback")
-&gt;       assert service.load_current(BriefLedger(connect), "restart-readback") == expected
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-tests\l2_ops\test_pg_restart.py:18: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-vrae\l2_ops\briefs.py:137: in load_current
-    document = validate_document(ledger.get(p["tenant_id"], brief_ref))
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-vrae\l2_ops\ledger.py:67: in get
-    with self.connect() as c:
-         ^^^^^^^^^^^^^^
-tests\l2_ops\test_pg_restart.py:15: in &lt;lambda&gt;
-    connect = lambda: psycopg.connect(dsn)
-                      ^^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
-cls = &lt;class 'psycopg.Connection'&gt;
-conninfo = 'user=l2_ops_runtime password=[REDACTED_EPHEMERAL_TEST_PASSWORD] connect_timeout=5 dbname=l2ops host=127.0.0.1 port=62317 hostaddr=127.0.0.1'
-autocommit = False, prepare_threshold = 5, context = None, row_factory = None
-cursor_factory = None, kwargs = {}
-
-    @classmethod
-    def connect(
-        cls,
-        conninfo: str = "",
-        *,
-        autocommit: bool = False,
-        prepare_threshold: int | None = 5,
-        context: AdaptContext | None = None,
-        row_factory: RowFactory[Row] | None = None,
-        cursor_factory: type[Cursor[Row]] | None = None,
-        **kwargs: ConnParam,
-    ) -&gt; Self:
-        """
-        Connect to a database server and return a new `Connection` instance.
-        """
-    
-        params = cls._get_connection_params(conninfo, **kwargs)
-        timeout = timeout_from_conninfo(params)
-        rv = None
-        attempts = conninfo_attempts(params)
-        conn_errors: list[tuple[e.Error, str]] = []
-        for attempt in attempts:
-            tdescr = (attempt.get("host"), attempt.get("port"), attempt.get("hostaddr"))
-            descr = "host: %r, port: %r, hostaddr: %r" % tdescr
-            logger.debug("connection attempt: %s", descr)
-            try:
-                conninfo = make_conninfo("", **attempt)
-                gen = cls._connect_gen(conninfo)
-                rv = waiting.wait_conn(gen, interval=_WAIT_INTERVAL, timeout=timeout)
-            except e._WaitTimeout:
-                tex = e.ConnectionTimeout("connection timeout expired")
-                logger.debug("connection failed: %s: %s", descr, str(tex))
-                conn_errors.append((tex, descr))
-            except e.Error as ex:
-                logger.debug("connection failed: %s: %s", descr, str(ex))
-                conn_errors.append((ex, descr))
-            except e._NO_TRACEBACK as ex:
-                raise ex.with_traceback(None)
-            else:
-                logger.debug("connection succeeded: %s", descr)
-                break
-    
-        if not rv:
-            last_ex = conn_errors[-1][0]
-            if len(conn_errors) == 1:
-&gt;               raise last_ex.with_traceback(None)
-E               psycopg.errors.ConnectionTimeout: connection timeout expired
-
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="8.062" timestamp="2026-11-15T23:42:54.993731-05:00" hostname="dong"><testcase classname="tests.l2_ops.test_pg_restart" name="test_real_pg_restart_current_read_and_role_limits" time="6.301"><failure message="psycopg.errors.ConnectionTimeout: connection timeout expired">bundle = SourceBundle(tenant_id='tenant-test', bundle_id='controlled-manufacturer-v1', access_mode='OFFLINE_SYNTHETIC', inputs=...ternal-synthetic-analysis', synthetic=True, reuse_permission_reference=None),), external_run_permission_reference=None)
+
+reader = &lt;tests.l2_ops.conftest.TestOnlyReader object at 0x0000013130F55A90&gt;
+
+
+
+    def test_real_pg_restart_current_read_and_role_limits(bundle, reader):
+
+        dsn = os.environ.get("L2OPS_RUNTIME_DSN")
+
+        if not dsn:
+
+            pytest.skip("requires explicit post-restart runtime connection")
+
+        import psycopg
+
+        connect = lambda: psycopg.connect(dsn)
+
+        service = BriefService(reader)
+
+        expected = service.prepare(bundle, brief_ref="restart-readback")
+
+&gt;       assert service.load_current(BriefLedger(connect), "restart-readback") == expected
+
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+tests\l2_ops\test_pg_restart.py:18:
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vrae\l2_ops\briefs.py:137: in load_current
+
+    document = validate_document(ledger.get(p["tenant_id"], brief_ref))
+
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+vrae\l2_ops\ledger.py:67: in get
+
+    with self.connect() as c:
+
+         ^^^^^^^^^^^^^^
+
+tests\l2_ops\test_pg_restart.py:15: in &lt;lambda&gt;
+
+    connect = lambda: psycopg.connect(dsn)
+
+                      ^^^^^^^^^^^^^^^^^^^^
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+cls = &lt;class 'psycopg.Connection'&gt;
+
+conninfo = 'user=l2_ops_runtime password=[REDACTED_EPHEMERAL_TEST_PASSWORD] connect_timeout=5 dbname=l2ops host=127.0.0.1 port=62317 hostaddr=127.0.0.1'
+
+autocommit = False, prepare_threshold = 5, context = None, row_factory = None
+
+cursor_factory = None, kwargs = {}
+
+
+
+    @classmethod
+
+    def connect(
+
+        cls,
+
+        conninfo: str = "",
+
+        *,
+
+        autocommit: bool = False,
+
+        prepare_threshold: int | None = 5,
+
+        context: AdaptContext | None = None,
+
+        row_factory: RowFactory[Row] | None = None,
+
+        cursor_factory: type[Cursor[Row]] | None = None,
+
+        **kwargs: ConnParam,
+
+    ) -&gt; Self:
+
+        """
+
+        Connect to a database server and return a new `Connection` instance.
+
+        """
+
+
+
+        params = cls._get_connection_params(conninfo, **kwargs)
+
+        timeout = timeout_from_conninfo(params)
+
+        rv = None
+
+        attempts = conninfo_attempts(params)
+
+        conn_errors: list[tuple[e.Error, str]] = []
+
+        for attempt in attempts:
+
+            tdescr = (attempt.get("host"), attempt.get("port"), attempt.get("hostaddr"))
+
+            descr = "host: %r, port: %r, hostaddr: %r" % tdescr
+
+            logger.debug("connection attempt: %s", descr)
+
+            try:
+
+                conninfo = make_conninfo("", **attempt)
+
+                gen = cls._connect_gen(conninfo)
+
+                rv = waiting.wait_conn(gen, interval=_WAIT_INTERVAL, timeout=timeout)
+
+            except e._WaitTimeout:
+
+                tex = e.ConnectionTimeout("connection timeout expired")
+
+                logger.debug("connection failed: %s: %s", descr, str(tex))
+
+                conn_errors.append((tex, descr))
+
+            except e.Error as ex:
+
+                logger.debug("connection failed: %s: %s", descr, str(ex))
+
+                conn_errors.append((ex, descr))
+
+            except e._NO_TRACEBACK as ex:
+
+                raise ex.with_traceback(None)
+
+            else:
+
+                logger.debug("connection succeeded: %s", descr)
+
+                break
+
+
+
+        if not rv:
+
+            last_ex = conn_errors[-1][0]
+
+            if len(conn_errors) == 1:
+
+&gt;               raise last_ex.with_traceback(None)
+
+E               psycopg.errors.ConnectionTimeout: connection timeout expired
+
+
+
 ..\VRAE-codex3-B7Restore-v1-20261115\integration\beta_review\codex3\b7_restore_v1\.private\py311\Lib\site-packages\psycopg\connection.py:126: ConnectionTimeout</failure></testcase></testsuite></testsuites>
