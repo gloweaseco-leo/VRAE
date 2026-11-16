@@ -15,6 +15,27 @@ def extend_app_sources(config, binding):
     config["sources"][SOURCE_REF] = dict(binding)
 
 
+
+def prepare_evidence_directory(path, owner):
+    """Bridge only this disposable mount between host owner and supervisor root.
+
+    API/Worker/consumer groups remain cleared. No DAC override or new capability.
+    """
+    import os
+    from pathlib import Path
+    import stat
+
+    assert os.geteuid() == 0 and path == Path("/evidence")
+    assert type(owner) is dict and set(owner) == {"uid", "gid"}
+    assert all(type(v) is int and 0 <= v < 2**31 for v in owner.values())
+    info = path.lstat()
+    assert stat.S_ISDIR(info.st_mode) and not stat.S_ISLNK(info.st_mode) and info.st_uid == owner["uid"]
+    before = {"uid": info.st_uid, "gid": info.st_gid, "mode": oct(stat.S_IMODE(info.st_mode))}
+    os.chown(path, 0, owner["gid"])
+    path.chmod(0o770)
+    return {"before": before, "supervisor_uid": 0, "host_uid": owner["uid"],
+            "host_gid": owner["gid"], "mode": "0770", "new_capabilities": []}
+
 def main():
     import json
     import os

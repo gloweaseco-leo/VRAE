@@ -26,6 +26,10 @@ def main():
     old.STATE.chmod(0o600)
     native.OUT = Path("/evidence")
     try:
+        if extra_sources and "l2_evidence_owner" in state:
+            from integration.l2_ops.provisioning import prepare_evidence_directory
+            evidence_owner = prepare_evidence_directory(native.OUT, state["l2_evidence_owner"])
+            (native.OUT / "evidence-owner.json").write_text(json.dumps(evidence_owner))
         app_path, app_config = native.provision("APP", 10001)
         if extra_sources:
             from integration.l2_ops.provisioning import extend_app_sources

@@ -78,3 +78,31 @@ file as its original UID10001 owner before spawning API. The helper checks exact
 path, ownership/modes, original config equality plus only the pinned extra
 source, and original validate_binding. No chmod/chown, new capability, database
 permission or authentication relaxation is introduced.
+
+## Hosted CI filesystem RED
+
+First natural CI on ac2605dd1f5cf45fef1000cccd39a081e29621ed, run43839480982,
+retained both original artifacts: 311 id14212551587 ZIP SHA256
+3741e4553e3711423efee08409b58113807f61ac39e9e9a8678398db06257d77;
+313 id14211823912 SHA256
+b8c6e68d456f9d186169b78a9c3cdaf021daffa6100561a5fcc14834f5e2fca0.
+Both 78-check suites/restart passed; actual intake stopped before APP202 at
+API/Worker startup, and cleanup passed. No same-HEAD workflow rerun.
+
+The restricted original native.spawn was reproduced on actual Linux with an
+UID1001/GID1001/0755 evidence directory: container root has no DAC override and
+cannot create /evidence/app-0.log. Windows Desktop bind behavior did not expose
+this POSIX difference. The hosted private supervisor file was not part of the
+public first artifact; its exact exception text was not observed. The Linux
+reproducer and original spawn code establish the concrete filesystem defect;
+new-HEAD hosted execution must confirm resolution, not presumed pass.
+
+The correction applies only to the fresh L2-owned /evidence mount when the
+trusted POSIX host supplies its real UID/GID: supervisor UID0 owns it, the host
+primary group retains access, mode0770 denies other UIDs. Native child groups
+remain cleared; APP config stays UID10001/0600. No new capability/DAC override,
+old directory, SQL, role/RLS or identity rule changes. An actual no-network Linux
+preflight now reproduces the original denial and verifies supervisor writes,
+host-UID read/control writes, UID10003 refusal and unchanged private APP owner.
+The Windows path is unchanged. Hosted ownership metadata and supervisor-log SHA
+are retained in the new public proof; raw private traces are never published.

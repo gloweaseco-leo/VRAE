@@ -3,6 +3,7 @@ import argparse
 from dataclasses import asdict
 import hashlib
 import json
+import os
 from pathlib import Path
 import secrets
 import subprocess
@@ -71,6 +72,7 @@ def main():
             "docker", "run", "--rm", "--network", "none", "--read-only", "--cap-drop", "ALL",
             "--cap-add", "SETUID", "--cap-add", "SETGID", "--cap-add", "CHOWN",
             "--tmpfs", "/tmp:rw,nosuid,nodev,size=32m",
+            "--tmpfs", "/evidence:rw,nosuid,nodev,mode=755,size=32m",
             "--mount", "type=bind,src=" + str(ROOT) + ",dst=/work,readonly",
             image, "python", "-B", "-m", "integration.l2_ops.check_profile_owner"]))
         proof["private_profile_owner_check"] = json.loads(owner)
@@ -86,6 +88,8 @@ def main():
         run.r.lab.state["l2_source_refs"] = [SOURCE_REF]
         run.r.lab.state["l2_source_binding"] = {"sha256": proof["input"]["reference_sha256"],
                                               "policy_id": "pol-001", "policy_version": 1}
+        if os.name == "posix":
+            run.r.lab.state["l2_evidence_owner"] = {"uid": os.getuid(), "gid": os.getgid()}
         run.r.lab.save()
         run.case("original_api_independent_worker", run.start_native)
         proof["native_python"] = run.result["native_python"]
@@ -95,7 +99,9 @@ def main():
         assert created["http_status"] == 202 and task["source_ref"] == SOURCE_REF
         before = probe("status", {"task": task})
         assert before["job_state"] == "PENDING"
-        write(run.native_out / "l2-industrial.wake.json", {"process_one": True})
+        wake = run.native_out / "l2-industrial.wake.json"
+        write(wake, {"process_one": True})
+        wake.chmod(0o644)  # Nonsecret control; parent mount denies other UIDs.
         observed = []
 
         def done():
@@ -137,6 +143,13 @@ def main():
             (output / "source-manifest.json").write_bytes((run.public / "source-manifest.json").read_bytes())
             if hasattr(run, "native_out") and (run.native_out / "m1-worker.log").is_file():
                 proof["private_worker_log_sha256"] = hashlib.sha256((run.native_out / "m1-worker.log").read_bytes()).hexdigest()
+            if hasattr(run, "native_out"):
+                owner_file = run.native_out / "evidence-owner.json"
+                if owner_file.is_file():
+                    proof["actual_evidence_mount"] = json.loads(owner_file.read_bytes())
+                supervisor_log = run.native_out / "native-supervisor.log"
+                if supervisor_log.is_file():
+                    proof["private_supervisor_log_sha256"] = hashlib.sha256(supervisor_log.read_bytes()).hexdigest()
             junit()
             proof["junit_sha256"] = hashlib.sha256((output / "worker-intake.xml").read_bytes()).hexdigest()
             write(output / "worker-intake.json", proof)
