@@ -1,3 +1,5 @@
+Current runtime wiring and actual prepare-mode startup/stop proof: RUNTIME-WIRING.md.
+
 ﻿# L2 operator preparation
 
 PR106 M3 remains accepted. Its `app start/status/open/restart-pg/verify/stop`

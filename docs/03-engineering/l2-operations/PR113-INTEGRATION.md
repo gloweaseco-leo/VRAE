@@ -1,3 +1,5 @@
+> Historical8c5baf0-stage receipt. The runtime composition root is now wired; latest actual scope and remaining P40 hold are in RUNTIME-WIRING.md.
+
 # PR112 / accepted PR113 native report integration
 
 Owner direction: PR112 comment6918213833. The original branch/worktree remains

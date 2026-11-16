@@ -33,3 +33,30 @@ The existing C2 Directory must already authorize this actual native report and C
 C3's panel directly displays the accepted seven-package blueprint title/page/change/customer_inputs/owner_role/acceptance/dependency/service_basis. Original source refs and complete blueprint remain retained; the interface invents no new recommendation or scope. Actual `produce_current` separately records the C1 analysis and C2 producer elapsed durations as SYSTEM/DIAGNOSIS_RUNTIME. Missing rates remain UNKNOWN; automated operations never become attested human labor.
 
 Current CLI startup intentionally remains PREPARATION_NOT_L2_E2E with P40 disabled. These tested assembly ports are not an already-activated production path or a new actual task. Once Owner accepts/merges C1 performance work and any exact B5A pin, normally sync main and use one controlled real P40 round, then activate/test the actual task production, same SSR Controlled review, Brief, Chrome and identical-pins restart readback. No repeated old-core P40 experiment is permitted to stand in for that causal correction.
+
+## Runtime composition implementation (Owner6920169305)
+
+NativeTasks / native_runtime now mount the actual composition into the original
+B5B SSR via the existing private stdio startup config. A current original ticket
+resolves its journal-held TaskHandle; only original CSRF is accepted. The exact
+original M1 issuer/subject/tenant is mapped to one configured Controlled reviewer.
+The currently produced NativeSource determines report scope. Task changes clear
+sessions/challenges/actions while retaining revoked keys/seen JWTs and original
+expiry; same-task M1 reauth retains source/version/receipt, not a new TTL.
+
+Original M1 authority additionally wraps C2 page/review requests and independently
+binds the current worker pack. Brief routes use the prior native dual-context
+reader directly, avoiding a second simultaneous M1 transaction on the same
+locked tenant. No old identity contract or SQL changes.
+
+The own C3 Brief role uses vrae_l2_internal in the SAME PG instance. Original
+vrae_ra4a_p1 ACL/CONNECT denial stays intact. Only the new own database/namespace
+receives CONNECT/USAGE/INSERT/SELECT. No APP/Worker/admin credential or private
+signer enters SSR. Parent-only C2 signer handles only observed fresh challenges;
+new SSR boots have new public keys and require reauthentication.
+
+readiness.ACCEPTED_PERFORMANCE_MAIN remains None. Host/child both refuse enabling
+P40 without this exact Owner acceptance checkpoint; a browser or free CLI flag
+cannot bypass it. Current startup/Chrome receipts are preparation-only, not real
+P40/native report final acceptance. See RUNTIME-WIRING.md for exact source SHA,
+RED, new-ID cleanup and operator sequence. No PR114 unmerged code is consumed.

@@ -1,3 +1,5 @@
+> Latest source/runtime evidence: RUNTIME-WIRING.md (125-case components and separately pinned real prepare-mode startup/Chrome).
+
 > Current PR113 integration and explicit cleanup limits: PR113-INTEGRATION.md.
 
 > Historical first-package receipt below; its final SHA/results are not the current PR112 runtime acceptance. Current staged results and explicit remaining blockers are in STAGE-20261116.md. All historical RED remains retained.
