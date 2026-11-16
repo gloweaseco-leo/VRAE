@@ -179,7 +179,7 @@ def main():
                            and m.get("Destination") == "/var/lib/postgresql/data"]
                 if len(mounts) != 1 or len(volumes) != 1 or not re.fullmatch(r"[a-f0-9]{64}", volumes[0]):
                     raise RuntimeError("expected owned anonymous PG data volume was not identified")
-                command(["docker", "rm", "-f", "-v", name])
+                command(["docker", "rm", "-f", "-v", container_id])
                 for volume in volumes:
                     if command(["docker", "volume", "ls", "-q", "--filter", "name=^" + volume + "$"]):
                         raise RuntimeError("owned anonymous PG data volume remains")
