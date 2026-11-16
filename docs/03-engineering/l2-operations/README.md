@@ -66,3 +66,11 @@ and the isolated database/container was destroyed. The verifier now privately
 archives failure originals and redacts known disposable credentials from public
 JUnit/error output automatically. These are new L2 package tests, unrelated to
 paused old A1/B7 MAX3.
+
+
+CI follow-up: see EVIDENCE.md and first-ci-red.json. New PG/Git operation tests
+are explicitly executed from integration/l2_ops/runtime_tests, not silently
+skipped in ordinary tests/. The default C3 unit suite has33 passing cases and
+zero skips. Original exact25-skips/QA118/review127 assertions and all CI workflows
+remain unchanged. Only the B5A publication documentation baseline is adjusted to
+exact Owner-accepted PR108 blobs, with tamper negatives and truthful audit fields.
