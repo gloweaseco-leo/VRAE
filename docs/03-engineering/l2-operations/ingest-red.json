@@ -1,0 +1,7 @@
+{
+  "test": "test_local_ingestion_rejects_path_escape_before_read[/outside.txt]",
+  "result": "1 failed, 25 passed",
+  "root_cause": "Windows rooted-relative paths have an anchor but is_absolute() is false without a drive. resolve(strict=True) checked C:/outside.txt metadata then failed; no bytes were read.",
+  "fix": "Reject either native or Windows path anchors and traversal parts before filesystem resolution.",
+  "retained": true
+}
