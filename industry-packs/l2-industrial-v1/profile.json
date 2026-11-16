@@ -3,7 +3,7 @@
   "scope": "Pump equipment and industrial valve components; static, explicitly labelled source tables only.",
   "record_types": {"product": "Product", "application": "Application", "supplier": "Supplier proof", "rfq": "RFQ guide"},
   "labels": {
-    "record_type": ["Record type"], "family": ["Product family"], "model": ["Model", "Model number"],
+    "record_type": ["Record type"], "family": ["Product family", "Product type", "Equipment type"], "model": ["Model", "Model number", "Part number"],
     "models": ["Applicable models"], "flow": ["Rated flow", "Nominal flow"], "head": ["Rated head"],
     "power": ["Motor power"], "voltage": ["Supply voltage"], "frequency": ["Supply frequency"],
     "pressure": ["Maximum working pressure"], "temperature": ["Maximum fluid temperature"],
@@ -20,6 +20,7 @@
     "m3/h": ["flow", "1"], "L/min": ["flow", "0.06"], "m": ["head", "1"],
     "kW": ["power", "1"], "V": ["voltage", "1"], "Hz": ["frequency", "1"], "degC": ["temperature", "1"], "mm": ["length", "1"]
   },
+  "family_aliases": {"pump": ["pump", "centrifugal pump", "process water pump"], "valve": ["valve", "isolation valve", "ball valve"]},
   "families": {
     "pump": {
       "critical": ["model", "flow", "head", "power", "voltage", "frequency", "pressure", "temperature", "medium"],

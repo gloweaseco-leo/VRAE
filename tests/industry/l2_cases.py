@@ -143,3 +143,19 @@ def test_pack_has_family_specific_applicability_and_not_a_universal_fit_score(ba
     assert len(valve_na) == 1 and valve_na[0]["observation"]["evidence_ids"] == []
     assert not any("motor" in q for q in load()["profile"]["families"]["valve"]["critical"])
     assert all(a["details"]["engineering_fit"] == "UNKNOWN" for a in rows(result, "IND-FIT"))
+
+
+def test_ordinary_product_labels_need_no_record_type_tag():
+    overrides = {}
+    for filename, path, label, family, model_label in (
+        ("pump.html", "/products/pump-p40", "Equipment type", "Centrifugal pump", "Model number"),
+        ("valve.html", "/products/valve-v25", "Product type", "Isolation valve", "Part number"),
+    ):
+        raw = (DIRECTORY / filename).read_bytes().replace(b"<tr><th>Record type</th><td>Product</td></tr>", b"")
+        source_family = "pump" if "pump" in filename else "valve"
+        raw = raw.replace(("<th>Product family</th><td>" + source_family).encode(), ("<th>" + label + "</th><td>" + family).encode())
+        raw = raw.replace(b"<th>Model</th>", ("<th>" + model_label + "</th>").encode())
+        overrides[path] = raw
+    result = run(overrides=overrides)[3]
+    assert {a["model"] for a in rows(result, "IND-SELECTION")} == {"P40", "V25"}
+    assert all(a["observation"]["result"] == "PASS" for a in rows(result, "IND-SELECTION"))

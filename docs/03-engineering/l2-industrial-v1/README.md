@@ -29,6 +29,7 @@ RecordedTransport 只读取本地登记文件和精确 URL 标识，没有网络
 八页为首页、目录、P40 泵、V25 阀、应用工况、供应商证明、RFQ 指南、Contact。
 目录→产品→Contact 来自原生静态路径执行；应用、证明、RFQ 用各页明确声明的 Applicable models 关联。
 相同型号文字只说明来源声明的关联，不独立认证 SKU/厂商身份；缺少关联或关联不唯一则 UNKNOWN。
+产品页不必带演示的 Record type：明确的 Model/Model number/Part number，加上配置识别的 Product family/Product type/Equipment type，也可建立候选；产品族别名是版本化配置，不靠 URL 猜型号或适配性。
 
 `procurement_chains` 按型号给出五阶段，每阶段引用同一批 Observation/Finding：
 

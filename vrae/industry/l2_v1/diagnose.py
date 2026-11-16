@@ -146,6 +146,13 @@ def matching(records_, kind, model):
     return matches[0] if len(matches) == 1 else None
 
 
+def product_family(record, profile):
+    declared = normalized(text(record, "family") or "")
+    supported = [family for family, aliases in profile["family_aliases"].items()
+                 if declared in {normalized(a) for a in aliases}]
+    return supported[0] if len(supported) == 1 else None
+
+
 def analyze(pack, execution, facts, profile):
     pages = records(facts, profile)
     by_ref = {f["fact_ref"]: f for f in facts}
@@ -189,11 +196,12 @@ def analyze(pack, execution, facts, profile):
                                 possible_buyer_impact={"finding": impact, "status": "HUMAN_REVIEW_REQUIRED"},
                                 recommendations=proposals, semantic_approval=False))
 
-    products = [r for r in pages if normalized(text(r, "record_type") or "") == normalized(profile["record_types"]["product"])]
+    products = [r for r in pages if normalized(text(r, "record_type") or "") == normalized(profile["record_types"]["product"])
+                or (text(r, "record_type") is None and text(r, "model") and product_family(r, profile))]
     if not products:
         add("IND-SELECTION", None, "UNKNOWN", "No unambiguous supported product table was available to this parser.", "NO_SUPPORTED_PRODUCT_RECORD")
     for product in products:
-        model, family = text(product, "model"), normalized(text(product, "family") or "")
+        model, family = text(product, "model"), product_family(product, profile)
         if model is None or family not in profile["families"] or sum(text(p, "model") == model for p in products) != 1:
             add("IND-SELECTION", model, "UNKNOWN", "Product identity or configured family applicability is unresolved.", "IDENTITY_OR_FAMILY_AMBIGUOUS")
             continue
