@@ -24,6 +24,7 @@ jobs:
           python -m ruff check vrae/evidence/pack.py tests/evidence_perf integration/evidence_perf --select E4,E7,E9,F
           python -m mypy vrae/evidence/pack.py
           python -m pytest -q tests/evidence_perf/instance_cases.py --junitxml=docs/03-engineering/evidence-pack-perf/.runtime/ci-safety.xml
+          python -m pytest -q tests/evidence_perf/freeze_cases.py --junitxml=docs/03-engineering/evidence-pack-perf/.runtime/ci-freeze.xml
       - name: Original producer and mandatory Guard replay, baseline versus candidate
         run: python -m integration.evidence_perf.compare --out docs/03-engineering/evidence-pack-perf/.runtime/ci-comparison
       - uses: actions/upload-artifact@v4
@@ -34,5 +35,6 @@ jobs:
           retention-days: 7
           path: |
             docs/03-engineering/evidence-pack-perf/.runtime/ci-safety.xml
+            docs/03-engineering/evidence-pack-perf/.runtime/ci-freeze.xml
             docs/03-engineering/evidence-pack-perf/.runtime/ci-comparison/*.json
             docs/03-engineering/evidence-pack-perf/.runtime/ci-comparison/*.log
