@@ -112,3 +112,12 @@ l2-ops.yml runs the full explicit suite in both native Python versions with real
 PG/restart. Existing ordinary discovery and all its exact2564 IDs/25 skip guards
 are unchanged. The local interpreter and actual minor version must agree; CI
 uses --python-current, local dual invocation remains supported.
+
+
+CurrentL2.authority_expires_at is a trusted server datetime from the minimum of
+original signed-token/session/job-assignment deadlines, not browser JSON or a
+new authorization grant. Source operations reject expired contexts. New ledger
+rows retain this original deadline outside the business document hash; a deferred
+constraint trigger checks real PG time at COMMIT, and expiration rolls back the
+row. No original TTL or Guard is altered and no renewal/identity manager exists.
+An import-only native archive does not need this private-report context.

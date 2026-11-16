@@ -6,7 +6,8 @@ verified here; external handoff remains unavailable.
 """
 
 from contextlib import AbstractContextManager
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from datetime import UTC, datetime
 from typing import Protocol
 
 from vrae.reviewing.canonical import canonical, parse, sha
@@ -47,8 +48,17 @@ class CurrentL2:
     payload: dict
     review: dict
     blueprint: dict
+    authority_expires_at: datetime = field(repr=False)
+
+    def assert_live(self):
+        deadline = self.authority_expires_at
+        if type(deadline) is not datetime or deadline.tzinfo is None or deadline.utcoffset() is None:
+            raise OperationsDenied("L2_CURRENT_AUTHORITY_DEADLINE_REQUIRED")
+        if datetime.now(UTC) >= deadline:
+            raise OperationsDenied("L2_CURRENT_AUTHORITY_EXPIRED")
 
     def snapshot(self):
+        self.assert_live()
         p = pin(self.pins)
         payload = parse(canonical(self.payload, limit=1_000_000), limit=1_000_000)
         if sha(canonical(payload, limit=1_000_000)) != p["payload_sha256"]:
@@ -127,6 +137,7 @@ class BriefService:
             p, _, review, blueprint = current.snapshot()
             if document["pins"] != p or document["review"] != review or document["blueprint"] != blueprint:
                 raise OperationsDenied("L2_BRIEF_STALE_OR_CROSS_TASK")
+            current.assert_live()
             return {**document, "content_sha256": claimed}
 
     def save_current(self, ledger, document):
@@ -137,7 +148,9 @@ class BriefService:
             p, _, review, blueprint = current.snapshot()
             if (document.get("pins"), document.get("review"), document.get("blueprint")) != (p, review, blueprint):
                 raise OperationsDenied("L2_BRIEF_STALE_OR_CROSS_TASK")
-            return ledger.put(document)
+            result = ledger.put(document, authority_expires_at=current.authority_expires_at)
+            current.assert_live()
+            return result
 
     def load_current(self, ledger, brief_ref):
         with self.reader.current() as current:
@@ -148,6 +161,7 @@ class BriefService:
                 raise OperationsDenied("L2_BRIEF_TAMPERED")
             if (document.get("pins"), document.get("review"), document.get("blueprint")) != (p, review, blueprint):
                 raise OperationsDenied("L2_BRIEF_STALE_OR_CROSS_TASK")
+            current.assert_live()
             return document
 
 

@@ -101,3 +101,11 @@ jobs; existing workflows and fixed inventory/classifier remain unchanged.
 Hosted single-version entry is verify.py --label hosted311 --python-current
 python --pg-image <held pinned image>; version mismatch fails before resources
 are started. Local --python311/--python313 pair is still supported.
+
+
+The final explicit suite lives in integration/l2_ops/checks plus runtime_tests;
+the original tests/ tree and exact2564 IDs are byte-identical to accepted main.
+Source checks produce no diagnosis, task or report. CurrentL2 now consumes native
+diagnostic_depth/diagnosis_ref/expected_pack_ref scope, rejecting rehashed results
+from a different tenant/run/pack/diagnosis. Its original authority deadline must
+remain live through persistence: new-table deferred COMMIT expiry rolls back.

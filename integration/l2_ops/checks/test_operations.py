@@ -1,6 +1,7 @@
 """Synthetic adapter tests, not evidence of a completed real L2 Worker run."""
 
 from dataclasses import replace
+from datetime import UTC
 
 import pytest
 
@@ -160,3 +161,15 @@ def test_rehashed_standalone_diagnosis_cannot_be_attached_to_another_task(bundle
                            pins={**original.pins, "payload_sha256": sha(canonical(payload))})
     with pytest.raises(OperationsDenied, match="NATIVE_TASK_BINDING_MISMATCH"):
         BriefService(reader).prepare(bundle, brief_ref="not-a-real-task-result")
+
+
+def test_current_source_deadline_is_required_and_never_extended(bundle, reader):
+    from datetime import datetime, timedelta
+    service = BriefService(reader)
+    document = service.prepare(bundle, brief_ref="short-lived-reader")
+    reader.value = replace(reader.value,
+                           authority_expires_at=datetime.now(UTC) - timedelta(seconds=1))
+    with pytest.raises(OperationsDenied, match="CURRENT_AUTHORITY_EXPIRED"):
+        service.read_current(document)
+    with pytest.raises(OperationsDenied, match="CURRENT_AUTHORITY_EXPIRED"):
+        service.prepare(bundle, brief_ref="no-refresh")

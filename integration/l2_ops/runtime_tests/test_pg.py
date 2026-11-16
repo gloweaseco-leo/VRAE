@@ -1,6 +1,7 @@
 """Real PG16 sidecar tests; synthetic upstream DTOs are explicitly not L2 E2E."""
 import os
 import secrets
+from datetime import UTC
 from pathlib import Path
 
 import pytest
@@ -20,14 +21,16 @@ def database():
     from psycopg.conninfo import make_conninfo
 
     password = secrets.token_urlsafe(32)
+    runtime = make_conninfo(dsn, user="l2_ops_runtime", password=password)
+    output = os.environ.get("L2OPS_RUNTIME_OUTPUT")
+    if output:
+        # Archive disposable credentials privately before any failing SQL could
+        # include a Literal/connection repr in pytest's exception diagnostics.
+        Path(output).write_text(runtime, encoding="utf-8")
     with psycopg.connect(dsn) as c:
         assert 160000 <= c.info.server_version < 170000
         c.execute(sql.SQL("CREATE ROLE l2_ops_runtime LOGIN PASSWORD {}").format(sql.Literal(password)))
         install(c, "l2_ops_runtime")
-    runtime = make_conninfo(dsn, user="l2_ops_runtime", password=password)
-    output = os.environ.get("L2OPS_RUNTIME_OUTPUT")
-    if output:
-        Path(output).write_text(runtime, encoding="utf-8")
     return lambda: psycopg.connect(runtime)
 
 
@@ -47,9 +50,9 @@ def test_pg_append_only_replay_conflict_and_current_lock(database, bundle, reade
         ledger.get("another-tenant", "pg-brief")
 
     class LockObservingLedger:
-        def put(self, value):
+        def put(self, value, *, authority_expires_at):
             assert reader.locked
-            return ledger.put(value)
+            return ledger.put(value, authority_expires_at=authority_expires_at)
 
     service.save_current(LockObservingLedger(), document)
     reader.allowed = False
@@ -89,3 +92,28 @@ def test_pg_real_deferred_commit_failure_returns_no_receipt(database, bundle, re
         service.save_current(ledger, document)
     with pytest.raises(OperationsDenied, match="NOT_FOUND"):
         ledger.get(bundle.tenant_id, "commit-must-fail")
+
+
+def test_pg_real_commit_after_source_deadline_rolls_back(database, bundle, reader):
+    from contextlib import contextmanager
+    from dataclasses import replace
+    from datetime import datetime, timedelta
+
+    import psycopg
+
+    # Source session deadline is not extended; this deliberately short test
+    # expires while the actual DB transaction remains open before COMMIT.
+    reader.value = replace(reader.value,
+                           authority_expires_at=datetime.now(UTC) + timedelta(seconds=3))
+    document = BriefService(reader).prepare(bundle, brief_ref="auth-expired-at-commit")
+
+    @contextmanager
+    def delayed_commit():
+        with database() as c:
+            yield c
+            c.execute("SELECT pg_sleep(3.2)")
+
+    with pytest.raises(psycopg.errors.CheckViolation, match="L2_AUTHORIZATION_EXPIRED"):
+        BriefService(reader).save_current(BriefLedger(delayed_commit), document)
+    with pytest.raises(OperationsDenied, match="NOT_FOUND"):
+        BriefLedger(database).get(bundle.tenant_id, "auth-expired-at-commit")

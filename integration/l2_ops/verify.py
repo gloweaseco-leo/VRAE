@@ -1,4 +1,4 @@
-"""Two native Windows Python interpreters, isolated real PG16, actual restart.
+"""Native Python3.11/3.13 on Windows or Linux, isolated PG16, actual restart.
 
 This validates the C3 business package. Synthetic reader fixtures are not an
 accepted C1 L2 result port or a complete browser/Worker L2 demonstration.
