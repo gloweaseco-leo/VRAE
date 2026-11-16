@@ -2,15 +2,25 @@
 
 import hashlib
 import json
-from pathlib import Path
 import re
 import shutil
 import subprocess
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 from .lab import ROOT, RUNTIME
 
 ENTRY = "6257ad3acb09d046d954301117134f6992c02d84"
+# Owner accepted PR108 / main6a7c39b2: documentation only. Exact Git blobs,
+# never a directory exemption; original source/identity/SQL freeze is unchanged.
+OWNER_DOCUMENT_BASELINE = "6a7c39b2bec48842de2236490aa6157a57606e08"
+OWNER_DOCUMENT_BLOBS = {
+    "docs/00-product/PRODUCT_CHARTER_V1.1.md": "aa4890c9088de898977b41c45f9d3df18db47839",
+    "docs/01-architecture/DEPLOYMENT_AND_SECURITY_V1.1.md": "746604b859c0e67b497873b328f48fd841f527e9",
+    "docs/02-domain/PRODUCT_AND_OPERATOR_JOURNEYS_V1.1.md": "af622e2dd5046c00cca91bddce9268d7162f6fcd",
+    "docs/03-engineering/DEVELOPMENT_MASTER_PLAN_V1.1.md": "d41e6f02aa4377b94d52bbe867c3afc062ad45ae",
+    "docs/03-engineering/ROADMAP_AND_ACCEPTANCE_V1.1.md": "ec17142dc2c8d0164299be2e11902f7a9a5df499"
+}
 OWN = ROOT / "docs/03-engineering/ra4c-b5a"
 
 
@@ -49,7 +59,11 @@ def source():
 
     original = dict(line.split("\t", 1)[::-1] for line in git("ls-tree", "-r", ENTRY).splitlines())
     changed = git("diff", "--name-only", ENTRY).splitlines()
-    assert not set(original) & set(changed), "ACCEPTED_SOURCE_CHANGED"
+    original_changes = set(original) & set(changed)
+    assert not original_changes - set(OWNER_DOCUMENT_BLOBS), "ACCEPTED_SOURCE_CHANGED"
+    for name, blob in OWNER_DOCUMENT_BLOBS.items():
+        assert git("rev-parse", "HEAD:" + name) == blob, "OWNER_DOCUMENT_BASELINE_CHANGED"
+        assert not git("diff", "--name-only", "HEAD", "--", name), "OWNER_DOCUMENT_WORKTREE_CHANGED"
     pins = {}
     for name in (
         "vrae/identity/boundary.py",
@@ -81,7 +95,9 @@ def source():
         "accepted_entry": ENTRY,
         "head": git("rev-parse", "HEAD"),
         "head_and_ordered_parents": git("log", "-1", "--format=%H %P"),
-        "accepted_files_modified": [],
+        "accepted_files_modified": sorted(original_changes),
+        "owner_accepted_document_baseline": OWNER_DOCUMENT_BASELINE,
+        "owner_accepted_document_blobs": OWNER_DOCUMENT_BLOBS,
         "accepted_interface_pins": pins,
         "b5a_working_source_lf_sha256": additions,
     }

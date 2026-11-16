@@ -1,4 +1,4 @@
-﻿"""Executed only after an actual docker restart by integration/l2_ops/verify.py."""
+"""Executed only after an actual docker restart by integration/l2_ops/verify.py."""
 import os
 
 import pytest
@@ -12,7 +12,8 @@ def test_real_pg_restart_current_read_and_role_limits(bundle, reader):
     if not dsn:
         pytest.skip("requires explicit post-restart runtime connection")
     import psycopg
-    connect = lambda: psycopg.connect(dsn)
+    def connect():
+        return psycopg.connect(dsn)
     service = BriefService(reader)
     expected = service.prepare(bundle, brief_ref="restart-readback")
     assert service.load_current(BriefLedger(connect), "restart-readback") == expected

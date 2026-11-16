@@ -1,4 +1,4 @@
-﻿"""Business panel fragment for the existing signed SSR, never a second server."""
+"""Business panel fragment for the existing signed SSR, never a second server."""
 import json
 from html import escape
 
@@ -21,7 +21,8 @@ def render_verified(document):
     # This pure renderer does not confer read authority. The SSR must use
     # render_current with its server-held signed reader, never browser JSON.
     validate_document(document)
-    e = lambda x: escape(str(x), quote=True)
+    def e(x):
+        return escape(str(x), quote=True)
     pins = "".join(f"<dt>{e(k)}</dt><dd>{e(v)}</dd>" for k, v in document["pins"].items())
     pending = "".join(f"<li>{e(LABELS[c['key']])}：待确认</li>" for c in document["customer_confirmations"])
     consultation = document["consultation"]

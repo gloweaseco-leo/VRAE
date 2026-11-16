@@ -38,7 +38,7 @@ def main():
     output = ROOT / "docs/03-engineering/l2-operations" / args.label
     output.mkdir(parents=True, exist_ok=False)
     image = command(["docker", "image", "inspect", "postgres:16-alpine", "--format", "{{.Id}}"])
-    source_paths = ["vrae/l2_ops", "tests/l2_ops", "integration/l2_ops", "scripts/beta_internal.py"]
+    source_paths = ["vrae/l2_ops", "tests/l2_ops", "integration/l2_ops", "scripts/beta_internal.py", "integration/ra4c_b5a/publication.py"]
     command(["git", "diff", "--exit-code", "HEAD", "--", *source_paths])
     candidate_sha = command(["git", "rev-parse", "HEAD"])
     files = command(["git", "ls-files", "--", *source_paths]).splitlines()
