@@ -1,83 +1,116 @@
-# Native C3 package evidence (not complete L2 E2E)
+﻿# C3 L2 operations: actual evidence and limits
 
-Tested source: `c04d7599f1da3582a6732df919a7a87e88546def`.
-The subsequent evidence commit changes documentation/artifacts only. The full
-C3 application, verifier and test trees remain byte-for-byte unchanged in Git.
-This is not a claim that a future PR SHA was tested in advance. r5/r6/r7 remain earlier passing evidence; r8 includes the precise first-CI fixes.
+Final tested code: `752936a79f80fc6fd429b3033521cb9f5fab6d57`. The next commit
+only seals documentation/artifacts; C3 code, explicit tests, CI and source files
+remain unchanged. No claim is made that a future commit was tested in advance.
 
-- Native Windows Python3.11.15: **43/43**, post-PG-restart **1/1**.
-- Native Windows Python3.13.13: **43/43**, post-PG-restart **1/1**.
-- PostgreSQL16.15 (`server_version_num=160015`) by pinned local image
-  `sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea`.
-- Actual independent PG container restart on each version, followed by native
-  `l2_ops_runtime` read through BriefService and checks of remaining SQL rights.
-- Identical persisted document content SHA after both restarts:
-  `6178ab096049fcb3adddf8c71290527f637b5305f41b665205655dcc1486a224`.
-- Real deferred COMMIT failure raises and leaves no visible brief; successful
-  identical retry is byte-identical, conflicting same-reference writes refuse.
-- Runtime UPDATE/DELETE/DROP/CREATE refused. No original SQL/RLS/Worker or old
-  APP/Reviewer grants changed. Bootstrap rejects using those old roles.
-- Current-reader refusal/revocation, source/task/report/review/blueprint version
-  mismatch, L1-as-L2, payload edits and rehashed business-authority edits refuse.
-- Six actual beta_internal CLI runs (3 modes x2 native versions), all
-  SOURCE_VALIDATED_NOT_DIAGNOSED; task_created=false, network_requests=0.
-- `mypy vrae`:105 files pass; new-scope ruff passes. CI workflows and original legacy classifier assertions unmodified. The B5A publication helper now pins the five Owner-accepted PR108 documentation blobs, preserving all other original-file freezes; it reports those five accepted changes explicitly.
-- Owned PG containers and networks removed. Other workspace/container resources
-  were not stopped or deleted. Private credentials/raw RED originals retained
-  under ignored `.private`; public failed copies redacted with original hashes.
+## Delivered code
 
-Raw JUnit/text, source manifest, actual port mappings, readback and measured wall
-nanoseconds are in `r8/` (six unchanged CLI demonstrations remain in `r5/`). Actual package-validation wall durations were
-30,719,000,000ns and25,938,000,000ns, excluding final cleanup. These are automated
-validation measurements, not real diagnostic Worker costs or human labor.
-Monetary amount is UNKNOWN/null, no invoice reconciliation or paid model call.
+Original beta_internal.py adds source-check and native-check. Three provenance
+channels are independent of L2 depth. Native archive import calls accepted
+EvidencePack.load, verifies complete body/quote/source graph and held scope, and
+preserves original bytes/times/IDs. Additional raw materials remain explicitly
+unconsumed. Import is consistency verification, not signed provenance/current
+access permission, task creation or diagnosis.
 
-RED remains: r1 transport setup, r3 consultation fixture shape, r4 restart
-transport plus its independent port-change probe; ingestion anchor RED separately
-recorded. r4 original bytes are private, with SHA manifest and sanitized public
-copies; no vanished original is represented as recoverable from its hash alone.
+The original Collector generated a new tenant-test industrial capture over
+synthetic responses:8 pages, all200,9 offline transport exchanges, zero actual
+network requests. No real domain/customer data was collected. All3 channel
+wrappers are synthetic. Archive/pins are in integration/l2_ops/fixtures.
 
-## Outstanding full-product integration
+BriefService binds actual tenant/request/run/job/event/source/report/version,
+whole report/payload/IndustryPack/bundle SHA, native pack and diagnosis refs.
+C1 diagnostic_depth/tenant/run/expected_pack_ref/diagnosis_ref must match the
+current task; rehashing a standalone different-scope diagnosis does not help.
+C2's current receipt/blueprint must bind the same report version/hash. The
+server-supplied source context must carry original signed access/current-version
+locks and minimum authority deadline; constructors/DTOs do not confer authority.
 
-The baseline main has accepted M3 L1 operation, not accepted L2 deep-result ports.
-No L2 APP202/Worker/report/review/browser operation is claimed by these tests.
-TestOnlyReader data is exclusively synthetic adapter test data; it cannot be
-loaded as a production result or a real new-task report through this package.
+Dedicated l2_ops_v1/l2_ops_runtime store immutable internal brief bytes. Runtime
+has INSERT/SELECT only; identical retry returns same bytes, same-ref conflict
+refuses. Actual COMMIT failure and COMMIT after source-authority expiry leave no
+row. The expiry trigger is in the new namespace only; old SQL/roles/Guard/Worker,
+TTL, HTTP/CDP limits and protected identity interfaces are unchanged. Business
+JSON does not renew or contain an authorization grant. New HTML is only a safely
+escaped fragment for the one existing signed SSR, not another server or CRM.
 
-Required next inputs after Owner merge: C1's real L2 source/IndustryPack/deep
-result reader; C2's version-bound L2 review/blueprint context and unique-SSR hook.
-Compose CurrentReader against those accepted ports; then run actual operator
-source -> APP202 -> Worker -> L2 findings -> review -> RebuildBrief on one SHA.
-Existing M3 lifecycle is preserved, not reimplemented. C3 coordination:
-Issues94/95, specifically Issue95 comment6907522982.
+Customer goals/market/scope/material rights/URL plan/acceptance/approval remain
+pending. No actual VF consultation receipt or rate was supplied: UNLINKED or
+UNVERIFIED_REFERENCE, no E2/E3, no zero-cost assumption or invoice reconciliation.
+Human activity requires explicit attestation; automated demos are not labor.
+External delivery, customer approval and L2M execution remain false.
 
-No real consultation evidence or rate supplied: no E2/E3 claim, no real human
-approval/customer or external delivery. Missing customer authorization is not a
-blocker to the implemented offline capability.
+## Final local verification
 
+Both used the hosted-equivalent --python-current entry on the same tested SHA:
 
-## First CI and controlled correction
+- Windows native Python3.11.15:60/60, plus actual PG-restart readback1/1.
+- Windows native Python3.13.13:60/60, plus actual PG-restart readback1/1.
+- No skipped/error/failure node in these61 cases per version. PostgreSQL16.15
+  server_version_num160015, exact image721873c34ceb...6080ea.
+- Actual delayed deferred COMMIT failure, source-expiry COMMIT rollback,
+  UPDATE/DELETE/DROP/CREATE refusal, immutable replay/conflict and readback under
+  l2_ops_runtime all verified against real PG. Both owned containers/networks
+  removed; unrelated resources were not touched.
+- Persisted brief content SHA after both real restarts:
+  21b328edcf4b5aa9e584e04ea7fd2eab66148f554f32fe6faf5c0076834a0559.
+- Six real native-source CLI operations (three channels x two native versions)
+  verified the same8-page archive. Output is source-only, task_created=false.
+- Full mypy106 files passes; original E4/E7/E9/F lint and new-scope lint pass.
+- tests/ Git tree equals Owner main6a7c39b2 exactly. Collection-only preflight
+  checks all2564 exact original IDs against unchanged manifestee50d3ce...5f537;
+  it executes zero old tests and is not represented as test execution.
 
-First HEAD e4f81fc9a1209dec21126d94ca0bafe34d9bb850 completed 14 workflows /
-30 jobs:21 success,9 failures, all attempt1. Complete original job IDs/links and
-retained-log digests are in first-ci-red.json. No old-HEAD manual rerun.
+Raw JUnit/text, exact source manifest, actual port mappings, real readback,
+cleanup and six CLI outputs are in r9native311/ and r9native313/.
+portable-source-proof.json distinguishes actual Windows source bytes from Git
+blobs and proves checkout-EOL-only differences. Native test runtimes were
+39,234,000,000ns and42,256,581,200ns before final cleanup. These are automated
+package-validation measurements, not diagnostic Worker/human cost claims.
 
-Three proven causes: two E731 assignments (5 jobs), PR108 documentation baseline
-mismatch already present on accepted main (2 jobs), and five new PG-only skips
-refused by the original exact-25-skip ordinary classifier (2 jobs).
+Direct registry-client preflight timed out locally; normal Docker daemon pull
+verified the exact official postgres digest successfully. See registry-preflight.
 
-Corrected E731 with ordinary functions. Five accepted document paths are pinned
-to exact Git blobs from Owner main6a7c39b2; mismatched commits/dirty content,
-original identity/SQL/unlisted documents remain refused. Native real temporary
-Git history tests cover all six cases; current repository source snapshot is in
-r8/frozen-source-current.json. Source metadata checks no longer import an
-unnecessary database driver; root/runtime paths are unchanged.
+## Natural CI and retained RED
 
-New PG and Git/runtime integration tests reside outside ordinary tests/, invoked
-explicitly by the real PG validator. Missing PG context now fails these explicit
-integration tests; none skips. The ordinary C3 suite is33/33 with zero skips;
-original legacy exact25, QA118 and review127 assertions remain untouched.
-The separate runtime10 + ordinary33 give43 native cases, plus post-restart1.
-No Docker image, CI workflow or old classifier was relaxed. Old isolated image
-copies no integration/ or Git binary; keeping these real operation tests in their
-explicit suite also preserves that original runtime contract.
+First head e4f81fc:14 workflows/30 jobs,21 success9 failure, all attempt1.
+first-ci-red.json keeps original IDs/URLs/log digests. Causes:two E731 assignments
+(5 jobs), historical source freeze rejecting five already Owner-accepted PR108
+documentation blobs (2), and five new optional PG skips violating exact25 (2).
+
+Second head b421c14:28/30 success, all attempt1. B5A and prior roots passed;
+private-runtime2 stopped at unchanged exact2564 DISC inventory because33 new
+ordinary cases were added. second-ci-red.json preserves this distinct failure.
+All added C3 checks now run outside tests/ through independent new dual-version
+l2-ops.yml with real PG/restart. Old workflows, inventory and exact25/QA118/
+review127 assertions are untouched. No test is deleted or substituted by a pass.
+No old-head manual retry was issued. The new CI checks out exact PR-head SHA.
+
+Publication helper's only baseline adaptation pins Owner main6a7c39b2's five
+PR108 docs to exact Git blobs, with truthful modified-doc metadata. No directory
+exemption or documentation rollback. Real temporary-Git tests reject old
+identity/SQL/unlisted-doc edits, wrong committed blobs and dirty accepted docs.
+Original protected executable/identity/SQL pins remain unchanged.
+
+Local transport/fixture/ingestion/restart RED and earlier passes remain retained
+under r1/r3/r4/r5/r6/r7/r8 and development XML. r4's disposable isolated password
+appeared in an exception repr: private originals and hashes remain, public
+copies are redacted and normalized, and the isolated DB was destroyed. New
+verifier archives raw failures privately and redacts before public output; role
+credentials are recorded privately before SQL to cover setup errors too.
+
+## Not yet complete: actual L2 application chain
+
+Main is still Owner-accepted6a7c39b2. C1 PR110 and C2 PR111 are unmerged; C3 has
+read version contracts, not imported sibling implementations. Current accepted
+M3 L1 Worker/SSR is preserved and not relabeled L2. TestOnlyReader is deliberately
+a synthetic adapter fixture, not genuine Worker output or Reviewer authority.
+
+No new L2 APP202->Worker->deep-report->review->RebuildBrief browser completion,
+actual human approval, customer authorization, production deployment or external
+handoff is claimed. After Owner merges the core/UI ports, normally sync main,
+use the original TaskClient/Worker/current signed read and the one SSR's deep
+profile hook, verify actual C1 source/industry/diagnosis under held refs, then
+complete genuine same-task report/review/brief/operating-cost integration and
+browser/restart acceptance. No new overall plan or real-site authorization is
+needed for that offline work; accepted implementation dependencies are required.
