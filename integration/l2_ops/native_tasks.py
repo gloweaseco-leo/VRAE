@@ -79,19 +79,7 @@ class NativeTasks:
             raise OperationsDenied("L2_NATIVE_PRODUCED_TASK_MISMATCH")
         rid = source.read().version["report_id"]
         c = self.identity
-        if self.directory is None:
-            self.directory = Directory(issuer=c["issuer"], audience=c["audience"], jwks=c["jwks"], expires=c["expires"],
-                people=[Person(c["actor_id"], c["subject"], c["name"], c["tenant_id"], "REVIEWER", (rid,))], mode="CONTROLLED")
-        else:
-            # Preserve revocations, replay protection, fixed expiry and identity.
-            # Only this actual task creator's CURRENT report scope is assigned.
-            with self.directory.lock:
-                self.directory.now()
-                person = self.directory.people[c["subject"]]
-                if not person.active or person.role != "REVIEWER" or person.actor_id != c["actor_id"]:
-                    raise OperationsDenied("L2_NATIVE_OPERATOR_REVOKED")
-                if person.report_ids != (rid,):
-                    self.directory.people[c["subject"]] = replace(person, report_ids=(rid,))
+        self._select_report(rid)
         if self.active is None or self.active["report_id"] != rid:
             # Same application/listener. A different task requires C2 reauth;
             # prior source/versions/receipts remain in the original SQLite file.
@@ -109,6 +97,25 @@ class NativeTasks:
         assembly.attach_business(self.app, self.brief_ledger, report_id=rid, bundle=self.bundle,
             activities=activities, subject=c["subject"], factory=current)
         return ledger
+
+    def _select_report(self, rid):
+        c = self.identity
+        if self.directory is None:
+            self.directory = Directory(issuer=c["issuer"], audience=c["audience"], jwks=c["jwks"], expires=c["expires"],
+                people=[Person(c["actor_id"], c["subject"], c["name"], c["tenant_id"], "REVIEWER", (rid,))], mode="CONTROLLED")
+        else:
+            # Preserve revocations, replay protection, fixed expiry and identity.
+            # Only this actual task creator's CURRENT report scope is assigned.
+            with self.directory.lock:
+                self.directory.now()
+                person = self.directory.people[c["subject"]]
+                if not person.active or person.role != "REVIEWER" or person.actor_id != c["actor_id"] or person.tenant_id != c["tenant_id"]:
+                    raise OperationsDenied("L2_NATIVE_OPERATOR_REVOKED")
+                if person.report_ids != (rid,):
+                    self.directory.people[c["subject"]] = replace(person, report_ids=(rid,))
+                    self.directory.sessions.clear()
+                    self.directory.actions.clear()
+                    self.directory.challenges.clear()
 
     @contextmanager
     def access(self):

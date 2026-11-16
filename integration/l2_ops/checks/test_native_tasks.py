@@ -25,7 +25,7 @@ def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):  # n
     app, generated = mounted_application(reviewed, tmp_path)
     ref, bundle, native = selected("industrial-p40-v3")
     from vrae.application.ra4b_p2.m1.consumer import AppEndpoint, TaskClient
-    client = TaskClient(AppEndpoint("x"*40, bundle.tenant_id, frozenset({ref})))
+    client = TaskClient(AppEndpoint("x"*40, bundle.tenant_id, frozenset({"accepted-404", "accepted-200", ref})))
     port = L2Tasks(client, [RegisteredSource(ref, native)])
     generated.workflow = TaskWorkflow(client, tmp_path/"tasks.sqlite", sources={"p40": {"source_ref": ref, "label": "P40", "depth": "L2"}})
     task = native_result.evidence.task
@@ -154,3 +154,20 @@ def test_private_runtime_gate_cannot_enable_unaccepted_performance_main(monkeypa
         "identity": {}, "brief_password": "x"*32}
     with pytest.raises(OperationsDenied, match="TRUSTED_RUNTIME_CONFIG"):
         native_runtime.provision(None, cfg)
+
+
+def test_task_scope_switch_never_resurrects_old_c2_session_or_nonce(runtime):
+    app, manager, task, issuer, headers, path, state = runtime
+    produce_from_form(runtime)
+    rid = manager.active["report_id"]
+    sid = login(issuer, manager.directory, "runtime-reviewer")
+    seen = dict(manager.directory.seen)
+    nonce, csrf = manager.directory.challenge()
+    expiry = manager.directory.expires
+    manager._select_report("l2-native-"+"0"*32)
+    manager._select_report(rid)
+    assert manager.directory.seen == seen and manager.directory.expires == expiry
+    with pytest.raises(L2Denied):
+        manager.directory.require(sid)
+    with pytest.raises(L2Denied):
+        manager.directory.login(issuer.token("runtime-reviewer", nonce), nonce, csrf)
