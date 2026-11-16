@@ -80,7 +80,7 @@
     "contracts/v1/industry/BuyerDiagnosis.schema.json": "2b806fb5113d86013d33e729758c6955dbfa69663e33b5ba822a319a3ec18164",
     "integration/industry_l2/__init__.py": "f26af0c0f859b574e58e36c5903f82f0846000eefc87b466915454c4b6a7c67e",
     "integration/industry_l2/fixture.py": "169426642a1ad6fea1ef041404aa070087c811b3dcde7b48882b0307bfdd718c",
-    "integration/industry_l2/demo.py": "aa131bb79754b78aa56c9b7228181426408d302a92915c0d9d6f28dab75a905b",
+    "integration/industry_l2/demo.py": "ab69d7a050a672d7bede1f85e41fe796ae2c19718243251bc8bfc061cae91412",
     "integration/industry_l2/publish.py": "61e07a7e7a60cb60d7bb57a6865b4d999c65d0535d7af3839a1652de3069c424",
     "integration/industry_l2/expected_ids.json": "c795ecb9711c39894a08bba6936fc570fc5bbe30f21a154d7f8425400cf42f67",
     "tests/industry/l2_cases.py": "75ced9af27409c50d54e3d0e619a98175535a1c27704506a2688d63c44756022",
@@ -129,5 +129,12 @@
       "note": "19/19 before ordinary product-label compatibility addition"
     }
   ],
-  "source_note": "Complete 20/20 native tests per minor and actual demo executed analysis source907297e; later changes update only actual example/evidence files. Hosted CI executes the entire final commit."
+  "source_note": "Complete20/20 per minor executed analysis907297e. Export consumer roundtrip executed ce23b32, changing only the demo verification helper. Subsequent changes are evidence metadata; hosted CI executes the final commit.",
+  "consumer_roundtrip": {
+    "status": "PASS",
+    "source_checkpoint": "ce23b32ba5f23e07819ed864b82b47e3649e2e59",
+    "expected_diagnosis_ref": "l2-a1172d07813d42010a0ce1e8a6b1d4eadccc18ea1ccdbf2eb3d06474f01edef3",
+    "method": "Reload exported JSON and base64 blobs through native EvidencePack.load and full industry verify with producer-held pins",
+    "source_file_sha256": "e77f832966ce7131622136f7046941455c810ed93feb8f0a8e388dd0f0f58131"
+  }
 }
