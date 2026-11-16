@@ -61,6 +61,7 @@ class GeneratedConsole:
         if type(sessions) is not GeneratedSessions:
             raise ValueError('M2_ACCEPTED_GENERATED_SESSIONS_REQUIRED')
         self.sessions = sessions
+        self.native_tasks = None
         # Launcher-provisioned aliases -> exact tenant/job; not HTTP authority.
         self.tasks = dict(tasks)
         if any(k not in ('404', '200') or set(v) != {'tenant', 'job_id'} for k, v in self.tasks.items()):
@@ -153,6 +154,8 @@ class GeneratedConsole:
             csrf = self.sessions.action(sid, target)
             html += '<form method="post" action="' + e(target) + '">' + hidden('_csrf', csrf)
             html += '<button type="submit" data-key="m2-new-report">' + label + '</button></form>'
+        if task is not None and self.native_tasks is not None:
+            html += self.native_tasks.task_fragment(task, ticket)
         html += link(PREFIX + 'task/' + ticket, '刷新任务状态', key='m2-status-refresh')
         html += link(PREFIX + 'tasks', '返回我的合成任务') + '</section>'
         return Reply(Response(200, page('新任务处理状态', html).encode()))

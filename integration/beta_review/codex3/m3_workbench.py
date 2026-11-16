@@ -216,7 +216,7 @@ class Workbench(GeneratedRun):
         self.pipe_thread = threading.Thread(target=pump, daemon=True)
         self.pipe_thread.start()
         current.stdin.write(
-            json.dumps({"profile": self.profile_data, "origin": self.r.origin}) + "\n"
+            json.dumps(self.ssr_configuration()) + "\n"
         )
         current.stdin.flush()
         assert self.replies.get(timeout=30) == {"ready": True}
@@ -292,6 +292,9 @@ class Workbench(GeneratedRun):
         self.r.origin = "http://127.0.0.1:" + str(self.http.server_port)
         self.http_thread = threading.Thread(target=self.http.serve_forever, daemon=True)
         self.http_thread.start()
+
+    def ssr_configuration(self):
+        return {"profile": self.profile_data, "origin": self.r.origin}
 
     def observe(self, method, path, status, raw):
         self.http_observations.append({"method": method, "path": path, "status": status})

@@ -39,8 +39,15 @@ def main(argv=None):
         else:
             result = status(args.run) if args.operation == "app-status" else request_stop(args.run)
             code = 0
-        result["l2_mode"] = "PREPARATION_NOT_L2_E2E"
-        result["p40_submit_enabled"] = False
+        from integration.beta_review.codex3.local_app import folder_for
+        readiness_file = folder_for(args.run) / "l2-readiness.json"
+        if readiness_file.is_file():
+            held = json.loads(readiness_file.read_bytes())
+            result["l2_mode"] = held["mode"]
+            result["p40_submit_enabled"] = held["p40_submit_enabled"]
+        else:
+            result["l2_mode"] = "PREPARATION_NOT_L2_E2E"
+            result["p40_submit_enabled"] = False
         print(json.dumps(result, ensure_ascii=False))
         return code
     if args.operation == "worker-intake":

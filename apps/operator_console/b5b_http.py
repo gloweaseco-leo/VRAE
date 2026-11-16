@@ -33,6 +33,7 @@ class Application:
             deep.l1_enabled = generated is not None
         self.deep = deep
         self.native_business = None
+        self.native_tasks = None
 
     @property
     def origin(self):
@@ -51,13 +52,21 @@ class Application:
             try:
                 app.base._headers(method, headers)
                 path, query = app.base._path(target)
+                if self.native_tasks is not None and self.native_tasks.route(path) is not None:
+                    if query:
+                        refuse('INVALID_INPUT')
+                    return self.native_tasks.handle(method, path, headers, raw)
                 if path.startswith('/b5a/l2/') and self.deep is not None:
                     if query:
                         refuse('INVALID_INPUT')
                     business = self.native_business
                     if business is not None and business.route(path) is not None:
                         return business.handle(method, path, headers, raw)
-                    reply = self.deep.handle(method, path, headers, raw)
+                    if self.native_tasks is None or path == '/b5a/l2/style.css':
+                        reply = self.deep.handle(method, path, headers, raw)
+                    else:
+                        with self.native_tasks.access():
+                            reply = self.deep.handle(method, path, headers, raw)
                     return business.decorate(path, reply) if business is not None else reply
                 if path.startswith('/b5a/m2/') and self.generated is not None:
                     if query:
