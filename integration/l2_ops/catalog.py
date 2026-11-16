@@ -21,14 +21,16 @@ from vrae.rules import execute
 SOURCE_REF = "l2-industrial-native-v1"
 
 
-def admission(native):
+def admission(native, *, source_ref=SOURCE_REF):
+    from .source_profiles import SOURCE_REFS
+    assert source_ref in SOURCE_REFS
     pack = native.pack
     scope = {k: pack.document[k] for k in ("tenant_id", "run_id", "policy_id", "policy_version")}
     execution = execute(pack, expected_pack_ref=pack.ref, evaluator_version="ra2b6-1.0.0")
     pins = {"expected_pack_ref": pack.ref, "expected_execution_ref": execution["execution_ref"],
             "expected_builder_version": "ra2c3-1.0.0", "expected_evaluator_version": "ra2b6-1.0.0"}
     package = build_findings(pack, execution, **pins)
-    metadata = {"report_id": "l2-industrial-input-coverage-v1", "version": 1,
+    metadata = {"report_id": "l2-industrial-input-coverage-v1" if source_ref == SOURCE_REF else source_ref + "-input-coverage", "version": 1,
                 "created_at": pack.document["sources"][0]["document"]["pages"][0]["snapshot"]["captured_at"],
                 "created_by": "c3-synthetic-input-bootstrap", "mode": "SYNTHETIC_PRIVATE_PREVIEW",
                 "finding_selection": None}
@@ -47,12 +49,12 @@ def admission(native):
               "allowed_purpose": "OFFLINE_REVIEW_SIMULATION", "current_authorization": "NOT_IMPLEMENTED"}
     artifact = f"synthetic-object://{scope['tenant_id']}/{metadata['report_id']}/v1/{sha(draft.html_bytes)}"
     trust = SyntheticTrust("TEST_ONLY_ACCEPTED_SYNTHETIC_SOURCE", canonical(held), canonical(policy), artifact)
-    reference = frozen_reference(SOURCE_REF, draft._payload, draft.html_bytes, source, trust=trust)
+    reference = frozen_reference(source_ref, draft._payload, draft.html_bytes, source, trust=trust)
     return reference, source
 
 
-def install(lab, native):
-    reference, raw = admission(native)
+def install(lab, native, *, source_ref=SOURCE_REF):
+    reference, raw = admission(native, source_ref=source_ref)
     with lab.connect(dbname="vrae_ra4a_p1") as c, c.transaction():
         before = c.execute("SELECT count(*) FROM ra4b_p2.m1_results").fetchone()[0]
         keys = list(reference)
@@ -68,7 +70,7 @@ def install(lab, native):
         audit.update(tenant_id=reference["tenant_id"], source_policy_ref=reference["policy_id"],
                      source_policy_version=reference["policy_version"])
         c.execute("INSERT INTO ra4b_p2.m1_inputs(tenant_id,source_ref,reference_sha256,source_record,policy_document,audit_document,reviewer_role) VALUES(%s,%s,%s,%s,%s,%s,%s)",
-            (reference["tenant_id"], SOURCE_REF, reference["ref_sha256"], raw, Jsonb(policy), Jsonb(audit), "p2b1_test_a_reviewer"))
+            (reference["tenant_id"], source_ref, reference["ref_sha256"], raw, Jsonb(policy), Jsonb(audit), "p2b1_test_a_reviewer"))
         assert c.execute("SELECT count(*) FROM ra4b_p2.m1_results").fetchone() == (before,)
-    return {"source_ref": SOURCE_REF, "source_record_sha256": sha(raw), "original_pack_ref": native.pack.ref,
-            "reference_sha256": reference["ref_sha256"], "seeded_worker_results": 0, "input_preview": "SYNTHETIC_NEUTRAL_COVERAGE_NOT_L2"}
+    return {"source_ref": source_ref, "source_record_sha256": sha(raw), "original_pack_ref": native.pack.ref,
+            "reference_sha256": reference["ref_sha256"], "policy_expires_at": expiry.isoformat(), "seeded_worker_results": 0, "input_preview": "SYNTHETIC_NEUTRAL_COVERAGE_NOT_L2"}

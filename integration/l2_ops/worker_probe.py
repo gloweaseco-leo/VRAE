@@ -16,14 +16,12 @@ import psycopg
 from vrae.application.ra4b_p2.m1.consumer import AppEndpoint, TaskClient, TaskHandle
 from vrae.application.ra4b_p2.m1.reader import JobAssignment, SignedGeneratedReader
 from vrae.identity.boundary import TrustAnchor
-from vrae.l2_ops.ingest import load_source
-from vrae.l2_ops.native_input import load_native
 from vrae.l2_ops.tasks import L2Tasks, RegisteredSource
 
-from .catalog import SOURCE_REF
+from .source_profiles import PROFILES, selected
 
 
-def adapter():
+def adapter(profile_name):
     assert os.geteuid() == 10003
     path = Path("/tmp/m3-consumer/config.json")
     for item, mode in ((path.parent, 0o700), (path, 0o600)):
@@ -31,23 +29,21 @@ def adapter():
         assert info.st_uid == 10003 and stat.S_IMODE(info.st_mode) == mode and not stat.S_ISLNK(info.st_mode)
     profile = json.loads(path.read_bytes())
     assert set(profile) == {"bearer", "tenant_id", "source_refs"}
-    assert profile["source_refs"] == ["accepted-404", "accepted-200", SOURCE_REF]
+    source_ref, bundle, native = selected(profile_name)
+    assert profile["source_refs"] == ["accepted-404", "accepted-200", source_ref]
     client = TaskClient(AppEndpoint(profile["bearer"], profile["tenant_id"], frozenset(profile["source_refs"])))
-    bundle = load_source(Path(__file__).parent / "fixtures/native-offline_synthetic.json")
-    native = load_native(bundle, "industrial-native",
-        expected_pack_ref="ep-735db2c276030e018f21ba7124fb61db6d46f3e922eca1b99df254512064582e",
-        expected_capture_run_id="l2-industrial-capture-v1")
-    return L2Tasks(client, [RegisteredSource(SOURCE_REF, native)])
+    return L2Tasks(client, [RegisteredSource(source_ref, native)])
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=("create", "read", "status"))
+    parser.add_argument("action", choices=("create", "read", "status", "diagnose", "diagnose-current"))
+    parser.add_argument("--source-profile", choices=tuple(PROFILES), default="industrial-v1")
     args = parser.parse_args()
-    port = adapter()
-    private = json.load(sys.stdin)
+    port = adapter(args.source_profile)
+    private = json.loads(sys.stdin.readline())
     if args.action == "create":
-        result = {"http_status": 202, "task": asdict(port.create(SOURCE_REF, idempotency_key=private["key"]))}
+        result = {"http_status": 202, "task": asdict(port.create(PROFILES[args.source_profile][0], idempotency_key=private["key"]))}
     else:
         task = TaskHandle(**private["task"])
         if args.action == "status":
@@ -66,8 +62,31 @@ def main():
             reader = SignedGeneratedReader(anchor=TrustAnchor(anchor["issuer"], anchor["audience"],
                 json.dumps(anchor["jwks"]).encode(), anchor["expires"]),
                 assignments=[JobAssignment(**private["assignment"])], connect=connect)
+            if args.action == "diagnose-current":
+                from datetime import datetime
+                from apps.operator_console.b5b_m2_sessions import GeneratedSessions
+                from vrae.l2_ops.native_diagnosis import analyze
+                sessions = GeneratedSessions(reader)
+                sessions.bind_task(JobAssignment(**private["assignment"]), port.client, task)
+                challenge, nonce, csrf = sessions.challenge(task.tenant_id, task.job_id)
+                print(json.dumps({"uid": os.geteuid(), "signing_nonce": nonce}), flush=True)
+                signed = json.loads(sys.stdin.readline())
+                sid = sessions.login(challenge, signed["bearer"], csrf)
+                with port.current_worker(task, sessions, sid,
+                        policy_expires_at=datetime.fromisoformat(private["policy_expires_at"])) as (evidence, deadline):
+                    diagnosis = analyze(evidence)
+                    result = diagnosis.metadata()
+                    result["original_pg_authority_held_during_full_verify"] = True
+                    result["original_authority_deadline"] = deadline.isoformat()
+                print(json.dumps({"uid": os.geteuid(), "result": result}), flush=True)
+                return
             evidence = port.read_worker(task, reader, private["bearer"], nonce=private["nonce"])
-            result = evidence.metadata()
+            if args.action == "diagnose":
+                from vrae.l2_ops.native_diagnosis import analyze
+                diagnosis = analyze(evidence)
+                result = diagnosis.metadata()
+            else:
+                result = evidence.metadata()
     print(json.dumps({"uid": os.geteuid(), "result": result}), flush=True)
 
 

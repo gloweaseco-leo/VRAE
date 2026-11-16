@@ -18,7 +18,7 @@ def main():
     state["port"] = 5432
     # Trusted TEST_ONLY provisioning only; no client-selected URL or DB grant.
     extra_sources = state.get("l2_source_refs", [])
-    assert extra_sources in ([], ["l2-industrial-native-v1"])
+    assert extra_sources in ([], ["l2-industrial-native-v1"], ["l2-industrial-p40-v3"])
     private = Path("/tmp/beta-supervisor")
     private.mkdir(mode=0o700)
     old.STATE = private / "state.json"
@@ -33,7 +33,7 @@ def main():
         app_path, app_config = native.provision("APP", 10001)
         if extra_sources:
             from integration.l2_ops.provisioning import extend_app_sources
-            extend_app_sources(app_config, state["l2_source_binding"])
+            extend_app_sources(app_config, state["l2_source_binding"], source_ref=extra_sources[0])
             # Native provision already made this file UID10001/0600. Write as
             # that same owner before API spawn; root has no DAC override here.
             subprocess.run(
