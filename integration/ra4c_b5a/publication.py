@@ -66,7 +66,8 @@ def source():
     changed = git("diff", "--name-only", ENTRY).splitlines()
     original_changes = set(original) & set(changed)
     assert not original_changes - set(OWNER_DOCUMENT_BLOBS) - {OWNER_EVIDENCE_PACK_PATH}, "ACCEPTED_SOURCE_CHANGED"
-    if OWNER_EVIDENCE_PACK_PATH in original_changes:
+    pack_head_changed = bool(git("diff", "--name-only", ENTRY, "HEAD", "--", OWNER_EVIDENCE_PACK_PATH))
+    if OWNER_EVIDENCE_PACK_PATH in original_changes or pack_head_changed:
         assert git("rev-parse", "HEAD:" + OWNER_EVIDENCE_PACK_PATH) == OWNER_EVIDENCE_PACK_BLOB, "OWNER_EVIDENCE_PACK_BASELINE_CHANGED"
         assert not git("diff", "--name-only", "HEAD", "--", OWNER_EVIDENCE_PACK_PATH), "OWNER_EVIDENCE_PACK_WORKTREE_CHANGED"
     for name, blob in OWNER_DOCUMENT_BLOBS.items():

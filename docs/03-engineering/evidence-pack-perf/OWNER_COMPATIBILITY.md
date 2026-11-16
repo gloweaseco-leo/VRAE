@@ -28,6 +28,19 @@ dirty tampering of every one of the five documents. No approved runtime blob
 is substituted with a fixture hash. The old six publication freeze cases also
 run unchanged alongside the 35 pack-consistency cases.
 
+An additional review caught an incomplete selector in intermediate HEAD
+`c648897`: checking the worktree-versus-ENTRY changed list alone can miss a
+changed HEAD when the worktree is restored to original ENTRY bytes. Three new
+negative cases reproduced this as DID NOT RAISE (3 FAIL / 1 PASS, raw JUnit hash
+in the final local receipt). The compatibility condition now checks the union
+of HEAD-versus-ENTRY and worktree-versus-ENTRY changes for the one pack path.
+Wrong HEAD blobs and dirty restorations therefore cannot hide. A fourth case
+confirms clean untouched original bytes need no new-blob exception. The exact
+reviewed pack itself remains unchanged; only the authorized publication
+condition is corrected. The intermediate CI is retained and cannot qualify
+that incomplete implementation. The final corrected HEAD runs its own natural
+CI once; no unchanged-HEAD workflow is manually rerun.
+
 ## Prior RED evidence and bounded continuation
 
 The archived original hosted logs and digest-verified safe artifacts were
@@ -49,7 +62,9 @@ original hashes may be published. An unresolved substantive safety RED leaves
 this PR Draft/STOP.
 
 Original 35-case performance safety and ABBA comparison remain explicit in the
-new-HEAD workflow. The new 27-case exact-blob suite gets separate native JUnit.
+new-HEAD workflow. The final 31-case exact-blob suite gets separate native JUnit
+(35 + 31 + 6 = 72 local cases per Python minor). The initial 68-case local
+receipt describes intermediate HEAD c648897 and remains historical evidence.
 Actual B5A PG/security/browser and safe publication must run through the original
 workflow; entry acceptance alone is not a PASS.
 

@@ -75,17 +75,37 @@ def test_same_pack_filename_different_committed_blob_rejected(history):
         publication.source()
 
 
-@pytest.mark.parametrize('kind', ['unstaged', 'staged', 'deleted'])
+@pytest.mark.parametrize('kind', ['unstaged', 'staged', 'deleted', 'restore_entry', 'staged_entry'])
 def test_dirty_approved_pack_rejected(history, kind):
     root, git, _ = history
     if kind == 'deleted':
         (root / PACK).unlink()
+    elif kind in ('restore_entry', 'staged_entry'):
+        (root / PACK).write_bytes(OLD_BYTES)
     else:
         (root / PACK).write_bytes(APPROVED_BYTES + b'\n# dirty\n')
-    if kind == 'staged':
+    if kind in ('staged', 'staged_entry'):
         git('add', PACK)
     with pytest.raises(AssertionError, match='OWNER_EVIDENCE_PACK_WORKTREE_CHANGED'):
         publication.source()
+
+
+def test_wrong_head_cannot_hide_by_restoring_original_entry_in_worktree(history):
+    root, git, _ = history
+    (root / PACK).write_bytes(b'unapproved committed blob\n')
+    git('add', PACK)
+    git('commit', '-qm', 'unapproved pack head')
+    (root / PACK).write_bytes(OLD_BYTES)
+    with pytest.raises(AssertionError, match='OWNER_EVIDENCE_PACK_BASELINE_CHANGED'):
+        publication.source()
+
+
+def test_untouched_original_pack_needs_no_new_blob_exception(history):
+    root, git, _ = history
+    (root / PACK).write_bytes(OLD_BYTES)
+    git('add', PACK)
+    git('commit', '-qm', 'original pack bytes unchanged from entry')
+    assert publication.source()['accepted_files_modified'] == sorted(DOCUMENT_BYTES)
 
 
 @pytest.mark.parametrize('name', [*PIN_PATHS, *OTHER])
