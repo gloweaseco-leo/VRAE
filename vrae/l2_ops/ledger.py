@@ -17,6 +17,8 @@ def install(admin, runtime_role):
     from psycopg import sql
 
     text(runtime_role, limit=63)
+    if runtime_role != "l2_ops_runtime":
+        raise OperationsDenied("L2_DEDICATED_RUNTIME_ROLE_REQUIRED")
     admin.execute("CREATE SCHEMA l2_ops_v1")
     admin.execute("REVOKE ALL ON SCHEMA l2_ops_v1 FROM PUBLIC")
     admin.execute("""CREATE TABLE l2_ops_v1.briefs (

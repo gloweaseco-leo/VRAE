@@ -137,3 +137,10 @@ def test_rehash_does_not_create_business_authority(bundle, reader, tamper):
     document["content_sha256"] = sha(canonical({k: v for k, v in document.items() if k != "content_sha256"}, limit=2_000_000))
     with pytest.raises(OperationsDenied):
         service.read_current(document)
+
+
+def test_installer_refuses_using_existing_app_or_reviewer_role():
+    from vrae.l2_ops.ledger import install
+    for role in ("vrae_app", "vrae_reviewer", "postgres"):
+        with pytest.raises(OperationsDenied, match="DEDICATED_RUNTIME_ROLE"):
+            install(None, role)

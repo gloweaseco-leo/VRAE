@@ -48,5 +48,3 @@ def reader(bundle):
     blueprint = {"report_version": pins["report_version"], "report_sha256": pins["report_sha256"],
                  "items": [{"finding_ref": "f-1", "proposal": "客户确认后补充材料与公差。"}]}
     return TestOnlyReader(CurrentL2(pins, payload, review, blueprint))
-
-
