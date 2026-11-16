@@ -1,0 +1,133 @@
+{
+  "api_worker": {
+    "accepted_processing": "vrae.application.ra4b_p2.m1.runtime",
+    "app_uid": 10001,
+    "canonical_worker_entry": "vrae.application.ra4b_p2.m1.runtime",
+    "consumer_entry": "vrae.application.ra4b_p2.m1.consumer.TaskClient",
+    "consumer_profile_fields": [
+      "bearer",
+      "tenant_id",
+      "source_refs"
+    ],
+    "consumer_uid": 10003,
+    "generated_rows_seeded": 0,
+    "mode": "M1_REAL_GENERATION",
+    "worker_entry": "integration.beta_review.codex3.m3_worker",
+    "worker_uid": 10002
+  },
+  "branch": "codex3/beta-s2-disc-consumer-20261115",
+  "browser_publication": {
+    "exact_private_credential_matches": 0,
+    "fatal_capture": true,
+    "fatal_files": [],
+    "files_checked": 23,
+    "raw_report_source_profiles_controls_excluded": true
+  },
+  "cleanup": [
+    {
+      "absent_or_port_closed": true,
+      "resource": "native_client"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "original_ssr"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "pg_container_network_volume"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "source_volume"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "finite_loopback_transport"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "single_m2_ssr"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "durable_routing_volume"
+    }
+  ],
+  "cleanup_errors": [],
+  "component_stages_sha256": "49b773bad2ee06069f2dc7a197c387faacf882120c0231d80c437c27caf9c838",
+  "dependencies": [
+    {
+      "interface": "M1/M2 accepted business ports",
+      "state": "CONNECTED"
+    }
+  ],
+  "executable_source_root": "adc6c93898e7b9163ad660f6e743e9846dc54967d97865a55919421147f20488",
+  "generated_jobs": [
+    {
+      "case": "200",
+      "job_sha256": "1295b62ab6d619254f91408c1b79c8f9bdf405e1a4bf0123e2137b49cffb0a4b",
+      "request_sha256": "fe9f7b3d9f4b04e981155d84eb21ad3893e63e1b31898f54ea4b8a1873cf27a6"
+    },
+    {
+      "case": "404",
+      "job_sha256": "a9b52243b00f856258524916470e487de28840fca6765005f6ed26dc7b3574b9",
+      "request_sha256": "2bbb0e6ff22ea54eb41829073751cc7a7efceac72edd29704552a09bb5d25c64"
+    }
+  ],
+  "host_python": "3.11.15",
+  "human_gold": "0/26",
+  "m1_bootstrap": {
+    "legacy_migrations_changed": false,
+    "seeded_results": 0,
+    "sources": [
+      "accepted-404",
+      "accepted-200"
+    ],
+    "sql_sha256": "014b064d1e55b1d1c7218075808a9abda6f16138e9681804f17df4723e515918"
+  },
+  "m2_migration_sha256": "c2617fdbacbb090d73d8350d629e17926bfa35cd2fc09a23c576a78faf040e7c",
+  "native_python": "3.11.17",
+  "native_python_minor": "3.11",
+  "parents": [
+    "04a79ed813fc2c15b1500748c1fabd5ac3ebe69e"
+  ],
+  "pg": {
+    "egress_kernel_denial": false,
+    "internal_network": false,
+    "loopback_only": true,
+    "migration_0001_0004": "UNCHANGED_ACCEPTED",
+    "private_port": 54067,
+    "server": "PostgreSQL16"
+  },
+  "runtime_image_id": "sha256:1d6b7a70526c8437a9534305cb38452982390abbfb4a12b831e38435eea656e3",
+  "scope": "M3_SYNTHETIC_BROWSER_WORKBENCH",
+  "single_ssr": {
+    "app_worker_db_config_in_ssr": false,
+    "composition": "apps.operator_console.b5b_http.Application",
+    "count": 1,
+    "entry": "integration.b5b.m2_bridge",
+    "private_signer_in_ssr": false,
+    "transport": "ACCEPTED_FINITE_LOOPBACK_STDIO_NO_SECOND_SSR",
+    "uid": 10003
+  },
+  "source_sha": "69a56a1368aab40bc93f91d35e9e0c951648b10b",
+  "ssr_origin": "http://127.0.0.1:49402",
+  "ssr_process_observation": [
+    {
+      "boot": 1,
+      "returncode": 0,
+      "unexpected_exit": false
+    },
+    {
+      "boot": 2,
+      "returncode": 0,
+      "unexpected_exit": false
+    },
+    {
+      "boot": 3,
+      "returncode": 0,
+      "unexpected_exit": false
+    }
+  ],
+  "status": "M3_READY"
+}
