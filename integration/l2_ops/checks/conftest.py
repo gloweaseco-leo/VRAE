@@ -95,4 +95,3 @@ def native_result():
     evidence = adapter._from_authorized_result(task, native_source := adapter.sources[ref], result)
     assert native_source.native.pack.ref != evidence.pack.ref
     return analyze(evidence)
-
