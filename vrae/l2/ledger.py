@@ -28,6 +28,8 @@ class Ledger:
     def __init__(self, path, source, directory):
         self.path=Path(path)
         self.source,self.directory=source,directory
+        if getattr(source,'controlled_only',False) and directory.mode!='CONTROLLED':
+            deny('L2_NATIVE_CONTROLLED_CONTEXT_REQUIRED')
         self.path.parent.mkdir(parents=True,exist_ok=True)
         if self.path.is_symlink():
             deny('L2_LEDGER_PATH_DENIED')
@@ -185,7 +187,7 @@ class Ledger:
                 self.directory.require(sid,report)
                 return updated
 
-    def _decision(self,c,p,report,view):
+    def _decision(self,c,p,report,view,*,require_approved=True):
         row=c.execute('SELECT receipt FROM decisions WHERE tenant=? AND report=? AND version=? '
             'ORDER BY seq DESC LIMIT 1',(p.tenant_id,report,view.version['version'])).fetchone()
         if row is None:
@@ -197,6 +199,7 @@ class Ledger:
         reviewer=next((v for v in self.directory.people.values()
                        if v.actor_id==receipt['decision']['reviewer_id']),None)
         if (reviewer is None or not reviewer.active or reviewer.role not in ('OWNER','REVIEWER')
+                or reviewer.tenant_id!=p.tenant_id
                 or report not in reviewer.report_ids or receipt['identity_issuer']!=self.directory.issuer
                 or receipt['identity_subject']!=reviewer.subject
                 or receipt['identity_verification_ref']!=reviewer.verification_ref
@@ -204,6 +207,9 @@ class Ledger:
             deny('L2_REVIEWER_REVOKED')
         if self.directory.mode=='VERIFIED_DIRECTORY' and not reviewer.verification_ref:
             deny('L2_VERIFIED_RESPONSIBLE_PERSON_REQUIRED')
+        validate_contract('ReviewDecision',receipt['decision'])
+        if not require_approved and receipt['decision']['action']!='APPROVE':
+            return receipt,view.version
         approved=approve_version(view.version,receipt['decision'],reviewer.actor,
                                   view.version['version'],view.findings)
         return receipt,approved

@@ -56,6 +56,10 @@ def provenance(view):
 
 def source_notice(view):
     d=view.document
+    if d['meta']['source_mode']=='NATIVE_VERIFIED_PACK':
+        return ('<p class="l2-source-note" data-source-mode="NATIVE_VERIFIED_PACK">报告版本 '+e(d['meta']['version'])
+            +' · 原生EvidencePack及原Guard已完整重放；材料访问模式：'+e(d['meta']['source_access_mode'])
+            +'。报告绑定服务端任务/来源及行业版本，字节一致性不是工程适配、供应商认证或网站授权。受控演练不构成正式人审。</p>')
     return ('<p class="l2-source-note" data-source-mode="'+e(d['meta']['source_mode'])+'">报告版本 '+e(d['meta']['version'])+' · '
         +('合成离线工业网站样本；没有访问真实企业网站。' if d['meta']['source_mode']=='SYNTHETIC_OFFLINE'
            else '合法持有的离线材料；资料来源与使用范围按当前来源记录核对。')
@@ -75,12 +79,13 @@ def report(view,person,*,review_state='尚无本版本决定'):
     body+='<section class="card"><h2>五段采购旅程：哪里有证据，哪里仍未知</h2><div class="l2-journey">'
     by_id={f['id']:f for f in d['findings']}
     for j in d['journey']:
-        body+='<article><h3>'+e(TASK_NAMES[j['task']])+'</h3><p><strong>买家任务：</strong>'+e(j['goal'])+'</p><p>'+e(j['assessment'])+'</p>'
+        body+='<article><h3>'+e(j.get('label') or TASK_NAMES[j['task']])+'</h3><p><strong>买家任务：</strong>'+e(j['goal'])+'</p><p>'+e(j['assessment'])+'</p>'
         for key in j['finding_ids']:
             body+='<a class="action" href="#'+e(key)+'">'+e(by_id[key]['title'])+'</a>'
         body+='</article>'
-    body+='</div></section><section class="card"><h2>关键阻碍与优先级</h2><p>先处理可复验的直接阻碍，再处理待复核风险；UNKNOWN 不计为缺陷，不按臆测损失排序。</p>'
+    body+='</div></section><section class="card"><h2>'+e(d.get('priority_title','关键阻碍与优先级'))+'</h2><p>'+e(d.get('priority_intro','先处理可复验的直接阻碍，再处理待复核风险；UNKNOWN 不计为缺陷，不按臆测损失排序。'))+'</p>'
     for priority,label in [('P1','先修复明确阻碍'),('P2','补资料／走查后改进'),('P3','核对发布意图后处理'),('UNRANKED','需要企业补充，不阻止其余分析')]:
+        label=d.get('priority_labels',{}).get(priority,label)
         body+='<h3>'+e(priority+' · '+label)+'</h3><ul>'
         body+=''.join('<li><a href="#'+e(f['id'])+'">'+e(f['title'])+'</a> · '+e(KINDS[f['kind']])+'</li>' for f in d['findings'] if f['priority']==priority)
         body+='</ul>'
@@ -90,7 +95,9 @@ def report(view,person,*,review_state='尚无本版本决定'):
         body+='<article class="card l2-finding" id="'+e(f['id'])+'"><p class="badge">'+e(KINDS[f['kind']]+' · '+f['priority'])+'</p>'
         body+='<h2>'+e(f['title'])+'</h2><p class="fact">'+e(f['statement'])+'</p>'
         body+='<p><strong>检查范围：</strong>'+e(f['scope'])+'</p>'
-        for key in f['evidence_ids']:
+        if f.get('context_evidence_ids'):
+            body+='<p>以下为已记录上下文，不能把未覆盖字段的UNKNOWN提升为缺陷。</p>'
+        for key in f.get('display_evidence_ids',f['evidence_ids']):
             item=evs[key]
             body+='<blockquote><strong>保留的来源原文：</strong><code>'+e(item['quote'])+'</code></blockquote>'
             body+=link(PREFIX+'r/'+d['meta']['report_id']+'/evidence/'+key,'核对该证据的页面、时间和定位',key='l2-source')
@@ -108,7 +115,7 @@ def blueprint(view,person,csrf=None):
     root=PREFIX+'r/'+d['meta']['report_id']
     body=navigation(view,person,'Rebuild 改造蓝图')
     body+='<section class="card"><h1>从诊断到可讨论的改造清单</h1>'+source_notice(view)
-    body+='<p>先恢复已证实的入口与资料，再整理采购旅程。每项都指明责任、前置资料与复验标准；不是自动建站指令或客户已批准的交付 Brief。</p>'
+    body+='<p>'+e(d.get('blueprint_intro','先恢复已证实的入口与资料，再整理采购旅程。每项都指明责任、前置资料与复验标准；不是自动建站指令或客户已批准的交付 Brief。'))+'</p>'
     catalog=d['service_catalog']
     body+='<p class="neutral">'+e(catalog['verification'])+'</p><p>报价：UNKNOWN · 工期：UNKNOWN · 不承诺转化、排名或销售结果。</p>'
     body+=link(root+'/blueprint-print','查看／打印完整 Rebuild 蓝图',key='l2-blueprint-print')+'</section>'

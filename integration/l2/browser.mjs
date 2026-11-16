@@ -13,7 +13,9 @@ lines.on('line',s=>{const m=JSON.parse(s);if(m.type==='init')initResolve(m);else
 function rpc(kind,params={}){return new Promise(resolve=>{const id=++rpcId;rpcs.set(id,{resolve});process.stdout.write(JSON.stringify({id,kind,...params})+'\n')})}
 const config=await init;
 let base=config.base,origin=new URL(base).origin;
-const root=()=>base+'r/l2-pump-maker';
+const root=()=>base+'r/'+(config.reportId||'l2-pump-maker');
+const native=config.native===true,findingCount=Number(config.findingCount||11);
+const reviseId=config.reviseId||'bp-rfq',customId=config.customId||'bp-custom';
 const out=config.out;
 await mkdir(out,{recursive:true});
 const profile=await mkdtemp(path.join(out,'private-chrome-'));
@@ -51,16 +53,16 @@ try{
   if(config.interactive){await login('owner-demo');process.stdout.write(JSON.stringify({kind:'interactive-ready'})+'\n');for(;;){await new Promise(r=>setTimeout(r,500));if(await ev("location.pathname==='/b5a/l2/challenge'&&document.readyState==='complete'")){const challenge=JSON.parse(await ev('document.body.innerText'));await redeem('owner-demo',challenge)}}}
   phase='unsigned';await context('anonymous');await nav(root());await check('unsigned-report-denied',await ev("!document.querySelector('.l2-finding')&&document.body.innerText.includes('L2_REQUEST_DENIED')"));
   phase='depth';await login('reviewer-demo');
-  await check('five-buyer-tasks-and-source-bound-depth',await ev("document.querySelectorAll('.l2-journey article').length===5&&document.querySelectorAll('.l2-finding').length===11&&document.body.innerText.includes('性能曲线下载实际返回 HTML 占位页')&&document.body.innerText.includes('UNKNOWN')"));
+  await check('five-buyer-tasks-and-source-bound-depth',await ev(`document.querySelectorAll('.l2-journey article').length===5&&document.querySelectorAll('.l2-finding').length===${findingCount}&&document.body.innerText.includes('UNKNOWN')&&${native?"document.body.innerText.includes('P40')&&document.body.innerText.includes('V25')&&!document.body.innerText.includes('MP25')":"document.body.innerText.includes('性能曲线下载实际返回 HTML 占位页')"}`));
   const initialPins=await getPins();
-  await check('no-invented-approval-or-business-loss',await ev("document.body.innerText.includes('非正式人审')&&document.body.innerText.includes('实际点击率、送达和损失均未测')&&document.querySelectorAll('[data-source-mode=SYNTHETIC_OFFLINE]').length>0"));
+  await check('no-invented-approval-or-business-loss',await ev(native?"document.body.innerText.includes('非正式人审')&&document.body.innerText.includes('工况比较不是已证实的网站故障')&&document.querySelectorAll('[data-source-mode=NATIVE_VERIFIED_PACK]').length>0":"document.body.innerText.includes('非正式人审')&&document.body.innerText.includes('实际点击率、送达和损失均未测')&&document.querySelectorAll('[data-source-mode=SYNTHETIC_OFFLINE]').length>0"));
   await shot('deep-report-overview.png');
   await click('[data-key=l2-blueprint]',true);
-  await check('six-actionable-blueprint-workpackages',await ev("document.querySelectorAll('.l2-blueprint').length===6&&document.body.innerText.includes('需定制评估')&&document.body.innerText.includes('需要企业补充或确认')&&document.body.innerText.includes('如何复验改善结果')"));
+  await check('actionable-blueprint-workpackages',await ev(`document.querySelectorAll('.l2-blueprint').length===${Number(config.blueprintCount||6)}&&document.body.innerText.includes('需定制评估')&&document.body.innerText.includes('需要企业补充或确认')&&document.body.innerText.includes('如何复验改善结果')`));
   await shot('rebuild-blueprint-overview.png');
-  await ev("document.querySelector('#bp-custom').scrollIntoView()");await shot('rebuild-custom-boundary.png',{height:1100,scroll:true});
+  await ev(`document.getElementById(${JSON.stringify(customId)}).scrollIntoView()`);await shot('rebuild-custom-boundary.png',{height:1100,scroll:true});
   await click('[data-key=l2-evidence]',true);
-  await check('actual-evidence-quotes-and-snapshot-scope',await ev("document.body.innerText.includes('Document coming soon')&&document.body.innerText.includes('text/html')&&document.body.innerText.includes('2026-11-15T12:00:00Z')"));
+  await check('actual-evidence-quotes-and-snapshot-scope',await ev(native?"document.body.innerText.includes('P40')&&document.body.innerText.includes('18 bar')&&document.body.innerText.includes('2026-11-15T12:00:00')":"document.body.innerText.includes('Document coming soon')&&document.body.innerText.includes('text/html')&&document.body.innerText.includes('2026-11-15T12:00:00Z')"));
   await shot('source-evidence.png',{height:1600});
   phase='review';await review();await shot('review-operable.png',{height:1700});
   await ev("document.querySelector('[name=version]').value='999'");await click('[data-key=l2-save-review]',true);
@@ -68,18 +70,18 @@ try{
   await review();await click('[data-key=l2-save-review]',true);
   await check('actual-persistent-attributed-controlled-decision',await ev("document.body.innerText.includes('受控演练决定已保存')&&document.body.textContent.includes('reviewer-demo')&&document.body.textContent.includes('CONTROLLED_REVIEW_SIMULATION')&&document.body.textContent.includes('formal_human_review')"));
   await shot('review-saved-not-formal.png',{height:1400});
-  await click('[data-key=l2-primary-report]',true);await check('receipt-leads-back-to-diagnosis',await ev("document.querySelectorAll('.l2-finding').length===11"));
+  await click('[data-key=l2-primary-report]',true);await check('receipt-leads-back-to-diagnosis',await ev(`document.querySelectorAll('.l2-finding').length===${findingCount}`));
   await nav(root()+'/access');await check('reviewer-cannot-issue-grants',await ev("document.body.innerText.includes('L2_REQUEST_DENIED')&&!document.querySelector('[name=recipient]')"));
   phase='directed';await login('owner-demo');const g=await issue();
   await check('owner-issued-directed-controlled-grant',!!g.id&&g.token.length===43,{grant_id:g.id});
   await claim(g,'recipient-b');await check('same-secret-wrong-signed-recipient-denied',await ev("document.body.innerText.includes('L2_DIRECTED_ACCESS_DENIED')&&!document.querySelector('.l2-finding')"));
-  await claim(g,'recipient-a');await check('right-signed-recipient-reads-bound-report',await ev("document.querySelectorAll('.l2-finding').length===11"));
+  await claim(g,'recipient-a');await check('right-signed-recipient-reads-bound-report',await ev(`document.querySelectorAll('.l2-finding').length===${findingCount}`));
   const recipientPins=await getPins();await check('grant-binds-exact-version-and-full-content',recipientPins.display_hash===initialPins.display_hash);
   await context('owner-demo');await nav(root()+'/access');await shot('directed-access-management.png',{height:1600});await click('[data-key=l2-revoke-grant]',true);
   await context('recipient-a');await nav(root());await check('revocation-denies-next-real-read',await ev("!document.querySelector('.l2-finding')&&document.body.innerText.includes('L2_REQUEST_DENIED')"));await shot('revoked-access-denial.png',{height:1000});
   await context('owner-demo');const stale=await issue();
-  phase='revision';await nav(root()+'/blueprint');await click('#bp-rfq .l2-editor > summary');
-  const original=await ev("document.querySelector('#bp-rfq textarea').value");await fill('#bp-rfq textarea',original+' 补充：收件核验只在已获准的测试收件箱中进行，并记录责任人与结果。');await click('#bp-rfq [data-key=l2-revise]',true);
+  phase='revision';await nav(root()+'/blueprint');await click('#'+reviseId+' .l2-editor > summary');
+  const original=await ev(`document.getElementById(${JSON.stringify(reviseId)}).querySelector('textarea').value`);await fill('#'+reviseId+' textarea',original+' 补充：收件核验只在已获准的测试收件箱中进行，并记录责任人与结果。');await click('#'+reviseId+' [data-key=l2-revise]',true);
   const revised=await getPins();await check('real-append-version-full-hash-changes',revised.report_version.version===2&&revised.display_hash!==initialPins.display_hash&&revised.source_bundle_sha256===initialPins.source_bundle_sha256);
   await claim(stale,'recipient-a');await check('new-version-does-not-inherit-old-grant',await ev("!document.querySelector('.l2-finding')"));
   await context('owner-demo');await nav(root()+'/history');await check('history-keeps-old-decision-and-both-versions',await ev("document.querySelectorAll('[data-key=l2-version]').length===2&&document.body.innerText.includes('reviewer')===false&&document.body.innerText.includes('受控专业审阅员')"));await shot('versioned-decisions.png',{height:1600});
@@ -92,7 +94,7 @@ try{
   await nav(root()+'/blueprint-print');await pdf('l2-rebuild-blueprint.pdf');
   phase='mobile';await call('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});await nav(root());await check('mobile-real-report-no-horizontal-overflow',await ev("document.documentElement.scrollWidth<=innerWidth&&document.scripts.length===0"));await shot('deep-report-mobile.png',{height:1800});await nav(root()+'/blueprint');await check('mobile-real-blueprint-no-horizontal-overflow',await ev("document.documentElement.scrollWidth<=innerWidth"));await shot('rebuild-blueprint-mobile.png',{height:1800});
   await check('no-browser-exceptions',exceptions.length===0);
-  await writeFile(path.join(out,'browser.json'),JSON.stringify({kind:'L2_ACTUAL_SIGNED_SSR_CONTROLLED_BROWSER_PASS',version,records,shots,network,exceptions,formalHumanReviewsClaimed:0,realExternalCustomers:0},null,2));
+  await writeFile(path.join(out,'browser.json'),JSON.stringify({kind:native?'L2_NATIVE_C2_COMPONENT_BROWSER_NOT_APP202_E2E':'L2_ACTUAL_SIGNED_SSR_CONTROLLED_BROWSER_PASS',version,records,shots,network,exceptions,formalHumanReviewsClaimed:0,realExternalCustomers:0},null,2));
   process.stdout.write(JSON.stringify({kind:'done',pass:true,checks:records.length,shots:shots.length})+'\n');
 }catch(error){await writeFile(path.join(out,'browser-failure.json'),JSON.stringify({code:error.message,phase,records,network,exceptions},null,2));process.stdout.write(JSON.stringify({kind:'done',pass:false,code:error.message})+'\n');process.exitCode=1}
 finally{
