@@ -33,7 +33,8 @@ def main(argv=None):
         from integration.beta_review.codex3.local_app import start, status, request_stop
         if args.operation == "app-verify":
             from integration.beta_review.codex3.m3_browser_run import run
-            result, code = run(args.run, preparation_only=True), 0
+            from . import readiness
+            result, code = run(args.run, preparation_only=not readiness.enabled(), native_l2=readiness.enabled()), 0
         elif args.operation == "app-start":
             result, code = start(args.run, args.minor, False, workbench=True, l2_prepare=True)
         else:

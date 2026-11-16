@@ -71,6 +71,7 @@ try{
     if(m.method==='Fetch.requestPaused')void(async()=>{const r=m.params;const u=new URL(r.request.url);
       if(u.origin!==origin){await call('Fetch.failRequest',{requestId:r.requestId,errorReason:'BlockedByClient'},m.sessionId);return}
       if(u.pathname==='/b5a/m2/session'&&loginPending){const auth=loginPending;loginPending=null;await call('Fetch.continueRequest',{requestId:r.requestId,method:'POST',postData:Buffer.from('{}').toString('base64'),headers:[{name:'Origin',value:origin},{name:'Content-Type',value:'application/json'},{name:'Authorization',value:auth.token},{name:'X-M2-CSRF',value:auth.csrf},{name:'Cookie',value:auth.cookie}]},m.sessionId)}
+      else if(u.pathname==='/b5a/l2/session'&&loginPending?.kind==='l2'){const auth=loginPending;loginPending=null;await call('Fetch.continueRequest',{requestId:r.requestId,method:'POST',postData:Buffer.from('{}').toString('base64'),headers:[{name:'Origin',value:origin},{name:'Content-Type',value:'application/json'},{name:'Authorization',value:auth.token},{name:'X-L2-Nonce',value:auth.nonce},{name:'X-L2-CSRF',value:auth.csrf}]},m.sessionId)}
       else await call('Fetch.continueRequest',{requestId:r.requestId},m.sessionId);
     })().catch(()=>{exceptions.push({description:'BROWSER_TRANSPORT_FAILED'})});
   });
@@ -87,7 +88,18 @@ try{
   const attached=await call('Target.attachToTarget',{targetId:target.targetId,flatten:true},null);sid=attached.sessionId;
   await call('Page.enable');await call('Runtime.enable');await call('Network.enable');
   await call('Fetch.enable',{patterns:[{urlPattern:'*',requestStage:'Request'}]});
-  if(config.preparation_only) {
+  async function redeemL2(q) {
+    const token=await rpc('sign',{nonce:q.nonce});
+    loginPending={token,nonce:q.nonce,csrf:q.csrf,kind:'l2'};
+    await nav(origin+'/b5a/l2/session');
+  }
+  if(config.native_l2) {
+    const {nativeJourney}=await import('../../l2_ops/native_journey.mjs');
+    await nativeJourney({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2,writeFile,path,out,origin});
+    await check('no-browser-exceptions',exceptions.length===0);
+    await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'S0_REAL_NATIVE_L2_BROWSER_CHAIN_PASS',version,records,shots,network,exceptions},null,2));
+    await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);
+  } else if(config.preparation_only) {
     phase='L2-preparation-not-E2E';
     await login('404');
     await nav(base+'tasks');

@@ -621,6 +621,9 @@ def serve(run):
                         result = {"denied": "M3_OBSERVED_FRESH_CHALLENGE_REQUIRED"}
                 elif operation == "await-job" and set(body) == {"operation", "job"}:
                     result = run.await_job(body["job"])
+                elif operation == "native-proof" and set(body) == {"operation"}:
+                    result = json.loads(cmd(["docker", "exec", "--user", "10003:10003", run.ssr_name,
+                        "python", "-c", "from pathlib import Path; print(Path('/state/l2-native/active-proof.json').read_text())"]))
                 elif operation == "restart-pg" and set(body) == {"operation"}:
                     result = run.case("actual_pg_restart_" + str(run.boot), run.restart_pg)
                 else:

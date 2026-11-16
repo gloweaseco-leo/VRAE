@@ -9,6 +9,8 @@ from datetime import datetime
 from dataclasses import asdict, replace
 from pathlib import Path
 import re
+import hashlib
+import json
 
 from apps.operator_console.b5a_http import FORM, Reply, form
 from apps.operator_console.b5b_m2_http import cookies, page
@@ -71,8 +73,13 @@ class NativeTasks:
         if not self.enabled:
             raise OperationsDenied("L2_NATIVE_RUNTIME_BLOCKED")
         stamp = assembly.production_stamp(self.root, task, self.bundle)
+        captured = {}
+
+        def capture(evidence, diagnosis):
+            captured.update(signed_reader=evidence.metadata(), c1=diagnosis.metadata())
+
         source, activities = assembly.produce_current(self.port, task, self.sessions, sid,
-            policy_expires_at=self.deadline, bundle=self.bundle, created_at=stamp)
+            policy_expires_at=self.deadline, bundle=self.bundle, created_at=stamp, audit=capture)
         if (type(source) is not NativeSource or any(getattr(source.held, k) != value for k, value in asdict(task).items())
                 or source.held.created_at != stamp
                 or source.held.source_bundle_sha256 != self.bundle.document()["content_sha256"]):
@@ -86,7 +93,7 @@ class NativeTasks:
             self.app.deep = None
             self.app.native_business = None
         ledger = assembly.mount(self.app, source, self.directory, self.root/"reviews.sqlite", refresh=lambda: None)
-        self.active = {"task": task, "sid": sid, "report_id": rid, "source": source, "activities": activities}
+        self.active = {"task": task, "sid": sid, "report_id": rid, "source": source, "activities": activities, "capture": captured}
 
         def current(review_sid):
             active = self.active
@@ -96,7 +103,25 @@ class NativeTasks:
 
         assembly.attach_business(self.app, self.brief_ledger, report_id=rid, bundle=self.bundle,
             activities=activities, subject=c["subject"], factory=current)
+        self.audit()
         return ledger
+
+    def audit(self, document=None, stored=False):
+        active = self.active
+        source = active["source"]
+        capture = source._pack.document["sources"][0]["document"]
+        proof = {"task": asdict(active["task"]), "pack_ref": source.held.native_pack_ref,
+            "diagnosis_ref": source.held.diagnosis_ref, "diagnosis_sha256": hashlib.sha256(source._diagnosis).hexdigest(),
+            "source_bundle_sha256": source.held.source_bundle_sha256, "industry_ref": source.held.industry_ref,
+            "source_expected": source.expected, "report_id": active["report_id"],
+            "created_at": source.held.created_at, "pages": [{"url": p["snapshot"]["url"], "status": p["http_status"],
+                "body_sha256": p["snapshot"]["sha256"]} for p in capture["pages"]],
+            "production": active["capture"], "brief_stored": stored,
+            "counts": {"assessments": len(source.read().document["findings"]), "blueprint": len(source.read().document["blueprint"])},
+            "formal_human_review": False, "external_delivery": False}
+        if document is not None:
+            proof.update(brief=document)
+        (self.root/"active-proof.json").write_text(json.dumps(proof,ensure_ascii=False,indent=2),encoding="utf-8")
 
     def _select_report(self, rid):
         c = self.identity

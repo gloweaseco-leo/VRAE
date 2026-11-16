@@ -8,7 +8,7 @@ verified here; external handoff remains unavailable.
 from contextlib import AbstractContextManager
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Protocol
+from typing import Callable, Protocol
 
 from vrae.reviewing.canonical import canonical, parse, sha
 
@@ -49,6 +49,7 @@ class CurrentL2:
     review: dict
     blueprint: dict
     authority_expires_at: datetime = field(repr=False)
+    guard: Callable[[], None] | None = field(default=None, repr=False, compare=False)
 
     def assert_live(self):
         deadline = self.authority_expires_at
@@ -56,6 +57,8 @@ class CurrentL2:
             raise OperationsDenied("L2_CURRENT_AUTHORITY_DEADLINE_REQUIRED")
         if datetime.now(UTC) >= deadline:
             raise OperationsDenied("L2_CURRENT_AUTHORITY_EXPIRED")
+        if self.guard is not None:
+            self.guard()
 
     def snapshot(self):
         self.assert_live()
@@ -148,9 +151,20 @@ class BriefService:
             p, _, review, blueprint = current.snapshot()
             if (document.get("pins"), document.get("review"), document.get("blueprint")) != (p, review, blueprint):
                 raise OperationsDenied("L2_BRIEF_STALE_OR_CROSS_TASK")
+            current.assert_live()  # synchronous original authority check before durable write
             result = ledger.put(document, authority_expires_at=current.authority_expires_at)
             current.assert_live()
-            return result
+        # Both original contexts must EXIT successfully after the PG commit.
+        # Until this point real PG rows have no completion record and cannot be
+        # served. This is NOT an atomic transaction across SQLite/two PG DBs.
+        with self.reader.current() as current:
+            p, _, review, blueprint = current.snapshot()
+            if (document.get("pins"), document.get("review"), document.get("blueprint")) != (p, review, blueprint):
+                raise OperationsDenied("L2_BRIEF_STALE_OR_CROSS_TASK")
+        confirm = getattr(ledger, "confirm", None)
+        if confirm is not None:
+            confirm(document)
+        return result
 
     def load_current(self, ledger, brief_ref):
         with self.reader.current() as current:

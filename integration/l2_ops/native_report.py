@@ -77,18 +77,34 @@ class NativeCurrentReader:
 
     @contextmanager
     def current(self):
+        checks = []
         with current_worker(self.port, self.task, self.sessions, self.sid,
-                            policy_expires_at=self.policy_expires_at) as (evidence, deadline):
+                            policy_expires_at=self.policy_expires_at, guards=checks) as (evidence, deadline):
             bind_worker(evidence, self.ledger.source, self.bundle)
+            path = self.ledger.path
+            identity = (path.stat().st_dev, path.stat().st_ino)
             with current_report(self.ledger, self.review_sid, self.report_id) as report:
+                active = True
+
+                def validate():
+                    if (not active or path.is_symlink()
+                            or (path.stat().st_dev, path.stat().st_ino) != identity):
+                        raise OperationsDenied("L2_REVIEW_LEDGER_REPLACED")
+                    for check in checks:
+                        check()
+                    self.ledger.directory.require(self.review_sid, self.report_id)
+
                 current = CurrentL2(report.pins, report.payload, report.review, report.blueprint,
-                    min(deadline, report.authority_expires_at))
-                current.snapshot()
-                yield current
-                current.assert_live()
+                    min(deadline, report.authority_expires_at), validate)
+                try:
+                    current.snapshot()
+                    yield current
+                    current.assert_live()
+                finally:
+                    active = False
 
 
-def produce_current(port, task, sessions, sid, *, policy_expires_at, bundle, created_at):
+def produce_current(port, task, sessions, sid, *, policy_expires_at, bundle, created_at, audit=None):
     """Original signed task read -> full C1 -> full C2 replay, with live fencing."""
     with current_worker(port, task, sessions, sid, policy_expires_at=policy_expires_at) as (evidence, _):
         from vrae.l2_ops.accounting import ActivityTimer
@@ -96,6 +112,8 @@ def produce_current(port, task, sessions, sid, *, policy_expires_at, bundle, cre
         timer = ActivityTimer(task.job_id + "-c2-native-report", "DIAGNOSIS_RUNTIME", "SYSTEM")
         source = produce(diagnosis, bundle, created_at=created_at)
         activities = (*diagnosis.activities, timer.finish().priced())
+        if audit is not None:
+            audit(evidence, diagnosis)
     return source, activities
 
 

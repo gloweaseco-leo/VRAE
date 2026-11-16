@@ -111,6 +111,20 @@ class PreparationWorkbench(Workbench):
                 "actor_id": "c3-controlled-reviewer", "name": "内部受控审阅员（合成身份）", "tenant_id": "tenant-test"}}
         return cfg
 
+    def await_job(self, job):
+        result = super().await_job(job)
+        if self.web_tasks[job]["source_ref"] == "l2-industrial-p40-v3":
+            with self.r.lab.connect(dbname="vrae_ra4a_p1") as c:
+                row = c.execute("SELECT jsonb_build_object('worker_role',worker_role,'lease_seq',lease_seq,"
+                    "'lease_until',lease_until,'row_created_at',created_at,'transaction_id',transaction_id,"
+                    "'inside_original_lease',created_at < lease_until,'origin_epoch',origin_epoch,"
+                    "'source_ref',source_ref,'finish_event',finish_event) FROM ra4b_p2.m1_results "
+                    "WHERE tenant_id='tenant-test' AND job_id=%s", (job,)).fetchone()
+            assert row and row[0]["inside_original_lease"]
+            result = {**result, "lease_commit": row[0]}
+            write(self.folder/("s0-worker-"+job+".json"), result)
+        return result
+
     def observe(self, method, path, status, raw):
         super().observe(method, path, status, raw)
         if method == "POST" and path == "/b5a/l2/challenge" and status == 200:

@@ -98,6 +98,8 @@ class NativeBusiness:
                     raise
                 document = service.prepare(binding.bundle, brief_ref=brief_ref, activities=binding.activities)
                 stored = False
+            if self.app.native_tasks is not None:
+                self.app.native_tasks.audit(document, stored)
             nonce = deep.directory.action(sid, path)
             body = ('<p data-key="l2-brief-persistence">' + ("已从 PostgreSQL 回读持久交接。" if stored else "预览尚未持久保存；保存时将再次核验任务与本版本审核。")
                 + '</p>' + render_verified(document) + '<form method="post" action="' + path + '">'

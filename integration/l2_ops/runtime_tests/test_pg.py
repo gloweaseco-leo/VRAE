@@ -243,3 +243,50 @@ def test_pg_native_business_ui_denies_without_current_dual_authority(
     response = app.handle(method, path, headers, raw)
     assert response.response.status == 403 and b"L2_NATIVE_BUSINESS_DENIED" in response.response.body
     assert not state["task_locked"]
+
+
+def test_cross_store_source_exit_failure_leaves_only_pending_brief(database, bundle, reader):
+    from contextlib import contextmanager
+    service = BriefService(reader)
+    document = service.prepare(bundle, brief_ref="pending-source-context-exit")
+    original = reader.current
+
+    @contextmanager
+    def broken():
+        with original() as current:
+            yield current
+            raise OperationsDenied("SOURCE_CONTEXT_COMMIT_LOST")
+
+    reader.current = broken
+    ledger = BriefLedger(database)
+    with pytest.raises(OperationsDenied, match="SOURCE_CONTEXT_COMMIT_LOST"):
+        service.save_current(ledger, document)
+    # Own PG row really committed, but is not usable after a failed source exit.
+    with database() as c:
+        assert c.execute("SELECT count(*) FROM l2_ops_v1.briefs WHERE brief_ref=%s", (document["brief_ref"],)).fetchone() == (1,)
+    with pytest.raises(OperationsDenied, match="PENDING_REVALIDATION"):
+        ledger.get(bundle.tenant_id, document["brief_ref"])
+    reader.current = original
+    assert service.save_current(ledger, document) == document["content_sha256"]
+    assert service.load_current(ledger, document["brief_ref"]) == document
+
+
+def test_cross_store_post_commit_version_change_cannot_be_confirmed(database, bundle, reader):
+    from contextlib import contextmanager
+    from dataclasses import replace
+    service = BriefService(reader)
+    document = service.prepare(bundle, brief_ref="pending-version-fence")
+    original = reader.current
+
+    @contextmanager
+    def changing():
+        with original() as current:
+            yield current
+        reader.value = replace(reader.value, review={**reader.value.review, "receipt_ref": "new-decision"})
+
+    reader.current = changing
+    ledger = BriefLedger(database)
+    with pytest.raises(OperationsDenied, match="STALE_OR_CROSS_TASK"):
+        service.save_current(ledger, document)
+    with pytest.raises(OperationsDenied, match="PENDING_REVALIDATION"):
+        ledger.get(bundle.tenant_id, document["brief_ref"])
