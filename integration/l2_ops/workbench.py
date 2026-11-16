@@ -41,9 +41,19 @@ class PreparationWorkbench(Workbench):
             self.r.lab.state["l2_evidence_owner"] = {"uid": os.getuid(), "gid": os.getgid()}
         self.r.lab.state["l2_brief_password"] = secrets.token_urlsafe(32)
         self.secret_values.append(self.r.lab.state["l2_brief_password"])
-        with self.r.lab.connect(dbname="vrae_ra4a_p1") as c:
+        with self.r.lab.connect(dbname="postgres") as c:
+            old_acl = c.execute("SELECT datacl::text FROM pg_database WHERE datname='vrae_ra4a_p1'").fetchone()[0]
             c.execute(sql.SQL("CREATE ROLE l2_ops_runtime LOGIN PASSWORD {}").format(sql.Literal(self.r.lab.state["l2_brief_password"])))
+            c.execute("CREATE DATABASE vrae_l2_internal OWNER postgres")
+            c.execute("REVOKE ALL ON DATABASE vrae_l2_internal FROM PUBLIC")
+            c.execute("GRANT CONNECT ON DATABASE vrae_l2_internal TO l2_ops_runtime")
+            assert c.execute("SELECT datacl::text FROM pg_database WHERE datname='vrae_ra4a_p1'").fetchone()[0] == old_acl
+            assert c.execute("SELECT has_database_privilege('l2_ops_runtime','vrae_ra4a_p1','CONNECT')").fetchone() == (False,)
+        with self.r.lab.connect(dbname="vrae_l2_internal") as c:
             install_briefs(c, "l2_ops_runtime")
+        self.result["l2_business_storage"] = {"same_pg_instance": True, "database": "vrae_l2_internal",
+            "runtime_role": "l2_ops_runtime", "old_database_acl_unchanged": True, "old_database_connect": False}
+        write(self.folder / "l2-business-storage.json", self.result["l2_business_storage"])
         from integration.beta_review.codex3.runner import cmd
         owned = json.loads(cmd(["docker", "inspect", self.r.lab.name, "--format", "{{json .Mounts}}"] ))
         self.result["l2_owned_pg_mounts"] = [{k: row[k] for k in ("Type", "Name", "Destination") if k in row} for row in owned]
@@ -56,15 +66,17 @@ class PreparationWorkbench(Workbench):
         if recorded:
             actual = cmd(["docker", "inspect", self.r.lab.name, "--format", "{{.Id}}"] ).decode().strip()
             assert actual == recorded, "L2_OWNED_PG_ID_CHANGED"
-        result = super().cleanup()
-        if recorded:
-            assert not cmd(["docker", "ps", "-aq", "--no-trunc", "--filter", "id="+recorded]).strip()
-            for mount in self.result["l2_owned_pg_mounts"]:
-                if mount["Type"] == "volume":
-                    assert not cmd(["docker", "volume", "ls", "-q", "--filter", "name=^"+mount["Name"]+"$"]).strip(), "L2_OWNED_PG_VOLUME_REMAINS"
-            self.result["l2_cleanup"] = {"recorded_container_absent": True, "recorded_pg_volumes_absent": True,
-                "old_anonymous_volumes": "UNKNOWN_UNTOUCHED", "global_prune": False}
-            write(self.folder / "l2-owned-cleanup.json", self.result["l2_cleanup"])
+        try:
+            result = super().cleanup()
+        finally:
+            if recorded:
+                assert not cmd(["docker", "ps", "-aq", "--no-trunc", "--filter", "id="+recorded]).strip()
+                for mount in self.result["l2_owned_pg_mounts"]:
+                    if mount["Type"] == "volume":
+                        assert not cmd(["docker", "volume", "ls", "-q", "--filter", "name=^"+mount["Name"]+"$"]).strip(), "L2_OWNED_PG_VOLUME_REMAINS"
+                self.result["l2_cleanup"] = {"recorded_container_absent": True, "recorded_pg_volumes_absent": True,
+                    "old_anonymous_volumes": "UNKNOWN_UNTOUCHED", "global_prune": False}
+                write(self.folder / "l2-owned-cleanup.json", self.result["l2_cleanup"])
         return result
 
     def bootstrap_identity(self):

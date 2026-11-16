@@ -23,7 +23,7 @@ def provision(app, cfg, *, root=Path("/state/l2-native"), connect=None):
     port = L2Tasks(app.generated.workflow.client, [RegisteredSource(ref, native)])
 
     def original_connect():
-        return psycopg.connect(host="127.0.0.1", port=5432, dbname="vrae_ra4a_p1",
+        return psycopg.connect(host="127.0.0.1", port=5432, dbname="vrae_l2_internal",
             user="l2_ops_runtime", password=cfg["brief_password"], connect_timeout=3,
             options="-c statement_timeout=2000 -c lock_timeout=2000")
 
