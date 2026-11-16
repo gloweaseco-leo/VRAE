@@ -26,11 +26,15 @@ from vrae.b6_p0.reader import PrivateHandoffReader
 def main():
     config = json.loads(sys.stdin.readline())
     generated = provision(config['profile'])
+    deep = None
+    if config.get('deep') is not None:
+        from apps.operator_console.l2_profile import provision as provision_deep
+        deep = provision_deep(config['deep'])
     anchor = generated.sessions.reader.anchor
     legacy = SessionStore(anchor=anchor, bindings={}, readers={})
     app = Application(RehearsalApplication(Base(legacy, {}), {},
         Journal('/tmp/m2-empty-legacy.sqlite'), key_secret=secrets.token_bytes(32)),
-        PrivateHandoffReader(legacy, {}), generated=generated)
+        PrivateHandoffReader(legacy, {}), generated=generated, deep=deep)
     http_server = server(app)
     port = http_server.server_address[1]
     app.origin = config['origin']

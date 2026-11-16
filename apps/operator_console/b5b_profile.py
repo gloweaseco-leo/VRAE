@@ -9,7 +9,7 @@ from .b5b_http import Application
 from .contracts import refuse
 
 
-def load(profile, bridge, policies, *, audit=None, generated_profile=None):
+def load(profile, bridge, policies, *, audit=None, generated_profile=None, deep_profile=None):
     app = load_rehearsal(profile, bridge, audit=audit)
     policies = Path(policies)
     raw = policies.read_bytes()
@@ -45,4 +45,8 @@ def load(profile, bridge, policies, *, audit=None, generated_profile=None):
     if generated_profile is not None:
         from .b5b_m2_profile import load as load_generated
         generated = load_generated(generated_profile)
-    return Application(app, handoff, refresh=fresh, generated=generated)
+    deep = None
+    if deep_profile is not None:
+        from .l2_profile import load as load_deep
+        deep = load_deep(deep_profile)
+    return Application(app, handoff, refresh=fresh, generated=generated, deep=deep)
