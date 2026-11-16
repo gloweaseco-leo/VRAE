@@ -26,7 +26,8 @@ def main():
         assert b"Bearer " not in original and b"postgresql://" not in original
         (public / "native.xml").write_bytes(original)
         ids = [c.get("classname") + "::" + c.get("name") for c in cases]
-        assert len(ids) == 19 and len(set(ids)) == 19
+        expected = json.loads((ROOT / "integration/industry_l2/expected_ids.json").read_text(encoding="utf-8"))
+        assert ids == expected and len(ids) == 19 and len(set(ids)) == 19
         assert all(c.find(k) is None for c in cases for k in ("error", "failure", "skipped"))
         result = json.loads((private / "ci-demo/diagnosis.json").read_bytes())
         assert result["diagnostic_depth"] == "L2" and not result["shareable"]
