@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/industry/BuyerDiagnosis.schema.json",
+  "title": "Industrial L2 buyer diagnosis business data v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "diagnostic_version": {
+      "const": "l2-industrial-1.0.0"
+    },
+    "diagnostic_depth": {
+      "const": "L2"
+    },
+    "approval_status": {
+      "const": "NOT_APPROVED"
+    },
+    "native_report_engine_version": {
+      "const": "ra3c-disc-1.0.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "native_report_scope": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "industry_ref": {
+      "type": "string",
+      "pattern": "^ip-[0-9a-f]{64}$"
+    },
+    "expected_pack_ref": {
+      "type": "string",
+      "pattern": "^ep-[0-9a-f]{64}$"
+    },
+    "native_execution_ref": {
+      "type": "string",
+      "pattern": "^rx-[0-9a-f]{64}$"
+    },
+    "native_package_ref": {
+      "type": "string",
+      "pattern": "^fp-[0-9a-f]{64}$"
+    },
+    "diagnosis_ref": {
+      "type": "string",
+      "pattern": "^l2-[0-9a-f]{64}$"
+    },
+    "private": {
+      "const": true
+    },
+    "shareable": {
+      "const": false
+    },
+    "semantic_approval": {
+      "const": false
+    },
+    "native_report_draft_ref": {
+      "type": "null"
+    },
+    "industry_pack": {
+      "$ref": "https://vrae.invalid/contracts/v1/IndustryPack.schema.json"
+    },
+    "profile": {
+      "type": "object",
+      "required": [
+        "version",
+        "families",
+        "labels",
+        "units",
+        "rules"
+      ]
+    },
+    "source_guard_refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^cg-[0-9a-f]{64}$"
+      }
+    },
+    "source_facts": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "required": [
+          "fact_ref",
+          "source",
+          "statement",
+          "rule_id"
+        ]
+      }
+    },
+    "source_guard_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "interpretation",
+          "bindings",
+          "guard"
+        ],
+        "properties": {
+          "interpretation": {
+            "$ref": "https://vrae.invalid/contracts/v1/AIInterpretation.schema.json"
+          },
+          "bindings": {
+            "type": "array"
+          },
+          "guard": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "assessments": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "model": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "observation": {
+            "$ref": "https://vrae.invalid/contracts/v1/Observation.schema.json"
+          },
+          "finding": {
+            "$ref": "https://vrae.invalid/contracts/v1/Finding.schema.json"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "source_fact_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^cf-[0-9a-f]{64}$"
+            }
+          },
+          "guard_bridge": {
+            "type": "object"
+          },
+          "details": {
+            "type": "object"
+          },
+          "possible_buyer_impact": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "finding",
+              "status"
+            ],
+            "properties": {
+              "finding": {
+                "$ref": "https://vrae.invalid/contracts/v1/Finding.schema.json"
+              },
+              "status": {
+                "const": "HUMAN_REVIEW_REQUIRED"
+              }
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "finding",
+                "status"
+              ],
+              "properties": {
+                "finding": {
+                  "$ref": "https://vrae.invalid/contracts/v1/Finding.schema.json"
+                },
+                "status": {
+                  "const": "HUMAN_REVIEW_REQUIRED"
+                }
+              }
+            }
+          },
+          "semantic_approval": {
+            "const": false
+          }
+        },
+        "required": [
+          "model",
+          "observation",
+          "finding",
+          "reason",
+          "source_fact_refs",
+          "guard_bridge",
+          "details",
+          "possible_buyer_impact",
+          "recommendations",
+          "semantic_approval"
+        ]
+      }
+    },
+    "rfq_packets": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "required": [
+          "model",
+          "source_guide_fact_refs",
+          "inputs",
+          "missing_buyer_inputs",
+          "contact_observation_ids",
+          "requirements_status",
+          "submission_performed"
+        ],
+        "properties": {
+          "submission_performed": {
+            "const": false
+          },
+          "requirements_status": {
+            "enum": [
+              "OBSERVED",
+              "UNKNOWN"
+            ]
+          }
+        }
+      }
+    },
+    "recorded_coverage": {
+      "type": "array"
+    },
+    "buyer_journey": {
+      "type": "array"
+    },
+    "limitations": {
+      "type": "array"
+    },
+    "procurement_chains": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "required": [
+          "model",
+          "identity_basis",
+          "stages",
+          "engineering_fit",
+          "supplier_authentication",
+          "inquiry_submitted"
+        ],
+        "properties": {
+          "identity_basis": {
+            "const": "SOURCE_DECLARED_MODEL_TEXT_ONLY"
+          },
+          "engineering_fit": {
+            "const": "UNKNOWN"
+          },
+          "supplier_authentication": {
+            "const": "UNKNOWN"
+          },
+          "inquiry_submitted": {
+            "const": false
+          },
+          "stages": {
+            "type": "array",
+            "minItems": 5,
+            "maxItems": 5
+          }
+        }
+      }
+    },
+    "industry_rule_coverage": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": [
+          "rule_id",
+          "status",
+          "observation_ids",
+          "observed_results"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "EXECUTED",
+              "UNKNOWN_INPUT_UNAVAILABLE"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "diagnostic_version",
+    "diagnostic_depth",
+    "approval_status",
+    "native_report_engine_version",
+    "tenant_id",
+    "run_id",
+    "native_report_scope",
+    "industry_ref",
+    "expected_pack_ref",
+    "native_execution_ref",
+    "native_package_ref",
+    "diagnosis_ref",
+    "private",
+    "shareable",
+    "semantic_approval",
+    "native_report_draft_ref",
+    "industry_pack",
+    "profile",
+    "source_guard_refs",
+    "source_facts",
+    "source_guard_inputs",
+    "assessments",
+    "rfq_packets",
+    "recorded_coverage",
+    "buyer_journey",
+    "limitations",
+    "procurement_chains",
+    "industry_rule_coverage"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "scope": "Pump equipment and industrial valve components; static, explicitly labelled source tables only.",
+  "record_types": {"product": "Product", "application": "Application", "supplier": "Supplier proof", "rfq": "RFQ guide"},
+  "labels": {
+    "record_type": ["Record type"], "family": ["Product family"], "model": ["Model", "Model number"],
+    "models": ["Applicable models"], "flow": ["Rated flow", "Nominal flow"], "head": ["Rated head"],
+    "power": ["Motor power"], "voltage": ["Supply voltage"], "frequency": ["Supply frequency"],
+    "pressure": ["Maximum working pressure"], "temperature": ["Maximum fluid temperature"],
+    "material": ["Body material"], "bore": ["Nominal bore", "Nominal diameter"], "connection": ["Connection"],
+    "medium": ["Permitted medium"], "duty_flow": ["Required flow"], "duty_head": ["Required head"],
+    "duty_pressure": ["Required pressure"], "duty_temperature": ["Fluid temperature"],
+    "duty_voltage": ["Available voltage"], "duty_frequency": ["Available frequency"],
+    "duty_medium": ["Process medium"], "quantity": ["Order quantity"], "destination": ["Delivery destination"],
+    "issuer": ["Certificate issuer"], "certificate": ["Certificate reference"], "valid_until": ["Certificate valid until"],
+    "rfq_fields": ["Required RFQ inputs"]
+  },
+  "units": {
+    "bar": ["pressure", "1"], "MPa": ["pressure", "10"], "kPa": ["pressure", "0.01"],
+    "m3/h": ["flow", "1"], "L/min": ["flow", "0.06"], "m": ["head", "1"],
+    "kW": ["power", "1"], "V": ["voltage", "1"], "Hz": ["frequency", "1"], "degC": ["temperature", "1"], "mm": ["length", "1"]
+  },
+  "families": {
+    "pump": {
+      "critical": ["model", "flow", "head", "power", "voltage", "frequency", "pressure", "temperature", "medium"],
+      "dimensions": {"flow": "flow", "head": "head", "power": "power", "voltage": "voltage", "frequency": "frequency", "pressure": "pressure", "temperature": "temperature"},
+      "comparisons": [["flow", "duty_flow", "at_least"], ["head", "duty_head", "at_least"], ["voltage", "duty_voltage", "equal"], ["frequency", "duty_frequency", "equal"], ["pressure", "duty_pressure", "at_least"], ["temperature", "duty_temperature", "at_least"]],
+      "fit_unknowns": ["pump curve at the required flow/head", "NPSH and inlet conditions", "seal/medium compatibility", "duty cycle and installation conditions"]
+    },
+    "valve": {
+      "critical": ["model", "bore", "pressure", "material", "connection", "temperature", "medium"],
+      "dimensions": {"bore": "length", "pressure": "pressure", "temperature": "temperature"},
+      "comparisons": [["pressure", "duty_pressure", "at_least"], ["temperature", "duty_temperature", "at_least"]],
+      "fit_unknowns": ["pressure-temperature derating", "seal/medium compatibility", "connection standard and mating dimensions", "independently verified material/pressure certificates"]
+    }
+  },
+  "rules": [
+    {"rule_id": "IND-SELECTION", "parent_rule_id": "DISC-02", "task": "DISCOVER", "method": "Use replayed category-to-product observations and an unambiguous source-declared model/family.", "applicability": "Captured product tables with supported declared family.", "evidence_requirements": ["native DISC-02 path", "Guard-bound model and family"], "false_positive_risks": ["Path and declared identifier do not authenticate a SKU."], "benchmark_fixture": "tests/fixtures/industry/l2-industrial-v1"},
+    {"rule_id": "IND-SPEC", "parent_rule_id": "INFO-02", "task": "UNDERSTAND", "method": "Inventory configured procurement attributes using Guard-bound label/value pairs; gaps remain UNKNOWN.", "applicability": "Explicit supported family; configurable requirements, not universal standards.", "evidence_requirements": ["captured label/value elements"], "false_positive_risks": ["Alternative PDF/dynamic sources may contain unobserved information."], "benchmark_fixture": "tests/fixtures/industry/l2-industrial-v1"},
+    {"rule_id": "IND-DUTY", "parent_rule_id": "INFO-02", "task": "UNDERSTAND", "method": "Compare exact decimal scalars with explicit supported units and source-declared model association.", "applicability": "Exactly one applicable scenario; no inferred product association.", "evidence_requirements": ["Guard-bound product scalar", "Guard-bound scenario scalar and model list"], "false_positive_risks": ["Independent scalar comparisons do not prove engineering fit."], "benchmark_fixture": "tests/fixtures/industry/l2-industrial-v1"},
+    {"rule_id": "IND-FIT", "parent_rule_id": "INFO-02", "task": "UNDERSTAND", "method": "Expose unresolved engineering verification questions; never approve product fit from catalog values.", "applicability": "Supported family.", "evidence_requirements": ["profile version", "observed product identity"], "false_positive_risks": ["Unresolved questions are not website defects."], "benchmark_fixture": "tests/fixtures/industry/l2-industrial-v1"},
+    {"rule_id": "IND-PROOF", "parent_rule_id": "TRUST-02", "task": "TRUST", "method": "Retain supplier-declared issuer/reference/date; compare stated date to capture date; independent authentication stays UNKNOWN.", "applicability": "Exactly one source-declared model-linked proof record.", "evidence_requirements": ["Guard-bound proof fields", "capture timestamp"], "false_positive_risks": ["An old source date does not prove an expired genuine certificate or an unqualified supplier."], "benchmark_fixture": "tests/fixtures/industry/l2-industrial-v1"},
+    {"rule_id": "IND-RFQ", "parent_rule_id": "CTA-02", "task": "INQUIRE", "method": "Combine source-declared RFQ input list, available scenario inputs and native product-to-contact GET path; never submit.", "applicability": "Exactly one model-linked RFQ guide.", "evidence_requirements": ["Guard-bound RFQ input list", "native CTA-02 path"], "false_positive_risks": ["Link presence is not inquiry delivery; a missing buyer input is not a site defect."], "benchmark_fixture": "tests/fixtures/industry/l2-industrial-v1"}
+  ]
+}
