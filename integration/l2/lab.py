@@ -20,6 +20,7 @@ def main():
     parser.add_argument('label')
     parser.add_argument('--interactive',action='store_true')
     parser.add_argument('--native-component',action='store_true')
+    parser.add_argument('--s2-ui',action='store_true')
     args=parser.parse_args()
     if not args.label.replace('-','').isalnum() or not 3<=len(args.label)<=(60 if args.native_component else 50):
         raise ValueError('L2_UNIQUE_LABEL_REQUIRED')
@@ -80,7 +81,7 @@ def main():
         node=subprocess.Popen(['node','integration/l2/browser.mjs'],cwd=ROOT,
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=errors,text=True,encoding='utf-8',env=dict(os.environ))
         node.stdin.write(json.dumps({'type':'init','base':ready['entry'],'out':str(out),
-            'interactive':args.interactive,**browser_config})+'\n')
+            'interactive':args.interactive,'s2_ui':args.s2_ui,**browser_config})+'\n')
         node.stdin.flush()
         done=None
         for line in node.stdout:
@@ -114,6 +115,8 @@ def main():
             'apps/operator_console/l2_http.py','apps/operator_console/l2_views.py','apps/operator_console/l2.css']
         if args.native_component:
             source_files+=['vrae/l2/native.py','vrae/l2/native_business.py']
+        if args.s2_ui:
+            source_files+=['apps/operator_console/l2_buyer_views.py']
         source_hashes={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in source_files}
         (out/'run.json').write_text(json.dumps({'kind':'L2_REAL_SAME_SSR_CONTROLLED_BROWSER',
             'head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
@@ -131,7 +134,8 @@ def main():
         (out/'process-cleanup.json').write_text(json.dumps({'ssr_exited':child is None or child.poll() is not None,
             'browser_controller_exited':node is None or node.poll() is not None}),encoding='utf-8')
     if not args.native_component and not args.interactive:
-        subprocess.run([sys.executable,'-B','-m','integration.l2.lab',args.label+'-native','--native-component'],
+        subprocess.run([sys.executable,'-B','-m','integration.l2.lab',args.label+'-native','--native-component']
+                       +(['--s2-ui'] if args.s2_ui else []),
                        cwd=ROOT,check=True)
 
 

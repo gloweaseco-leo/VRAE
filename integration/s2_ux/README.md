@@ -1,5 +1,7 @@
 # S2-C2 P0 · 原浏览器证据解析
 
+P0已由Owner验收合并。当前P1实装与活体运行见 [P1-README.md](P1-README.md)；下文保留P0的原有范围说明。
+
 基线 `84276325befdcf858852a1ec791e8b0695a515eb`；任务 Issue119 / 总控 Issue117。
 
 这个子包实际实现 `vrae.rules.s2_ux.project_browser(pack, *, held: BrowserPins)`：

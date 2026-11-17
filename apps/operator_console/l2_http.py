@@ -208,6 +208,9 @@ class DeepConsole:
                 if action=='':
                     state=self.review_state(sid,rid,person,view)
                     body=v.report(view,person,review_state=state)
+                elif action=='buyer-tasks':
+                    from .l2_buyer_views import render
+                    body=render(view,person)
                 elif action=='blueprint':
                     csrf={b['id']:self.directory.action(sid,root+'/revise/'+b['id']) for b in view.document['blueprint']} if person.role in ('OWNER','REVIEWER') else None
                     body=v.blueprint(view,person,csrf)
