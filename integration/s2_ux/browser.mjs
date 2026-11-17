@@ -9,6 +9,8 @@ import {fileURLToPath} from 'node:url';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
 const label=process.argv[2];
+const richPoc=process.argv[3]==='--rich-poc';
+const poc=richPoc?await import('./dom_v2_poc.mjs'):null;
 assert(/^[a-z0-9-]{3,50}$/.test(label||''),'unique output label required');
 const out=path.join(root,'.runtime',label);
 await mkdir(out,{recursive:false});
@@ -70,6 +72,20 @@ try{
     for(let n=0;n<100;n++){if(await evaluate(`location.href===${JSON.stringify(url)}&&document.readyState==='complete'&&document.body.dataset.case===${JSON.stringify(scenario)}`)){ready=true;break;}await new Promise(r=>setTimeout(r,25));}
     assert(ready,'page complete');
     const observedAt=new Date().toISOString(),dom=await evaluate(legacy);
+    if(poc){
+      const measured=await evaluate(poc.SCRIPT);
+      measured.capture_viewport={width,height}; // trusted test driver config, not DOM authority
+      const data=poc.validatePoc(measured,url,width);
+      await writeFile(path.join(out,`${scenario}-${width}.poc.json`),JSON.stringify(data));
+      const a=data.elements.find(e=>e.tag==='A'&&e.text==='Request a quote');
+      check(`${scenario}-${width}-poc-href-recorded-no-authority`,a.href==='/rfq'&&data.authority==='NONE_NO_EV_REF');
+      if(scenario==='hidden')check(`${scenario}-${width}-poc-opacity`,a.style.opacity==='0');
+      if(scenario==='covered')check(`${scenario}-${width}-poc-occlusion`,!a.centerHit);
+      if(scenario==='overflow'&&width<560)check(`${scenario}-${width}-poc-overflow`,data.viewport.scrollWidth>data.viewport.clientWidth);
+      const forged=structuredClone(data);forged.evidence_ref='ev-'+'0'.repeat(64);
+      let rejected=false;try{poc.validatePoc(forged,url,width);}catch{rejected=true;}
+      check(`${scenario}-${width}-poc-forged-authority-rejected`,rejected);
+    }
     const metrics=await evaluate(`(()=>{const a=document.querySelector('#quote'),r=a.getBoundingClientRect(),x=Math.max(0,Math.min(innerWidth-1,r.x+r.width/2)),y=Math.max(0,Math.min(innerHeight-1,r.y+r.height/2)),hit=document.elementFromPoint(x,y);return {viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth,href:a.getAttribute('href'),opacity:getComputedStyle(a).opacity,centerHit:!!hit&&(hit===a||a.contains(hit)),image:{complete:document.querySelector('#drawing').complete,naturalWidth:document.querySelector('#drawing').naturalWidth,alt:document.querySelector('#drawing').getAttribute('alt')}}})()`);
     const png=Buffer.from((await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64');
     const stem=`${scenario}-${width}`;

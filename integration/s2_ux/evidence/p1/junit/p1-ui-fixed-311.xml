@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="27.254" timestamp="2026-11-17T11:11:02.333553-05:00" hostname="dong"><testcase classname="integration.s2_ux.test_buyer_view" name="test_five_dimensions_and_original_sixteen_are_separate_from_industry" time="1.123"><failure message="assert 0 == 5&#10; +  where 0 = &lt;built-in method count of str object at 0x000001A4AC9E9060&gt;('class=&quot;l2-buyer-dimension&quot;')&#10; +    where &lt;built-in method count of str object at 0x000001A4AC9E9060&gt; = '&lt;nav class=&quot;l2-nav&quot; aria-label=&quot;L2 工作区&quot;&gt;&lt;a class=&quot;action&quot; href=&quot;/b5a/l2/r/l2-pump-maker&quot; data-key=&quot;l2-report&quot;&gt;深度报告&lt;sp...y&amp;quot;: null,\n    &amp;quot;approved_at&amp;quot;: null,\n    &amp;quot;audit_mode&amp;quot;: &amp;quot;L2&amp;quot;\n  }\n}&lt;/pre&gt;&lt;/details&gt;'.count">tmp_path = WindowsPath('C:/Users/liu/AppData/Local/Temp/pytest-of-liu/pytest-541/test_five_dimensions_and_origi0')
+
+    def test_five_dimensions_and_original_sixteen_are_separate_from_industry(tmp_path):
+        issuer, directory, ledger, app = create(tmp_path)
+        sid = login(issuer, directory, 'reviewer-demo')
+        view = ledger.read(sid, REPORT)
+        before = view.payload
+        m = reading(view)
+        assert [x['task'] for x in m['dimensions']] == list(TASKS)
+        assert sum(len(x['generic_rules']) for x in m['dimensions']) == 16
+        assert m['whole_site_denominator'] is None
+        assert len(m['language_candidates']) &gt;= 1
+        assert all(x['reason'] == 'HUMAN_REVIEW_REQUIRED' and x['result'] == 'UNKNOWN'
+                   for x in m['language_candidates'])
+        html = render(view, directory.people['reviewer-demo'])
+&gt;       assert html.count('class="l2-buyer-dimension"') == 5
+E       assert 0 == 5
+E        +  where 0 = &lt;built-in method count of str object at 0x000001A4AC9E9060&gt;('class="l2-buyer-dimension"')
+E        +    where &lt;built-in method count of str object at 0x000001A4AC9E9060&gt; = '&lt;nav class="l2-nav" aria-label="L2 工作区"&gt;&lt;a class="action" href="/b5a/l2/r/l2-pump-maker" data-key="l2-report"&gt;深度报告&lt;sp...y&amp;quot;: null,\n    &amp;quot;approved_at&amp;quot;: null,\n    &amp;quot;audit_mode&amp;quot;: &amp;quot;L2&amp;quot;\n  }\n}&lt;/pre&gt;&lt;/details&gt;'.count
+
+integration\s2_ux\test_buyer_view.py:28: AssertionError</failure></testcase><testcase classname="integration.s2_ux.test_buyer_view" name="test_new_route_preserves_signed_identity_tenant_and_directed_access[None]" time="0.201" /><testcase classname="integration.s2_ux.test_buyer_view" name="test_new_route_preserves_signed_identity_tenant_and_directed_access[other-tenant]" time="0.216" /><testcase classname="integration.s2_ux.test_buyer_view" name="test_new_route_preserves_signed_identity_tenant_and_directed_access[recipient-a]" time="0.233" /><testcase classname="integration.s2_ux.test_buyer_view" name="test_live_route_read_only_version_revision_and_revocation" time="1.953" /><testcase classname="integration.s2_ux.test_buyer_view" name="test_native_original_findings_all_map_and_fifth_dimension_stays_unknown" time="16.389" /><testcase classname="integration.s2_ux.test_buyer_view" name="test_only_original_quote_is_scanned_not_chinese_ui_or_inferred_semantics" time="0.674" /><testcase classname="integration.s2_ux.test_buyer_view" name="test_original_source_cannot_be_reassigned_across_tenant_run" time="0.116" /></testsuite></testsuites>

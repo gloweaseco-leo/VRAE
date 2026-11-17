@@ -55,6 +55,25 @@ try{
   phase='depth';await login('reviewer-demo');
   await check('five-buyer-tasks-and-source-bound-depth',await ev(`document.querySelectorAll('.l2-journey article').length===5&&document.querySelectorAll('.l2-finding').length===${findingCount}&&document.body.innerText.includes('UNKNOWN')&&${native?"document.body.innerText.includes('P40')&&document.body.innerText.includes('V25')&&!document.body.innerText.includes('MP25')":"document.body.innerText.includes('性能曲线下载实际返回 HTML 占位页')"}`));
   const initialPins=await getPins();
+  if(config.s2_ui){
+    await click('[data-key=l2-buyer-tasks]',true);
+    await check('s2-same-signed-report-five-dimensions',await ev(`JSON.stringify([...document.querySelectorAll('.l2-buyer-dimension')].map(x=>x.dataset.task))===JSON.stringify(['DISCOVER','UNDERSTAND','TRUST','INQUIRE','SEARCH_TECHNICAL'])&&document.querySelectorAll('[data-rule]').length===16&&document.querySelector('.l2-buyer-overview').dataset.reportSha===${JSON.stringify(initialPins.display_hash)}&&document.querySelector('.l2-buyer-overview').dataset.reportVersion===${JSON.stringify(initialPins.report_version.report_version_id)}`));
+    await check('s2-evidence-and-unknown-not-invented-fifth-dimension',await ev("document.body.innerText.includes('分母 UNKNOWN')&&document.body.innerText.includes('没有SEO评分')&&document.querySelectorAll('[data-key=buyer-evidence]').length>0&&!document.querySelector('[data-key=l2-issue-grant]')"));
+    for(const width of [1280,390,375,320]){
+      await call('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:false});
+      await nav(root()+'/buyer-tasks');
+      await check('s2-buyer-reading-no-overflow-'+width,await ev("document.documentElement.scrollWidth<=innerWidth&&document.scripts.length===0"));
+      await shot('s2-five-dimensions-'+width+'.png',{height:1600});
+    }
+    await call('Emulation.setDeviceMetricsOverride',{width:1280,height:950,deviceScaleFactor:1,mobile:false});
+    await nav(root()+'/buyer-tasks');
+    await ev("document.getElementById('buyer-UNDERSTAND').scrollIntoView()");await shot('s2-understand-evidence.png',{height:1500,scroll:true});
+    await ev("document.getElementById('buyer-INQUIRE').scrollIntoView()");await shot('s2-inquiry-context.png',{height:1500,scroll:true});
+    await ev("document.getElementById('buyer-SEARCH_TECHNICAL').scrollIntoView()");await shot('s2-search-boundaries.png',{height:1500,scroll:true});
+    await click('[data-key=buyer-evidence]',true);
+    await check('s2-real-evidence-route-from-reading',await ev("location.pathname.includes('/evidence/')&&document.body.innerText.includes('记录时间')"));
+    await nav(root());
+  }
   await check('no-invented-approval-or-business-loss',await ev(native?"document.body.innerText.includes('非正式人审')&&document.body.innerText.includes('工况比较不是已证实的网站故障')&&document.querySelectorAll('[data-source-mode=NATIVE_VERIFIED_PACK]').length>0":"document.body.innerText.includes('非正式人审')&&document.body.innerText.includes('实际点击率、送达和损失均未测')&&document.querySelectorAll('[data-source-mode=SYNTHETIC_OFFLINE]').length>0"));
   await shot('deep-report-overview.png');
   await click('[data-key=l2-blueprint]',true);
@@ -88,6 +107,7 @@ try{
   phase='restart';const restarted=await rpc('restart');base=restarted.base;origin=new URL(base).origin;
   await nav(root());await check('actual-restart-old-cookie-is-not-authority',await ev("!document.querySelector('.l2-finding')"),{actualProcessExit:restarted.actual_ssr_process_exit,durableFile:restarted.same_sqlite_file_preserved,newKey:restarted.new_issuer_key});
   await login('owner-demo');const restored=await getPins();await check('restart-reads-same-current-version-and-hash',restored.display_hash===revised.display_hash&&restored.report_version.version===2);
+  if(config.s2_ui){await nav(root()+'/buyer-tasks');await check('s2-restart-current-version-two-same-hash',await ev(`document.querySelector('.l2-buyer-overview').dataset.reportSha===${JSON.stringify(restored.display_hash)}&&document.querySelector('.l2-buyer-overview').dataset.reportVersion===${JSON.stringify(restored.report_version.report_version_id)}`));}
   await nav(root()+'/history');await check('restart-reads-attributed-review-history',await ev("document.body.innerText.includes('受控专业审阅员')&&document.querySelectorAll('[data-key=l2-version]').length===2"));
   phase='final-review';await review();await click('[data-key=l2-save-review]',true);await check('new-version-has-its-own-decision',await ev("document.body.innerText.includes('版本 2')&&document.body.innerText.includes('不是正式人审')"));
   await nav(root()+'/report-print');await pdf('l2-deep-report.pdf');await shot('deep-report-print-view.png',{height:1600});
