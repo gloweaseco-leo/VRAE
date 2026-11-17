@@ -24,7 +24,7 @@ def main(argv=None):
     intake.add_argument("--source-profile", choices=("industrial-v1", "industrial-p40-v3"), default="industrial-v1")
     intake.add_argument("--native-l2", action="store_true")
     for operation in ("app-start", "app-status", "app-stop", "app-verify"):
-        app = sub.add_parser(operation, help="Original one SSR, L2 preparation only; no fake deep report")
+        app = sub.add_parser(operation, help="Original one SSR, controlled native L2 gated by accepted main; TEST_ONLY")
         app.add_argument("--run", required=True)
         if operation == "app-start":
             app.add_argument("--minor", choices=("3.11", "3.13"), default="3.11")

@@ -1,0 +1,169 @@
+{
+  "api_worker": {
+    "accepted_processing": "vrae.application.ra4b_p2.m1.runtime",
+    "app_uid": 10001,
+    "canonical_worker_entry": "vrae.application.ra4b_p2.m1.runtime",
+    "consumer_entry": "vrae.application.ra4b_p2.m1.consumer.TaskClient",
+    "consumer_profile_fields": [
+      "bearer",
+      "tenant_id",
+      "source_refs"
+    ],
+    "consumer_uid": 10003,
+    "generated_rows_seeded": 0,
+    "mode": "M1_REAL_GENERATION",
+    "worker_entry": "integration.beta_review.codex3.m3_worker",
+    "worker_uid": 10002
+  },
+  "branch": "codex3/l2-runtime-integration",
+  "browser_publication": {
+    "exact_private_credential_matches": 0,
+    "fatal_capture": true,
+    "fatal_files": [],
+    "files_checked": 0,
+    "raw_report_source_profiles_controls_excluded": true
+  },
+  "cleanup": [
+    {
+      "absent_or_port_closed": true,
+      "resource": "native_client"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "original_ssr"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "pg_container_network_volume"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "source_volume"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "finite_loopback_transport"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "single_m2_ssr"
+    },
+    {
+      "absent_or_port_closed": true,
+      "resource": "durable_routing_volume"
+    }
+  ],
+  "cleanup_errors": [],
+  "component_stages_sha256": "3c788a7bf314732b57a7e66e01b25b5f451bf3c6b2d8990b4815415753a4a0fc",
+  "dependencies": [
+    {
+      "interface": "M1/M2 accepted business ports",
+      "state": "CONNECTED"
+    }
+  ],
+  "executable_source_root": "a5660d70f61033f5e2967f3dbcef8d94ff3397c78eb334d487035b11db0cbd72",
+  "generated_jobs": [
+    {
+      "case": "200",
+      "job_sha256": "52b47bb10d06be8f381e94013698cb0d17fbb5a8ce78ae900d19cb34bd0ef121",
+      "request_sha256": "09781e8ea8f10415fddca37a82343ffe54cc7b54e2dcc2d1a85734f5dbbf5956"
+    },
+    {
+      "case": "404",
+      "job_sha256": "b699b5ad975e6c78241aeb1fe92f6700e2b2d930ea5bba4292dbaeaea362fa43",
+      "request_sha256": "c2e6680fa4190f054e4e60fe40b7584bf6c57907166248e4b45a0e300d25307f"
+    }
+  ],
+  "host_python": "3.11.15",
+  "human_gold": "0/26",
+  "l2_business_storage": {
+    "database": "vrae_l2_internal",
+    "old_database_acl_unchanged": true,
+    "old_database_connect": false,
+    "runtime_role": "l2_ops_runtime",
+    "same_pg_instance": true
+  },
+  "l2_cleanup": {
+    "global_prune": false,
+    "old_anonymous_volumes": "UNKNOWN_UNTOUCHED",
+    "recorded_container_absent": true,
+    "recorded_pg_volumes_absent": true
+  },
+  "l2_input": {
+    "input_preview": "SYNTHETIC_NEUTRAL_COVERAGE_NOT_L2",
+    "original_pack_ref": "ep-6d856d7718027b0895d3b450c34f7d27838f898df7c7ea369a6b060d6a2d4b60",
+    "policy_expires_at": "2026-11-17T23:43:59.032648+00:00",
+    "reference_sha256": "7f9774a3eb0b527d1fa694cd54ffbd8cbed47343e484bf1210835812c5c9ca8a",
+    "seeded_worker_results": 0,
+    "source_record_sha256": "e1039107f581d98b5a4723d217e12e5846312bb38421ab88f8631c9bc3dfcf17",
+    "source_ref": "l2-industrial-p40-v3"
+  },
+  "l2_owned_pg_container_id": "93c0c640387c3cff7f8aba30372318fa3e8c752ef0bd4edff2e71c531b635c81",
+  "l2_owned_pg_mounts": [
+    {
+      "Destination": "/var/lib/postgresql/data",
+      "Name": "vrae-b5p0-f99b282e2ee8-data",
+      "Type": "volume"
+    }
+  ],
+  "l2_readiness": {
+    "accepted_performance_main": "a9604f570528e599a0b8215a8957208d76e47b89",
+    "business_role": "l2_ops_runtime_OWN_NAMESPACE_ONLY",
+    "c2_native_producer": "ACCEPTED_PR113_RUNTIME_WIRED",
+    "consultation": "UNLINKED",
+    "cost_status": "UNKNOWN",
+    "mode": "RUNTIME_READY_NOT_ACCEPTED_E2E",
+    "p40_submit_enabled": true,
+    "single_original_ssr": true,
+    "worker_lease_red_retained": "nativep40scope311a"
+  },
+  "m1_bootstrap": {
+    "legacy_migrations_changed": false,
+    "seeded_results": 0,
+    "sources": [
+      "accepted-404",
+      "accepted-200"
+    ],
+    "sql_sha256": "014b064d1e55b1d1c7218075808a9abda6f16138e9681804f17df4723e515918"
+  },
+  "m2_migration_sha256": "c2617fdbacbb090d73d8350d629e17926bfa35cd2fc09a23c576a78faf040e7c",
+  "native_python": "3.11.17",
+  "native_python_minor": "3.11",
+  "parents": [
+    "e39de059eb77dafea1af55d50369d7a99ae034cb"
+  ],
+  "pg": {
+    "egress_kernel_denial": false,
+    "internal_network": false,
+    "loopback_only": true,
+    "migration_0001_0004": "UNCHANGED_ACCEPTED",
+    "private_port": 59012,
+    "server": "PostgreSQL16"
+  },
+  "runtime_image_id": "sha256:1d6b7a70526c8437a9534305cb38452982390abbfb4a12b831e38435eea656e3",
+  "scope": "M3_SYNTHETIC_BROWSER_WORKBENCH",
+  "single_ssr": {
+    "app_worker_db_config_in_ssr": false,
+    "composition": "apps.operator_console.b5b_http.Application",
+    "count": 1,
+    "entry": "integration.b5b.m2_bridge",
+    "private_signer_in_ssr": false,
+    "transport": "ACCEPTED_FINITE_LOOPBACK_STDIO_NO_SECOND_SSR",
+    "uid": 10003
+  },
+  "source_sha": "407f5a0a3b0e736e7246f4a3fd0019d87b7616f1",
+  "ssr_origin": "http://127.0.0.1:63923",
+  "ssr_process_observation": [
+    {
+      "boot": 1,
+      "returncode": 0,
+      "unexpected_exit": false
+    },
+    {
+      "boot": 2,
+      "returncode": 0,
+      "unexpected_exit": false
+    }
+  ],
+  "status": "M3_READY"
+}

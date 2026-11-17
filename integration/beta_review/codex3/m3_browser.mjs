@@ -33,6 +33,13 @@ async function click(selector,navigation=false){const point=await pointerPositio
 async function key(key,code,virtual){await call('Input.dispatchKeyEvent',{type:'keyDown',key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual});await call('Input.dispatchKeyEvent',{type:'keyUp',key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual})}
 async function select(selector,index){await click(selector);await key('Home','Home',36);for(let i=0;i<index;i++)await key('ArrowDown','ArrowDown',40);await key('Enter','Enter',13)}
 async function screenshot(name){await ev('window.scrollTo(0,0)');const width=await ev('innerWidth'),height=await ev('document.documentElement.scrollHeight');const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:true,clip:{x:0,y:0,width,height,scale:1}});const raw=Buffer.from(r.data,'base64');await writeFile(path.join(out,name),raw);shots.push({file:name,sha256:hash(raw),width,height,viewportHeight:await ev('innerHeight')})}
+function statusOf(url){return network.filter(n=>n.path===new URL(url,origin).pathname).at(-1)?.status}
+async function postForm(url,encoded){
+  assert(new URL(url,origin).origin===origin,'S0_FORM_SAME_ORIGIN_REQUIRED');
+  const before=loaded;
+  await ev(`(()=>{const f=document.createElement('form');f.method='post';f.action=${JSON.stringify(url)};for(const [name,value] of new URLSearchParams(${JSON.stringify(encoded)})){const i=document.createElement('input');i.type='hidden';i.name=name;i.value=value;f.appendChild(i)}document.body.appendChild(f);f.submit();return true})()`);
+  await waitLoad(before);return statusOf(url);
+}
 async function metrics(label){const m=await ev(`({width:innerWidth,scroll:document.documentElement.scrollWidth,scripts:document.scripts.length,banner:parseFloat(getComputedStyle(document.querySelector('.private-bar')).fontSize),footer:document.querySelector('footer')?.textContent||'',controls:[...document.querySelectorAll('.action,button,select,textarea,summary,.check')].filter(e=>e.getClientRects().length).map(e=>({height:e.getBoundingClientRect().height,name:e.id||e.name||e.tagName})),external:[...document.querySelectorAll('[src],[href]')].map(e=>e.src||e.href).filter(u=>u.startsWith('http')&&!u.startsWith(location.origin)),jwt:/eyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+/.test(document.documentElement.outerHTML)})`);await check(label,m.scroll<=m.width&&m.scripts===0&&m.banner>=12&&m.external.length===0&&!m.jwt&&m.controls.every(c=>c.height>=44)&&m.footer.includes('仅保存内部演练记录')&&!m.footer.includes('不保存核对结果'),m)}
 async function redeem(challenge) {
   const token=await rpc('sign',{nonce:challenge.nonce});
@@ -95,7 +102,7 @@ try{
   }
   if(config.native_l2) {
     const {nativeJourney}=await import('../../l2_ops/native_journey.mjs');
-    await nativeJourney({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2,writeFile,path,out,origin});
+    await nativeJourney({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2,postForm,statusOf,writeFile,path,out,origin});
     await check('no-browser-exceptions',exceptions.length===0);
     await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'S0_REAL_NATIVE_L2_BROWSER_CHAIN_PASS',version,records,shots,network,exceptions},null,2));
     await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);

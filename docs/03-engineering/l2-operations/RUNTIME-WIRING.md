@@ -145,3 +145,30 @@ PDFs/screenshots and exact owned-resource cleanup remain necessary evidence.
 
 Current execution status: A04 probes implemented, **not yet passed**. No new push
 or FINAL PASS assertion is authorized by the earlier positive-only journeys.
+
+
+### First live A04 driver RED and causal correction
+
+At executable 407f5a0a3b0e736e7246f4a3fd0019d87b7616f1, run s0a04311a
+created real job 6ed4c7e6-3f56-4527-9402-1683a46e625e, committed the native
+P40 pack, and passed all eight live fault probes (including pending compensation,
+competing C2 review and permanent key revocation). Real Chrome then appended a
+native blueprint version, but the driver's attempted fetch submission failed.
+The actual HTTP header retained connect-src 'none'; a separate read-only Chrome
+probe recorded the explicit CSP security event and TypeError: Failed to fetch.
+That is a C3 driver RED, not a failed Worker/Guard or a passed old-version check.
+
+The original assertions, browser failure, exact two private PG dumps, original
+C2 SQLite file, eight probe receipts and source proof are preserved. The overall
+journey remains RED despite earlier passing assertions. No same-HEAD random
+retry is permitted. Additionally the unused old form must be fully filled and
+valid before the new version is appended; otherwise missing required fields
+would be an invalid oracle for old-version rejection.
+
+The correction uses native same-origin POST form navigation and ordinary GET
+navigation, retaining the original CSP and all deadlines. It first proves the
+unused old form is valid, then appends the real new version before submitting
+that exact old form. It also submits a valid Brief form with an untrusted tenant
+field as a real browser negative. No CSP, auth, CSRF, SQL, permission, Guard or
+Worker lease is relaxed. Fresh same-task authentication precedes the final
+version's item review; it does not renew any old SID or Worker lease.

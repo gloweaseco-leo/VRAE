@@ -1,8 +1,9 @@
 // Real same-task S0 journey. No server, task fixture, report fixture or free flag.
 export async function nativeJourney(c) {
-  const {ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,writeFile,path,out,origin}=c;
+  const {ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,postForm,statusOf,writeFile,path,out,origin}=c;
   const base=origin+'/b5a/m2/';
   async function keySelectAll(){await call('Input.dispatchKeyEvent',{type:'keyDown',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65});await call('Input.dispatchKeyEvent',{type:'keyUp',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65})}
+  await nav(base);await check('S0-unsigned-native-form-refused-with-original-CSP',await postForm(base+'create','case=p40&_csrf=unsigned-negative')===403);
   await login('404'); await nav(base+'tasks');
   await select('[name=case]',2); await click('[data-key=m2-create]',true);
   const taskURL=await ev('location.href');
@@ -24,10 +25,12 @@ export async function nativeJourney(c) {
   await nav(root+'/evidence');await screenshot('s0-source-evidence.png');
   await nav(root+'/blueprint');await screenshot('s0-rebuild-blueprint.png');
   const packages=await ev('document.querySelectorAll(".l2-blueprint").length');
-  async function review() {
-    await nav(root+'/review');
+  async function fillReview() {
     for(const selector of await ev(`[...document.querySelectorAll('select[name^="item."]')].map(x=>'[name="'+x.name+'"]')`))await select(selector,1);
     await select('[name=action]',1);await click('[name=reason]');await call('Input.insertText',{text:'实际新任务的工业合成内部审核：逐项核对证据、配置比较与UNKNOWN；不是工程认证、正式人审或外部交付。'});await click('[name=attest]');
+  }
+  async function review() {
+    await nav(root+'/review');await fillReview();
     await click('[data-key=l2-save-review]',true);
     await check('S0-controlled-current-review-saved',await ev("document.body.innerText.includes('受控演练决定已保存')"));
   }
@@ -53,19 +56,22 @@ export async function nativeJourney(c) {
   }
   // Actual native report revision: new version changes only the blueprint;
   // the original pack/run/evidence survive, and an UNUSED old form must fail.
-  await refresh();await nav(root+'/review');
+  await refresh();await nav(root+'/review');await fillReview();
+  await check('S0-unused-old-form-is-complete-and-valid',await ev("document.querySelector('form[method=post]').checkValidity()&&document.querySelector('[name=attest]').checked&&document.querySelector('[name=action]').value==='APPROVE'&&[...document.querySelectorAll('select[name^=\"item.\"]')].every(e=>e.value==='ACK')"));
   const staleForm=await ev(`new URLSearchParams(new FormData(document.querySelector('form[method="post"]'))).toString()`);
   await nav(root+'/blueprint');await click('.l2-editor > summary');await click('.l2-editor textarea');await keySelectAll();
   await call('Input.insertText',{text:'内部 S0 修订：企业确认型号、工况和合法资料版本后，按原证据边界实施并复验；UNKNOWN 不作为缺陷或工程认证。'});
   await click('[data-key=l2-revise]',true);await nav(root);
   const revised=await ev("JSON.parse(document.querySelector('.l2-technical pre').textContent)");
   await check('S0-real-version-append-same-task-source',revised.report_version.version===reportPins.report_version.version+1&&revised.display_hash!==reportPins.display_hash&&revised.producer.source_descriptor.task.job_id===task.job_id&&revised.producer.source_descriptor.pack_ref===proof.pack_ref);
-  await check('S0-unused-old-version-form-refused',await ev(`(async()=>{const r=await fetch(${JSON.stringify(root+'/review')},{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:${JSON.stringify(staleForm)}});return r.status===403})()`));
+  await check('S0-unused-old-version-form-refused',await postForm(root+'/review',staleForm)===403);
   await nav(root+'/brief');await check('S0-unreviewed-current-version-brief-refused',await ev("document.body.innerText.includes('L2_NATIVE_BUSINESS_DENIED')"));
-  reportPins=revised;await nav(root);await review();await brief();
+  reportPins=revised;await refresh();await review();await brief();
   const briefForm=await ev(`new URLSearchParams(new FormData(document.querySelector('form[method="post"]'))).toString()`);
   await click('[data-key=l2-save-brief]',true);
-  await check('S0-used-brief-action-nonce-refused',await ev(`(async()=>{const r=await fetch(${JSON.stringify(root+'/brief')},{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:${JSON.stringify(briefForm)}});return r.status===403})()`));
+  await check('S0-used-brief-action-nonce-refused',await postForm(root+'/brief',briefForm)===403);
+  await brief();const wrongTenant=await ev(`new URLSearchParams(new FormData(document.querySelector('form[method=post]'))).toString()`);
+  await check('S0-browser-cannot-select-another-tenant',await postForm(root+'/brief',wrongTenant+'&tenant_id=tenant-other')===403);
   await brief();proof=await rpc('native-proof');
   await check('S0-current-revised-Brief-same-native-origin',proof.brief_stored&&proof.brief.pins.report_version===String(revised.report_version.version)&&proof.pack_ref===initialProof.pack_ref&&proof.diagnosis_ref===initialProof.diagnosis_ref);
   await screenshot('s0-final-current-brief.png');
@@ -79,7 +85,7 @@ export async function nativeJourney(c) {
   const after=await rpc('native-proof');
   await check('S0-same-report-receipt-Brief-after-restart',after.brief_stored&&after.pack_ref===proof.pack_ref&&after.diagnosis_sha256===proof.diagnosis_sha256&&after.brief.content_sha256===proof.brief.content_sha256&&after.brief.review.receipt_sha256===proof.brief.review.receipt_sha256);
   await screenshot('s0-restart-readback.png');
-  await check('S0-other-report-scope-refused',await ev(`(async()=>{const r=await fetch('/b5a/l2/r/l2-native-not-this-task/brief');return r.status===403})()`));
+  await nav(origin+'/b5a/l2/r/l2-native-not-this-task/brief');await check('S0-other-report-scope-refused',statusOf('/b5a/l2/r/l2-native-not-this-task/brief')===403);
   const cookies=await call('Network.getCookies',{urls:[origin+'/b5a/l2/']});
   const own=cookies.cookies.find(x=>x.name==='b5a_l2_session');
   await call('Network.setCookie',{name:own.name,value:'unassigned-user-session-00000000000000000000',url:origin+'/b5a/l2/',path:own.path,httpOnly:true,sameSite:'Strict'});
@@ -87,7 +93,7 @@ export async function nativeJourney(c) {
   await call('Network.setCookie',{name:own.name,value:own.value,url:origin+'/b5a/l2/',path:own.path,httpOnly:true,sameSite:'Strict'});
   // Wait for the ORIGINAL current M1 session to expire; do not shorten/renew it.
   const began=Date.now();let expired=false;
-  while(Date.now()-began<95000){const code=await ev(`(async()=>{const r=await fetch(${JSON.stringify(root+'/brief')});return r.status})()`);if(code===403){expired=true;break}await new Promise(r=>setTimeout(r,1000))}
+  while(Date.now()-began<95000){await nav(root+'/brief');if(statusOf(root+'/brief')===403){expired=true;break}await new Promise(r=>setTimeout(r,1000))}
   await check('S0-original-task-timeout-refused',expired,{wait_ms:Date.now()-began,original_ttl_changed:false});
   await refresh();await brief();const reauthorized=await rpc('native-proof');
   await check('S0-real-reauth-same-current-Brief-after-expiry',reauthorized.brief_stored&&reauthorized.brief.content_sha256===proof.brief.content_sha256);
