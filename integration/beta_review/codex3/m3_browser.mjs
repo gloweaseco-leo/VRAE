@@ -100,9 +100,13 @@ try{
     loginPending={token,nonce:q.nonce,csrf:q.csrf,kind:'l2'};
     await nav(origin+'/b5a/l2/session');
   }
+  async function redeemObservedChallenge(q) {
+    if(await ev("location.pathname==='/b5a/l2/challenge'"))await redeemL2(q);
+    else await redeem(q);
+  }
   if(config.native_l2) {
     const {nativeJourney}=await import('../../l2_ops/native_journey.mjs');
-    await nativeJourney({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2,postForm,statusOf,writeFile,path,out,origin});
+    await nativeJourney({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2:redeemObservedChallenge,postForm,statusOf,writeFile,path,out,origin});
     await check('no-browser-exceptions',exceptions.length===0);
     await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'S0_REAL_NATIVE_L2_BROWSER_CHAIN_PASS',version,records,shots,network,exceptions},null,2));
     await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);
@@ -130,7 +134,7 @@ try{
         const text=await ev('document.body.innerText');
         if(text.trim().startsWith('{')) {
           let challenge;try{challenge=JSON.parse(text)}catch{}
-          if(challenge?.nonce&&challenge?.csrf)await redeem(challenge);
+          if(challenge?.nonce&&challenge?.csrf)await redeemObservedChallenge(challenge);
         } else if(text.includes('M2_REQUEST_DENIED')) {
           await login('404',false);await nav(base+'tasks');
         }

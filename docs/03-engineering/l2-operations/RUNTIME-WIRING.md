@@ -194,3 +194,36 @@ and real multipage PDF output, after fresh authentication to the same task, so
 an error page cannot be counted as a report. Access negatives start from a
 proved current 200, and natural expiry starts after restoring the valid cookie.
 No accepted C2 source, HTTP contract, permission, Guard, SQL or deadline changes.
+
+
+### Actual C2 expiry RED and manual operator completion
+
+At ed14f8d4666b113444fce0d3c84cf2c3155f0632, s0contract311 real job
+3429db7c-a7dd-45a7-a8a2-0e8932faf0bc passed four live probes. The fifth was
+not executed: Brief GET was correctly refused after C2 expiry. Forensic metadata
+from previously accepted signatures and the real current-reader minima show C2
+expired at 2026-11-17T00:31:00Z, actual M1 remained valid to00:32:08Z, and the
+failure occurred00:31:02Z. This is an actual earlier-C2-bound refusal, not a
+Worker, PG, Guard or Windows-crash failure. Full raw RED, two DB dumps and C2
+state are retained; both native132-case preflights passed independently.
+
+The driver now explicitly obtains NEW original C2 challenges before independent
+scenarios, in addition to fresh M1 authentication, and checks real200 before
+queuing a fault. Existing sessions are not extended or revived. The original
+90/300-second maximums, assignment/anchor/policy bounds, CSRF, HTTP/CDP and lease
+remain unchanged. Individual probe results record actual M1/C2 expiries/minimum.
+
+Manual operation now uses `l2 app-open` (existing `app open` also preserved).
+The original interactive browser and automated native journey share the SAME
+challenge dispatch to original M2 or original C2 signing. No second SSR, signer
+in the SSR, background authority renewal, new identity grant or review engine.
+The original report and Brief refusal offer a link back to original task login;
+operators recover the same task/report rather than invent a new job.
+
+The concurrent probe additionally measures both original RLocks from the
+competing thread with nonblocking acquisition, plus a real independent SQLite
+BEGIN IMMEDIATE refusal while original current_report holds its transaction.
+This distinguishes observed locking from merely waiting for a slower thread.
+The actual competing original review still commits afterward, and stale/pending
+Brief reads remain refused. All instrumentation is in the existing C3 TEST_ONLY
+private-file audit, not old SQL/RLS, Worker, Guard or C2 source.

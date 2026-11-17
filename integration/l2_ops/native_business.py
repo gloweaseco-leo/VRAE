@@ -59,7 +59,7 @@ class NativeBusiness:
                 html = reply.response.body.decode("utf-8")
                 marker = '<main id="main" tabindex="-1">'
                 if html.count(marker) == 1:
-                    html = html.replace(marker, marker + link(path+"/brief", "内部商务 RebuildBrief", key="l2-business-brief"), 1)
+                    html = html.replace(marker, marker + link(path+"/brief", "内部商务 RebuildBrief", key="l2-business-brief") + link("/b5a/m2/", "返回任务登录／恢复原任务", key="l2-task-login"), 1)
                     response = reply.response
                     return Reply(Response(response.status, html.encode("utf-8"), response.content_type), reply.headers)
         return reply
@@ -112,4 +112,4 @@ class NativeBusiness:
                 + link('/b5a/l2/r/'+rid, '返回本次深度报告'))
             return deep.reply("内部商务 RebuildBrief", body)
         except Exception:
-            return self.app.deep.reply("请求未提供交接数据", '<p data-code="L2_NATIVE_BUSINESS_DENIED">L2_NATIVE_BUSINESS_DENIED</p><p>请重新签名登录本任务及深度审核，并核对当前版本已保存逐项决定。</p>', 403)
+            return self.app.deep.reply("请求未提供交接数据", '<p data-code="L2_NATIVE_BUSINESS_DENIED">L2_NATIVE_BUSINESS_DENIED</p><p>请重新签名登录本任务及深度审核，并核对当前版本已保存逐项决定。</p>' + link("/b5a/m2/", "返回任务登录，恢复原任务", key="l2-task-login"), 403)

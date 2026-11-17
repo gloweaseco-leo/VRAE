@@ -1,0 +1,14 @@
+{
+  "source_sha": "ed14f8d4666b113444fce0d3c84cf2c3155f0632",
+  "actual_job_id": "3429db7c-a7dd-45a7-a8a2-0e8932faf0bc",
+  "journey_status": "RED_DRIVER_AUTH_PRECONDITION",
+  "live_fault_cases_passed": 4,
+  "case_five_not_executed": true,
+  "c2_expires_at": "2026-11-17T00:31:00+00:00",
+  "actual_task_signature_expires_at": "2026-11-17T00:32:08+00:00",
+  "brief_get_403_failure_at": "2026-11-17T00:31:02+00:00",
+  "original_dual_authority_guard_correct": true,
+  "cause": "Driver refreshed actual M1 signature but reused C2 cookie near its original 300 second expiry. C2 remained current for preceding page, then correctly expired before Brief GET.",
+  "required_correction": "Explicit NEW original C2 challenge/login for each independent probe and validate live 200 before queuing. Retain all original TTLs and expired/revoked SID behavior.",
+  "not_claimed": "No pass for SQLite, post-exit, concurrent or revocation in this run. Earlier runs retain their own proven scope."
+}

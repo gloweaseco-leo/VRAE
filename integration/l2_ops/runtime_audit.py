@@ -5,11 +5,12 @@ queues one closed probe in the owned SSR volume; an already authenticated POST
 with its original one-use CSRF consumes it. Each fault preserves an explicit
 result and uses a separate immutable audit Brief, never the business Brief.
 """
-from contextlib import contextmanager
+from contextlib import contextmanager, closing
 from dataclasses import replace
 import copy
 import json
 import threading
+import sqlite3
 import time
 
 from vrae.l2_ops.briefs import BriefService
@@ -52,7 +53,7 @@ def consume(manager, reader, ledger, bundle, activities):
     request.rename(running)
     result = {"case": case, "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
               "task": manager.active["capture"]["signed_reader"]["task"], "pass": False,
-              "detached_authority": False, "original_permissions_changed": False}
+              "detached_authority": False, "original_sql_role_contracts_changed": False}
     start = time.monotonic_ns()
     try:
         service = BriefService(reader)
@@ -68,6 +69,9 @@ def consume(manager, reader, ledger, bundle, activities):
                 c2_session.expires, reader.ledger.directory.expires), UTC))
             assert current.authority_expires_at == expected
             result["minimum_original_deadline"] = expected.isoformat()
+            result["original_task_session_expires_at"] = datetime.fromtimestamp(task_session.expires, UTC).isoformat()
+            result["original_review_session_expires_at"] = datetime.fromtimestamp(c2_session.expires, UTC).isoformat()
+            result["authority_observed_at"] = datetime.now(UTC).isoformat()
         if case == "idempotent":
             a = service.save_current(ledger, document)
             b = service.save_current(ledger, document)
@@ -166,10 +170,16 @@ def consume(manager, reader, ledger, bundle, activities):
                 assert "PENDING_REVALIDATION" in result["readback_denial"]
             else:
                 started, finished = threading.Event(), threading.Event()
-                errors = []
+                errors, observed = [], {}
                 def competing():
-                    started.set()
                     try:
+                        for name, lock in (("task_session_blocked", reader.sessions.lock),
+                                           ("current_review_blocked", reader.ledger.directory.lock)):
+                            acquired = lock.acquire(blocking=False)
+                            observed[name] = not acquired
+                            if acquired:
+                                lock.release()
+                        started.set()
                         reject()
                     except BaseException as e:
                         errors.append(type(e).__name__)
@@ -180,6 +190,17 @@ def consume(manager, reader, ledger, bundle, activities):
                     def put(self, value, *, authority_expires_at):
                         thread.start()
                         assert started.wait(1)
+                        assert observed == {"task_session_blocked": True, "current_review_blocked": True}
+                        result["original_lock_probe"] = dict(observed)
+                        with closing(sqlite3.connect(reader.ledger.path, timeout=0, isolation_level=None)) as competing_db:
+                            try:
+                                competing_db.execute("BEGIN IMMEDIATE")
+                            except sqlite3.OperationalError as error:
+                                assert "locked" in str(error).lower()
+                                result["original_sqlite_transaction_blocked"] = True
+                            else:
+                                competing_db.rollback()
+                                raise AssertionError("ORIGINAL_C2_TRANSACTION_NOT_HELD")
                         assert not finished.wait(0.15), "C2_UPDATE_ESCAPED_HELD_AUTHORITY_LOCK"
                         return super().put(value, authority_expires_at=authority_expires_at)
                 try:

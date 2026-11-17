@@ -84,7 +84,7 @@ class PreparationWorkbench(Workbench):
         self.profile_data["task_sources"] = {
             "404": {"source_ref": "accepted-404", "label": "制造业 · 联系路径404", "depth": "L1"},
             "200": {"source_ref": "accepted-200", "label": "制造业 · 静态路径200／证据不足", "depth": "L1"},
-            "p40": {"source_ref": self.result["l2_input"]["source_ref"], "label": "工业泵阀 P40/V25 · L2 任务链待验收",
+            "p40": {"source_ref": self.result["l2_input"]["source_ref"], "label": "工业泵阀 P40/V25 · 合成深度诊断",
                     "depth": "L2", "enabled": readiness.enabled()},
         }
         self.result["l2_readiness"] = {"mode": "RUNTIME_READY_NOT_ACCEPTED_E2E" if readiness.enabled() else "PREPARATION_NOT_L2_E2E", "p40_submit_enabled": readiness.enabled(),

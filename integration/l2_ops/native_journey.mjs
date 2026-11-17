@@ -16,8 +16,8 @@ export async function nativeJourney(c) {
   await check('S0-original-worker-real-locator', ['request_id','run_id','job_id'].every(k=>worker[k]===task[k]),worker);
   async function sourceLogin() {await nav(taskURL);await openNewReport();await nav(taskURL);await click('[data-key=l2-native-task]',true);await click('[data-key=l2-produce-native]',true)}
   await sourceLogin();
-  async function c2Login(){await nav(origin+'/b5a/l2/');if(await ev(`!!document.querySelector('form[action="/b5a/l2/challenge"]')`)){await click('form button',true);const q=JSON.parse(await ev('document.body.innerText'));await c.redeemL2(q)}await click('[data-key=l2-open-report]',true)}
-  await c2Login();
+  async function c2Login(fresh=false){if(fresh)await call('Network.deleteCookies',{name:'b5a_l2_session',url:origin+'/b5a/l2/'});await nav(origin+'/b5a/l2/');if(await ev(`!!document.querySelector('form[action="/b5a/l2/challenge"]')`)){await click('form button',true);const q=JSON.parse(await ev('document.body.innerText'));await c.redeemL2(q)}await click('[data-key=l2-open-report]',true)}
+  await c2Login(true);
   const root=await ev('location.href');
   let reportPins=await ev("JSON.parse(document.querySelector('.l2-technical pre').textContent)");
   await check('S0-native-report-not-example',await ev("document.querySelectorAll('[data-source-mode=NATIVE_VERIFIED_PACK]').length>0&&document.body.innerText.includes('P40')&&document.body.innerText.includes('V25')&&!document.body.innerText.includes('MP25')"));
@@ -36,17 +36,18 @@ export async function nativeJourney(c) {
   }
   await review();await screenshot('s0-controlled-receipt.png');
   // Fresh original M1 signature, SAME actual task/pack/report. No TTL extension.
-  await login('404',false);await sourceLogin();await c2Login();
+  await login('404',false);await sourceLogin();await c2Login(true);
   await click('[data-key=l2-business-brief]',true);await click('[data-key=l2-save-brief]',true);
   await check('S0-actual-Brief-PG-COMMIT-and-readback',await ev("document.body.innerText.includes('PostgreSQL 回读')&&document.body.innerText.includes('费用未知')&&document.body.innerText.includes('尚未关联真实咨询')"));
   let proof=await rpc('native-proof');
   await check('S0-full-same-task-native-chain',proof.brief_stored&&proof.pages.length===8&&['request_id','run_id','job_id','source_ref'].every(k=>proof.task[k]===task[k])&&proof.brief.pins.native_pack_ref===proof.pack_ref&&proof.brief.pins.diagnosis_ref===proof.diagnosis_ref&&proof.brief.pins.report_sha256===reportPins.display_hash&&packages===proof.counts.blueprint,proof.brief.pins);
   await screenshot('s0-internal-brief.png');
   const initialProof=proof, audit=[];
-  async function refresh() {await login('404',false);await sourceLogin();await c2Login()}
+  async function refresh() {await login('404',false);await sourceLogin();await c2Login(true)}
   async function brief() {await nav(root);await click('[data-key=l2-business-brief]',true)}
   for(const name of ['idempotent','wrong-task','pg-interruption','task-connection-loss','sqlite-unavailable','post-exit-review-change','concurrent-review','c2-revocation']) {
     await refresh();await brief();
+    await check('S0-live-current-before-'+name,statusOf(root+'/brief')===200);
     await rpc('s0-audit-queue',{case:name});await click('[data-key=l2-save-brief]',true);
     const result=await rpc('s0-audit-result',{case:name});audit.push(result);
     await writeFile(path.join(out,'live-dual-authority.json'),JSON.stringify(audit,null,2));
@@ -85,7 +86,7 @@ export async function nativeJourney(c) {
   }
   await pdf(root+'/report-print','s0-report-zh-A4.pdf'); await pdf(root+'/blueprint-print','s0-blueprint-zh-A4.pdf');
   const restarted=await rpc('restart');await check('S0-real-PG-and-service-restart',Object.values(restarted).every(v=>v===true),restarted);
-  await login('404',false); await sourceLogin(); await c2Login();
+  await login('404',false); await sourceLogin(); await c2Login(true);
   const afterPins=await ev("JSON.parse(document.querySelector('.l2-technical pre').textContent)");
   await check('S0-report-version-and-display-survive-restart',afterPins.display_hash===reportPins.display_hash&&JSON.stringify(afterPins.report_version)===JSON.stringify(reportPins.report_version));
   await click('[data-key=l2-business-brief]',true);
@@ -104,6 +105,7 @@ export async function nativeJourney(c) {
   const began=Date.now();let expired=false;
   while(Date.now()-began<95000){await nav(root+'/brief');if(statusOf(root+'/brief')===403){expired=true;break}await new Promise(r=>setTimeout(r,1000))}
   await check('S0-original-task-timeout-refused',expired,{wait_ms:Date.now()-began,original_ttl_changed:false});
+  await check('S0-expired-brief-offers-original-task-login',await ev("!!document.querySelector('[data-key=l2-task-login]')"));await click('[data-key=l2-task-login]',true);
   await refresh();await brief();const reauthorized=await rpc('native-proof');
   await check('S0-real-reauth-same-current-Brief-after-expiry',reauthorized.brief_stored&&reauthorized.brief.content_sha256===proof.brief.content_sha256);
   await writeFile(path.join(out,'native-chain.json'),JSON.stringify({task,worker,reportPins,initial:initialProof,liveAudit:audit,before:proof,after},null,2));

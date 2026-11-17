@@ -23,7 +23,7 @@ def main(argv=None):
     intake.add_argument("--minor", required=True, choices=("3.11", "3.13"))
     intake.add_argument("--source-profile", choices=("industrial-v1", "industrial-p40-v3"), default="industrial-v1")
     intake.add_argument("--native-l2", action="store_true")
-    for operation in ("app-start", "app-status", "app-stop", "app-verify"):
+    for operation in ("app-start", "app-status", "app-stop", "app-verify", "app-open"):
         app = sub.add_parser(operation, help="Original one SSR, controlled native L2 gated by accepted main; TEST_ONLY")
         app.add_argument("--run", required=True)
         if operation == "app-start":
@@ -31,10 +31,13 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if args.operation.startswith("app-"):
         from integration.beta_review.codex3.local_app import start, status, request_stop
-        if args.operation == "app-verify":
+        if args.operation in ("app-verify", "app-open"):
             from integration.beta_review.codex3.m3_browser_run import run
             from . import readiness
-            result, code = run(args.run, preparation_only=not readiness.enabled(), native_l2=readiness.enabled()), 0
+            interactive = args.operation == "app-open"
+            result, code = run(args.run, interactive=interactive,
+                preparation_only=not readiness.enabled() and not interactive,
+                native_l2=readiness.enabled() and not interactive), 0
         elif args.operation == "app-start":
             result, code = start(args.run, args.minor, False, workbench=True, l2_prepare=True)
         else:
