@@ -27,6 +27,7 @@ jobs:
           python -m mypy vrae
           python -m pytest -q tests/ra4b_p2/m1_cases.py --junitxml=docs/03-engineering/ra4b-p2/.runtime/m1-pure-${{ matrix.slug }}.xml
       - name: Build original pinned Python image; execute no old matrix locally
+        id: original_image
         run: python docs/03-engineering/ra4b-p1/runtime_lab.py m1-build-${{ matrix.slug }} --build-only --private-output
       - name: Real PG16 / UID Worker / source and lease / signed read / actual restart
         run: python -m integration.ra4b_p2.m1.lab ${{ matrix.slug }} ci-${{ matrix.slug }}
@@ -50,6 +51,9 @@ jobs:
           shutil.copyfile(private / 'receipt.json', public / 'runtime-receipt.json')
           shutil.copyfile(private / 'recovered/receipt.json', public / 'restarted-receipt.json')
           PY
+      - name: Classify only the verified public image build on failure
+        if: failure()
+        run: python -m integration.s2_ux.ci_build_diagnostic ${{ matrix.slug }} '${{ steps.original_image.outcome }}'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
