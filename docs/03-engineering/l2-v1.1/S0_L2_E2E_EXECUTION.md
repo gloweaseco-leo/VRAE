@@ -1,5 +1,6 @@
 # VRAE V1.1｜S0 真实工业 L2 整机 Beta 执行纲领与三 Codex 分工
 
+> **历史任务书，已完成而非当前待办。** 2026-11-17 S0 A01–A04 经 Owner FINAL PASS，原[PR112](https://github.com/gloweaseco-leo/VRAE/pull/112#issuecomment-6943168858) 合并；accepted S0 main `178d1ea4a6b11c11491a8ed71a418e6415b1fcb5`，以 [Issue96冻结回执](https://github.com/gloweaseco-leo/VRAE/issues/96#issuecomment-6943188044) 为当前状态。本文下面的旧 Draft/STOP/候选文字是执行时的历史约束，不可理解为仍待合并或允许重启S0。
 > 状态：OWNER AUTHORIZED S0 ONLY，2026-11-16。
 > 阶段目标：A01–A04，真实 P40/V25 合成工业站点从新 APP202 到原 Worker/PG16 COMMIT、C1/C2原生报告、Controlled 审阅、C3内部 RebuildBrief、重启与 Chrome 操作；**不是** S2 五维全部规则、S3 真实 AI、S4 商业灯塔或正式生产放行。
 > 最新 Owner accepted main：a9604f570528e599a0b8215a8957208d76e47b89（PR114已FINAL PASS合并）。工作分支 PR112：codex3/l2-runtime-integration；交接时远端099b8a9831382cf6cd009f66a22c4a8a0838ec93、本地6874c1f4c8fc3bd0e5f3aaf065618855fc9a9f1b，后者未推送、未验证托管CI。
