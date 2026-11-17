@@ -17,6 +17,7 @@ JOURNEY_VERSION = 'ra2b1-1.0.0'
 INFO_VERSION = 'ra2b3-1.0.0'
 SEO_VERSION = 'ra2b4-1.0.0'
 TRUST_VERSION = 'ra2b6-1.0.0'
+S2_VERSION = 's2-1.0.0'
 
 
 class Navigation(HTMLParser):
@@ -175,6 +176,10 @@ def execute(pack: EvidencePack, *, expected_pack_ref: str, evaluator_version: st
     if not isinstance(expected_pack_ref, str) or not re.fullmatch(r'ep-[0-9a-f]{64}', expected_pack_ref):
         raise EvidenceError('RULE_EXECUTION_INTEGRITY')
     pack.verify(expected_ref=expected_pack_ref)
+    if evaluator_version == S2_VERSION:
+        from .s2.contract import _extend_execution
+        baseline = execute(pack, expected_pack_ref=expected_pack_ref, evaluator_version=TRUST_VERSION)
+        return _extend_execution(baseline, pack, expected_pack_ref=expected_pack_ref)
     if evaluator_version not in (VERSION, JOURNEY_VERSION, INFO_VERSION, SEO_VERSION, TRUST_VERSION):
         raise EvidenceError('RULE_VERSION_UNSUPPORTED')
     doc = pack.document
