@@ -19,6 +19,7 @@ const legacy=legacyScript.match(/DOM_SCRIPT = """([\s\S]*?)"""/)[1];
 const sha=b=>createHash('sha256').update(b).digest('hex');
 let ws,child,serial=0,session,exitCode=null;
 let stderr='',closed=false;
+let shutdown='BROWSER_CLOSE';
 const pending=new Map(),records=[],requests=[],assertions=[],protocol=[];
 const chrome=process.env.L2_CHROMIUM||(process.platform==='win32'?'C:/Program Files/Google/Chrome/Application/chrome.exe':'/usr/bin/google-chrome');
 function call(method,params={},sessionId=session){return new Promise((resolve,reject)=>{
@@ -35,7 +36,7 @@ try{
     '--disable-domain-reliability','--disable-features=MediaRouter,OptimizationHints','--disable-crash-reporter',
     '--proxy-server=http://127.0.0.1:9','--host-resolver-rules=MAP * ~NOTFOUND',
     '--remote-debugging-address=127.0.0.1','about:blank'],
-    {windowsHide:true,stdio:['ignore','ignore','pipe']});
+    {windowsHide:true,detached:process.platform!=='win32',stdio:['ignore','ignore','pipe']});
   child.on('exit',code=>{exitCode=code;closed=true;});
   const endpoint=await new Promise((resolve,reject)=>{
     const timer=setTimeout(()=>reject(Error('CHROME_START_TIMEOUT')),20000);
@@ -44,6 +45,7 @@ try{
   });
   ws=new WebSocket(endpoint);
   await new Promise((resolve,reject)=>{ws.onopen=resolve;ws.onerror=reject;});
+  ws.onclose=()=>{for(const p of pending.values()){clearTimeout(p.t);p.reject(Error('CHROME_DISCONNECTED'));}pending.clear();};
   ws.onmessage=event=>{const m=JSON.parse(event.data);protocol.push({at:new Date().toISOString(),direction:'receive',id:m.id,method:m.method,error:m.error});if(m.id){const p=pending.get(m.id);if(p){clearTimeout(p.t);pending.delete(m.id);m.error?p.reject(Error(m.error.message)):p.resolve(m.result);}return;}
     if(m.method==='Fetch.requestPaused')void(async()=>{
       const p=m.params,allowed=p.request.method==='GET'&&p.resourceType==='Document'&&/^https:\/\/synthetic\.invalid\/\?case=(clean|hidden|covered|overflow|multilingual|blocked)$/.test(p.request.url);
@@ -87,11 +89,17 @@ try{
   check('no-rfq-or-write-request',requests.every(r=>r.method==='GET'&&!r.url.endsWith('/rfq')));
   check('no-resource-handler-failure',assertions.every(a=>a.pass));
   await writeFile(path.join(out,'browser.json'),JSON.stringify({kind:'SYNTHETIC_OFFLINE_DIAGNOSTIC_NOT_AUTHORITY',version:version.product,fixture_sha256:sha(fixture),legacy_script_sha256:sha(Buffer.from(legacy)),records,requests,assertions},null,2));
+}catch(error){
+  await writeFile(path.join(out,'failure.json'),JSON.stringify({message:error.message,stack:error.stack,records,requests,assertions},null,2));
+  throw error;
 }finally{
   if(ws&&ws.readyState===WebSocket.OPEN){try{await call('Browser.close',{},null);}catch{}ws.close();}
-  if(child&&!closed){for(let n=0;n<100&&!closed;n++)await new Promise(r=>setTimeout(r,30));if(!closed)child.kill();}
-  if(child&&!closed)await new Promise(resolve=>{child.once('exit',resolve);setTimeout(resolve,5000);});
-  await writeFile(path.join(out,'cleanup.json'),JSON.stringify({pid:child?.pid,closed,exitCode,profile_retained_for_evidence:true}));
+  async function waitExit(){for(let n=0;n<100&&!closed;n++)await new Promise(r=>setTimeout(r,30));}
+  function stop(signal){shutdown=signal;try{if(process.platform==='win32')child.kill(signal);else process.kill(-child.pid,signal);}catch(e){if(e.code!=='ESRCH')throw e;}}
+  if(child&&!closed)await waitExit();
+  if(child&&!closed){stop('SIGTERM');await waitExit();}
+  if(child&&!closed){stop('SIGKILL');await waitExit();}
+  await writeFile(path.join(out,'cleanup.json'),JSON.stringify({pid:child?.pid,closed,exitCode,shutdown,profile_retained_for_evidence:true}));
   await writeFile(path.join(out,'protocol.json'),JSON.stringify(protocol,null,2));
   await writeFile(path.join(out,'chrome.stderr.log'),stderr);
   check('dedicated-chrome-exited',closed);

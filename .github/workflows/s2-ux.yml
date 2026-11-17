@@ -38,6 +38,7 @@ jobs:
           name: s2-ux-p0-${{ matrix.python }}
           if-no-files-found: error
           retention-days: 7
+          include-hidden-files: true
           path: |
             integration/s2_ux/.runtime/*.xml
             integration/s2_ux/.runtime/ci-browser/*.json
