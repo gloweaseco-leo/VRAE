@@ -13,3 +13,9 @@
 ## First natural CI179034b RED
 
 Both native CI jobs exit before collection because our explicit integration/l2_ops input-test path loads its existing PG/signed-runtime conftest. The core lock intentionally has no cryptography. Windows reused venvs contained that unrelated dependency, masking the directory coupling. Both raw ZIP digests, job logs and stage0 logs are preserved in first-ci-red-179034b. There is no hosted JUnit from these two jobs; no tests ran. Fix only relocates our input tests/parser to tests/benchmark and tests/s2_quality, preserving the original conftest, locks, crypto verifier, protected code and all first-attempt statuses.
+
+## Frozen default inventory RED and own-suite isolation
+
+The first RA4B natural CI actually collected2603 cases (0error/failure,25existing environment skips), then the intact DISC inventory guard correctly refused the exact2564 baseline because39 new S2 tests were auto-discovered. Input-test relocation would add4 more, so that interim candidate was never pushed. Own S2 files now use explicit quality_cases.py/input_cases.py selection, matching the existing industry/l2_cases.py pattern. The new dedicated native gate still executes all131 tests, including every new security case. No old inventory/manifest/pyproject/CI test filtering or test skips are introduced.
+
+An extra core-only Linux probe on a read-only Windows bind was stopped with exit137 by the operator after measured100-file reads took907085414ns vs1444131ns on tmpfs. It is an incomplete infrastructure probe, not a native crash or test PASS; raw output/CID/cleanup remain private. Final Linux proof uses an exact source snapshot in a dedicated read-only native volume, without adding dependencies or changing production limits.
