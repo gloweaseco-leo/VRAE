@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S2 synthetic industrial fixture</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px system-ui;color:#172b3b;background:#f5f7f8}
+main{max-width:960px;margin:auto;padding:20px}nav{display:flex;gap:16px;flex-wrap:wrap}
+a,button{display:inline-block;padding:12px;background:#075c62;color:white;border:0;border-radius:4px}
+.card{background:white;padding:18px;margin:16px 0}img{width:48px;height:48px}
+body[data-case=overflow] main{min-width:560px}
+body[data-case=hidden] #quote{opacity:0}
+body[data-case=covered] #cover{position:fixed;inset:0;background:#dce5e8f5;z-index:10;display:block}
+#cover{display:none}
+</style>
+<body><main><nav><a href="#spec">P40 specifications</a><a id="quote" href="/rfq">Request a quote</a></nav>
+<h1>P40 industrial pump — synthetic only</h1>
+<section class="card" id="spec"><h2>Procurement information</h2><p id="description">Model P40, pressure 18 bar. Verify operating conditions with the supplier.</p>
+<img id="drawing" alt="P40 drawing placeholder" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%23075c62'/%3E%3C/svg%3E">
+<button id="inquiry" type="button">Prepare RFQ — no submission</button></section>
+<p>合成隔离测试。不是客户网站，不发送询盘。</p></main><div id="cover">Synthetic overlay</div>
+<script>
+const c=new URL(location.href).searchParams.get('case');document.body.dataset.case=c;
+if(c==='multilingual'){document.querySelector('#description').textContent='参数待补充 / Lorem ipsum';document.querySelector('#drawing').removeAttribute('alt');}
+if(c==='blocked'){const i=document.createElement('img');i.src='https://unapproved.invalid/tracker';document.body.append(i);}
+</script></body></html>
