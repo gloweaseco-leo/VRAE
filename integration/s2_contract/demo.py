@@ -6,8 +6,7 @@ import json
 from pathlib import Path
 
 from vrae.evidence import EvidencePack
-from vrae.rules import execute, verify_execution
-from vrae.rules.execution import S2_VERSION
+from vrae.rules.s2 import evaluate_s2, verify_s2_projection, PROJECTION_VERSION
 
 ROOT = Path(__file__).resolve().parents[2]
 FIXTURE_SHA256 = '33554c61ffd561dd88e38c7d832a47fe4dbc210d5756d570fd61be8c8c6707fe'
@@ -26,23 +25,26 @@ def main():
     assert hashlib.sha256(encode(source)).hexdigest() == FIXTURE_SHA256
     pack = EvidencePack.load(source['pack'], {key: base64.b64decode(value, validate=True)
         for key, value in source['objects_base64'].items()}, expected_ref=source['pack']['pack_ref'])
-    output = execute(pack, expected_pack_ref=pack.ref, evaluator_version=S2_VERSION)
-    verify_execution(output, pack, expected_pack_ref=pack.ref, expected_evaluator_version=S2_VERSION)
+    scope = {k: pack.document[k] for k in ('tenant_id', 'run_id', 'policy_id', 'policy_version')}
+    output = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope)
+    verify_s2_projection(output, pack, expected_pack_ref=pack.ref, trusted_scope=scope,
+                         expected_projection_ref=output['projection_ref'])
     summary = {'kind': 'OFFLINE_ACCEPTED_INDUSTRIAL_BYTES_P0_NOT_NEW_APP_OR_WORKER_COMMIT',
         'fixture_canonical_sha256': FIXTURE_SHA256, 'pack_ref': pack.ref,
-        'evaluator_version': S2_VERSION, 'execution_ref': output['execution_ref'],
-        'execution_bytes_sha256': hashlib.sha256(encode(output)).hexdigest(),
+        'projection_version': PROJECTION_VERSION, 'projection_ref': output['projection_ref'],
+        'baseline_execution_ref': output['baseline_execution_ref'],
+        'projection_bytes_sha256': hashlib.sha256(encode(output)).hexdigest(),
         'snapshot_count': len(pack.document['snapshots']),
         'rules': [{'rule_id': r['rule_id'], 'buyer_task': r['buyer_task'], 'enabled': r['enabled'],
                    'results': [row['observation']['result'] for row in r['observations']]}
-                  for r in output['executions']],
+                  for r in output['baseline_execution']['executions']],
         's2_capabilities': output['s2_capabilities'],
         'adapter_refs': {rule: request['input_ref'] for rule, request in output['adapter_requests'].items()},
         'coverage_denominator': None, 'model_calls': 0,
         'business_limit': 'Six legacy bounded checks only; ten new generic rules pending P1. Missing evidence is not a website defect. Industrial IND six are separate and not counted as generic rules.',
-        'guard_limit': 'Legacy FindingPackage rejects S2; no S2 report/review authority granted.'}
+        'guard_limit': 'S2 projection is not native RuleExecution; old FindingPackage/Guard authority is not granted.'}
     args.out.mkdir(parents=True, exist_ok=False)
-    (args.out / 'execution.json').write_bytes(encode(output))
+    (args.out / 'projection.json').write_bytes(encode(output))
     (args.out / 'summary.json').write_bytes(encode(summary))
     print(json.dumps(summary), flush=True)
 

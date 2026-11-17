@@ -6,8 +6,12 @@ from typing import Protocol
 from vrae.collection.manifest import document_hash
 from vrae.evidence import EvidenceError, EvidencePack
 from vrae.rules.readiness import GAPS
+from vrae.rules import execute, verify_execution
+from vrae.rules.execution import TRUST_VERSION
+from vrae.rules.s2_ux import BrowserPins, project_browser
 
 CONTRACT_VERSION = 's2-readonly-1.0.0'
+PROJECTION_VERSION = 's2-projection-1.0.0'
 UX_RULES = ('INFO-03', 'CTA-01', 'CTA-03', 'TECH-02')
 STATIC_RULES = ('DISC-03', 'INFO-02', 'TRUST-02', 'TRUST-03', 'SEO-02', 'TECH-01')
 SCOPE = ('tenant_id', 'run_id', 'policy_id', 'policy_version')
@@ -116,24 +120,62 @@ def resolve_input(request: dict, pack: EvidencePack, *, expected_pack_ref: str,
     return pack.resolve(evidence_ref, expected_pack_ref=expected_pack_ref)
 
 
-def _extend_execution(baseline: dict, pack: EvidencePack, *, expected_pack_ref: str) -> dict:
-    """Annotate the sole executor's legacy result; no new rules claimed implemented."""
-    from vrae.rules.execution import S2_VERSION
-    result = json.loads(_encode(baseline))
-    del result['execution_ref']
-    result['evaluator_version'] = S2_VERSION
-    doc = pack.document
-    scope = {key: doc[key] for key in SCOPE}
-    result['adapter_contract_version'] = CONTRACT_VERSION
-    result['adapter_requests'] = {rule: adapter_request(pack, expected_pack_ref=expected_pack_ref,
-        rule_id=rule, expected_scope=scope) for rule in UX_RULES}
+def evaluate_s2(pack: EvidencePack, *, expected_pack_ref: str, trusted_scope: dict,
+                browser_pins: BrowserPins | None = None) -> dict:
+    """Compose a non-authoritative projection; caller retains live signed authority.
+
+    No browser source/time pins are inferred from the pack. Only an independently
+    held BrowserPins allows the accepted C2 read-only projection to be included.
+    This function grants neither access nor FindingPackage/Guard approval.
+    """
+    requests = {rule: adapter_request(pack, expected_pack_ref=expected_pack_ref,
+        rule_id=rule, expected_scope=trusted_scope) for rule in UX_RULES}
+    baseline = execute(pack, expected_pack_ref=expected_pack_ref, evaluator_version=TRUST_VERSION)
+    verify_execution(baseline, pack, expected_pack_ref=expected_pack_ref,
+                     expected_evaluator_version=TRUST_VERSION)
+    browser_projection = None
+    if browser_pins is not None:
+        if (type(browser_pins) is not BrowserPins or browser_pins.pack_ref != expected_pack_ref
+                or any(type(getattr(browser_pins, k)) is not type(trusted_scope[k])
+                       or getattr(browser_pins, k) != trusted_scope[k] for k in SCOPE)):
+            _fail()
+        browser_projection = project_browser(pack, held=browser_pins).document
+    result = {'kind': 'S2EvaluationProjection', 'projection_version': PROJECTION_VERSION,
+        'pack_ref': expected_pack_ref, 'scope': json.loads(_encode(trusted_scope)),
+        'baseline_execution_ref': baseline['execution_ref'],
+        'baseline_evaluator_version': TRUST_VERSION,
+        'baseline_catalog_version': baseline['catalog_version'],
+        'baseline_catalog_sha256': baseline['catalog_sha256'],
+        'baseline_execution': baseline, 'adapter_contract_version': CONTRACT_VERSION,
+        'adapter_requests': requests, 'browser_projection': browser_projection,
+        'browser_binding': 'INDEPENDENT_HELD_PINS_CONSISTENCY_ONLY' if browser_pins is not None
+                           else 'NOT_REQUESTED_NO_BROWSER_PINS_INFERRED'}
     result['s2_capabilities'] = [{'rule_id': row['rule_id'],
         'owner': 'C2' if row['rule_id'] in UX_RULES else 'C1' if row['rule_id'] in STATIC_RULES else 'LEGACY',
         'implementation': 'LEGACY_BOUNDED' if row['enabled'] else 'NOT_IMPLEMENTED_P0',
-        'legacy_gap': GAPS[row['rule_id']]} for row in result['executions']]
-    result['limitations'].extend(['S2_P0_INTERFACES_ONLY_NOT_TEN_NEW_RULES_IMPLEMENTED',
-        'NO_S2_ADAPTER_LOADED_OR_BROWSER_RESULT_ACCEPTED',
+        'legacy_gap': GAPS[row['rule_id']]} for row in baseline['executions']]
+    result['limitations'] = ['S2_P0_INTERFACES_ONLY_NOT_TEN_NEW_RULES_IMPLEMENTED',
+        'PROJECTION_IS_NOT_RULEEXECUTION_OR_AUTHORIZATION',
+        'C2_PROJECTION_IS_READ_ONLY_UNKNOWN_NOT_NEW_RULE_PASS',
         'S2_NOT_ADMITTED_BY_LEGACY_FINDINGPACKAGE_OR_GUARD',
-        'HUMAN_GOLD_PENDING_NO_QUALITY_METRIC'])
-    result['execution_ref'] = 'rx-' + document_hash(result)
+        'HUMAN_GOLD_PENDING_NO_QUALITY_METRIC']
+    result['projection_ref'] = 's2p-' + document_hash(result)
     return result
+
+
+def verify_s2_projection(output: dict, pack: EvidencePack, *, expected_pack_ref: str,
+                         trusted_scope: dict, expected_projection_ref: str,
+                         browser_pins: BrowserPins | None = None,
+                         expected_projection_version: str = PROJECTION_VERSION) -> None:
+    """Independently replay original execution and all derived inputs/projections."""
+    try:
+        if (expected_projection_version != PROJECTION_VERSION
+                or type(expected_projection_ref) is not str
+                or not re.fullmatch(r's2p-[0-9a-f]{64}', expected_projection_ref)):
+            _fail()
+        expected = evaluate_s2(pack, expected_pack_ref=expected_pack_ref,
+                              trusted_scope=trusted_scope, browser_pins=browser_pins)
+        if expected['projection_ref'] != expected_projection_ref or _encode(output) != _encode(expected):
+            _fail()
+    except Exception as exc:
+        raise EvidenceError('S2_PROJECTION_INTEGRITY') from exc

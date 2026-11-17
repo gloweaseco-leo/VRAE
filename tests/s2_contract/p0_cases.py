@@ -1,4 +1,5 @@
 from copy import deepcopy
+from dataclasses import replace
 import importlib.util
 import json
 import subprocess
@@ -9,13 +10,19 @@ from vrae.collection.manifest import document_hash, sha256
 from vrae.evidence import EvidenceError, build_pack
 from vrae.findings import build_findings, FindingError
 from vrae.rules import execute, verify_execution
-from vrae.rules.execution import S2_VERSION
+from vrae.rules.s2 import evaluate_s2, verify_s2_projection, PROJECTION_VERSION
 from vrae.rules.s2 import adapter_request, verify_adapter_request, resolve_input, UX_RULES
+from vrae.rules.s2_ux import project_browser
+from integration.s2_ux.test_projection import fixture as c2_fixture
 from tests.evidence.synthetic import http, browser
 from tests.rules.synthetic import site
 
 BASE = '84276325befdcf858852a1ec791e8b0695a515eb'
 VERSIONS = ('ra2b0-1.0.0', 'ra2b1-1.0.0', 'ra2b3-1.0.0', 'ra2b4-1.0.0', 'ra2b6-1.0.0')
+
+
+def scope(pack):
+    return {k: pack.document[k] for k in ('tenant_id', 'run_id', 'policy_id', 'policy_version')}
 
 
 def encoded(value):
@@ -63,12 +70,13 @@ def test_default_execution_is_still_original_version_and_bytes(frozen):
         frozen.execute(pack, expected_pack_ref=pack.ref))
 
 
-def test_s2_dispatch_is_real_replayable_and_honest_about_ten_pending_rules():
+def test_s2_projection_replays_original_and_is_honest_about_ten_pending_rules():
     pack = site()
-    output = execute(pack, expected_pack_ref=pack.ref, evaluator_version=S2_VERSION)
-    verify_execution(output, pack, expected_pack_ref=pack.ref, expected_evaluator_version=S2_VERSION)
-    assert len(output['executions']) == len(output['s2_capabilities']) == 16
-    assert sum(r['enabled'] for r in output['executions']) == 6
+    output = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack))
+    verify_s2_projection(output, pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                         expected_projection_ref=output['projection_ref'])
+    assert len(output['baseline_execution']['executions']) == len(output['s2_capabilities']) == 16
+    assert sum(r['enabled'] for r in output['baseline_execution']['executions']) == 6
     pending = [r for r in output['s2_capabilities'] if r['implementation'] == 'NOT_IMPLEMENTED_P0']
     assert len(pending) == 10
     assert sum(r['owner'] == 'C1' for r in pending) == 6
@@ -76,15 +84,15 @@ def test_s2_dispatch_is_real_replayable_and_honest_about_ten_pending_rules():
     assert set(output['adapter_requests']) == set(UX_RULES)
     assert 'HUMAN_GOLD_PENDING_NO_QUALITY_METRIC' in output['limitations']
     legacy = execute(pack, expected_pack_ref=pack.ref, evaluator_version=VERSIONS[-1])
-    assert encoded(output['executions']) == encoded(legacy['executions'])
+    assert encoded(output['baseline_execution']['executions']) == encoded(legacy['executions'])
 
 
 @pytest.mark.parametrize('field', ['enabled', 'owner', 'claim', 'coverage', 'input', 'version'])
 def test_s2_replay_rejects_self_rehashed_contract_or_capability_forgery(field):
     pack = site()
-    out = execute(pack, expected_pack_ref=pack.ref, evaluator_version=S2_VERSION)
+    out = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack))
     if field == 'enabled':
-        out['executions'][2]['enabled'] = True
+        out['baseline_execution']['executions'][2]['enabled'] = True
     elif field == 'owner':
         out['s2_capabilities'][0]['owner'] = 'C2'
     elif field == 'claim':
@@ -95,9 +103,10 @@ def test_s2_replay_rejects_self_rehashed_contract_or_capability_forgery(field):
         out['adapter_requests']['CTA-01']['evidence'].clear()
     else:
         out['adapter_contract_version'] = 'unapproved'
-    out['execution_ref'] = 'rx-' + document_hash({k: v for k, v in out.items() if k != 'execution_ref'})
+    out['projection_ref'] = 's2p-' + document_hash({k: v for k, v in out.items() if k != 'projection_ref'})
     with pytest.raises(EvidenceError):
-        verify_execution(out, pack, expected_pack_ref=pack.ref, expected_evaluator_version=S2_VERSION)
+        verify_s2_projection(out, pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                             expected_projection_ref=out['projection_ref'])
 
 
 @pytest.fixture
@@ -220,8 +229,92 @@ def test_http_only_capture_cannot_acquire_browser_capability():
 
 def test_legacy_finding_builder_rejects_s2_until_separate_reviewed_integration():
     pack = site(404)
-    output = execute(pack, expected_pack_ref=pack.ref, evaluator_version=S2_VERSION)
+    output = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack))
     with pytest.raises(FindingError):
         build_findings(pack, output, expected_pack_ref=pack.ref,
-            expected_execution_ref=output['execution_ref'], expected_evaluator_version=S2_VERSION,
+            expected_execution_ref=output['projection_ref'], expected_evaluator_version=PROJECTION_VERSION,
             expected_builder_version='ra2c3-1.0.0')
+
+
+def test_old_executor_exact_git_blob_and_worktree_bytes():
+    expected = 'c183970fd90ec69729221a4174c38d193f4b054b'
+    assert subprocess.check_output(['git', 'rev-parse', 'HEAD:vrae/rules/execution.py']).decode().strip() == expected
+    assert subprocess.check_output(['git', 'hash-object', 'vrae/rules/execution.py']).decode().strip() == expected
+
+
+@pytest.mark.parametrize('field', ['scope', 'baseline_ref', 'catalog', 'prefix', 'version', 'foreign_run'])
+def test_projection_authority_and_scope_forgery_rejected(field):
+    pack = site()
+    out = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack))
+    if field == 'scope':
+        out['scope']['tenant_id'] = 'foreign'
+    elif field == 'baseline_ref':
+        out['baseline_execution_ref'] = 'rx-' + '0' * 64
+    elif field == 'catalog':
+        out['baseline_catalog_sha256'] = '0' * 64
+    elif field == 'version':
+        out['projection_version'] = 'unapproved'
+    elif field == 'foreign_run':
+        with pytest.raises(EvidenceError):
+            evaluate_s2(pack, expected_pack_ref=pack.ref,
+                        trusted_scope={**scope(pack), 'run_id': 'foreign'})
+        return
+    out['projection_ref'] = ('rx-' if field == 'prefix' else 's2p-') + document_hash(
+        {k: v for k, v in out.items() if k != 'projection_ref'})
+    with pytest.raises(EvidenceError):
+        verify_s2_projection(out, pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                             expected_projection_ref=out['projection_ref'])
+
+
+def test_projection_never_becomes_native_execution():
+    pack = site()
+    out = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack))
+    assert out['kind'] == 'S2EvaluationProjection'
+    assert 'execution_ref' not in out and 'evaluator_version' not in out
+    assert out['projection_ref'].startswith('s2p-')
+    assert out['baseline_execution_ref'].startswith('rx-')
+    with pytest.raises(EvidenceError):
+        verify_execution(out, pack, expected_pack_ref=pack.ref,
+                         expected_evaluator_version=VERSIONS[-1])
+    with pytest.raises(EvidenceError):
+        execute(pack, expected_pack_ref=pack.ref, evaluator_version=PROJECTION_VERSION)
+
+
+def test_accepted_c2_projection_composes_only_with_independent_held_pins():
+    pack, held = c2_fixture([{'tag': 'A', 'visible': True, 'text': 'RFQ 联系'}])
+    out = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack), browser_pins=held)
+    assert out['browser_projection'] == project_browser(pack, held=held).document
+    assert {r['result'] for row in out['browser_projection']['rows'] for r in row['rules']} == {'UNKNOWN'}
+    verify_s2_projection(out, pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                         browser_pins=held, expected_projection_ref=out['projection_ref'])
+    # Even the same pack does not grant or infer selected source/time authority.
+    without = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack))
+    assert without['browser_projection'] is None
+    with pytest.raises(EvidenceError):
+        verify_s2_projection(out, pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                             expected_projection_ref=out['projection_ref'])
+    out['browser_projection']['rows'][0]['rules'][0]['result'] = 'PASS'
+    out['projection_ref'] = 's2p-' + document_hash({k: v for k, v in out.items() if k != 'projection_ref'})
+    with pytest.raises(EvidenceError):
+        verify_s2_projection(out, pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                             browser_pins=held, expected_projection_ref=out['projection_ref'])
+
+
+@pytest.mark.parametrize('field,value', [('tenant_id', 'foreign'), ('run_id', 'foreign'),
+    ('policy_id', 'foreign'), ('policy_version', True), ('pack_ref', 'ep-' + '0' * 64),
+    ('source_refs', ('src-' + '0' * 64,)), ('source_refs', ())])
+def test_browser_binding_rejects_foreign_scope_and_selection(field, value):
+    pack, held = c2_fixture()
+    with pytest.raises(EvidenceError):
+        evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                    browser_pins=replace(held, **{field: value}))
+
+
+def test_projection_verifier_requires_independent_ref_and_version():
+    pack = site()
+    out = evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack))
+    for pins in ({'expected_projection_ref': 's2p-' + '0' * 64},
+                 {'expected_projection_ref': out['projection_ref'], 'expected_projection_version': 'fake'}):
+        with pytest.raises(EvidenceError):
+            verify_s2_projection(out, pack, expected_pack_ref=pack.ref,
+                                 trusted_scope=scope(pack), **pins)
