@@ -6,7 +6,7 @@ permissions:
 jobs:
   l2-ops-pg16:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -36,10 +36,19 @@ jobs:
           python integration/l2_ops/verify.py --label hosted${{ matrix.slug }}
           --python-current python
           --pg-image postgres@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+      - name: Accepted dependency-only Worker image
+        run: python integration/l2_ops/build_image.py --python ${{ matrix.python }}
+      - name: Real industrial APP202 and independent Worker signed evidence intake
+        run: >-
+          python scripts/beta_internal.py l2 worker-intake
+          --label hostedintake${{ matrix.slug }} --minor ${{ matrix.python }}
+          --source-profile industrial-p40-v3 --native-l2
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: l2-ops-native-pg16-${{ matrix.slug }}
           retention-days: 7
           if-no-files-found: error
-          path: docs/03-engineering/l2-operations/hosted${{ matrix.slug }}/
+          path: |
+            docs/03-engineering/l2-operations/hosted${{ matrix.slug }}/
+            docs/03-engineering/l2-operations/hostedintake${{ matrix.slug }}/

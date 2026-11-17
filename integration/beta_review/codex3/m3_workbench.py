@@ -216,7 +216,7 @@ class Workbench(GeneratedRun):
         self.pipe_thread = threading.Thread(target=pump, daemon=True)
         self.pipe_thread.start()
         current.stdin.write(
-            json.dumps({"profile": self.profile_data, "origin": self.r.origin}) + "\n"
+            json.dumps(self.ssr_configuration()) + "\n"
         )
         current.stdin.flush()
         assert self.replies.get(timeout=30) == {"ready": True}
@@ -293,6 +293,9 @@ class Workbench(GeneratedRun):
         self.http_thread = threading.Thread(target=self.http.serve_forever, daemon=True)
         self.http_thread.start()
 
+    def ssr_configuration(self):
+        return {"profile": self.profile_data, "origin": self.r.origin}
+
     def observe(self, method, path, status, raw):
         self.http_observations.append({"method": method, "path": path, "status": status})
         if status == 200 and method == "POST" and path.endswith("challenge"):
@@ -313,7 +316,7 @@ class Workbench(GeneratedRun):
                 }
                 for key in ("request_id", "run_id", "job_id"):
                     assert str(UUID(task[key])) == task[key]
-                assert task["source_ref"] in ("accepted-404", "accepted-200")
+                assert task["source_ref"] in getattr(self, "allowed_source_refs", ("accepted-404", "accepted-200"))
                 self.web_tasks[task["job_id"]] = task
                 self.pending_jobs.put(task["job_id"])
 
@@ -573,7 +576,11 @@ class Workbench(GeneratedRun):
 
 
 def main(label, minor):
-    run = Workbench(label, minor)
+    return serve(Workbench(label, minor))
+
+
+def serve(run):
+    label = run.label
     stop = PRIVATE / "local-launches" / label / "stop.json"
     try:
         for name, function in (
@@ -614,6 +621,13 @@ def main(label, minor):
                         result = {"denied": "M3_OBSERVED_FRESH_CHALLENGE_REQUIRED"}
                 elif operation == "await-job" and set(body) == {"operation", "job"}:
                     result = run.await_job(body["job"])
+                elif operation == "native-proof" and set(body) == {"operation"}:
+                    result = json.loads(cmd(["docker", "exec", "--user", "10003:10003", run.ssr_name,
+                        "python", "-c", "from pathlib import Path; print(Path('/state/l2-native/active-proof.json').read_text())"]))
+                elif operation in ("s0-audit-queue", "s0-audit-result") and set(body) == {"operation", "case"}:
+                    from integration.l2_ops.workbench import PreparationWorkbench
+                    assert type(run) is PreparationWorkbench, "S0_PRIVATE_AUDIT_RUNTIME_REQUIRED"
+                    result = run.audit_control(body["case"], read=operation == "s0-audit-result")
                 elif operation == "restart-pg" and set(body) == {"operation"}:
                     result = run.case("actual_pg_restart_" + str(run.boot), run.restart_pg)
                 else:

@@ -28,13 +28,13 @@ def control(label, operation, **args):
     return result
 
 
-def run(label, *, interactive=False):
+def run(label, *, interactive=False, preparation_only=False, native_l2=False):
     current = status(label)
     assert current["state"] == "M3_READY"
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
     assert current["source_sha"] == head, "M3_FROZEN_SOURCE_REQUIRED"
     folder = folder_for(label)
-    name = "browser-acceptance"
+    name = "browser-native-l2" if native_l2 else "browser-preparation" if preparation_only else "browser-acceptance"
     if interactive:
         index = 1
         while (folder / ("browser-interactive-" + str(index))).exists():
@@ -70,6 +70,8 @@ def run(label, *, interactive=False):
                     "private": str(output),
                     "bootstrap_pins": pins,
                     "interactive": interactive,
+                    "preparation_only": preparation_only,
+                    "native_l2": native_l2,
                 }
             )
             + "\n"
@@ -85,6 +87,10 @@ def run(label, *, interactive=False):
                 value = control(label, "sign", nonce=message["nonce"])
             elif message["kind"] == "result":
                 value = control(label, "await-job", job=message["job"])
+            elif message["kind"] == "native-proof":
+                value = control(label, "native-proof")
+            elif message["kind"] in ("s0-audit-queue", "s0-audit-result"):
+                value = control(label, message["kind"], case=message["case"])
             elif message["kind"] == "restart":
                 value = control(label, "restart-pg")
             else:

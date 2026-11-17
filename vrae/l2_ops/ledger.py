@@ -30,6 +30,11 @@ def install(admin, runtime_role):
         authorization_expires_at timestamptz NOT NULL,
         created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
         PRIMARY KEY (tenant_id, brief_ref))""")
+    admin.execute("""CREATE TABLE l2_ops_v1.brief_completions (
+        tenant_id text NOT NULL, brief_ref text NOT NULL, content_sha256 text NOT NULL,
+        completed_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+        PRIMARY KEY(tenant_id,brief_ref,content_sha256),
+        FOREIGN KEY(tenant_id,brief_ref) REFERENCES l2_ops_v1.briefs(tenant_id,brief_ref))""")
     admin.execute("""CREATE FUNCTION l2_ops_v1.check_commit_deadline() RETURNS trigger
         LANGUAGE plpgsql AS $$ BEGIN
           IF clock_timestamp() >= NEW.authorization_expires_at THEN
@@ -41,7 +46,7 @@ def install(admin, runtime_role):
         DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION l2_ops_v1.check_commit_deadline()""")
     admin.execute("REVOKE ALL ON l2_ops_v1.briefs FROM PUBLIC")
     admin.execute(sql.SQL("GRANT USAGE ON SCHEMA l2_ops_v1 TO {}").format(sql.Identifier(runtime_role)))
-    admin.execute(sql.SQL("GRANT SELECT, INSERT ON l2_ops_v1.briefs TO {}").format(sql.Identifier(runtime_role)))
+    admin.execute(sql.SQL("GRANT SELECT, INSERT ON l2_ops_v1.briefs, l2_ops_v1.brief_completions TO {}").format(sql.Identifier(runtime_role)))
 
 
 class BriefLedger:
@@ -70,18 +75,38 @@ class BriefLedger:
             c.execute("""INSERT INTO l2_ops_v1.briefs (tenant_id, brief_ref, content_sha256, document, authorization_expires_at)
                 VALUES (%s,%s,%s,%s,%s) ON CONFLICT (tenant_id, brief_ref) DO NOTHING""",
                       (tenant, ref, claimed, raw, authority_expires_at))
-            row = c.execute("SELECT document FROM l2_ops_v1.briefs WHERE tenant_id=%s AND brief_ref=%s",
-                            (tenant, ref)).fetchone()
+            row = c.execute("SELECT b.document,EXISTS(SELECT 1 FROM l2_ops_v1.brief_completions f WHERE "
+                            "(f.tenant_id,f.brief_ref,f.content_sha256)=(b.tenant_id,b.brief_ref,b.content_sha256)) "
+                            "FROM l2_ops_v1.briefs b WHERE b.tenant_id=%s AND b.brief_ref=%s", (tenant, ref)).fetchone()
             if row is None or bytes(row[0]) != raw:
                 raise OperationsDenied("L2_IMMUTABLE_BRIEF_CONFLICT")
         return claimed
+
+    def confirm(self, document):
+        """Completion is a durable fence, NOT permission or distributed atomicity.
+
+        Called only after both original authorization contexts exit AND a fresh
+        post-commit current snapshot matches. Every read still reauthenticates.
+        A failed/unknown commit stays pending and can be retried with same bytes.
+        """
+        validate_document(document)
+        tenant, ref, digest = document["pins"]["tenant_id"], document["brief_ref"], document["content_sha256"]
+        with self.connect() as c:
+            row = c.execute("SELECT content_sha256 FROM l2_ops_v1.briefs WHERE tenant_id=%s AND brief_ref=%s", (tenant, ref)).fetchone()
+            if row != (digest,):
+                raise OperationsDenied("L2_BRIEF_COMPLETION_FENCE_MISMATCH")
+            c.execute("INSERT INTO l2_ops_v1.brief_completions(tenant_id,brief_ref,content_sha256) VALUES(%s,%s,%s) "
+                      "ON CONFLICT DO NOTHING", (tenant, ref, digest))
 
     def get(self, tenant, ref):
         text(tenant, limit=64)
         text(ref)
         with self.connect() as c:
-            row = c.execute("SELECT document FROM l2_ops_v1.briefs WHERE tenant_id=%s AND brief_ref=%s",
-                            (tenant, ref)).fetchone()
+            row = c.execute("SELECT b.document,EXISTS(SELECT 1 FROM l2_ops_v1.brief_completions f WHERE "
+                            "(f.tenant_id,f.brief_ref,f.content_sha256)=(b.tenant_id,b.brief_ref,b.content_sha256)) "
+                            "FROM l2_ops_v1.briefs b WHERE b.tenant_id=%s AND b.brief_ref=%s", (tenant, ref)).fetchone()
         if row is None:
             raise OperationsDenied("L2_BRIEF_NOT_FOUND")
+        if row[1] is not True:
+            raise OperationsDenied("L2_BRIEF_PENDING_REVALIDATION")
         return parse(bytes(row[0]), limit=2_000_000)

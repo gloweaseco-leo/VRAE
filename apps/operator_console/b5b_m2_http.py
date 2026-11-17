@@ -61,6 +61,7 @@ class GeneratedConsole:
         if type(sessions) is not GeneratedSessions:
             raise ValueError('M2_ACCEPTED_GENERATED_SESSIONS_REQUIRED')
         self.sessions = sessions
+        self.native_tasks = None
         # Launcher-provisioned aliases -> exact tenant/job; not HTTP authority.
         self.tasks = dict(tasks)
         if any(k not in ('404', '200') or set(v) != {'tenant', 'job_id'} for k, v in self.tasks.items()):
@@ -79,11 +80,16 @@ class GeneratedConsole:
             with self.sessions.request(sid):
                 rows = workflow.list(session)
             csrf = self.sessions.action(sid, PREFIX + 'create')
+            options = ''.join('<option value="' + e(case) + '"' + ('' if workflow.source_enabled[case] else ' disabled')
+                              + '>' + e(workflow.source_labels[case]) + '</option>'
+                              for case in workflow.source_refs)
+            unavailable = ''.join('<p class="m2-outcome" data-key="l2-source-readiness">'
+                + e(workflow.source_labels[case]) + '：暂不可提交。</p>' for case in workflow.source_refs
+                if workflow.source_depths[case] == 'L2' and not workflow.source_enabled[case])
             html = ('<section class="card"><h1>提交新的合成制造业诊断</h1>'
                 '<p>仅固定授权的合成来源；任务完成后须重新签名打开该任务报告。</p>'
-                '<form method="post" action="/b5a/m2/create">' + hidden('_csrf', csrf)
-                + '<label>合成来源<select name="case"><option value="404">制造业 · 联系路径404</option>'
-                '<option value="200">制造业 · 静态路径200／证据不足</option></select></label>'
+                + unavailable + '<form method="post" action="/b5a/m2/create">' + hidden('_csrf', csrf)
+                + '<label>合成来源<select name="case">' + options + '</select></label>'
                 '<button type="submit" data-key="m2-create">提交新诊断任务</button></form></section>'
                 '<section class="card"><h2>当前 Reviewer 的已提交任务</h2>')
             for ticket, case, known in rows:
@@ -125,9 +131,15 @@ class GeneratedConsole:
             action = 'retry'
             label = '核对原提交结果'
         else:
+            case = workflow.row(ticket, session)[1]
+            deep_task = workflow.source_depths[case] == 'L2'
             state_label = {'PENDING': '任务已提交，正在等待生成诊断报告',
                            'TEST_ONLY_DONE': '诊断报告已生成，请打开查看'}.get(
                                state['job_state'], '任务尚未完成，请刷新状态核对')
+            if deep_task:
+                state_label = {'PENDING': '深度诊断任务已提交，等待 Worker 生成原始证据',
+                    'TEST_ONLY_DONE': '本任务原始证据已持久保存；深度报告仍须原生诊断与版本审核装配'}.get(
+                        state['job_state'], 'Worker 正在处理本任务证据，请刷新核对')
             html += '<p class="m2-outcome">' + e(state_label) + '</p>'
             html += '<details class="m2-technical"><summary>技术详情：提交响应与任务标识</summary>'
             html += '<p data-app-status="202">原 APP 202 已提交</p><dl>'
@@ -136,12 +148,14 @@ class GeneratedConsole:
             html += '</dl><p data-key="m2-job-state">' + e(state['job_state']) + '</p>'
             html += '<p>状态与 request/run/job/来源已核对；状态字段不是报告版本或读取授权。</p></details>'
             action = 'challenge' if state['job_state'] == 'TEST_ONLY_DONE' else None
-            label = '签名打开本次新生成报告'
+            label = '签名核对本次任务证据' if deep_task else '签名打开本次新生成报告'
         if action:
             target = PREFIX + 'task/' + ticket + '/' + action
             csrf = self.sessions.action(sid, target)
             html += '<form method="post" action="' + e(target) + '">' + hidden('_csrf', csrf)
             html += '<button type="submit" data-key="m2-new-report">' + label + '</button></form>'
+        if task is not None and self.native_tasks is not None:
+            html += self.native_tasks.task_fragment(task, ticket)
         html += link(PREFIX + 'task/' + ticket, '刷新任务状态', key='m2-status-refresh')
         html += link(PREFIX + 'tasks', '返回我的合成任务') + '</section>'
         return Reply(Response(200, page('新任务处理状态', html).encode()))

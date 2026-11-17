@@ -1,6 +1,7 @@
 """Test-only stdio HTTP relay into the ONE real B5B SSR inside network-none PG.
 
 Receives Reviewer provisioning/public keys and a separate HTTP service bearer.
+Optional native runtime receives only the separate C3 Brief namespace credential.
 No signer, APP/Worker database credential or admin state. Does not log request
 headers/body/cookies. Real host Chrome talks
 to a finite loopback transport relay; all auth/mutations execute in original SSR.
@@ -35,6 +36,11 @@ def main():
     app = Application(RehearsalApplication(Base(legacy, {}), {},
         Journal('/tmp/m2-empty-legacy.sqlite'), key_secret=secrets.token_bytes(32)),
         PrivateHandoffReader(legacy, {}), generated=generated, deep=deep)
+    if config.get('native') is not None:
+        if deep is not None:
+            raise ValueError('L2_NATIVE_CANNOT_MOUNT_AUTHORED_FALLBACK')
+        from integration.l2_ops.native_runtime import provision as provision_native
+        provision_native(app, config['native'])
     http_server = server(app)
     port = http_server.server_address[1]
     app.origin = config['origin']

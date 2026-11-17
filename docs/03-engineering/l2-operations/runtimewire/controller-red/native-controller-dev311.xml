@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="7" failures="0" skipped="0" tests="8" time="90.266" timestamp="2026-11-16T10:25:54.365751-05:00" hostname="dong"><testcase classname="integration.l2_ops.checks.test_native_tasks" name="test_runtime_task_form_mounts_actual_native_source_and_current_reader" time="89.584"><error message="failed on setup with &quot;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 87&#10;  def test_runtime_task_form_mounts_actual_native_source_and_current_reader(runtime, native_source):&#10;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23&#10;  @pytest.fixture&#10;  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):&#10;E       fixture 'reviewed' not found&#10;[+4 more lines; full report in element text]">file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 87
+  def test_runtime_task_form_mounts_actual_native_source_and_current_reader(runtime, native_source):
+file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23
+  @pytest.fixture
+  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):
+E       fixture 'reviewed' not found
+&gt;       available fixtures: bundle, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, monkeypatch, native_result, native_source, pytestconfig, reader, record_property, record_testsuite_property, record_xml_attribute, recwarn, runtime, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py:23</error></testcase><testcase classname="integration.l2_ops.checks.test_native_tasks" name="test_same_task_reauthentication_preserves_report_receipt_and_expiry" time="0.001"><error message="failed on setup with &quot;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 109&#10;  def test_same_task_reauthentication_preserves_report_receipt_and_expiry(runtime):&#10;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23&#10;  @pytest.fixture&#10;  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):&#10;E       fixture 'reviewed' not found&#10;[+4 more lines; full report in element text]">file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 109
+  def test_same_task_reauthentication_preserves_report_receipt_and_expiry(runtime):
+file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23
+  @pytest.fixture
+  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):
+E       fixture 'reviewed' not found
+&gt;       available fixtures: bundle, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, monkeypatch, native_result, native_source, pytestconfig, reader, record_property, record_testsuite_property, record_xml_attribute, recwarn, runtime, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py:23</error></testcase><testcase classname="integration.l2_ops.checks.test_native_tasks" name="test_runtime_controller_refuses_unsafe_or_unaccepted_requests[blocked]" time="0.000"><error message="failed on setup with &quot;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126&#10;  @pytest.mark.parametrize(&quot;case&quot;, [&quot;blocked&quot;, &quot;wrong_actor&quot;, &quot;csrf&quot;, &quot;extra_fields&quot;, &quot;wrong_task_output&quot;])&#10;  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):&#10;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23&#10;  @pytest.fixture&#10;[+6 more lines; full report in element text]">file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126
+  @pytest.mark.parametrize("case", ["blocked", "wrong_actor", "csrf", "extra_fields", "wrong_task_output"])
+  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):
+file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23
+  @pytest.fixture
+  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):
+E       fixture 'reviewed' not found
+&gt;       available fixtures: bundle, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, monkeypatch, native_result, native_source, pytestconfig, reader, record_property, record_testsuite_property, record_xml_attribute, recwarn, runtime, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py:23</error></testcase><testcase classname="integration.l2_ops.checks.test_native_tasks" name="test_runtime_controller_refuses_unsafe_or_unaccepted_requests[wrong_actor]" time="0.000"><error message="failed on setup with &quot;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126&#10;  @pytest.mark.parametrize(&quot;case&quot;, [&quot;blocked&quot;, &quot;wrong_actor&quot;, &quot;csrf&quot;, &quot;extra_fields&quot;, &quot;wrong_task_output&quot;])&#10;  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):&#10;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23&#10;  @pytest.fixture&#10;[+6 more lines; full report in element text]">file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126
+  @pytest.mark.parametrize("case", ["blocked", "wrong_actor", "csrf", "extra_fields", "wrong_task_output"])
+  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):
+file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23
+  @pytest.fixture
+  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):
+E       fixture 'reviewed' not found
+&gt;       available fixtures: bundle, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, monkeypatch, native_result, native_source, pytestconfig, reader, record_property, record_testsuite_property, record_xml_attribute, recwarn, runtime, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py:23</error></testcase><testcase classname="integration.l2_ops.checks.test_native_tasks" name="test_runtime_controller_refuses_unsafe_or_unaccepted_requests[csrf]" time="0.000"><error message="failed on setup with &quot;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126&#10;  @pytest.mark.parametrize(&quot;case&quot;, [&quot;blocked&quot;, &quot;wrong_actor&quot;, &quot;csrf&quot;, &quot;extra_fields&quot;, &quot;wrong_task_output&quot;])&#10;  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):&#10;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23&#10;  @pytest.fixture&#10;[+6 more lines; full report in element text]">file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126
+  @pytest.mark.parametrize("case", ["blocked", "wrong_actor", "csrf", "extra_fields", "wrong_task_output"])
+  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):
+file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23
+  @pytest.fixture
+  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):
+E       fixture 'reviewed' not found
+&gt;       available fixtures: bundle, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, monkeypatch, native_result, native_source, pytestconfig, reader, record_property, record_testsuite_property, record_xml_attribute, recwarn, runtime, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py:23</error></testcase><testcase classname="integration.l2_ops.checks.test_native_tasks" name="test_runtime_controller_refuses_unsafe_or_unaccepted_requests[extra_fields]" time="0.000"><error message="failed on setup with &quot;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126&#10;  @pytest.mark.parametrize(&quot;case&quot;, [&quot;blocked&quot;, &quot;wrong_actor&quot;, &quot;csrf&quot;, &quot;extra_fields&quot;, &quot;wrong_task_output&quot;])&#10;  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):&#10;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23&#10;  @pytest.fixture&#10;[+6 more lines; full report in element text]">file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126
+  @pytest.mark.parametrize("case", ["blocked", "wrong_actor", "csrf", "extra_fields", "wrong_task_output"])
+  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):
+file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23
+  @pytest.fixture
+  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):
+E       fixture 'reviewed' not found
+&gt;       available fixtures: bundle, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, monkeypatch, native_result, native_source, pytestconfig, reader, record_property, record_testsuite_property, record_xml_attribute, recwarn, runtime, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py:23</error></testcase><testcase classname="integration.l2_ops.checks.test_native_tasks" name="test_runtime_controller_refuses_unsafe_or_unaccepted_requests[wrong_task_output]" time="0.000"><error message="failed on setup with &quot;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126&#10;  @pytest.mark.parametrize(&quot;case&quot;, [&quot;blocked&quot;, &quot;wrong_actor&quot;, &quot;csrf&quot;, &quot;extra_fields&quot;, &quot;wrong_task_output&quot;])&#10;  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):&#10;file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23&#10;  @pytest.fixture&#10;[+6 more lines; full report in element text]">file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 126
+  @pytest.mark.parametrize("case", ["blocked", "wrong_actor", "csrf", "extra_fields", "wrong_task_output"])
+  def test_runtime_controller_refuses_unsafe_or_unaccepted_requests(runtime, monkeypatch, case):
+file D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py, line 23
+  @pytest.fixture
+  def runtime(native_result, native_source, reviewed, tmp_path, monkeypatch):
+E       fixture 'reviewed' not found
+&gt;       available fixtures: bundle, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, monkeypatch, native_result, native_source, pytestconfig, reader, record_property, record_testsuite_property, record_xml_attribute, recwarn, runtime, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+&gt;       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\Projects\VRAE-codex3-L2Integration-20261116\integration\l2_ops\checks\test_native_tasks.py:23</error></testcase><testcase classname="integration.l2_ops.checks.test_native_tasks" name="test_private_runtime_gate_cannot_enable_unaccepted_performance_main" time="0.001" /></testsuite></testsuites>

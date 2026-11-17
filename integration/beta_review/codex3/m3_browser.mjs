@@ -33,6 +33,13 @@ async function click(selector,navigation=false){const point=await pointerPositio
 async function key(key,code,virtual){await call('Input.dispatchKeyEvent',{type:'keyDown',key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual});await call('Input.dispatchKeyEvent',{type:'keyUp',key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual})}
 async function select(selector,index){await click(selector);await key('Home','Home',36);for(let i=0;i<index;i++)await key('ArrowDown','ArrowDown',40);await key('Enter','Enter',13)}
 async function screenshot(name){await ev('window.scrollTo(0,0)');const width=await ev('innerWidth'),height=await ev('document.documentElement.scrollHeight');const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:true,clip:{x:0,y:0,width,height,scale:1}});const raw=Buffer.from(r.data,'base64');await writeFile(path.join(out,name),raw);shots.push({file:name,sha256:hash(raw),width,height,viewportHeight:await ev('innerHeight')})}
+function statusOf(url){return network.filter(n=>n.path===new URL(url,origin).pathname).at(-1)?.status}
+async function postForm(url,encoded){
+  assert(new URL(url,origin).origin===origin,'S0_FORM_SAME_ORIGIN_REQUIRED');
+  const before=loaded;
+  await ev(`(()=>{const f=document.createElement('form');f.method='post';f.action=${JSON.stringify(url)};for(const [name,value] of new URLSearchParams(${JSON.stringify(encoded)})){const i=document.createElement('input');i.type='hidden';i.name=name;i.value=value;f.appendChild(i)}document.body.appendChild(f);f.submit();return true})()`);
+  await waitLoad(before);return statusOf(url);
+}
 async function metrics(label){const m=await ev(`({width:innerWidth,scroll:document.documentElement.scrollWidth,scripts:document.scripts.length,banner:parseFloat(getComputedStyle(document.querySelector('.private-bar')).fontSize),footer:document.querySelector('footer')?.textContent||'',controls:[...document.querySelectorAll('.action,button,select,textarea,summary,.check')].filter(e=>e.getClientRects().length).map(e=>({height:e.getBoundingClientRect().height,name:e.id||e.name||e.tagName})),external:[...document.querySelectorAll('[src],[href]')].map(e=>e.src||e.href).filter(u=>u.startsWith('http')&&!u.startsWith(location.origin)),jwt:/eyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+/.test(document.documentElement.outerHTML)})`);await check(label,m.scroll<=m.width&&m.scripts===0&&m.banner>=12&&m.external.length===0&&!m.jwt&&m.controls.every(c=>c.height>=44)&&m.footer.includes('仅保存内部演练记录')&&!m.footer.includes('不保存核对结果'),m)}
 async function redeem(challenge) {
   const token=await rpc('sign',{nonce:challenge.nonce});
@@ -71,6 +78,7 @@ try{
     if(m.method==='Fetch.requestPaused')void(async()=>{const r=m.params;const u=new URL(r.request.url);
       if(u.origin!==origin){await call('Fetch.failRequest',{requestId:r.requestId,errorReason:'BlockedByClient'},m.sessionId);return}
       if(u.pathname==='/b5a/m2/session'&&loginPending){const auth=loginPending;loginPending=null;await call('Fetch.continueRequest',{requestId:r.requestId,method:'POST',postData:Buffer.from('{}').toString('base64'),headers:[{name:'Origin',value:origin},{name:'Content-Type',value:'application/json'},{name:'Authorization',value:auth.token},{name:'X-M2-CSRF',value:auth.csrf},{name:'Cookie',value:auth.cookie}]},m.sessionId)}
+      else if(u.pathname==='/b5a/l2/session'&&loginPending?.kind==='l2'){const auth=loginPending;loginPending=null;await call('Fetch.continueRequest',{requestId:r.requestId,method:'POST',postData:Buffer.from('{}').toString('base64'),headers:[{name:'Origin',value:origin},{name:'Content-Type',value:'application/json'},{name:'Authorization',value:auth.token},{name:'X-L2-Nonce',value:auth.nonce},{name:'X-L2-CSRF',value:auth.csrf}]},m.sessionId)}
       else await call('Fetch.continueRequest',{requestId:r.requestId},m.sessionId);
     })().catch(()=>{exceptions.push({description:'BROWSER_TRANSPORT_FAILED'})});
   });
@@ -87,14 +95,46 @@ try{
   const attached=await call('Target.attachToTarget',{targetId:target.targetId,flatten:true},null);sid=attached.sessionId;
   await call('Page.enable');await call('Runtime.enable');await call('Network.enable');
   await call('Fetch.enable',{patterns:[{urlPattern:'*',requestStage:'Request'}]});
-  if(config.interactive) {
+  async function redeemL2(q) {
+    const token=await rpc('sign',{nonce:q.nonce});
+    loginPending={token,nonce:q.nonce,csrf:q.csrf,kind:'l2'};
+    await nav(origin+'/b5a/l2/session');
+  }
+  async function redeemObservedChallenge(q) {
+    if(await ev("location.pathname==='/b5a/l2/challenge'"))await redeemL2(q);
+    else await redeem(q);
+  }
+  if(config.native_l2) {
+    const {nativeJourney}=await import('../../l2_ops/native_journey.mjs');
+    await nativeJourney({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2:redeemObservedChallenge,postForm,statusOf,writeFile,path,out,origin});
+    await check('no-browser-exceptions',exceptions.length===0);
+    await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'S0_REAL_NATIVE_L2_BROWSER_CHAIN_PASS',version,records,shots,network,exceptions},null,2));
+    await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);
+  } else if(config.preparation_only) {
+    phase='L2-preparation-not-E2E';
+    await login('404');
+    await nav(base+'tasks');
+    const options=await ev("[...document.querySelector('[name=case]').options].map(o=>({value:o.value,label:o.textContent,disabled:o.disabled}))");
+    await check('original-task-catalog-plus-closed-P40-preparation',options.length===3&&options[0].value==='404'&&options[1].value==='200'&&options[2].value==='p40'&&options[2].disabled&&options[2].label.includes('P40/V25'),{options});
+    await check('no-prebuilt-deep-report-used',await ev("!document.querySelector('.l2-report')&&!document.body.innerText.includes('MP25')"));
+    await screenshot('l2-task-preparation.png');
+    // Adversarial client may remove disabled in its own DOM. Submit the real
+    // native form; never relax the original CSP to permit fetch in product UI.
+    await ev("document.querySelector('[name=case] option[value=p40]').disabled=false;document.querySelector('[name=case]').value='p40';true");
+    await click('[data-key=m2-create]',true);
+    const rejected=network.filter(n=>n.path==='/b5a/m2/create').at(-1);
+    await check('unready-P40-submission-refused-in-real-SSR',rejected?.status===403&&await ev("document.body.innerText.includes('M2_REQUEST_DENIED')"),{status:rejected?.status});
+    await check('no-browser-exceptions',exceptions.length===0);
+    await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'L2_PREPARATION_BROWSER_ONLY_NOT_E2E',version,records,shots,network,exceptions,p40_task_submitted:false,native_report_complete:false},null,2));
+    await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);
+  } else if(config.interactive) {
     await login('404');await nav(base+'tasks');
     while(chrome.exitCode===null&&chrome.signalCode===null) {
       try {
         const text=await ev('document.body.innerText');
         if(text.trim().startsWith('{')) {
           let challenge;try{challenge=JSON.parse(text)}catch{}
-          if(challenge?.nonce&&challenge?.csrf)await redeem(challenge);
+          if(challenge?.nonce&&challenge?.csrf)await redeemObservedChallenge(challenge);
         } else if(text.includes('M2_REQUEST_DENIED')) {
           await login('404',false);await nav(base+'tasks');
         }
@@ -190,7 +230,7 @@ try{
   await check('no-browser-exceptions',exceptions.length===0);
   await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'M3_FULL_BROWSER_TASK_WORKER_REVIEW_A4_RESTART_PASS',version,records,shots,network,exceptions},null,2));
   }
-  process.stdout.write(JSON.stringify({kind:'done',pass:true,assertions:records.length,screenshots:shots.length})+'\n');
+  process.stdout.write(JSON.stringify({kind:'done',pass:true,assertions:records.length,screenshots:shots.length,...(config.preparation_only?{scope:'L2_PREPARATION_BROWSER_ONLY_NOT_E2E'}:{})})+'\n');
 }catch(error){await writeFile(path.join(out,'browser-failure.json'),JSON.stringify({status:'RED',code:error.message,phase,step,commands,version:browserVersion,records,network,exceptions},null,2));process.stdout.write(JSON.stringify({kind:'done',pass:false,code:error.message})+'\n');process.exitCode=1}
 finally{
   let graceful=false,forced=false;

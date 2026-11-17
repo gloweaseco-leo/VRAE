@@ -22,7 +22,7 @@ ROLES = frozenset({'p2b1_test_a_reviewer', 'p2b1_test_a_peer', 'p2b1_test_b_revi
 
 def provision(cfg):
     keys = {'version', 'anchor', 'assignments', 'reviewers', 'tasks'}
-    if (type(cfg) is not dict or set(cfg) not in (keys, keys | {'task_endpoint', 'task_journal'})
+    if (type(cfg) is not dict or set(cfg) not in (keys, keys | {'task_endpoint', 'task_journal'}, keys | {'task_endpoint', 'task_journal', 'task_sources'})
             or cfg['version'] != 'M2_SYNTHETIC_REVIEWER_1'
             or type(cfg['reviewers']) is not dict or not 1 <= len(cfg['reviewers']) <= 3
             or set(cfg['reviewers']) - ROLES):
@@ -59,7 +59,7 @@ def provision(cfg):
         if set(endpoint) != {'bearer', 'tenant_id', 'source_refs'} or type(endpoint['source_refs']) is not list:
             raise ValueError('M2_HTTP_ONLY_TASK_ENDPOINT_REQUIRED')
         endpoint['source_refs'] = frozenset(endpoint['source_refs'])
-        workflow = TaskWorkflow(TaskClient(AppEndpoint(**endpoint)), cfg['task_journal'])
+        workflow = TaskWorkflow(TaskClient(AppEndpoint(**endpoint)), cfg['task_journal'], sources=cfg.get('task_sources'))
     return GeneratedConsole(GeneratedSessions(reader), cfg['tasks'], workflow=workflow)
 
 

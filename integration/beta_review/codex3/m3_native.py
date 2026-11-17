@@ -16,6 +16,9 @@ def main():
     assert os.geteuid() == 0 and not Path("/var/run/docker.sock").exists()
     state = json.load(sys.stdin)
     state["port"] = 5432
+    # Trusted TEST_ONLY provisioning only; no client-selected URL or DB grant.
+    extra_sources = state.get("l2_source_refs", [])
+    assert extra_sources in ([], ["l2-industrial-native-v1"], ["l2-industrial-p40-v3"])
     private = Path("/tmp/beta-supervisor")
     private.mkdir(mode=0o700)
     old.STATE = private / "state.json"
@@ -23,7 +26,23 @@ def main():
     old.STATE.chmod(0o600)
     native.OUT = Path("/evidence")
     try:
+        if extra_sources and "l2_evidence_owner" in state:
+            from integration.l2_ops.provisioning import prepare_evidence_directory
+            evidence_owner = prepare_evidence_directory(native.OUT, state["l2_evidence_owner"])
+            (native.OUT / "evidence-owner.json").write_text(json.dumps(evidence_owner))
         app_path, app_config = native.provision("APP", 10001)
+        if extra_sources:
+            from integration.l2_ops.provisioning import extend_app_sources
+            extend_app_sources(app_config, state["l2_source_binding"], source_ref=extra_sources[0])
+            # Native provision already made this file UID10001/0600. Write as
+            # that same owner before API spawn; root has no DAC override here.
+            subprocess.run(
+                [sys.executable, "-B", "-m", "integration.l2_ops.provisioning", str(app_path)],
+                input=json.dumps(app_config).encode(), check=True, timeout=10,
+                capture_output=True, user=10001, group=10001, extra_groups=[],
+                env={"PATH": "/usr/local/bin:/usr/bin:/bin", "PYTHONPATH": "/work",
+                     "PYTHONDONTWRITEBYTECODE": "1", "VRAE_RA4B_TEST_ONLY": "1"},
+            )
         consumer_dir = Path("/tmp/m3-consumer")
         consumer_dir.mkdir(mode=0o700)
         consumer_profile = consumer_dir / "config.json"
@@ -32,7 +51,7 @@ def main():
                 {
                     "bearer": app_config["bearer"],
                     "tenant_id": app_config["tenant"],
-                    "source_refs": ["accepted-404", "accepted-200"],
+                    "source_refs": ["accepted-404", "accepted-200"] + extra_sources,
                 }
             )
         )

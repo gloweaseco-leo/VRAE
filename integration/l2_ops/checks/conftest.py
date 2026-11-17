@@ -1,11 +1,11 @@
 from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
-
 import pytest
-
 from vrae.l2_ops.briefs import CurrentL2
 from vrae.l2_ops.sources import EvidenceInput, OperationsDenied, SourceBundle
 from vrae.reviewing.canonical import canonical, sha
+
+
 
 
 @pytest.fixture

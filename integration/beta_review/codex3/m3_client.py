@@ -21,7 +21,9 @@ def client():
     profile = json.loads(PROFILE.read_bytes())
     assert set(profile) == {"bearer", "tenant_id", "source_refs"}
     assert profile["tenant_id"] == "tenant-test"
-    assert profile["source_refs"] == ["accepted-404", "accepted-200"]
+    assert profile["source_refs"] in (["accepted-404", "accepted-200"],
+        ["accepted-404", "accepted-200", "l2-industrial-native-v1"],
+        ["accepted-404", "accepted-200", "l2-industrial-p40-v3"])
     return TaskClient(
         AppEndpoint(profile["bearer"], profile["tenant_id"], frozenset(profile["source_refs"]))
     )

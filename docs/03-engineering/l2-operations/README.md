@@ -1,66 +1,97 @@
-﻿# L2 operator preparation
+# 工业 L2 内部操作入口（S0 / TEST_ONLY）
 
-PR106 M3 remains accepted. Its `app start/status/open/restart-pg/verify/stop`
-operations are preserved. This Draft adds source preparation and internal
-business handoff; full new-task L2 UI integration awaits Owner-merged PR110/111.
-A successful source check does not create a task, diagnosis, report or grant.
+本入口沿用原 PG16、APP202/API、独立 Worker 和唯一签名 SSR。工业 P40/V25
+来自本地受控的八页合成证据，不访问真实企业站点。后台只在已合入 Owner
+验收的 PR114 main `a9604f570528e599a0b8215a8957208d76e47b89` 后准入。
+S0 的范围是 A01–A04；不代表全部五维规则、真实 AI、真人审批或客户交付。
+[本轮执行依据](../l2-v1.1/S0_L2_E2E_EXECUTION.md)。
 
-From the repository root with the installed Python3.11/3.13 dependencies:
+## 启动与打开原工作台
 
-```
-python scripts/beta_internal.py l2 source-check integration/l2_ops/fixtures/offline_synthetic.json
-python scripts/beta_internal.py l2 source-check integration/l2_ops/fixtures/public_readonly_capture.json
-python scripts/beta_internal.py l2 source-check integration/l2_ops/fixtures/client_provided.json
-```
+使用已经安装仓库锁定依赖的 Python 3.11 或 3.13，Docker 和本机 Chrome
+须可用。在仓库根目录执行（每个隔离环境使用新的 run 名，不删除旧证据）：
 
-These are three declared source capabilities; all included examples are explicitly
-synthetic. No website/client authorization is asserted or fetched. Extra raw
-materials can be recorded locally; they are not manufactured as HTTP evidence.
-Missing customer authorization does not stop offline preparation/analysis.
-
-Native archive import reuses accepted EvidencePack.load and its complete replay:
-
-```
-python scripts/beta_internal.py l2 native-check integration/l2_ops/fixtures/native-offline_synthetic.json --reference industrial-native --pack-ref ep-735db2c276030e018f21ba7124fb61db6d46f3e922eca1b99df254512064582e --capture-run-id l2-industrial-capture-v1
+```powershell
+python scripts/beta_internal.py app doctor
+# 首次缺少运行镜像时，用原 Dockerfile 和锁定依赖构建：
+python integration/l2_ops/build_image.py --python 3.11
+python scripts/beta_internal.py l2 app-start --run operator-p40-01 --minor 3.11
+python scripts/beta_internal.py l2 app-status --run operator-p40-01
+# 状态为 M3_READY 后：
+python scripts/beta_internal.py l2 app-open --run operator-p40-01
 ```
 
-The other wrappers are native-public_readonly_capture.json and
-native-client_provided.json. industrial-native.archive is an actual Collector
-run over declared synthetic recorded responses:8 pages all200,9 offline exchanges,
-zero network requests. Tenant-test was set before capture. The importer keeps
-original scope, bytes, times and refs. native-pins.json records the input pins;
-these integrity expectations are not authorization. Results explicitly say
-NATIVE_SOURCE_VERIFIED_NOT_DIAGNOSED with task/report fields unset.
+`app-open` 打开可亲自操作的 Chrome，并保持本地私有签名辅助进程运行。
+M2 任务登录与 L2 审阅登录各自使用原签名挑战；辅助进程只签本环境观测到
+的短期新挑战，不把私钥放进 SSR、URL 或页面，也不自动审核或批准。
+已有 `python scripts/beta_internal.py app open --run ...` 入口继续兼容。
 
-Actual new-package validation:
+## 从新任务到内部商务 Brief
 
+1. 在“我的合成任务”选择工业泵阀 P40/V25 深度诊断，提交新任务。
+   页面先显示 APP202／等待 Worker；刷新状态至 DONE。DONE 不是报告完成。
+2. 点击“签名核对本任务并生成／恢复深度报告”，再点击“生成／恢复本任务
+   深度报告”。原签名 Reader 核对该任务的真实 Worker 包后，才进入原生
+   工业诊断。工作台中的 L2 挑战也由同一个本地辅助进程完成。
+3. 打开本次报告，阅读采购任务、证据、比较结论和 UNKNOWN，再阅读 Rebuild
+   蓝图中的措施、责任、依赖、待企业确认资料与验收方法。技术哈希在折叠详情。
+4. 在“责任人审核”逐项选择认可、拒绝或请求修订，填写理由并确认核对声明，
+   保存当前版本回执。这是合成身份的 Controlled 演练，不构成正式人审。
+   修改蓝图会产生新版本，原版本和原决定保留，新版本须重新审核。
+5. 返回当前报告，打开“内部商务 RebuildBrief”。先核对预览，再保存。
+   只有显示“已从 PostgreSQL 回读持久交接”才是实际保存。当前任务和当前
+   审阅权限都必须有效；旧版、过期、撤权和冲突不能变成当前交接。
+6. 从报告的打印入口查看／保存完整中文 A4 报告和蓝图。当前标准合成输入
+   实际生成 22 页报告、7 页蓝图；数量来自真实规则输出，不靠静态样例替代。
+
+原 M1 和 C2 期限均保持不变。请先完整阅读，再重新签名恢复原任务后填写审核；
+准备好理由并逐项操作，勿把长期阅读时间当作仍持有提交权限。阅读期间如遇过期拒绝，请回到同一任务重新签名，
+再“恢复”该任务的报告；不要创建新任务来替代旧版本，也不要打印拒绝页。
+原任务、EvidencePack、诊断、报告版本与审核回执会再次核对。报告和 Brief
+可跨本环境真实 PG／服务重启回读；储存的哈希本身不授予权限。
+
+## 商务使用范围
+
+Brief 提供本次报告引用、版本、Rebuild 蓝图、责任／依赖、待客户确认资料和
+实际系统诊断运行记录。没有可核实凭据时，咨询保持 UNLINKED，费率／费用
+保持 UNKNOWN，客户批准及 E2/E3 不成立。自动化不计为已核实人工工时。
+不触达真实客户，不写 Vey2GE，不调用 L2M，不创建通用 CRM，不外发或部署。
+
+## 验收、重启与停止
+
+普通人工操作使用上面的 `app-open`。完整自动验收另建隔离环境：
+
+```powershell
+python scripts/beta_internal.py l2 app-accept --run <new-fresh-test-run> --minor 3.11
 ```
-python integration/l2_ops/verify.py --label <new-alphanumeric-label> --python311 <native311.exe> --python313 <native313.exe>
+
+`app-accept` 自行启动隔离环境，使用对应原生 Python 执行 Chrome 验收，
+在真实临时资源仍存活时完成私有两库／C2 账本快照和凭据扫描，随后安全停止
+并导出限定公开证据。中间不依赖人工阶段确认。`app-verify` 仍保留给已运行环境的
+聚焦检查，不自动保存新 dump。完整验收通过实际 Chrome 创建新任务，保存受控回执／Brief，执行明确标注的
+故障注入、版本修订、撤权、真实 PG 和服务重启等检查。不要在有未完成
+人工操作的环境里混跑。跨 SQLite 与专用 PG 的存储不是一个原子事务；
+故障期间可以保留显式 pending 字节，但不作为当前 Brief 展示。
+[跨存储设计、真实 RED 和运行证明](RUNTIME-WIRING.md)。
+
+本地双版本包门禁（另行选择全新 alphanumeric label）：
+
+```powershell
+python integration/l2_ops/verify.py --label <new-label> --python311 <native311.exe> --python313 <native313.exe> --pg-image postgres@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
 ```
 
-Single-interpreter hosted-equivalent entry:
+人工操作完成后关闭 Chrome，再停止本环境：
 
+```powershell
+python scripts/beta_internal.py l2 app-stop --run operator-p40-01
+python scripts/beta_internal.py l2 app-status --run operator-p40-01
 ```
-python integration/l2_ops/verify.py --label <new-label> --python-current python --pg-image postgres@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
-```
 
-The actual minor version must match; validation uses its own pinned real PG16,
-loopback-only endpoint, dedicated role/namespace, actual COMMIT-expiry rollback,
-PG restart and authenticated-role readback. Credentials/raw failed originals stay
-in ignored integration/l2_ops/.private. Public JUnit/error copies are redacted.
-Only owned containers/networks are removed. Existing CI/old roles/SQL/Worker and
-original ordinary tests remain unchanged; publication metadata separately pins
-Owner's exact accepted PR108 documentation blobs.
+这是临时合成沙箱，自动运行上限仍为 30 分钟。完整停止会清理本次精确所有权
+资源，不是生产数据保存服务；所需内部演练结果应在停止前保存，并按本轮
+证据规则私有封存。旧 dump、历史 RED 和未识别匿名卷不被全局清理。
 
-New checks are explicitly in integration/l2_ops/checks and runtime_tests, run by
-new l2-ops.yml dual-version jobs. The original tests/ tree and exact2564 ID set
-remain identical to accepted main; no classifier/inventory assertion is relaxed.
-See EVIDENCE.md for actual results, historical RED, SHA and remaining integration.
-
-CurrentReader must wrap original trusted signed/current-version access and C1
-native verification. CurrentL2 binds tenant/run/native pack/diagnosis to the real
-task and uses the original minimum authority deadline. Private brief saves use
-that deadline through real deferred COMMIT checks. No snapshot hash, stored row,
-APP DONE or imported archive becomes authorization. Consultation remains unlinked
-or unverified until real evidence is supplied; absent rates/costs stay UNKNOWN,
-automation is not human labor, and external delivery/L2M execution remain false.
+三种来源能力的原生离线核验仍保留：`l2 source-check`、`l2 native-check`。
+PUBLIC_READONLY_CAPTURE／CLIENT_PROVIDED 表示已提供资料的访问声明，不能
+把材料标签当作实际外网运行许可。旧输入、旧 CI 和历史失败保持各自原 SHA
+和限定范围，不以新结果改写。

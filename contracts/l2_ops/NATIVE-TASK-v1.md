@@ -1,0 +1,62 @@
+# C3 native task / C2 runtime producer handoff v1
+
+Owner GO: PR112 comment6915272745; accepted main11efc13f708a5821c64b96d4a85764447b28ddab is normally merged into PR112.
+
+C3 now provides an actual TaskClient TaskHandle (tenant_id/source_ref/request_id/run_id/job_id/event_id), an original signed WorkerEvidence.pack and an original SourceBundle SHA. New controlled P40/V25 page bytes come from accepted C1 fixtures, freshly captured with tenant-test BEFORE capture, bounded eight-page L1 SourceAccess. The first Allow:/ robots archive is retained and correctly denied by original Worker; version3 separately captures original product page bytes with the exact allowed recorded robots body. No old archive scope or Worker guard is rewritten.
+
+`vrae.l2_ops.native_diagnosis.analyze(evidence)` calls merged C1 load(tenant_id=actual_task.tenant_id), diagnose(actual_pack, expected_pack_ref=actual_pack.ref, expected_industry_ref=server_config.industry_ref), then full verify with the resulting server-held diagnosis ref. NativeDiagnosis carries immutable canonical payload bytes, industry_ref/result_ref, actual pack/task and measured automated activity. metadata truthfully remains NATIVE_L2_VERIFIED_REPORT_NOT_PRODUCED. A verified diagnostic is not a report, approval or current read grant.
+
+C2 production adapter must accept these same trusted pack/task/config/result pins and full-verify again, produce a new DeepReport/ReportVersion/blueprint with its versioned native guarantee, and never select its old MP25 offline report. C3 consumes a concrete C2 source/binding contract only after Owner merge. Native C1 payload SHA, diagnosis_ref, M1 locator source/report SHA, C2 full display payload SHA and V1 report content_hash are DISTINCT and must not be aliased.
+
+C3 normalization needs actual C2 report_id, report_version_id, complete canonical report payload/display SHA, native tenant/run/pack/industry/diagnosis bindings, immutable blueprint with original finding/evidence refs, and original stored review receipt bytes/hash. CurrentL2.pins.report_sha256 is the COMPLETE C2 payload SHA (display_hash), not findings-only V1 content_hash. C3 normalized decision refers to that same exact version/display SHA; original receipt SHA retains the original V1 content_hash and identity fields. No new review store is required.
+
+For live authority C3 reuses accepted GeneratedSessions.request(sid): original signed login, current session/assignment/origin epoch checks and actual m1_read_assigned transaction/row locks remain open. `integration.l2_ops.current_worker.current_worker` yields the same fully replayed pack and minimum original M1 session/assignment/anchor plus trusted current SourcePolicy deadline; caller must stay inside through Brief COMMIT. Compose with existing C2 Directory.lock and Ledger transaction/current-version/receipt checks, then the existing C3 BriefLedger deadline trigger. C2 must expose enough accepted current report/source binding to verify that association; no arbitrary browser DTO or analysis hash can implement CurrentReader. Exact C2 native guarantee/API names remain C2-owned.
+
+No old SQL/RLS/roles/identity/TTL/HTTP/CDP/guard changes, second SSR or new review-storage engine. Real operator browser/source-version review, PG/service restart/readback and same-task Brief remain required before an end-to-end PASS. Missing consultation, customer confirmation or rates stay UNLINKED/UNKNOWN; automated activity never becomes human labor or E2/E3.
+
+## Accepted PR113 production assembly (Owner6918213833)
+
+Normal merge6b2a2dfff8d6de2cf16c2509e9cdcf30a2267d83 makes vrae.l2.native.NativeTask/NativeSource/current_report available. integration.l2_ops.native_report.produce_current holds the original signed current_worker context, calls C1 analyze/full verify, and constructs the actual C2 NativeSource with server-held pins. production_stamp stores only the first created_at and actual task/source association privately, so reconstruction does not create another report identity. Its record never grants access.
+
+NativeCurrentReader composes original current_worker then C2 current_report, independently checks all original task fields, actual pack/bundle and current industry ref against the immutable C2 binding, and yields original CurrentL2 with MIN(task session/assignment/anchor/policy, C2 signed review session/directory). BriefService holds both contexts through actual BriefLedger COMMIT. No Worker lease is used as review authority. C2 review revision/revocation and missing current receipt fail through its original implementation.
+
+mount attaches the accepted DeepConsole to the existing B5B Application with its existing generated console. It starts no server and creates no Directory person/role/report grant. The trusted composition root must provision the exact actual report ID under the original Controlled directory and supply the original current-read refresh; it cannot select an offline authored example. No actual P40 report is mounted before the known original Worker commit issue is causally corrected on Owner-accepted main.
+
+These are ready application ports with explicit component tests, not a claim that runtime launcher/browser task production or final business E2E has occurred. The L3 Worker performance correction remains C1-owned. Original RED and old mainmergeprep/preparation3970cac receipts retain their original SHA and historical producer-pending state.
+
+## Original SSR business route
+
+`attach_business(existing_app, actual_brief_ledger, report_id=actual_native_report_id, bundle=registered_bundle, activities=actual_measurements, subject=operator_configured_c2_subject, factory=original_current_reader_factory)` mounts `/b5a/l2/r/<actual_report_id>/brief` on the original B5B Application. The trusted factory accepts this request's original C2 signed SID and returns NativeCurrentReader holding the original M1 task session, policy deadline, actual C2 ledger and same bundle. HTTP may submit only original CSRF; no task/pins/receipt/deadline/rates/roles may be supplied by the browser.
+
+The existing C2 Directory must already authorize this actual native report and Controlled subject. C3 adds no Directory identity or report grant. Each current stored review receipt has its own immutable `rb-<actual_decision_id>` Brief; changed versions or revoked/expired identities refuse. GET previews or reauthenticates before reading the stored Brief; POST consumes the original C2 action nonce and saves through BriefService/BriefLedger. Report links use the same signed SSR. No second listener/process or external delivery endpoint exists.
+
+C3's panel directly displays the accepted seven-package blueprint title/page/change/customer_inputs/owner_role/acceptance/dependency/service_basis. Original source refs and complete blueprint remain retained; the interface invents no new recommendation or scope. Actual `produce_current` separately records the C1 analysis and C2 producer elapsed durations as SYSTEM/DIAGNOSIS_RUNTIME. Missing rates remain UNKNOWN; automated operations never become attested human labor.
+
+Current CLI startup intentionally remains PREPARATION_NOT_L2_E2E with P40 disabled. These tested assembly ports are not an already-activated production path or a new actual task. Once Owner accepts/merges C1 performance work and any exact B5A pin, normally sync main and use one controlled real P40 round, then activate/test the actual task production, same SSR Controlled review, Brief, Chrome and identical-pins restart readback. No repeated old-core P40 experiment is permitted to stand in for that causal correction.
+
+## Runtime composition implementation (Owner6920169305)
+
+NativeTasks / native_runtime now mount the actual composition into the original
+B5B SSR via the existing private stdio startup config. A current original ticket
+resolves its journal-held TaskHandle; only original CSRF is accepted. The exact
+original M1 issuer/subject/tenant is mapped to one configured Controlled reviewer.
+The currently produced NativeSource determines report scope. Task changes clear
+sessions/challenges/actions while retaining revoked keys/seen JWTs and original
+expiry; same-task M1 reauth retains source/version/receipt, not a new TTL.
+
+Original M1 authority additionally wraps C2 page/review requests and independently
+binds the current worker pack. Brief routes use the prior native dual-context
+reader directly, avoiding a second simultaneous M1 transaction on the same
+locked tenant. No old identity contract or SQL changes.
+
+The own C3 Brief role uses vrae_l2_internal in the SAME PG instance. Original
+vrae_ra4a_p1 ACL/CONNECT denial stays intact. Only the new own database/namespace
+receives CONNECT/USAGE/INSERT/SELECT. No APP/Worker/admin credential or private
+signer enters SSR. Parent-only C2 signer handles only observed fresh challenges;
+new SSR boots have new public keys and require reauthentication.
+
+readiness.ACCEPTED_PERFORMANCE_MAIN remains None. Host/child both refuse enabling
+P40 without this exact Owner acceptance checkpoint; a browser or free CLI flag
+cannot bypass it. Current startup/Chrome receipts are preparation-only, not real
+P40/native report final acceptance. See RUNTIME-WIRING.md for exact source SHA,
+RED, new-ID cleanup and operator sequence. No PR114 unmerged code is consumed.

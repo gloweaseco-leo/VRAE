@@ -1,0 +1,63 @@
+--- a/vrae/evidence/pack.py
++++ b/vrae/evidence/pack.py
+@@ -1,5 +1,5 @@
+ """Content-addressed projection with replayed source verification, not provenance signatures."""
+-from dataclasses import dataclass
++from dataclasses import dataclass, field
+ import json
+ from pathlib import Path
+ from types import MappingProxyType
+@@ -238,6 +238,7 @@
+     """Immutable canonical bytes and blob tuples. Public document views are detached copies."""
+     _payload: bytes
+     _blobs: tuple[tuple[str, bytes], ...]
++    _verified_cache: object = field(default=None, init=False, repr=False, compare=False)
+ 
+     def __post_init__(self):
+         if (not isinstance(self._payload, bytes) or not isinstance(self._blobs, tuple)
+@@ -272,6 +273,26 @@
+             if len(self._payload) > 8_000_000 or len(dict(self._blobs)) != len(self._blobs):
+                 _fail()
+             doc = self.document
++            cache_key = None
++            schemas = ()
++            primitive = (type(self._payload) is bytes and type(self._blobs) is tuple
++                and all(type(p) is tuple and type(p[0]) is str and type(p[1]) is bytes
++                        for p in self._blobs))
++            if primitive:
++                from vrae.collection.contracts import ROOT as capture_root
++                root = Path(__file__).parents[2] / 'contracts/v1'
++                paths = [root / 'evidence/EvidencePack.schema.json']
++                for source in doc['sources']:
++                    if source['kind'] == 'CaptureManifest':
++                        paths.append(capture_root / 'CaptureManifest.schema.json')
++                    elif source['kind'] == 'BrowserObservation':
++                        paths.append(root / 'browser/BrowserObservation.schema.json')
++                schemas = tuple(path.read_bytes() for path in paths)
++                cache_key = (self._payload, self._blobs, schemas)
++                if self._verified_cache == cache_key:
++                    if expected_ref is not None and doc['pack_ref'] != expected_ref:
++                        _fail()
++                    return
+             schema = json.loads((Path(__file__).parents[2] /
+                 'contracts/v1/evidence/EvidencePack.schema.json').read_text(encoding='utf-8'))
+             Draft202012Validator(schema, format_checker=FormatChecker()).validate(doc)
+@@ -280,6 +301,18 @@
+             rebuilt = _project(doc['sources'], self.objects)
+             if _encode(doc) != _encode(rebuilt):
+                 _fail()
++            # Only immutable input and self-contained schema graphs qualify.
++            # New objects/load/commit/read boundaries start unverified.
++            def local_refs(value):
++                if isinstance(value, dict):
++                    ref = value.get('$ref')
++                    return (ref is None or isinstance(ref, str) and ref.startswith('#')) and all(
++                        local_refs(v) for v in value.values())
++                if isinstance(value, list):
++                    return all(local_refs(v) for v in value)
++                return True
++            if cache_key is not None and all(local_refs(json.loads(raw)) for raw in schemas):
++                object.__setattr__(self, '_verified_cache', cache_key)
+         except Exception as exc:
+             # Schema/source errors are normalized; no source contents leak in safe errors.
+             raise EvidenceError('EVIDENCE_INTEGRITY') from exc

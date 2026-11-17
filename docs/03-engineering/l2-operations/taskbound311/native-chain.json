@@ -1,0 +1,2975 @@
+{
+  "task": {
+    "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+    "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+    "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+    "source_ref": "l2-industrial-p40-v3"
+  },
+  "worker": {
+    "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+    "finish_event": "a0b850c5-4c1e-4579-bab8-19ded8a67ed4",
+    "html_sha256": "68c37e18485856c03568e032885d0c9f56702b64fc4ecb29c3f41aeee520f1c7",
+    "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+    "lease_commit": {
+      "finish_event": "a0b850c5-4c1e-4579-bab8-19ded8a67ed4",
+      "inside_original_lease": true,
+      "lease_seq": 1,
+      "lease_until": "2026-11-17T07:20:35.530304+00:00",
+      "origin_epoch": 1,
+      "row_created_at": "2026-11-17T07:20:07.279315+00:00",
+      "source_ref": "l2-industrial-p40-v3",
+      "transaction_id": 839,
+      "worker_role": "ra4b_test_a_worker"
+    },
+    "report_id": "job-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+    "report_sha256": "d6482c503b77c71026c14b725cae8b461a72675f5cc6d6ec4f1b5bd74aee3c51",
+    "report_version": 1,
+    "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+    "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+    "source_sha256": "a0471a2d520ffe119cd9962c3d62a04cb63d7cd35a0f6b27cf2cdee9afcdc24f",
+    "tenant_id": "tenant-test"
+  },
+  "reportPins": {
+    "source_mode": "NATIVE_VERIFIED_PACK",
+    "source_policy_ref": "pol-001",
+    "source_bundle_sha256": "dea0fc2f39d918b7a41a9b181ad8f3597200fcb876b18c8ad4bd7d286bd87b04",
+    "display_hash": "c7d47a15d8d3a218465e1648e8964ca1973a430c62fc853c77cfa964931fe58c",
+    "industry_pack": {
+      "applicable_rule_ids": [
+        "IND-SELECTION",
+        "IND-SPEC",
+        "IND-DUTY",
+        "IND-FIT",
+        "IND-PROOF",
+        "IND-RFQ"
+      ],
+      "buyer_tasks": [
+        "DISCOVER",
+        "UNDERSTAND",
+        "TRUST",
+        "INQUIRE"
+      ],
+      "critical_attributes": [
+        "declared model and product family",
+        "pump flow/head/power/supply",
+        "valve bore/pressure/material/connection",
+        "named application operating conditions",
+        "supplier proof context and validity date",
+        "product-linked RFQ inputs and contact path"
+      ],
+      "false_positive_risks": [
+        "Missing or unparsed information is UNKNOWN, never an absence finding.",
+        "Catalog scalar comparison is not an engineering operating point or fit approval.",
+        "A supplier statement or certificate date is not third-party authentication.",
+        "Same model text is a declared association, not independently verified SKU identity.",
+        "A captured contact link is not a successful inquiry.",
+        "Configured required attributes are this procurement profile, not universal industry law."
+      ],
+      "industry_id": "industrial-procurement",
+      "methodology_version": "V1.1-L2-industrial-1.0.0",
+      "schema_version": "1.0",
+      "tenant_id": "tenant-test",
+      "version": "1.0.0"
+    },
+    "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+    "producer": {
+      "assurance": "C1_NATIVE_EVIDENCE_GUARD_REPLAYED_C2_BUSINESS_PROJECTION_V1",
+      "contract": "vrae.l2.native-producer-guarantee.v1",
+      "native_diagnostic_version": "l2-industrial-1.0.0",
+      "native_execution_ref": "rx-1df0d17c663f18a47051ef2af1412d70d3c8641584b23c2fb3e69a63480054cb",
+      "native_package_ref": "fp-fe382d35722f0b3fd98a78073a9c10a92a4b8a6461651f70a3d85e305635c66f",
+      "source_descriptor": {
+        "contract": "vrae.l2.native-producer-guarantee.v1",
+        "diagnosis_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "objects": [
+          {
+            "bytes": 493,
+            "sha256": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9"
+          },
+          {
+            "bytes": 725,
+            "sha256": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d"
+          },
+          {
+            "bytes": 426,
+            "sha256": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e"
+          },
+          {
+            "bytes": 592,
+            "sha256": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b"
+          },
+          {
+            "bytes": 231,
+            "sha256": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61"
+          },
+          {
+            "bytes": 753,
+            "sha256": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a"
+          },
+          {
+            "bytes": 226,
+            "sha256": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467"
+          },
+          {
+            "bytes": 742,
+            "sha256": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae"
+          }
+        ],
+        "pack_document_sha256": "9ccbb62e303092e4fff22125ca54a5c23693bd93f630e8247cf33abf1b698602",
+        "pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "task": {
+          "created_at": "2026-11-17T07:20:14.745626+00:00",
+          "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+          "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+          "industry_ref": "ip-4493e6e757da72c3ad7b2fc71f695129033de5a181ded61ef967f65639c5b3dc",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_access_mode": "OFFLINE_SYNTHETIC",
+          "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+          "source_ref": "l2-industrial-p40-v3",
+          "tenant_id": "tenant-test"
+        },
+        "version": "c2-l2-native-1.0.0"
+      },
+      "source_guard_refs": [
+        "cg-592f507c7564d6215c4fbff363f42184b4da64c2827365609e3d41481f85a787",
+        "cg-4707efde79ca8b4354760b7793ba67a8d43b04f7a6bf226f137a9f2a38b4022b",
+        "cg-ca03267e1dd793ab9123dd0df11f7698a0884e01524856c5a957f5b71e039206",
+        "cg-81bca566a3a161c0bb1ba8ad35d91433e5723f8dde3e91ec26c6ec4b9d1c87f3",
+        "cg-13a3455fec3431c566773bd345f391a9e90ebff61626ff2a52b43bc48785b647"
+      ],
+      "task_authority": "CALLER_HELD_SIGNED_CURRENT_TASK_REQUIRED_NOT_GRANTED_BY_ADAPTER",
+      "version": "c2-l2-native-1.0.0"
+    },
+    "report_version": {
+      "schema_version": "1.0",
+      "tenant_id": "tenant-test",
+      "report_id": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359",
+      "report_version_id": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v2",
+      "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+      "version": 2,
+      "content_hash": "983d6f62d01898eba6c1abf5d73e05bcb671fd9abddcada6e0c4de61ebf0a22b",
+      "status": "REVIEW_REQUIRED",
+      "finding_ids": [
+        "finding-059505af0ee01566615a0069f38716fa17a3c21b56e7f0a59c0807076853637a",
+        "finding-702ece19e6b07ad91167a6bf57a62c431995b28b27c285d5489728346d0badfc",
+        "finding-3646382500b85047222c1bb3dce12cdde79ae0700d50695c66e5a2b240a3603d",
+        "finding-44c539f02d8ae222311c79b838a97d8adf293039ae81c6ae99f7b86fbb229ffe",
+        "finding-15b2b5a4f46f60b6450914b29db096b91bf11fd064b60308fec610645a5db1cd",
+        "finding-b2f459c0630d85de5ca8243eb2a1aa58b2b928e147cf3fef39d72c3f23298458",
+        "finding-7fc0226f4faa3a26c70d14a04efbdc98ee1be352ff9c8326c50adb7a1f34e62d",
+        "finding-2ebf14eb33b50ef02a30f5ca06dfae463dbfb13bfa3fa372af21419f8312e11d",
+        "finding-6691e4616d512f06ff7040620b01e177f678492344676864f2c5754a930d403d",
+        "finding-4f384c90827b4191c30f4c4bc7bbb8cc0ccd98f95493ebde08b2d67ae6cb3a60",
+        "finding-41a933709f3d4537bb469941aa8f5b58c31dcfc8e30b38d9dc8a4fac4bf59f47",
+        "finding-8edd215c4d9fec4e2211c46a5c7abfab7ce1eb54ceb2a4488d98ee0c54a6934b",
+        "finding-99481790a1e33fe830afb58a43cba97a13a4ca4e8bf3f871470b795df0d27b7e",
+        "finding-a3e0202292820a31281c8e16bf1399278e75f289d2a6a8c22f9d4444dd854e7a",
+        "finding-f20791a5081f0d542fede3fbfa85545fa5fdb81dc7d480270c70d6a8751aa56a",
+        "finding-b1f619e88ee8829beb317f2b0aa2c73d16471e8eb8f5e1214384cb8262f0101f",
+        "finding-728d5554d2f817d2f8ff59a136cb3a049012aa8b2a5c90a947ab86ba16c7194b",
+        "finding-9ec4668abdcef406253dc17754fea1f4e6a3b68c2369f6f2d4c35a6b97f4bd2d",
+        "finding-69cc0c5232bd9ca524e9aaac01aca0a499521555b69edc3d0af28d0e47e5ace4"
+      ],
+      "created_by": "c3-controlled-reviewer",
+      "created_at": "2026-11-17T07:27:15.965232+00:00",
+      "approved_by": null,
+      "approved_at": null,
+      "audit_mode": "L2"
+    }
+  },
+  "initial": {
+    "brief": {
+      "activities": [
+        {
+          "actor_kind": "SYSTEM",
+          "amount_micros": null,
+          "attestation_ref": null,
+          "cost_status": "UNKNOWN",
+          "cpu_ns": null,
+          "currency": null,
+          "human_labor_claim": false,
+          "invoice_reconciled": false,
+          "kind": "DIAGNOSIS_RUNTIME",
+          "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-native-l2",
+          "rate_micros_per_hour": null,
+          "wall_ns": 2278647793
+        },
+        {
+          "actor_kind": "SYSTEM",
+          "amount_micros": null,
+          "attestation_ref": null,
+          "cost_status": "UNKNOWN",
+          "cpu_ns": null,
+          "currency": null,
+          "human_labor_claim": false,
+          "invoice_reconciled": false,
+          "kind": "DIAGNOSIS_RUNTIME",
+          "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-c2-native-report",
+          "rate_micros_per_hour": null,
+          "wall_ns": 1442655510
+        }
+      ],
+      "audience": "VEYFRONT_INTERNAL",
+      "blueprint": {
+        "contract_version": "l2-native-blueprint-v1",
+        "customer_approval": false,
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "internal_only": true,
+        "items": [
+          {
+            "acceptance": [
+              "逐项核对展示值与获确认的资料版本一致。",
+              "未确认字段仍UNKNOWN；新资料以新版本报告复验。"
+            ],
+            "change": "基于已记录字段保留原始值/单位/条件及资料版本。把未观察或无法解释的字段标为待确认；企业提供新资料后再决定页面或下载索引如何调整，不声称原站没有资料。",
+            "customer_inputs": [
+              "企业工程师确认参数、单位、工况与适用型号。",
+              "提供可使用的技术资料、版本日期与资料责任人。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-14abcce90516db34e5b8d7959d9e5737d2218f2fb4b02d81813a010640705d63",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-2dd31531e429088ae46ec9a17724264e1d9524c85a1ceae209a13e0a061311d2",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-8d94a0336ade1260351e806ed32fbb39002225fdf8749624ca16e209a2d88c5e",
+              "cf-94f873dbdc81a58f1e04416a45f11740d2812a254d06c4be660ebabbb301713b",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "evidence_refs": [
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36"
+            ],
+            "finding_ids": [
+              "finding-4f384c90827b4191c30f4c4bc7bbb8cc0ccd98f95493ebde08b2d67ae6cb3a60"
+            ],
+            "id": "blueprint-ee4ff79ebe0450d3810780e9",
+            "observation_ids": [
+              "obs-06a1818e7006d01ba8abbe89188e479b1856afd88f269bb1852dbd56a270fba5"
+            ],
+            "owner_role": "企业产品工程师确认；网站内容负责人组织资料",
+            "page": "https://example.org/products/pump-p40",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-14abcce90516db34e5b8d7959d9e5737d2218f2fb4b02d81813a010640705d63",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-2dd31531e429088ae46ec9a17724264e1d9524c85a1ceae209a13e0a061311d2",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-8d94a0336ade1260351e806ed32fbb39002225fdf8749624ca16e209a2d88c5e",
+              "cf-94f873dbdc81a58f1e04416a45f11740d2812a254d06c4be660ebabbb301713b",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "title": "P40 · 整理有版本的型号技术资料卡"
+          },
+          {
+            "acceptance": [
+              "工程责任人说明每项冲突/未知如何处理。",
+              "另行确认的结论才进入产品说明，不把单个标量等同整体适配。"
+            ],
+            "change": "把本次配置情景、来源参数、原生比较及适配UNKNOWN交给工程师。记录介质、工作点、接口及安装限制的确认或替代方案；未确认前不发布“适用/不适用”结论。",
+            "customer_inputs": [
+              "买方确认目标工况与实际介质/安装条件。",
+              "供应商提供签名或可核查的工程复核资料；不由网站团队代签。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-51f54a636ac55af36e5dc4474e9ba917fbeb1f3fd7a2c41558ecfe5906a361d9",
+              "cf-703949ba1aec4e48955089253b585df48cc16af9232e2ff08fd8eb068f0fdf65",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-942ec2d18a2182ab990f771eeaa7474d66c14adbc34df8e5d146bb85086f3094",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a7d90e49c753d7a9a3dcb23d4f3eb85c6f140858a272155dc8e33bf0498e481b",
+              "cf-adbac7952665302d7c5028c3d4ac4d117d5d6fc22118e8f8e41e405d80061e32",
+              "cf-ae3e4d7263498c7505036010a17fa0798bd921738f3f8282a7ec39ec9c0f6233",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-d39ba4e5c3e5862b86e2e6fd75efe96e0ffc0df7fbac7b7d7de817190ecfe4af",
+              "cf-d7f00fd4336d57b8dd5df96e2a4e34968d513a2fc4133fc590efa15b2310456c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "evidence_refs": [
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36",
+              "ev-de7c7b732ac04698b4a194e30eceaa2975c2fb14798537aae994dce89ec0df04"
+            ],
+            "finding_ids": [
+              "finding-41a933709f3d4537bb469941aa8f5b58c31dcfc8e30b38d9dc8a4fac4bf59f47",
+              "finding-8edd215c4d9fec4e2211c46a5c7abfab7ce1eb54ceb2a4488d98ee0c54a6934b",
+              "finding-99481790a1e33fe830afb58a43cba97a13a4ca4e8bf3f871470b795df0d27b7e",
+              "finding-a3e0202292820a31281c8e16bf1399278e75f289d2a6a8c22f9d4444dd854e7a",
+              "finding-f20791a5081f0d542fede3fbfa85545fa5fdb81dc7d480270c70d6a8751aa56a",
+              "finding-b1f619e88ee8829beb317f2b0aa2c73d16471e8eb8f5e1214384cb8262f0101f",
+              "finding-728d5554d2f817d2f8ff59a136cb3a049012aa8b2a5c90a947ab86ba16c7194b"
+            ],
+            "id": "blueprint-35540b904f40b308faaaea8f",
+            "observation_ids": [
+              "obs-11a9e2f1690c25a76ec6e94b57eac8afd490ae48a5bd5788ea58ba9bbf520b28",
+              "obs-0a3267e7cbc8208a86a16a59c14b400c1fbd43079f3d8647abae7727c9105221",
+              "obs-1927218af97120e66350d41fe60a950aea0e359c3f8c2d72f1fc60e8b8c709a5",
+              "obs-869af333ed1c6efa0dee72d9d912a41ad12c43e87dd8855f265dd79abeecc44d",
+              "obs-c126a6701ec8d4012900fb5594e5eddcf4bda39d2656f6c2d1a7fbc55a86d6a7",
+              "obs-2f95c78814146423e95fc638f3228a5bb8ad535ab08627046e7162f9612d70c0",
+              "obs-691f9ece8054069073f6de32603f1d0af66e06996360fa446895e504e3927327"
+            ],
+            "owner_role": "企业/供应商工程责任人；买方补充工况",
+            "page": "https://example.org/products/duty-selection；https://example.org/products/pump-p40",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "工程确认不在标准网站Rebuild范围；由企业工程师/供应商负责，不能当作自动加购服务。",
+            "service_fit": "CUSTOM_ASSESSMENT",
+            "source_fact_refs": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-51f54a636ac55af36e5dc4474e9ba917fbeb1f3fd7a2c41558ecfe5906a361d9",
+              "cf-703949ba1aec4e48955089253b585df48cc16af9232e2ff08fd8eb068f0fdf65",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-942ec2d18a2182ab990f771eeaa7474d66c14adbc34df8e5d146bb85086f3094",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a7d90e49c753d7a9a3dcb23d4f3eb85c6f140858a272155dc8e33bf0498e481b",
+              "cf-adbac7952665302d7c5028c3d4ac4d117d5d6fc22118e8f8e41e405d80061e32",
+              "cf-ae3e4d7263498c7505036010a17fa0798bd921738f3f8282a7ec39ec9c0f6233",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-d39ba4e5c3e5862b86e2e6fd75efe96e0ffc0df7fbac7b7d7de817190ecfe4af",
+              "cf-d7f00fd4336d57b8dd5df96e2a4e34968d513a2fc4133fc590efa15b2310456c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "title": "P40 · 工况与工程复核清单"
+          },
+          {
+            "acceptance": [
+              "复核准备包逐字段可追溯至本次来源或明确买方输入。",
+              "无授权不发送；实际接收结果保持UNKNOWN，授权验证时记录接收责任人与结果。"
+            ],
+            "change": "在现有已观察GET路径基础上整理型号、工况、数量与来源，明确买方待补项。先走查现有联系流程是否携带这些信息，再决定是否调整表单或资料卡，不从缺目的地推断网站缺陷。",
+            "customer_inputs": [
+              "买方补齐RFQ缺少的交付目的地等输入。",
+              "企业销售确认型号/工况接收字段与资料用途；任何真实发送须另获授权。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "evidence_refs": [
+              "ev-312ce66f47aab82e7fc93e58c51fc6cd9f9c6a4bc2865be40a7b9b75fdf5bac2",
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36"
+            ],
+            "finding_ids": [
+              "finding-69cc0c5232bd9ca524e9aaac01aca0a499521555b69edc3d0af28d0e47e5ace4"
+            ],
+            "id": "blueprint-68384e00e7045c70ed587820",
+            "observation_ids": [
+              "obs-aa2f634637443b4bd05f9b5d11949418f958cf90f021ec2021776db14121e53a"
+            ],
+            "owner_role": "买方补信息；企业销售与网站负责人核对上下文",
+            "page": "https://example.org/products/pump-p40；https://example.org/products/rfq-guide",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "title": "P40 · 询价准备与产品上下文复核"
+          },
+          {
+            "acceptance": [
+              "逐项核对展示值与获确认的资料版本一致。",
+              "未确认字段仍UNKNOWN；新资料以新版本报告复验。"
+            ],
+            "change": "基于已记录字段保留原始值/单位/条件及资料版本。把未观察或无法解释的字段标为待确认；企业提供新资料后再决定页面或下载索引如何调整，不声称原站没有资料。",
+            "customer_inputs": [
+              "企业工程师确认参数、单位、工况与适用型号。",
+              "提供可使用的技术资料、版本日期与资料责任人。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-29d7d5e5e8defe52ab49499d5b68f71f02ce8e3bcfa9f4c82d3e6d79983de1d9",
+              "cf-5a6bc484ec357f04b1dc0111ae5b0c9f7041478c5412a6788682ec942f2aa9a6",
+              "cf-5c7fba048c8e5965ffe6fa346500c92bce305549a6dbd8dfcb5b58fbe2c48220",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-819500a7c5871df2735716449b9607d72708a8767fd3be37a6e525d2b2aa1509",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-9762ca4735686877c9b2be16bee80e932e06cca752dfbe25dc4a11cdbf03e77f",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ab7e82f61991cfe1b59f0c292ad024de95580bbe09529a7f8d26b622c206f122",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-c61e5ca59eae231572e3bab1efc19ed2fd75403cb91ff52207e8c8e2a2526b6e",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-e063a3bd95c6f1f5dcf5be504a486034014aff3a4be5b698f8a8b4d2e255679f"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93"
+            ],
+            "finding_ids": [
+              "finding-702ece19e6b07ad91167a6bf57a62c431995b28b27c285d5489728346d0badfc"
+            ],
+            "id": "blueprint-46d7bca371dca218b82a2962",
+            "observation_ids": [
+              "obs-97f817189aa1c16b224a831f139772bfe9c06835a1f17bcfd38fab87861f333d"
+            ],
+            "owner_role": "企业产品工程师确认；网站内容负责人组织资料",
+            "page": "https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-29d7d5e5e8defe52ab49499d5b68f71f02ce8e3bcfa9f4c82d3e6d79983de1d9",
+              "cf-5a6bc484ec357f04b1dc0111ae5b0c9f7041478c5412a6788682ec942f2aa9a6",
+              "cf-5c7fba048c8e5965ffe6fa346500c92bce305549a6dbd8dfcb5b58fbe2c48220",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-819500a7c5871df2735716449b9607d72708a8767fd3be37a6e525d2b2aa1509",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-9762ca4735686877c9b2be16bee80e932e06cca752dfbe25dc4a11cdbf03e77f",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ab7e82f61991cfe1b59f0c292ad024de95580bbe09529a7f8d26b622c206f122",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-c61e5ca59eae231572e3bab1efc19ed2fd75403cb91ff52207e8c8e2a2526b6e",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-e063a3bd95c6f1f5dcf5be504a486034014aff3a4be5b698f8a8b4d2e255679f"
+            ],
+            "title": "V25 · 整理有版本的型号技术资料卡"
+          },
+          {
+            "acceptance": [
+              "工程责任人说明每项冲突/未知如何处理。",
+              "另行确认的结论才进入产品说明，不把单个标量等同整体适配。"
+            ],
+            "change": "把本次配置情景、来源参数、原生比较及适配UNKNOWN交给工程师。记录介质、工作点、接口及安装限制的确认或替代方案；未确认前不发布“适用/不适用”结论。",
+            "customer_inputs": [
+              "买方确认目标工况与实际介质/安装条件。",
+              "供应商提供签名或可核查的工程复核资料；不由网站团队代签。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-57bc113897b746a92ec8ea471381bdb18e2fbb92b946766b3a39ec379c8a67b0",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a26e2e5693c122199da751c89968bbdd93e4caac439351000dab78c59eb7e114",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93",
+              "ev-de7c7b732ac04698b4a194e30eceaa2975c2fb14798537aae994dce89ec0df04"
+            ],
+            "finding_ids": [
+              "finding-3646382500b85047222c1bb3dce12cdde79ae0700d50695c66e5a2b240a3603d",
+              "finding-44c539f02d8ae222311c79b838a97d8adf293039ae81c6ae99f7b86fbb229ffe",
+              "finding-15b2b5a4f46f60b6450914b29db096b91bf11fd064b60308fec610645a5db1cd",
+              "finding-b2f459c0630d85de5ca8243eb2a1aa58b2b928e147cf3fef39d72c3f23298458"
+            ],
+            "id": "blueprint-c783370b7b1ac54292bf9ac9",
+            "observation_ids": [
+              "obs-9f8027f84226a2b926d1ef0dcc247242365891121478a95a4ef0e72e33e50660",
+              "obs-eac0a7e1e70e5f7385a5f6c30dc531f3cfad9202937d83f9b585f9408df6001d",
+              "obs-30f0ad26e4dbed53c6d1c45d27ccb35e8fec36af9572e406013dd17077b52ec8",
+              "obs-942ec5a779995b6b4a796e4abd115273cc67a44324d27126affd92d685633a1a"
+            ],
+            "owner_role": "企业/供应商工程责任人；买方补充工况",
+            "page": "https://example.org/products/duty-selection；https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "工程确认不在标准网站Rebuild范围；由企业工程师/供应商负责，不能当作自动加购服务。",
+            "service_fit": "CUSTOM_ASSESSMENT",
+            "source_fact_refs": [
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-57bc113897b746a92ec8ea471381bdb18e2fbb92b946766b3a39ec379c8a67b0",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a26e2e5693c122199da751c89968bbdd93e4caac439351000dab78c59eb7e114",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d"
+            ],
+            "title": "V25 · 工况与工程复核清单"
+          },
+          {
+            "acceptance": [
+              "复核准备包逐字段可追溯至本次来源或明确买方输入。",
+              "无授权不发送；实际接收结果保持UNKNOWN，授权验证时记录接收责任人与结果。"
+            ],
+            "change": "在现有已观察GET路径基础上整理型号、工况、数量与来源，明确买方待补项。先走查现有联系流程是否携带这些信息，再决定是否调整表单或资料卡，不从缺目的地推断网站缺陷。",
+            "customer_inputs": [
+              "买方补齐RFQ缺少的交付目的地等输入。",
+              "企业销售确认型号/工况接收字段与资料用途；任何真实发送须另获授权。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93",
+              "ev-312ce66f47aab82e7fc93e58c51fc6cd9f9c6a4bc2865be40a7b9b75fdf5bac2"
+            ],
+            "finding_ids": [
+              "finding-2ebf14eb33b50ef02a30f5ca06dfae463dbfb13bfa3fa372af21419f8312e11d"
+            ],
+            "id": "blueprint-16e89c61c7de5926df111cdc",
+            "observation_ids": [
+              "obs-fde971e220055fc23e9e0701886a282aa168f44f1457345dba45f3647062f68a"
+            ],
+            "owner_role": "买方补信息；企业销售与网站负责人核对上下文",
+            "page": "https://example.org/products/rfq-guide；https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "title": "V25 · 询价准备与产品上下文复核"
+          },
+          {
+            "acceptance": [
+              "每个展示声明可追溯至获确认的资料版本。",
+              "没有独立核验时认证状态仍UNKNOWN，旧声明日期不当作真实认证失效。"
+            ],
+            "change": "保留来源声明及覆盖型号，向企业取得当前资料。核对机构、编号、范围与日期后才决定更新哪个资料区；共享记录只做一份工作包，不重复算成多个供应商故障。",
+            "customer_inputs": [
+              "企业提供当前证明资料和允许展示范围。",
+              "采购/合规责任人独立核验机构、编号、范围与日期。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-06a8befd8e7af8e99bdd0914dd40ef6f32aa1975d3f7370e9a315a71fb54e51d",
+              "cf-32b308b302d28f694f5b4c3bf9850e4588db5f2245960b60cb111eac45d93853",
+              "cf-5ca3d3d85963a903e4210beb9db7105a44d27438693d5b8043f74962735fffcd",
+              "cf-71f080e83fb6926a69242f82f49feffafb9e4c2fb7f1bb26d0b59d9642f2d075",
+              "cf-a33a6850d7d787a1db13ef6e4a1cf53845f989e2f910bd83de19690fc8f13cc3",
+              "cf-ccacb9b7cb6dacc6928cf5482495f276b6c5fc7c9060c1b9086097ccec70a8f9",
+              "cf-d75defa792bdb170fddac5dc6c41c391ba1b3475203eb36a091f790ad8a6c91e",
+              "cf-f06dbe1f3880e5b2b932091300fe2aa1066731618deb34069a7bcc513585bf3c"
+            ],
+            "evidence_refs": [
+              "ev-8be6ec4efdbf2e1f3720e3904287b108d1629e8a571150f5dea7698f7b8fa77f"
+            ],
+            "finding_ids": [
+              "finding-7fc0226f4faa3a26c70d14a04efbdc98ee1be352ff9c8326c50adb7a1f34e62d",
+              "finding-9ec4668abdcef406253dc17754fea1f4e6a3b68c2369f6f2d4c35a6b97f4bd2d"
+            ],
+            "id": "blueprint-71ed2000fbbecf76e309c06d",
+            "observation_ids": [
+              "obs-5eca307cdb25e359179f262f46c82fbb66745ef65091ba66caceb42af502e8ee",
+              "obs-95c6f97e804b5fdebe81ebdfa9e7d93ed2e9da1b1ae0fd8f224263a0cf9f517d"
+            ],
+            "owner_role": "企业资质资料责任人；采购方独立核验",
+            "page": "https://example.org/products/supplier-proof",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-06a8befd8e7af8e99bdd0914dd40ef6f32aa1975d3f7370e9a315a71fb54e51d",
+              "cf-32b308b302d28f694f5b4c3bf9850e4588db5f2245960b60cb111eac45d93853",
+              "cf-5ca3d3d85963a903e4210beb9db7105a44d27438693d5b8043f74962735fffcd",
+              "cf-71f080e83fb6926a69242f82f49feffafb9e4c2fb7f1bb26d0b59d9642f2d075",
+              "cf-a33a6850d7d787a1db13ef6e4a1cf53845f989e2f910bd83de19690fc8f13cc3",
+              "cf-ccacb9b7cb6dacc6928cf5482495f276b6c5fc7c9060c1b9086097ccec70a8f9",
+              "cf-d75defa792bdb170fddac5dc6c41c391ba1b3475203eb36a091f790ad8a6c91e",
+              "cf-f06dbe1f3880e5b2b932091300fe2aa1066731618deb34069a7bcc513585bf3c"
+            ],
+            "title": "共享供应商声明资料 · 取得当前版本再独立核验"
+          }
+        ],
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "brief_ref": "rb-review-077fab1fc0fb4d1cab4fc728818a495b",
+      "consultation": {
+        "counts_as_e2": false,
+        "counts_as_e3": false,
+        "reference": null,
+        "state": "UNLINKED",
+        "verified_receipt": null
+      },
+      "content_sha256": "f1b98117d9f426d03e531eb5935519c056f522bceaa6835430df87a9f1e8c607",
+      "contract_version": "internal-rebuild-brief-v1",
+      "cost_total": {
+        "amount_micros": null,
+        "cost_status": "UNKNOWN",
+        "currency": null,
+        "invoice_reconciled": false
+      },
+      "customer_approval": false,
+      "customer_confirmations": [
+        {
+          "evidence_ref": null,
+          "key": "business_goals",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "products_and_target_markets",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "material_reuse_rights",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "included_and_excluded_scope",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "legacy_urls_and_redirects",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "acceptance_criteria",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "customer_approval",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "veyfront_consultation_receipt",
+          "status": "PENDING"
+        }
+      ],
+      "diagnostic_payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+      "external_delivery_allowed": false,
+      "l2m_execution_allowed": false,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "preparation_status": "INTERNAL_REVIEW_RECORDED",
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-077fab1fc0fb4d1cab4fc728818a495b",
+        "receipt_sha256": "ffcbca36b371c81bd4c7571f4816ed765a060cf0c0ca1ec8a612817dc7d88441",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "source": {
+        "access_mode": "OFFLINE_SYNTHETIC",
+        "bundle_id": "c1-p40-controlled-native-v3",
+        "content_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "contract_version": "l2-source-bundle-v1",
+        "diagnostic_level": "L2",
+        "execution": "OFFLINE_CAPTURE_ONLY",
+        "external_delivery_allowed": false,
+        "external_run_permission_reference": null,
+        "inputs": [
+          {
+            "analysis_basis_reference": "internal-controlled-synthetic-not-client-authorization",
+            "bytes": 32814,
+            "media_type": "application/json",
+            "origin_reference": "accepted-C1-P40-V25-recorded-bytes-new-tenant-test-capture",
+            "rebuild_asset_use": "PENDING_CONFIRMATION",
+            "reference": "industrial-p40-worker",
+            "reuse_permission_reference": null,
+            "sha256": "c05a693f6bddac263e717117fd4d1cd08b6aede0fe3568ac92d0ea904042d289",
+            "synthetic": true
+          }
+        ],
+        "network_requests": 0,
+        "tenant_id": "tenant-test"
+      }
+    },
+    "brief_stored": true,
+    "counts": {
+      "assessments": 19,
+      "blueprint": 7
+    },
+    "created_at": "2026-11-17T07:20:14.745626+00:00",
+    "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+    "diagnosis_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+    "external_delivery": false,
+    "formal_human_review": false,
+    "industry_ref": "ip-4493e6e757da72c3ad7b2fc71f695129033de5a181ded61ef967f65639c5b3dc",
+    "pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+    "pages": [
+      {
+        "body_sha256": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467",
+        "status": 200,
+        "url": "https://example.org/"
+      },
+      {
+        "body_sha256": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e",
+        "status": 200,
+        "url": "https://example.org/products"
+      },
+      {
+        "body_sha256": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae",
+        "status": 200,
+        "url": "https://example.org/products/duty-selection"
+      },
+      {
+        "body_sha256": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61",
+        "status": 200,
+        "url": "https://example.org/contact"
+      },
+      {
+        "body_sha256": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a",
+        "status": 200,
+        "url": "https://example.org/products/pump-p40"
+      },
+      {
+        "body_sha256": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9",
+        "status": 200,
+        "url": "https://example.org/products/rfq-guide"
+      },
+      {
+        "body_sha256": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b",
+        "status": 200,
+        "url": "https://example.org/products/supplier-proof"
+      },
+      {
+        "body_sha256": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d",
+        "status": 200,
+        "url": "https://example.org/products/valve-v25"
+      }
+    ],
+    "production": {
+      "c1": {
+        "activities": [
+          {
+            "actor_kind": "SYSTEM",
+            "amount_micros": null,
+            "attestation_ref": null,
+            "cost_status": "UNKNOWN",
+            "cpu_ns": null,
+            "currency": null,
+            "human_labor_claim": false,
+            "invoice_reconciled": false,
+            "kind": "DIAGNOSIS_RUNTIME",
+            "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-native-l2",
+            "rate_micros_per_hour": null,
+            "wall_ns": 2278647793
+          }
+        ],
+        "assessment_count": 19,
+        "cost_status": "UNKNOWN",
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "diagnosis_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "industry_ref": "ip-4493e6e757da72c3ad7b2fc71f695129033de5a181ded61ef967f65639c5b3dc",
+        "models": [
+          "P40",
+          "V25"
+        ],
+        "procurement_chain_count": 2,
+        "report_complete": false,
+        "review_authority": false,
+        "semantic_approval": false,
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_fact_count": 81,
+        "state": "NATIVE_L2_VERIFIED_REPORT_NOT_PRODUCED",
+        "task": {
+          "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_ref": "l2-industrial-p40-v3",
+          "tenant_id": "tenant-test"
+        },
+        "worker_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d"
+      },
+      "signed_reader": {
+        "authority": "SIGNED_M1_READ_SNAPSHOT_NOT_CURRENT_L2_REVIEW_AUTHORITY",
+        "l2_complete": false,
+        "original_pack_ref": "ep-6d856d7718027b0895d3b450c34f7d27838f898df7c7ea369a6b060d6a2d4b60",
+        "review_authority": false,
+        "snapshot_count": 8,
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "state": "WORKER_EVIDENCE_VERIFIED_DEEP_ANALYSIS_PENDING",
+        "task": {
+          "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_ref": "l2-industrial-p40-v3",
+          "tenant_id": "tenant-test"
+        },
+        "worker_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "worker_result_locator": {
+          "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+          "finish_event": "a0b850c5-4c1e-4579-bab8-19ded8a67ed4",
+          "html_sha256": "68c37e18485856c03568e032885d0c9f56702b64fc4ecb29c3f41aeee520f1c7",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "report_id": "job-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "report_sha256": "d6482c503b77c71026c14b725cae8b461a72675f5cc6d6ec4f1b5bd74aee3c51",
+          "report_version": 1,
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_sha256": "a0471a2d520ffe119cd9962c3d62a04cb63d7cd35a0f6b27cf2cdee9afcdc24f",
+          "tenant_id": "tenant-test"
+        }
+      }
+    },
+    "report_id": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359",
+    "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+    "source_expected": "dea0fc2f39d918b7a41a9b181ad8f3597200fcb876b18c8ad4bd7d286bd87b04",
+    "task": {
+      "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+      "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+      "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+      "source_ref": "l2-industrial-p40-v3",
+      "tenant_id": "tenant-test"
+    }
+  },
+  "liveAudit": [
+    {
+      "authority_observed_at": "2026-11-17T07:21:39.800040+00:00",
+      "brief_ref": "s0-audit-idempotent-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "case": "idempotent",
+      "detached_authority": false,
+      "minimum_original_deadline": "2026-11-17T07:22:46+00:00",
+      "original_review_session_expires_at": "2026-11-17T07:26:27+00:00",
+      "original_sql_role_contracts_changed": false,
+      "original_task_session_expires_at": "2026-11-17T07:22:46+00:00",
+      "pass": true,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-077fab1fc0fb4d1cab4fc728818a495b",
+        "receipt_sha256": "ffcbca36b371c81bd4c7571f4816ed765a060cf0c0ca1ec8a612817dc7d88441",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "same_bytes_same_row": true,
+      "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
+      "task": {
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "wall_ns": 11837435169
+    },
+    {
+      "authority_observed_at": "2026-11-17T07:22:15.816349+00:00",
+      "brief_ref": "s0-audit-wrong-task-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "case": "wrong-task",
+      "detached_authority": false,
+      "minimum_original_deadline": "2026-11-17T07:23:21+00:00",
+      "original_review_session_expires_at": "2026-11-17T07:27:03+00:00",
+      "original_sql_role_contracts_changed": false,
+      "original_task_session_expires_at": "2026-11-17T07:23:21+00:00",
+      "pass": true,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "refused": {
+        "job_id": "OperationsDenied:L2_CURRENT_TASK_BINDING_REQUIRED",
+        "run_id": "OperationsDenied:L2_CURRENT_TASK_BINDING_REQUIRED",
+        "tenant_id": "OperationsDenied:L2_TASK_SOURCE_SCOPE"
+      },
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-077fab1fc0fb4d1cab4fc728818a495b",
+        "receipt_sha256": "ffcbca36b371c81bd4c7571f4816ed765a060cf0c0ca1ec8a612817dc7d88441",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
+      "task": {
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "wall_ns": 4553792513
+    },
+    {
+      "actual_pg_error": "AdminShutdown",
+      "authority_observed_at": "2026-11-17T07:22:53.166184+00:00",
+      "brief_ref": "s0-audit-pg-interruption-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "case": "pg-interruption",
+      "detached_authority": false,
+      "minimum_original_deadline": "2026-11-17T07:23:50+00:00",
+      "original_review_session_expires_at": "2026-11-17T07:27:35+00:00",
+      "original_sql_role_contracts_changed": false,
+      "original_task_session_expires_at": "2026-11-17T07:23:50+00:00",
+      "pass": true,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "readback_denial": "OperationsDenied:L2_BRIEF_NOT_FOUND",
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-077fab1fc0fb4d1cab4fc728818a495b",
+        "receipt_sha256": "ffcbca36b371c81bd4c7571f4816ed765a060cf0c0ca1ec8a612817dc7d88441",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
+      "task": {
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "wall_ns": 8924633712
+    },
+    {
+      "authority_observed_at": "2026-11-17T07:23:23.959082+00:00",
+      "brief_ref": "s0-audit-task-connection-loss-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "case": "task-connection-loss",
+      "detached_authority": false,
+      "minimum_original_deadline": "2026-11-17T07:24:30+00:00",
+      "original_review_session_expires_at": "2026-11-17T07:28:11+00:00",
+      "original_sql_role_contracts_changed": false,
+      "original_task_session_expires_at": "2026-11-17T07:24:30+00:00",
+      "pass": true,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "readback_denial": "OperationsDenied:L2_BRIEF_PENDING_REVALIDATION",
+      "reauthorized_same_bytes_compensation": true,
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-077fab1fc0fb4d1cab4fc728818a495b",
+        "receipt_sha256": "ffcbca36b371c81bd4c7571f4816ed765a060cf0c0ca1ec8a612817dc7d88441",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
+      "source_failure": "OperationsDenied:L2_ORIGINAL_TASK_TRANSACTION_LOST",
+      "task": {
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "wall_ns": 10092518202
+    },
+    {
+      "authority_observed_at": "2026-11-17T07:23:57.809836+00:00",
+      "brief_ref": "s0-audit-sqlite-unavailable-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "case": "sqlite-unavailable",
+      "detached_authority": false,
+      "minimum_original_deadline": "2026-11-17T07:25:04+00:00",
+      "original_review_session_expires_at": "2026-11-17T07:28:45+00:00",
+      "original_sql_role_contracts_changed": false,
+      "original_sqlite_bytes_retained": true,
+      "original_task_session_expires_at": "2026-11-17T07:25:04+00:00",
+      "pass": true,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "readback_denial": "OperationsDenied:L2_BRIEF_PENDING_REVALIDATION",
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-077fab1fc0fb4d1cab4fc728818a495b",
+        "receipt_sha256": "ffcbca36b371c81bd4c7571f4816ed765a060cf0c0ca1ec8a612817dc7d88441",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
+      "source_failure": "FileNotFoundError:[Errno 2] No such file or directory: '/state/l2-native/reviews.sqlite'",
+      "task": {
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "wall_ns": 9965371068
+    },
+    {
+      "authority_observed_at": "2026-11-17T07:24:33.437633+00:00",
+      "brief_ref": "s0-audit-post-exit-review-change-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "case": "post-exit-review-change",
+      "detached_authority": false,
+      "minimum_original_deadline": "2026-11-17T07:25:37+00:00",
+      "original_review_session_expires_at": "2026-11-17T07:29:20+00:00",
+      "original_sql_role_contracts_changed": false,
+      "original_task_session_expires_at": "2026-11-17T07:25:37+00:00",
+      "pass": true,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "post_commit_cas_denial": "OperationsDenied:L2_BRIEF_STALE_OR_CROSS_TASK",
+      "readback_denial": "OperationsDenied:L2_BRIEF_PENDING_REVALIDATION",
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-077fab1fc0fb4d1cab4fc728818a495b",
+        "receipt_sha256": "ffcbca36b371c81bd4c7571f4816ed765a060cf0c0ca1ec8a612817dc7d88441",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
+      "task": {
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "wall_ns": 7375781059
+    },
+    {
+      "authority_observed_at": "2026-11-17T07:25:22.241364+00:00",
+      "brief_ref": "s0-audit-concurrent-review-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "case": "concurrent-review",
+      "competing_current_review_committed": true,
+      "detached_authority": false,
+      "linearization": "POST_COMMIT_CAS_REFUSED_COMPETING_REVIEW",
+      "minimum_original_deadline": "2026-11-17T07:26:25+00:00",
+      "original_lock_probe": {
+        "current_review_blocked": true,
+        "task_session_blocked": true
+      },
+      "original_review_session_expires_at": "2026-11-17T07:30:07+00:00",
+      "original_sql_role_contracts_changed": false,
+      "original_sqlite_transaction_blocked": true,
+      "original_task_session_expires_at": "2026-11-17T07:26:25+00:00",
+      "pass": true,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-53486e2f68934c039cb25167bd246c7d",
+        "receipt_sha256": "ea70a90b7e9e92ac8b31582e2785074d40e78156c87ac76eb5c8bf15e49866b2",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
+      "stale_read_denied": "OperationsDenied:L2_BRIEF_PENDING_REVALIDATION",
+      "task": {
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "wall_ns": 10023645878
+    },
+    {
+      "authority_observed_at": "2026-11-17T07:26:17.130517+00:00",
+      "brief_ref": "s0-audit-c2-revocation-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "case": "c2-revocation",
+      "detached_authority": false,
+      "minimum_original_deadline": "2026-11-17T07:27:17+00:00",
+      "old_review_session_denied": "L2Denied:L2_REQUEST_DENIED",
+      "original_review_session_expires_at": "2026-11-17T07:31:01+00:00",
+      "original_sql_role_contracts_changed": false,
+      "original_task_session_expires_at": "2026-11-17T07:27:17+00:00",
+      "pass": true,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v1",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "readback_denial": "OperationsDenied:L2_BRIEF_PENDING_REVALIDATION",
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-ed831f6d865d4d2aab1f609ac8b2c5f7",
+        "receipt_sha256": "84af67c96e4d948e6dbac32519108acda6e2beccd99d992c3c929448bc9c85fa",
+        "report_sha256": "e4d8bce87f311f9e210b983d3258a661135798356027bb2e4a6b6289855e5676",
+        "report_version": "1"
+      },
+      "revocation_not_cleared": true,
+      "revoked_denial": "L2Denied:L2_REQUEST_DENIED",
+      "scope": "LIVE_ORIGINAL_M1_C2_REAL_PG_TEST_ONLY_FAULT_INJECTION",
+      "task": {
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "wall_ns": 4860196503
+    }
+  ],
+  "taskSwitch": {
+    "other": {
+      "request_id": "0aa2ac4a-a82b-405b-9061-5128cc1f8535",
+      "run_id": "326a31ad-3f4b-48b0-8f8a-92f94d434b94",
+      "job_id": "d011dc98-a366-4062-a025-ed5bee98770d",
+      "source_ref": "l2-industrial-p40-v3"
+    },
+    "worker": {
+      "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+      "finish_event": "54ac082e-c0fd-4fae-970f-9b049e7240b3",
+      "html_sha256": "5467c385d6b8edef84ac0f48e2dda043174bafc2ec151fc82ed01ef99602e0be",
+      "job_id": "d011dc98-a366-4062-a025-ed5bee98770d",
+      "lease_commit": {
+        "finish_event": "54ac082e-c0fd-4fae-970f-9b049e7240b3",
+        "inside_original_lease": true,
+        "lease_seq": 1,
+        "lease_until": "2026-11-17T07:29:44.11176+00:00",
+        "origin_epoch": 1,
+        "row_created_at": "2026-11-17T07:29:15.815696+00:00",
+        "source_ref": "l2-industrial-p40-v3",
+        "transaction_id": 1329,
+        "worker_role": "ra4b_test_a_worker"
+      },
+      "report_id": "job-d011dc98-a366-4062-a025-ed5bee98770d",
+      "report_sha256": "ef53dd7989eef5dfa55090e54da54d2f78cf2c1edf37da8610a92dc106c336f3",
+      "report_version": 1,
+      "request_id": "0aa2ac4a-a82b-405b-9061-5128cc1f8535",
+      "run_id": "326a31ad-3f4b-48b0-8f8a-92f94d434b94",
+      "source_sha256": "394e9703a861c2afe42a8264f047a5cbba5357ff7480f4a26c2fe8d0791741ad",
+      "tenant_id": "tenant-test"
+    },
+    "reportPins": {
+      "source_mode": "NATIVE_VERIFIED_PACK",
+      "source_policy_ref": "pol-001",
+      "source_bundle_sha256": "d55be37eac109451be9f1e9c7e5820d8b52efd1b92f01f103f8643ea46bfb1f1",
+      "display_hash": "73e94467cf9a8d313c0c6c91fc004625f2451450546f8b24125ea072c8613f1d",
+      "industry_pack": {
+        "applicable_rule_ids": [
+          "IND-SELECTION",
+          "IND-SPEC",
+          "IND-DUTY",
+          "IND-FIT",
+          "IND-PROOF",
+          "IND-RFQ"
+        ],
+        "buyer_tasks": [
+          "DISCOVER",
+          "UNDERSTAND",
+          "TRUST",
+          "INQUIRE"
+        ],
+        "critical_attributes": [
+          "declared model and product family",
+          "pump flow/head/power/supply",
+          "valve bore/pressure/material/connection",
+          "named application operating conditions",
+          "supplier proof context and validity date",
+          "product-linked RFQ inputs and contact path"
+        ],
+        "false_positive_risks": [
+          "Missing or unparsed information is UNKNOWN, never an absence finding.",
+          "Catalog scalar comparison is not an engineering operating point or fit approval.",
+          "A supplier statement or certificate date is not third-party authentication.",
+          "Same model text is a declared association, not independently verified SKU identity.",
+          "A captured contact link is not a successful inquiry.",
+          "Configured required attributes are this procurement profile, not universal industry law."
+        ],
+        "industry_id": "industrial-procurement",
+        "methodology_version": "V1.1-L2-industrial-1.0.0",
+        "schema_version": "1.0",
+        "tenant_id": "tenant-test",
+        "version": "1.0.0"
+      },
+      "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+      "producer": {
+        "assurance": "C1_NATIVE_EVIDENCE_GUARD_REPLAYED_C2_BUSINESS_PROJECTION_V1",
+        "contract": "vrae.l2.native-producer-guarantee.v1",
+        "native_diagnostic_version": "l2-industrial-1.0.0",
+        "native_execution_ref": "rx-2cb5566ec5c03f80864a00005d1a19e7648caf361663e2fa20491529c8eaa83a",
+        "native_package_ref": "fp-8bdbc2f282733adbbd9e4088b616870466669d61fb4142430fd1a554bb56fdb1",
+        "source_descriptor": {
+          "contract": "vrae.l2.native-producer-guarantee.v1",
+          "diagnosis_sha256": "cfcf29eab77d46044ade3bc85c91ffdc1f0fb156b5a1fdf50a708fc95c42b248",
+          "objects": [
+            {
+              "bytes": 493,
+              "sha256": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9"
+            },
+            {
+              "bytes": 725,
+              "sha256": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d"
+            },
+            {
+              "bytes": 426,
+              "sha256": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e"
+            },
+            {
+              "bytes": 592,
+              "sha256": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b"
+            },
+            {
+              "bytes": 231,
+              "sha256": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61"
+            },
+            {
+              "bytes": 753,
+              "sha256": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a"
+            },
+            {
+              "bytes": 226,
+              "sha256": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467"
+            },
+            {
+              "bytes": 742,
+              "sha256": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae"
+            }
+          ],
+          "pack_document_sha256": "0a43620875b47628355748b7d0a6d893ae4d2eaee21b08367a8d555b9366d505",
+          "pack_ref": "ep-1abc7b9bb4877d475d76094736acde1202fe0904787053ad6fa8a402c989a96c",
+          "task": {
+            "created_at": "2026-11-17T07:29:22.956670+00:00",
+            "diagnosis_ref": "l2-febc7f981c50e3c5b25d02e4cf441c3bc0bb21197f37099b8e611f84c90af44b",
+            "event_id": "c04c76ea-3aef-4822-9c8b-a7e3ec5b305d",
+            "industry_ref": "ip-4493e6e757da72c3ad7b2fc71f695129033de5a181ded61ef967f65639c5b3dc",
+            "job_id": "d011dc98-a366-4062-a025-ed5bee98770d",
+            "native_pack_ref": "ep-1abc7b9bb4877d475d76094736acde1202fe0904787053ad6fa8a402c989a96c",
+            "request_id": "0aa2ac4a-a82b-405b-9061-5128cc1f8535",
+            "run_id": "326a31ad-3f4b-48b0-8f8a-92f94d434b94",
+            "source_access_mode": "OFFLINE_SYNTHETIC",
+            "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+            "source_ref": "l2-industrial-p40-v3",
+            "tenant_id": "tenant-test"
+          },
+          "version": "c2-l2-native-1.0.0"
+        },
+        "source_guard_refs": [
+          "cg-656ed8cffc1b8079ae18d6ba8f80bc73a0c81321bff01dc60d225a6fcd437ef7",
+          "cg-a7aaca018d3dc6f28711fd529db74ba4a7db4284720757cb4e4d5427e376da99",
+          "cg-1c5c2e1e2821b47608f5b600f020b457d041321b726813dcb374b9d2b702fef1",
+          "cg-da5603eabf94dc90ae1ae0b42638ee3b23f3cebafcd493ba3a9fbaee5d31efea",
+          "cg-ca0f6d19850fed7d3e4aa169d9734ac258a5be010d4a52852b097e1d86ec4628"
+        ],
+        "task_authority": "CALLER_HELD_SIGNED_CURRENT_TASK_REQUIRED_NOT_GRANTED_BY_ADAPTER",
+        "version": "c2-l2-native-1.0.0"
+      },
+      "report_version": {
+        "schema_version": "1.0",
+        "tenant_id": "tenant-test",
+        "report_id": "l2-native-d55be37eac109451be9f1e9c7e5820d8",
+        "report_version_id": "l2-native-d55be37eac109451be9f1e9c7e5820d8.v1",
+        "run_id": "326a31ad-3f4b-48b0-8f8a-92f94d434b94",
+        "version": 1,
+        "content_hash": "9c715341253769d1c9e92506f0804fa3a21ce58243792559bec3174892758302",
+        "status": "REVIEW_REQUIRED",
+        "finding_ids": [
+          "finding-8609256496880abef8437c7995a1088a3d6610ca9c06e1eed12985f32c692984",
+          "finding-bc5224c44a6bd3ccc06838cc7924ef30bac5fa59ad8a4ecc289a5eb75d647893",
+          "finding-89fdef2b1a2a991176ec33122c10fb4f69fa6e9116ea5b35b2ede5908438dcf8",
+          "finding-34fd2f4ea3e595f624d853eb06443fec400f7bfd82703f1bdbbf6b45ba1166b0",
+          "finding-69f3e7dd5dc42bfe2f19510d7d6ca7e76eb8dcfe7086d313a005a9077d4fd129",
+          "finding-d1ca340e85ec6d05b4bc786fb43c8f3b75b27d3758ce40a0484cce088ddb5b22",
+          "finding-12b0fc68c3461ac2541fdb301fff282b9e61ff7533876b9b3864f9a74394be2d",
+          "finding-a14128d024c4bda786d9c1808e5c3eb8b6466e185e7bef3a4fb797a7911a0d95",
+          "finding-20f08fdda95bacb140feb728d20fda946a64c98fb8ad2b1faf47cd46bc94e251",
+          "finding-349b8762ef324a706e1cc8361b57f435c19805867cf3c742461266e6a22b2550",
+          "finding-5e582758e111635b944a06d3183ebd21237cacfdee794c4f2432fb1e501053d6",
+          "finding-7e4039ca90508443ffda40e102f6520172c0232c2d3bbbf10afd72f02a247125",
+          "finding-bed34a7247eba15ceba27111c70a1913614a067ecea6edd56430d2ed54bbe5f5",
+          "finding-4d135ccb8a1661720d9ad5d5a57c76c393d95c771ea038db65b4757499312163",
+          "finding-a4c00f008a3b616464c91f136965fe8f82737c789e37cf0d653f30074b7e32a9",
+          "finding-a7ad6246e086a6047ed31477b921b6d7bc8165a001653fbb709ef292e1305961",
+          "finding-2af612220edd81c7707d1ed065d4fa48e1b86cd807f17b0c17a78bb910b6ac78",
+          "finding-44857d2de89dd01e9847a5f7c128dfec89bda032a919a33170df96866a0e91ba",
+          "finding-7622eb2c97154bd065609e4d52bf17d3ebb84d90f23dd73ed5c59a11f18b5212"
+        ],
+        "created_by": "c2-l2-native-1.0.0",
+        "created_at": "2026-11-17T07:29:22.956670+00:00",
+        "approved_by": null,
+        "approved_at": null,
+        "audit_mode": "L2"
+      }
+    },
+    "oldScopeStatus": 404,
+    "oldSessionAfterReturn": 403,
+    "oldActionAfterReturn": 403,
+    "primaryHash": "4e1bb1367b3c4aa5dbac85d3213174a28123aea25def309356702c946459c282"
+  },
+  "before": {
+    "brief": {
+      "activities": [
+        {
+          "actor_kind": "SYSTEM",
+          "amount_micros": null,
+          "attestation_ref": null,
+          "cost_status": "UNKNOWN",
+          "cpu_ns": null,
+          "currency": null,
+          "human_labor_claim": false,
+          "invoice_reconciled": false,
+          "kind": "DIAGNOSIS_RUNTIME",
+          "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-native-l2",
+          "rate_micros_per_hour": null,
+          "wall_ns": 2516202022
+        },
+        {
+          "actor_kind": "SYSTEM",
+          "amount_micros": null,
+          "attestation_ref": null,
+          "cost_status": "UNKNOWN",
+          "cpu_ns": null,
+          "currency": null,
+          "human_labor_claim": false,
+          "invoice_reconciled": false,
+          "kind": "DIAGNOSIS_RUNTIME",
+          "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-c2-native-report",
+          "rate_micros_per_hour": null,
+          "wall_ns": 1557242714
+        }
+      ],
+      "audience": "VEYFRONT_INTERNAL",
+      "blueprint": {
+        "contract_version": "l2-native-blueprint-v1",
+        "customer_approval": false,
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "internal_only": true,
+        "items": [
+          {
+            "acceptance": [
+              "逐项核对展示值与获确认的资料版本一致。",
+              "未确认字段仍UNKNOWN；新资料以新版本报告复验。"
+            ],
+            "change": "内部 S0 修订：企业确认型号、工况和合法资料版本后，按原证据边界实施并复验；UNKNOWN 不作为缺陷或工程认证。",
+            "customer_inputs": [
+              "企业工程师确认参数、单位、工况与适用型号。",
+              "提供可使用的技术资料、版本日期与资料责任人。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-14abcce90516db34e5b8d7959d9e5737d2218f2fb4b02d81813a010640705d63",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-2dd31531e429088ae46ec9a17724264e1d9524c85a1ceae209a13e0a061311d2",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-8d94a0336ade1260351e806ed32fbb39002225fdf8749624ca16e209a2d88c5e",
+              "cf-94f873dbdc81a58f1e04416a45f11740d2812a254d06c4be660ebabbb301713b",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "evidence_refs": [
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36"
+            ],
+            "finding_ids": [
+              "finding-4f384c90827b4191c30f4c4bc7bbb8cc0ccd98f95493ebde08b2d67ae6cb3a60"
+            ],
+            "id": "blueprint-ee4ff79ebe0450d3810780e9",
+            "observation_ids": [
+              "obs-06a1818e7006d01ba8abbe89188e479b1856afd88f269bb1852dbd56a270fba5"
+            ],
+            "owner_role": "企业产品工程师确认；网站内容负责人组织资料",
+            "page": "https://example.org/products/pump-p40",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-14abcce90516db34e5b8d7959d9e5737d2218f2fb4b02d81813a010640705d63",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-2dd31531e429088ae46ec9a17724264e1d9524c85a1ceae209a13e0a061311d2",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-8d94a0336ade1260351e806ed32fbb39002225fdf8749624ca16e209a2d88c5e",
+              "cf-94f873dbdc81a58f1e04416a45f11740d2812a254d06c4be660ebabbb301713b",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "title": "P40 · 整理有版本的型号技术资料卡"
+          },
+          {
+            "acceptance": [
+              "工程责任人说明每项冲突/未知如何处理。",
+              "另行确认的结论才进入产品说明，不把单个标量等同整体适配。"
+            ],
+            "change": "把本次配置情景、来源参数、原生比较及适配UNKNOWN交给工程师。记录介质、工作点、接口及安装限制的确认或替代方案；未确认前不发布“适用/不适用”结论。",
+            "customer_inputs": [
+              "买方确认目标工况与实际介质/安装条件。",
+              "供应商提供签名或可核查的工程复核资料；不由网站团队代签。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-51f54a636ac55af36e5dc4474e9ba917fbeb1f3fd7a2c41558ecfe5906a361d9",
+              "cf-703949ba1aec4e48955089253b585df48cc16af9232e2ff08fd8eb068f0fdf65",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-942ec2d18a2182ab990f771eeaa7474d66c14adbc34df8e5d146bb85086f3094",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a7d90e49c753d7a9a3dcb23d4f3eb85c6f140858a272155dc8e33bf0498e481b",
+              "cf-adbac7952665302d7c5028c3d4ac4d117d5d6fc22118e8f8e41e405d80061e32",
+              "cf-ae3e4d7263498c7505036010a17fa0798bd921738f3f8282a7ec39ec9c0f6233",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-d39ba4e5c3e5862b86e2e6fd75efe96e0ffc0df7fbac7b7d7de817190ecfe4af",
+              "cf-d7f00fd4336d57b8dd5df96e2a4e34968d513a2fc4133fc590efa15b2310456c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "evidence_refs": [
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36",
+              "ev-de7c7b732ac04698b4a194e30eceaa2975c2fb14798537aae994dce89ec0df04"
+            ],
+            "finding_ids": [
+              "finding-41a933709f3d4537bb469941aa8f5b58c31dcfc8e30b38d9dc8a4fac4bf59f47",
+              "finding-8edd215c4d9fec4e2211c46a5c7abfab7ce1eb54ceb2a4488d98ee0c54a6934b",
+              "finding-99481790a1e33fe830afb58a43cba97a13a4ca4e8bf3f871470b795df0d27b7e",
+              "finding-a3e0202292820a31281c8e16bf1399278e75f289d2a6a8c22f9d4444dd854e7a",
+              "finding-f20791a5081f0d542fede3fbfa85545fa5fdb81dc7d480270c70d6a8751aa56a",
+              "finding-b1f619e88ee8829beb317f2b0aa2c73d16471e8eb8f5e1214384cb8262f0101f",
+              "finding-728d5554d2f817d2f8ff59a136cb3a049012aa8b2a5c90a947ab86ba16c7194b"
+            ],
+            "id": "blueprint-35540b904f40b308faaaea8f",
+            "observation_ids": [
+              "obs-11a9e2f1690c25a76ec6e94b57eac8afd490ae48a5bd5788ea58ba9bbf520b28",
+              "obs-0a3267e7cbc8208a86a16a59c14b400c1fbd43079f3d8647abae7727c9105221",
+              "obs-1927218af97120e66350d41fe60a950aea0e359c3f8c2d72f1fc60e8b8c709a5",
+              "obs-869af333ed1c6efa0dee72d9d912a41ad12c43e87dd8855f265dd79abeecc44d",
+              "obs-c126a6701ec8d4012900fb5594e5eddcf4bda39d2656f6c2d1a7fbc55a86d6a7",
+              "obs-2f95c78814146423e95fc638f3228a5bb8ad535ab08627046e7162f9612d70c0",
+              "obs-691f9ece8054069073f6de32603f1d0af66e06996360fa446895e504e3927327"
+            ],
+            "owner_role": "企业/供应商工程责任人；买方补充工况",
+            "page": "https://example.org/products/duty-selection；https://example.org/products/pump-p40",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "工程确认不在标准网站Rebuild范围；由企业工程师/供应商负责，不能当作自动加购服务。",
+            "service_fit": "CUSTOM_ASSESSMENT",
+            "source_fact_refs": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-51f54a636ac55af36e5dc4474e9ba917fbeb1f3fd7a2c41558ecfe5906a361d9",
+              "cf-703949ba1aec4e48955089253b585df48cc16af9232e2ff08fd8eb068f0fdf65",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-942ec2d18a2182ab990f771eeaa7474d66c14adbc34df8e5d146bb85086f3094",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a7d90e49c753d7a9a3dcb23d4f3eb85c6f140858a272155dc8e33bf0498e481b",
+              "cf-adbac7952665302d7c5028c3d4ac4d117d5d6fc22118e8f8e41e405d80061e32",
+              "cf-ae3e4d7263498c7505036010a17fa0798bd921738f3f8282a7ec39ec9c0f6233",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-d39ba4e5c3e5862b86e2e6fd75efe96e0ffc0df7fbac7b7d7de817190ecfe4af",
+              "cf-d7f00fd4336d57b8dd5df96e2a4e34968d513a2fc4133fc590efa15b2310456c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "title": "P40 · 工况与工程复核清单"
+          },
+          {
+            "acceptance": [
+              "复核准备包逐字段可追溯至本次来源或明确买方输入。",
+              "无授权不发送；实际接收结果保持UNKNOWN，授权验证时记录接收责任人与结果。"
+            ],
+            "change": "在现有已观察GET路径基础上整理型号、工况、数量与来源，明确买方待补项。先走查现有联系流程是否携带这些信息，再决定是否调整表单或资料卡，不从缺目的地推断网站缺陷。",
+            "customer_inputs": [
+              "买方补齐RFQ缺少的交付目的地等输入。",
+              "企业销售确认型号/工况接收字段与资料用途；任何真实发送须另获授权。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "evidence_refs": [
+              "ev-312ce66f47aab82e7fc93e58c51fc6cd9f9c6a4bc2865be40a7b9b75fdf5bac2",
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36"
+            ],
+            "finding_ids": [
+              "finding-69cc0c5232bd9ca524e9aaac01aca0a499521555b69edc3d0af28d0e47e5ace4"
+            ],
+            "id": "blueprint-68384e00e7045c70ed587820",
+            "observation_ids": [
+              "obs-aa2f634637443b4bd05f9b5d11949418f958cf90f021ec2021776db14121e53a"
+            ],
+            "owner_role": "买方补信息；企业销售与网站负责人核对上下文",
+            "page": "https://example.org/products/pump-p40；https://example.org/products/rfq-guide",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "title": "P40 · 询价准备与产品上下文复核"
+          },
+          {
+            "acceptance": [
+              "逐项核对展示值与获确认的资料版本一致。",
+              "未确认字段仍UNKNOWN；新资料以新版本报告复验。"
+            ],
+            "change": "基于已记录字段保留原始值/单位/条件及资料版本。把未观察或无法解释的字段标为待确认；企业提供新资料后再决定页面或下载索引如何调整，不声称原站没有资料。",
+            "customer_inputs": [
+              "企业工程师确认参数、单位、工况与适用型号。",
+              "提供可使用的技术资料、版本日期与资料责任人。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-29d7d5e5e8defe52ab49499d5b68f71f02ce8e3bcfa9f4c82d3e6d79983de1d9",
+              "cf-5a6bc484ec357f04b1dc0111ae5b0c9f7041478c5412a6788682ec942f2aa9a6",
+              "cf-5c7fba048c8e5965ffe6fa346500c92bce305549a6dbd8dfcb5b58fbe2c48220",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-819500a7c5871df2735716449b9607d72708a8767fd3be37a6e525d2b2aa1509",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-9762ca4735686877c9b2be16bee80e932e06cca752dfbe25dc4a11cdbf03e77f",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ab7e82f61991cfe1b59f0c292ad024de95580bbe09529a7f8d26b622c206f122",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-c61e5ca59eae231572e3bab1efc19ed2fd75403cb91ff52207e8c8e2a2526b6e",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-e063a3bd95c6f1f5dcf5be504a486034014aff3a4be5b698f8a8b4d2e255679f"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93"
+            ],
+            "finding_ids": [
+              "finding-702ece19e6b07ad91167a6bf57a62c431995b28b27c285d5489728346d0badfc"
+            ],
+            "id": "blueprint-46d7bca371dca218b82a2962",
+            "observation_ids": [
+              "obs-97f817189aa1c16b224a831f139772bfe9c06835a1f17bcfd38fab87861f333d"
+            ],
+            "owner_role": "企业产品工程师确认；网站内容负责人组织资料",
+            "page": "https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-29d7d5e5e8defe52ab49499d5b68f71f02ce8e3bcfa9f4c82d3e6d79983de1d9",
+              "cf-5a6bc484ec357f04b1dc0111ae5b0c9f7041478c5412a6788682ec942f2aa9a6",
+              "cf-5c7fba048c8e5965ffe6fa346500c92bce305549a6dbd8dfcb5b58fbe2c48220",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-819500a7c5871df2735716449b9607d72708a8767fd3be37a6e525d2b2aa1509",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-9762ca4735686877c9b2be16bee80e932e06cca752dfbe25dc4a11cdbf03e77f",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ab7e82f61991cfe1b59f0c292ad024de95580bbe09529a7f8d26b622c206f122",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-c61e5ca59eae231572e3bab1efc19ed2fd75403cb91ff52207e8c8e2a2526b6e",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-e063a3bd95c6f1f5dcf5be504a486034014aff3a4be5b698f8a8b4d2e255679f"
+            ],
+            "title": "V25 · 整理有版本的型号技术资料卡"
+          },
+          {
+            "acceptance": [
+              "工程责任人说明每项冲突/未知如何处理。",
+              "另行确认的结论才进入产品说明，不把单个标量等同整体适配。"
+            ],
+            "change": "把本次配置情景、来源参数、原生比较及适配UNKNOWN交给工程师。记录介质、工作点、接口及安装限制的确认或替代方案；未确认前不发布“适用/不适用”结论。",
+            "customer_inputs": [
+              "买方确认目标工况与实际介质/安装条件。",
+              "供应商提供签名或可核查的工程复核资料；不由网站团队代签。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-57bc113897b746a92ec8ea471381bdb18e2fbb92b946766b3a39ec379c8a67b0",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a26e2e5693c122199da751c89968bbdd93e4caac439351000dab78c59eb7e114",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93",
+              "ev-de7c7b732ac04698b4a194e30eceaa2975c2fb14798537aae994dce89ec0df04"
+            ],
+            "finding_ids": [
+              "finding-3646382500b85047222c1bb3dce12cdde79ae0700d50695c66e5a2b240a3603d",
+              "finding-44c539f02d8ae222311c79b838a97d8adf293039ae81c6ae99f7b86fbb229ffe",
+              "finding-15b2b5a4f46f60b6450914b29db096b91bf11fd064b60308fec610645a5db1cd",
+              "finding-b2f459c0630d85de5ca8243eb2a1aa58b2b928e147cf3fef39d72c3f23298458"
+            ],
+            "id": "blueprint-c783370b7b1ac54292bf9ac9",
+            "observation_ids": [
+              "obs-9f8027f84226a2b926d1ef0dcc247242365891121478a95a4ef0e72e33e50660",
+              "obs-eac0a7e1e70e5f7385a5f6c30dc531f3cfad9202937d83f9b585f9408df6001d",
+              "obs-30f0ad26e4dbed53c6d1c45d27ccb35e8fec36af9572e406013dd17077b52ec8",
+              "obs-942ec5a779995b6b4a796e4abd115273cc67a44324d27126affd92d685633a1a"
+            ],
+            "owner_role": "企业/供应商工程责任人；买方补充工况",
+            "page": "https://example.org/products/duty-selection；https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "工程确认不在标准网站Rebuild范围；由企业工程师/供应商负责，不能当作自动加购服务。",
+            "service_fit": "CUSTOM_ASSESSMENT",
+            "source_fact_refs": [
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-57bc113897b746a92ec8ea471381bdb18e2fbb92b946766b3a39ec379c8a67b0",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a26e2e5693c122199da751c89968bbdd93e4caac439351000dab78c59eb7e114",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d"
+            ],
+            "title": "V25 · 工况与工程复核清单"
+          },
+          {
+            "acceptance": [
+              "复核准备包逐字段可追溯至本次来源或明确买方输入。",
+              "无授权不发送；实际接收结果保持UNKNOWN，授权验证时记录接收责任人与结果。"
+            ],
+            "change": "在现有已观察GET路径基础上整理型号、工况、数量与来源，明确买方待补项。先走查现有联系流程是否携带这些信息，再决定是否调整表单或资料卡，不从缺目的地推断网站缺陷。",
+            "customer_inputs": [
+              "买方补齐RFQ缺少的交付目的地等输入。",
+              "企业销售确认型号/工况接收字段与资料用途；任何真实发送须另获授权。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93",
+              "ev-312ce66f47aab82e7fc93e58c51fc6cd9f9c6a4bc2865be40a7b9b75fdf5bac2"
+            ],
+            "finding_ids": [
+              "finding-2ebf14eb33b50ef02a30f5ca06dfae463dbfb13bfa3fa372af21419f8312e11d"
+            ],
+            "id": "blueprint-16e89c61c7de5926df111cdc",
+            "observation_ids": [
+              "obs-fde971e220055fc23e9e0701886a282aa168f44f1457345dba45f3647062f68a"
+            ],
+            "owner_role": "买方补信息；企业销售与网站负责人核对上下文",
+            "page": "https://example.org/products/rfq-guide；https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "title": "V25 · 询价准备与产品上下文复核"
+          },
+          {
+            "acceptance": [
+              "每个展示声明可追溯至获确认的资料版本。",
+              "没有独立核验时认证状态仍UNKNOWN，旧声明日期不当作真实认证失效。"
+            ],
+            "change": "保留来源声明及覆盖型号，向企业取得当前资料。核对机构、编号、范围与日期后才决定更新哪个资料区；共享记录只做一份工作包，不重复算成多个供应商故障。",
+            "customer_inputs": [
+              "企业提供当前证明资料和允许展示范围。",
+              "采购/合规责任人独立核验机构、编号、范围与日期。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-06a8befd8e7af8e99bdd0914dd40ef6f32aa1975d3f7370e9a315a71fb54e51d",
+              "cf-32b308b302d28f694f5b4c3bf9850e4588db5f2245960b60cb111eac45d93853",
+              "cf-5ca3d3d85963a903e4210beb9db7105a44d27438693d5b8043f74962735fffcd",
+              "cf-71f080e83fb6926a69242f82f49feffafb9e4c2fb7f1bb26d0b59d9642f2d075",
+              "cf-a33a6850d7d787a1db13ef6e4a1cf53845f989e2f910bd83de19690fc8f13cc3",
+              "cf-ccacb9b7cb6dacc6928cf5482495f276b6c5fc7c9060c1b9086097ccec70a8f9",
+              "cf-d75defa792bdb170fddac5dc6c41c391ba1b3475203eb36a091f790ad8a6c91e",
+              "cf-f06dbe1f3880e5b2b932091300fe2aa1066731618deb34069a7bcc513585bf3c"
+            ],
+            "evidence_refs": [
+              "ev-8be6ec4efdbf2e1f3720e3904287b108d1629e8a571150f5dea7698f7b8fa77f"
+            ],
+            "finding_ids": [
+              "finding-7fc0226f4faa3a26c70d14a04efbdc98ee1be352ff9c8326c50adb7a1f34e62d",
+              "finding-9ec4668abdcef406253dc17754fea1f4e6a3b68c2369f6f2d4c35a6b97f4bd2d"
+            ],
+            "id": "blueprint-71ed2000fbbecf76e309c06d",
+            "observation_ids": [
+              "obs-5eca307cdb25e359179f262f46c82fbb66745ef65091ba66caceb42af502e8ee",
+              "obs-95c6f97e804b5fdebe81ebdfa9e7d93ed2e9da1b1ae0fd8f224263a0cf9f517d"
+            ],
+            "owner_role": "企业资质资料责任人；采购方独立核验",
+            "page": "https://example.org/products/supplier-proof",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-06a8befd8e7af8e99bdd0914dd40ef6f32aa1975d3f7370e9a315a71fb54e51d",
+              "cf-32b308b302d28f694f5b4c3bf9850e4588db5f2245960b60cb111eac45d93853",
+              "cf-5ca3d3d85963a903e4210beb9db7105a44d27438693d5b8043f74962735fffcd",
+              "cf-71f080e83fb6926a69242f82f49feffafb9e4c2fb7f1bb26d0b59d9642f2d075",
+              "cf-a33a6850d7d787a1db13ef6e4a1cf53845f989e2f910bd83de19690fc8f13cc3",
+              "cf-ccacb9b7cb6dacc6928cf5482495f276b6c5fc7c9060c1b9086097ccec70a8f9",
+              "cf-d75defa792bdb170fddac5dc6c41c391ba1b3475203eb36a091f790ad8a6c91e",
+              "cf-f06dbe1f3880e5b2b932091300fe2aa1066731618deb34069a7bcc513585bf3c"
+            ],
+            "title": "共享供应商声明资料 · 取得当前版本再独立核验"
+          }
+        ],
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "report_sha256": "c7d47a15d8d3a218465e1648e8964ca1973a430c62fc853c77cfa964931fe58c",
+        "report_version": "2"
+      },
+      "brief_ref": "rb-review-37963c2824df46beb3386e254e4a9916",
+      "consultation": {
+        "counts_as_e2": false,
+        "counts_as_e3": false,
+        "reference": null,
+        "state": "UNLINKED",
+        "verified_receipt": null
+      },
+      "content_sha256": "4e1bb1367b3c4aa5dbac85d3213174a28123aea25def309356702c946459c282",
+      "contract_version": "internal-rebuild-brief-v1",
+      "cost_total": {
+        "amount_micros": null,
+        "cost_status": "UNKNOWN",
+        "currency": null,
+        "invoice_reconciled": false
+      },
+      "customer_approval": false,
+      "customer_confirmations": [
+        {
+          "evidence_ref": null,
+          "key": "business_goals",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "products_and_target_markets",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "material_reuse_rights",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "included_and_excluded_scope",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "legacy_urls_and_redirects",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "acceptance_criteria",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "customer_approval",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "veyfront_consultation_receipt",
+          "status": "PENDING"
+        }
+      ],
+      "diagnostic_payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+      "external_delivery_allowed": false,
+      "l2m_execution_allowed": false,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v2",
+        "report_sha256": "c7d47a15d8d3a218465e1648e8964ca1973a430c62fc853c77cfa964931fe58c",
+        "report_version": "2",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "preparation_status": "INTERNAL_REVIEW_RECORDED",
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-37963c2824df46beb3386e254e4a9916",
+        "receipt_sha256": "44db9ce0745166d9abddec1c727e8a47fb4d3b28cb5ed3cb3ea0803167b62238",
+        "report_sha256": "c7d47a15d8d3a218465e1648e8964ca1973a430c62fc853c77cfa964931fe58c",
+        "report_version": "2"
+      },
+      "source": {
+        "access_mode": "OFFLINE_SYNTHETIC",
+        "bundle_id": "c1-p40-controlled-native-v3",
+        "content_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "contract_version": "l2-source-bundle-v1",
+        "diagnostic_level": "L2",
+        "execution": "OFFLINE_CAPTURE_ONLY",
+        "external_delivery_allowed": false,
+        "external_run_permission_reference": null,
+        "inputs": [
+          {
+            "analysis_basis_reference": "internal-controlled-synthetic-not-client-authorization",
+            "bytes": 32814,
+            "media_type": "application/json",
+            "origin_reference": "accepted-C1-P40-V25-recorded-bytes-new-tenant-test-capture",
+            "rebuild_asset_use": "PENDING_CONFIRMATION",
+            "reference": "industrial-p40-worker",
+            "reuse_permission_reference": null,
+            "sha256": "c05a693f6bddac263e717117fd4d1cd08b6aede0fe3568ac92d0ea904042d289",
+            "synthetic": true
+          }
+        ],
+        "network_requests": 0,
+        "tenant_id": "tenant-test"
+      }
+    },
+    "brief_stored": true,
+    "counts": {
+      "assessments": 19,
+      "blueprint": 7
+    },
+    "created_at": "2026-11-17T07:20:14.745626+00:00",
+    "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+    "diagnosis_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+    "external_delivery": false,
+    "formal_human_review": false,
+    "industry_ref": "ip-4493e6e757da72c3ad7b2fc71f695129033de5a181ded61ef967f65639c5b3dc",
+    "pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+    "pages": [
+      {
+        "body_sha256": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467",
+        "status": 200,
+        "url": "https://example.org/"
+      },
+      {
+        "body_sha256": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e",
+        "status": 200,
+        "url": "https://example.org/products"
+      },
+      {
+        "body_sha256": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae",
+        "status": 200,
+        "url": "https://example.org/products/duty-selection"
+      },
+      {
+        "body_sha256": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61",
+        "status": 200,
+        "url": "https://example.org/contact"
+      },
+      {
+        "body_sha256": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a",
+        "status": 200,
+        "url": "https://example.org/products/pump-p40"
+      },
+      {
+        "body_sha256": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9",
+        "status": 200,
+        "url": "https://example.org/products/rfq-guide"
+      },
+      {
+        "body_sha256": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b",
+        "status": 200,
+        "url": "https://example.org/products/supplier-proof"
+      },
+      {
+        "body_sha256": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d",
+        "status": 200,
+        "url": "https://example.org/products/valve-v25"
+      }
+    ],
+    "production": {
+      "c1": {
+        "activities": [
+          {
+            "actor_kind": "SYSTEM",
+            "amount_micros": null,
+            "attestation_ref": null,
+            "cost_status": "UNKNOWN",
+            "cpu_ns": null,
+            "currency": null,
+            "human_labor_claim": false,
+            "invoice_reconciled": false,
+            "kind": "DIAGNOSIS_RUNTIME",
+            "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-native-l2",
+            "rate_micros_per_hour": null,
+            "wall_ns": 2319834015
+          }
+        ],
+        "assessment_count": 19,
+        "cost_status": "UNKNOWN",
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "diagnosis_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "industry_ref": "ip-4493e6e757da72c3ad7b2fc71f695129033de5a181ded61ef967f65639c5b3dc",
+        "models": [
+          "P40",
+          "V25"
+        ],
+        "procurement_chain_count": 2,
+        "report_complete": false,
+        "review_authority": false,
+        "semantic_approval": false,
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_fact_count": 81,
+        "state": "NATIVE_L2_VERIFIED_REPORT_NOT_PRODUCED",
+        "task": {
+          "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_ref": "l2-industrial-p40-v3",
+          "tenant_id": "tenant-test"
+        },
+        "worker_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d"
+      },
+      "signed_reader": {
+        "authority": "SIGNED_M1_READ_SNAPSHOT_NOT_CURRENT_L2_REVIEW_AUTHORITY",
+        "l2_complete": false,
+        "original_pack_ref": "ep-6d856d7718027b0895d3b450c34f7d27838f898df7c7ea369a6b060d6a2d4b60",
+        "review_authority": false,
+        "snapshot_count": 8,
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "state": "WORKER_EVIDENCE_VERIFIED_DEEP_ANALYSIS_PENDING",
+        "task": {
+          "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_ref": "l2-industrial-p40-v3",
+          "tenant_id": "tenant-test"
+        },
+        "worker_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "worker_result_locator": {
+          "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+          "finish_event": "a0b850c5-4c1e-4579-bab8-19ded8a67ed4",
+          "html_sha256": "68c37e18485856c03568e032885d0c9f56702b64fc4ecb29c3f41aeee520f1c7",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "report_id": "job-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "report_sha256": "d6482c503b77c71026c14b725cae8b461a72675f5cc6d6ec4f1b5bd74aee3c51",
+          "report_version": 1,
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_sha256": "a0471a2d520ffe119cd9962c3d62a04cb63d7cd35a0f6b27cf2cdee9afcdc24f",
+          "tenant_id": "tenant-test"
+        }
+      }
+    },
+    "report_id": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359",
+    "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+    "source_expected": "dea0fc2f39d918b7a41a9b181ad8f3597200fcb876b18c8ad4bd7d286bd87b04",
+    "task": {
+      "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+      "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+      "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+      "source_ref": "l2-industrial-p40-v3",
+      "tenant_id": "tenant-test"
+    }
+  },
+  "after": {
+    "brief": {
+      "activities": [
+        {
+          "actor_kind": "SYSTEM",
+          "amount_micros": null,
+          "attestation_ref": null,
+          "cost_status": "UNKNOWN",
+          "cpu_ns": null,
+          "currency": null,
+          "human_labor_claim": false,
+          "invoice_reconciled": false,
+          "kind": "DIAGNOSIS_RUNTIME",
+          "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-native-l2",
+          "rate_micros_per_hour": null,
+          "wall_ns": 2516202022
+        },
+        {
+          "actor_kind": "SYSTEM",
+          "amount_micros": null,
+          "attestation_ref": null,
+          "cost_status": "UNKNOWN",
+          "cpu_ns": null,
+          "currency": null,
+          "human_labor_claim": false,
+          "invoice_reconciled": false,
+          "kind": "DIAGNOSIS_RUNTIME",
+          "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-c2-native-report",
+          "rate_micros_per_hour": null,
+          "wall_ns": 1557242714
+        }
+      ],
+      "audience": "VEYFRONT_INTERNAL",
+      "blueprint": {
+        "contract_version": "l2-native-blueprint-v1",
+        "customer_approval": false,
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "internal_only": true,
+        "items": [
+          {
+            "acceptance": [
+              "逐项核对展示值与获确认的资料版本一致。",
+              "未确认字段仍UNKNOWN；新资料以新版本报告复验。"
+            ],
+            "change": "内部 S0 修订：企业确认型号、工况和合法资料版本后，按原证据边界实施并复验；UNKNOWN 不作为缺陷或工程认证。",
+            "customer_inputs": [
+              "企业工程师确认参数、单位、工况与适用型号。",
+              "提供可使用的技术资料、版本日期与资料责任人。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-14abcce90516db34e5b8d7959d9e5737d2218f2fb4b02d81813a010640705d63",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-2dd31531e429088ae46ec9a17724264e1d9524c85a1ceae209a13e0a061311d2",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-8d94a0336ade1260351e806ed32fbb39002225fdf8749624ca16e209a2d88c5e",
+              "cf-94f873dbdc81a58f1e04416a45f11740d2812a254d06c4be660ebabbb301713b",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "evidence_refs": [
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36"
+            ],
+            "finding_ids": [
+              "finding-4f384c90827b4191c30f4c4bc7bbb8cc0ccd98f95493ebde08b2d67ae6cb3a60"
+            ],
+            "id": "blueprint-ee4ff79ebe0450d3810780e9",
+            "observation_ids": [
+              "obs-06a1818e7006d01ba8abbe89188e479b1856afd88f269bb1852dbd56a270fba5"
+            ],
+            "owner_role": "企业产品工程师确认；网站内容负责人组织资料",
+            "page": "https://example.org/products/pump-p40",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-14abcce90516db34e5b8d7959d9e5737d2218f2fb4b02d81813a010640705d63",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-2dd31531e429088ae46ec9a17724264e1d9524c85a1ceae209a13e0a061311d2",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-8d94a0336ade1260351e806ed32fbb39002225fdf8749624ca16e209a2d88c5e",
+              "cf-94f873dbdc81a58f1e04416a45f11740d2812a254d06c4be660ebabbb301713b",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "title": "P40 · 整理有版本的型号技术资料卡"
+          },
+          {
+            "acceptance": [
+              "工程责任人说明每项冲突/未知如何处理。",
+              "另行确认的结论才进入产品说明，不把单个标量等同整体适配。"
+            ],
+            "change": "把本次配置情景、来源参数、原生比较及适配UNKNOWN交给工程师。记录介质、工作点、接口及安装限制的确认或替代方案；未确认前不发布“适用/不适用”结论。",
+            "customer_inputs": [
+              "买方确认目标工况与实际介质/安装条件。",
+              "供应商提供签名或可核查的工程复核资料；不由网站团队代签。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-51f54a636ac55af36e5dc4474e9ba917fbeb1f3fd7a2c41558ecfe5906a361d9",
+              "cf-703949ba1aec4e48955089253b585df48cc16af9232e2ff08fd8eb068f0fdf65",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-942ec2d18a2182ab990f771eeaa7474d66c14adbc34df8e5d146bb85086f3094",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a7d90e49c753d7a9a3dcb23d4f3eb85c6f140858a272155dc8e33bf0498e481b",
+              "cf-adbac7952665302d7c5028c3d4ac4d117d5d6fc22118e8f8e41e405d80061e32",
+              "cf-ae3e4d7263498c7505036010a17fa0798bd921738f3f8282a7ec39ec9c0f6233",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-d39ba4e5c3e5862b86e2e6fd75efe96e0ffc0df7fbac7b7d7de817190ecfe4af",
+              "cf-d7f00fd4336d57b8dd5df96e2a4e34968d513a2fc4133fc590efa15b2310456c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "evidence_refs": [
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36",
+              "ev-de7c7b732ac04698b4a194e30eceaa2975c2fb14798537aae994dce89ec0df04"
+            ],
+            "finding_ids": [
+              "finding-41a933709f3d4537bb469941aa8f5b58c31dcfc8e30b38d9dc8a4fac4bf59f47",
+              "finding-8edd215c4d9fec4e2211c46a5c7abfab7ce1eb54ceb2a4488d98ee0c54a6934b",
+              "finding-99481790a1e33fe830afb58a43cba97a13a4ca4e8bf3f871470b795df0d27b7e",
+              "finding-a3e0202292820a31281c8e16bf1399278e75f289d2a6a8c22f9d4444dd854e7a",
+              "finding-f20791a5081f0d542fede3fbfa85545fa5fdb81dc7d480270c70d6a8751aa56a",
+              "finding-b1f619e88ee8829beb317f2b0aa2c73d16471e8eb8f5e1214384cb8262f0101f",
+              "finding-728d5554d2f817d2f8ff59a136cb3a049012aa8b2a5c90a947ab86ba16c7194b"
+            ],
+            "id": "blueprint-35540b904f40b308faaaea8f",
+            "observation_ids": [
+              "obs-11a9e2f1690c25a76ec6e94b57eac8afd490ae48a5bd5788ea58ba9bbf520b28",
+              "obs-0a3267e7cbc8208a86a16a59c14b400c1fbd43079f3d8647abae7727c9105221",
+              "obs-1927218af97120e66350d41fe60a950aea0e359c3f8c2d72f1fc60e8b8c709a5",
+              "obs-869af333ed1c6efa0dee72d9d912a41ad12c43e87dd8855f265dd79abeecc44d",
+              "obs-c126a6701ec8d4012900fb5594e5eddcf4bda39d2656f6c2d1a7fbc55a86d6a7",
+              "obs-2f95c78814146423e95fc638f3228a5bb8ad535ab08627046e7162f9612d70c0",
+              "obs-691f9ece8054069073f6de32603f1d0af66e06996360fa446895e504e3927327"
+            ],
+            "owner_role": "企业/供应商工程责任人；买方补充工况",
+            "page": "https://example.org/products/duty-selection；https://example.org/products/pump-p40",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "工程确认不在标准网站Rebuild范围；由企业工程师/供应商负责，不能当作自动加购服务。",
+            "service_fit": "CUSTOM_ASSESSMENT",
+            "source_fact_refs": [
+              "cf-0704918dcd86ea983f367b92d06491b82d35a4b789a5ab04e919f066b12e3ee8",
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-2cc5b45dc1f0bbe3d4ec72a0ae2d0aaf771a66a567d326d7a95429d54dccf3ee",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-307aea0f36a7554e255fddd46e2f2b1a829df02b92d5f26b4d195a44f135baca",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4f0ecdc7db8b0ab187a44bd37107cd918b6284be9fe580819244b1c925b0670e",
+              "cf-51f54a636ac55af36e5dc4474e9ba917fbeb1f3fd7a2c41558ecfe5906a361d9",
+              "cf-703949ba1aec4e48955089253b585df48cc16af9232e2ff08fd8eb068f0fdf65",
+              "cf-778d824364bbe80f59afe718a08f62ccacea6d87579298d88239b1420a7dfe38",
+              "cf-817b4050953db85385bfc192a868053f691b3638d92648bfa06811f728e5375d",
+              "cf-821e1ad53fb2e72efba7e2b3addddf87c13d5fbade943b3054b6e37f8eab8ce0",
+              "cf-942ec2d18a2182ab990f771eeaa7474d66c14adbc34df8e5d146bb85086f3094",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a7d90e49c753d7a9a3dcb23d4f3eb85c6f140858a272155dc8e33bf0498e481b",
+              "cf-adbac7952665302d7c5028c3d4ac4d117d5d6fc22118e8f8e41e405d80061e32",
+              "cf-ae3e4d7263498c7505036010a17fa0798bd921738f3f8282a7ec39ec9c0f6233",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-ae84305887d500dba74bac2978302f8958818a18061b17865adebe594f87e30e",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-b169a1adc38f0424413ef4e2e9c14d1cacbdd97f9c4c804952481b9fb265162a",
+              "cf-d2e67aad1692b0beea4b2723f103e4bac7c7a3f3ef8d2b1295ece833e3213d8c",
+              "cf-d39ba4e5c3e5862b86e2e6fd75efe96e0ffc0df7fbac7b7d7de817190ecfe4af",
+              "cf-d7f00fd4336d57b8dd5df96e2a4e34968d513a2fc4133fc590efa15b2310456c",
+              "cf-f38b08e42422c01e3932d0cfa5dd9bc3cccbdbfa8c8ed2830307bf3f4cf7b2aa",
+              "cf-f53e64ced26347392d67aedb952380e365fd491e821aed4962433d6f34c29ac9"
+            ],
+            "title": "P40 · 工况与工程复核清单"
+          },
+          {
+            "acceptance": [
+              "复核准备包逐字段可追溯至本次来源或明确买方输入。",
+              "无授权不发送；实际接收结果保持UNKNOWN，授权验证时记录接收责任人与结果。"
+            ],
+            "change": "在现有已观察GET路径基础上整理型号、工况、数量与来源，明确买方待补项。先走查现有联系流程是否携带这些信息，再决定是否调整表单或资料卡，不从缺目的地推断网站缺陷。",
+            "customer_inputs": [
+              "买方补齐RFQ缺少的交付目的地等输入。",
+              "企业销售确认型号/工况接收字段与资料用途；任何真实发送须另获授权。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "evidence_refs": [
+              "ev-312ce66f47aab82e7fc93e58c51fc6cd9f9c6a4bc2865be40a7b9b75fdf5bac2",
+              "ev-58be34ecd421b4bd565ed6458e8f9b3710b79d04d982df2db251bc441355dd36"
+            ],
+            "finding_ids": [
+              "finding-69cc0c5232bd9ca524e9aaac01aca0a499521555b69edc3d0af28d0e47e5ace4"
+            ],
+            "id": "blueprint-68384e00e7045c70ed587820",
+            "observation_ids": [
+              "obs-aa2f634637443b4bd05f9b5d11949418f958cf90f021ec2021776db14121e53a"
+            ],
+            "owner_role": "买方补信息；企业销售与网站负责人核对上下文",
+            "page": "https://example.org/products/pump-p40；https://example.org/products/rfq-guide",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-3b87b31197978048c258d42b1040db1b4e24e23ec7d705da15b467deb0938688",
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-aeb11435b70a0ac35d2e15c5a0bde512def87538baed7f9ce1472958e40b5767",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "title": "P40 · 询价准备与产品上下文复核"
+          },
+          {
+            "acceptance": [
+              "逐项核对展示值与获确认的资料版本一致。",
+              "未确认字段仍UNKNOWN；新资料以新版本报告复验。"
+            ],
+            "change": "基于已记录字段保留原始值/单位/条件及资料版本。把未观察或无法解释的字段标为待确认；企业提供新资料后再决定页面或下载索引如何调整，不声称原站没有资料。",
+            "customer_inputs": [
+              "企业工程师确认参数、单位、工况与适用型号。",
+              "提供可使用的技术资料、版本日期与资料责任人。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-29d7d5e5e8defe52ab49499d5b68f71f02ce8e3bcfa9f4c82d3e6d79983de1d9",
+              "cf-5a6bc484ec357f04b1dc0111ae5b0c9f7041478c5412a6788682ec942f2aa9a6",
+              "cf-5c7fba048c8e5965ffe6fa346500c92bce305549a6dbd8dfcb5b58fbe2c48220",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-819500a7c5871df2735716449b9607d72708a8767fd3be37a6e525d2b2aa1509",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-9762ca4735686877c9b2be16bee80e932e06cca752dfbe25dc4a11cdbf03e77f",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ab7e82f61991cfe1b59f0c292ad024de95580bbe09529a7f8d26b622c206f122",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-c61e5ca59eae231572e3bab1efc19ed2fd75403cb91ff52207e8c8e2a2526b6e",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-e063a3bd95c6f1f5dcf5be504a486034014aff3a4be5b698f8a8b4d2e255679f"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93"
+            ],
+            "finding_ids": [
+              "finding-702ece19e6b07ad91167a6bf57a62c431995b28b27c285d5489728346d0badfc"
+            ],
+            "id": "blueprint-46d7bca371dca218b82a2962",
+            "observation_ids": [
+              "obs-97f817189aa1c16b224a831f139772bfe9c06835a1f17bcfd38fab87861f333d"
+            ],
+            "owner_role": "企业产品工程师确认；网站内容负责人组织资料",
+            "page": "https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-29d7d5e5e8defe52ab49499d5b68f71f02ce8e3bcfa9f4c82d3e6d79983de1d9",
+              "cf-5a6bc484ec357f04b1dc0111ae5b0c9f7041478c5412a6788682ec942f2aa9a6",
+              "cf-5c7fba048c8e5965ffe6fa346500c92bce305549a6dbd8dfcb5b58fbe2c48220",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-819500a7c5871df2735716449b9607d72708a8767fd3be37a6e525d2b2aa1509",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-9762ca4735686877c9b2be16bee80e932e06cca752dfbe25dc4a11cdbf03e77f",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ab7e82f61991cfe1b59f0c292ad024de95580bbe09529a7f8d26b622c206f122",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-c61e5ca59eae231572e3bab1efc19ed2fd75403cb91ff52207e8c8e2a2526b6e",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-e063a3bd95c6f1f5dcf5be504a486034014aff3a4be5b698f8a8b4d2e255679f"
+            ],
+            "title": "V25 · 整理有版本的型号技术资料卡"
+          },
+          {
+            "acceptance": [
+              "工程责任人说明每项冲突/未知如何处理。",
+              "另行确认的结论才进入产品说明，不把单个标量等同整体适配。"
+            ],
+            "change": "把本次配置情景、来源参数、原生比较及适配UNKNOWN交给工程师。记录介质、工作点、接口及安装限制的确认或替代方案；未确认前不发布“适用/不适用”结论。",
+            "customer_inputs": [
+              "买方确认目标工况与实际介质/安装条件。",
+              "供应商提供签名或可核查的工程复核资料；不由网站团队代签。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-57bc113897b746a92ec8ea471381bdb18e2fbb92b946766b3a39ec379c8a67b0",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a26e2e5693c122199da751c89968bbdd93e4caac439351000dab78c59eb7e114",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93",
+              "ev-de7c7b732ac04698b4a194e30eceaa2975c2fb14798537aae994dce89ec0df04"
+            ],
+            "finding_ids": [
+              "finding-3646382500b85047222c1bb3dce12cdde79ae0700d50695c66e5a2b240a3603d",
+              "finding-44c539f02d8ae222311c79b838a97d8adf293039ae81c6ae99f7b86fbb229ffe",
+              "finding-15b2b5a4f46f60b6450914b29db096b91bf11fd064b60308fec610645a5db1cd",
+              "finding-b2f459c0630d85de5ca8243eb2a1aa58b2b928e147cf3fef39d72c3f23298458"
+            ],
+            "id": "blueprint-c783370b7b1ac54292bf9ac9",
+            "observation_ids": [
+              "obs-9f8027f84226a2b926d1ef0dcc247242365891121478a95a4ef0e72e33e50660",
+              "obs-eac0a7e1e70e5f7385a5f6c30dc531f3cfad9202937d83f9b585f9408df6001d",
+              "obs-30f0ad26e4dbed53c6d1c45d27ccb35e8fec36af9572e406013dd17077b52ec8",
+              "obs-942ec5a779995b6b4a796e4abd115273cc67a44324d27126affd92d685633a1a"
+            ],
+            "owner_role": "企业/供应商工程责任人；买方补充工况",
+            "page": "https://example.org/products/duty-selection；https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "工程确认不在标准网站Rebuild范围；由企业工程师/供应商负责，不能当作自动加购服务。",
+            "service_fit": "CUSTOM_ASSESSMENT",
+            "source_fact_refs": [
+              "cf-0e094b2ced6d071a4b61305a30b9b144f680a4955286816b1149edc2c45b56fe",
+              "cf-302564c6732abd7bd10d31a4cf3d48dd8e997c88552feead774ea888c16086a9",
+              "cf-3487da259248e76cd0727f673b46bee773b662a4d02d8d88a595851da4c8b4dd",
+              "cf-385b92eb4a8f707dae990dc3535d0b8a94e2c757caa02cf2e147aed67155fd53",
+              "cf-57bc113897b746a92ec8ea471381bdb18e2fbb92b946766b3a39ec379c8a67b0",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-83dc7a10363473799b05e8d0cda7f338e26603645478ae8f115057b743387c33",
+              "cf-8b4b1a9f93132c55d0ee29a8c724b00ed6387ab1cc27744c68c3c235417a78e5",
+              "cf-a047c91b74961c6ae2f581b1552d29b177521c2f2aa45ff3be8b4acbafbedc0d",
+              "cf-a26e2e5693c122199da751c89968bbdd93e4caac439351000dab78c59eb7e114",
+              "cf-a6950e137fbf3199d6d015a6b994853b65eaf2e9c8e83fd0f8a9a5f56f9c7838",
+              "cf-ae6f707f828b91d77cbd7c2d6e50232c5ea486ff03e59e3eac4390bd6249dda1",
+              "cf-c118d848e14676c5cce4c16bf82fb0c22b51608265e18daf6d11d003def75552",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d"
+            ],
+            "title": "V25 · 工况与工程复核清单"
+          },
+          {
+            "acceptance": [
+              "复核准备包逐字段可追溯至本次来源或明确买方输入。",
+              "无授权不发送；实际接收结果保持UNKNOWN，授权验证时记录接收责任人与结果。"
+            ],
+            "change": "在现有已观察GET路径基础上整理型号、工况、数量与来源，明确买方待补项。先走查现有联系流程是否携带这些信息，再决定是否调整表单或资料卡，不从缺目的地推断网站缺陷。",
+            "customer_inputs": [
+              "买方补齐RFQ缺少的交付目的地等输入。",
+              "企业销售确认型号/工况接收字段与资料用途；任何真实发送须另获授权。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "evidence_refs": [
+              "ev-1420eb5e40cc301018227d345c2745ef34aaa85daf1ca9e4cd56760b55657e93",
+              "ev-312ce66f47aab82e7fc93e58c51fc6cd9f9c6a4bc2865be40a7b9b75fdf5bac2"
+            ],
+            "finding_ids": [
+              "finding-2ebf14eb33b50ef02a30f5ca06dfae463dbfb13bfa3fa372af21419f8312e11d"
+            ],
+            "id": "blueprint-16e89c61c7de5926df111cdc",
+            "observation_ids": [
+              "obs-fde971e220055fc23e9e0701886a282aa168f44f1457345dba45f3647062f68a"
+            ],
+            "owner_role": "买方补信息；企业销售与网站负责人核对上下文",
+            "page": "https://example.org/products/rfq-guide；https://example.org/products/valve-v25",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-4209de493686a2a93330c2fd39c3d9a11b85c068ee852ee1442f88fd9d8dd531",
+              "cf-6d3110a7ed73e749788ca47d1a191c6a20ac39b0d16d762fae52dc60c0a8296a",
+              "cf-714eef644e88eb3829bfdea872c9d6200dc20b32d1599cfd60cfb22b36ad0550",
+              "cf-d3a7f137720d5cbc2ff41f803172f37fc13ee823190bc9036f122e17a71c934f",
+              "cf-dba3e23c3bf8c19ee098e24e2e632513626d3e80a7182156eccde8ed257a510d",
+              "cf-ff9e19917670253ad40f6d115a474b06e1e7e5b837140d5acc0225bfeb611875"
+            ],
+            "title": "V25 · 询价准备与产品上下文复核"
+          },
+          {
+            "acceptance": [
+              "每个展示声明可追溯至获确认的资料版本。",
+              "没有独立核验时认证状态仍UNKNOWN，旧声明日期不当作真实认证失效。"
+            ],
+            "change": "保留来源声明及覆盖型号，向企业取得当前资料。核对机构、编号、范围与日期后才决定更新哪个资料区；共享记录只做一份工作包，不重复算成多个供应商故障。",
+            "customer_inputs": [
+              "企业提供当前证明资料和允许展示范围。",
+              "采购/合规责任人独立核验机构、编号、范围与日期。"
+            ],
+            "dependency": "依赖企业确认材料与真实流程走查；原版本保留，不自动更新网站或发送询价。",
+            "evidence_ids": [
+              "cf-06a8befd8e7af8e99bdd0914dd40ef6f32aa1975d3f7370e9a315a71fb54e51d",
+              "cf-32b308b302d28f694f5b4c3bf9850e4588db5f2245960b60cb111eac45d93853",
+              "cf-5ca3d3d85963a903e4210beb9db7105a44d27438693d5b8043f74962735fffcd",
+              "cf-71f080e83fb6926a69242f82f49feffafb9e4c2fb7f1bb26d0b59d9642f2d075",
+              "cf-a33a6850d7d787a1db13ef6e4a1cf53845f989e2f910bd83de19690fc8f13cc3",
+              "cf-ccacb9b7cb6dacc6928cf5482495f276b6c5fc7c9060c1b9086097ccec70a8f9",
+              "cf-d75defa792bdb170fddac5dc6c41c391ba1b3475203eb36a091f790ad8a6c91e",
+              "cf-f06dbe1f3880e5b2b932091300fe2aa1066731618deb34069a7bcc513585bf3c"
+            ],
+            "evidence_refs": [
+              "ev-8be6ec4efdbf2e1f3720e3904287b108d1629e8a571150f5dea7698f7b8fa77f"
+            ],
+            "finding_ids": [
+              "finding-7fc0226f4faa3a26c70d14a04efbdc98ee1be352ff9c8326c50adb7a1f34e62d",
+              "finding-9ec4668abdcef406253dc17754fea1f4e6a3b68c2369f6f2d4c35a6b97f4bd2d"
+            ],
+            "id": "blueprint-71ed2000fbbecf76e309c06d",
+            "observation_ids": [
+              "obs-5eca307cdb25e359179f262f46c82fbb66745ef65091ba66caceb42af502e8ee",
+              "obs-95c6f97e804b5fdebe81ebdfa9e7d93ed2e9da1b1ae0fd8f224263a0cf9f517d"
+            ],
+            "owner_role": "企业资质资料责任人；采购方独立核验",
+            "page": "https://example.org/products/supplier-proof",
+            "phase": "先核对资料与责任，再决定页面修改",
+            "semantic_status": "HUMAN_REVIEW_REQUIRED",
+            "service_basis": "标准信息组织/页面模板候选，按合同确认；无报价、工期或工程服务承诺。",
+            "service_fit": "STANDARD_CANDIDATE",
+            "source_fact_refs": [
+              "cf-06a8befd8e7af8e99bdd0914dd40ef6f32aa1975d3f7370e9a315a71fb54e51d",
+              "cf-32b308b302d28f694f5b4c3bf9850e4588db5f2245960b60cb111eac45d93853",
+              "cf-5ca3d3d85963a903e4210beb9db7105a44d27438693d5b8043f74962735fffcd",
+              "cf-71f080e83fb6926a69242f82f49feffafb9e4c2fb7f1bb26d0b59d9642f2d075",
+              "cf-a33a6850d7d787a1db13ef6e4a1cf53845f989e2f910bd83de19690fc8f13cc3",
+              "cf-ccacb9b7cb6dacc6928cf5482495f276b6c5fc7c9060c1b9086097ccec70a8f9",
+              "cf-d75defa792bdb170fddac5dc6c41c391ba1b3475203eb36a091f790ad8a6c91e",
+              "cf-f06dbe1f3880e5b2b932091300fe2aa1066731618deb34069a7bcc513585bf3c"
+            ],
+            "title": "共享供应商声明资料 · 取得当前版本再独立核验"
+          }
+        ],
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "report_sha256": "c7d47a15d8d3a218465e1648e8964ca1973a430c62fc853c77cfa964931fe58c",
+        "report_version": "2"
+      },
+      "brief_ref": "rb-review-37963c2824df46beb3386e254e4a9916",
+      "consultation": {
+        "counts_as_e2": false,
+        "counts_as_e3": false,
+        "reference": null,
+        "state": "UNLINKED",
+        "verified_receipt": null
+      },
+      "content_sha256": "4e1bb1367b3c4aa5dbac85d3213174a28123aea25def309356702c946459c282",
+      "contract_version": "internal-rebuild-brief-v1",
+      "cost_total": {
+        "amount_micros": null,
+        "cost_status": "UNKNOWN",
+        "currency": null,
+        "invoice_reconciled": false
+      },
+      "customer_approval": false,
+      "customer_confirmations": [
+        {
+          "evidence_ref": null,
+          "key": "business_goals",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "products_and_target_markets",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "material_reuse_rights",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "included_and_excluded_scope",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "legacy_urls_and_redirects",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "acceptance_criteria",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "customer_approval",
+          "status": "PENDING"
+        },
+        {
+          "evidence_ref": null,
+          "key": "veyfront_consultation_receipt",
+          "status": "PENDING"
+        }
+      ],
+      "diagnostic_payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+      "external_delivery_allowed": false,
+      "l2m_execution_allowed": false,
+      "pins": {
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+        "industry_pack_sha256": "8db7bfeb68ebaed6b728547ef27150a8fbb551fb4b93bd00833a4af2eaca1998",
+        "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+        "native_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "payload_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "report_ref": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359.v2",
+        "report_sha256": "c7d47a15d8d3a218465e1648e8964ca1973a430c62fc853c77cfa964931fe58c",
+        "report_version": "2",
+        "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+        "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_ref": "l2-industrial-p40-v3",
+        "tenant_id": "tenant-test"
+      },
+      "preparation_status": "INTERNAL_REVIEW_RECORDED",
+      "review": {
+        "decision": "APPROVE_INTERNAL",
+        "receipt_ref": "review-37963c2824df46beb3386e254e4a9916",
+        "receipt_sha256": "44db9ce0745166d9abddec1c727e8a47fb4d3b28cb5ed3cb3ea0803167b62238",
+        "report_sha256": "c7d47a15d8d3a218465e1648e8964ca1973a430c62fc853c77cfa964931fe58c",
+        "report_version": "2"
+      },
+      "source": {
+        "access_mode": "OFFLINE_SYNTHETIC",
+        "bundle_id": "c1-p40-controlled-native-v3",
+        "content_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "contract_version": "l2-source-bundle-v1",
+        "diagnostic_level": "L2",
+        "execution": "OFFLINE_CAPTURE_ONLY",
+        "external_delivery_allowed": false,
+        "external_run_permission_reference": null,
+        "inputs": [
+          {
+            "analysis_basis_reference": "internal-controlled-synthetic-not-client-authorization",
+            "bytes": 32814,
+            "media_type": "application/json",
+            "origin_reference": "accepted-C1-P40-V25-recorded-bytes-new-tenant-test-capture",
+            "rebuild_asset_use": "PENDING_CONFIRMATION",
+            "reference": "industrial-p40-worker",
+            "reuse_permission_reference": null,
+            "sha256": "c05a693f6bddac263e717117fd4d1cd08b6aede0fe3568ac92d0ea904042d289",
+            "synthetic": true
+          }
+        ],
+        "network_requests": 0,
+        "tenant_id": "tenant-test"
+      }
+    },
+    "brief_stored": true,
+    "counts": {
+      "assessments": 19,
+      "blueprint": 7
+    },
+    "created_at": "2026-11-17T07:20:14.745626+00:00",
+    "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+    "diagnosis_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+    "external_delivery": false,
+    "formal_human_review": false,
+    "industry_ref": "ip-4493e6e757da72c3ad7b2fc71f695129033de5a181ded61ef967f65639c5b3dc",
+    "pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+    "pages": [
+      {
+        "body_sha256": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467",
+        "status": 200,
+        "url": "https://example.org/"
+      },
+      {
+        "body_sha256": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e",
+        "status": 200,
+        "url": "https://example.org/products"
+      },
+      {
+        "body_sha256": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae",
+        "status": 200,
+        "url": "https://example.org/products/duty-selection"
+      },
+      {
+        "body_sha256": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61",
+        "status": 200,
+        "url": "https://example.org/contact"
+      },
+      {
+        "body_sha256": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a",
+        "status": 200,
+        "url": "https://example.org/products/pump-p40"
+      },
+      {
+        "body_sha256": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9",
+        "status": 200,
+        "url": "https://example.org/products/rfq-guide"
+      },
+      {
+        "body_sha256": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b",
+        "status": 200,
+        "url": "https://example.org/products/supplier-proof"
+      },
+      {
+        "body_sha256": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d",
+        "status": 200,
+        "url": "https://example.org/products/valve-v25"
+      }
+    ],
+    "production": {
+      "c1": {
+        "activities": [
+          {
+            "actor_kind": "SYSTEM",
+            "amount_micros": null,
+            "attestation_ref": null,
+            "cost_status": "UNKNOWN",
+            "cpu_ns": null,
+            "currency": null,
+            "human_labor_claim": false,
+            "invoice_reconciled": false,
+            "kind": "DIAGNOSIS_RUNTIME",
+            "operation_ref": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8-native-l2",
+            "rate_micros_per_hour": null,
+            "wall_ns": 3164450838
+          }
+        ],
+        "assessment_count": 19,
+        "cost_status": "UNKNOWN",
+        "diagnosis_ref": "l2-a8a957bd035b0d411a8d10107928545a95390b5db5cf2b377d1be9fc281acbbe",
+        "diagnosis_sha256": "4a4d7815f02040068aa9fe0055ce92293b124b1f678fe424fc54430ea0e5880a",
+        "industry_ref": "ip-4493e6e757da72c3ad7b2fc71f695129033de5a181ded61ef967f65639c5b3dc",
+        "models": [
+          "P40",
+          "V25"
+        ],
+        "procurement_chain_count": 2,
+        "report_complete": false,
+        "review_authority": false,
+        "semantic_approval": false,
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "source_fact_count": 81,
+        "state": "NATIVE_L2_VERIFIED_REPORT_NOT_PRODUCED",
+        "task": {
+          "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_ref": "l2-industrial-p40-v3",
+          "tenant_id": "tenant-test"
+        },
+        "worker_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d"
+      },
+      "signed_reader": {
+        "authority": "SIGNED_M1_READ_SNAPSHOT_NOT_CURRENT_L2_REVIEW_AUTHORITY",
+        "l2_complete": false,
+        "original_pack_ref": "ep-6d856d7718027b0895d3b450c34f7d27838f898df7c7ea369a6b060d6a2d4b60",
+        "review_authority": false,
+        "snapshot_count": 8,
+        "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+        "state": "WORKER_EVIDENCE_VERIFIED_DEEP_ANALYSIS_PENDING",
+        "task": {
+          "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_ref": "l2-industrial-p40-v3",
+          "tenant_id": "tenant-test"
+        },
+        "worker_pack_ref": "ep-5f475e2cccb83c104c61161fe602d21923d422dde95363747e7152722412378d",
+        "worker_result_locator": {
+          "authority": "TEST_ONLY_GENERATED_NOT_APPROVED",
+          "finish_event": "a0b850c5-4c1e-4579-bab8-19ded8a67ed4",
+          "html_sha256": "68c37e18485856c03568e032885d0c9f56702b64fc4ecb29c3f41aeee520f1c7",
+          "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "report_id": "job-5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+          "report_sha256": "d6482c503b77c71026c14b725cae8b461a72675f5cc6d6ec4f1b5bd74aee3c51",
+          "report_version": 1,
+          "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+          "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+          "source_sha256": "a0471a2d520ffe119cd9962c3d62a04cb63d7cd35a0f6b27cf2cdee9afcdc24f",
+          "tenant_id": "tenant-test"
+        }
+      }
+    },
+    "report_id": "l2-native-dea0fc2f39d918b7a41a9b181ad8f359",
+    "source_bundle_sha256": "a9186e438ee96e0dce4e282f96af9b6212f03f00c7c21c235455c78c68dc7f93",
+    "source_expected": "dea0fc2f39d918b7a41a9b181ad8f3597200fcb876b18c8ad4bd7d286bd87b04",
+    "task": {
+      "event_id": "0ad12d4e-0585-4856-91f9-2817c823263a",
+      "job_id": "5ba344d5-566c-4acd-96c3-e76f4f36b5e8",
+      "request_id": "0d67f4a9-d4fe-4265-ab5a-0ceff1a63ec9",
+      "run_id": "a1194632-3a5b-4931-9057-b17239a2583c",
+      "source_ref": "l2-industrial-p40-v3",
+      "tenant_id": "tenant-test"
+    }
+  }
+}
