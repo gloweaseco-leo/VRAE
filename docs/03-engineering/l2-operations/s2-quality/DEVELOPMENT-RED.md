@@ -9,3 +9,7 @@
 5. 新 CLI 多行 import 的 noqa 位置、验收器未使用 sys 的 lint RED 已在新文件内修正。原源码/旧 CI 未改。
 
 原始工具输出保留在本会话；开发 JUnit 与未压缩首版报告保留于 `integration/l2_ops/.private/s2p0-development/`。没有将开发检查冒称为完整 S2 整机或质量 PASS。
+
+## First natural CI179034b RED
+
+Both native CI jobs exit before collection because our explicit integration/l2_ops input-test path loads its existing PG/signed-runtime conftest. The core lock intentionally has no cryptography. Windows reused venvs contained that unrelated dependency, masking the directory coupling. Both raw ZIP digests, job logs and stage0 logs are preserved in first-ci-red-179034b. There is no hosted JUnit from these two jobs; no tests ran. Fix only relocates our input tests/parser to tests/benchmark and tests/s2_quality, preserving the original conftest, locks, crypto verifier, protected code and all first-attempt statuses.

@@ -35,7 +35,6 @@ OWN = (
     "tests/s2_quality",
     "integration/l2_ops/s2_quality_cli.py",
     "integration/l2_ops/s2_quality_verify.py",
-    "integration/l2_ops/s2_quality_cases.py",
     ".github/workflows/s2-c3-quality.yml",
 )
 
@@ -126,7 +125,6 @@ def main():
                 "-q",
                 "tests/benchmark",
                 "tests/s2_quality",
-                "integration/l2_ops/s2_quality_cases.py",
                 "tests/industry/l2_cases.py",
                 "--junitxml=" + str(folder / "native.xml"),
             ],

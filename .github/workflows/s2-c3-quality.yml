@@ -34,7 +34,7 @@ jobs:
         run: >-
           python -m ruff check tests/benchmark/s2_quality.py tests/benchmark/s2_sites.py
           tests/benchmark/s2_review.py tests/s2_quality integration/l2_ops/s2_quality_cli.py
-          integration/l2_ops/s2_quality_verify.py integration/l2_ops/s2_quality_cases.py --select E4,E7,E9,F
+          integration/l2_ops/s2_quality_verify.py --select E4,E7,E9,F
       - name: Native offline replay and exact old Gold compatibility
         run: >-
           python integration/l2_ops/s2_quality_verify.py --label hosted${{ matrix.slug }}

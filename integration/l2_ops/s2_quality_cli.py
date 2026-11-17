@@ -16,26 +16,8 @@ from tests.benchmark.s2_review import (  # noqa: E402
     validate_packet,
     import_review,
     deduplicate,
+    read_json,
 )
-
-
-def read_json(path):
-    raw = Path(path).read_bytes()
-    if len(raw) > 16_000_000:
-        fail("INPUT_SIZE_BOUND")
-
-    def pairs(items):
-        value = {}
-        for key, item in items:
-            if key in value:
-                fail("DUPLICATE_JSON_KEY")
-            value[key] = item
-        return value
-
-    def constant(value):
-        fail("NONFINITE_JSON")
-
-    return json.loads(raw, object_pairs_hook=pairs, parse_constant=constant)
 
 
 def main():

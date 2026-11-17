@@ -1,7 +1,7 @@
 """CLI boundary tests explicitly selected by the dedicated P0 native gate."""
 
 import pytest
-from integration.l2_ops.s2_quality_cli import read_json
+from tests.benchmark.s2_review import read_json
 from tests.benchmark.s2_quality import QualityError
 
 
