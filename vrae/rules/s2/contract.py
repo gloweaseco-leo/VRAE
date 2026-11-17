@@ -27,11 +27,11 @@ def _fail():
 
 
 class ReadOnlyAdapter(Protocol):
-    """C2's reserved s2_ux.evaluate callable; not loaded or enabled in P0.
+    """Historical reserved callable shape, not the accepted C2 binding.
 
-    Return native RuleExecution observation rows, recomputed by trusted server
-    code. P1 integration must validate rows and independently replay this call;
-    a browser-supplied result is never an evaluator implementation.
+    Not invoked by this Port and grants no native-row admission. The accepted
+    C2 binding is project_browser(pack, held=BrowserPins); P1 facts need a
+    separately reviewed promotion bridge, never arbitrary browser result rows.
     """
     def __call__(self, pack: EvidencePack, *, expected_pack_ref: str,
                  request: dict, expected_request_ref: str) -> list[dict]: ...
