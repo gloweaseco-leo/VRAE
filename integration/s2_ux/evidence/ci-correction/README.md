@@ -14,7 +14,7 @@ Original run: https://github.com/gloweaseco-leo/VRAE/actions/runs/44105652721 (a
   websocket close rejects pending calls; a dedicated Linux process group permits
   bounded TERM/KILL of only that spawned group if Browser.close does not exit.
   Process exit assertion is retained. No page/business assertion is relaxed.
-- Corrected Windows Chrome actually completed 24 combinations, all53 assertions,
+- Corrected Windows Chrome actually completed 24 combinations, all46 assertions,
   exited0 via Browser.close. Local original screenshots remain in ignored
   `.runtime/p0-cleanup-fixed-05/`; browser.json/cleanup copied here. Linux fix is
   pending a new natural CI at the changed SHA, not assumed proven by Windows.
