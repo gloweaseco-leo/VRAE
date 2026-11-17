@@ -64,7 +64,7 @@ export async function nativeJourney(c) {
   await click('[data-key=l2-revise]',true);await nav(root);
   const revised=await ev("JSON.parse(document.querySelector('.l2-technical pre').textContent)");
   await check('S0-real-version-append-same-task-source',revised.report_version.version===reportPins.report_version.version+1&&revised.display_hash!==reportPins.display_hash&&revised.producer.source_descriptor.task.job_id===task.job_id&&revised.producer.source_descriptor.pack_ref===proof.pack_ref);
-  await check('S0-unused-old-version-form-refused',await postForm(root+'/review',staleForm)===403);
+  await check('S0-unused-old-version-form-refused',await postForm(root+'/review',staleForm)===409&&await ev("!!document.querySelector('[data-code=L2_STALE_VERSION]')"));
   await nav(root+'/brief');await check('S0-unreviewed-current-version-brief-refused',await ev("document.body.innerText.includes('L2_NATIVE_BUSINESS_DENIED')"));
   reportPins=revised;await refresh();await review();await brief();
   const briefForm=await ev(`new URLSearchParams(new FormData(document.querySelector('form[method="post"]'))).toString()`);
@@ -75,7 +75,14 @@ export async function nativeJourney(c) {
   await brief();proof=await rpc('native-proof');
   await check('S0-current-revised-Brief-same-native-origin',proof.brief_stored&&proof.brief.pins.report_version===String(revised.report_version.version)&&proof.pack_ref===initialProof.pack_ref&&proof.diagnosis_ref===initialProof.diagnosis_ref);
   await screenshot('s0-final-current-brief.png');
-  async function pdf(url,name){await nav(url);const r=await call('Page.printToPDF',{preferCSSPageSize:true,printBackground:true,displayHeaderFooter:false});await writeFile(path.join(out,name),Buffer.from(r.data,'base64'))}
+  // Reauthenticate the SAME task before printing; an expired 403 page is not a report.
+  await refresh();await brief();proof=await rpc('native-proof');
+  async function pdf(url,name){
+    await nav(url);await check(name+'-native-print-content',await ev("document.body.innerText.includes('P40')&&document.body.innerText.includes('V25')&&!document.body.innerText.includes('L2_REQUEST_DENIED')&&!document.body.innerText.includes('L2_NATIVE_BUSINESS_DENIED')"));
+    const r=await call('Page.printToPDF',{preferCSSPageSize:true,printBackground:true,displayHeaderFooter:false});
+    const raw=Buffer.from(r.data,'base64'),pages=(raw.toString('latin1').match(/\/Type\s*\/Page\b/g)||[]).length;
+    await check(name+'-actual-multipage-A4',pages>1,{pages,bytes:raw.length});await writeFile(path.join(out,name),raw);
+  }
   await pdf(root+'/report-print','s0-report-zh-A4.pdf'); await pdf(root+'/blueprint-print','s0-blueprint-zh-A4.pdf');
   const restarted=await rpc('restart');await check('S0-real-PG-and-service-restart',Object.values(restarted).every(v=>v===true),restarted);
   await login('404',false); await sourceLogin(); await c2Login();
@@ -85,12 +92,14 @@ export async function nativeJourney(c) {
   const after=await rpc('native-proof');
   await check('S0-same-report-receipt-Brief-after-restart',after.brief_stored&&after.pack_ref===proof.pack_ref&&after.diagnosis_sha256===proof.diagnosis_sha256&&after.brief.content_sha256===proof.brief.content_sha256&&after.brief.review.receipt_sha256===proof.brief.review.receipt_sha256);
   await screenshot('s0-restart-readback.png');
-  await nav(origin+'/b5a/l2/r/l2-native-not-this-task/brief');await check('S0-other-report-scope-refused',statusOf('/b5a/l2/r/l2-native-not-this-task/brief')===403);
+  await refresh();await brief();await check('S0-valid-current-before-access-negatives',statusOf(root+'/brief')===200);
+  await nav(origin+'/b5a/l2/r/l2-native-not-this-task/brief');await check('S0-other-report-scope-refused',statusOf('/b5a/l2/r/l2-native-not-this-task/brief')===404&&await ev("!document.querySelector('.l2-finding')"));
   const cookies=await call('Network.getCookies',{urls:[origin+'/b5a/l2/']});
   const own=cookies.cookies.find(x=>x.name==='b5a_l2_session');
   await call('Network.setCookie',{name:own.name,value:'unassigned-user-session-00000000000000000000',url:origin+'/b5a/l2/',path:own.path,httpOnly:true,sameSite:'Strict'});
   await nav(root+'/brief');await check('S0-wrong-review-actor-cookie-refused',await ev("document.body.innerText.includes('L2_NATIVE_BUSINESS_DENIED')"));
   await call('Network.setCookie',{name:own.name,value:own.value,url:origin+'/b5a/l2/',path:own.path,httpOnly:true,sameSite:'Strict'});
+  await brief();await check('S0-restored-valid-session-before-natural-expiry',statusOf(root+'/brief')===200);
   // Wait for the ORIGINAL current M1 session to expire; do not shorten/renew it.
   const began=Date.now();let expired=false;
   while(Date.now()-began<95000){await nav(root+'/brief');if(statusOf(root+'/brief')===403){expired=true;break}await new Promise(r=>setTimeout(r,1000))}

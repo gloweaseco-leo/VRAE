@@ -172,3 +172,25 @@ that exact old form. It also submits a valid Brief form with an untrusted tenant
 field as a real browser negative. No CSP, auth, CSRF, SQL, permission, Guard or
 Worker lease is relaxed. Fresh same-task authentication precedes the final
 version's item review; it does not renew any old SID or Worker lease.
+
+
+### HTTP status oracle correction (preserved second driver RED)
+
+At 2c42692c4b4ba1fd35e54ec997f5682dd1e2ff89, s0final311a real task
+69ca0da1-34b4-467d-b0bf-14de54dc0812 again passed all eight live A04 probes.
+Chrome completed the entire unused old form and appended the real new native
+version. The actual old-version POST returned **409**, exactly as original
+C2 `L2_STALE_VERSION` requires; the C3 driver incorrectly expected 403. This is
+not evidence of an accepted stale write. Original 409, failed assertion, two
+private PG dumps, C2 SQLite and probe receipts are retained. The unused 3.13
+startup environment was closed without submitting a P40; it is not counted as
+business E2E. Both exact owned PG resources were removed; old unknown volumes
+remain untouched.
+
+Only the oracle is corrected to 409 plus the original L2_STALE_VERSION code.
+The existing unknown-report contract is 404, while actual identity/CSRF/tenant
+refusals remain 403. Native print navigation now checks visible P40/V25 content
+and real multipage PDF output, after fresh authentication to the same task, so
+an error page cannot be counted as a report. Access negatives start from a
+proved current 200, and natural expiry starts after restoring the valid cookie.
+No accepted C2 source, HTTP contract, permission, Guard, SQL or deadline changes.
