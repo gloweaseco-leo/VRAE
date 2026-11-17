@@ -1,0 +1,260 @@
+{
+  "adapter_refs": {
+    "CTA-01": "s2i-46e2fe0e3b130c93046db96511f62013f19592c523af416d41f54875767def62",
+    "CTA-03": "s2i-e54627fdb66803fa0b406f6baf1ed8f122e747da06547410a808af96b9cb39bc",
+    "INFO-03": "s2i-5044729918275bd433c586c029e5a964fb7fc01f3d4092d32830e7fc2eb5055f",
+    "TECH-02": "s2i-f8ce659ca0ed8f5070e7bedfd93ad10541999476ebd5ac3c17fdb330b7b133a4"
+  },
+  "baseline_execution_ref": "rx-e87afcd9c27b775e82a1cf0b31fd750fe696cd9a72e0c42a67b98a3a139af620",
+  "business_limit": "Six legacy bounded checks only; ten new generic rules pending P1. Missing evidence is not a website defect. Industrial IND six are separate and not counted as generic rules.",
+  "coverage_denominator": null,
+  "fixture_canonical_sha256": "33554c61ffd561dd88e38c7d832a47fe4dbc210d5756d570fd61be8c8c6707fe",
+  "guard_limit": "S2 projection is not native RuleExecution; old FindingPackage/Guard authority is not granted.",
+  "kind": "OFFLINE_ACCEPTED_INDUSTRIAL_BYTES_P0_NOT_NEW_APP_OR_WORKER_COMMIT",
+  "model_calls": 0,
+  "pack_ref": "ep-da080f63f2d80a81684cfb84b72a0a1062a69e2ab7a7ece1b180cbf449a6a6e0",
+  "projection_bytes_sha256": "a9fe0b6476a8610c4b2c6680cb768503cef2469a167de2029fb464bc9d100f56",
+  "projection_ref": "s2p-4293181b8f6c5da3c44706b74f83ad7d912bb6860cdbb62fd474b476df697868",
+  "projection_version": "s2-projection-1.0.0",
+  "rules": [
+    {
+      "buyer_task": "DISCOVER",
+      "enabled": true,
+      "results": [
+        "PASS"
+      ],
+      "rule_id": "DISC-01"
+    },
+    {
+      "buyer_task": "DISCOVER",
+      "enabled": true,
+      "results": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "rule_id": "DISC-02"
+    },
+    {
+      "buyer_task": "DISCOVER",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "DISC-03"
+    },
+    {
+      "buyer_task": "UNDERSTAND",
+      "enabled": true,
+      "results": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "rule_id": "INFO-01"
+    },
+    {
+      "buyer_task": "UNDERSTAND",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "INFO-02"
+    },
+    {
+      "buyer_task": "UNDERSTAND",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "INFO-03"
+    },
+    {
+      "buyer_task": "TRUST",
+      "enabled": true,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "TRUST-01"
+    },
+    {
+      "buyer_task": "TRUST",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "TRUST-02"
+    },
+    {
+      "buyer_task": "TRUST",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "TRUST-03"
+    },
+    {
+      "buyer_task": "INQUIRE",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "CTA-01"
+    },
+    {
+      "buyer_task": "INQUIRE",
+      "enabled": true,
+      "results": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "rule_id": "CTA-02"
+    },
+    {
+      "buyer_task": "INQUIRE",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "CTA-03"
+    },
+    {
+      "buyer_task": "SEARCH_TECHNICAL",
+      "enabled": true,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "SEO-01"
+    },
+    {
+      "buyer_task": "SEARCH_TECHNICAL",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "SEO-02"
+    },
+    {
+      "buyer_task": "SEARCH_TECHNICAL",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "TECH-01"
+    },
+    {
+      "buyer_task": "SEARCH_TECHNICAL",
+      "enabled": false,
+      "results": [
+        "UNKNOWN"
+      ],
+      "rule_id": "TECH-02"
+    }
+  ],
+  "s2_capabilities": [
+    {
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "Requires retained homepage HTML nav href and same-pack target response; scope is one static anchor.",
+      "owner": "LEGACY",
+      "rule_id": "DISC-01"
+    },
+    {
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "Category-to-product sequence extraction and product identity are not implemented.",
+      "owner": "LEGACY",
+      "rule_id": "DISC-02"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No independently established industry/application relevance mapping.",
+      "owner": "C1",
+      "rule_id": "DISC-03"
+    },
+    {
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "No product identity/specification parser with field locators.",
+      "owner": "LEGACY",
+      "rule_id": "INFO-01"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "Industry pack has material requirement but no observed attribute mapping or applicability proof.",
+      "owner": "C1",
+      "rule_id": "INFO-02"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "Language clarity requires human verification; no deterministic semantic judgment.",
+      "owner": "C2",
+      "rule_id": "INFO-03"
+    },
+    {
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "No verified company identity/context extraction; href alone cannot establish identity.",
+      "owner": "LEGACY",
+      "rule_id": "TRUST-01"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No proof/context parser or authenticity evidence.",
+      "owner": "C1",
+      "rule_id": "TRUST-02"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No scoped entity resolution or comparable company/contact passages.",
+      "owner": "C1",
+      "rule_id": "TRUST-03"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "Browser DOM has tag/visible/text but no href; HTML href cannot prove rendered visibility.",
+      "owner": "C2",
+      "rule_id": "CTA-01"
+    },
+    {
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "No product-context-to-contact path verification; no form submission is permitted.",
+      "owner": "LEGACY",
+      "rule_id": "CTA-02"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No overflow geometry or scoped visual-layout evaluator.",
+      "owner": "C2",
+      "rule_id": "CTA-03"
+    },
+    {
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "Sitemap/tag combination and metadata applicability not implemented; robots hashes are insufficient.",
+      "owner": "LEGACY",
+      "rule_id": "SEO-01"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No verified product text/anchor context or crawlability evaluator.",
+      "owner": "C1",
+      "rule_id": "SEO-02"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "Non-200 snapshots have no observed EvidencePack evidence_ref; metadata-only Observation adapter deferred.",
+      "owner": "C1",
+      "rule_id": "TECH-01"
+    },
+    {
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No image/heading context extraction or accessibility evaluator.",
+      "owner": "C2",
+      "rule_id": "TECH-02"
+    }
+  ],
+  "snapshot_count": 8
+}
