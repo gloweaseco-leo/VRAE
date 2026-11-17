@@ -13,6 +13,8 @@ S0 的范围是 A01–A04；不代表全部五维规则、真实 AI、真人审�
 
 ```powershell
 python scripts/beta_internal.py app doctor
+# 首次缺少运行镜像时，用原 Dockerfile 和锁定依赖构建：
+python integration/l2_ops/build_image.py --python 3.11
 python scripts/beta_internal.py l2 app-start --run operator-p40-01 --minor 3.11
 python scripts/beta_internal.py l2 app-status --run operator-p40-01
 # 状态为 M3_READY 后：
@@ -60,10 +62,13 @@ Brief 提供本次报告引用、版本、Rebuild 蓝图、责任／依赖、待
 普通人工操作使用上面的 `app-open`。完整自动验收另建隔离环境：
 
 ```powershell
-python scripts/beta_internal.py l2 app-verify --run <fresh-test-run>
+python scripts/beta_internal.py l2 app-accept --run <new-fresh-test-run> --minor 3.11
 ```
 
-该命令通过实际 Chrome 创建新任务，保存受控回执／Brief，执行明确标注的
+`app-accept` 自行启动隔离环境，使用对应原生 Python 执行 Chrome 验收，
+在真实临时资源仍存活时完成私有两库／C2 账本快照和凭据扫描，随后安全停止
+并导出限定公开证据。中间不依赖人工阶段确认。`app-verify` 仍保留给已运行环境的
+聚焦检查，不自动保存新 dump。完整验收通过实际 Chrome 创建新任务，保存受控回执／Brief，执行明确标注的
 故障注入、版本修订、撤权、真实 PG 和服务重启等检查。不要在有未完成
 人工操作的环境里混跑。跨 SQLite 与专用 PG 的存储不是一个原子事务；
 故障期间可以保留显式 pending 字节，但不作为当前 Brief 展示。

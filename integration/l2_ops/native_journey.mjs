@@ -14,7 +14,7 @@ export async function nativeJourney(c) {
   await check('S0-original-worker-DONE',await ev("document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'"));
   const worker=await rpc('result',{job:task.job_id});
   await check('S0-original-worker-real-locator', ['request_id','run_id','job_id'].every(k=>worker[k]===task[k]),worker);
-  async function sourceLogin() {await nav(taskURL);await openNewReport();await nav(taskURL);await click('[data-key=l2-native-task]',true);await click('[data-key=l2-produce-native]',true)}
+  async function sourceLogin(target=taskURL) {await nav(target);await openNewReport();await nav(target);await click('[data-key=l2-native-task]',true);await click('[data-key=l2-produce-native]',true)}
   await sourceLogin();
   async function c2Login(fresh=false){if(fresh)await call('Network.deleteCookies',{name:'b5a_l2_session',url:origin+'/b5a/l2/'});await nav(origin+'/b5a/l2/');if(await ev(`!!document.querySelector('form[action="/b5a/l2/challenge"]')`)){await click('form button',true);const q=JSON.parse(await ev('document.body.innerText'));await c.redeemL2(q)}await click('[data-key=l2-open-report]',true)}
   await c2Login(true);
@@ -85,6 +85,43 @@ export async function nativeJourney(c) {
     await check(name+'-actual-multipage-A4',pages>1,{pages,bytes:raw.length});await writeFile(path.join(out,name),raw);
   }
   await pdf(root+'/report-print','s0-report-zh-A4.pdf'); await pdf(root+'/blueprint-print','s0-blueprint-zh-A4.pdf');
+  // A second genuinely submitted task is solely a scope-switch negative,
+  // never a retry/sample of the primary task. Both real Worker results survive.
+  await refresh();await brief();
+  const originalCookie=(await call('Network.getCookies',{urls:[origin+'/b5a/l2/']})).cookies.find(x=>x.name==='b5a_l2_session');
+  const scopeNonce=await ev(`new URLSearchParams(new FormData(document.querySelector('form[method=post]'))).toString()`);
+  await login('404',false);await nav(base+'tasks');await select('[name=case]',2);await click('[data-key=m2-create]',true);
+  const otherURL=await ev('location.href');
+  const other=await ev("Object.fromEntries(['request_id','run_id','job_id','source_ref'].map(k=>[k,document.querySelector('[data-key=m2-'+k+']')?.textContent]))");
+  await check('S0-second-real-task-for-scope-switch',['request_id','run_id','job_id'].every(k=>other[k]!==task[k])&&other.source_ref===task.source_ref,other);
+  for(let i=0;i<90;i++){if(await ev("document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'"))break;await new Promise(r=>setTimeout(r,250));await click('[data-key=m2-status-refresh]',true)}
+  await check('S0-second-task-original-worker-DONE',await ev("document.querySelector('[data-key=m2-job-state]')?.textContent==='TEST_ONLY_DONE'"));
+  const otherWorker=await rpc('result',{job:other.job_id});
+  await check('S0-second-task-real-lease-commit',otherWorker.lease_commit.inside_original_lease&&otherWorker.job_id===other.job_id,otherWorker);
+  await sourceLogin(otherURL);await c2Login(true);
+  const otherRoot=await ev('location.href');
+  const otherPins=await ev("JSON.parse(document.querySelector('.l2-technical pre').textContent)");
+  await check('S0-current-report-is-actually-the-other-task',otherPins.producer.source_descriptor.task.job_id===other.job_id&&otherPins.producer.source_descriptor.pack_ref!==proof.pack_ref&&otherRoot!==root);
+  const otherCookie=(await call('Network.getCookies',{urls:[origin+'/b5a/l2/']})).cookies.find(x=>x.name==='b5a_l2_session');
+  async function setScopeCookie(cookie){await call('Network.setCookie',{name:cookie.name,value:cookie.value,url:origin+'/b5a/l2/',path:cookie.path,httpOnly:true,sameSite:'Strict'})}
+  await setScopeCookie(originalCookie);await nav(root+'/brief');
+  const whileOther=statusOf(root+'/brief');
+  await check('S0-old-task-and-session-refused-after-switch',[403,404].includes(whileOther)&&await ev("!document.querySelector('[data-key=l2-save-brief]')"),{status:whileOther});
+  await setScopeCookie(otherCookie);await nav(otherRoot);
+  await check('S0-valid-other-task-remains-current',await ev(`JSON.parse(document.querySelector('.l2-technical pre').textContent).producer.source_descriptor.task.job_id===${JSON.stringify(other.job_id)}`));
+  await refresh();await brief();
+  const renewedCookie=(await call('Network.getCookies',{urls:[origin+'/b5a/l2/']})).cookies.find(x=>x.name==='b5a_l2_session');
+  await setScopeCookie(originalCookie);await nav(root+'/brief');
+  const afterReturn=statusOf(root+'/brief');
+  await check('S0-returning-task-does-not-resurrect-old-session',afterReturn===403&&await ev("document.body.innerText.includes('L2_NATIVE_BUSINESS_DENIED')"),{status:afterReturn});
+  await setScopeCookie(renewedCookie);await brief();
+  const oldAction=await postForm(root+'/brief',scopeNonce);
+  await check('S0-returning-task-does-not-resurrect-old-action',oldAction===403,{status:oldAction});
+  await brief();const primaryAgain=await rpc('native-proof');
+  await check('S0-switch-back-recovers-identical-primary-Brief',primaryAgain.brief_stored&&primaryAgain.task.job_id===task.job_id&&primaryAgain.pack_ref===proof.pack_ref&&primaryAgain.brief.content_sha256===proof.brief.content_sha256);
+  proof=primaryAgain;
+  const taskSwitch={other,worker:otherWorker,reportPins:otherPins,oldScopeStatus:whileOther,oldSessionAfterReturn:afterReturn,oldActionAfterReturn:oldAction,primaryHash:proof.brief.content_sha256};
+  await writeFile(path.join(out,'real-task-switch.json'),JSON.stringify(taskSwitch,null,2));
   const restarted=await rpc('restart');await check('S0-real-PG-and-service-restart',Object.values(restarted).every(v=>v===true),restarted);
   await login('404',false); await sourceLogin(); await c2Login(true);
   const afterPins=await ev("JSON.parse(document.querySelector('.l2-technical pre').textContent)");
@@ -108,5 +145,5 @@ export async function nativeJourney(c) {
   await check('S0-expired-brief-offers-original-task-login',await ev("!!document.querySelector('[data-key=l2-task-login]')"));await click('[data-key=l2-task-login]',true);
   await refresh();await brief();const reauthorized=await rpc('native-proof');
   await check('S0-real-reauth-same-current-Brief-after-expiry',reauthorized.brief_stored&&reauthorized.brief.content_sha256===proof.brief.content_sha256);
-  await writeFile(path.join(out,'native-chain.json'),JSON.stringify({task,worker,reportPins,initial:initialProof,liveAudit:audit,before:proof,after},null,2));
+  await writeFile(path.join(out,'native-chain.json'),JSON.stringify({task,worker,reportPins,initial:initialProof,liveAudit:audit,taskSwitch,before:proof,after},null,2));
 }

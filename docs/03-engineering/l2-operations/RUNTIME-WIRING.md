@@ -227,3 +227,40 @@ This distinguishes observed locking from merely waiting for a slower thread.
 The actual competing original review still commits afterward, and stale/pending
 Brief reads remain refused. All instrumentation is in the existing C3 TEST_ONLY
 private-file audit, not old SQL/RLS, Worker, Guard or C2 source.
+
+
+### Earlier primary PASS and final finite acceptance orchestration
+
+Executable ebc94acc92e92b1bf19d52635f49736823e96d58 / operator311 completed
+54 real Chrome assertions, including all eight live probes/direct original-lock
+measurements, 409 stale-version refusal, actual22/7-page native PDFs, real PG and
+service restart, 404 report scope, invalid actor/tenant/nonce, natural expiry and
+same-Brief reauthentication. This is a genuine primary3.11 PASS, not the final
+dual-version/task-switch acceptance. Both native132-case gates plus restart
+markers passed independently at that SHA.
+
+The later snapshot command did not execute within the temporary environment's
+lifetime; the owned PG was already normally destroyed when invoked. No new final
+dump is claimed or reconstructible from hashes. The raw browser chain, prior
+private dumps and actual cleanup proof remain retained. Snapshot status is
+explicitly UNKNOWN, not retroactively marked PASS.
+
+The existing C3 package now provides `l2 app-accept`: a finite sequence using
+original startup/Chrome/cleanup, with private before-browser and final database
+snapshots, actual credential scans held only in memory, then allowlisted public
+export. This avoids a separate tool-approval/wait gap while temporary resources
+are live. It does not change original service deadlines, JWTs, roles, SQL/RLS,
+Guard or the Worker. Missing snapshots or cleanup cannot return acceptance PASS.
+Foreign labels, mounts, container IDs and mismatched native interpreters fail
+before database IO. New checks are security-boundary component tests, not Worker
+E2E claims.
+
+The final browser coverage also creates a SECOND genuine APP202/Worker task
+solely for A→B→A scope isolation. Its actual pack/report must belong to B; A's old
+SID is refused while B is current and still refused when A returns. A's old
+unused action is not revived. Fresh authentication then recovers the identical
+primary A report/review/Brief, followed by real PG/service restart/readback. This
+is a declared different-task negative, never random UUID selection or retry of a
+failed Worker. The primary same-task chain and both real Worker locators remain
+separately auditable. Final Source/Artifact SHA and both native runs remain
+required before the one controlled PR112 push and natural first CI.

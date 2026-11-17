@@ -23,15 +23,19 @@ def main(argv=None):
     intake.add_argument("--minor", required=True, choices=("3.11", "3.13"))
     intake.add_argument("--source-profile", choices=("industrial-v1", "industrial-p40-v3"), default="industrial-v1")
     intake.add_argument("--native-l2", action="store_true")
-    for operation in ("app-start", "app-status", "app-stop", "app-verify", "app-open"):
+    for operation in ("app-start", "app-status", "app-stop", "app-verify", "app-open", "app-accept"):
         app = sub.add_parser(operation, help="Original one SSR, controlled native L2 gated by accepted main; TEST_ONLY")
         app.add_argument("--run", required=True)
-        if operation == "app-start":
+        if operation in ("app-start", "app-accept"):
             app.add_argument("--minor", choices=("3.11", "3.13"), default="3.11")
     args = parser.parse_args(argv)
+    if args.operation == "app-accept":
+        from .acceptance import accept
+        print(json.dumps(accept(args.run, args.minor), ensure_ascii=False))
+        return 0
     if args.operation.startswith("app-"):
         from integration.beta_review.codex3.local_app import start, status, request_stop
-        if args.operation in ("app-verify", "app-open"):
+        if args.operation in ("app-verify", "app-open", "app-accept"):
             from integration.beta_review.codex3.m3_browser_run import run
             from . import readiness
             interactive = args.operation == "app-open"
