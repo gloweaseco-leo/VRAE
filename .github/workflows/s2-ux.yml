@@ -20,6 +20,8 @@ jobs:
         python: ['3.11', '3.13']
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
@@ -30,7 +32,7 @@ jobs:
       - run: python -m ruff check vrae/rules/s2_ux.py apps/operator_console/l2_buyer_views.py integration/s2_ux integration/l2/lab.py --select E4,E7,E9,F
       - run: python -m mypy vrae
       - name: Original references, scope/time isolation and missing measurement negatives
-        run: python -B -m pytest -q integration/s2_ux integration/l2/test_l2.py integration/l2/test_codex1.py tests/evidence tests/rules -p no:cacheprovider --junitxml=integration/s2_ux/.runtime/native.xml
+        run: python -B -m pytest -q integration/s2_ux integration/l2/test_l2.py integration/l2/test_codex1.py tests/s2_contract/p0_cases.py tests/evidence tests/rules -p no:cacheprovider --junitxml=integration/s2_ux/.runtime/native.xml
       - name: Real Chrome, offline fixtures, original DOM and diagnostic-only 375/320 regressions
         env:
           L2_CHROMIUM: /usr/bin/google-chrome

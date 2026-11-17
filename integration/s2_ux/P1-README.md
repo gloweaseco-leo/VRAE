@@ -2,6 +2,10 @@
 
 Owner：Issue119#6953147682；accepted base `94a58b9867d96f104941874e07a2c4a4c84ec27f`。
 
+后续Owner组合授权 PR124#6964152145：原分支已正常merge正式验收的PR121/main
+`a5b8c30ccefb656c266d75e66f9f20ceb7df1080`。本P1运行/UI实现不变，
+新增C2自有组合负例与新HEAD自然CI；父SHA/tree/冻结blob见 [COMBINED-MAIN.md](COMBINED-MAIN.md)。
+
 新增页面 `/b5a/l2/r/<existing-report-id>/buyer-tasks` 直接进入原 DeepConsole 的
 Directory.require → Ledger.read → 渲染后current重验流程，不另建服务器、身份、报告或审核账本。
 导航中的“五维采购复核”以制造业买方的找型号、核规格/工况、核供应商资料、准备询价为顺序，
@@ -55,5 +59,6 @@ POC输出无生产权威、无ev-ref，不导入页面/执行器。精确缺口�
 所有历史RED保持原件；独立环境缺依赖导致的收集错误、首轮class匹配错误、POC390/560差异均记录。
 使用既有锁安装3.11/3.13依赖，不升级锁。原30秒Worker、pack blob、旧execution.py、Guard/SQL/RLS、
 C2旧审核权威、C3 Gold和PG/Brief双权威不改。没有付费模型、外网、真实RFQ、正式人审或外发。
-Gold0/26，无法计算真实质量精度。C1 P0正在按Owner裁决改外层投影；未合并Draft不复制。
+Gold0/26，无法计算真实质量精度。C1外层 `vrae.rules.s2` 已从accepted main正常合入；
+不修改旧执行器，不把投影晋升原生结果；其他未合并Draft不复制。
 本Draft只交C2-P1上述可运行范围，不是四规则完整启用或S2 EXIT。
