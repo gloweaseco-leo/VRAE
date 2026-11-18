@@ -8,6 +8,7 @@ import hashlib
 import json
 import re
 import threading
+import time
 import traceback
 from types import SimpleNamespace
 
@@ -52,6 +53,13 @@ class S5Ports:
         self.jobs = {}
         self.books = {}
         self.lock = threading.RLock()
+
+    def phase(self, name):
+        # Finite stage names only; no credential or request body.
+        path = self.root / "activation-timing.json"
+        rows = read(path, 65536) if path.exists() else []
+        rows.append({"phase": name, "monotonic": time.monotonic(), "utc": datetime.now(UTC).isoformat()})
+        write(path, rows[-80:])
 
     def route(self, path):
         match = re.fullmatch(r"/b5a/l2/r/([A-Za-z0-9_.-]{3,128})/s3", path)

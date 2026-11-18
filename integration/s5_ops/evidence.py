@@ -34,6 +34,8 @@ def capture(private, label, expected):
             out["files"][str(path.relative_to(target)).replace("\\", "/")] = hashlib.sha256(
                 raw
             ).hexdigest()
+            if path.name == "activation-timing.json":
+                out["activation_timing"] = json.loads(raw)
             if path.name.endswith("-failure.json"):
                 d = json.loads(raw)
                 out["failures"].append(
