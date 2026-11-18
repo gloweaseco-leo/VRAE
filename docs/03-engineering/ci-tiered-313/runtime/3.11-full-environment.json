@@ -1,0 +1,29 @@
+{
+  "status": "PYTHON313_CANDIDATE_NOT_PRODUCTION_LOCKED",
+  "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+  "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+  "dependencies": {
+    "h11": "0.16.0",
+    "dnspython": "2.8.0",
+    "jsonschema": "4.26.0",
+    "psycopg": "NOT_INSTALLED_IN_THIS_HOST",
+    "cryptography": "NOT_INSTALLED_IN_THIS_HOST"
+  },
+  "node": {
+    "exit_code": 0,
+    "stdout": "v24.22.2",
+    "stderr": ""
+  },
+  "chrome": {
+    "exit_code": 0,
+    "stdout": "Google Chrome 157.0.8103.50",
+    "stderr": ""
+  },
+  "worker_image_pins": {
+    "3.11": "python:3.11-slim-bookworm@sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89",
+    "3.13": "public.ecr.aws/docker/library/python:3.13-slim-bookworm@sha256:a5a7017efc5969e00ae2b91c8eb0631049a569652aa4ffc4501769049ae45c72"
+  },
+  "postgres_image_pin": "postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea",
+  "developer_python_hint": "3.13.5",
+  "remaining_limit": "Original isolated HTTP/browser lab images still pin 3.11; host and container patch versions are not asserted identical. No production lock or deploy."
+}

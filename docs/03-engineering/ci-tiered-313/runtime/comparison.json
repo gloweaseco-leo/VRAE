@@ -1,0 +1,126 @@
+{
+  "code_sha": "f854ddd15fa3349a03e7743051039d67ef174b3e",
+  "runs": [
+    {
+      "label": "FAST readonly",
+      "run_id": 44234916928,
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44234916928",
+      "conclusion": "success",
+      "assigned_runner_jobs": 4,
+      "runner_minutes": 1.8833333333333333,
+      "control_runner_minutes": 0.3,
+      "suite_runner_minutes": 1.5833333333333333,
+      "first_runner_start_to_last_finish_seconds_including_queue_gaps": 355.0,
+      "non_success_jobs": []
+    },
+    {
+      "label": "SECURITY 3.13",
+      "run_id": 44235023025,
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235023025",
+      "conclusion": "failure",
+      "assigned_runner_jobs": 26,
+      "runner_minutes": 57.86666666666667,
+      "control_runner_minutes": 0.3,
+      "suite_runner_minutes": 57.56666666666667,
+      "first_runner_start_to_last_finish_seconds_including_queue_gaps": 637.0,
+      "non_success_jobs": [
+        {
+          "name": "ra4c3_pg_read / pg-read (3.13)",
+          "conclusion": "failure",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235023025/job/134569034512"
+        },
+        {
+          "name": "ra4c_b5a / signed-reviewer-pg16-browser (3.13, 313)",
+          "conclusion": "failure",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235023025/job/134569034706"
+        },
+        {
+          "name": "ci-policy-manual-result",
+          "conclusion": "failure",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235023025/job/134572983500"
+        }
+      ]
+    },
+    {
+      "label": "Old common matrix replay",
+      "run_id": 44235016045,
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235016045",
+      "conclusion": "cancelled",
+      "assigned_runner_jobs": 40,
+      "runner_minutes": 137.45,
+      "control_runner_minutes": 0.3333333333333333,
+      "suite_runner_minutes": 137.11666666666665,
+      "first_runner_start_to_last_finish_seconds_including_queue_gaps": 927.0,
+      "non_success_jobs": [
+        {
+          "name": "b5b / signed-ssr-pg16-browser (3.11, 311)",
+          "conclusion": "cancelled",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235016045/job/134569026901"
+        },
+        {
+          "name": "b5b_m2 / generated-review-pg16-browser (3.13, 313)",
+          "conclusion": "cancelled",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235016045/job/134569026963"
+        },
+        {
+          "name": "ra4c_b5a / signed-reviewer-pg16-browser (3.13, 313)",
+          "conclusion": "failure",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235016045/job/134569027482"
+        },
+        {
+          "name": "ra4c3_pg_read / pg-read (3.11)",
+          "conclusion": "cancelled",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235016045/job/134569027507"
+        },
+        {
+          "name": "ra4c_b5a / signed-reviewer-pg16-browser (3.11, 311)",
+          "conclusion": "cancelled",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235016045/job/134569027541"
+        },
+        {
+          "name": "ci-policy-manual-result",
+          "conclusion": "failure",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235016045/job/134574803922"
+        }
+      ]
+    },
+    {
+      "label": "Migration PR FULL both",
+      "run_id": 44235013359,
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235013359",
+      "conclusion": "failure",
+      "assigned_runner_jobs": 48,
+      "runner_minutes": 116.7,
+      "control_runner_minutes": 0.3,
+      "suite_runner_minutes": 116.4,
+      "first_runner_start_to_last_finish_seconds_including_queue_gaps": 940.0,
+      "non_success_jobs": [
+        {
+          "name": "s2_buyer_workbench / source-reading (3.11, 311)",
+          "conclusion": "cancelled",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235013359/job/134568994126"
+        },
+        {
+          "name": "ra4c_b5a / signed-reviewer-pg16-browser (3.11, 311)",
+          "conclusion": "failure",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235013359/job/134568994228"
+        },
+        {
+          "name": "ra4c_b5a / signed-reviewer-pg16-browser (3.13, 313)",
+          "conclusion": "failure",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235013359/job/134568994260"
+        },
+        {
+          "name": "ci-policy-result",
+          "conclusion": "failure",
+          "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44235013359/job/134574854764"
+        }
+      ]
+    }
+  ],
+  "valid_matched_pass_savings_comparison": false,
+  "savings_percent": null,
+  "reason": "Baseline has source-freeze failure and was deliberately cancelled during remaining dependency/browser stages; security also failed. No matched PASS baseline.",
+  "cpu_scope": "Only original core pytest children recorded; whole runner/Docker CPU NOT_MEASURED",
+  "local_windows_full": "Stopped after successful exact Linux dual-version inventory validation; incomplete Windows attempt not counted as PASS."
+}
