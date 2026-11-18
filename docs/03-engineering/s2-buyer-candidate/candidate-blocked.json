@@ -1,0 +1,142 @@
+{
+  "admission": "NOT_A_NATIVE_REPORT_FINDING_RULEEXECUTION_OR_GUARD_APPROVAL",
+  "authority": "READ_ONLY_REVIEW_CANDIDATE",
+  "candidate_ref": "s2br-839d60decb62041047cc4f5a2a43ac526d8b9892a6b8b7a8623038ecec439fe1",
+  "cards": [
+    {
+      "buyer_task": "UNDERSTAND",
+      "configuration_locator": null,
+      "limitation": {
+        "state": "ACCESS_BLOCKED",
+        "text": "保存记录显示访问受阻，无法确认该来源的材料内容或记录类型。"
+      },
+      "model": null,
+      "native_fact_admission": "NONE",
+      "observation_id": "obs-a2b414b7cabadff25a41c30669d8b526de6713d7ece6072de895c666e6601f43",
+      "observed_fields": {},
+      "reason": "INCOMPLETE_SOURCE_RECORD_TYPE_UNDETERMINED",
+      "result": "ACCESS_BLOCKED",
+      "review_hypothesis": {
+        "basis_observation_ids": [
+          "obs-a2b414b7cabadff25a41c30669d8b526de6713d7ece6072de895c666e6601f43"
+        ],
+        "kind": "HYPOTHESIS_REVIEW_REQUIRED",
+        "text": "如在已获准范围内取得可读来源，采购方可能才有条件核对材料；当前不能判断其内容质量。"
+      },
+      "rule_id": "INFO-02",
+      "rule_version": "s2-industrial-context-1.0.0",
+      "source_excerpts": [],
+      "source_pages": [
+        {
+          "error": {
+            "code": "ACCESS_BLOCKED",
+            "retryable": false,
+            "safe_message": "ACCESS_BLOCKED",
+            "schema_version": "1.0"
+          },
+          "final_url": "https://example.org/products/p40",
+          "http_status": 403,
+          "locator": "/pages/2",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 403,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "snapshot_ref": "page-6202927b15f0ada9420ea15c071cf25a08e6cb76acedc93d7bb15c0a54bf367a",
+          "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+          "url": "https://example.org/products/p40"
+        }
+      ],
+      "source_replay": {
+        "basis": "CONFIGURATION_OR_RESPONSE_METADATA_ONLY",
+        "meaning": "本卡仅重算配置或响应记录，没有可引用的材料内容字节。",
+        "status": "RECOMPUTED_FROM_PINNED_CURRENT_PACK"
+      },
+      "source_version": "s2-industrial-source-1.0.0",
+      "title": "参数资料与版本"
+    },
+    {
+      "buyer_task": "TRUST",
+      "configuration_locator": null,
+      "limitation": {
+        "state": "ACCESS_BLOCKED",
+        "text": "保存记录显示访问受阻，无法确认该来源的材料内容或记录类型。"
+      },
+      "model": null,
+      "native_fact_admission": "NONE",
+      "observation_id": "obs-5da1db346bc2a23d2581633829a68cc35ab3d42afae1012cd80a0402fcbf732b",
+      "observed_fields": {},
+      "reason": "INCOMPLETE_SOURCE_RECORD_TYPE_UNDETERMINED",
+      "result": "ACCESS_BLOCKED",
+      "review_hypothesis": {
+        "basis_observation_ids": [
+          "obs-5da1db346bc2a23d2581633829a68cc35ab3d42afae1012cd80a0402fcbf732b"
+        ],
+        "kind": "HYPOTHESIS_REVIEW_REQUIRED",
+        "text": "如在已获准范围内取得可读来源，采购方可能才有条件核对材料；当前不能判断其内容质量。"
+      },
+      "rule_id": "TRUST-02",
+      "rule_version": "s2-industrial-context-1.0.0",
+      "source_excerpts": [],
+      "source_pages": [
+        {
+          "error": {
+            "code": "ACCESS_BLOCKED",
+            "retryable": false,
+            "safe_message": "ACCESS_BLOCKED",
+            "schema_version": "1.0"
+          },
+          "final_url": "https://example.org/products/p40",
+          "http_status": 403,
+          "locator": "/pages/2",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 403,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "snapshot_ref": "page-6202927b15f0ada9420ea15c071cf25a08e6cb76acedc93d7bb15c0a54bf367a",
+          "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+          "url": "https://example.org/products/p40"
+        }
+      ],
+      "source_replay": {
+        "basis": "CONFIGURATION_OR_RESPONSE_METADATA_ONLY",
+        "meaning": "本卡仅重算配置或响应记录，没有可引用的材料内容字节。",
+        "status": "RECOMPUTED_FROM_PINNED_CURRENT_PACK"
+      },
+      "source_version": "s2-industrial-source-1.0.0",
+      "title": "证明声明的展示上下文"
+    }
+  ],
+  "external_delivery_authorized": false,
+  "industry_ref": "ip-849f9f9c2e6f935ad49931d506c2622c0511975e01162167da68ec60bbdd1b6e",
+  "industry_version": "1.1.0",
+  "kind": "S2BuyerTaskCandidate",
+  "limitations": [
+    "仅针对服务端固定的当前资料包和 1–2 个来源候选，不代表网站全貌。",
+    "审阅假设未确认为事实；资料真实性、工程适配、证书和供应商身份均未认证。",
+    "服务端须继续独立校验当前任务授权与时效；本接口只重放和核对已持有的 pins。"
+  ],
+  "pack_ref": "ep-94a5468388b0074c44373025c8c7afda3c37e89c20c580a7f9cf1c2286442e57",
+  "profile_id": "industrial",
+  "projection_ref": "s2p-188267273218e4b06bf8ea06abd4c805e632645203b4f70ece16fb6d4e645876",
+  "projection_version": "s2-projection-1.2.0",
+  "reporting_version": "s2-buyer-candidate-1.0.0",
+  "scope": {
+    "policy_id": "pol-001",
+    "policy_version": 1,
+    "run_id": "run-synthetic",
+    "tenant_id": "tenant-example"
+  },
+  "subject_model": null,
+  "subject_snapshot_ref": "page-6202927b15f0ada9420ea15c071cf25a08e6cb76acedc93d7bb15c0a54bf367a",
+  "title": "采购资料审阅候选"
+}

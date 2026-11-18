@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="26" failures="3" skipped="0" tests="29" time="10.488" timestamp="2026-11-17T21:25:26.324349-05:00" hostname="dong"><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_replayable_buyer_task_slice_separates_source_and_review_hypotheses" time="0.956"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_limited_states_are_preserved_without_turning_into_site_fault[UNKNOWN]" time="0.002"><failure message="ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'">status = 'UNKNOWN'
+
+    @pytest.mark.parametrize('status', ['UNKNOWN', 'NOT_APPLICABLE', 'ACCESS_BLOCKED'])
+    def test_limited_states_are_preserved_without_turning_into_site_fault(status):
+&gt;       c = module()
+            ^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</failure></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_limited_states_are_preserved_without_turning_into_site_fault[NOT_APPLICABLE]" time="0.002"><failure message="ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'">status = 'NOT_APPLICABLE'
+
+    @pytest.mark.parametrize('status', ['UNKNOWN', 'NOT_APPLICABLE', 'ACCESS_BLOCKED'])
+    def test_limited_states_are_preserved_without_turning_into_site_fault(status):
+&gt;       c = module()
+            ^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</failure></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_limited_states_are_preserved_without_turning_into_site_fault[ACCESS_BLOCKED]" time="0.002"><failure message="ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'">status = 'ACCESS_BLOCKED'
+
+    @pytest.mark.parametrize('status', ['UNKNOWN', 'NOT_APPLICABLE', 'ACCESS_BLOCKED'])
+    def test_limited_states_are_preserved_without_turning_into_site_fault(status):
+&gt;       c = module()
+            ^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</failure></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[tenant_id]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[run_id]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[policy_id]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[policy_version]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[pack_ref]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[projection_ref]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[projection_version]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[subject_model]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_server_held_task_pins_cannot_be_rebound[subject_snapshot_ref]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_observation_versions_and_sources_are_independently_pinned[rule_version]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_observation_versions_and_sources_are_independently_pinned[source_version]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_observation_versions_and_sources_are_independently_pinned[observation_id]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_observation_versions_and_sources_are_independently_pinned[snapshot_refs]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_cannot_combine_different_product_observations_from_same_verified_projection" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_even_same_model_needs_shared_pinned_subject_snapshot" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_self_rehashed_report_forgery_cannot_be_rendered[quote]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_self_rehashed_report_forgery_cannot_be_rendered[result]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_self_rehashed_report_forgery_cannot_be_rendered[hypothesis]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_self_rehashed_report_forgery_cannot_be_rendered[authority]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_self_rehashed_report_forgery_cannot_be_rendered[version]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_self_rehashed_report_forgery_cannot_be_rendered[card_splice]" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_rehashed_source_projection_is_recomputed_not_trusted" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_industry_profile_and_version_must_come_from_server_context" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_other_pack_and_cross_run_source_cannot_be_combined" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase><testcase classname="tests.s2_contract.buyer_candidate_cases" name="test_read_only_candidate_never_becomes_native_finding_or_guard_fact" time="0.001"><error message="failed on setup with &quot;ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+        projection = evaluate(pack)
+&gt;       return pack, projection, selection(pack, projection)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\buyer_candidate_cases.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\buyer_candidate_cases.py:18: in selection
+    c = module()
+        ^^^^^^^^
+tests\s2_contract\buyer_candidate_cases.py:14: in module
+    return importlib.import_module('vrae.reporting.s2_candidate')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'vrae.reporting.s2_candidate'
+import_ = &lt;function _gcd_import at 0x0000028B15F63D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'vrae.reporting.s2_candidate'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError</error></testcase></testsuite></testsuites>

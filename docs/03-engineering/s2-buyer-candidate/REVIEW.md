@@ -96,6 +96,6 @@ Frozen execution blob `c183970fd90ec69729221a4174c38d193f4b054b` and EvidencePac
 blob `8d45d5882103323e62bc4bd61a4379899e759966` stay exact. No existing reporting
 engine/Guard/rules/industry source, SourcePolicy, Worker, SQL/RLS or C2/C3 code is
 changed. Existing reporting canonicalization/display helpers are reused.
-Initial RED, real JUnit and source/evidence hashes remain in runtime/receipt.json.
+Initial RED and real JUnit remain in runtime/; source/evidence hashes are in receipt.json.
 S3 real AI, S4 external customers, model calls, real third-party sites, production,
 merge and deployment remain unauthorized/unperformed. Real human Gold stays 0/26.
