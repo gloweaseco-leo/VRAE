@@ -12,6 +12,8 @@ from vrae.browser.controller import DOM_SCRIPT
 ROOT = Path(__file__).resolve().parents[2]
 SCENARIOS = ('clean', 'hidden', 'covered', 'overflow')
 WIDTHS = (390, 375, 320, 1280)
+BUNDLED_ROOT = ROOT/'integration/s2_cta/evidence/cta-main-d38'
+BUNDLED_SHA256 = '3ef1c739910d9db4581643344a712fd614c922da920d5a34dc03f9043b1f3a6f'
 
 
 def sha(raw):
@@ -35,7 +37,10 @@ class Receipt:
     def __init__(self, directory, *, expected_sha256, held_context, observed_after, observed_before):
         self.root = Path(directory).resolve()
         owned = ROOT/'integration/s2_buyer_workbench/.runtime'
-        if not self.root.is_relative_to(owned.resolve()):
+        if self.root == BUNDLED_ROOT.resolve():
+            if expected_sha256 != BUNDLED_SHA256:
+                raise CTADenied('CTA_BUNDLED_RECEIPT_CHANGED')
+        elif not self.root.is_relative_to(owned.resolve()):
             raise CTADenied('CTA_OWNED_RECEIPT_REQUIRED')
         self.expected = expected_sha256
         self.held = dict(held_context)
@@ -55,7 +60,7 @@ class Receipt:
                     or data['nativeFactAdmission']!='NONE'
                     or any(data[k]!='UNKNOWN' for k in ('responseObservation','submission','delivery'))):
                 raise CTADenied('CTA_NOT_NATIVE_AUTHORITY')
-            if data['fixtureSha256'] != sha((ROOT/'integration/s2_ux/fixture.html').read_bytes()):
+            if data['fixtureSha256'] != sha((ROOT/'integration/s2_ux/fixture.html').read_bytes().replace(b'\r\n', b'\n')):
                 raise CTADenied('CTA_FIXTURE_CHANGED')
             if data['legacyScriptSha256']!=sha(DOM_SCRIPT.encode()) or data['observerSha256']!=sha((ROOT/'integration/s2_cta/capture.mjs').read_bytes()):
                 raise CTADenied('CTA_PRODUCER_CHANGED')
@@ -121,3 +126,20 @@ class Receipt:
         if struct.unpack('>II',raw[16:24])!=(row['width'],row['height']):
             raise CTADenied('CTA_IMAGE_DIMENSIONS')
         return raw
+
+
+def bundled(binding, report):
+    """Pinned public synthetic reference, associated with this current report.
+
+    Association is read authority only: these samples are not observations of
+    the current task's website, EvidencePack, or Guard findings.
+    """
+    raw = (BUNDLED_ROOT/'receipt.json').read_bytes()
+    if sha(raw) != BUNDLED_SHA256:
+        raise CTADenied('CTA_BUNDLED_RECEIPT_CHANGED')
+    data = json.loads(raw)
+    reader = Receipt(BUNDLED_ROOT, expected_sha256=BUNDLED_SHA256,
+                     held_context=context(binding, report),
+                     observed_after=data['startedAt'], observed_before=data['finishedAt'])
+    reader.read(binding, report)
+    return reader

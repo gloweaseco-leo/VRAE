@@ -11,7 +11,7 @@ const out=path.resolve(process.argv[2]);assert(out.startsWith(path.join(root,'in
 await mkdir(out,{recursive:false});
 const fixtureFile='integration/s2_ux/fixture.html';
 assert.equal(execFileSync('git',['hash-object','--path',fixtureFile,fixtureFile],{cwd:root,encoding:'utf8'}).trim(),'6b1e3d606de594e8359c8f08a64b11d7378d9637');
-const fixture=await readFile(path.join(root,fixtureFile));
+const fixture=execFileSync('git',['show','HEAD:'+fixtureFile],{cwd:root});
 const controller=(await readFile(path.join(root,'vrae/browser/controller.py'),'utf8')).replace(/\r\n/g,'\n');
 const legacy=controller.match(/DOM_SCRIPT = """([\s\S]*?)"""/)[1];
 const hash=b=>createHash('sha256').update(b).digest('hex');

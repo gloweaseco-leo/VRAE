@@ -1,6 +1,18 @@
 # CTA-01 / CTA-03 受限证据候选
 
-Refs [Issue119 Owner CODE GO](https://github.com/gloweaseco-leo/VRAE/issues/119#issuecomment-6969477769)、Issue137、Issue134。从 accepted main `6a15ab4514d24c60b4d03d4ec795f6e3bcd435c3` 独立分支；不包含 S4 PR140 的改动。仅交两个受限候选，不为凑规则数扩 INFO03/TECH02。
+Refs [Issue119 Owner CODE GO](https://github.com/gloweaseco-leo/VRAE/issues/119#issuecomment-6969477769)、Issue137、Issue134、PR141。原分支已正常 merge Owner 新验收 main `d38fd7263ea0d8ce357de54ef22cda90cdb86b9b`，合并提交 `81cbc610068ed7493339797d6518de79dabbe9af`；保留 S2 五维签名工作台与 S4 管理摘要、PG Brief、合成 VF 内部接单。不 force/rebase，不等待或改动 Codex3 的 S5 分支。
+
+## 本轮主干整合
+
+原组件入口之外，当前真实工业任务经既有 NativeBusiness → s2_acceptance_sources.bind，将固定合成参考资料绑定到原 SourceBinding；仍由原 Workbench.handle 检查任务权限、当前报告、租户、来源与版本。没有替换 NativeBusiness/NativeTasks，没有新建 SSR 或身份系统。
+
+两张 CTA 卡可从原五维页面的询价任务进入。详情并列显示 A / BUTTON 的原始 href、可视范围、尺寸、显示属性、透明度、中心命中与真实截图；按正常、透明、遮挡、溢出四种场景分别说明采购商可能遇到的障碍及对应 Rebuild 修复候选。没有观测的表单提交、询盘送达和转化结果始终 UNKNOWN。
+
+`evidence/cta-main-d38/` 是对既有批准 DOM 的新一次 Chrome 测量：四场景 × 四视口，共16记录、49采样检查；固定 receipt SHA256 和每张截图哈希在每次读取时重放。输入固定为批准 Git blob 的 UTF-8 原文，避免宿主换行差异；原 BrowserObservation v1 / DOM_SCRIPT 未修改。生产页面展示的来源仍明确为 synthetic.invalid 独立合成参考，**不是当前工业任务网站的实测结果**，不晋升当前 pack / Guard 事实，也不推断转化损失。新的报告版本不会自动继承旧 CTA 引用。
+
+原同任务 APP202/Worker/PG/Chrome 旅程新增 CTA 原界面、真实鼠标跳转、四场景来源、受保护 PNG 与手机视口检查，再继续原七包、Controlled、PG Brief、S4 ACK和重启验收。新原生专项覆盖主干接线、两目标、原 S2/S4 保留及未登录、跨租户、撤权、过期、旧版、任务拒绝和证据篡改。自然 CI 以新 HEAD 的首次结果及工件为准。
+
+历史 head `794866e` 的 RA4B P1 3.13 Docker 构建失败继续保留，底层 stderr 未公开、根因 UNKNOWN；本轮正常主干合入后提交新 HEAD 触发自然 CI，不重复旧 HEAD 测试刷绿。
 
 ## 使用
 
@@ -31,7 +43,7 @@ href、样式、命中与几何保存在独立附加记录中。原 BrowserObser
 
 未登录、跨租户、无定向授权 Reader、POST、撤权、过期或报告修订后的旧附加记录均拒绝；原报告历史字节与原 Controlled 决定保持不变。安装器拒绝覆盖已有 NativeBusiness/NativeTasks，未建立第二应用、登录系统、审核引擎或事实库。
 
-## 验证
+## 原独立组件验证历史（不替代本轮主干验收）
 
 最终代码验证提交 `2b96b09ab69ca017f198e5ecc3e5fe7bc2ec5ddd`，与 [source.json](evidence/cta-live-02/source.json) 内 head 一致。
 

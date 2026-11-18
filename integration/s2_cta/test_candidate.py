@@ -35,7 +35,7 @@ def sample():
         binding=NS(scope={'tenant_id':'unit-tenant','run_id':'unit-run','policy_id':'unit-policy','policy_version':1},
                    source=NS(held=NS(native_pack_ref='ep-'+'a'*64)),pins=NS(industry_ref='ip-'+'b'*64,profile_id='industrial',version='1.1.0'))
         data={'kind':'CONTROLLED_OFFLINE_CTA_SIDECAR','version':'c2-cta-offline-1.0.0',
-              'fixtureSha256':sha((ROOT/'integration/s2_ux/fixture.html').read_bytes()),
+              'fixtureSha256':sha((ROOT/'integration/s2_ux/fixture.html').read_bytes().replace(b'\r\n', b'\n')),
               'legacyScriptSha256':sha(DOM_SCRIPT.encode()),'observerSha256':sha((ROOT/'integration/s2_cta/capture.mjs').read_bytes()),
               'nativeFactAdmission':'NONE','responseObservation':'UNKNOWN','submission':'UNKNOWN','delivery':'UNKNOWN',
               'checks':[{'name':'UNIT_SYNTHETIC_NOT_CHROME_PROOF','pass':True}],'requests':[], 'records':[]}
@@ -170,3 +170,15 @@ def test_source_png_revalidates_revocation_and_expiry(sample, tmp_path):
     directory.people['reviewer-demo'] = replace(directory.people['reviewer-demo'], active=True)
     clock[0] += 7200
     assert app.handle('GET', path, headers(sid)).response.status == 403
+
+
+def test_bundled_reference_only_accepts_pinned_public_receipt(sample):
+    from .candidate import bundled, BUNDLED_ROOT
+    _, binding, report, _ = sample
+    reader = bundled(binding, report)
+    data = reader.read(binding, report)
+    assert len(data['records']) == 16 and data['submission'] == data['delivery'] == 'UNKNOWN'
+    assert all(row['url'].startswith('https://synthetic.invalid/') for row in data['records'])
+    with pytest.raises(CTADenied):
+        Receipt(BUNDLED_ROOT, expected_sha256='0'*64, held_context=context(binding, report),
+                observed_after=data['startedAt'], observed_before=data['finishedAt'])

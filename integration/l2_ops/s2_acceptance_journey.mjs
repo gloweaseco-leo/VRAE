@@ -46,6 +46,7 @@ export async function s2Journey(c) {
   await fresh();await nav(sourceURL);await click('[data-key=s2-source-citation]',true);
   await check('S2-real-citation-not-executed-source-HTML',await ev("!!document.querySelector('[data-key=s2-original-citation]')&&document.body.innerText.includes('原始 UTF-8 字节')&&document.scripts.length===0"));
   await screenshot('s2-original-citation.png');
+  await (await import('../s2_cta/journey.mjs')).ctaJourney(c,root,fresh);
   if(s4){await fresh();await s4.summary(root,reportPins,fresh)}
   await nav(root+'/blueprint');const packages=await ev('document.querySelectorAll(".l2-blueprint").length');
   await check('S2-original-seven-package-blueprint',packages===7);
@@ -85,5 +86,7 @@ export async function s2Journey(c) {
   if(s4){await s4.restarted(after);await s4.finish(fresh)}
   await call('Network.deleteCookies',{name:'b5a_l2_session',url:origin+'/b5a/l2/'});await nav(sourceURL);
   await check('S2-unsigned-source-reader-refused',statusOf(sourceURL)===403&&!await ev("!!document.querySelector('[data-key=s2-source-workbench]')"));
+  await nav(root+'/source-tasks/cta/covered/375/image');
+  await check('CTA-main-unsigned-image-refused',statusOf(root+'/source-tasks/cta/covered/375/image')===403&&await ev("document.contentType!=='image/png'"));
   await writeFile(path.join(out,'s2-native-chain.json'),JSON.stringify({scope:'S2_P2_INDUSTRIAL_STAGE_NOT_FULL_S2_EXIT',task,worker,reportPins,before,after,formalHumanGold:false,modelCalls:0,externalDelivery:false},null,2));
 }

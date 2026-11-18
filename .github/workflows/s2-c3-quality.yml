@@ -85,6 +85,7 @@ jobs:
         run: >-
           python -m pytest -q integration/l2_ops/checks/test_s2_acceptance_sources.py
           integration/l2_ops/checks/test_native_tasks.py
+          integration/l2_ops/checks/test_cta_main.py
           --junitxml=integration/l2_ops/.private/s2-ci-native-${{ matrix.slug }}.xml
       - name: Accepted dependency-only Worker image
         run: python integration/l2_ops/build_image.py --python ${{ matrix.python }}
