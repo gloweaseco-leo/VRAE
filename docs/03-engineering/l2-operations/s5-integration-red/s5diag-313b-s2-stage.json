@@ -1,0 +1,62 @@
+{
+  "source_sha": "fc3c1b6057e5a318a685222b1a3cb59488708fd3",
+  "accepted_main": "676fdde5c14a23bb284a0cb00df25773b30ed4b3",
+  "minor": "3.13",
+  "label": "s5diag-313b",
+  "scope": "S5_S2_S3_REAL_OPERATION_S4_PENDING_NOT_FINAL_READY",
+  "pass": false,
+  "formal_human_gold": false,
+  "external_delivery": false,
+  "model_calls": 0,
+  "missing_gates": [
+    "OWNER_MERGED_S4_REQUIRED"
+  ],
+  "known_limits": [
+    "S3_SESSION_CACHE_HISTORY_ONLY_AFTER_RESTART_NOT_A_DURABLE_PG_JOB"
+  ],
+  "failure_type": "AssertionError",
+  "closed": true,
+  "owned_cleanup": {
+    "volumes": [
+      {
+        "name": "vrae-beta-c3-fa6e700d0e74-routing",
+        "container_id": "168726119d67bd43cc472497281bd2404717aea0481bcb61b9bfb6cd0cdf726e",
+        "owner_label": "s5diag-313b",
+        "destination": "/state",
+        "absent": true,
+        "removed_after_owned_stop": false
+      },
+      {
+        "name": "vrae-beta-c3-fa6e700d0e74",
+        "container_id": "168726119d67bd43cc472497281bd2404717aea0481bcb61b9bfb6cd0cdf726e",
+        "owner_label": "s5diag-313b",
+        "destination": "/work",
+        "absent": true,
+        "removed_after_owned_stop": false
+      }
+    ],
+    "old_anonymous_volumes": "UNKNOWN_UNTOUCHED",
+    "global_prune": false
+  },
+  "first_failure": {
+    "phase": "original_browser.same_task",
+    "exception_type": "AssertionError",
+    "original_exception_type": null,
+    "original_method_locations": [],
+    "observed_transport_exception_type": null,
+    "private_logs": [
+      {
+        "role": "s2_controller",
+        "bytes": 558,
+        "sha256": "36c7f8739bf035e6963b0326c5d7051b795c9e8efcefcb3fd537b85d127546ad"
+      },
+      {
+        "role": "original_supervisor",
+        "bytes": 739,
+        "sha256": "7d663e7b6f2c3d0788e462437a6bbce1dd24c392780c50ecf2464ca1394b8fd4"
+      }
+    ],
+    "private_text_published": false,
+    "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"
+  }
+}

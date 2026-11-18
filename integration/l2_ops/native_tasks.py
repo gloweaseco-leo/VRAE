@@ -8,6 +8,7 @@ from contextlib import contextmanager
 from datetime import datetime
 from dataclasses import asdict, replace
 from pathlib import Path
+from typing import Any
 import re
 import hashlib
 import json
@@ -45,6 +46,7 @@ class NativeTasks:
             raise OperationsDenied("L2_NATIVE_POLICY_DEADLINE_REQUIRED")
         self.root, self.enabled = Path(private_root), enabled
         self.active, self.directory = None, None
+        self.s5: Any = None
 
     def route(self, path):
         found = re.fullmatch(r"/b5a/m2/task/([A-Za-z0-9_-]{43})/native", path)
@@ -72,6 +74,10 @@ class NativeTasks:
     def activate(self, task, sid):
         if not self.enabled:
             raise OperationsDenied("L2_NATIVE_RUNTIME_BLOCKED")
+        if self.s5 is not None and self.s5.reauthenticate(task, sid):
+            return self.app.deep.ledgers[self.active["report_id"]]
+        if self.s5 is not None:
+            self.s5.phase("activate_enter")
         stamp = assembly.production_stamp(self.root, task, self.bundle)
         captured = {}
 
@@ -80,6 +86,8 @@ class NativeTasks:
 
         source, activities = assembly.produce_current(self.port, task, self.sessions, sid,
             policy_expires_at=self.deadline, bundle=self.bundle, created_at=stamp, audit=capture)
+        if self.s5 is not None:
+            self.s5.phase("produce_current_complete")
         if (type(source) is not NativeSource or any(getattr(source.held, k) != value for k, value in asdict(task).items())
                 or source.held.created_at != stamp
                 or source.held.source_bundle_sha256 != self.bundle.document()["content_sha256"]):
@@ -103,9 +111,16 @@ class NativeTasks:
 
         assembly.attach_business(self.app, self.brief_ledger, report_id=rid, bundle=self.bundle,
             activities=activities, subject=c["subject"], factory=current)
+        if self.s5 is not None:
+            self.s5.phase("native_mount_complete")
         from .s2_acceptance_sources import bind
         bind(self.app.native_business, rid)
+        if self.s5 is not None:
+            self.s5.bind(self.app.native_business, rid)
+            self.s5.phase("s2_binding_complete")
         self.audit()
+        if self.s5 is not None:
+            self.s5.phase("activate_complete")
         return ledger
 
     def audit(self, document=None, stored=False):

@@ -37,6 +37,7 @@ class NativeBusiness:
         self.bindings = {}
         self.intake = SyntheticIntake()
         self.source_views = {}
+        self.extensions = {}
 
     def bind(self, report_id, *, bundle, activities, subject, factory):
         # Configuration comes from the trusted production context, never HTTP.
@@ -50,6 +51,9 @@ class NativeBusiness:
         self.bindings[report_id] = Binding(bundle, tuple(activities), subject, factory)
 
     def route(self, path):
+        for extension in self.extensions.values():
+            if (rid := extension.route(path)) is not None:
+                return rid
         from .s2_acceptance_sources import route
         if (rid := route(self, path)) is not None:
             return rid
@@ -59,6 +63,8 @@ class NativeBusiness:
         return None
 
     def decorate(self, path, reply):
+        for extension in self.extensions.values():
+            reply = extension.decorate(path, reply)
         if reply.response.status != 200 or not reply.response.content_type.startswith("text/html"):
             return reply
         for rid in self.bindings:
@@ -72,6 +78,9 @@ class NativeBusiness:
         return reply
 
     def handle(self, method, path, headers, raw):
+        for extension in self.extensions.values():
+            if extension.route(path) is not None:
+                return extension.handle(method, path, headers, raw)
         from .s2_acceptance_sources import route, handle
         if route(self, path) is not None:
             return handle(self, method, path, headers, raw)

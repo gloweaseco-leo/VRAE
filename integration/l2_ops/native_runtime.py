@@ -13,7 +13,7 @@ from . import readiness
 
 def provision(app, cfg, *, root=Path("/state/l2-native"), connect=None):
     fields = {"version", "enabled", "accepted_performance_main", "source_profile", "policy_expires_at", "identity", "brief_password"}
-    if (type(cfg) is not dict or set(cfg) != fields or cfg["version"] != "C3_NATIVE_RUNTIME_1"
+    if (type(cfg) is not dict or set(cfg) not in (fields, fields | {"s5"}) or cfg["version"] != "C3_NATIVE_RUNTIME_1"
             or cfg["source_profile"] != "industrial-p40-v3" or type(cfg["enabled"]) is not bool
             or cfg["accepted_performance_main"] != readiness.ACCEPTED_PERFORMANCE_MAIN
             or cfg["enabled"] != readiness.enabled()
@@ -38,5 +38,10 @@ def provision(app, cfg, *, root=Path("/state/l2-native"), connect=None):
     app.native_tasks = NativeTasks(app, port, bundle, BriefLedger(connection),
         policy_expires_at=cfg["policy_expires_at"], identity=cfg["identity"],
         private_root=root, enabled=cfg["enabled"])
+    if 's5' in cfg:
+        if cfg['s5'] != {'version':'S5_OFFLINE_ONLY_1'}:
+            raise OperationsDenied('S5_TRUSTED_CONFIG_REQUIRED')
+        from integration.s5_ops.adapter import S5Ports
+        app.native_tasks.s5 = S5Ports(app.native_tasks)
     app.generated.native_tasks = app.native_tasks
     return app.native_tasks

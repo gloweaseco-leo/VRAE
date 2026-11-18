@@ -1,0 +1,67 @@
+{
+  "source_sha": "e914bbfda0fb7e2d2ab9cbf4d46f3f9263f27d6c",
+  "accepted_main": "676fdde5c14a23bb284a0cb00df25773b30ed4b3",
+  "minor": "3.13",
+  "label": "s5a-313a",
+  "scope": "S5_S2_S3_REAL_OPERATION_S4_PENDING_NOT_FINAL_READY",
+  "pass": false,
+  "formal_human_gold": false,
+  "external_delivery": false,
+  "model_calls": 0,
+  "missing_gates": [
+    "OWNER_MERGED_S4_REQUIRED"
+  ],
+  "known_limits": [
+    "S3_SESSION_CACHE_HISTORY_ONLY_AFTER_RESTART_NOT_A_DURABLE_PG_JOB"
+  ],
+  "failure_type": "AssertionError",
+  "closed": true,
+  "owned_cleanup": {
+    "volumes": [
+      {
+        "name": "vrae-beta-c3-12ba4c22b0fb-routing",
+        "container_id": "f3e863c10b44383e26f7c19910e38c074a3d6ee5e35c17b606f74ab7d934be09",
+        "owner_label": "s5a-313a",
+        "destination": "/state",
+        "absent": true,
+        "removed_after_owned_stop": false
+      },
+      {
+        "name": "vrae-beta-c3-12ba4c22b0fb",
+        "container_id": "f3e863c10b44383e26f7c19910e38c074a3d6ee5e35c17b606f74ab7d934be09",
+        "owner_label": "s5a-313a",
+        "destination": "/work",
+        "absent": true,
+        "removed_after_owned_stop": false
+      }
+    ],
+    "old_anonymous_volumes": "UNKNOWN_UNTOUCHED",
+    "global_prune": false
+  },
+  "first_failure": {
+    "phase": "original_browser.same_task",
+    "exception_type": "AssertionError",
+    "original_exception_type": null,
+    "original_method_locations": [],
+    "observed_transport_exception_type": "Empty",
+    "private_logs": [
+      {
+        "role": "s2_controller",
+        "bytes": 558,
+        "sha256": "36c7f8739bf035e6963b0326c5d7051b795c9e8efcefcb3fd537b85d127546ad"
+      },
+      {
+        "role": "original_supervisor",
+        "bytes": 736,
+        "sha256": "4a6dc302a52305cf850d6ba7f4dec1cc49abc79b35c1bd81f4fa682a6c0eec88"
+      },
+      {
+        "role": "original_http_transport",
+        "bytes": 25,
+        "sha256": "f0cf09e203c65f8d99a86c73c71801802c593b85fea690d9dc2abca3305edc8c"
+      }
+    ],
+    "private_text_published": false,
+    "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"
+  }
+}

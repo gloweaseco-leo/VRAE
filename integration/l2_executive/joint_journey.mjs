@@ -77,14 +77,14 @@ export function executiveJourney(c) {
       await rpc('s0-audit-queue',{case:'c2-revocation'});await click('[data-key=l2-save-brief]',true);
       const revoked=await rpc('s0-audit-result',{case:'c2-revocation'});
       await check('S4-live-original-key-revocation',revoked.pass,revoked);
-      for(const suffix of ['/source-tasks','/executive','/brief']){await nav(root+suffix);await check('S4-revoked-original-key-denies-'+suffix,statusOf(root+suffix)===403)}
+      for(const suffix of ['/source-tasks','/executive','/brief',...(c.s5Hooks?['/s3']:[])]){await nav(root+suffix);await check('S4-revoked-original-key-denies-'+suffix,statusOf(root+suffix)===403)}
       const restarted=await rpc('restart');await check('S4-original-restart-after-revocation',Object.values(restarted).every(x=>x===true));
       await fresh();await nav(root+'/brief');const restored=await rpc('native-proof');
       await check('S4-key-rotation-preserves-same-PG-Brief',restored.brief.content_sha256===before.brief.content_sha256&&restored.task.job_id===before.task.job_id);
       const began=Date.now();let expired=false;
       while(Date.now()-began<130000){await nav(root+'/executive');if(statusOf(root+'/executive')===403){expired=true;break}await new Promise(r=>setTimeout(r,1000))}
       await check('S4-original-task-natural-expiry',expired,{wait_ms:Date.now()-began,original_ttl_changed:false});
-      for(const suffix of ['/source-tasks','/executive-document','/brief']){await nav(root+suffix);await check('S4-expired-original-task-denies-'+suffix,statusOf(root+suffix)===403)}
+      for(const suffix of ['/source-tasks','/executive-document','/brief',...(c.s5Hooks?['/s3']:[])]){await nav(root+suffix);await check('S4-expired-original-task-denies-'+suffix,statusOf(root+suffix)===403)}
       await fresh();await nav(root+'/brief');const renewed=await rpc('native-proof');
       await check('S4-original-reauth-same-report-and-PG',renewed.brief.content_sha256===before.brief.content_sha256&&renewed.task.job_id===before.task.job_id);
       await nav(root+'/review');

@@ -28,6 +28,8 @@ def main(argv=None):
         app.add_argument("--run", required=True)
         if operation in ("app-start", "app-accept"):
             app.add_argument("--minor", choices=("3.11", "3.13"), default="3.11")
+        if operation == "app-start":
+            app.add_argument("--s5", action="store_true", help="Accepted S2/S3 offline composition; S4 may remain pending")
     args = parser.parse_args(argv)
     if args.operation == "app-accept":
         from .acceptance import accept
@@ -43,7 +45,7 @@ def main(argv=None):
                 preparation_only=not readiness.enabled() and not interactive,
                 native_l2=readiness.enabled() and not interactive), 0
         elif args.operation == "app-start":
-            result, code = start(args.run, args.minor, False, workbench=True, l2_prepare=True)
+            result, code = start(args.run, args.minor, False, workbench=True, l2_prepare=True, s5=args.s5)
         else:
             result = status(args.run) if args.operation == "app-status" else request_stop(args.run)
             code = 0
