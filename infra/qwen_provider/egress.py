@@ -1,4 +1,4 @@
-"""Isolated stdlib-only native API process. No source collector or generic HTTP proxy."""
+"""Infrastructure-only native API process. No source collector or generic HTTP proxy."""
 import http.client
 import ipaddress
 import json

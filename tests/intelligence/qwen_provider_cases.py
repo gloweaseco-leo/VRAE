@@ -216,10 +216,9 @@ def test_concurrent_same_operation_and_cancellation_do_not_retry(tmp_path, c):
 @pytest.mark.parametrize('when', ['lease', 'expired', 'after_response'])
 def test_post_commit_and_current_authority_checked_before_and_after_call(tmp_path, c, when):
     p = provider(tmp_path / 'q.sqlite', c)
-    times = [NOW, NOW, NOW, NOW, NOW + timedelta(hours=1)] if when == 'after_response' else None
     def clock():
-        if times:
-            return times.pop(0)
+        if when == 'after_response':
+            return NOW + timedelta(hours=1) if p._transport.calls else NOW
         return c.completion.lease_started_at if when == 'lease' else c.completion.authority_expires_at
     s = Session(c, clock=clock)
     if when == 'after_response':
@@ -266,7 +265,7 @@ def test_native_transport_cannot_use_test_permission_or_synthetic_key(tmp_path, 
     ['64:ff9b::a00:1'], ['64:ff9b:1::a00:1'], ['2002:7f00:1::'],
     ['8.8.8.8', '10.0.0.1'], ['2606:4700:4700::1111', '::1'], []])
 def test_egress_process_rejects_entire_mixed_or_special_dns_set(monkeypatch, addresses):
-    from vrae.intelligence.qwen import egress
+    from infra.qwen_provider import egress
     envelope = {'workspace': 'synthetic-workspace', 'key': 'synthetic-key-no-real-secret-0000',
                 'body': {'model': MODEL}, 'timeout_ms': 1000}
     class Stdin:
@@ -310,7 +309,7 @@ def test_unknown_cards_remain_unknown_while_candidates_are_only_hypotheses(tmp_p
 
 
 def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(monkeypatch):
-    from vrae.intelligence.qwen import egress
+    from infra.qwen_provider import egress
     envelope = {'workspace': 'synthetic-workspace', 'key': 'synthetic-key-no-real-secret-0000',
                 'body': {'model': MODEL}, 'timeout_ms': 1000}
     class Stdin:

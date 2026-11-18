@@ -9,8 +9,9 @@ It is never `REAL_QWEN_LIVE_CALL_PASS`.
 
 The original `ModelGateway.run`, synthetic Ledger, NO_MODEL/FIXTURE, 30-second
 Worker, Guard, SourcePolicy, RLS and report/sharing authority stay in place.
-The existing Session adds an explicit `REAL_QWEN` branch through the original
-ModelGateway's separate trusted method. No HTTP parameter can supply a provider,
+The existing Session adds an explicit trusted `REAL_QWEN` branch, replaying the
+unchanged ModelGateway's original NO_MODEL input/minimization path before the
+bounded native adapter. No HTTP parameter can supply a provider,
 key, URL, model, permission or quota path. C3's HTTP/PG/Worker is not modified.
 
 ## Native protocol and privacy
@@ -57,7 +58,8 @@ fictitious sample permission/prices/key are explicitly refused by NativeTranspor
 There is no environment key autoload; key repr is suppressed, and it is never
 written to quota, receipt, argv, environment or logs.
 
-The native adapter runs in a separate short-lived stdlib-only subprocess via
+The native adapter in `infra/qwen_provider` is deployed with the repository
+infrastructure, not a standalone pure-domain wheel. It runs in a separate short-lived stdlib-only subprocess via
 anonymous pipes. It constructs its sole allowed host/path itself, rejects any
 nonpublic/mixed/translated DNS set, pins a numeric peer, verifies TLS hostname
 and certificate, ignores proxy environment and suppresses remote errors. Parent
@@ -89,7 +91,7 @@ cannot be read. New sidecar states do not extend AuditRun enums.
 ## Offline reproduction
 
 ```
-python -m pytest -q tests/intelligence/qwen_provider_cases.py tests/intelligence/s3_offline_cases.py tests/intelligence/test_gateway.py tests/intelligence/test_accounting.py tests/intelligence/test_request.py tests/interpretation/test_guard.py tests/interpretation/test_fixed_replay.py
+python -X utf8 -m pytest -q tests/intelligence/qwen_provider_cases.py tests/test_domain.py::test_no_network_or_unauthorized_framework_code tests/intelligence/s3_offline_cases.py tests/intelligence/test_gateway.py tests/intelligence/test_accounting.py tests/intelligence/test_request.py tests/interpretation/test_guard.py tests/interpretation/test_fixed_replay.py
 python -B -m integration.qwen_provider.demo --output integration/qwen_provider/.runtime/demo-local
 ```
 

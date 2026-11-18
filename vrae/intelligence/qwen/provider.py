@@ -5,13 +5,12 @@ from datetime import datetime
 from decimal import Decimal, ROUND_CEILING
 import hashlib
 import json
-from pathlib import Path
 import re
-import sys
 from time import monotonic
 from typing import TYPE_CHECKING, NoReturn
 
 from vrae.intelligence.common import encode
+from infra.qwen_provider.transport import NativeTransport
 from .testing import FakeTransport
 
 if TYPE_CHECKING:
@@ -122,34 +121,6 @@ class Price:
     def document(self):
         return {**asdict(self), 'valid_until': self.valid_until.isoformat(),
                 'model_id': MODEL, 'basis': 'ESTIMATE_NOT_PROVIDER_INVOICE'}
-
-
-class NativeTransport:
-    """One bounded dedicated egress process; fixed host/path, no proxies or retry.
-
-    Does not alter the R1B NO_MODEL container or claim kernel egress isolation.
-    Secret travels through an anonymous stdin pipe, never argv/environment/logs.
-    """
-    async def post(self, config, key, body, timeout_ms):
-        process = await asyncio.create_subprocess_exec(
-            sys.executable, '-I', '-X', 'utf8', str(Path(__file__).with_name('egress.py')),
-            stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.DEVNULL, env={})
-        envelope = encode({'workspace': config.workspace_id, 'key': key,
-                           'body': body, 'timeout_ms': timeout_ms})
-        try:
-            # Child reads at most a fixed response bound and emits no remote headers/errors.
-            raw, _ = await asyncio.wait_for(process.communicate(envelope), timeout_ms / 1000)
-            if process.returncode != 0 or len(raw) > MAX_RESPONSE * 2:
-                fail('EGRESS_FAILED')
-            reply = strict_json(raw)
-            if set(reply) != {'status', 'body'}:
-                fail('EGRESS_FAILED')
-            return reply['status'], reply['body'].encode('utf-8')
-        finally:
-            if process.returncode is None:
-                process.kill()
-            await process.wait()
 
 
 @dataclass(repr=False, frozen=True)

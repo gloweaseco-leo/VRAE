@@ -9,7 +9,6 @@ from time import monotonic
 from jsonschema import Draft202012Validator
 
 from vrae.intelligence.common import encode
-from vrae.intelligence.request import prepare_request
 from vrae.interpretation import guard
 from .provider import (MODEL, PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvider,
                        digest, fail, strict_json)
@@ -69,23 +68,30 @@ def catalog(context):
     return output
 
 
-async def dispatch(context, *, provider, operation, now, timeout_ms):
+async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
+    from vrae.intelligence.gateway import ModelGateway
     from vrae.intelligence.s3.offline import Context
     if type(context) is not Context or type(provider) is not QwenProvider:
         fail('TRUSTED_CONFIGURATION_REQUIRED')
     context.completion.check(context.source, now)
-    request = prepare_request(context.pack, json.loads(context.execution_bytes), context.package,
-                              pins=context.gateway_pins)
-    data = {'bounded_request': json.loads(request.provider_bytes), 'references': catalog(context),
+    # Original gateway owns the independent replay/minimization. Its source and
+    # constructor/run fixture isolation remain byte-for-byte accepted.
+    preflight = await ModelGateway().run(context.pack, json.loads(context.execution_bytes),
+        context.package, pins=context.gateway_pins, operation_id=operation, recorded_at=now.isoformat())
+    if preflight['code'] != 'NO_MODEL':
+        fail('ORIGINAL_GATEWAY_REFUSED')
+    data = {'bounded_request': preflight['request']['provider_request'], 'references': catalog(context),
             'context_ref': context.context_ref, 'prompt_version': PROMPT}
     body = {'model': MODEL, 'messages': [{'role': 'system', 'content': SYSTEM},
         {'role': 'user', 'content': encode(data).decode()}],
         'response_format': {'type': 'json_schema', 'json_schema': {
             'name': 'buyer_candidates', 'strict': True, 'schema': SCHEMA}},
         'enable_thinking': False, 'max_completion_tokens': OUTPUT_CAP, 'stream': False}
+    dispatch_at = clock()
+    context.completion.check(context.source, dispatch_at)
     text, receipt = await provider.complete(body, operation=operation,
         scope=asdict(context.gateway_pins.scope), context_ref=context.context_ref,
-        now=now, timeout_ms=timeout_ms)
+        now=dispatch_at, timeout_ms=timeout_ms)
     return text, receipt
 
 
@@ -154,7 +160,6 @@ def validate_candidates(text, context, receipt):
 
 
 async def run_session(session, operation, *, provider, timeout_ms, cancel):
-    from vrae.intelligence.gateway import ModelGateway
     from vrae.intelligence.s3.offline import S3Error
     if (type(provider) is not QwenProvider or type(operation) is not str
             or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{2,127}', operation)
@@ -191,8 +196,8 @@ async def run_session(session, operation, *, provider, timeout_ms, cancel):
             fail('CANCELLED_BEFORE_DISPATCH')
         provider.authorize(session.clock())
         c.completion.check(c.source, session.clock())
-        text, receipt = await ModelGateway().run_qwen(c, provider=provider, operation_id=operation,
-                                                    now=session.clock(), timeout_ms=timeout_ms)
+        text, receipt = await dispatch(c, provider=provider, operation=operation,
+                                       now=session.clock(), timeout_ms=timeout_ms, clock=session.clock)
         out['usage'] = receipt
         c.completion.check(c.source, session.clock())
         out['claims'] = validate_candidates(text, c, receipt)
