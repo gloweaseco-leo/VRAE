@@ -103,7 +103,10 @@ def accept(label, minor):
     outcome = {"source_sha":head,"accepted_main":ACCEPTED_MAIN,"minor":minor,"label":label,
         "scope":"S2_P2_INDUSTRIAL_SAME_TASK_STAGE_NOT_FULL_S2_EXIT","pass":False,
         "formal_human_gold":False,"external_delivery":False,"model_calls":0}
-    saved, error, secrets, mounts = None, None, set(), {}
+    saved: str | None = None
+    error: BaseException | None = None
+    secrets: set[bytes] = set()
+    mounts: dict[str, dict] = {}
     try:
         started, code = local_app.start(label, minor, False, workbench=True, l2_prepare=True)
         assert code == 0 and started["state"] == "STARTING"
