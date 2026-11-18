@@ -117,3 +117,37 @@ def test_first_failure_receipt_missing_logs_does_not_invent_root_cause(tmp_path,
     assert receipt["private_logs"] == receipt["original_method_locations"] == []
     assert receipt["original_exception_type"] is None
     assert receipt["root_cause"] == "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"
+
+
+def test_metadata_receipt_does_not_replay_or_grant_current_source_read(runtime, monkeypatch):  # noqa: F811
+    from integration.l2_ops.s2_acceptance_sources import proof
+    app, manager, _, headers, rid, _ = ready(runtime)
+    binding = app.native_business.source_views[rid].binding
+    expected = proof(app.native_business, rid)
+    calls = []
+
+    def denied(projection):
+        calls.append("actual_current_candidate_verification")
+        raise ValueError("current read must still verify")
+
+    monkeypatch.setattr(binding, "read_buyer", denied)
+    detached = proof(app.native_business, rid)
+    assert detached == expected and calls == []
+    detached["buyer"]["cards"][0]["result"] = "untrusted mutation"
+    assert proof(app.native_business, rid) == expected
+    reply = app.handle("GET", "/b5a/l2/r/"+rid+"/source-tasks", headers)
+    assert reply.response.status == 403
+    assert calls == ["actual_current_candidate_verification"]
+
+
+@pytest.mark.parametrize("kind,expected", [("Empty", "Empty"), ("https://SECRET.invalid", "OTHER"),
+                                          ({"token": "SECRET"}, "OTHER")])
+def test_transport_receipt_exports_only_allowlisted_exception_class(tmp_path, monkeypatch, kind, expected):
+    from integration.l2_ops import s2_acceptance_runtime as controller
+    monkeypatch.setattr(controller.local_app, "launch_for", lambda label: tmp_path/"absent")
+    (tmp_path/"transport-failure.private.json").write_text(json.dumps({"kind":kind}), encoding="utf-8")
+    receipt = controller.failure_receipt(tmp_path, "bounded-test", "original_browser.same_task",
+                                         AssertionError("SECRET"))
+    assert receipt["observed_transport_exception_type"] == expected
+    assert receipt["private_logs"][0]["role"] == "original_http_transport"
+    assert "SECRET" not in json.dumps(receipt)

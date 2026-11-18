@@ -97,16 +97,25 @@ def failure_receipt(private, label, phase, error):
     logs = []
     frames = []
     original_type = None
+    transport_type = None
     own_log = private/"s2-original-red.private.log"
     if not own_log.is_file():
         own_log = local_app.launch_for(label)/"s2-original-red.private.log"
     candidates = (("s2_controller", own_log),
-                  ("original_supervisor", local_app.launch_for(label)/"local-supervisor.private.log"))
+                  ("original_supervisor", local_app.launch_for(label)/"local-supervisor.private.log"),
+                  ("original_http_transport", private/"transport-failure.private.json"))
     for role, location in candidates:
         if not location.is_file():
             continue
         raw = location.read_bytes()
         logs.append({"role": role, "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()})
+        if role == "original_http_transport":
+            try:
+                kind = json.loads(raw).get("kind")
+                transport_type = kind if isinstance(kind, str) and kind in {"Empty", "TimeoutError", "AssertionError",
+                    "BrokenPipeError", "ConnectionResetError"} else "OTHER"
+            except (ValueError, AttributeError):
+                transport_type = "UNREADABLE"
         # Inspect a bounded suffix. No source lines, messages or absolute paths leave this function.
         text = raw[-262144:].decode("utf-8", errors="replace")
         if role == "original_supervisor":
@@ -124,6 +133,7 @@ def failure_receipt(private, label, phase, error):
                         frames.append({"module": module, "line": int(line), "method": method})
     return {"phase": phase, "exception_type": type(error).__name__,
             "original_exception_type": original_type, "original_method_locations": frames[-8:],
+            "observed_transport_exception_type": transport_type,
             "private_logs": logs, "private_text_published": False,
             "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"}
 

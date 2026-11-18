@@ -102,6 +102,7 @@ jobs:
         if: always()
         with:
           name: s2-c3-real-combination-${{ matrix.slug }}
+          include-hidden-files: true
           retention-days: 7
           if-no-files-found: error
           path: |

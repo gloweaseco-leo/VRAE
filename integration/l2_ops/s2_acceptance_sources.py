@@ -1,7 +1,13 @@
 """Add accepted C2 read-only source routes to the existing C3 business port."""
+import json
 from integration.s2_buyer_workbench.workbench import SourceBinding, Workbench
 from vrae.industry.l2_v1.pack import IndustryPins, load_s2
 from vrae.l2_ops.sources import OperationsDenied
+
+
+class CurrentSourceWorkbench(Workbench):
+    """Inherit the accepted handler unchanged; add only C3 receipt storage."""
+    _c3_buyer_receipt: bytes
 
 
 def bind(business, report_id):
@@ -24,13 +30,27 @@ def bind(business, report_id):
         held = IndustryPins(config["industry_ref"], tenant)
         binding = SourceBinding(source, evidence.pack, trusted_scope=scope, industry_pins=held)
         # Select only this controlled catalog's unambiguous P40 source anchor.
-        projection = binding.read(source.read())
+        # Constructor produced this server-held projection; enable_buyer_cards below
+        # performs the accepted source/projection verification before building the DTO.
+        projection = json.loads(binding.payload)
         anchors = [row for row in projection["industrial_projection"]["rows"]
                    if row["observation"]["rule_id"] == "INFO-02" and row["model"] == "P40"]
         if len(anchors) != 1 or len(anchors[0]["source_pages"]) != 1:
             raise OperationsDenied("S2_CONTROLLED_BUYER_ANCHOR_REQUIRED")
         binding.enable_buyer_cards(model="P40", snapshot_ref=anchors[0]["source_pages"][0]["snapshot_ref"])
-        component = Workbench(app.deep, binding)
+        component = CurrentSourceWorkbench(app.deep, binding)
+        # This is a receipt of the accepted builder's output, never read authority.
+        # C2 Workbench.handle still verifies the current projection/candidate on every read.
+        if binding.buyer_payload is None or binding.buyer_pins is None:
+            raise OperationsDenied("S2_CONTROLLED_BUYER_BINDING_REQUIRED")
+        buyer = json.loads(binding.buyer_payload)
+        component._c3_buyer_receipt = json.dumps({
+            "candidate_ref": binding.expected_buyer_ref,
+            "reporting_version": binding.buyer_pins.reporting_version,
+            "model": binding.buyer_pins.subject_model,
+            "snapshot_ref": binding.buyer_pins.subject_snapshot_ref,
+            "cards": [{"rule_id": card["rule_id"], "result": card["result"],
+                       "observation_id": card["observation_id"]} for card in buyer["cards"]]}).encode()
     # Do not call the component installer or replace native_business/native_tasks.
     business.source_views[report_id] = component
     return component
@@ -63,13 +83,7 @@ def proof(business, rid):
     if component is None:
         return None
     binding = component.binding
-    buyer = binding.read_buyer(binding.read(binding.source.read()))
     return {"authority": "READ_ONLY_CANDIDATE_NOT_RX_OR_GUARD",
             "pack_ref": binding.pack.ref, "scope": binding.scope,
             "projection_ref": binding.expected_ref, "industry_ref": binding.pins.industry_ref,
-            "buyer": {"candidate_ref": binding.expected_buyer_ref,
-                      "reporting_version": binding.buyer_pins.reporting_version,
-                      "model": binding.buyer_pins.subject_model,
-                      "snapshot_ref": binding.buyer_pins.subject_snapshot_ref,
-                      "cards": [{"rule_id": card["rule_id"], "result": card["result"],
-                                 "observation_id": card["observation_id"]} for card in buyer["cards"]]}}
+            "buyer": json.loads(component._c3_buyer_receipt)}
