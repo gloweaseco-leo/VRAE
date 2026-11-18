@@ -57,7 +57,7 @@ def publish(label, private, secrets, outcome):
     (out/".gitattributes").write_text("* -text whitespace=cr-at-eol\n", encoding="utf-8")
     folder = private/"browser-s2-l2"
     allowed = {"browser.json", "browser-failure.json", "assertions.json",
-               "browser-process-cleanup.json", "s2-native-chain.json"}
+               "browser-process-cleanup.json", "s2-native-chain.json", "s4-native-chain.json"}
     files = [(p, p.name) for p in folder.glob("*") if p.is_file()
              and (p.name in allowed or p.suffix in (".png", ".pdf"))]
     files += [(p, p.name) for p in private.glob("*") if p.is_file() and
@@ -137,13 +137,22 @@ def failure_receipt(private, label, phase, error):
             "private_logs": logs, "private_text_published": False,
             "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"}
 
-def accept(label, minor):
+def accept(label, minor, *, executive=False):
     assert re.fullmatch("[a-z0-9-]{3,30}", label)
     assert minor == ".".join(map(str, sys.version_info[:2])), "S2_NATIVE_MINOR_REQUIRED"
     command(["git", "merge-base", "--is-ancestor", ACCEPTED_MAIN, "HEAD"])
     assert not command(["git", "status", "--porcelain", "--untracked-files=no"]).strip(), "S2_COMMIT_BEFORE_REAL_RUN"
-    assert not command(["git", "diff", "--name-only", ACCEPTED_MAIN, "HEAD", "--",
-                        "vrae", "apps", "db", "contracts", "industry-packs"]).strip()
+    if executive:
+        combined_base = '676fdde5c14a23bb284a0cb00df25773b30ed4b3'
+        command(['git', 'merge-base', '--is-ancestor', combined_base, 'HEAD'])
+        changed = set(command(['git', 'diff', '--name-only', combined_base, 'HEAD', '--',
+                              'vrae', 'apps', 'db', 'contracts', 'industry-packs']).decode().splitlines())
+        assert changed <= {'vrae/l2/executive.py', 'vrae/l2_ops/intake.py', 'vrae/l2_ops/intake_panel.py',
+                           'apps/operator_console/l2_executive_views.py', 'apps/operator_console/l2_http.py',
+                           'apps/operator_console/l2_views.py', 'apps/operator_console/l2.css'}, 'S4_REVIEWED_UI_SCOPE_ONLY'
+    else:
+        assert not command(["git", "diff", "--name-only", ACCEPTED_MAIN, "HEAD", "--",
+                            "vrae", "apps", "db", "contracts", "industry-packs"]).strip()
     head = command(["git", "rev-parse", "HEAD"]).decode().strip()
     private = local_app.folder_for(label)
     outcome = {"source_sha":head,"accepted_main":ACCEPTED_MAIN,"minor":minor,"label":label,
@@ -186,7 +195,15 @@ def accept(label, minor):
         phase = "original_snapshot.before_browser"
         snapshot(private, label, saved, "s2-before")
         phase = "original_browser.same_task"
-        outcome["browser"] = browser(label, s2_l2=True)
+        if executive:
+            paths += ['integration/l2_executive/joint_journey.mjs', 'integration/l2_executive/runtime_intake.py',
+                      'integration/l2_executive/receiver.py', 'vrae/l2/executive.py', 'vrae/l2_ops/intake.py',
+                      'vrae/l2_ops/intake_panel.py', 'apps/operator_console/l2_executive_views.py',
+                      'apps/operator_console/l2_http.py', 'apps/operator_console/l2_views.py', 'apps/operator_console/l2.css']
+            manifest.update({p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths})
+            (private/'s2-source-manifest.json').write_text(json.dumps({'source_sha':head,'actual_working_bytes':manifest},indent=2),encoding='utf-8')
+            outcome.update(scope='S2_S4_REAL_SAME_TASK_APP202_WORKER_PG_SSR_EXECUTIVE_INTAKE', accepted_main=combined_base)
+        outcome["browser"] = browser(label, s2_l2=True, executive=executive)
         assert manifest == {p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
         cleanup = json.loads((private/"browser-s2-l2/browser-process-cleanup.json").read_bytes())
         assert cleanup["exit_observed"], "S2_CHROME_EXIT_NOT_OBSERVED"
@@ -242,8 +259,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", required=True)
     parser.add_argument("--minor", choices=("3.11","3.13"), required=True)
+    parser.add_argument('--executive', action='store_true', help='Owner PR140 same-task S2/S4 integration')
     args = parser.parse_args()
-    print(json.dumps(accept(args.run,args.minor)))
+    print(json.dumps(accept(args.run,args.minor,executive=args.executive)))
 
 
 if __name__ == "__main__":

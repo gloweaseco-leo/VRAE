@@ -123,6 +123,9 @@ class NativeBusiness:
                 if not stored:
                     raise OperationsDenied('S4_SAVED_BRIEF_REQUIRED')
                 self.intake.transition(service, self.ledger, brief_ref, action)
+            if stored and self.app.native_tasks is not None:
+                from integration.l2_executive.runtime_intake import consume
+                consume(self.app.native_tasks, self.intake, service, self.ledger, brief_ref)
             row = None
             if stored and document['source']['access_mode'] == 'OFFLINE_SYNTHETIC' and document['preparation_status'] == 'INTERNAL_REVIEW_RECORDED':
                 row = self.intake.view_verified(document)

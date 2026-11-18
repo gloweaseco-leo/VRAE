@@ -36,6 +36,7 @@ jobs:
           python -m ruff check vrae/l2/executive.py vrae/l2_ops/intake.py vrae/l2_ops/intake_panel.py apps/operator_console/l2_executive_views.py integration/l2_executive integration/l2_ops/checks/test_executive.py integration/l2_ops/checks/test_intake.py --select E4,E7,E9,F
           python -m mypy vrae
           node --check integration/l2_executive/browser.mjs
+          node --check integration/l2_executive/joint_journey.mjs
       - name: Pinned original PG16 and Chinese document fonts
         run: |
           docker pull postgres@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
@@ -45,10 +46,14 @@ jobs:
         env:
           L2_CHROMIUM: /usr/bin/google-chrome
         run: python integration/l2_ops/verify.py --executive-only --label s4${{ strategy.job-index }} --python-current python --pg-image postgres@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+      - name: Accepted S2 source and shared routing regressions
+        run: python -m pytest -q integration/l2_ops/checks/test_s2_acceptance_sources.py integration/l2_ops/checks/test_s4_joint.py --tb=short --junitxml=integration/l2_ops/.private/s4-routing-${{ strategy.job-index }}.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: s4-executive-vf-${{ matrix.python }}
           retention-days: 7
           if-no-files-found: error
-          path: docs/03-engineering/l2-operations/s4${{ strategy.job-index }}/
+          path: |
+            docs/03-engineering/l2-operations/s4${{ strategy.job-index }}/
+            integration/l2_ops/.private/s4-routing-${{ strategy.job-index }}.xml

@@ -92,12 +92,12 @@ jobs:
         run: |
           docker image inspect --format '{{.Id}}' vrae-ra4b-p1:${{ matrix.slug }} > integration/l2_ops/.private/s2-ci-image-${{ matrix.slug }}.txt
           docker run --rm --pull never --network none --read-only --cap-drop ALL vrae-ra4b-p1:${{ matrix.slug }} python -c "import sys,json,importlib.util,psycopg,cryptography; assert '.'.join(map(str,sys.version_info[:2])) == '${{ matrix.python }}'; assert importlib.util.find_spec('vrae') is None; print(json.dumps({'python':sys.version,'psycopg':psycopg.__version__,'cryptography':cryptography.__version__,'source_embedded':False,'network':'none'}))" > integration/l2_ops/.private/s2-ci-image-probe-${{ matrix.slug }}.json
-      - name: Real new APP202 Worker PG16 original SSR Chrome and restart
+      - name: Real same-task S2 cards S4 summary VF simulation PG16 Worker Chrome and restart
         env:
           B5B_CHROMIUM: /usr/bin/google-chrome
         run: >-
           python -m integration.l2_ops.s2_acceptance_runtime
-          --run s2-ci-${{ matrix.slug }} --minor ${{ matrix.python }}
+          --executive --run s2-ci-${{ matrix.slug }} --minor ${{ matrix.python }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
