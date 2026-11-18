@@ -25,7 +25,7 @@ async function click(selector){const p=await ev(`(()=>{const e=document.querySel
   await call('Input.dispatchMouseEvent',{type:'mousePressed',...p,button:'left',clickCount:1});await call('Input.dispatchMouseEvent',{type:'mouseReleased',...p,button:'left',clickCount:1});}
 async function key(key,code,virtual){for(const type of ['keyDown','keyUp'])await call('Input.dispatchKeyEvent',{type,key,code,windowsVirtualKeyCode:virtual,nativeVirtualKeyCode:virtual});}
 async function select(selector,index){await click(selector);await key('Home','Home',36);for(let i=0;i<index;i++)await key('ArrowDown','ArrowDown',40);await key('Enter','Enter',13);}
-async function shot(name){await ev('window.scrollTo(0,0)');const r=await call('Page.captureScreenshot',{format:'png'});const b=Buffer.from(r.data,'base64');await writeFile(path.join(config.out,name),b);shots.push({file:name,sha256:hash(b)});}
+async function shot(name,{keepScroll=false}={}){if(!keepScroll)await ev('window.scrollTo(0,0)');const r=await call('Page.captureScreenshot',{format:'png'});const b=Buffer.from(r.data,'base64');await writeFile(path.join(config.out,name),b);shots.push({file:name,sha256:hash(b)});}
 async function session(subject){const token=await login(subject);const {targetId}=await call('Target.createTarget',{url:'about:blank'},null);({sessionId:sid}=await call('Target.attachToTarget',{targetId,flatten:true},null));
   await call('Page.enable');await call('Runtime.enable');await call('Network.enable');
   await call('Network.setCookie',{name:'b5a_l2_session',value:token,url:origin,path:'/b5a/l2/',httpOnly:true,sameSite:'Strict'});}
@@ -49,6 +49,22 @@ try{
     await shot('source-tasks-'+width+'.png');
   }
   await call('Emulation.setDeviceMetricsOverride',{width:393,height:900,deviceScaleFactor:1,mobile:false});
+  if(config.ctaAvailable){
+    await call('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:false});await nav(route);
+    await check('two-scoped-cta-candidates',await ev("document.querySelectorAll('[data-key=cta-review-candidates] article[data-admission=READ_ONLY_REVIEW_CANDIDATE]').length===2&&document.querySelector('[data-key=cta-review-candidates]').innerText.includes('UNKNOWN')"));
+    await click('[data-key=cta-jump]');
+    await check('cta-jump-reaches-task',await ev("location.hash==='#INQUIRE'&&document.getElementById('INQUIRE').getBoundingClientRect().top>=0&&document.getElementById('INQUIRE').getBoundingClientRect().top<innerHeight"));
+    await shot('cta-inquire-390.png',{keepScroll:true});
+    for(const [scenario,width] of [['hidden',390],['covered',375],['overflow',320]]){
+      await nav(root+'/source-tasks/cta/'+scenario+'/'+width);
+      await check('cta-source-scope-'+scenario,await ev("!!document.querySelector('[data-key=cta-source-detail]')&&document.body.innerText.includes('synthetic.invalid')&&document.body.innerText.includes('/rfq')&&document.body.innerText.includes('UNKNOWN')"));
+      await shot('cta-detail-'+scenario+'-'+width+'.png');
+      await click('[data-key=cta-original-image]');
+      for(let i=0;i<100&&!await ev("document.contentType==='image/png'");i++)await new Promise(r=>setTimeout(r,30));
+      await check('protected-source-screenshot-'+scenario,await ev(`document.contentType==='image/png'&&document.images[0]?.naturalWidth===${width}`));
+    }
+    await call('Emulation.setDeviceMetricsOverride',{width:393,height:900,deviceScaleFactor:1,mobile:false});
+  }
   for(const index of [0,1]){
     await nav(route);await click('[href="/b5a/l2/r/'+config.reportId+'/source-tasks/buyer-cite/'+index+'"]');
     for(let i=0;i<100&&!await ev("!!document.querySelector('[data-key=s2-original-citation]')");i++)await new Promise(r=>setTimeout(r,30));
@@ -68,6 +84,7 @@ try{
   await nav(route);await check('same-report-hash-after-review',await ev(`document.body.textContent.includes(${JSON.stringify(config.displayHash)})`));
   await session('other-tenant');await nav(route);await check('actual-browser-cross-tenant-denied',await ev("!document.querySelector('[data-key=s2-source-workbench]')"));
   await session('recipient-a');await nav(route);await check('actual-browser-unclaimed-reader-denied',await ev("!document.querySelector('[data-key=s2-source-workbench]')"));
+  if(config.ctaAvailable){await nav(root+'/source-tasks/cta/covered/390/image');await check('unclaimed-reader-cannot-read-source-png',await ev("document.contentType!=='image/png'&&!document.querySelector('[data-key=cta-source-detail]')"));}
 }finally{
   ws?.close();if(chrome&&!exitObserved)chrome.kill('SIGTERM');
   for(let i=0;i<100&&chrome&&!exitObserved;i++)await new Promise(r=>setTimeout(r,20));

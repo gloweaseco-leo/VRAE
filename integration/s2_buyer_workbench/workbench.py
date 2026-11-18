@@ -9,6 +9,10 @@ from vrae.l2.report import TASKS, deny
 from vrae.rules.s2 import INDUSTRIAL_PROJECTION_VERSION, evaluate_s2, verify_s2_projection
 from vrae.reporting.s2_candidate import build_candidate, verify_candidate
 from . import buyer_cards
+from integration.s2_cta import views as cta_views
+from integration.s2_cta.candidate import CTADenied
+from apps.operator_console.b5a_http import Reply
+from apps.operator_console.interface import Response
 
 LABELS = {'DISCOVER': '找到产品与型号', 'UNDERSTAND': '核对规格与工况',
           'TRUST': '核对供应商资料', 'INQUIRE': '准备型号询价',
@@ -39,6 +43,7 @@ class SourceBinding:
         self.payload = json.dumps(out, ensure_ascii=False, sort_keys=True).encode()
         self.expected_ref = out['projection_ref']
         self.buyer_pins = self.buyer_payload = self.expected_buyer_ref = None
+        self.cta = None
 
     def enable_buyer_cards(self, *, model, snapshot_ref):
         projection = self.read(self.source.read())
@@ -144,7 +149,7 @@ class Workbench:
         self.deep, self.binding = deep, binding
 
     def route(self, path):
-        return re.fullmatch(r'/b5a/l2/r/([A-Za-z0-9_.-]{3,128})/source-tasks(?:/cite/(\d{1,3})|/buyer-cite/([01]))?', path)
+        return re.fullmatch(r'/b5a/l2/r/([A-Za-z0-9_.-]{3,128})/source-tasks(?:/cite/(\d{1,3})|/buyer-cite/([01])|/cta/(clean|hidden|covered|overflow)/(390|375|320|1280)(/image)?)?', path)
 
     def decorate(self, path, reply):
         return reply
@@ -162,9 +167,35 @@ class Workbench:
                 _, report = self.deep.current(sid, rid)
                 projection = self.binding.read(report)
                 buyer = self.binding.read_buyer(projection)
+                cta = None
+                if self.binding.cta is not None:
+                    try:
+                        cta = self.binding.cta.read(self.binding,report)
+                    except CTADenied:
+                        # Optional CTA references cannot suppress accepted S2
+                        # source reads. Their own detail/image routes stay denied.
+                        if match[4] is not None:
+                            raise
                 root = '/b5a/l2/r/'+rid
-                if match[2] is None and match[3] is None:
+                image = None
+                if match[4] is not None:
+                    if cta is None:
+                        deny()
+                    record = cta_views.record(cta,match[4],int(match[5]))
+                    if match[6]:
+                        image = self.binding.cta.image(record)
+                        body = ''
+                    else:
+                        body = cta_views.detail(record,root)
+                elif match[2] is None and match[3] is None:
                     body = render(report, projection, root, buyer)
+                    if cta is not None:
+                        navigation = '<nav class="l2-nav" aria-label="五维采购任务">'
+                        body = body.replace(navigation,'<p>'+link('#INQUIRE','本轮：核对询价入口与手机障碍',key='cta-jump')+'</p>'+navigation,1)
+                        marker = '<section class="card" id="INQUIRE" data-task="INQUIRE"><h2>'+e(LABELS['INQUIRE'])+'</h2>'
+                        body = body.replace(marker, marker+cta_views.overview(cta,root),1)
+                        body = body.replace('CTA-01/CTA-03 的可见询价入口、可提交性、遮挡与几何仍 UNKNOWN。',
+                            '本轮附加离线样本已记录入口属性与受限几何；其它真实页面、可提交性与送达仍 UNKNOWN。')
                 else:
                     if match[3] is not None:
                         index = int(match[3])
@@ -195,6 +226,8 @@ class Workbench:
                 _, current = self.deep.current(sid, rid)
                 if current.version != report.version or current.display_hash != report.display_hash:
                     deny('L2_STALE_VERSION')
+                if image is not None:
+                    return Reply(Response(200,image,'image/png'))
                 return self.deep.reply('来源候选五维采购复核', body)
             except Exception:
                 return self.deep.reply('请求未提供数据', '<section class="notice"><h1>请求未提供来源或报告</h1><p>请核对当前签名身份、报告版本与来源绑定。</p></section>', 403)

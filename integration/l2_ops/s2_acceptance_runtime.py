@@ -189,6 +189,8 @@ def accept(label, minor, *, executive=False):
                  "integration/s2_buyer_workbench/workbench.py",
                  "integration/s2_buyer_workbench/buyer_cards.py", "vrae/reporting/s2_candidate.py",
                  "vrae/rules/s2/contract.py", "vrae/evidence/pack.py"]
+        paths += ['integration/s2_cta/'+name for name in ('candidate.py', 'views.py', 'capture.mjs', 'journey.mjs')]
+        paths += [p.relative_to(ROOT).as_posix() for p in sorted((ROOT/'integration/s2_cta/evidence/cta-main-d38').glob('*')) if p.is_file()]
         manifest = {p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
         (private/"s2-source-manifest.json").write_text(json.dumps(
             {"source_sha":head,"actual_working_bytes":manifest},indent=2),encoding="utf-8")

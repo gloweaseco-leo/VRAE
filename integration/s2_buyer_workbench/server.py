@@ -25,6 +25,10 @@ def main():
     original = profile.read_bytes()
     config = json.loads(original)
     binding = source_binding()
+    if 'cta' in config:
+        from integration.s2_cta.candidate import Receipt
+        binding.cta = Receipt(**config['cta'])
+        binding.cta.read(binding,binding.source.read())
     rid = binding.source.read().version['report_id']
     settings = config['directory']
     settings['people'] = [Person(**{**p, 'report_ids': tuple(p['report_ids'])}) for p in settings['people']]
@@ -46,7 +50,8 @@ def main():
     ready.write_text(json.dumps({'origin': app.origin, 'reportId': rid,
                                 'displayHash': binding.source.read().display_hash,
                                 'projectionRef': binding.expected_ref,
-                                'buyerCandidateRef': binding.expected_buyer_ref}), encoding='utf-8')
+                                'buyerCandidateRef': binding.expected_buyer_ref,
+                                'ctaAvailable':binding.cta is not None}), encoding='utf-8')
     try:
         http.serve_forever()
     finally:

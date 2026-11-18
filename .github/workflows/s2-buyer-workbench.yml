@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'integration/s2_buyer_workbench/**'
+      - 'integration/s2_cta/**'
       - '.github/workflows/s2-buyer-workbench.yml'
 permissions:
   contents: read
@@ -20,6 +21,8 @@ jobs:
             slug: '313'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
@@ -31,12 +34,18 @@ jobs:
           python -m pip install -r requirements-ra4b-p1.lock
           sudo apt-get update -qq
           sudo apt-get install -y fonts-noto-cjk
+      - name: Scoped CTA source checks
+        run: |
+          python -m ruff check integration/s2_cta --select E4,E7,E9,F
+          node --check integration/s2_cta/capture.mjs
+          node --check integration/s2_cta/journey.mjs
       - name: Signed access, candidate replay and original review contracts
         run: >-
           python -B -m pytest -q integration/s2_buyer_workbench
           integration/l2/test_l2.py integration/l2/test_codex1.py
           tests/s2_contract/p1_industrial_cases.py
           tests/s2_contract/buyer_candidate_cases.py
+          integration/s2_cta
           --junitxml=integration/s2_buyer_workbench/native.xml
       - name: Actual controlled signed HTTP, original SSR and Chrome viewports
         env:
@@ -52,5 +61,8 @@ jobs:
             integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/source.json
             integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/process-cleanup.json
             integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/*.png
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/cta/receipt.json
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/cta/cleanup.json
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/cta/*.png
           include-hidden-files: true
           if-no-files-found: error

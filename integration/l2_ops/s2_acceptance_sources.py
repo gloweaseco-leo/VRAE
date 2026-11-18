@@ -38,6 +38,8 @@ def bind(business, report_id):
         if len(anchors) != 1 or len(anchors[0]["source_pages"]) != 1:
             raise OperationsDenied("S2_CONTROLLED_BUYER_ANCHOR_REQUIRED")
         binding.enable_buyer_cards(model="P40", snapshot_ref=anchors[0]["source_pages"][0]["snapshot_ref"])
+        from integration.s2_cta.candidate import bundled
+        binding.cta = bundled(binding, source.read())
         component = CurrentSourceWorkbench(app.deep, binding)
         # This is a receipt of the accepted builder's output, never read authority.
         # C2 Workbench.handle still verifies the current projection/candidate on every read.
@@ -86,4 +88,6 @@ def proof(business, rid):
     return {"authority": "READ_ONLY_CANDIDATE_NOT_RX_OR_GUARD",
             "pack_ref": binding.pack.ref, "scope": binding.scope,
             "projection_ref": binding.expected_ref, "industry_ref": binding.pins.industry_ref,
-            "buyer": json.loads(component._c3_buyer_receipt)}
+            "buyer": json.loads(component._c3_buyer_receipt),
+            "cta": {"authority": "SEPARATE_OFFLINE_SYNTHETIC_REFERENCE_NOT_CURRENT_SITE_OR_GUARD",
+                    "receipt_sha256": binding.cta.expected, "records": 16}}

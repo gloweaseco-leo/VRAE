@@ -4,6 +4,7 @@ The signer stays in this parent; the HTTP child receives only public JWKS.
 All remote-looking fixture URLs use the accepted in-memory saved-source transport.
 """
 from dataclasses import asdict, replace
+from datetime import datetime, timezone
 import hashlib
 from http.cookiejar import CookieJar
 import json
@@ -19,6 +20,7 @@ from urllib.error import HTTPError
 
 from integration.l2.support import Issuer, people
 from .fixture import source_binding
+from integration.s2_cta.candidate import Receipt, context, sha
 
 ROOT = Path(__file__).resolve().parents[2]
 OWN = Path(__file__).resolve().parent
@@ -37,11 +39,18 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     binding = source_binding()
     report = binding.source.read()
+    after = datetime.now(timezone.utc).isoformat()
+    subprocess.run(['node','integration/s2_cta/capture.mjs',str(out/'cta')],cwd=ROOT,check=True,timeout=180)
+    before = datetime.now(timezone.utc).isoformat()
+    cta_config = {'directory':str(out/'cta'),'expected_sha256':sha((out/'cta/receipt.json').read_bytes()),
+                  'held_context':context(binding,report),'observed_after':after,'observed_before':before}
+    binding.cta = Receipt(**cta_config)
+    cta = binding.cta.read(binding,report)
     rid = report.version['report_id']
     issuer = Issuer()
     config = {'directory': {'issuer': issuer.issuer, 'audience': issuer.audience, 'jwks': issuer.jwks,
                            'people': [asdict(replace(person, report_ids=(rid,))) for person in people()],
-                           'expires': int(time.time())+3600, 'mode': 'CONTROLLED'}}
+                           'expires': int(time.time())+3600, 'mode': 'CONTROLLED'}, 'cta':cta_config}
     profile, ready = out/'public-profile.json', out/'ready.json'
     profile.write_text(json.dumps(config), encoding='utf-8')
     server_process = browser = None
@@ -49,6 +58,8 @@ def main():
     started = time.monotonic()
     files = ['workbench.py','buyer_cards.py','fixture.py','server.py','lab.py','browser.mjs','test_workbench.py','test_buyer_cards.py']
     source_hashes = {name:hashlib.sha256((OWN/name).read_bytes()).hexdigest() for name in files}
+    cta_hashes = {name:hashlib.sha256((ROOT/'integration/s2_cta'/name).read_bytes()).hexdigest()
+                  for name in ('capture.mjs','candidate.py','views.py','test_candidate.py')}
     try:
         errors = (out/'private-server.stderr').open('wb')
         streams.append(errors)
@@ -61,6 +72,7 @@ def main():
         actual = json.loads(ready.read_text())
         assert actual['reportId'] == rid and actual['displayHash'] == report.display_hash
         assert actual['buyerCandidateRef'] == binding.expected_buyer_ref
+        assert actual['ctaAvailable'] is True
 
         def login(subject):
             if subject not in {person.subject for person in people()}:
@@ -111,7 +123,9 @@ def main():
             raise RuntimeError('CONTROLLED_BROWSER_RED')
         if source_hashes != {name:hashlib.sha256((OWN/name).read_bytes()).hexdigest() for name in files}:
             raise RuntimeError('SOURCE_CHANGED_DURING_LIVE_RUN')
-        receipt = {'acceptedMain':'4a227f1b58afc97d8af1778a066f37b80ff0f399',
+        if cta_hashes != {name:hashlib.sha256((ROOT/'integration/s2_cta'/name).read_bytes()).hexdigest() for name in cta_hashes}:
+            raise RuntimeError('CTA_SOURCE_CHANGED_DURING_LIVE_RUN')
+        receipt = {'acceptedMain':'6a15ab4514d24c60b4d03d4ec795f6e3bcd435c3',
                    'head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT).decode().strip(),
                    'composition':'Original B5B Application / DeepConsole / Directory / Ledger',
                    'signerOutsideHttpChild':True,'sourceAccessMode':'OFFLINE_SYNTHETIC',
@@ -122,6 +136,8 @@ def main():
                    'reportVersionId':report.version['report_version_id'],
                    'reportContentHash':report.version['content_hash'],
                    'sourceHashes':source_hashes,
+                   'ctaSourceHashes':cta_hashes,'ctaReceiptSha256':cta_config['expected_sha256'],
+                   'ctaContext':cta_config['held_context'],'ctaRecords':len(cta['records']),
                    'browser':done,'formalHumanReview':False,'externalDelivery':False}
         (out/'source.json').write_text(json.dumps(receipt,indent=2)+'\n')
         print(json.dumps({'result':'PASS','checks':done['checks'],'screenshots':done['shots'],'out':str(out)}))
