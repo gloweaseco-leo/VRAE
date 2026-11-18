@@ -1,6 +1,6 @@
 {
   "base": "a5b8c30ccefb656c266d75e66f9f20ceb7df1080",
-  "code_commit": "32ffbf5dc9173b63f59fb92932d5cfbd2a0ede4a",
+  "code_commit": "4718a446b5710b4e6343284f1639ec7b024ac086",
   "phase": "C1_P1_BATCH1_THREE_BOUNDED_STATIC_SUBSETS_NOT_S2_EXIT",
   "projection_version": "s2-projection-1.1.0",
   "native": {
@@ -58,6 +58,66 @@
       "failed_ids": []
     }
   },
+  "final_explicit_S2_native": {
+    "311": {
+      "tests": 128,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "raw_junit_sha256": "676a7f8174021c02e913afb5feb9e638b6a615e2a0c2cc985d56cf3c380bf4c7",
+      "failed_ids": []
+    },
+    "313": {
+      "tests": 128,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "raw_junit_sha256": "014ae1d8e78a2aafe80bef26feff04096cd5466ff6b63178ee71f464e88c07a0",
+      "failed_ids": []
+    }
+  },
+  "original_full_exact_inventory_from_recorded_raw_junit": {
+    "311": {
+      "original_cases": 2564,
+      "additional_S2_cases_in_raw_full": 30,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 25,
+      "unchanged_original_inventory_verifier": {
+        "kind": "EXACT_2473_ORIGINAL_PLUS_2_ACCEPTED_B5_PLUS_43_ACCEPTED_B6_PLUS_46_DISC",
+        "manifest_sha256": "ee50d3ce0a4c424c7d98d94ef123629ddcbd40a4be0992e2fd81fb7711c5f537",
+        "actual_full_cases": 2564,
+        "accepted_b6_layer_cases": 2518,
+        "disc_cases": 46,
+        "disc_skipped": 0,
+        "ids_unique": true,
+        "unknown_ids": 0,
+        "test_discovery_filtered": false,
+        "original_b5_verifier_still_required": true
+      },
+      "final_default_collection": 2564
+    },
+    "313": {
+      "original_cases": 2564,
+      "additional_S2_cases_in_raw_full": 30,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 25,
+      "unchanged_original_inventory_verifier": {
+        "kind": "EXACT_2473_ORIGINAL_PLUS_2_ACCEPTED_B5_PLUS_43_ACCEPTED_B6_PLUS_46_DISC",
+        "manifest_sha256": "ee50d3ce0a4c424c7d98d94ef123629ddcbd40a4be0992e2fd81fb7711c5f537",
+        "actual_full_cases": 2564,
+        "accepted_b6_layer_cases": 2518,
+        "disc_cases": 46,
+        "disc_skipped": 0,
+        "ids_unique": true,
+        "unknown_ids": 0,
+        "test_discovery_filtered": false,
+        "original_b5_verifier_still_required": true
+      },
+      "final_default_collection": 2564
+    }
+  },
   "test_portability_scope": "TEST_SETUP_ONLY_NO_PRODUCTION_SOURCE_CHANGE; FINAL_HEAD_FULL_CI_ON_PR",
   "initial_rule_red": {
     "tests": 26,
@@ -107,8 +167,8 @@
     "vrae/rules/s2/__init__.py": "12ff37451f79c80a0981059f02227adc0e1aeb88bb00bf7007a992197ff0b9a6",
     "vrae/rules/s2/contract.py": "3ef53f7046fa546c71548d3595d064b68c6da4cb5e4b3dc9fa691491c2f470fb",
     "vrae/rules/s2/static.py": "9bcbc67ffb8d3867fec49b206971943e5003549246fe55549e1c6b7891b64cab",
-    "tests/s2_contract/test_p1_static.py": "7aa9cb0b2d1b73f0a6578b1883bbf79131e3e6df6098ebea07b9441260a227d1",
-    ".github/workflows/s2-rule-contract.yml": "b65b8c53b815746cddd1c1902c34c227a76fabd9f8946334a12fc8c760733623"
+    "tests/s2_contract/p1_static_cases.py": "18306d223f65a64a6fa552ac1201a555f788e2cddddb6751e18e19c67a33642e",
+    ".github/workflows/s2-rule-contract.yml": "e416d52ecda2817b487d16d936acb02eb8e89c3462c2e162853b510c3c0202e3"
   },
   "frozen_worktree_blobs": {
     "vrae/rules/execution.py": "c183970fd90ec69729221a4174c38d193f4b054b",
@@ -118,6 +178,14 @@
     "ci-first-contracts-311-red.log": "74d749d33ad516d204db044a72a4f3e44d72163dd6c46def4d20dcaa0f209dcc",
     "ci-first-contracts-313-red.log": "86a5d7deefa1168b686e75f579eae76d77a2918cda8a7619c1523b2d09626a1e",
     "ci-first-isolated-http-red.log": "654228f9582b56783e3d202b2b9c6f3273fe99baa1ef470f8722f90f2eb24fa4",
+    "ci-second-private-runtime-311-red.log": "c51d55bcd896c2cf135b9f35bcde7849074960ec172ceb6148beb12cfc33a7b6",
+    "ci-second-private-runtime-313-red.log": "ed6627795108e0f5c39bbffd99bfc090fcaf6d59cb85f4a039f630260bdaba5d",
+    "default-inventory-311.log": "c4a4f4d654f0e1d0552056ffd5393cc9da05e88b4e1b7f882dfde5f5d5942d83",
+    "default-inventory-313.log": "ba737486044bc5b3c3f4883b45ae6046b59d944665ce2d7918585768ec5ce29e",
+    "final-native-311.log": "61d0ad9d627591c543a7af0ba826a3170a48993aa25db36cbebb27e26671c059",
+    "final-native-311.xml": "676a7f8174021c02e913afb5feb9e638b6a615e2a0c2cc985d56cf3c380bf4c7",
+    "final-native-313.log": "be02ca5ffad9d90d2bff46e12a0688d53847d307721a2e3153ab2e06fb090e31",
+    "final-native-313.xml": "014ae1d8e78a2aafe80bef26feff04096cd5466ff6b63178ee71f464e88c07a0",
     "focused-311.log": "639061fa691ef9fbc65887e28631fb8d670d0b8852e297831bf17c259c14e0f8",
     "focused-311.xml": "69aa6d521ff1d69e9265c6db81ad17a0ce763dd085b1200063ba55e1436b16d1",
     "full-311.log": "2ad1895d70c4caa740f4634abe9e94f14e88d8dced76453f71fde08fe92dee61",
