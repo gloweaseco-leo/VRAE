@@ -24,6 +24,8 @@ python -B -m integration.l2_launch.security.lab --label local-kernel --base vrae
 
 ## ADR-R1A-001：来源授权兼容性，等待Owner/G0裁决
 
+新增适配同时冻结完整AuditRequest指纹，初始化后即使进程内对象的audit_mode或site_url被改写也拒绝；不能用已有OWNER_AUTHORIZED_DEEP政策绕过原初始化时的L2禁令。对应两项独立反例保留在专项中。
+
 **现状源码**：`domain/policy.py::authorize_source`认识L2深度许可，但`collection/policy.py::SourceAccess.__init__`明确只接受L0/L1；`canonical_url`拒绝query、percent-path、非默认端口等。`Budget/Collector`保留L0最多5页、其他已获准模式最多8页。PinnedTransport已有固定numeric IP socket、TLS hostname/certificate、前后peer核对、GET/HEAD及无代理/Cookie/重试。DNSResolver显式A+AAAA、缓存关闭、全量特殊IP否决。
 
 **本PR决定**：全部原文件原样保留。`FencedAccess`只增加更窄的HTTPS origin、exact path、有效时间、原SourcePolicy SHA和tenant/request/run/policy pins。类型由可信worker配置持有，不是HTTP DTO，也不是C2 #147未冻结合同。HTML、模型或用户不能通过链接、表单或环境变量增加权限。公开工厂只接受无网络fallback的录制Resolver/Transport；真实PinnedTransport仅允许lo-only、无capability的隔离实验。真实入口`capture_live`始终抛`LIVE_CAPTURE_DISABLED`，即使传approved/secret或环境开关也不启用。

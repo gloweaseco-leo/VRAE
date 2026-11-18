@@ -158,3 +158,16 @@ def test_direct_fetch_cannot_bypass_method_or_run_fence(kind):
     with pytest.raises(CollectionError):
         asyncio.run(w.fetcher.fetch(w.access.start_url, 'POST' if kind == 'post' else 'GET', budget))
     assert not w.fetcher.transport.transport.calls
+
+
+@pytest.mark.parametrize('change', [{'audit_mode': 'L2'}, {'site_url': 'https://example.org/products'}])
+def test_initialized_audit_cannot_be_rewritten_even_with_owner_mode_policy(change):
+    policy = fixture('SourcePolicy')
+    policy.update(mode='OWNER_AUTHORIZED_DEEP', authorization_reference='owner-synthetic',
+                  expires_at=(NOW+timedelta(seconds=120)).isoformat())
+    original = SourceAccess(fixture('AuditRequest'), lambda: policy, terms_reference='terms-test', now=lambda: NOW)
+    w = worker(original=original)
+    w.access.audit.update(change)
+    with pytest.raises(CollectionError, match='SOURCE_NOT_ALLOWED'):
+        asyncio.run(w.capture(w.access.held.run_id))
+    assert not w.fetcher.transport.transport.calls

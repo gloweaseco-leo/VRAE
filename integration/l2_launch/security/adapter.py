@@ -52,6 +52,7 @@ class FencedAccess(SourceAccess):
         if type(original) is not SourceAccess or type(held) is not TaskPins or type(permit) is not OfflinePermit:
             raise CollectionError('SOURCE_NOT_ALLOWED')
         self.held, self.permit = held, permit
+        self._audit_fingerprint = fingerprint(original.audit)
         if (any(type(getattr(held, k)) is not str for k in ('tenant_id', 'request_id', 'run_id', 'policy_id', 'policy_sha256'))
                 or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{2,127}', held.run_id)
                 or not re.fullmatch(r'[0-9a-f]{64}', held.policy_sha256)
@@ -75,7 +76,8 @@ class FencedAccess(SourceAccess):
     def check(self, url):
         result = super().check(url)
         held, permit = self.held, self.permit
-        if (self.audit['tenant_id'] != held.tenant_id or self.audit['request_id'] != held.request_id
+        if (fingerprint(self.audit) != self._audit_fingerprint
+                or self.audit['tenant_id'] != held.tenant_id or self.audit['request_id'] != held.request_id
                 or self.audit['source_policy_ref'] != held.policy_id
                 or self.audit['source_policy_version'] != held.policy_version
                 or fingerprint(self.provider()) != held.policy_sha256
