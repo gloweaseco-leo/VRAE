@@ -103,6 +103,8 @@ class NativeTasks:
 
         assembly.attach_business(self.app, self.brief_ledger, report_id=rid, bundle=self.bundle,
             activities=activities, subject=c["subject"], factory=current)
+        from .s2_acceptance_sources import bind
+        bind(self.app.native_business, rid)
         self.audit()
         return ledger
 
@@ -119,6 +121,8 @@ class NativeTasks:
             "production": active["capture"], "brief_stored": stored,
             "counts": {"assessments": len(source.read().document["findings"]), "blueprint": len(source.read().document["blueprint"])},
             "formal_human_review": False, "external_delivery": False}
+        from .s2_acceptance_sources import proof as source_proof
+        proof["s2_source"] = source_proof(self.app.native_business, active["report_id"])
         if document is not None:
             proof.update(brief=document)
         (self.root/"active-proof.json").write_text(json.dumps(proof,ensure_ascii=False,indent=2),encoding="utf-8")
