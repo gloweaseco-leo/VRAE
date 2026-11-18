@@ -50,5 +50,66 @@ class Boundary(unittest.TestCase):
                 adapter.submit("tenant-test", body, "boundary-test-0001")
 
 
+class ReturnProposalBoundary(unittest.TestCase):
+    """Explicit offline mock PG responses; full lab separately uses actual PG/API."""
+
+    def setUp(self):
+        from unittest.mock import Mock
+        from uuid import uuid4
+        from vrae.application.ra4b_p2.m1.consumer import TaskHandle
+        from integration.l2_launch.runtime.resume import ResumeProposal
+
+        self.client = TaskClient(AppEndpoint("x" * 40, "tenant-test", frozenset(("accepted-404",))))
+        self.client.status = Mock(return_value={"job_state": "PENDING", "attempts": 0})
+        self.adapter = PrivateAdapter(self.client, LocalPolicy("tenant-test", time.time() + 60))
+        self.gate = ResumeProposal(self.adapter)
+        self.task = TaskHandle("tenant-test", "accepted-404", *(str(uuid4()) for _ in range(4)))
+
+    def cookie(self):
+        invitation = self.gate.issue_controlled("tenant-test", self.task)
+        cookie, headers = self.gate.exchange("tenant-test", invitation)
+        self.assertEqual(headers["Cache-Control"], "no-store")
+        self.assertIn("HttpOnly; Secure; SameSite=Strict", cookie)
+        return invitation, cookie.split(";", 1)[0]
+
+    def test_single_use_and_wrong_scope_are_uniform(self):
+        invitation, cookie = self.cookie()
+        for action in (
+            lambda: self.gate.exchange("tenant-test", invitation),
+            lambda: self.gate.status("tenant-beta", cookie),
+            lambda: self.gate.status(
+                "tenant-test", cookie, query="audit_id=" + self.task.request_id
+            ),
+            lambda: self.gate.status("tenant-test", "__Host-vrae-return=" + self.task.request_id),
+            lambda: self.gate.status("tenant-test", "__Host-vrae-return=" + "\ud800" * 43),
+        ):
+            with self.assertRaises(Denied) as caught:
+                action()
+            self.assertEqual(caught.exception.code, "RETURN_ACCESS_ENDED")
+
+    def test_actual_short_ttl_expires(self):
+        invitation = self.gate.issue_controlled("tenant-test", self.task, ttl=0.001)
+        time.sleep(0.01)
+        with self.assertRaises(Denied):
+            self.gate.exchange("tenant-test", invitation)
+
+    def test_each_read_rechecks_current_original_client(self):
+        _, cookie = self.cookie()
+        self.assertFalse(self.gate.status("tenant-test", cookie)[0]["report_available"])
+        self.client.status.side_effect = ConsumerDenied()
+        with self.assertRaises(Denied) as caught:
+            self.gate.status("tenant-test", cookie)
+        self.assertEqual(caught.exception.code, "RETURN_ACCESS_ENDED")
+
+    def test_revoke_and_restart_end_prior_cookie(self):
+        from integration.l2_launch.runtime.resume import ResumeProposal
+
+        _, cookie = self.cookie()
+        self.gate.revoke_all()
+        for gate in (self.gate, ResumeProposal(self.adapter)):
+            with self.assertRaises(Denied):
+                gate.status("tenant-test", cookie)
+
+
 if __name__ == "__main__":
     unittest.main()

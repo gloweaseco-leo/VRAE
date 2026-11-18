@@ -51,7 +51,10 @@ class ResumeProposal:
         self.adapter.status(tenant, task)
         invitation = secrets.token_urlsafe(32)
         self.invites[self.digest(invitation)] = Held(
-            tenant, task, min(time.time() + 120, self.adapter.policy.expires)
+            tenant,
+            task,
+            min(time.time() + ttl, self.adapter.policy.expires),
+            time.monotonic() + ttl,
         )
         return invitation
 
