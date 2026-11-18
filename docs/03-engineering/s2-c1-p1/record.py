@@ -54,7 +54,9 @@ verify_s2_projection(example, pack, expected_pack_ref=pack.ref, trusted_scope=sc
 
 native = {v: results(HERE / f'runtime/native-{v}.xml') for v in ('311', '313')}
 full = {v: results(HERE / f'runtime/full-{v}.xml') for v in ('311', '313')}
+portable = {v: results(HERE / f'runtime/portable-native-{v}.xml') for v in ('311', '313')}
 assert all(r['failures'] == r['errors'] == 0 for r in [*native.values(), *full.values()])
+assert all(r['failures'] == r['errors'] == 0 for r in portable.values())
 paths = ('vrae/rules/s2/__init__.py', 'vrae/rules/s2/contract.py', 'vrae/rules/s2/static.py',
          'tests/s2_contract/test_p1_static.py', '.github/workflows/s2-rule-contract.yml')
 write(HERE / 'receipt.json', {
@@ -63,6 +65,9 @@ write(HERE / 'receipt.json', {
     'phase': 'C1_P1_BATCH1_THREE_BOUNDED_STATIC_SUBSETS_NOT_S2_EXIT',
     'projection_version': STATIC_PROJECTION_VERSION,
     'native': native, 'full': full,
+    'local_full_head': '4c72b03554d34cb69060e1d31c4031cbb8903489',
+    'test_portability_followup_native': portable,
+    'test_portability_scope': 'TEST_SETUP_ONLY_NO_PRODUCTION_SOURCE_CHANGE; FINAL_HEAD_FULL_CI_ON_PR',
     'initial_rule_red': results(HERE / 'runtime/initial-red-rules-311.xml'),
     'initial_environment_red': results(HERE / 'runtime/initial-red-311.xml'),
     'source_lf_sha256': {p: hashlib.sha256((ROOT / p).read_bytes().replace(b'\r\n', b'\n')).hexdigest()

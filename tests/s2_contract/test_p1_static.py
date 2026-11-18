@@ -3,13 +3,13 @@ import asyncio
 from copy import deepcopy
 import hashlib
 import importlib.util
-import subprocess
+import json
+from pathlib import Path
 
 import pytest
 
 from tests.collection.test_pipeline import FixedDNS, SyntheticTransport
 from tests.collection.test_security import access
-from tests.s2_contract.p0_cases import scope
 from vrae.collection.collector import Collector
 from vrae.collection.fetcher import SafeFetcher
 from vrae.collection.limits import Limits
@@ -18,6 +18,14 @@ from vrae.evidence import EvidenceError, build_pack
 from vrae.rules.s2 import evaluate_s2, verify_s2_projection
 
 VERSION = 's2-projection-1.1.0'
+
+
+def scope(pack):
+    return {key: pack.document[key] for key in ('tenant_id', 'run_id', 'policy_id', 'policy_version')}
+
+
+def git_blob(raw):
+    return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
 
 
 def fixture(*, status=200, retain=True, application=None, product=None):
@@ -148,7 +156,8 @@ def test_frozen_boundaries():
     for path, expected in (
         ('vrae/rules/execution.py', 'c183970fd90ec69729221a4174c38d193f4b054b'),
         ('vrae/evidence/pack.py', '8d45d5882103323e62bc4bd61a4379899e759966')):
-        assert subprocess.check_output(['git', 'hash-object', path]).decode().strip() == expected
+        # The unchanged minimal HTTP image intentionally has neither Git nor history.
+        assert git_blob(Path(path).read_bytes().replace(b'\r\n', b'\n')) == expected
 
 
 def test_candidate_evidence_cannot_be_used_in_another_pack_or_run():
@@ -186,9 +195,10 @@ def test_default_p0_version_cannot_verify_p1_and_unknown_version_is_rejected():
 
 
 def test_default_p0_output_bytes_equal_accepted_main(tmp_path):
-    from tests.s2_contract.p0_cases import encoded
-    raw = subprocess.check_output(['git', 'show',
-        'a5b8c30ccefb656c266d75e66f9f20ceb7df1080:vrae/rules/s2/contract.py'])
+    # Exact git-show bytes from accepted a5b8c30, pinned by its original Git blob.
+    # This oracle works in shallow CI and in the unchanged image without .git.
+    raw = (Path(__file__).parent / 'fixtures/accepted-p0-contract.txt').read_bytes()
+    assert git_blob(raw) == '3df95cb5cefb1840ad3b145d1eade2d8cb4fd067'
     path = tmp_path / 'accepted_contract.py'
     path.write_bytes(raw)
     spec = importlib.util.spec_from_file_location('vrae.rules.s2._accepted_p0', path)
@@ -196,4 +206,7 @@ def test_default_p0_output_bytes_equal_accepted_main(tmp_path):
     spec.loader.exec_module(original)
     pack = fixture()
     pins = {'expected_pack_ref': pack.ref, 'trusted_scope': scope(pack)}
+    def encoded(value):
+        return json.dumps(value, sort_keys=True, ensure_ascii=False,
+                          separators=(',', ':'), allow_nan=False).encode()
     assert encoded(evaluate_s2(pack, **pins)) == encoded(original.evaluate_s2(pack, **pins))

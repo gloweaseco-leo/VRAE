@@ -67,6 +67,22 @@ Existing six industrial rules are not counted as these generic implementations.
 No claim of 10/10, 16/16, engineering fit, certificate authenticity, real human
 Gold or precision is made. Real human Gold remains 0/26.
 
+## First natural CI RED and test portability repair
+
+The first head `4c72b03554d34cb69060e1d31c4031cbb8903489` exposed two new-test
+packaging dependencies: importing P0 test helpers pulled `integration` into the
+unchanged minimal HTTP image, and the P0 oracle used Git history unavailable in
+shallow checkouts. Both full native CI jobs reported exactly one failed historical
+oracle test; the image failed at collection. Raw logs are retained in `runtime/ci-first-*`.
+
+The repair only makes the new P1 tests self-contained. The oracle is exact
+accepted `a5b8c30:vrae/rules/s2/contract.py` bytes, pinned by original Git blob
+`3df95cb5cefb1840ad3b145d1eade2d8cb4fd067`; it is checked before execution.
+Original frozen source checks also compute the Git blob hash without requiring
+Git inside the isolated image. No original assertions, image, permissions or
+production rule source changed. Both local full runs at `4c72b03` remain recorded;
+the repaired native tests and final-head natural full CI provide follow-up checks.
+
 ## Boundaries
 
 Frozen original execution blob: `c183970fd90ec69729221a4174c38d193f4b054b`.
