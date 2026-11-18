@@ -12,6 +12,7 @@ from vrae.rules.s2_ux import BrowserPins, project_browser
 
 CONTRACT_VERSION = 's2-readonly-1.0.0'
 PROJECTION_VERSION = 's2-projection-1.0.0'
+STATIC_PROJECTION_VERSION = 's2-projection-1.1.0'
 UX_RULES = ('INFO-03', 'CTA-01', 'CTA-03', 'TECH-02')
 STATIC_RULES = ('DISC-03', 'INFO-02', 'TRUST-02', 'TRUST-03', 'SEO-02', 'TECH-01')
 SCOPE = ('tenant_id', 'run_id', 'policy_id', 'policy_version')
@@ -121,13 +122,16 @@ def resolve_input(request: dict, pack: EvidencePack, *, expected_pack_ref: str,
 
 
 def evaluate_s2(pack: EvidencePack, *, expected_pack_ref: str, trusted_scope: dict,
-                browser_pins: BrowserPins | None = None) -> dict:
+                browser_pins: BrowserPins | None = None,
+                projection_version: str = PROJECTION_VERSION) -> dict:
     """Compose a non-authoritative projection; caller retains live signed authority.
 
     No browser source/time pins are inferred from the pack. Only an independently
     held BrowserPins allows the accepted C2 read-only projection to be included.
     This function grants neither access nor FindingPackage/Guard approval.
     """
+    if projection_version not in (PROJECTION_VERSION, STATIC_PROJECTION_VERSION):
+        _fail()
     requests = {rule: adapter_request(pack, expected_pack_ref=expected_pack_ref,
         rule_id=rule, expected_scope=trusted_scope) for rule in UX_RULES}
     baseline = execute(pack, expected_pack_ref=expected_pack_ref, evaluator_version=TRUST_VERSION)
@@ -140,7 +144,7 @@ def evaluate_s2(pack: EvidencePack, *, expected_pack_ref: str, trusted_scope: di
                        or getattr(browser_pins, k) != trusted_scope[k] for k in SCOPE)):
             _fail()
         browser_projection = project_browser(pack, held=browser_pins).document
-    result = {'kind': 'S2EvaluationProjection', 'projection_version': PROJECTION_VERSION,
+    result = {'kind': 'S2EvaluationProjection', 'projection_version': projection_version,
         'pack_ref': expected_pack_ref, 'scope': json.loads(_encode(trusted_scope)),
         'baseline_execution_ref': baseline['execution_ref'],
         'baseline_evaluator_version': TRUST_VERSION,
@@ -159,6 +163,14 @@ def evaluate_s2(pack: EvidencePack, *, expected_pack_ref: str, trusted_scope: di
         'C2_PROJECTION_IS_READ_ONLY_UNKNOWN_NOT_NEW_RULE_PASS',
         'S2_NOT_ADMITTED_BY_LEGACY_FINDINGPACKAGE_OR_GUARD',
         'HUMAN_GOLD_PENDING_NO_QUALITY_METRIC']
+    if projection_version == STATIC_PROJECTION_VERSION:
+        from .static import project_static, RULES, RULE_VERSION, SOURCE_VERSION
+        result['static_projection'] = project_static(pack)
+        for capability in result['s2_capabilities']:
+            if capability['rule_id'] in RULES:
+                capability.update(implementation='BOUNDED_READ_ONLY_CANDIDATE',
+                                  rule_version=RULE_VERSION, source_version=SOURCE_VERSION)
+        result['limitations'][0] = 'S2_P1_THREE_BOUNDED_STATIC_SUBSETS_OTHER_RULES_PENDING'
     result['projection_ref'] = 's2p-' + document_hash(result)
     return result
 
@@ -169,12 +181,13 @@ def verify_s2_projection(output: dict, pack: EvidencePack, *, expected_pack_ref:
                          expected_projection_version: str = PROJECTION_VERSION) -> None:
     """Independently replay original execution and all derived inputs/projections."""
     try:
-        if (expected_projection_version != PROJECTION_VERSION
+        if (expected_projection_version not in (PROJECTION_VERSION, STATIC_PROJECTION_VERSION)
                 or type(expected_projection_ref) is not str
                 or not re.fullmatch(r's2p-[0-9a-f]{64}', expected_projection_ref)):
             _fail()
         expected = evaluate_s2(pack, expected_pack_ref=expected_pack_ref,
-                              trusted_scope=trusted_scope, browser_pins=browser_pins)
+                              trusted_scope=trusted_scope, browser_pins=browser_pins,
+                              projection_version=expected_projection_version)
         if expected['projection_ref'] != expected_projection_ref or _encode(output) != _encode(expected):
             _fail()
     except Exception as exc:
