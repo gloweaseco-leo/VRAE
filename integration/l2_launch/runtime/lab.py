@@ -320,6 +320,13 @@ def main():
                     raise AssertionError(name)
                 except Denied as error:
                     check(name, error.code == "RETURN_ACCESS_ENDED")
+            expiring = resume.issue_controlled("tenant-test", task, ttl=0.01)
+            time.sleep(0.02)
+            try:
+                resume.exchange("tenant-test", expiring)
+                raise AssertionError("EXPIRED_RETURN_ACCEPTED")
+            except Denied:
+                check("return_expiry_denied", True)
             resume.revoke_all()
             try:
                 resume.status("tenant-test", cookie)
@@ -467,11 +474,22 @@ def main():
             result = draft(state, cfg, task, binding, phase)
             state["old_bearer"] = cfg["bearer"]
             if phase == "restore":
+                from integration.l2_launch.runtime.resume import ResumeProposal
+
+                current_return = ResumeProposal(adapter)
+                return_cookie = current_return.exchange(
+                    "tenant-test", current_return.issue_controlled("tenant-test", task)
+                )[0].split(";", 1)[0]
                 # A TEST_ONLY admin fixture revokes original PG policy; no lease or report bytes rewritten.
                 with old.connect() as c:
                     c.execute(
                         "UPDATE ra4a.policies SET status='REVOKED' WHERE tenant_id='tenant-test'"
                     )
+                try:
+                    current_return.status("tenant-test", return_cookie)
+                    raise AssertionError("PG_REVOKED_RETURN_ACCEPTED")
+                except Denied:
+                    check("current_pg_revocation_ends_return", True)
         (OUT / "private-state.json").write_text(json.dumps(state))
         (OUT / "private-state.json").chmod(0o600)
         with old.connect() as c:
