@@ -3,6 +3,7 @@ import base64
 import hashlib
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
@@ -10,10 +11,11 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from tests.s2_contract.test_p1_static import fixture, evaluate  # noqa: E402
+from tests.s2_contract.p1_static_cases import fixture, evaluate  # noqa: E402
 from tests.s2_contract.p0_cases import scope  # noqa: E402
 from vrae.evidence import EvidencePack  # noqa: E402
 from vrae.rules.s2 import verify_s2_projection, STATIC_PROJECTION_VERSION  # noqa: E402
+from integration.beta_disc_report.inventory import verify_inventory, MANIFEST  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 
@@ -55,10 +57,28 @@ verify_s2_projection(example, pack, expected_pack_ref=pack.ref, trusted_scope=sc
 native = {v: results(HERE / f'runtime/native-{v}.xml') for v in ('311', '313')}
 full = {v: results(HERE / f'runtime/full-{v}.xml') for v in ('311', '313')}
 portable = {v: results(HERE / f'runtime/portable-native-{v}.xml') for v in ('311', '313')}
+final_native = {v: results(HERE / f'runtime/final-native-{v}.xml') for v in ('311', '313')}
+manifest = json.loads(MANIFEST.read_text(encoding='utf-8'))
+accepted_ids = set().union(*(manifest[k] for k in
+    ('baseline_ids', 'accepted_main_additions', 'accepted_b6_additions', 'added_ids')))
+original_full = {}
+for version in ('311', '313'):
+    cases = list(ET.parse(HERE / f'runtime/full-{version}.xml').iter('testcase'))
+    original = [c for c in cases if c.get('classname') + '::' + c.get('name') in accepted_ids]
+    _, proof = verify_inventory(original)
+    inventory_raw = (HERE / f'runtime/default-inventory-{version}.log').read_bytes()
+    inventory = inventory_raw.decode('utf-16' if inventory_raw.startswith(b'\xff\xfe') else 'utf-8-sig')
+    assert re.search(r'\b2564 tests collected\b', inventory)
+    original_full[version] = {'original_cases': len(original), 'additional_S2_cases_in_raw_full': len(cases) - len(original),
+        'errors': sum(c.find('error') is not None for c in original),
+        'failures': sum(c.find('failure') is not None for c in original),
+        'skipped': sum(c.find('skipped') is not None for c in original),
+        'unchanged_original_inventory_verifier': proof, 'final_default_collection': 2564}
 assert all(r['failures'] == r['errors'] == 0 for r in [*native.values(), *full.values()])
 assert all(r['failures'] == r['errors'] == 0 for r in portable.values())
+assert all(r['failures'] == r['errors'] == 0 for r in final_native.values())
 paths = ('vrae/rules/s2/__init__.py', 'vrae/rules/s2/contract.py', 'vrae/rules/s2/static.py',
-         'tests/s2_contract/test_p1_static.py', '.github/workflows/s2-rule-contract.yml')
+         'tests/s2_contract/p1_static_cases.py', '.github/workflows/s2-rule-contract.yml')
 write(HERE / 'receipt.json', {
     'base': 'a5b8c30ccefb656c266d75e66f9f20ceb7df1080',
     'code_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT).decode().strip(),
@@ -67,6 +87,8 @@ write(HERE / 'receipt.json', {
     'native': native, 'full': full,
     'local_full_head': '4c72b03554d34cb69060e1d31c4031cbb8903489',
     'test_portability_followup_native': portable,
+    'final_explicit_S2_native': final_native,
+    'original_full_exact_inventory_from_recorded_raw_junit': original_full,
     'test_portability_scope': 'TEST_SETUP_ONLY_NO_PRODUCTION_SOURCE_CHANGE; FINAL_HEAD_FULL_CI_ON_PR',
     'initial_rule_red': results(HERE / 'runtime/initial-red-rules-311.xml'),
     'initial_environment_red': results(HERE / 'runtime/initial-red-311.xml'),

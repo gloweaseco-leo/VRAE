@@ -1,4 +1,4 @@
-"""Replay retained synthetic HTTP bytes; no network or browser producers."""
+"""Mandatory S2 suite; retain the original default regression inventory unchanged."""
 import asyncio
 from copy import deepcopy
 import hashlib

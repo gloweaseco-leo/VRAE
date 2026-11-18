@@ -83,6 +83,16 @@ Git inside the isolated image. No original assertions, image, permissions or
 production rule source changed. Both local full runs at `4c72b03` remain recorded;
 the repaired native tests and final-head natural full CI provide follow-up checks.
 
+The second head `22ed1b4` passed native, default full and isolated HTTP CI. The
+private-runtime wrapper then rejected its default inventory count: all 2594
+tests had zero failures/errors, but the unchanged original inventory requires
+exactly 2564. Both downloaded failure logs are retained as
+`runtime/ci-second-private-runtime-*-red.log`. New P1 tests now follow P0's
+explicit `*_cases.py` convention: the mandatory S2 workflow runs all 30 new
+tests in both Python versions (128 including existing S2/browser tests), while
+default full regression keeps the original 2564 cases. No old inventory gate,
+test, permission, runtime timeout or production source is changed.
+
 ## Boundaries
 
 Frozen original execution blob: `c183970fd90ec69729221a4174c38d193f4b054b`.
