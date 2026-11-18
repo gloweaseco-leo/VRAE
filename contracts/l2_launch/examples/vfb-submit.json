@@ -1,0 +1,66 @@
+{
+  "scope": "SYNTHETIC_CONTRACT_FIXTURE_NOT_A_RELEASE",
+  "type": "VFSubmit",
+  "body": {
+    "contract_version": "vf-vrae-r0.1-vfb.1",
+    "command": {
+      "contract_version": "vf-vrae-r0.1",
+      "request": {
+        "schema_version": "1.0",
+        "tenant_id": "tenant-r0-fixture",
+        "request_id": "request-fixture",
+        "audit_id": "audit-fixture",
+        "site_url": "https://legacy.example/products/p40",
+        "audit_mode": "L1",
+        "source_policy_ref": "policy-fixture",
+        "source_policy_version": 1,
+        "source_system": "veyfront",
+        "source_reference": "vf-source-fixture",
+        "idempotency_key": "fixture-idempotency-01",
+        "requested_at": "2026-11-18T11:00:00Z"
+      },
+      "permission_reference": {
+        "reference": "permission-ref-fixture",
+        "consent_version": "VF-SCAN-CONSENT-DRAFT-1",
+        "consent_sha256": "440ec5720d01d7c6cd09779f251e7e8067d85ab4b387a0e2dddf24edbbecac58",
+        "proof": {
+          "alg": "Ed25519",
+          "key_id": "key-permission",
+          "claim": {
+            "audience": "vrae-launch-r0-contract",
+            "purpose": "permission",
+            "tenant_id": "tenant-r0-fixture",
+            "subject_ref": "permission-fixture",
+            "document_sha256": "880af86b53000032a023ba6b86a5afdb709af7eeb9c9d4d6bbe5e0621f5513de",
+            "issued_at": "2026-11-18T11:00:00Z",
+            "expires_at": "2026-11-19T12:00:00Z"
+          },
+          "signature": "c9abc1d43a721f15af8d4e16cf45cc28286b6225f4add82a46bcc3264bb45201c329664817b0d7424dd3b7dbe54d37fd2464d637f13c20c1efdb0750624f4302"
+        }
+      }
+    },
+    "normalized_host": "legacy.example",
+    "language": "zh",
+    "subject_ref": "recipient-fixture",
+    "invitation_ref": "invitation-fixture",
+    "diagnosis_consent": {
+      "consent_version": "VF-SCAN-CONSENT-DRAFT-1",
+      "accepted_at": "2026-11-18T11:00:00Z",
+      "text_sha256": "440ec5720d01d7c6cd09779f251e7e8067d85ab4b387a0e2dddf24edbbecac58"
+    },
+    "submission_proof": {
+      "alg": "Ed25519",
+      "key_id": "key-permission",
+      "claim": {
+        "audience": "vrae-launch-r0-contract",
+        "purpose": "permission",
+        "tenant_id": "tenant-r0-fixture",
+        "subject_ref": "permission-fixture",
+        "document_sha256": "73e31031caec24dc166c61c813a8f04423226f20aec3225894aab5ee78b4e730",
+        "issued_at": "2026-11-18T11:00:00Z",
+        "expires_at": "2026-11-19T12:00:00Z"
+      },
+      "signature": "5b76b19c8378aad16b0281c10690c121cd30e35e1a6df171e9250f1f8ac1964be6a8b355fa8ea83df3eb47f0b0bbd59cab96ed96f6194cce9a45e8c3b921d009"
+    }
+  }
+}
