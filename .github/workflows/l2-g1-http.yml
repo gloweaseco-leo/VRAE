@@ -42,7 +42,7 @@ jobs:
           docker build --build-arg PYTHON_BASE="$BASE" -t vrae-ra4b-p1:$SLUG -f integration/ra4b/Dockerfile .
           docker build --build-arg DEPENDENCY_IMAGE=vrae-ra4b-p1:$SLUG -t vrae-g1:$SLUG infra/l2_g1
       - name: Real HTTPS through separate VF server to original PG and Worker
-        run: python -B -m infra.l2_g1.runner --label ci-${{ matrix.slug }} --image vrae-g1:${{ matrix.slug }}
+        run: python -B -m infra.l2_g1.runner --label ci-${{ matrix.slug }} --image vrae-g1:${{ matrix.slug }} --recovery
       - name: Publish sanitized receipts only
         if: always()
         uses: actions/upload-artifact@v4

@@ -508,21 +508,37 @@ def main():
             "pending": [
                 "Chrome four viewports",
                 "kill lease reclaim deadletter",
-                "PG restart",
+                "full runtime/PG container recreation and restore",
                 "key rotation",
                 "inquiry retry WAITING_ACK",
-                "dual-version natural CI",
+                "Owner exact-head final acceptance",
                 "independent exact SHA reviews",
             ],
         },
     )
     write(OUT / "http.json", vf_client.trace + owner_client.trace)
     print('{"stage":"G1_T0_REAL_HTTP_SLICE_COMPLETE","g1_final_pass":false}', flush=True)
-    if "--hold" in sys.argv:
+    if "--hold" in sys.argv or "--recovery" in sys.argv:
         from integration.l2_launch.g1.owner_cli import serve
 
         print('{"stage":"G1_LOCAL_OWNER_CONSOLE_STARTING","public":false}', flush=True)
-        serve(old, authority, ca, tls, owner, worker_path, hydrate, spawn)
+
+        def lifecycle(operation):
+            nonlocal facade, facade_log
+            if operation == "service-down":
+                stop(facade)
+            elif operation == "service-up":
+                if facade.poll() is None:
+                    raise ValueError("FACADE_ALREADY_RUNNING")
+                facade, facade_log = spawn(
+                    "facade-restarted", 10003, facade_path, "integration.l2_launch.g1.http_server"
+                )
+                wait(lambda: b"G1_REAL_LOOPBACK_TLS_READY" in facade_log.read_bytes())
+            else:
+                raise ValueError("FIXTURE_OPERATION_DENIED")
+            return {"controlled_service_operation": operation, "running": facade.poll() is None}
+
+        serve(old, authority, ca, tls, owner, worker_path, hydrate, spawn, lifecycle)
 
 
 if __name__ == "__main__":

@@ -60,6 +60,33 @@ Full logs, bootstrap credentials and authority material are private siblings;
 Source receipts contain exact per-file hashes, including an uncommitted local
 candidate; a clean committed CI checkout provides the exact delivered SHA.
 
+## Same-task current access and restart checks
+
+Add `--recovery` to the runner (with `--quick` for a single normal initial case).
+The new workflow uses it on both Python versions. After the first slice, it
+creates **another new task**, actually runs its independent Worker, and tests:
+
+- One-use return-token replay with a new valid challenge is still403.
+- Current return revocation and expired session authority produce403. Only the
+  controlled UID0 fixture restores its own transport metadata; no frozen PG
+  task, policy, role, lease, or result is rewritten.
+- Actual facade process stop produces the frozen safe503 body through the live
+  VF server. A new facade process resumes the existing PG-backed cookie session.
+- The owned **real PG16 postmaster** is stopped and restarted using the exact
+  same data volume. The namespace keeper remains so both services keep their
+  network-none namespace. The before/after postmaster start times differ and
+  the actual `pg_control_system()` cluster identifier stays identical.
+- During PG downtime status is503. After restart the identical original signed
+  request returns exactly the same202/native run. Report version/content/display/
+  view hashes match, original COMMIT transaction and byte hashes match, and the
+  original result table still contains one row for that job.
+
+`public/recovery.json` records these checks and custody references;
+`public/recovery-http.json` contains only safe actual-HTTP header/status/hash
+traces. Full command responses remain outside `public`. This is PG **process**
+restart and facade restart; full container recreation, key rotation, backup/
+restore and disaster recovery are explicitly separate pending scenarios.
+
 ## Owner-operated local trial
 
 Start the same command with `--quick --hold` in one terminal. It prints the exact
@@ -128,8 +155,9 @@ rather than treating an arbitrary daemon error as successful cleanup.
 
 ## Deliberately pending after T0
 
-- Full G1 restart/key rotation/revocation matrix, actual kill/lease reclaim and
-  dead-letter evidence for this new HTTP task.
+- Full container/key rotation/revocation combinations, actual kill/lease reclaim
+  and dead-letter evidence for this new HTTP task. Basic PG/facade restart and
+  current return revocation/expiry are now exercised by `--recovery`.
 - Browser UI/Chrome viewports; this first trial uses the real server-side HTTPS
   CLI as explicitly released by the Owner.
 - Report revision/re-approval flows and a richer consumer preview UI.

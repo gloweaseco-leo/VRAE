@@ -25,6 +25,11 @@ def main():
     parser.add_argument(
         "--hold", action="store_true", help="Keep owned service for local Owner CLI until Ctrl-C"
     )
+    parser.add_argument(
+        "--recovery",
+        action="store_true",
+        help="Actual PG process restart and facade/session recovery on another new task",
+    )
     args = parser.parse_args()
     assert args.label.replace("-", "").isalnum() and len(args.label) < 64
     private = ROOT / "infra/l2_g1/.private" / args.label
@@ -157,6 +162,14 @@ def main():
             "--mount",
             "type=volume,src=" + names["data"] + ",dst=/var/lib/postgresql/data",
             pg_image,
+            # Keep only the owned namespace keeper alive when pg_ctl stops the
+            # actual PG16 postmaster. pg_ctl then starts a NEW PG process using
+            # the SAME data volume. No engine/config/migration is replaced.
+            *(
+                ["sh", "-c", "docker-entrypoint.sh postgres & wait $!; while :; do sleep 30; done"]
+                if args.recovery
+                else []
+            ),
         )
         created.append(("container", names["pg"]))
         end = time.monotonic() + 90
@@ -219,6 +232,7 @@ def main():
             "integration.l2_launch.g1.supervisor",
             *(["--quick"] if args.quick else []),
             *(["--hold"] if args.hold else []),
+            *(["--recovery"] if args.recovery else []),
         )
         created.append(("container", names["runtime"]))
         with (
@@ -233,6 +247,10 @@ def main():
             )
             process.stdin.write(json.dumps(state).encode())
             process.stdin.close()
+            if args.recovery:
+                from infra.l2_g1.recovery import execute
+
+                execute(docker, names, private, public)
             if args.hold:
                 print(
                     json.dumps(
@@ -255,7 +273,11 @@ def main():
             "cp", names["runtime"] + ":/evidence/.private-root", str(private / "runtime-private")
         )
 
-        for file in ("t0.json", "http.json"):
+        for file in (
+            ("t0.json", "http.json", "recovery-http.json")
+            if args.recovery
+            else ("t0.json", "http.json")
+        ):
             found = subprocess.run(
                 ["docker", "cp", names["runtime"] + ":/evidence/" + file, str(public / file)],
                 capture_output=True,

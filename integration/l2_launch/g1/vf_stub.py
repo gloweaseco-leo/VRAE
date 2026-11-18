@@ -54,9 +54,9 @@ class VFHandler(Handler):
             value = safe_error(error)
             return self.send(value["http_status"], value)
         except (OSError, ValueError, KeyError):
-            return self.send(
-                503, {"local_vf_fixture": "UPSTREAM_UNAVAILABLE", "real_vf_receipt": False}
-            )
+            from contracts.l2_launch.vf_b import safe_error
+
+            return self.send(503, safe_error(Refused("R0_STORAGE_UNAVAILABLE", 503, True)))
 
 
 def main():
