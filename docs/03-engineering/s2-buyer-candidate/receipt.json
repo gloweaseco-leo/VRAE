@@ -1,0 +1,176 @@
+{
+  "authority": "OWNER_ISSUE118_COMMENT_6966540568",
+  "base": "95ed55321775223e95cf0a1585220951cc692648",
+  "code_commit": "467a9f17d06fb64a6264a1ca8bee189b67818ace",
+  "phase": "READ_ONLY_BUYER_TASK_CANDIDATE_NOT_NATIVE_FACT_PROMOTION",
+  "reporting_version": "s2-buyer-candidate-1.0.0",
+  "source_projection_version": "s2-projection-1.2.0",
+  "industry_version": "1.1.0",
+  "native": {
+    "311": {
+      "tests": 239,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "raw_junit_sha256": "042be61d04a97e08b16a07dbb8a54efeff06116eb5401a7eb4bf245890d7d129",
+      "failed_ids": []
+    },
+    "313": {
+      "tests": 239,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "raw_junit_sha256": "2180c6761980c032e7fc386515ae8e693128175376498e4f076d37cae2d0604b",
+      "failed_ids": []
+    }
+  },
+  "full": {
+    "311": {
+      "tests": 2564,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 25,
+      "raw_junit_sha256": "2c5a8fc0a3bbd1d8748f657bceea5c7e7a15d277c9704756c815050aab94a67f",
+      "failed_ids": []
+    },
+    "313": {
+      "tests": 2564,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 25,
+      "raw_junit_sha256": "523e4fccd7b8168773f508d6122511a3757ba772128947bc8643e67d02b4d7d5",
+      "failed_ids": []
+    }
+  },
+  "original_2564_inventory": {
+    "311": {
+      "kind": "EXACT_2473_ORIGINAL_PLUS_2_ACCEPTED_B5_PLUS_43_ACCEPTED_B6_PLUS_46_DISC",
+      "manifest_sha256": "ee50d3ce0a4c424c7d98d94ef123629ddcbd40a4be0992e2fd81fb7711c5f537",
+      "actual_full_cases": 2564,
+      "accepted_b6_layer_cases": 2518,
+      "disc_cases": 46,
+      "disc_skipped": 0,
+      "ids_unique": true,
+      "unknown_ids": 0,
+      "test_discovery_filtered": false,
+      "original_b5_verifier_still_required": true
+    },
+    "313": {
+      "kind": "EXACT_2473_ORIGINAL_PLUS_2_ACCEPTED_B5_PLUS_43_ACCEPTED_B6_PLUS_46_DISC",
+      "manifest_sha256": "ee50d3ce0a4c424c7d98d94ef123629ddcbd40a4be0992e2fd81fb7711c5f537",
+      "actual_full_cases": 2564,
+      "accepted_b6_layer_cases": 2518,
+      "disc_cases": 46,
+      "disc_skipped": 0,
+      "ids_unique": true,
+      "unknown_ids": 0,
+      "test_discovery_filtered": false,
+      "original_b5_verifier_still_required": true
+    }
+  },
+  "initial_red": {
+    "tests": 29,
+    "errors": 26,
+    "failures": 3,
+    "skipped": 0,
+    "raw_junit_sha256": "1deeb9873a6f872bc3b657815a6b48e06cb5d74ce1a814c8006f9fe44873d1f3",
+    "failed_ids": [
+      "tests.s2_contract.buyer_candidate_cases::test_replayable_buyer_task_slice_separates_source_and_review_hypotheses",
+      "tests.s2_contract.buyer_candidate_cases::test_limited_states_are_preserved_without_turning_into_site_fault[UNKNOWN]",
+      "tests.s2_contract.buyer_candidate_cases::test_limited_states_are_preserved_without_turning_into_site_fault[NOT_APPLICABLE]",
+      "tests.s2_contract.buyer_candidate_cases::test_limited_states_are_preserved_without_turning_into_site_fault[ACCESS_BLOCKED]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[tenant_id]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[run_id]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[policy_id]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[policy_version]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[pack_ref]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[projection_ref]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[projection_version]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[subject_model]",
+      "tests.s2_contract.buyer_candidate_cases::test_server_held_task_pins_cannot_be_rebound[subject_snapshot_ref]",
+      "tests.s2_contract.buyer_candidate_cases::test_observation_versions_and_sources_are_independently_pinned[rule_version]",
+      "tests.s2_contract.buyer_candidate_cases::test_observation_versions_and_sources_are_independently_pinned[source_version]",
+      "tests.s2_contract.buyer_candidate_cases::test_observation_versions_and_sources_are_independently_pinned[observation_id]",
+      "tests.s2_contract.buyer_candidate_cases::test_observation_versions_and_sources_are_independently_pinned[snapshot_refs]",
+      "tests.s2_contract.buyer_candidate_cases::test_cannot_combine_different_product_observations_from_same_verified_projection",
+      "tests.s2_contract.buyer_candidate_cases::test_even_same_model_needs_shared_pinned_subject_snapshot",
+      "tests.s2_contract.buyer_candidate_cases::test_self_rehashed_report_forgery_cannot_be_rendered[quote]",
+      "tests.s2_contract.buyer_candidate_cases::test_self_rehashed_report_forgery_cannot_be_rendered[result]",
+      "tests.s2_contract.buyer_candidate_cases::test_self_rehashed_report_forgery_cannot_be_rendered[hypothesis]",
+      "tests.s2_contract.buyer_candidate_cases::test_self_rehashed_report_forgery_cannot_be_rendered[authority]",
+      "tests.s2_contract.buyer_candidate_cases::test_self_rehashed_report_forgery_cannot_be_rendered[version]",
+      "tests.s2_contract.buyer_candidate_cases::test_self_rehashed_report_forgery_cannot_be_rendered[card_splice]",
+      "tests.s2_contract.buyer_candidate_cases::test_rehashed_source_projection_is_recomputed_not_trusted",
+      "tests.s2_contract.buyer_candidate_cases::test_industry_profile_and_version_must_come_from_server_context",
+      "tests.s2_contract.buyer_candidate_cases::test_other_pack_and_cross_run_source_cannot_be_combined",
+      "tests.s2_contract.buyer_candidate_cases::test_read_only_candidate_never_becomes_native_finding_or_guard_fact"
+    ]
+  },
+  "source_lf_sha256": {
+    "vrae/reporting/s2_candidate.py": "593a3a1dcaa0c049e8be875a62753ea0b7c190b3763fb94e0c02bb5b5a8b49de",
+    "tests/s2_contract/buyer_candidate_cases.py": "2f2903b025061b7a1b393b5a7b53330d465d94f87a75600723d22272fd7b1264",
+    ".github/workflows/s2-rule-contract.yml": "9b56e7276a24863734818269fef52cabe367cb20220e0125cc20cca76f5de296"
+  },
+  "frozen_worktree_blobs": {
+    "vrae/rules/execution.py": "c183970fd90ec69729221a4174c38d193f4b054b",
+    "vrae/evidence/pack.py": "8d45d5882103323e62bc4bd61a4379899e759966"
+  },
+  "raw_runtime_sha256": {
+    "default-inventory-311.log": "c586556e86953c46fe109cd483f2ed81c365243047dbac59d3886c7aa520c528",
+    "first-311.log": "b09b70d86f0285b73df43342f876a2ff2c58abe480100f6cf1daca1145cd21c4",
+    "first-311.xml": "0b8a7ff5825c0c5ebd132a48d7730f620d3a33844e1ee2153e9854346c8034a3",
+    "focused-311.log": "d88849e01a7c505e83960cf473476628eb3cbe2b164233ab0e23a3329efc25d2",
+    "focused-311.xml": "5a8453893adb437c0356f1906a87f01582b2dbbff8852ab9a6e69e89c9537ad3",
+    "focused-final-311.log": "19cb2b8d3ce6fca2f78bf2c23ae5f634dc8f9ee03c65b798fd604c00fb9e648d",
+    "focused-final-311.xml": "553efb9e30f016eeeef55ed497fd35d6fb8a8ba69034c77e1010c0f156969254",
+    "full-311.log": "b8dbeae0e819ff85b25eca737392400e1e5e805f48bd2d5fb25d3c0c43df18a0",
+    "full-311.xml": "2c5a8fc0a3bbd1d8748f657bceea5c7e7a15d277c9704756c815050aab94a67f",
+    "full-313.log": "2433a2ca64b944af67395339edc46067fbd8deb46b75097adcc148a188afbe8b",
+    "full-313.xml": "523e4fccd7b8168773f508d6122511a3757ba772128947bc8643e67d02b4d7d5",
+    "initial-red-311.log": "e63362b92141aed30d3c8af7baaeaa8cf7027da8e27d83d9c80ba9bd38c61db0",
+    "initial-red-311.xml": "1deeb9873a6f872bc3b657815a6b48e06cb5d74ce1a814c8006f9fe44873d1f3",
+    "native-311.log": "59536c9c8305c85dd894e82f746cbd5ab2052d260c9acb0663a9fb1371c7ed3b",
+    "native-311.xml": "042be61d04a97e08b16a07dbb8a54efeff06116eb5401a7eb4bf245890d7d129",
+    "native-313.log": "16492678c7653048978f8d601f01100d680459c9f156e3bde42cce602e75adc4",
+    "native-313.xml": "2180c6761980c032e7fc386515ae8e693128175376498e4f076d37cae2d0604b"
+  },
+  "saved_dto_and_server_fixture_sha256": {
+    "server-complete.json": "b3d4df0892db17f406292f3268498ee1ec8b86c6302bc6749c1a2a4acddc2bd0",
+    "candidate-complete.json": "cefef65aad7eb7102ac8fcc61aa328b453463cd5d21eb047d20437a8e606b4d9",
+    "server-unknown.json": "e73e244f54e3d51478685f1d00868047a08f792eba9fe2d4ff17899d1686badc",
+    "candidate-unknown.json": "a7d5d5b17781db128d6894438b124e7fd1d16c97542139628b6a7b3b317a7107",
+    "server-not-applicable.json": "39677d9f7352417bfa9694cecfe8da8fb84be830e9a4c98cdad35656583a5e22",
+    "candidate-not-applicable.json": "e2dd2e92eefab9f41e1bafd5cb9d427598aee9f90fd284e62862856ad30490a3",
+    "server-blocked.json": "2d98d0844f30e1c382a2e23553faef83eb6a0c7d522e73e3c22abc64bde0ef59",
+    "candidate-blocked.json": "16058fb4746e8fd8dd9cb05a20ebfcaea3a22fdf30404f099be9e25e5f4f11e2"
+  },
+  "sample_results": {
+    "complete": [
+      "PASS",
+      "PASS"
+    ],
+    "unknown": [
+      "UNKNOWN",
+      "PASS"
+    ],
+    "not-applicable": [
+      "NOT_APPLICABLE",
+      "NOT_APPLICABLE"
+    ],
+    "blocked": [
+      "ACCESS_BLOCKED",
+      "ACCESS_BLOCKED"
+    ]
+  },
+  "model_calls": 0,
+  "real_external_sites": 0,
+  "production_outbound": 0,
+  "new_rule_engines": 0,
+  "new_fact_or_review_authorities": 0,
+  "native_fact_promotion": false,
+  "human_gold": "0/26_NO_QUALITY_CLAIM",
+  "S3_real_AI": "NOT_AUTHORIZED",
+  "S4_external_customers": "NOT_AUTHORIZED",
+  "C2_C3_handoff": "https://github.com/gloweaseco-leo/VRAE/issues/118#issuecomment-6967103221",
+  "ci": "PRE_PR_RECORD_FINAL_HEAD_REAL_CI_ON_DRAFT_PR"
+}
