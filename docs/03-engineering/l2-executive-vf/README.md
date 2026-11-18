@@ -2,6 +2,8 @@
 
 Refs #137 / #134。基线为 Owner accepted main `6a15ab4514d24c60b4d03d4ec795f6e3bcd435c3`。本轮保持 Draft，等待 Owner 独立复核。
 
+Owner 已通过原组件验收；后续按新 accepted main 676fdde 的正常 merge 与真实联合接线见 [INTEGRATION.md](INTEGRATION.md)。下述 15a44b8 / s4local05 是保留的原组件证据，不能替代新整合 HEAD 的联合结果。
+
 ## 产品入口
 
 原签名 L2 导航新增「管理层摘要」：`/b5a/l2/r/{原report_id}/executive`。文档回退为 `executive-document`，同一原签名／定向访问授权，浏览器打印为 PDF。原报告、蓝图、审核回执、历史与哈希权威不变。
