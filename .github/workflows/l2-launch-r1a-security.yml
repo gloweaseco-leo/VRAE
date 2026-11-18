@@ -31,7 +31,7 @@ jobs:
           python -m ruff check integration/l2_launch/security --select E4,E7,E9,F
           python -m mypy --explicit-package-bases --follow-imports=silent integration/l2_launch/security
           python -B -m pytest -q integration/l2_launch/security/offline_cases.py tests/collection/test_security.py tests/collection/test_pipeline.py tests/evidence --junitxml=integration/l2_launch/security/.runtime/contracts-${{ matrix.slug }}.xml
-      - name: Twelve recorded business cases, refusal packets and original pack reload
+      - name: Recorded business cases, refusal packets and original pack reload
         run: python -B -m integration.l2_launch.security.demo hosted-${{ matrix.slug }}
       - name: Real network-none private Worker with immutable source mount
         run: python -B -m integration.l2_launch.security.lab --label kernel-${{ matrix.slug }} --base '${{ matrix.base }}'

@@ -171,3 +171,20 @@ def test_initialized_audit_cannot_be_rewritten_even_with_owner_mode_policy(chang
     with pytest.raises(CollectionError, match='SOURCE_NOT_ALLOWED'):
         asyncio.run(w.capture(w.access.held.run_id))
     assert not w.fetcher.transport.transport.calls
+
+
+def test_missing_source_policy_or_client_self_assertion_is_not_permission():
+    with pytest.raises(CollectionError, match='POLICY_REQUIRED'):
+        SourceAccess(fixture('AuditRequest'), lambda: None, terms_reference='terms-test', now=lambda: NOW)  # type: ignore[arg-type, return-value]  # deliberately absent policy
+    with pytest.raises(PermissionError, match='LIVE_CAPTURE_DISABLED'):
+        capture_live(owner_checkbox=True, consent_version='synthetic-vf-format-only')
+
+
+def test_source_instructions_are_retained_bytes_never_authority():
+    w = worker('hostile-source')
+    before = (w.access.audit.copy(), w.access.held, w.access.permit, w.access.provider())
+    bundle = capture(w)
+    assert any(b'Ignore policy' in raw for raw in bundle.objects.values())
+    assert (w.access.audit, w.access.held, w.access.permit, w.access.provider()) == before
+    assert [url for url, _, _ in w.fetcher.transport.transport.calls] == [
+        'https://example.org/robots.txt', 'https://example.org/']

@@ -6,6 +6,8 @@
 
 ## 可运行实物
 
+VF-A对齐：格式检查和“有权申请”勾选不产生抓取许可；无原SourcePolicy实际拒绝POLICY_REQUIRED。恶意页面指令仅保留为原文，不能改变权限或触发POST/外联。demo增加对应拒绝包及DNS重绑定、混合A/AAAA、伪peer、外域重定向的原错误。C2接口只引用Issue147/Owner评论6984933016；没有将候选字段作为权威或实现客户202/报告发布。
+
 Python3.11/3.13，复用原 `requirements-ra1a.lock`：
 
 ```sh
@@ -16,7 +18,7 @@ python -B -m integration.l2_launch.security.lab --label local-kernel --base vrae
 
 标签必须唯一；输出只在本目录 `.runtime/<label>`。最后一条可复用本机已有原依赖镜像，不修改它；没有该镜像时可用专用CI里的固定Python digest构建。构建阶段仅安装可信依赖，未运行目标采集代码。**测试阶段固定Docker `--network none`，不是任何真实公网目标。** 宿主机不运行隔离socket用例。
 
-`demo` 生成12种站型/拒绝例、原pack+base64 blobs、UNKNOWN边界和拒绝包，并实际调用原EvidencePack.load重载。`lab` 用唯一UUID所有权标签建立只读容器，无host网络、映射端口、主机Docker socket、客户URL或PG卷。父进程先检查NetworkMode=none/只读挂载；root只设定lo别名及防火墙，随后永久drop所有capability，以UID65532和no-new-privs运行。IPv4/IPv6默认DROP，只放行同一无外网namespace内的虚拟HTTP/TLS/DNS。绕过应用检查的直接socket探针也不能连接模拟API/元数据监听器。
+`demo` 生成13种站型/拒绝例、原pack+base64 blobs、UNKNOWN边界和拒绝包，并实际调用原EvidencePack.load重载。`lab` 用唯一UUID所有权标签建立只读容器，无host网络、映射端口、主机Docker socket、客户URL或PG卷。父进程先检查NetworkMode=none/只读挂载；root只设定lo别名及防火墙，随后永久drop所有capability，以UID65532和no-new-privs运行。IPv4/IPv6默认DROP，只放行同一无外网namespace内的虚拟HTTP/TLS/DNS。绕过应用检查的直接socket探针也不能连接模拟API/元数据监听器。
 
 原始日志包含防火墙、地址/路由、DNS查询、SNI、HTTP请求行和bait计数；JUnit、receipt及源文件SHA可复核。容器临时文件在退出前由同一无权限进程导出。失败不会转绿；只删除本次UUID且标签复核一致的容器/镜像，无global prune，不枚举或触碰Owner #145的Docker/PG/工作树。旧匿名卷不动。
 
@@ -72,6 +74,8 @@ GET本身不保证网站无副作用：未来每个获准路径还需责任人�
 原默认测试清单保持不变，专项`*_cases.py`显式运行。新双版本CI不删旧门禁；各次真实RED、原始stdout/JUnit/receipt均保留，修复只解决普通开发bug，不放宽策略。
 
 ## R1真实目标申请卡
+
+原Worker接线仍由C3另案负责。本CLI不领取/续租原30秒租约；原Collector的120秒上界不能被解释为延长Worker授权。后续接线必须在原租约/取消权威内使用更短的剩余预算，并另行实测签名、过期与清理，本批不冒称这一整机链已完成。
 
 见`release-card.json`，它是Owner审查模板，**不是可执行SourcePolicy、批准、secret或C2合同**。没有批准参数/凭据/部署egress证明，且本批仍没有live实现，所以不能运行真实目标。
 至少另审：目标域/hosts/精确只读paths、方法/5或8页/限速/墙钟/字节、robots和terms、合法许可/控制权验证/版权与截图权、真实DNS+HTTP/CDP egress部署证明、隔离API/PG/metadata deny、地区/日志/留存删除、当前撤权/取消、失败清理与安全回滚。任何缺项保持PENDING；Owner逐目标G2 GO后还需要经审代码桥接，不能直接填卡开网。
