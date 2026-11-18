@@ -86,6 +86,12 @@ jobs:
           python -m pytest -q integration/l2_ops/checks/test_s2_acceptance_sources.py
           integration/l2_ops/checks/test_native_tasks.py
           --junitxml=integration/l2_ops/.private/s2-ci-native-${{ matrix.slug }}.xml
+      - name: Accepted dependency-only Worker image
+        run: python integration/l2_ops/build_image.py --python ${{ matrix.python }}
+      - name: Falsifiable dependency-only Worker prerequisite
+        run: |
+          docker image inspect --format '{{.Id}}' vrae-ra4b-p1:${{ matrix.slug }} > integration/l2_ops/.private/s2-ci-image-${{ matrix.slug }}.txt
+          docker run --rm --pull never --network none --read-only --cap-drop ALL vrae-ra4b-p1:${{ matrix.slug }} python -c "import sys,json,importlib.util,psycopg,cryptography; assert '.'.join(map(str,sys.version_info[:2])) == '${{ matrix.python }}'; assert importlib.util.find_spec('vrae') is None; print(json.dumps({'python':sys.version,'psycopg':psycopg.__version__,'cryptography':cryptography.__version__,'source_embedded':False,'network':'none'}))" > integration/l2_ops/.private/s2-ci-image-probe-${{ matrix.slug }}.json
       - name: Real new APP202 Worker PG16 original SSR Chrome and restart
         env:
           B5B_CHROMIUM: /usr/bin/google-chrome
@@ -101,3 +107,5 @@ jobs:
           path: |
             docs/03-engineering/l2-operations/s2-ci-${{ matrix.slug }}/
             integration/l2_ops/.private/s2-ci-native-${{ matrix.slug }}.xml
+            integration/l2_ops/.private/s2-ci-image-${{ matrix.slug }}.txt
+            integration/l2_ops/.private/s2-ci-image-probe-${{ matrix.slug }}.json

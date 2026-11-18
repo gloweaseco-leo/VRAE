@@ -14,7 +14,7 @@ from integration.beta_review.codex3.m3_browser_run import run as browser
 from integration.beta_review.codex3.runner import ROOT
 from .acceptance import command, credentials, owned, snapshot
 
-ACCEPTED_MAIN = "4a227f1b58afc97d8af1778a066f37b80ff0f399"
+ACCEPTED_MAIN = "6a15ab4514d24c60b4d03d4ec795f6e3bcd435c3"
 OWNER_LABEL = "vrae.beta.codex3"
 
 
@@ -91,6 +91,42 @@ def publish(label, private, secrets, outcome):
     return out
 
 
+
+def failure_receipt(private, label, phase, error):
+    """Allowlisted locations and exact private-log digests, never log text."""
+    logs = []
+    frames = []
+    original_type = None
+    own_log = private/"s2-original-red.private.log"
+    if not own_log.is_file():
+        own_log = local_app.launch_for(label)/"s2-original-red.private.log"
+    candidates = (("s2_controller", own_log),
+                  ("original_supervisor", local_app.launch_for(label)/"local-supervisor.private.log"))
+    for role, location in candidates:
+        if not location.is_file():
+            continue
+        raw = location.read_bytes()
+        logs.append({"role": role, "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()})
+        # Inspect a bounded suffix. No source lines, messages or absolute paths leave this function.
+        text = raw[-262144:].decode("utf-8", errors="replace")
+        if role == "original_supervisor":
+            # The first traceback wins even if later teardown also fails.
+            text = text.split("Traceback (most recent call last):", 1)[-1]
+            type_match = re.search(r"^((?:[A-Za-z_][A-Za-z0-9_]*\.)*[A-Za-z_][A-Za-z0-9_]*(?:Error|Exception))(?::|$)", text, re.M)
+            if type_match:
+                original_type = type_match[1].rsplit(".", 1)[-1]
+                text = text[:type_match.start()]
+            for path, line, method in re.findall(r'File "([^"\n]+)", line (\d+), in ([A-Za-z_][A-Za-z0-9_]*)', text):
+                match = re.search(r'(?:^|[/\\])((?:integration|vrae|apps|tests|infra)[/\\][A-Za-z0-9_./\\-]+\.py)$', path)
+                if match:
+                    module = match[1].replace("\\", "/")
+                    if ".." not in module.split("/"):
+                        frames.append({"module": module, "line": int(line), "method": method})
+    return {"phase": phase, "exception_type": type(error).__name__,
+            "original_exception_type": original_type, "original_method_locations": frames[-8:],
+            "private_logs": logs, "private_text_published": False,
+            "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"}
+
 def accept(label, minor):
     assert re.fullmatch("[a-z0-9-]{3,30}", label)
     assert minor == ".".join(map(str, sys.version_info[:2])), "S2_NATIVE_MINOR_REQUIRED"
@@ -107,9 +143,12 @@ def accept(label, minor):
     error: BaseException | None = None
     secrets: set[bytes] = set()
     mounts: dict[str, dict] = {}
+    phase = "original_local_app.start"
+    failed_phase = None
     try:
         started, code = local_app.start(label, minor, False, workbench=True, l2_prepare=True)
         assert code == 0 and started["state"] == "STARTING"
+        phase = "original_local_app.status_until_ready"
         deadline = time.monotonic()+300
         while True:
             state = local_app.status(label)
@@ -120,6 +159,7 @@ def accept(label, minor):
             time.sleep(0.2)
         assert state["source_sha"] == head
         secrets.update(credentials(private))
+        phase = "original_owned_pg_identity"
         _, saved = owned(private, label)
         observe_owned(label, private, mounts)
         paths = ["integration/l2_ops/s2_acceptance_sources.py", "integration/l2_ops/native_business.py",
@@ -128,11 +168,14 @@ def accept(label, minor):
                  "integration/beta_review/codex3/m3_browser.mjs",
                  "integration/beta_review/codex3/m3_browser_run.py",
                  "integration/s2_buyer_workbench/workbench.py",
+                 "integration/s2_buyer_workbench/buyer_cards.py", "vrae/reporting/s2_candidate.py",
                  "vrae/rules/s2/contract.py", "vrae/evidence/pack.py"]
         manifest = {p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
         (private/"s2-source-manifest.json").write_text(json.dumps(
             {"source_sha":head,"actual_working_bytes":manifest},indent=2),encoding="utf-8")
+        phase = "original_snapshot.before_browser"
         snapshot(private, label, saved, "s2-before")
+        phase = "original_browser.same_task"
         outcome["browser"] = browser(label, s2_l2=True)
         assert manifest == {p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
         cleanup = json.loads((private/"browser-s2-l2/browser-process-cleanup.json").read_bytes())
@@ -141,6 +184,7 @@ def accept(label, minor):
         outcome["pass"] = True
     except BaseException as exc:
         error = exc
+        failed_phase = phase
         outcome["failure_type"] = type(exc).__name__
         root = private if private.exists() else local_app.launch_for(label)
         root.mkdir(parents=True, exist_ok=True)
@@ -153,6 +197,7 @@ def accept(label, minor):
                 observe_owned(label, private, mounts)
                 snapshot(private, label, saved, "s2-final" if outcome["pass"] else "s2-red")
             except BaseException as exc:
+                failed_phase = failed_phase or "original_snapshot.final"
                 error = error or exc
                 outcome["pass"] = False
                 outcome["snapshot_failure"] = type(exc).__name__
@@ -169,10 +214,13 @@ def accept(label, minor):
             pg_cleanup = json.loads((private/"l2-owned-cleanup.json").read_bytes())
             assert pg_cleanup["recorded_container_absent"] and pg_cleanup["recorded_pg_volumes_absent"]
         except BaseException as exc:
+            failed_phase = failed_phase or "original_owned_teardown"
             error = error or exc
             outcome["pass"] = False
             outcome["cleanup_failure"] = type(exc).__name__
         assert command(["git", "rev-parse", "HEAD"]).decode().strip() == head
+        if error is not None:
+            outcome["first_failure"] = failure_receipt(private, label, failed_phase, error)
         public = publish(label, private, secrets, outcome)
     if error or not outcome["pass"]:
         raise RuntimeError("S2_ACTUAL_STAGE_RED_PRESERVED_"+str(public)) from None

@@ -23,6 +23,13 @@ def bind(business, report_id):
         config = load_s2(tenant_id=tenant)
         held = IndustryPins(config["industry_ref"], tenant)
         binding = SourceBinding(source, evidence.pack, trusted_scope=scope, industry_pins=held)
+        # Select only this controlled catalog's unambiguous P40 source anchor.
+        projection = binding.read(source.read())
+        anchors = [row for row in projection["industrial_projection"]["rows"]
+                   if row["observation"]["rule_id"] == "INFO-02" and row["model"] == "P40"]
+        if len(anchors) != 1 or len(anchors[0]["source_pages"]) != 1:
+            raise OperationsDenied("S2_CONTROLLED_BUYER_ANCHOR_REQUIRED")
+        binding.enable_buyer_cards(model="P40", snapshot_ref=anchors[0]["source_pages"][0]["snapshot_ref"])
         component = Workbench(app.deep, binding)
     # Do not call the component installer or replace native_business/native_tasks.
     business.source_views[report_id] = component
@@ -56,6 +63,13 @@ def proof(business, rid):
     if component is None:
         return None
     binding = component.binding
+    buyer = binding.read_buyer(binding.read(binding.source.read()))
     return {"authority": "READ_ONLY_CANDIDATE_NOT_RX_OR_GUARD",
             "pack_ref": binding.pack.ref, "scope": binding.scope,
-            "projection_ref": binding.expected_ref, "industry_ref": binding.pins.industry_ref}
+            "projection_ref": binding.expected_ref, "industry_ref": binding.pins.industry_ref,
+            "buyer": {"candidate_ref": binding.expected_buyer_ref,
+                      "reporting_version": binding.buyer_pins.reporting_version,
+                      "model": binding.buyer_pins.subject_model,
+                      "snapshot_ref": binding.buyer_pins.subject_snapshot_ref,
+                      "cards": [{"rule_id": card["rule_id"], "result": card["result"],
+                                 "observation_id": card["observation_id"]} for card in buyer["cards"]]}}

@@ -22,6 +22,7 @@ export async function s2Journey(c) {
   await screenshot('s2-original-report.png');
   let proof=await rpc('native-proof');
   await check('S2-same-pack-source-projection-not-native-rx',proof.pages.length===8&&proof.s2_source?.pack_ref===proof.pack_ref&&proof.s2_source.scope.run_id===task.run_id&&proof.s2_source.projection_ref.startsWith('s2p-')&&proof.s2_source.authority==='READ_ONLY_CANDIDATE_NOT_RX_OR_GUARD',proof.s2_source);
+  await check('S2-buyer-candidate-same-source-selection',proof.s2_source.buyer?.candidate_ref.startsWith('s2br-')&&proof.s2_source.buyer.model==='P40'&&proof.s2_source.buyer.reporting_version==='s2-buyer-candidate-1.0.0'&&proof.s2_source.buyer.cards.length===2&&proof.s2_source.buyer.cards.map(x=>x.rule_id).join(',')==='INFO-02,TRUST-02',proof.s2_source.buyer);
   const sourceURL=root+'/source-tasks';
   async function fresh(){await login('404',false);await sourceLogin();await reviewLogin()}
   for(const width of [1280,390,375,320]){
@@ -30,9 +31,16 @@ export async function s2Journey(c) {
     await nav(sourceURL);
     await check('S2-actual-five-source-dimensions-'+width,await ev("document.querySelectorAll('[data-task]').length===5&&!!document.querySelector('[data-key=s2-source-workbench]')&&document.body.innerText.includes('UNKNOWN')"));
     await check('S2-current-task-projection-binding-'+width,await ev(`document.body.textContent.includes(${JSON.stringify(proof.pack_ref)})&&document.body.textContent.includes(${JSON.stringify(proof.s2_source.projection_ref)})`));
+    await check('S2-two-current-source-buyer-cards-'+width,await ev(`document.querySelectorAll('[data-key=buyer-task-card][data-buyer-authority=READ_ONLY_REVIEW_CANDIDATE]').length===2&&document.querySelector('[data-buyer-candidate-ref]').dataset.buyerCandidateRef===${JSON.stringify(proof.s2_source.buyer.candidate_ref)}&&[...document.querySelectorAll('[data-key=buyer-task-card]')].every((e,i)=>e.dataset.result===${JSON.stringify(proof.s2_source.buyer.cards.map(x=>x.result))}[i]&&e.textContent.includes('P40'))`));
+    await check('S2-first-screen-procurement-and-no-duplicate-'+width,await ev("(()=>{const e=document.querySelector('[data-key=buyer-first-screen]');return e.getBoundingClientRect().bottom<=innerHeight&&['看到什么','采购帮助','还不知道','下一步向企业索取'].every(t=>e.innerText.includes(t))&&[...document.querySelectorAll('[data-key=s2-source-candidate]')].every(e=>!(e.textContent.includes('P40')&&/INFO-02|TRUST-02/.test(e.querySelector('details')?.textContent||'')))})()"));
     await check('S2-mobile-boundaries-and-real-targets-'+width,await ev("document.documentElement.scrollWidth<=innerWidth&&document.scripts.length===0&&[...document.querySelectorAll('a.action,summary')].filter(e=>e.getClientRects().length).every(e=>e.getBoundingClientRect().height>=44)"));
     if(width===390){await call('DOM.enable');await call('CSS.enable');const d=await call('DOM.getDocument');const n=await call('DOM.querySelector',{nodeId:d.root.nodeId,selector:'h1'});const f=await call('CSS.getPlatformFontsForNode',{nodeId:n.nodeId});await check('S2-actual-chinese-glyphs',f.fonts.some(font=>font.glyphCount>0&&/CJK|YaHei|PingFang|SimSun|Heiti|Noto Sans SC|Source Han|WenQuanYi|DengXian|JhengHei/i.test(font.familyName)))}
     await screenshot('s2-five-source-'+width+'.png');
+  }
+  for(const index of [0,1]){
+    await fresh();await nav(sourceURL);await click('[href="'+new URL(root).pathname+'/source-tasks/buyer-cite/'+index+'"]',true);
+    await check('S2-buyer-card-real-original-bytes-'+index,await ev("!!document.querySelector('[data-key=s2-original-citation]')&&!!document.querySelector('[data-buyer-authority=READ_ONLY_REVIEW_CANDIDATE]')&&document.body.innerText.includes('原始 UTF-8 字节')&&!document.querySelector('table,script')"));
+    await screenshot('s2-buyer-source-'+index+'.png');
   }
   await fresh();await nav(sourceURL);await click('[data-key=s2-source-citation]',true);
   await check('S2-real-citation-not-executed-source-HTML',await ev("!!document.querySelector('[data-key=s2-original-citation]')&&document.body.innerText.includes('原始 UTF-8 字节')&&document.scripts.length===0"));
@@ -69,7 +77,7 @@ export async function s2Journey(c) {
   await check('S2-original-report-version-hash-survive-restart',afterPins.display_hash===reportPins.display_hash&&JSON.stringify(afterPins.report_version)===JSON.stringify(reportPins.report_version));
   await nav(sourceURL);await check('S2-same-source-projection-after-restart',await ev(`document.body.textContent.includes(${JSON.stringify(before.s2_source.projection_ref)})`));
   await nav(root+'/brief');const after=await rpc('native-proof');
-  await check('S2-same-report-review-Brief-readback',after.brief_stored&&after.pack_ref===before.pack_ref&&after.diagnosis_sha256===before.diagnosis_sha256&&after.brief.content_sha256===before.brief.content_sha256&&after.brief.review.receipt_sha256===before.brief.review.receipt_sha256&&after.s2_source.projection_ref===before.s2_source.projection_ref);
+  await check('S2-same-report-review-Brief-readback',after.brief_stored&&after.pack_ref===before.pack_ref&&after.diagnosis_sha256===before.diagnosis_sha256&&after.brief.content_sha256===before.brief.content_sha256&&after.brief.review.receipt_sha256===before.brief.review.receipt_sha256&&after.s2_source.projection_ref===before.s2_source.projection_ref&&JSON.stringify(after.s2_source.buyer)===JSON.stringify(before.s2_source.buyer));
   await screenshot('s2-restart-readback.png');
   await call('Network.deleteCookies',{name:'b5a_l2_session',url:origin+'/b5a/l2/'});await nav(sourceURL);
   await check('S2-unsigned-source-reader-refused',statusOf(sourceURL)===403&&!await ev("!!document.querySelector('[data-key=s2-source-workbench]')"));

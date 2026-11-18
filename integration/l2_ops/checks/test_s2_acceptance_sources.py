@@ -28,6 +28,7 @@ def test_additive_source_view_preserves_original_ports_report_and_review(runtime
     before = ledger.read(sid, rid)
     response = app.handle("GET", "/b5a/l2/r/"+rid+"/source-tasks", headers)
     assert response.response.status == 200 and b"s2-source-workbench" in response.response.body
+    assert response.response.body.count(b'data-key="buyer-task-card"') == 2
     assert app.native_tasks is manager and app.native_business is business and manager.directory is directory
     assert ledger.read(sid, rid).version == before.version
     assert ledger.read(sid, rid).display_hash == before.display_hash
@@ -52,7 +53,7 @@ def test_source_route_rechecks_original_task_authority(runtime, monkeypatch):  #
     assert response.response.status == 403 and b"s2-source-workbench" not in response.response.body
 
 
-@pytest.mark.parametrize("kind", ["unsigned", "c2_revoked", "post", "tampered_projection"])
+@pytest.mark.parametrize("kind", ["unsigned", "c2_revoked", "post", "tampered_projection", "tampered_buyer"])
 def test_source_route_does_not_gain_identity_or_projection_authority(runtime, kind):  # noqa: F811
     app, manager, _, headers, rid, _ = ready(runtime)
     if kind == "unsigned":
@@ -66,6 +67,53 @@ def test_source_route_does_not_gain_identity_or_projection_authority(runtime, ki
         value["industrial_projection"]["rows"][0]["observation"]["result"] = "PASS"
         value["scope"]["run_id"] = "foreign-run"
         component.binding.payload = json.dumps(value).encode()
+    elif kind == "tampered_buyer":
+        component = app.native_business.source_views[rid]
+        value = json.loads(component.binding.buyer_payload)
+        value["cards"][0]["result"] = "PASS"
+        value["subject_model"] = "V25"
+        component.binding.buyer_payload = json.dumps(value).encode()
     response = app.handle("POST" if kind == "post" else "GET",
                           "/b5a/l2/r/"+rid+"/source-tasks", headers)
     assert response.response.status == 403 and b"s2-source-workbench" not in response.response.body
+
+
+@pytest.mark.parametrize("placement", ["private", "launch"])
+def test_first_failure_receipt_retains_locations_and_hashes_without_log_text(tmp_path, monkeypatch, placement):
+    import hashlib
+    from integration.l2_ops import s2_acceptance_runtime as controller
+    launch = tmp_path/"launch"
+    launch.mkdir()
+    monkeypatch.setattr(controller.local_app, "launch_for", lambda label: launch)
+    raw = (b'Traceback (most recent call last):\n'
+           b'  File "/source/integration/beta_review/codex3/runner.py", line 156, in start_native\n'
+           b'    command = "postgresql://user:DO_NOT_PUBLISH@private.invalid/db"\n'
+           b'subprocess.CalledProcessError: https://private.invalid/SECRET_TOKEN <html>PRIVATE_HTML</html>\n')
+    raw += (b'Traceback (most recent call last):\n'
+            b'  File "/source/integration/l2_ops/workbench.py", line 99, in cleanup\n'
+            b'RuntimeError: SECONDARY_CLEANUP_MESSAGE\n')
+    (launch/"local-supervisor.private.log").write_bytes(raw)
+    root = tmp_path if placement == "private" else launch
+    (root/"s2-original-red.private.log").write_text("PRIVATE_CONTROLLER_BODY", encoding="utf-8")
+    receipt = controller.failure_receipt(tmp_path, "bounded-test", "original_local_app.status_until_ready",
+                                      AssertionError("DO_NOT_PUBLISH"))
+    assert receipt["phase"] == "original_local_app.status_until_ready"
+    assert receipt["exception_type"] == "AssertionError"
+    assert receipt["original_exception_type"] == "CalledProcessError"
+    assert receipt["original_method_locations"] == [
+        {"module": "integration/beta_review/codex3/runner.py", "line": 156, "method": "start_native"}]
+    assert receipt["private_logs"][1]["sha256"] == hashlib.sha256(raw).hexdigest()
+    exported = json.dumps(receipt)
+    for forbidden in ("postgresql", "DO_NOT_PUBLISH", "SECRET_TOKEN", "PRIVATE_HTML",
+                      "https:", "private.invalid", "PRIVATE_CONTROLLER_BODY", "/source/"):
+        assert forbidden not in exported
+
+
+def test_first_failure_receipt_missing_logs_does_not_invent_root_cause(tmp_path, monkeypatch):
+    from integration.l2_ops import s2_acceptance_runtime as controller
+    monkeypatch.setattr(controller.local_app, "launch_for", lambda label: tmp_path/"absent")
+    receipt = controller.failure_receipt(tmp_path, "bounded-test", "original_local_app.start",
+                                      RuntimeError("a missing log is not evidence"))
+    assert receipt["private_logs"] == receipt["original_method_locations"] == []
+    assert receipt["original_exception_type"] is None
+    assert receipt["root_cause"] == "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"
