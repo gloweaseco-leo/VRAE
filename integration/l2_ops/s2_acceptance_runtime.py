@@ -14,7 +14,7 @@ from integration.beta_review.codex3.m3_browser_run import run as browser
 from integration.beta_review.codex3.runner import ROOT
 from .acceptance import command, credentials, owned, snapshot
 
-ACCEPTED_MAIN = "6a15ab4514d24c60b4d03d4ec795f6e3bcd435c3"
+ACCEPTED_MAIN = "676fdde5c14a23bb284a0cb00df25773b30ed4b3"
 OWNER_LABEL = "vrae.beta.codex3"
 
 
@@ -57,13 +57,13 @@ def publish(label, private, secrets, outcome):
     (out/".gitattributes").write_text("* -text whitespace=cr-at-eol\n", encoding="utf-8")
     folder = private/"browser-s2-l2"
     allowed = {"browser.json", "browser-failure.json", "assertions.json",
-               "browser-process-cleanup.json", "s2-native-chain.json"}
+               "browser-process-cleanup.json", "s2-native-chain.json", "s5-offline-proof.json"}
     files = [(p, p.name) for p in folder.glob("*") if p.is_file()
              and (p.name in allowed or p.suffix in (".png", ".pdf"))]
     files += [(p, p.name) for p in private.glob("*") if p.is_file() and
               (p.name.startswith("s0-worker-") or p.name.startswith("restart-") or p.name in
                ("l2-owned-cleanup.json", "s2-owned-cleanup.json", "l2-business-storage.json",
-                "s2-source-manifest.json", "s2-owned-mounts.json"))]
+                "s2-source-manifest.json", "s2-owned-mounts.json", "s5-safe-observation.json"))]
     for location in private.glob("acceptance-snapshot-*"):
         for name in ("manifest.json", "brief-row-states.json"):
             if (location/name).exists():
@@ -137,7 +137,7 @@ def failure_receipt(private, label, phase, error):
             "private_logs": logs, "private_text_published": False,
             "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"}
 
-def accept(label, minor):
+def accept(label, minor, *, s5=False):
     assert re.fullmatch("[a-z0-9-]{3,30}", label)
     assert minor == ".".join(map(str, sys.version_info[:2])), "S2_NATIVE_MINOR_REQUIRED"
     command(["git", "merge-base", "--is-ancestor", ACCEPTED_MAIN, "HEAD"])
@@ -149,6 +149,10 @@ def accept(label, minor):
     outcome = {"source_sha":head,"accepted_main":ACCEPTED_MAIN,"minor":minor,"label":label,
         "scope":"S2_P2_INDUSTRIAL_SAME_TASK_STAGE_NOT_FULL_S2_EXIT","pass":False,
         "formal_human_gold":False,"external_delivery":False,"model_calls":0}
+    if s5:
+        outcome["scope"] = "S5_S2_S3_REAL_OPERATION_S4_PENDING_NOT_FINAL_READY"
+        outcome["missing_gates"] = ["OWNER_MERGED_S4_REQUIRED"]
+        outcome["known_limits"] = ["S3_SESSION_CACHE_HISTORY_ONLY_AFTER_RESTART_NOT_A_DURABLE_PG_JOB"]
     saved: str | None = None
     error: BaseException | None = None
     secrets: set[bytes] = set()
@@ -156,7 +160,7 @@ def accept(label, minor):
     phase = "original_local_app.start"
     failed_phase = None
     try:
-        started, code = local_app.start(label, minor, False, workbench=True, l2_prepare=True)
+        started, code = local_app.start(label, minor, False, workbench=True, l2_prepare=True, s5=s5)
         assert code == 0 and started["state"] == "STARTING"
         phase = "original_local_app.status_until_ready"
         deadline = time.monotonic()+300
@@ -180,13 +184,15 @@ def accept(label, minor):
                  "integration/s2_buyer_workbench/workbench.py",
                  "integration/s2_buyer_workbench/buyer_cards.py", "vrae/reporting/s2_candidate.py",
                  "vrae/rules/s2/contract.py", "vrae/evidence/pack.py"]
+        if s5:
+            paths.extend(str(p.relative_to(ROOT)).replace(chr(92), "/") for p in (ROOT/"integration/s5_ops").iterdir() if p.suffix in (".py", ".mjs"))
         manifest = {p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
         (private/"s2-source-manifest.json").write_text(json.dumps(
             {"source_sha":head,"actual_working_bytes":manifest},indent=2),encoding="utf-8")
         phase = "original_snapshot.before_browser"
         snapshot(private, label, saved, "s2-before")
         phase = "original_browser.same_task"
-        outcome["browser"] = browser(label, s2_l2=True)
+        outcome["browser"] = browser(label, s2_l2=True, s5=s5)
         assert manifest == {p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
         cleanup = json.loads((private/"browser-s2-l2/browser-process-cleanup.json").read_bytes())
         assert cleanup["exit_observed"], "S2_CHROME_EXIT_NOT_OBSERVED"
@@ -211,6 +217,14 @@ def accept(label, minor):
                 error = error or exc
                 outcome["pass"] = False
                 outcome["snapshot_failure"] = type(exc).__name__
+        if s5 and saved:
+            from integration.s5_ops.evidence import capture
+            try:
+                capture(private, label, saved)
+            except BaseException as exc:
+                failed_phase = failed_phase or "s5_private_state_capture"
+                error = error or exc
+                outcome["pass"] = False
         try:
             local_app.request_stop(label)
             deadline = time.monotonic()+180
@@ -234,7 +248,7 @@ def accept(label, minor):
         public = publish(label, private, secrets, outcome)
     if error or not outcome["pass"]:
         raise RuntimeError("S2_ACTUAL_STAGE_RED_PRESERVED_"+str(public)) from None
-    return {"source_sha":head,"status":"LOCAL_S2_STAGE_CANDIDATE_GOLD_PENDING",
+    return {"source_sha":head,"status":"S5_PARTIAL_S2_S3_S4_PENDING" if s5 else "LOCAL_S2_STAGE_CANDIDATE_GOLD_PENDING",
             "evidence":str(public),"closed":True}
 
 
@@ -242,8 +256,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", required=True)
     parser.add_argument("--minor", choices=("3.11","3.13"), required=True)
+    parser.add_argument("--s5", action="store_true")
     args = parser.parse_args()
-    print(json.dumps(accept(args.run,args.minor)))
+    print(json.dumps(accept(args.run,args.minor,s5=args.s5)))
 
 
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ from contextlib import contextmanager
 from datetime import datetime
 from dataclasses import asdict, replace
 from pathlib import Path
+from typing import Any
 import re
 import hashlib
 import json
@@ -45,6 +46,7 @@ class NativeTasks:
             raise OperationsDenied("L2_NATIVE_POLICY_DEADLINE_REQUIRED")
         self.root, self.enabled = Path(private_root), enabled
         self.active, self.directory = None, None
+        self.s5: Any = None
 
     def route(self, path):
         found = re.fullmatch(r"/b5a/m2/task/([A-Za-z0-9_-]{43})/native", path)
@@ -105,6 +107,8 @@ class NativeTasks:
             activities=activities, subject=c["subject"], factory=current)
         from .s2_acceptance_sources import bind
         bind(self.app.native_business, rid)
+        if self.s5 is not None:
+            self.s5.bind(self.app.native_business, rid)
         self.audit()
         return ledger
 

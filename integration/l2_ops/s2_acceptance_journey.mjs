@@ -25,6 +25,7 @@ export async function s2Journey(c) {
   await check('S2-buyer-candidate-same-source-selection',proof.s2_source.buyer?.candidate_ref.startsWith('s2br-')&&proof.s2_source.buyer.model==='P40'&&proof.s2_source.buyer.reporting_version==='s2-buyer-candidate-1.0.0'&&proof.s2_source.buyer.cards.length===2&&proof.s2_source.buyer.cards.map(x=>x.rule_id).join(',')==='INFO-02,TRUST-02',proof.s2_source.buyer);
   const sourceURL=root+'/source-tasks';
   async function fresh(){await login('404',false);await sourceLogin();await reviewLogin()}
+  if(c.s5Hooks)await c.s5Hooks.before(c,{root,task,reportPins,proof,fresh});
   for(const width of [1280,390,375,320]){
     await fresh();
     await call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
@@ -79,6 +80,7 @@ export async function s2Journey(c) {
   await nav(root+'/brief');const after=await rpc('native-proof');
   await check('S2-same-report-review-Brief-readback',after.brief_stored&&after.pack_ref===before.pack_ref&&after.diagnosis_sha256===before.diagnosis_sha256&&after.brief.content_sha256===before.brief.content_sha256&&after.brief.review.receipt_sha256===before.brief.review.receipt_sha256&&after.s2_source.projection_ref===before.s2_source.projection_ref&&JSON.stringify(after.s2_source.buyer)===JSON.stringify(before.s2_source.buyer));
   await screenshot('s2-restart-readback.png');
+  if(c.s5Hooks)await c.s5Hooks.after(c,{root,task,reportPins,before,after,fresh});
   await call('Network.deleteCookies',{name:'b5a_l2_session',url:origin+'/b5a/l2/'});await nav(sourceURL);
   await check('S2-unsigned-source-reader-refused',statusOf(sourceURL)===403&&!await ev("!!document.querySelector('[data-key=s2-source-workbench]')"));
   await writeFile(path.join(out,'s2-native-chain.json'),JSON.stringify({scope:'S2_P2_INDUSTRIAL_STAGE_NOT_FULL_S2_EXIT',task,worker,reportPins,before,after,formalHumanGold:false,modelCalls:0,externalDelivery:false},null,2));

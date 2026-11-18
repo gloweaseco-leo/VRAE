@@ -28,7 +28,7 @@ def control(label, operation, **args):
     return result
 
 
-def run(label, *, interactive=False, preparation_only=False, native_l2=False, s2_l2=False):
+def run(label, *, interactive=False, preparation_only=False, native_l2=False, s2_l2=False, s5=False):
     current = status(label)
     assert current["state"] == "M3_READY"
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
@@ -73,6 +73,7 @@ def run(label, *, interactive=False, preparation_only=False, native_l2=False, s2
                     "preparation_only": preparation_only,
                     "native_l2": native_l2,
                     "s2_l2": s2_l2,
+                    "s5": s5,
                 }
             )
             + "\n"

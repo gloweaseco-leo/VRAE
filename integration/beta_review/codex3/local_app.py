@@ -190,7 +190,10 @@ def supervise(label, minor):
                 from .m3_workbench import main as workbench_main
 
                 if metadata.get("l2_prepare") is True:
-                    from integration.l2_ops.workbench import main as l2_main
+                    if metadata.get("s5") is True:
+                        from integration.s5_ops.workbench import main as l2_main
+                    else:
+                        from integration.l2_ops.workbench import main as l2_main
                     l2_main(label, minor)
                 else:
                     workbench_main(label, minor)
@@ -209,7 +212,7 @@ def supervise(label, minor):
     return code
 
 
-def start(label, minor, component_preview, *, workbench=False, l2_prepare=False):
+def start(label, minor, component_preview, *, workbench=False, l2_prepare=False, s5=False):
     evidence = doctor()
     folder = folder_for(label)
     PRIVATE.mkdir(parents=True, exist_ok=True)
@@ -233,6 +236,9 @@ def start(label, minor, component_preview, *, workbench=False, l2_prepare=False)
     if l2_prepare:
         assert workbench and not component_preview
         metadata["l2_prepare"] = True
+    if s5:
+        assert l2_prepare and workbench and not component_preview
+        metadata["s5"] = True
     control_write(launch / "local-launch.json", metadata)
     command = [
         sys.executable,
