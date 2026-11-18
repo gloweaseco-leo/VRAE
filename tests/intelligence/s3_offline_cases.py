@@ -40,6 +40,9 @@ def test_default_no_model_keeps_original_report_readable_and_unknown_cost(good):
     assert good.source.read().document == before
     assert all(label in session.markdown('operation-default') for label in
                ('发现产品', '理解产品', '核对信任资料', '准备询价', '搜索技术', 'UNKNOWN', 'NOT_EVALUABLE'))
+    readable = session.markdown('operation-default')
+    assert 'normalized_quantities' not in readable and 'observed_fields' not in readable
+    assert '资料版次：R1' in readable and '原报告片段' in readable
 
 
 def test_technical_literal_cross_page_hypothesis_and_action_remain_different_authorities(good):
@@ -58,6 +61,7 @@ def test_technical_literal_cross_page_hypothesis_and_action_remain_different_aut
     assert '12 m3/h' in result['claims'][0]['text']
     assert result['claims'][3]['proposal']['price'] is None
     assert result['claims'][3]['proposal']['target_urls']
+    assert '保存来源原文：12 m3/h' in session.markdown('operation-s3-test')
     assert result['quality'] == {'status': 'NOT_EVALUABLE', 'independent_gold': 0,
                                  'precision': None, 'improvement': None}
     changed = deepcopy(result)

@@ -421,22 +421,52 @@ class Session:
     def markdown(self, operation_id):
         data = self.read(operation_id)
         labels = dict(zip(TASKS, ('发现产品', '理解产品', '核对信任资料', '准备询价', '搜索技术')))
+        rules = {'DISCOVER': ('IND-SELECTION',), 'UNDERSTAND': ('IND-SPEC', 'IND-DUTY', 'IND-FIT'),
+                 'TRUST': ('IND-PROOF',), 'INQUIRE': ('IND-RFQ',), 'SEARCH_TECHNICAL': ()}
+        questions = {'DISCOVER': '目录中的型号与应用入口是否对应本次采购对象？',
+            'UNDERSTAND': '请工程责任人确认型号、版次、单位、介质与工作点，哪些资料可提供原件？',
+            'TRUST': '谁能提供当前证明原件，并独立核对声明方、适用对象和日期？',
+            'INQUIRE': '买方还缺哪些工况、数量与交付地信息？只读联系入口不代表询价已发送或送达。',
+            'SEARCH_TECHNICAL': '哪些页面已实际检查抓取与呈现？未观察范围保持未知，不推断索引、排名或流量。'}
         lines = ['# 离线采购解释候选', '', '仅供人工审阅；来源展示不等于真实性、工程适配或正式批准。',
+                 '以下为同源原报告与离线候选片段，不替代报告全文或人工审阅。',
                  '', 'AI 模式：' + data['mode'] + '；状态：' + data['status'],
                  '真实模型费用：UNKNOWN；质量与提升：NOT_EVALUABLE（独立 Gold=0）。', '']
         def safe(text):
             return re.sub(r'([\\`*_{}\[\]()#+.!|>-])', r'\\\1', escape(str(text), quote=True))
+        candidate = self.context.candidate
+        model = candidate['subject_model']
+        native = self.context.source.read().document['findings']
         for task in TASKS:
             lines.extend(['## ' + labels[task], '证实范围：仅当前保存来源与原确定性检查；未覆盖部分不推断为缺陷。'])
-            for card in self.context.candidate['cards']:
+            excerpts = [row for row in native if model is not None and row['title'].startswith(model + ' · ')
+                        and row['native_rule_id'] in rules[task]]
+            for excerpt in excerpts[:2]:
+                lines.append('原报告片段（' + excerpt['native_result'] + '）：' + safe(excerpt['statement']))
+            for card in candidate['cards']:
                 if card['buyer_task'] == task:
                     lines.append('确定性资料状态：' + card['result'] + '；' + safe(card['limitation']['text']))
                     fields = card['observed_fields']
-                    lines.append('保存的资料字段（非真实性认证）：' + safe(json.dumps(fields, ensure_ascii=False)))
+                    if fields.get('data_revision'):
+                        lines.append('资料版次：' + safe(fields['data_revision']))
+                    if fields.get('specification_conditions'):
+                        lines.append('来源声明工况：' + safe(fields['specification_conditions']))
+                    if 'authentication' in fields:
+                        lines.append('证明真实性：尚未独立核验；来源声明不等于认证。')
+                    if fields.get('date_relation') == 'BEFORE_CAPTURE':
+                        lines.append('保存来源中的声明日期早于采集日；需获取当前原件核验，不据此判定证书真伪或合规。')
             for row in data['claims']:
                 if row['status'] != 'REJECTED' and row['task'] == task:
-                    lines.append('- ' + safe(row['status']) + '：' + safe(row['text']))
-                    lines.append('  来源/反证引用：' + safe(', '.join(row['refs'] + row['counter_refs'])))
+                    text = row['text']
+                    if row['kind'] == 'OBJECTIVE_SOURCE_FACT':
+                        fact = row['original_guard']['bindings'][0]['fact']
+                        text = ('保存来源原文：' + fact['source']['citation'].get('text', fact['source']['quote'])
+                                + '。仅证明原文字节与定位，不证明资料真实性或工程适配。')
+                    review = '证实（仅来源字面）' if row['status'] == 'SOURCE_FACT_BINDING_VERIFIED' else (
+                        '待人工核对' if row['status'] == 'HUMAN_REVIEW_REQUIRED' else '未知或不适用')
+                    lines.append('- ' + review + '：' + safe(text))
+                    lines.append('  来源/反证定位：审阅记录第' + str(row['index'] + 1) + '条；绑定'
+                                 + str(len(row['refs'])) + '项来源、' + str(len(row['counter_refs'])) + '项反证。')
             lines += ['未知：未独立核验的工程适配、认证、投递及经营效果。',
-                '下一步问题：请责任人确认本维度资料、适用范围和当前版本；不自动采取权限或外部动作。', '']
+                '下一步问题：' + questions[task] + '不自动采取权限或外部动作。', '']
         return '\n'.join(lines)
