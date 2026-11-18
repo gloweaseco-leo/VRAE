@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="25" skipped="0" tests="26" time="5.882" timestamp="2026-11-17T18:47:03.913434-05:00" hostname="dong"><testcase classname="tests.s2_contract.test_p1_static" name="test_three_bounded_rules_and_byte_citations_replay" time="0.210"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">def test_three_bounded_rules_and_byte_citations_replay():
+        pack = fixture()
+&gt;       out = evaluate(pack)
+              ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_metadata_only_never_invents_refs_or_defect_observation[403]" time="0.090"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">status = 403
+
+    @pytest.mark.parametrize('status', [403, 404, 410, 500])
+    def test_metadata_only_never_invents_refs_or_defect_observation(status):
+        pack = fixture(status=status)
+&gt;       out = evaluate(pack)
+              ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_metadata_only_never_invents_refs_or_defect_observation[404]" time="0.075"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">status = 404
+
+    @pytest.mark.parametrize('status', [403, 404, 410, 500])
+    def test_metadata_only_never_invents_refs_or_defect_observation(status):
+        pack = fixture(status=status)
+&gt;       out = evaluate(pack)
+              ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_metadata_only_never_invents_refs_or_defect_observation[410]" time="0.131"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">status = 410
+
+    @pytest.mark.parametrize('status', [403, 404, 410, 500])
+    def test_metadata_only_never_invents_refs_or_defect_observation(status):
+        pack = fixture(status=status)
+&gt;       out = evaluate(pack)
+              ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_metadata_only_never_invents_refs_or_defect_observation[500]" time="0.090"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">status = 500
+
+    @pytest.mark.parametrize('status', [403, 404, 410, 500])
+    def test_metadata_only_never_invents_refs_or_defect_observation(status):
+        pack = fixture(status=status)
+&gt;       out = evaluate(pack)
+              ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_unsupported_application_paths_never_pass[&lt;html&gt;&lt;body&gt;&lt;script&gt;&quot;&lt;a href='/products/p40'&gt;P40&lt;/a&gt;&quot;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.058"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;script&gt;"&lt;a href=\'/products/p40\'&gt;P40&lt;/a&gt;"&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;"&lt;a href=\'/products/p40\'&gt;P40&lt;/a&gt;"&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;base href="https://other.invalid/"&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40" href="/products/v25"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="https://other.invalid/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="javascript:void(0)"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40"&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_unsupported_application_paths_never_pass(markup):
+&gt;       out = evaluate(fixture(application=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_unsupported_application_paths_never_pass[&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href=&quot;/products/p40&quot;&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.108"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;"&lt;a href=\'/products/p40\'&gt;P40&lt;/a&gt;"&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;base href="https://other.invalid/"&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40" href="/products/v25"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="https://other.invalid/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="javascript:void(0)"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40"&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_unsupported_application_paths_never_pass(markup):
+&gt;       out = evaluate(fixture(application=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_unsupported_application_paths_never_pass[&lt;html&gt;&lt;body&gt;&lt;base href=&quot;https://other.invalid/&quot;&gt;&lt;a href=&quot;/products/p40&quot;&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.090"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;base href="https://other.invalid/"&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;"&lt;a href=\'/products/p40\'&gt;P40&lt;/a&gt;"&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;base href="https://other.invalid/"&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40" href="/products/v25"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="https://other.invalid/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="javascript:void(0)"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40"&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_unsupported_application_paths_never_pass(markup):
+&gt;       out = evaluate(fixture(application=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_unsupported_application_paths_never_pass[&lt;html&gt;&lt;body&gt;&lt;a href=&quot;/products/p40&quot; href=&quot;/products/v25&quot;&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.112"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40" href="/products/v25"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;"&lt;a href=\'/products/p40\'&gt;P40&lt;/a&gt;"&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;base href="https://other.invalid/"&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40" href="/products/v25"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="https://other.invalid/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="javascript:void(0)"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40"&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_unsupported_application_paths_never_pass(markup):
+&gt;       out = evaluate(fixture(application=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_unsupported_application_paths_never_pass[&lt;html&gt;&lt;body&gt;&lt;a href=&quot;https://other.invalid/products/p40&quot;&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.093"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;a href="https://other.invalid/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;"&lt;a href=\'/products/p40\'&gt;P40&lt;/a&gt;"&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;base href="https://other.invalid/"&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40" href="/products/v25"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="https://other.invalid/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="javascript:void(0)"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40"&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_unsupported_application_paths_never_pass(markup):
+&gt;       out = evaluate(fixture(application=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_unsupported_application_paths_never_pass[&lt;html&gt;&lt;body&gt;&lt;a href=&quot;javascript:void(0)&quot;&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.068"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;a href="javascript:void(0)"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;"&lt;a href=\'/products/p40\'&gt;P40&lt;/a&gt;"&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;base href="https://other.invalid/"&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40" href="/products/v25"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="https://other.invalid/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="javascript:void(0)"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40"&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_unsupported_application_paths_never_pass(markup):
+&gt;       out = evaluate(fixture(application=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_unsupported_application_paths_never_pass[&lt;html&gt;&lt;body&gt;&lt;a href=&quot;/products/p40&quot;&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.157"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40"&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;"&lt;a href=\'/products/p40\'&gt;P40&lt;/a&gt;"&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;template&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/template&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;base href="https://other.invalid/"&gt;&lt;a href="/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40" href="/products/v25"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="https://other.invalid/products/p40"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="javascript:void(0)"&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/p40"&gt;&lt;span&gt;P40&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_unsupported_application_paths_never_pass(markup):
+&gt;       out = evaluate(fixture(application=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_product_shell_or_unsupported_href_is_unknown[&lt;html&gt;&lt;body&gt;&lt;script&gt;P40 full description&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.074"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;script&gt;P40 full description&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;P40 full description&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;p&gt;P40&lt;/p&gt;&lt;a href="#"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;p hidden&gt;P40 description&lt;/p&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_product_shell_or_unsupported_href_is_unknown(markup):
+&gt;       out = evaluate(fixture(product=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_product_shell_or_unsupported_href_is_unknown[&lt;html&gt;&lt;body&gt;&lt;a href=&quot;/products/v25&quot;&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.139"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;P40 full description&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;p&gt;P40&lt;/p&gt;&lt;a href="#"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;p hidden&gt;P40 description&lt;/p&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_product_shell_or_unsupported_href_is_unknown(markup):
+&gt;       out = evaluate(fixture(product=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_product_shell_or_unsupported_href_is_unknown[&lt;html&gt;&lt;body&gt;&lt;p&gt;P40&lt;/p&gt;&lt;a href=&quot;#&quot;&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.093"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;p&gt;P40&lt;/p&gt;&lt;a href="#"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;P40 full description&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;p&gt;P40&lt;/p&gt;&lt;a href="#"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;p hidden&gt;P40 description&lt;/p&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_product_shell_or_unsupported_href_is_unknown(markup):
+&gt;       out = evaluate(fixture(product=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_product_shell_or_unsupported_href_is_unknown[&lt;html&gt;&lt;body&gt;&lt;p hidden&gt;P40 description&lt;/p&gt;&lt;a href=&quot;/products/v25&quot;&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;]" time="0.119"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">markup = '&lt;html&gt;&lt;body&gt;&lt;p hidden&gt;P40 description&lt;/p&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;'
+
+    @pytest.mark.parametrize('markup', [
+        '&lt;html&gt;&lt;body&gt;&lt;script&gt;P40 full description&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;p&gt;P40&lt;/p&gt;&lt;a href="#"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+        '&lt;html&gt;&lt;body&gt;&lt;p hidden&gt;P40 description&lt;/p&gt;&lt;a href="/products/v25"&gt;Details&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;',
+    ])
+    def test_product_shell_or_unsupported_href_is_unknown(markup):
+&gt;       out = evaluate(fixture(product=markup))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_unretained_pages_and_missing_application_scope_are_unknown" time="0.102"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">def test_unretained_pages_and_missing_application_scope_are_unknown():
+&gt;       out = evaluate(fixture(retain=False))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...ef":"src-eaa39542087eac1dd6b30a52e5a7a849b30dc2aca1e559e990a0ce73a8e04a9b"}],"tenant_id":"tenant-example"}', _blobs=())
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_self_rehash_cannot_change_replayed_candidates[citation]" time="0.135"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">field = 'citation'
+
+    @pytest.mark.parametrize('field', ['citation', 'response', 'result', 'capability'])
+    def test_self_rehash_cannot_change_replayed_candidates(field):
+        pack = fixture()
+&gt;       out = deepcopy(evaluate(pack))
+                       ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_self_rehash_cannot_change_replayed_candidates[response]" time="0.111"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">field = 'response'
+
+    @pytest.mark.parametrize('field', ['citation', 'response', 'result', 'capability'])
+    def test_self_rehash_cannot_change_replayed_candidates(field):
+        pack = fixture()
+&gt;       out = deepcopy(evaluate(pack))
+                       ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_self_rehash_cannot_change_replayed_candidates[result]" time="0.139"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">field = 'result'
+
+    @pytest.mark.parametrize('field', ['citation', 'response', 'result', 'capability'])
+    def test_self_rehash_cannot_change_replayed_candidates(field):
+        pack = fixture()
+&gt;       out = deepcopy(evaluate(pack))
+                       ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_self_rehash_cannot_change_replayed_candidates[capability]" time="0.108"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">field = 'capability'
+
+    @pytest.mark.parametrize('field', ['citation', 'response', 'result', 'capability'])
+    def test_self_rehash_cannot_change_replayed_candidates(field):
+        pack = fixture()
+&gt;       out = deepcopy(evaluate(pack))
+                       ^^^^^^^^^^^^^^
+
+tests\s2_contract\test_p1_static.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3', b'&lt;html&gt;&lt;body&gt;&lt;a href="/applications/water"&gt;Water&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;')))
+
+    def evaluate(pack):
+&gt;       return evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack),
+                           projection_version=VERSION)
+E       TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:43: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_foreign_scope_is_rejected[tenant_id]" time="0.109"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">field = 'tenant_id'
+
+    @pytest.mark.parametrize('field', ['tenant_id', 'run_id', 'policy_id', 'policy_version'])
+    def test_foreign_scope_is_rejected(field):
+        pack = fixture()
+        bad = {**scope(pack), field: 999 if field == 'policy_version' else 'foreign'}
+        with pytest.raises(EvidenceError):
+&gt;           evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=bad, projection_version=VERSION)
+E           TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:143: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_foreign_scope_is_rejected[run_id]" time="0.111"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">field = 'run_id'
+
+    @pytest.mark.parametrize('field', ['tenant_id', 'run_id', 'policy_id', 'policy_version'])
+    def test_foreign_scope_is_rejected(field):
+        pack = fixture()
+        bad = {**scope(pack), field: 999 if field == 'policy_version' else 'foreign'}
+        with pytest.raises(EvidenceError):
+&gt;           evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=bad, projection_version=VERSION)
+E           TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:143: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_foreign_scope_is_rejected[policy_id]" time="0.142"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">field = 'policy_id'
+
+    @pytest.mark.parametrize('field', ['tenant_id', 'run_id', 'policy_id', 'policy_version'])
+    def test_foreign_scope_is_rejected(field):
+        pack = fixture()
+        bad = {**scope(pack), field: 999 if field == 'policy_version' else 'foreign'}
+        with pytest.raises(EvidenceError):
+&gt;           evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=bad, projection_version=VERSION)
+E           TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:143: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_foreign_scope_is_rejected[policy_version]" time="0.149"><failure message="TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'">field = 'policy_version'
+
+    @pytest.mark.parametrize('field', ['tenant_id', 'run_id', 'policy_id', 'policy_version'])
+    def test_foreign_scope_is_rejected(field):
+        pack = fixture()
+        bad = {**scope(pack), field: 999 if field == 'policy_version' else 'foreign'}
+        with pytest.raises(EvidenceError):
+&gt;           evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=bad, projection_version=VERSION)
+E           TypeError: evaluate_s2() got an unexpected keyword argument 'projection_version'
+
+tests\s2_contract\test_p1_static.py:143: TypeError</failure></testcase><testcase classname="tests.s2_contract.test_p1_static" name="test_frozen_boundaries" time="0.268" /></testsuite></testsuites>

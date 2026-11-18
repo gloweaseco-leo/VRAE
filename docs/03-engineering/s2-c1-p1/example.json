@@ -1,0 +1,2861 @@
+{
+  "kind": "S2EvaluationProjection",
+  "projection_version": "s2-projection-1.1.0",
+  "pack_ref": "ep-881ef64b5e261ea24ec0476b9aebc37269ac2e189e349c4446042c88a65048db",
+  "scope": {
+    "policy_id": "pol-001",
+    "policy_version": 1,
+    "run_id": "run-synthetic",
+    "tenant_id": "tenant-example"
+  },
+  "baseline_execution_ref": "rx-cb772530ffbc408dc3bfcafe946940a6910d895d903f1ff3a542cf45572f5392",
+  "baseline_evaluator_version": "ra2b6-1.0.0",
+  "baseline_catalog_version": "1.0.0",
+  "baseline_catalog_sha256": "24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1",
+  "baseline_execution": {
+    "schema_version": "1.0",
+    "evaluator_version": "ra2b6-1.0.0",
+    "catalog_version": "1.0.0",
+    "catalog_sha256": "24f789f4c081231bcf92774cb2d5c42ad528e6c0c45312ddae56e6f61daaa6e1",
+    "expected_pack_ref": "ep-881ef64b5e261ea24ec0476b9aebc37269ac2e189e349c4446042c88a65048db",
+    "tenant_id": "tenant-example",
+    "run_id": "run-synthetic",
+    "executions": [
+      {
+        "rule_id": "DISC-01",
+        "rule_version": "1.0.0",
+        "buyer_task": "DISCOVER",
+        "enabled": true,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "DISC-01",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-8a7de803a028bb533f209d427939b293a9a91832ddb20c2703f83017e31a6d29"
+            },
+            "reason": "NO_SUPPORTED_STATIC_NAV_CANDIDATE",
+            "citations": [],
+            "homepage": {
+              "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+              "locator": "/pages/0",
+              "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+              "url": "https://example.org/",
+              "final_url": "https://example.org/",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "http_status": 200,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/"
+                }
+              ],
+              "error": null
+            },
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "DISC-02",
+        "rule_version": "1.0.0",
+        "buyer_task": "DISCOVER",
+        "enabled": true,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "DISC-02",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded static path step.",
+              "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+              "observation_id": "obs-6df2a589c27ad3ac3593aa3c8ee23118b7e959e42aaa54157ef1c771522d3f36"
+            },
+            "reason": "SOURCE_ROLE_NOT_CAPTURED",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "DISC-03",
+        "rule_version": "1.0.0",
+        "buyer_task": "DISCOVER",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "DISC-03",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-90c4a0759ff2459d7b43411404043054c6e7a2bb30e7b38c429d49a46745f7ae"
+            },
+            "reason": "No independently established industry/application relevance mapping.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "INFO-01",
+        "rule_version": "1.0.0",
+        "buyer_task": "UNDERSTAND",
+        "enabled": true,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "INFO-01",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient unambiguous retained static HTML evidence for the bounded product name/specification check.",
+              "coverage_note": "One captured product-path page, URL role heuristic only; original static h1 and TH/TD text only. No rendered visibility, SKU identity, specification accuracy, authenticity, engineering fit, completeness, buyer comprehension or business impact. Missing, empty or ambiguous information is not a website defect.",
+              "observation_id": "obs-285a6b6769248be530a5f0cfce489094565d4e1b3ff44edea9f0fee25d2d439f"
+            },
+            "reason": "HTML_UNSUPPORTED_OR_AMBIGUOUS",
+            "citations": [],
+            "target_response": null,
+            "source_page": {
+              "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+              "locator": "/pages/2",
+              "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+              "url": "https://example.org/products/p40",
+              "final_url": "https://example.org/products/p40",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "http_status": 200,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/products/p40"
+                }
+              ],
+              "error": null
+            }
+          },
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "INFO-01",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient unambiguous retained static HTML evidence for the bounded product name/specification check.",
+              "coverage_note": "One captured product-path page, URL role heuristic only; original static h1 and TH/TD text only. No rendered visibility, SKU identity, specification accuracy, authenticity, engineering fit, completeness, buyer comprehension or business impact. Missing, empty or ambiguous information is not a website defect.",
+              "observation_id": "obs-3429f52354136fb870617e8b77a70556aad274b518d82f73335aba8056641cf8"
+            },
+            "reason": "HTML_UNSUPPORTED_OR_AMBIGUOUS",
+            "citations": [],
+            "target_response": null,
+            "source_page": {
+              "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+              "locator": "/pages/3",
+              "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+              "url": "https://example.org/products/v25",
+              "final_url": "https://example.org/products/v25",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "http_status": 200,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/products/v25"
+                }
+              ],
+              "error": null
+            }
+          }
+        ]
+      },
+      {
+        "rule_id": "INFO-02",
+        "rule_version": "1.0.0",
+        "buyer_task": "UNDERSTAND",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "INFO-02",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-ddf1a7af76fca4c1fe5864547d584c1c2c593e6cd4e830002cfbe84b44c4e28d"
+            },
+            "reason": "Industry pack has material requirement but no observed attribute mapping or applicability proof.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "INFO-03",
+        "rule_version": "1.0.0",
+        "buyer_task": "UNDERSTAND",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "INFO-03",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-ab90e165c57a30810ddc42c599d69b9ad759c3b6be25e59f307af483e7ade0c8"
+            },
+            "reason": "Language clarity requires human verification; no deterministic semantic judgment.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "TRUST-01",
+        "rule_version": "1.0.0",
+        "buyer_task": "TRUST",
+        "enabled": true,
+        "observations": [
+          {
+            "adapter_version": "ra2b6-trust01-adapter-1.0.0",
+            "blocked_page_indices": [],
+            "citations": [],
+            "coverage": [
+              {
+                "locator": "/coverage/unverified_roles/0",
+                "reason": "ROLE_NOT_VERIFIED",
+                "role": "ABOUT",
+                "scope": "ROLE",
+                "snapshot_ref": null,
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "UNKNOWN",
+                "url": null,
+                "viewport": null
+              },
+              {
+                "locator": "/coverage/unverified_roles/1",
+                "reason": "ROLE_NOT_VERIFIED",
+                "role": "CATALOG",
+                "scope": "ROLE",
+                "snapshot_ref": null,
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "UNKNOWN",
+                "url": null,
+                "viewport": null
+              },
+              {
+                "locator": "/coverage/unverified_roles/2",
+                "reason": "ROLE_NOT_VERIFIED",
+                "role": "CATEGORY",
+                "scope": "ROLE",
+                "snapshot_ref": null,
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "UNKNOWN",
+                "url": null,
+                "viewport": null
+              },
+              {
+                "locator": "/coverage/unverified_roles/3",
+                "reason": "ROLE_NOT_VERIFIED",
+                "role": "CONTACT",
+                "scope": "ROLE",
+                "snapshot_ref": null,
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "UNKNOWN",
+                "url": null,
+                "viewport": null
+              },
+              {
+                "locator": "/coverage/unverified_roles/4",
+                "reason": "ROLE_NOT_VERIFIED",
+                "role": "OTHER",
+                "scope": "ROLE",
+                "snapshot_ref": null,
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "UNKNOWN",
+                "url": null,
+                "viewport": null
+              },
+              {
+                "locator": "/pages/0/snapshot",
+                "reason": "BOUNDED_CAPTURE_ONLY",
+                "role": null,
+                "scope": "PAGE",
+                "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "OBSERVED",
+                "url": "https://example.org/",
+                "viewport": null
+              },
+              {
+                "locator": "/pages/1/snapshot",
+                "reason": "BOUNDED_CAPTURE_ONLY",
+                "role": null,
+                "scope": "PAGE",
+                "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "OBSERVED",
+                "url": "https://example.org/applications/water",
+                "viewport": null
+              },
+              {
+                "locator": "/pages/2/snapshot",
+                "reason": "BOUNDED_CAPTURE_ONLY",
+                "role": null,
+                "scope": "PAGE",
+                "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "OBSERVED",
+                "url": "https://example.org/products/p40",
+                "viewport": null
+              },
+              {
+                "locator": "/pages/3/snapshot",
+                "reason": "BOUNDED_CAPTURE_ONLY",
+                "role": null,
+                "scope": "PAGE",
+                "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "status": "OBSERVED",
+                "url": "https://example.org/products/v25",
+                "viewport": null
+              }
+            ],
+            "missing_prerequisites": [
+              "UNAMBIGUOUS_DECLARED_ORGANIZATION_NAME",
+              "STRUCTURED_COMPANY_INTRODUCTION",
+              "STATIC_PUBLIC_CONTACT_LINK"
+            ],
+            "observation": {
+              "coverage_note": "All captured HTTP HOME/ABOUT/CONTACT pages and discovered unvisited candidates in this pinned pack only; URL-role and supported-structure bounds apply. Source self-declarations only, not rendered visibility, legal entity/ownership, factory, certificate, qualification, trustworthiness, contact validity, reachability, completed inquiry or whole-site coverage. Missing, ambiguous or blocked evidence is not a company or website defect.",
+              "evidence_ids": [],
+              "kind": "UNKNOWN",
+              "observation_id": "obs-f2e1942632072f74fa235e0c693de9dec24ed0d18422a11e9ed7d29dd8a3a473",
+              "result": "UNKNOWN",
+              "rule_id": "TRUST-01",
+              "rule_version": "1.0.0",
+              "run_id": "run-synthetic",
+              "schema_version": "1.0",
+              "statement": "Insufficient unambiguous captured source evidence for all three bounded trust prerequisites.",
+              "tenant_id": "tenant-example"
+            },
+            "reason": "TRUST_PREREQUISITES_OR_CAPTURE_SCOPE_UNRESOLVED",
+            "recorded_capture_scope": [
+              {
+                "limit": "RECORDED_SYNTHETIC_SCOPE_NOT_CURRENT_AUTHORIZATION",
+                "policy_id": "pol-001",
+                "policy_version": 1,
+                "run_id": "run-synthetic",
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "tenant_id": "tenant-example",
+                "terms_reference": "terms-synthetic"
+              }
+            ],
+            "rule_metadata": {
+              "buyer_task": "TRUST",
+              "rule_id": "TRUST-01",
+              "rule_version": "1.0.0"
+            },
+            "scope_policy": "ALL_CAPTURED_AND_DISCOVERED_HOME_ABOUT_CONTACT",
+            "source_facts": {
+              "coverage": [
+                {
+                  "locator": "/coverage/unverified_roles/0",
+                  "reason": "ROLE_NOT_VERIFIED",
+                  "role": "ABOUT",
+                  "scope": "ROLE",
+                  "snapshot_ref": null,
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "UNKNOWN",
+                  "url": null,
+                  "viewport": null
+                },
+                {
+                  "locator": "/coverage/unverified_roles/1",
+                  "reason": "ROLE_NOT_VERIFIED",
+                  "role": "CATALOG",
+                  "scope": "ROLE",
+                  "snapshot_ref": null,
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "UNKNOWN",
+                  "url": null,
+                  "viewport": null
+                },
+                {
+                  "locator": "/coverage/unverified_roles/2",
+                  "reason": "ROLE_NOT_VERIFIED",
+                  "role": "CATEGORY",
+                  "scope": "ROLE",
+                  "snapshot_ref": null,
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "UNKNOWN",
+                  "url": null,
+                  "viewport": null
+                },
+                {
+                  "locator": "/coverage/unverified_roles/3",
+                  "reason": "ROLE_NOT_VERIFIED",
+                  "role": "CONTACT",
+                  "scope": "ROLE",
+                  "snapshot_ref": null,
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "UNKNOWN",
+                  "url": null,
+                  "viewport": null
+                },
+                {
+                  "locator": "/coverage/unverified_roles/4",
+                  "reason": "ROLE_NOT_VERIFIED",
+                  "role": "OTHER",
+                  "scope": "ROLE",
+                  "snapshot_ref": null,
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "UNKNOWN",
+                  "url": null,
+                  "viewport": null
+                },
+                {
+                  "locator": "/pages/0/snapshot",
+                  "reason": "BOUNDED_CAPTURE_ONLY",
+                  "role": null,
+                  "scope": "PAGE",
+                  "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "OBSERVED",
+                  "url": "https://example.org/",
+                  "viewport": null
+                },
+                {
+                  "locator": "/pages/1/snapshot",
+                  "reason": "BOUNDED_CAPTURE_ONLY",
+                  "role": null,
+                  "scope": "PAGE",
+                  "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "OBSERVED",
+                  "url": "https://example.org/applications/water",
+                  "viewport": null
+                },
+                {
+                  "locator": "/pages/2/snapshot",
+                  "reason": "BOUNDED_CAPTURE_ONLY",
+                  "role": null,
+                  "scope": "PAGE",
+                  "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "OBSERVED",
+                  "url": "https://example.org/products/p40",
+                  "viewport": null
+                },
+                {
+                  "locator": "/pages/3/snapshot",
+                  "reason": "BOUNDED_CAPTURE_ONLY",
+                  "role": null,
+                  "scope": "PAGE",
+                  "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "status": "OBSERVED",
+                  "url": "https://example.org/products/v25",
+                  "viewport": null
+                }
+              ],
+              "expected_pack_ref": "ep-881ef64b5e261ea24ec0476b9aebc37269ac2e189e349c4446042c88a65048db",
+              "extractor_version": "ra2b5-trust-facts-1.0.0",
+              "facts_ref": "tf-e0bd8daa37a0362549271cee0850a011aea6af272f5f227db71fc98e4693d799",
+              "limitations": [
+                "SELF_DECLARED_SOURCE_TEXT_NOT_LEGAL_ENTITY_AUTHENTICATION",
+                "NO_FACTORY_CERTIFICATE_EXPORT_CAPACITY_OR_CONTACT_OWNERSHIP_VERIFICATION",
+                "STATIC_LINK_NOT_REACHABILITY_OR_VALID_INQUIRY",
+                "NO_RENDERED_VISIBILITY_OR_COMPLETENESS",
+                "MISSING_AMBIGUOUS_OR_BLOCKED_INFORMATION_IS_NOT_A_WEBSITE_OR_COMPANY_DEFECT",
+                "URL_ROLES_AND_EXACT_SUPPORTED_LABELS_ONLY_NO_NLP_OR_DOMAIN_IDENTITY_INFERENCE",
+                "OFFLINE_SYNTHETIC_CONSISTENCY_NOT_SIGNATURE_OR_CURRENT_AUTHORIZATION"
+              ],
+              "pages": [
+                {
+                  "entity_scope_ambiguous": false,
+                  "evidence_ids": [],
+                  "facts": [],
+                  "reason": "NO_SUPPORTED_STRUCTURED_TEXT",
+                  "source_page": {
+                    "error": null,
+                    "evidence_refs": [
+                      "ev-4ab9e3e8c01f609b04d5ac78b666a2d5739a70dcbce5c9722456f44b06cdd5b6"
+                    ],
+                    "final_url": "https://example.org/",
+                    "http_status": 200,
+                    "locator": "/pages/0",
+                    "observed_at": "2026-11-10T12:00:00+00:00",
+                    "redirect_trace": [
+                      {
+                        "location": null,
+                        "peer_ip": "93.184.216.20",
+                        "status": 200,
+                        "url": "https://example.org/"
+                      }
+                    ],
+                    "snapshot": {
+                      "capture_mode": "HTTP",
+                      "final_url": "https://example.org/",
+                      "locator": "/pages/0/snapshot",
+                      "observed_at": "2026-11-10T12:00:00+00:00",
+                      "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+                      "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                      "source_snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+                      "status": "OBSERVED",
+                      "url": "https://example.org/",
+                      "viewport": null
+                    },
+                    "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+                    "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                    "url": "https://example.org/"
+                  },
+                  "status": "UNKNOWN"
+                }
+              ],
+              "policy_id": "pol-001",
+              "policy_version": 1,
+              "run_id": "run-synthetic",
+              "status": "UNKNOWN",
+              "tenant_id": "tenant-example",
+              "trust01_enabled": false,
+              "trust01_result": "UNKNOWN",
+              "unvisited_candidates": []
+            },
+            "source_pages": [
+              {
+                "error": null,
+                "evidence_refs": [
+                  "ev-4ab9e3e8c01f609b04d5ac78b666a2d5739a70dcbce5c9722456f44b06cdd5b6"
+                ],
+                "final_url": "https://example.org/",
+                "http_status": 200,
+                "locator": "/pages/0",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "redirect_trace": [
+                  {
+                    "location": null,
+                    "peer_ip": "93.184.216.20",
+                    "status": 200,
+                    "url": "https://example.org/"
+                  }
+                ],
+                "snapshot": {
+                  "capture_mode": "HTTP",
+                  "final_url": "https://example.org/",
+                  "locator": "/pages/0/snapshot",
+                  "observed_at": "2026-11-10T12:00:00+00:00",
+                  "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+                  "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                  "source_snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+                  "status": "OBSERVED",
+                  "url": "https://example.org/",
+                  "viewport": null
+                },
+                "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+                "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+                "url": "https://example.org/"
+              }
+            ],
+            "unknown_page_indices": [
+              0
+            ],
+            "unvisited_candidates": []
+          }
+        ]
+      },
+      {
+        "rule_id": "TRUST-02",
+        "rule_version": "1.0.0",
+        "buyer_task": "TRUST",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "TRUST-02",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-92f1a381817e73b01254e898d8030660bf5b44ed3489b6c26a5dd14a69fec07f"
+            },
+            "reason": "No proof/context parser or authenticity evidence.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "TRUST-03",
+        "rule_version": "1.0.0",
+        "buyer_task": "TRUST",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "TRUST-03",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-8639277c02d244687fc33aeecae222635fd520901463ea66248db45b86e56312"
+            },
+            "reason": "No scoped entity resolution or comparable company/contact passages.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "CTA-01",
+        "rule_version": "1.0.0",
+        "buyer_task": "INQUIRE",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "CTA-01",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-720d1b0f89c77fab9ea057fd6da2b2e3e19e6654ea00fc12c3b0d379d23bee32"
+            },
+            "reason": "Browser DOM has tag/visible/text but no href; HTML href cannot prove rendered visibility.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "CTA-02",
+        "rule_version": "1.0.0",
+        "buyer_task": "INQUIRE",
+        "enabled": true,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "CTA-02",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded static path step.",
+              "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+              "observation_id": "obs-809cdac7507597c4f615930f87a81951209128e9cd479f9222406860840c14ad"
+            },
+            "reason": "NO_SUPPORTED_STATIC_HREF",
+            "citations": [],
+            "target_response": null,
+            "source_page": {
+              "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+              "locator": "/pages/2",
+              "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+              "url": "https://example.org/products/p40",
+              "final_url": "https://example.org/products/p40",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "http_status": 200,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/products/p40"
+                }
+              ],
+              "error": null
+            }
+          },
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "CTA-02",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded static path step.",
+              "coverage_note": "One captured static href and its target response only; path roles are URL heuristics, not semantic identity. No visibility, form submission/delivery, SKU transfer, conversion or whole-site claim.",
+              "observation_id": "obs-2164f328c26dad9e0cc5e029b4d748ce9d9f17dee7e2b815f2c3a0a7112768dc"
+            },
+            "reason": "NO_SUPPORTED_STATIC_HREF",
+            "citations": [],
+            "target_response": null,
+            "source_page": {
+              "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+              "locator": "/pages/3",
+              "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+              "url": "https://example.org/products/v25",
+              "final_url": "https://example.org/products/v25",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "http_status": 200,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/products/v25"
+                }
+              ],
+              "error": null
+            }
+          }
+        ]
+      },
+      {
+        "rule_id": "CTA-03",
+        "rule_version": "1.0.0",
+        "buyer_task": "INQUIRE",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "CTA-03",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-3542fef8aa660a6e20ac29f8d37eb2d453cb2e744d86772033747359a70f25d9"
+            },
+            "reason": "No overflow geometry or scoped visual-layout evaluator.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "SEO-01",
+        "rule_version": "1.0.0",
+        "buyer_task": "SEARCH_TECHNICAL",
+        "enabled": true,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "SEO-01",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient unambiguous retained static head evidence for the bounded title/canonical check.",
+              "coverage_note": "One retained captured HOME-request static HTML head only; tag presence is not rendered state, SEO quality, canonical target availability, crawler access, actual indexing, Google canonical selection, ranking, multilingual correctness or whole-site completeness. Missing/ambiguous tags are UNKNOWN, never a defect.",
+              "observation_id": "obs-d9b8d957ace08b7cd3234ebc57fd39cc8d0a860f368a60e2e8c6b09ae2ab2b65"
+            },
+            "reason": "PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS",
+            "citations": [],
+            "target_response": null,
+            "source_page": {
+              "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+              "locator": "/pages/0",
+              "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+              "url": "https://example.org/",
+              "final_url": "https://example.org/",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "http_status": 200,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/"
+                }
+              ],
+              "error": null
+            },
+            "seo_signals": {
+              "title": {
+                "status": "UNKNOWN",
+                "reason": "HEAD_PARSE_AMBIGUOUS_OR_UNSUPPORTED",
+                "value": null,
+                "candidates": []
+              },
+              "canonical": {
+                "status": "UNKNOWN",
+                "reason": "HEAD_PARSE_AMBIGUOUS_OR_UNSUPPORTED",
+                "value": null,
+                "candidates": []
+              },
+              "description": {
+                "status": "UNKNOWN",
+                "reason": "HEAD_PARSE_AMBIGUOUS_OR_UNSUPPORTED",
+                "value": null,
+                "candidates": []
+              },
+              "parse_issues": [
+                "INCOMPLETE_OR_UNSUPPORTED_HEAD"
+              ],
+              "robots": {
+                "status": "UNKNOWN",
+                "reason": "NO_RESOLVABLE_ROBOTS_BODY_EVIDENCE",
+                "value": null,
+                "candidates": []
+              },
+              "sitemap": {
+                "status": "UNKNOWN",
+                "reason": "NO_CAPTURED_RESOLVABLE_SITEMAP_EVIDENCE",
+                "value": null,
+                "candidates": []
+              }
+            }
+          }
+        ]
+      },
+      {
+        "rule_id": "SEO-02",
+        "rule_version": "1.0.0",
+        "buyer_task": "SEARCH_TECHNICAL",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "SEO-02",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-8843410e1f069a719fe2d6203b0e7756ce7f33dfea9fa8b8b4bdbf6be42ec60a"
+            },
+            "reason": "No verified product text/anchor context or crawlability evaluator.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "TECH-01",
+        "rule_version": "1.0.0",
+        "buyer_task": "SEARCH_TECHNICAL",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "TECH-01",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-c1301413d689de794caeeeca8e5a8e0199545969fd96b894e11ffe0d30941c84"
+            },
+            "reason": "Non-200 snapshots have no observed EvidencePack evidence_ref; metadata-only Observation adapter deferred.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      },
+      {
+        "rule_id": "TECH-02",
+        "rule_version": "1.0.0",
+        "buyer_task": "SEARCH_TECHNICAL",
+        "enabled": false,
+        "observations": [
+          {
+            "observation": {
+              "schema_version": "1.0",
+              "tenant_id": "tenant-example",
+              "run_id": "run-synthetic",
+              "rule_id": "TECH-02",
+              "rule_version": "1.0.0",
+              "evidence_ids": [],
+              "result": "UNKNOWN",
+              "kind": "UNKNOWN",
+              "statement": "Insufficient evidence for this bounded rule judgment.",
+              "coverage_note": "One static HTML nav anchor and its captured target response only; no rendered visibility, whole-site absence, category semantics, mobile usability or live availability claim.",
+              "observation_id": "obs-d62e44e4f6c099ed77372848698ccc4b6e71dedb1d8b7db835388b2a00de213d"
+            },
+            "reason": "No image/heading context extraction or accessibility evaluator.",
+            "citations": [],
+            "homepage": null,
+            "target_response": null
+          }
+        ]
+      }
+    ],
+    "coverage": [
+      {
+        "locator": "/coverage/unverified_roles/0",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "ABOUT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/1",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CATALOG",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/2",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CATEGORY",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/3",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CONTACT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/4",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "OTHER",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/pages/0/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "OBSERVED",
+        "url": "https://example.org/",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/1/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "OBSERVED",
+        "url": "https://example.org/applications/water",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/2/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "OBSERVED",
+        "url": "https://example.org/products/p40",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/3/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "status": "OBSERVED",
+        "url": "https://example.org/products/v25",
+        "viewport": null
+      }
+    ],
+    "limitations": [
+      "OFFLINE_SYNTHETIC_CONSISTENCY_ONLY",
+      "NO_LIVE_AUTHORIZATION_CHECK",
+      "STATIC_HREF_PRODUCT_HEAD_AND_BOUNDED_TRUST_SOURCE_TEXT_ONLY",
+      "NO_FINDINGS_OR_BUSINESS_IMPACT",
+      "INFO01_POSITIVE_ONLY_NO_FAIL_OR_NOT_APPLICABLE",
+      "NO_PRODUCT_ACCURACY_COMPLETENESS_OR_FIT_CLAIM",
+      "SEO01_TAG_PRESENCE_ONLY_NOT_INDEXING_RANKING_OR_HEALTH",
+      "ROBOTS_SITEMAP_UNKNOWN_WITHOUT_RESOLVABLE_CAPTURE",
+      "TRUST01_POSITIVE_ONLY_NO_FAIL_OR_NOT_APPLICABLE",
+      "NO_LEGAL_ENTITY_FACTORY_CERTIFICATION_OWNERSHIP_CONTACT_VALIDITY_OR_TRUSTWORTHINESS_CLAIM",
+      "UNKNOWN_UNVISITED_OR_BLOCKED_RELEVANT_SCOPE_NEVER_AGGREGATE_PASS"
+    ],
+    "journeys": [
+      {
+        "steps": [
+          {
+            "rule_id": "DISC-01",
+            "rule_version": "1.0.0",
+            "observation_id": "obs-8a7de803a028bb533f209d427939b293a9a91832ddb20c2703f83017e31a6d29",
+            "result": "UNKNOWN",
+            "source_page": {
+              "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+              "locator": "/pages/0",
+              "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+              "url": "https://example.org/",
+              "final_url": "https://example.org/",
+              "observed_at": "2026-11-10T12:00:00+00:00",
+              "http_status": 200,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/"
+                }
+              ],
+              "error": null
+            },
+            "target_response": null,
+            "citations": []
+          }
+        ],
+        "complete": false,
+        "terminal_result": "UNKNOWN",
+        "journey_ref": "journey-093c720c56c0ffc9e484c1871124a52604c89090cb93050e2f7669629d0c8147"
+      }
+    ],
+    "journey_composition": {
+      "max_paths": 256,
+      "truncated": false,
+      "scope": "Bounded captured paths only; no whole-site coverage assertion."
+    },
+    "recorded_capture_scope": [
+      {
+        "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+        "tenant_id": "tenant-example",
+        "run_id": "run-synthetic",
+        "policy_id": "pol-001",
+        "policy_version": 1,
+        "terms_reference": "terms-synthetic",
+        "authorization_limit": "RECORDED_SCOPE_NOT_CURRENT_AUTHORIZATION"
+      }
+    ],
+    "private": true,
+    "execution_ref": "rx-cb772530ffbc408dc3bfcafe946940a6910d895d903f1ff3a542cf45572f5392"
+  },
+  "adapter_contract_version": "s2-readonly-1.0.0",
+  "adapter_requests": {
+    "INFO-03": {
+      "contract_version": "s2-readonly-1.0.0",
+      "rule_id": "INFO-03",
+      "expected_pack_ref": "ep-881ef64b5e261ea24ec0476b9aebc37269ac2e189e349c4446042c88a65048db",
+      "scope": {
+        "tenant_id": "tenant-example",
+        "run_id": "run-synthetic",
+        "policy_id": "pol-001",
+        "policy_version": 1
+      },
+      "snapshots": [
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/products/p40",
+          "locator": "/pages/2/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/p40",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/products/v25",
+          "locator": "/pages/3/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-35d7e2e53e01bbdfa05cfe23cb1faed5c91695d8e326ec75a3581deb660958d2",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/v25",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/applications/water",
+          "locator": "/pages/1/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-cba3f043b15a2c224b63323bcb1b231a431a970f793e3762d7678551b60fff15",
+          "status": "OBSERVED",
+          "url": "https://example.org/applications/water",
+          "viewport": null
+        }
+      ],
+      "evidence": [
+        {
+          "blob_ref": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+          "content_sha256": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-4ab9e3e8c01f609b04d5ac78b666a2d5739a70dcbce5c9722456f44b06cdd5b6",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/0/evidence",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_evidence_id": "ev-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+          "content_sha256": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/2/evidence",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_evidence_id": "ev-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+          "content_sha256": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-77cf89b72275154544267f36b43087ed0e1ebc9ccf2ca94909fc3aff1e8b4781",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/1/evidence",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_evidence_id": "ev-cba3f043b15a2c224b63323bcb1b231a431a970f793e3762d7678551b60fff15",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+          "content_sha256": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-91b2c443405da5a069b40e81b5dd46ac0c8340a4eb49f499f0354b4fbc6303c8",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/3/evidence",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_evidence_id": "ev-35d7e2e53e01bbdfa05cfe23cb1faed5c91695d8e326ec75a3581deb660958d2",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        }
+      ],
+      "response_metadata": [
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/0",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/1",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/applications/water"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/2",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/3",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/v25"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        }
+      ],
+      "recorded_coverage": [
+        {
+          "locator": "/coverage/unverified_roles/0",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "ABOUT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/1",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATALOG",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/2",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATEGORY",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/3",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CONTACT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/4",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "OTHER",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/pages/0/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/1/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/applications/water",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/2/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/p40",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/3/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/v25",
+          "viewport": null
+        }
+      ],
+      "coverage_denominator": null,
+      "coverage_limit": "RECORDED_CAPTURE_NOT_A_PREAUTHORIZED_SITE_DENOMINATOR",
+      "state": "INPUT_CONSISTENCY_ONLY_ADAPTER_NOT_ENABLED_P0",
+      "limitations": [
+        "NO_CURRENT_AUTHORIZATION_OR_SIGNED_PROVENANCE_CHECK",
+        "NO_BROWSER_FIELDS_PROMOTED_TO_EVIDENCEPACK_FIELDS",
+        "NATIVE_DOM_DOES_NOT_ESTABLISH_CTA_HREF_OR_LAYOUT_GEOMETRY",
+        "LANGUAGE_SEMANTICS_REQUIRE_HUMAN_REVIEW",
+        "MISSING_UNOBSERVED_UNSUPPORTED_IS_UNKNOWN_NOT_A_SITE_DEFECT",
+        "INDUSTRY_NOT_APPLICABLE_REQUIRES_EXPLICIT_VERSIONED_APPLICABILITY",
+        "NO_NETWORK_FORM_SUBMISSION_MODEL_OR_BUSINESS_APPROVAL"
+      ],
+      "input_ref": "s2i-76459fc44654e0929c2e865ffcc4c60167a90563d800161b8df0499fde7f6860"
+    },
+    "CTA-01": {
+      "contract_version": "s2-readonly-1.0.0",
+      "rule_id": "CTA-01",
+      "expected_pack_ref": "ep-881ef64b5e261ea24ec0476b9aebc37269ac2e189e349c4446042c88a65048db",
+      "scope": {
+        "tenant_id": "tenant-example",
+        "run_id": "run-synthetic",
+        "policy_id": "pol-001",
+        "policy_version": 1
+      },
+      "snapshots": [
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/products/p40",
+          "locator": "/pages/2/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/p40",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/products/v25",
+          "locator": "/pages/3/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-35d7e2e53e01bbdfa05cfe23cb1faed5c91695d8e326ec75a3581deb660958d2",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/v25",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/applications/water",
+          "locator": "/pages/1/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-cba3f043b15a2c224b63323bcb1b231a431a970f793e3762d7678551b60fff15",
+          "status": "OBSERVED",
+          "url": "https://example.org/applications/water",
+          "viewport": null
+        }
+      ],
+      "evidence": [
+        {
+          "blob_ref": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+          "content_sha256": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-4ab9e3e8c01f609b04d5ac78b666a2d5739a70dcbce5c9722456f44b06cdd5b6",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/0/evidence",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_evidence_id": "ev-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+          "content_sha256": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/2/evidence",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_evidence_id": "ev-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+          "content_sha256": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-77cf89b72275154544267f36b43087ed0e1ebc9ccf2ca94909fc3aff1e8b4781",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/1/evidence",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_evidence_id": "ev-cba3f043b15a2c224b63323bcb1b231a431a970f793e3762d7678551b60fff15",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+          "content_sha256": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-91b2c443405da5a069b40e81b5dd46ac0c8340a4eb49f499f0354b4fbc6303c8",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/3/evidence",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_evidence_id": "ev-35d7e2e53e01bbdfa05cfe23cb1faed5c91695d8e326ec75a3581deb660958d2",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        }
+      ],
+      "response_metadata": [
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/0",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/1",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/applications/water"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/2",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/3",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/v25"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        }
+      ],
+      "recorded_coverage": [
+        {
+          "locator": "/coverage/unverified_roles/0",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "ABOUT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/1",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATALOG",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/2",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATEGORY",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/3",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CONTACT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/4",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "OTHER",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/pages/0/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/1/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/applications/water",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/2/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/p40",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/3/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/v25",
+          "viewport": null
+        }
+      ],
+      "coverage_denominator": null,
+      "coverage_limit": "RECORDED_CAPTURE_NOT_A_PREAUTHORIZED_SITE_DENOMINATOR",
+      "state": "INPUT_CONSISTENCY_ONLY_ADAPTER_NOT_ENABLED_P0",
+      "limitations": [
+        "NO_CURRENT_AUTHORIZATION_OR_SIGNED_PROVENANCE_CHECK",
+        "NO_BROWSER_FIELDS_PROMOTED_TO_EVIDENCEPACK_FIELDS",
+        "NATIVE_DOM_DOES_NOT_ESTABLISH_CTA_HREF_OR_LAYOUT_GEOMETRY",
+        "LANGUAGE_SEMANTICS_REQUIRE_HUMAN_REVIEW",
+        "MISSING_UNOBSERVED_UNSUPPORTED_IS_UNKNOWN_NOT_A_SITE_DEFECT",
+        "INDUSTRY_NOT_APPLICABLE_REQUIRES_EXPLICIT_VERSIONED_APPLICABILITY",
+        "NO_NETWORK_FORM_SUBMISSION_MODEL_OR_BUSINESS_APPROVAL"
+      ],
+      "input_ref": "s2i-762741f08495aa283c9bf4f37d97cdb14941a95fd0383e5b37e6c0c219a7b9f3"
+    },
+    "CTA-03": {
+      "contract_version": "s2-readonly-1.0.0",
+      "rule_id": "CTA-03",
+      "expected_pack_ref": "ep-881ef64b5e261ea24ec0476b9aebc37269ac2e189e349c4446042c88a65048db",
+      "scope": {
+        "tenant_id": "tenant-example",
+        "run_id": "run-synthetic",
+        "policy_id": "pol-001",
+        "policy_version": 1
+      },
+      "snapshots": [
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/products/p40",
+          "locator": "/pages/2/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/p40",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/products/v25",
+          "locator": "/pages/3/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-35d7e2e53e01bbdfa05cfe23cb1faed5c91695d8e326ec75a3581deb660958d2",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/v25",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/applications/water",
+          "locator": "/pages/1/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-cba3f043b15a2c224b63323bcb1b231a431a970f793e3762d7678551b60fff15",
+          "status": "OBSERVED",
+          "url": "https://example.org/applications/water",
+          "viewport": null
+        }
+      ],
+      "evidence": [
+        {
+          "blob_ref": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+          "content_sha256": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-4ab9e3e8c01f609b04d5ac78b666a2d5739a70dcbce5c9722456f44b06cdd5b6",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/0/evidence",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_evidence_id": "ev-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+          "content_sha256": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/2/evidence",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_evidence_id": "ev-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+          "content_sha256": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-77cf89b72275154544267f36b43087ed0e1ebc9ccf2ca94909fc3aff1e8b4781",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/1/evidence",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_evidence_id": "ev-cba3f043b15a2c224b63323bcb1b231a431a970f793e3762d7678551b60fff15",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+          "content_sha256": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-91b2c443405da5a069b40e81b5dd46ac0c8340a4eb49f499f0354b4fbc6303c8",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/3/evidence",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_evidence_id": "ev-35d7e2e53e01bbdfa05cfe23cb1faed5c91695d8e326ec75a3581deb660958d2",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        }
+      ],
+      "response_metadata": [
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/0",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/1",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/applications/water"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/2",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/3",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/v25"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        }
+      ],
+      "recorded_coverage": [
+        {
+          "locator": "/coverage/unverified_roles/0",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "ABOUT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/1",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATALOG",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/2",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATEGORY",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/3",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CONTACT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/4",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "OTHER",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/pages/0/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/1/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/applications/water",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/2/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/p40",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/3/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/v25",
+          "viewport": null
+        }
+      ],
+      "coverage_denominator": null,
+      "coverage_limit": "RECORDED_CAPTURE_NOT_A_PREAUTHORIZED_SITE_DENOMINATOR",
+      "state": "INPUT_CONSISTENCY_ONLY_ADAPTER_NOT_ENABLED_P0",
+      "limitations": [
+        "NO_CURRENT_AUTHORIZATION_OR_SIGNED_PROVENANCE_CHECK",
+        "NO_BROWSER_FIELDS_PROMOTED_TO_EVIDENCEPACK_FIELDS",
+        "NATIVE_DOM_DOES_NOT_ESTABLISH_CTA_HREF_OR_LAYOUT_GEOMETRY",
+        "LANGUAGE_SEMANTICS_REQUIRE_HUMAN_REVIEW",
+        "MISSING_UNOBSERVED_UNSUPPORTED_IS_UNKNOWN_NOT_A_SITE_DEFECT",
+        "INDUSTRY_NOT_APPLICABLE_REQUIRES_EXPLICIT_VERSIONED_APPLICABILITY",
+        "NO_NETWORK_FORM_SUBMISSION_MODEL_OR_BUSINESS_APPROVAL"
+      ],
+      "input_ref": "s2i-017e9a79751d6defb2fe5f2904769968a258c3af432d4c0ba537370820545107"
+    },
+    "TECH-02": {
+      "contract_version": "s2-readonly-1.0.0",
+      "rule_id": "TECH-02",
+      "expected_pack_ref": "ep-881ef64b5e261ea24ec0476b9aebc37269ac2e189e349c4446042c88a65048db",
+      "scope": {
+        "tenant_id": "tenant-example",
+        "run_id": "run-synthetic",
+        "policy_id": "pol-001",
+        "policy_version": 1
+      },
+      "snapshots": [
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/products/p40",
+          "locator": "/pages/2/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/p40",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/products/v25",
+          "locator": "/pages/3/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-35d7e2e53e01bbdfa05cfe23cb1faed5c91695d8e326ec75a3581deb660958d2",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/v25",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/",
+          "locator": "/pages/0/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "capture_mode": "HTTP",
+          "final_url": "https://example.org/applications/water",
+          "locator": "/pages/1/snapshot",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "source_snapshot_id": "snap-cba3f043b15a2c224b63323bcb1b231a431a970f793e3762d7678551b60fff15",
+          "status": "OBSERVED",
+          "url": "https://example.org/applications/water",
+          "viewport": null
+        }
+      ],
+      "evidence": [
+        {
+          "blob_ref": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+          "content_sha256": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-4ab9e3e8c01f609b04d5ac78b666a2d5739a70dcbce5c9722456f44b06cdd5b6",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/0/evidence",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_evidence_id": "ev-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+          "content_sha256": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/2/evidence",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_evidence_id": "ev-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+          "content_sha256": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-77cf89b72275154544267f36b43087ed0e1ebc9ccf2ca94909fc3aff1e8b4781",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/1/evidence",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_evidence_id": "ev-cba3f043b15a2c224b63323bcb1b231a431a970f793e3762d7678551b60fff15",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        },
+        {
+          "blob_ref": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+          "content_sha256": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+          "content_verification": "HASH_VERIFIED",
+          "evidence_ref": "ev-91b2c443405da5a069b40e81b5dd46ac0c8340a4eb49f499f0354b4fbc6303c8",
+          "kind": "HTTP_BODY",
+          "limitations": [
+            "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+          ],
+          "locator": "/pages/3/evidence",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_evidence_id": "ev-35d7e2e53e01bbdfa05cfe23cb1faed5c91695d8e326ec75a3581deb660958d2",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED"
+        }
+      ],
+      "response_metadata": [
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/0",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/1",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/applications/water"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/2",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        },
+        {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/3",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/v25"
+            }
+          ],
+          "error": null,
+          "evidence_authority": "METADATA_NOT_AN_OBSERVATION_EVIDENCE_REF"
+        }
+      ],
+      "recorded_coverage": [
+        {
+          "locator": "/coverage/unverified_roles/0",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "ABOUT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/1",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATALOG",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/2",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CATEGORY",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/3",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "CONTACT",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/coverage/unverified_roles/4",
+          "reason": "ROLE_NOT_VERIFIED",
+          "role": "OTHER",
+          "scope": "ROLE",
+          "snapshot_ref": null,
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "UNKNOWN",
+          "url": null,
+          "viewport": null
+        },
+        {
+          "locator": "/pages/0/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/1/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/applications/water",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/2/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/p40",
+          "viewport": null
+        },
+        {
+          "locator": "/pages/3/snapshot",
+          "reason": "BOUNDED_CAPTURE_ONLY",
+          "role": null,
+          "scope": "PAGE",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "status": "OBSERVED",
+          "url": "https://example.org/products/v25",
+          "viewport": null
+        }
+      ],
+      "coverage_denominator": null,
+      "coverage_limit": "RECORDED_CAPTURE_NOT_A_PREAUTHORIZED_SITE_DENOMINATOR",
+      "state": "INPUT_CONSISTENCY_ONLY_ADAPTER_NOT_ENABLED_P0",
+      "limitations": [
+        "NO_CURRENT_AUTHORIZATION_OR_SIGNED_PROVENANCE_CHECK",
+        "NO_BROWSER_FIELDS_PROMOTED_TO_EVIDENCEPACK_FIELDS",
+        "NATIVE_DOM_DOES_NOT_ESTABLISH_CTA_HREF_OR_LAYOUT_GEOMETRY",
+        "LANGUAGE_SEMANTICS_REQUIRE_HUMAN_REVIEW",
+        "MISSING_UNOBSERVED_UNSUPPORTED_IS_UNKNOWN_NOT_A_SITE_DEFECT",
+        "INDUSTRY_NOT_APPLICABLE_REQUIRES_EXPLICIT_VERSIONED_APPLICABILITY",
+        "NO_NETWORK_FORM_SUBMISSION_MODEL_OR_BUSINESS_APPROVAL"
+      ],
+      "input_ref": "s2i-1147f2fcc2360d558e41f4a8bc99094057e6f809039ee1f260757d66e9ce11ba"
+    }
+  },
+  "browser_projection": null,
+  "browser_binding": "NOT_REQUESTED_NO_BROWSER_PINS_INFERRED",
+  "s2_capabilities": [
+    {
+      "rule_id": "DISC-01",
+      "owner": "LEGACY",
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "Requires retained homepage HTML nav href and same-pack target response; scope is one static anchor."
+    },
+    {
+      "rule_id": "DISC-02",
+      "owner": "LEGACY",
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "Category-to-product sequence extraction and product identity are not implemented."
+    },
+    {
+      "rule_id": "DISC-03",
+      "owner": "C1",
+      "implementation": "BOUNDED_READ_ONLY_CANDIDATE",
+      "legacy_gap": "No independently established industry/application relevance mapping.",
+      "rule_version": "s2-static-1.0.0",
+      "source_version": "s2-static-http-1.0.0"
+    },
+    {
+      "rule_id": "INFO-01",
+      "owner": "LEGACY",
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "No product identity/specification parser with field locators."
+    },
+    {
+      "rule_id": "INFO-02",
+      "owner": "C1",
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "Industry pack has material requirement but no observed attribute mapping or applicability proof."
+    },
+    {
+      "rule_id": "INFO-03",
+      "owner": "C2",
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "Language clarity requires human verification; no deterministic semantic judgment."
+    },
+    {
+      "rule_id": "TRUST-01",
+      "owner": "LEGACY",
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "No verified company identity/context extraction; href alone cannot establish identity."
+    },
+    {
+      "rule_id": "TRUST-02",
+      "owner": "C1",
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No proof/context parser or authenticity evidence."
+    },
+    {
+      "rule_id": "TRUST-03",
+      "owner": "C1",
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No scoped entity resolution or comparable company/contact passages."
+    },
+    {
+      "rule_id": "CTA-01",
+      "owner": "C2",
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "Browser DOM has tag/visible/text but no href; HTML href cannot prove rendered visibility."
+    },
+    {
+      "rule_id": "CTA-02",
+      "owner": "LEGACY",
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "No product-context-to-contact path verification; no form submission is permitted."
+    },
+    {
+      "rule_id": "CTA-03",
+      "owner": "C2",
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No overflow geometry or scoped visual-layout evaluator."
+    },
+    {
+      "rule_id": "SEO-01",
+      "owner": "LEGACY",
+      "implementation": "LEGACY_BOUNDED",
+      "legacy_gap": "Sitemap/tag combination and metadata applicability not implemented; robots hashes are insufficient."
+    },
+    {
+      "rule_id": "SEO-02",
+      "owner": "C1",
+      "implementation": "BOUNDED_READ_ONLY_CANDIDATE",
+      "legacy_gap": "No verified product text/anchor context or crawlability evaluator.",
+      "rule_version": "s2-static-1.0.0",
+      "source_version": "s2-static-http-1.0.0"
+    },
+    {
+      "rule_id": "TECH-01",
+      "owner": "C1",
+      "implementation": "BOUNDED_READ_ONLY_CANDIDATE",
+      "legacy_gap": "Non-200 snapshots have no observed EvidencePack evidence_ref; metadata-only Observation adapter deferred.",
+      "rule_version": "s2-static-1.0.0",
+      "source_version": "s2-static-http-1.0.0"
+    },
+    {
+      "rule_id": "TECH-02",
+      "owner": "C2",
+      "implementation": "NOT_IMPLEMENTED_P0",
+      "legacy_gap": "No image/heading context extraction or accessibility evaluator."
+    }
+  ],
+  "limitations": [
+    "S2_P1_THREE_BOUNDED_STATIC_SUBSETS_OTHER_RULES_PENDING",
+    "PROJECTION_IS_NOT_RULEEXECUTION_OR_AUTHORIZATION",
+    "C2_PROJECTION_IS_READ_ONLY_UNKNOWN_NOT_NEW_RULE_PASS",
+    "S2_NOT_ADMITTED_BY_LEGACY_FINDINGPACKAGE_OR_GUARD",
+    "HUMAN_GOLD_PENDING_NO_QUALITY_METRIC"
+  ],
+  "static_projection": {
+    "source_version": "s2-static-http-1.0.0",
+    "rule_version": "s2-static-1.0.0",
+    "authority": "READ_ONLY_CANDIDATES_NOT_FINDINGS",
+    "rows": [
+      {
+        "observation": {
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "run_id": "run-synthetic",
+          "rule_id": "TECH-01",
+          "rule_version": "s2-static-1.0.0",
+          "result": "PASS",
+          "kind": "OBJECTIVE",
+          "evidence_ids": [
+            "ev-4ab9e3e8c01f609b04d5ac78b666a2d5739a70dcbce5c9722456f44b06cdd5b6"
+          ],
+          "statement": "Check exact recorded response status and redirect metadata; no live health claim. Bounded candidate result: PASS.",
+          "coverage_note": "Retained bounded HTTP source only. Path roles are lexical collector roles; no industry semantics, rendered visibility, crawler/indexing outcome, whole-site completeness, engineering fit, authentication or current authorization assertion. Missing, unsupported and metadata-only inputs remain UNKNOWN; no site defect.",
+          "observation_id": "obs-aa3e722eee62d2e1f93d82b943fff4e1bcf0f600c917724cf17d4430f9efa18d"
+        },
+        "reason": "RETAINED_HTTP_200_RESPONSE",
+        "response": {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/0",
+          "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+          "url": "https://example.org/",
+          "final_url": "https://example.org/",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/"
+            }
+          ],
+          "error": null
+        },
+        "citations": [
+          {
+            "evidence_ref": "ev-4ab9e3e8c01f609b04d5ac78b666a2d5739a70dcbce5c9722456f44b06cdd5b6",
+            "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+            "snapshot_ref": "page-dd30c6d2c50fbef694af63d9617b83a4fcae5272bd91f082e2e26e0a8e64343c",
+            "locator": "/pages/0/evidence",
+            "content_sha256": "ff7a2528958e568b730f97a8cfa46c7eece36a44f166341c9e2aad01295ad8d3",
+            "byte_start": 0,
+            "byte_end": 65,
+            "quote": "<html><body><a href=\"/applications/water\">Water</a></body></html>",
+            "offset_basis": "ORIGINAL_UTF8_BYTES"
+          }
+        ],
+        "target_response": null,
+        "source_version": "s2-static-http-1.0.0",
+        "admission": "CANDIDATE_ONLY"
+      },
+      {
+        "observation": {
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "run_id": "run-synthetic",
+          "rule_id": "TECH-01",
+          "rule_version": "s2-static-1.0.0",
+          "result": "PASS",
+          "kind": "OBJECTIVE",
+          "evidence_ids": [
+            "ev-77cf89b72275154544267f36b43087ed0e1ebc9ccf2ca94909fc3aff1e8b4781"
+          ],
+          "statement": "Check exact recorded response status and redirect metadata; no live health claim. Bounded candidate result: PASS.",
+          "coverage_note": "Retained bounded HTTP source only. Path roles are lexical collector roles; no industry semantics, rendered visibility, crawler/indexing outcome, whole-site completeness, engineering fit, authentication or current authorization assertion. Missing, unsupported and metadata-only inputs remain UNKNOWN; no site defect.",
+          "observation_id": "obs-323d0dd1d0c5043b3ef14bbd8d527d643f5d401af2cade336778b41e9aa433c6"
+        },
+        "reason": "RETAINED_HTTP_200_RESPONSE",
+        "response": {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/1",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "url": "https://example.org/applications/water",
+          "final_url": "https://example.org/applications/water",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/applications/water"
+            }
+          ],
+          "error": null
+        },
+        "citations": [
+          {
+            "evidence_ref": "ev-77cf89b72275154544267f36b43087ed0e1ebc9ccf2ca94909fc3aff1e8b4781",
+            "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+            "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+            "locator": "/pages/1/evidence",
+            "content_sha256": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+            "byte_start": 0,
+            "byte_end": 61,
+            "quote": "<html><body><a href=\"/products/p40\">泵 P40</a></body></html>",
+            "offset_basis": "ORIGINAL_UTF8_BYTES"
+          }
+        ],
+        "target_response": null,
+        "source_version": "s2-static-http-1.0.0",
+        "admission": "CANDIDATE_ONLY"
+      },
+      {
+        "observation": {
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "run_id": "run-synthetic",
+          "rule_id": "DISC-03",
+          "rule_version": "s2-static-1.0.0",
+          "result": "PASS",
+          "kind": "OBJECTIVE",
+          "evidence_ids": [
+            "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+            "ev-77cf89b72275154544267f36b43087ed0e1ebc9ccf2ca94909fc3aff1e8b4781"
+          ],
+          "statement": "Check for a captured application-path anchor and captured product-path response. Bounded candidate result: PASS.",
+          "coverage_note": "Retained bounded HTTP source only. Path roles are lexical collector roles; no industry semantics, rendered visibility, crawler/indexing outcome, whole-site completeness, engineering fit, authentication or current authorization assertion. Missing, unsupported and metadata-only inputs remain UNKNOWN; no site defect.",
+          "observation_id": "obs-a8c6c625039b2d38d95f6a131a5129a8b1b9521fa4c5106337bc1e29196a4cc2"
+        },
+        "reason": "CAPTURED_APPLICATION_TO_PRODUCT_PATH",
+        "response": {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/1",
+          "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+          "url": "https://example.org/applications/water",
+          "final_url": "https://example.org/applications/water",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/applications/water"
+            }
+          ],
+          "error": null
+        },
+        "citations": [
+          {
+            "evidence_ref": "ev-77cf89b72275154544267f36b43087ed0e1ebc9ccf2ca94909fc3aff1e8b4781",
+            "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+            "snapshot_ref": "page-f44a37b90b6ca3d084fc896fb088ac35ab493bce76ebae47ef9dd9832821c300",
+            "locator": "/pages/1/evidence",
+            "content_sha256": "94c6d544a1383809a99acb479505b7d1d9736a6e0b281f67958124842d49e7e4",
+            "byte_start": 12,
+            "byte_end": 47,
+            "quote": "<a href=\"/products/p40\">泵 P40</a>",
+            "offset_basis": "ORIGINAL_UTF8_BYTES",
+            "href": "/products/p40"
+          },
+          {
+            "evidence_ref": "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+            "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+            "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+            "locator": "/pages/2/evidence",
+            "content_sha256": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+            "byte_start": 0,
+            "byte_end": 94,
+            "quote": "<html><body><p>P40 rated flow 12 m3/h</p><a href=\"/products/v25\">V25 details</a></body></html>",
+            "offset_basis": "ORIGINAL_UTF8_BYTES"
+          }
+        ],
+        "target_response": {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/2",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "url": "https://example.org/products/p40",
+          "final_url": "https://example.org/products/p40",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "error": null
+        },
+        "source_version": "s2-static-http-1.0.0",
+        "admission": "CANDIDATE_ONLY"
+      },
+      {
+        "observation": {
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "run_id": "run-synthetic",
+          "rule_id": "TECH-01",
+          "rule_version": "s2-static-1.0.0",
+          "result": "PASS",
+          "kind": "OBJECTIVE",
+          "evidence_ids": [
+            "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b"
+          ],
+          "statement": "Check exact recorded response status and redirect metadata; no live health claim. Bounded candidate result: PASS.",
+          "coverage_note": "Retained bounded HTTP source only. Path roles are lexical collector roles; no industry semantics, rendered visibility, crawler/indexing outcome, whole-site completeness, engineering fit, authentication or current authorization assertion. Missing, unsupported and metadata-only inputs remain UNKNOWN; no site defect.",
+          "observation_id": "obs-0070a695a7c1a12e113ea47f13c5496508b7f5e205bb6d52448a531e20f7889f"
+        },
+        "reason": "RETAINED_HTTP_200_RESPONSE",
+        "response": {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/2",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "url": "https://example.org/products/p40",
+          "final_url": "https://example.org/products/p40",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "error": null
+        },
+        "citations": [
+          {
+            "evidence_ref": "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+            "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+            "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+            "locator": "/pages/2/evidence",
+            "content_sha256": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+            "byte_start": 0,
+            "byte_end": 94,
+            "quote": "<html><body><p>P40 rated flow 12 m3/h</p><a href=\"/products/v25\">V25 details</a></body></html>",
+            "offset_basis": "ORIGINAL_UTF8_BYTES"
+          }
+        ],
+        "target_response": null,
+        "source_version": "s2-static-http-1.0.0",
+        "admission": "CANDIDATE_ONLY"
+      },
+      {
+        "observation": {
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "run_id": "run-synthetic",
+          "rule_id": "SEO-02",
+          "rule_version": "s2-static-1.0.0",
+          "result": "PASS",
+          "kind": "OBJECTIVE",
+          "evidence_ids": [
+            "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b"
+          ],
+          "statement": "Check for captured product-path text and a static same-site HTTP anchor. Bounded candidate result: PASS.",
+          "coverage_note": "Retained bounded HTTP source only. Path roles are lexical collector roles; no industry semantics, rendered visibility, crawler/indexing outcome, whole-site completeness, engineering fit, authentication or current authorization assertion. Missing, unsupported and metadata-only inputs remain UNKNOWN; no site defect.",
+          "observation_id": "obs-55d8b25ec77a42836c796e45bbcce790561144f6e53cb4cf373a9157d3a0318c"
+        },
+        "reason": "SOURCE_TEXT_AND_HTTP_ANCHOR_PRESENT",
+        "response": {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/2",
+          "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+          "url": "https://example.org/products/p40",
+          "final_url": "https://example.org/products/p40",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/p40"
+            }
+          ],
+          "error": null
+        },
+        "citations": [
+          {
+            "evidence_ref": "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+            "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+            "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+            "locator": "/pages/2/evidence",
+            "content_sha256": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+            "byte_start": 15,
+            "byte_end": 37,
+            "quote": "P40 rated flow 12 m3/h",
+            "offset_basis": "ORIGINAL_UTF8_BYTES"
+          },
+          {
+            "evidence_ref": "ev-55118ae7d5c1ab163408dfdd5e95172a772d868012f950cb91dd37522d922f8b",
+            "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+            "snapshot_ref": "page-038acd13ace2ab4644867c5106ee5abeb6f0cd07bea03c28d5d6f12499cf22e0",
+            "locator": "/pages/2/evidence",
+            "content_sha256": "14a48e058a6486885da4a19b490f938278aa6ef5b3151a710767768e3897d570",
+            "byte_start": 41,
+            "byte_end": 80,
+            "quote": "<a href=\"/products/v25\">V25 details</a>",
+            "offset_basis": "ORIGINAL_UTF8_BYTES",
+            "href": "/products/v25"
+          }
+        ],
+        "target_response": null,
+        "source_version": "s2-static-http-1.0.0",
+        "admission": "CANDIDATE_ONLY"
+      },
+      {
+        "observation": {
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "run_id": "run-synthetic",
+          "rule_id": "TECH-01",
+          "rule_version": "s2-static-1.0.0",
+          "result": "PASS",
+          "kind": "OBJECTIVE",
+          "evidence_ids": [
+            "ev-91b2c443405da5a069b40e81b5dd46ac0c8340a4eb49f499f0354b4fbc6303c8"
+          ],
+          "statement": "Check exact recorded response status and redirect metadata; no live health claim. Bounded candidate result: PASS.",
+          "coverage_note": "Retained bounded HTTP source only. Path roles are lexical collector roles; no industry semantics, rendered visibility, crawler/indexing outcome, whole-site completeness, engineering fit, authentication or current authorization assertion. Missing, unsupported and metadata-only inputs remain UNKNOWN; no site defect.",
+          "observation_id": "obs-f1fe7e0eb44dcade8f65cc8eaae610e40c2f45e2741d5e6a9386b7a7bde98fdf"
+        },
+        "reason": "RETAINED_HTTP_200_RESPONSE",
+        "response": {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/3",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "url": "https://example.org/products/v25",
+          "final_url": "https://example.org/products/v25",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/v25"
+            }
+          ],
+          "error": null
+        },
+        "citations": [
+          {
+            "evidence_ref": "ev-91b2c443405da5a069b40e81b5dd46ac0c8340a4eb49f499f0354b4fbc6303c8",
+            "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+            "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+            "locator": "/pages/3/evidence",
+            "content_sha256": "4f5cfd165222ef6c82cae29c1e8b541a9c4f620dd5635e7ea106f8b51e08909f",
+            "byte_start": 0,
+            "byte_end": 29,
+            "quote": "<html><body>V25</body></html>",
+            "offset_basis": "ORIGINAL_UTF8_BYTES"
+          }
+        ],
+        "target_response": null,
+        "source_version": "s2-static-http-1.0.0",
+        "admission": "CANDIDATE_ONLY"
+      },
+      {
+        "observation": {
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "run_id": "run-synthetic",
+          "rule_id": "SEO-02",
+          "rule_version": "s2-static-1.0.0",
+          "result": "UNKNOWN",
+          "kind": "UNKNOWN",
+          "evidence_ids": [],
+          "statement": "Check for captured product-path text and a static same-site HTTP anchor. Bounded candidate result: UNKNOWN.",
+          "coverage_note": "Retained bounded HTTP source only. Path roles are lexical collector roles; no industry semantics, rendered visibility, crawler/indexing outcome, whole-site completeness, engineering fit, authentication or current authorization assertion. Missing, unsupported and metadata-only inputs remain UNKNOWN; no site defect.",
+          "observation_id": "obs-8f1d9e4eac319b123cbb062f09117db1611eeea89ebdf77d329c3e73c549e715"
+        },
+        "reason": "NO_SUPPORTED_TEXT_ANCHOR_PAIR",
+        "response": {
+          "source_ref": "src-0b30000836ac6f18a370f748f135d876b55318a1ba6617beb67fa0efa353f79b",
+          "locator": "/pages/3",
+          "snapshot_ref": "page-a9fb3b77573b6fe2bb503e705722857151179e81b6ad1d0a89a8cb8b0f83a474",
+          "url": "https://example.org/products/v25",
+          "final_url": "https://example.org/products/v25",
+          "observed_at": "2026-11-10T12:00:00+00:00",
+          "http_status": 200,
+          "redirect_trace": [
+            {
+              "location": null,
+              "peer_ip": "93.184.216.20",
+              "status": 200,
+              "url": "https://example.org/products/v25"
+            }
+          ],
+          "error": null
+        },
+        "citations": [],
+        "target_response": null,
+        "source_version": "s2-static-http-1.0.0",
+        "admission": "CANDIDATE_ONLY"
+      }
+    ],
+    "limitations": [
+      "Retained bounded HTTP source only. Path roles are lexical collector roles; no industry semantics, rendered visibility, crawler/indexing outcome, whole-site completeness, engineering fit, authentication or current authorization assertion. Missing, unsupported and metadata-only inputs remain UNKNOWN; no site defect.",
+      "NO_INDUSTRY_CONFIGURATION_NO_NOT_APPLICABLE",
+      "METADATA_HAS_SOURCE_POINTER_NOT_EVIDENCE_REF",
+      "NO_NEGATIVE_SITE_JUDGMENT_IN_THIS_VERSION"
+    ]
+  },
+  "projection_ref": "s2p-e13ba8d69f7ab901efabb3b68a1ef99ab9963ac6019cca5838975492383fe35e"
+}

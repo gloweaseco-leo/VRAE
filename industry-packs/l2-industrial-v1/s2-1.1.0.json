@@ -1,0 +1,43 @@
+{
+  "version": "1.1.0",
+  "parent_version": "1.0.0",
+  "parent_pack_sha256": "7a17f19d88b6a4b810ac67685032e236aaa146fe45f22c7c79442ffcfc6e77ea",
+  "parent_profile_sha256": "dea0a765430a55a9ac2def683f0a530de5f351907af25996ad2b472f1167f69b",
+  "source_scope": "Explicit static source tables only. Models P40/V25 are examples, not an allowlist or verified SKUs. Other models require an unambiguous declared supported family, model, revision, conditions and configured fields. No engineering fit or supplier authentication.",
+  "labels": {
+    "revision": ["Data revision", "Datasheet revision"],
+    "conditions": ["Specification conditions"],
+    "proof_kind": ["Proof type"],
+    "case_issuer": ["Case issuer"],
+    "case_reference": ["Case reference"],
+    "case_date": ["Case date"],
+    "factory_issuer": ["Factory statement issuer"],
+    "factory_reference": ["Factory statement reference"],
+    "factory_date": ["Factory statement date"],
+    "entity_id": ["Entity identifier"],
+    "entity_namespace": ["Identifier namespace"],
+    "name": ["Company name", "Organization name", "Legal name"],
+    "address": ["Postal address"],
+    "email": ["Contact email"],
+    "telephone": ["Contact telephone"]
+  },
+  "record_types": {"identity": "Supplier identity"},
+  "required_product_context": ["revision", "conditions"],
+  "proof_types": {
+    "certificate": {"issuer": "issuer", "reference": "certificate", "date": "valid_until"},
+    "case": {"issuer": "case_issuer", "reference": "case_reference", "date": "case_date"},
+    "factory": {"issuer": "factory_issuer", "reference": "factory_reference", "date": "factory_date"}
+  },
+  "identity_namespaces": ["source-declared-registration"],
+  "identity_fields": ["name", "address", "email", "telephone"],
+  "profiles": {
+    "industrial": {"excluded_families": [], "excluded_rule_ids": [], "reason": "CONFIGURED_PUMP_AND_VALVE_SOURCE_CONTEXT"},
+    "pump-only": {"excluded_families": ["valve"], "excluded_rule_ids": [], "reason": "CONFIGURED_PUMP_PROCUREMENT_SCOPE_EXCLUDES_VALVE"},
+    "technical-only": {"excluded_families": [], "excluded_rule_ids": ["TRUST-02", "TRUST-03"], "reason": "CONFIGURED_TECHNICAL_MATERIAL_SCOPE_ONLY"}
+  },
+  "s2_rules": [
+    {"rule_id": "INFO-02", "task": "UNDERSTAND", "method": "Source-local configured attribute presence, explicit units, declared model/revision/conditions only. Missing buyer duty is not a site failure."},
+    {"rule_id": "TRUST-02", "task": "TRUST", "method": "Model-linked source-declared issuer/reference/date display context; no authenticity or compliance assertion."},
+    {"rule_id": "TRUST-03", "task": "TRUST", "method": "Compare exact strings only across two pages with the same explicit configured identifier namespace and identifier. Conflicts are UNKNOWN human-review candidates; no legal identity verification."}
+  ]
+}

@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="13" failures="29" skipped="0" tests="42" time="11.349" timestamp="2026-11-17T19:53:00.806065-05:00" hostname="dong"><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_three_rules_replay_from_original_bytes_and_configuration" time="0.297"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_industry_v1_default_bytes_and_parent_remain_unchanged" time="0.008"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">def test_industry_v1_default_bytes_and_parent_remain_unchanged():
+        before = configuration.load()
+&gt;       current = configuration.load_s2()
+                  ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:64: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_no_independent_config_pin_is_unknown_not_an_inferred_default" time="0.211"><failure message="vrae.evidence.pack.EvidenceError: S2_ADAPTER_INPUT_INTEGRITY">def test_no_independent_config_pin_is_unknown_not_an_inferred_default():
+        pack = fixture()
+&gt;       out = s2.evaluate_s2(pack, expected_pack_ref=pack.ref, trusted_scope=scope(pack), projection_version=VERSION)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+vrae\rules\s2\contract.py:134: in evaluate_s2
+    _fail()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def _fail():
+&gt;       raise EvidenceError('S2_ADAPTER_INPUT_INTEGRITY')
+E       vrae.evidence.pack.EvidenceError: S2_ADAPTER_INPUT_INTEGRITY
+
+vrae\rules\s2\contract.py:27: EvidenceError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_unsupported_or_wrong_dimension_units_are_unknown[10 psi]" time="0.205"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">value = '10 psi'
+
+    @pytest.mark.parametrize('value', ['10 psi', '10-20 bar', 'PN10', '1e9 bar', '400 V'])
+    def test_unsupported_or_wrong_dimension_units_are_unknown(value):
+        raw = (DIRECTORY / 'pump.html').read_bytes().replace(b'10 bar', value.encode())
+        raw = raw.replace(b'&lt;/table&gt;', b'&lt;tr&gt;&lt;th&gt;Data revision&lt;/th&gt;&lt;td&gt;R1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Specification conditions&lt;/th&gt;&lt;td&gt;Water 20 degC&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_unsupported_or_wrong_dimension_units_are_unknown[10-20 bar]" time="0.170"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">value = '10-20 bar'
+
+    @pytest.mark.parametrize('value', ['10 psi', '10-20 bar', 'PN10', '1e9 bar', '400 V'])
+    def test_unsupported_or_wrong_dimension_units_are_unknown(value):
+        raw = (DIRECTORY / 'pump.html').read_bytes().replace(b'10 bar', value.encode())
+        raw = raw.replace(b'&lt;/table&gt;', b'&lt;tr&gt;&lt;th&gt;Data revision&lt;/th&gt;&lt;td&gt;R1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Specification conditions&lt;/th&gt;&lt;td&gt;Water 20 degC&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_unsupported_or_wrong_dimension_units_are_unknown[PN10]" time="0.207"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">value = 'PN10'
+
+    @pytest.mark.parametrize('value', ['10 psi', '10-20 bar', 'PN10', '1e9 bar', '400 V'])
+    def test_unsupported_or_wrong_dimension_units_are_unknown(value):
+        raw = (DIRECTORY / 'pump.html').read_bytes().replace(b'10 bar', value.encode())
+        raw = raw.replace(b'&lt;/table&gt;', b'&lt;tr&gt;&lt;th&gt;Data revision&lt;/th&gt;&lt;td&gt;R1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Specification conditions&lt;/th&gt;&lt;td&gt;Water 20 degC&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_unsupported_or_wrong_dimension_units_are_unknown[1e9 bar]" time="0.176"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">value = '1e9 bar'
+
+    @pytest.mark.parametrize('value', ['10 psi', '10-20 bar', 'PN10', '1e9 bar', '400 V'])
+    def test_unsupported_or_wrong_dimension_units_are_unknown(value):
+        raw = (DIRECTORY / 'pump.html').read_bytes().replace(b'10 bar', value.encode())
+        raw = raw.replace(b'&lt;/table&gt;', b'&lt;tr&gt;&lt;th&gt;Data revision&lt;/th&gt;&lt;td&gt;R1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Specification conditions&lt;/th&gt;&lt;td&gt;Water 20 degC&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_unsupported_or_wrong_dimension_units_are_unknown[400 V]" time="0.201"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">value = '400 V'
+
+    @pytest.mark.parametrize('value', ['10 psi', '10-20 bar', 'PN10', '1e9 bar', '400 V'])
+    def test_unsupported_or_wrong_dimension_units_are_unknown(value):
+        raw = (DIRECTORY / 'pump.html').read_bytes().replace(b'10 bar', value.encode())
+        raw = raw.replace(b'&lt;/table&gt;', b'&lt;tr&gt;&lt;th&gt;Data revision&lt;/th&gt;&lt;td&gt;R1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Specification conditions&lt;/th&gt;&lt;td&gt;Water 20 degC&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_equivalent_units_and_model_beyond_demo_are_bounded_not_engineering_fit" time="0.187"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">def test_equivalent_units_and_model_beyond_demo_are_bounded_not_engineering_fit():
+        raw = (DIRECTORY / 'pump.html').read_bytes().replace(b'P40', b'P80').replace(b'12 m3/h', b'200 L/min')
+        raw = raw.replace(b'&lt;/table&gt;', b'&lt;tr&gt;&lt;th&gt;Data revision&lt;/th&gt;&lt;td&gt;R2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Specification conditions&lt;/th&gt;&lt;td&gt;Water 20 degC&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_missing_revision_conditions_or_pdf_only_attribute_is_unknown[Data revision]" time="0.637"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">missing = 'Data revision'
+
+    @pytest.mark.parametrize('missing', ['Data revision', 'Specification conditions', 'Rated flow'])
+    def test_missing_revision_conditions_or_pdf_only_attribute_is_unknown(missing):
+        pack = fixture()
+        # Copy saved producer input for the counterfactual, not the projected DTO.
+        raw = next(pack.resolve(e['evidence_ref'], expected_pack_ref=pack.ref)['content']
+                   for e in pack.document['evidence']
+                   if next(s for s in pack.document['snapshots'] if s['snapshot_ref'] == e['snapshot_ref'])['url'].endswith('/p40'))
+        import re
+        raw = re.sub(b'&lt;tr&gt;&lt;th&gt;' + missing.encode() + b'&lt;/th&gt;&lt;td&gt;[^&lt;]*&lt;/td&gt;&lt;/tr&gt;', b'', raw)
+        raw = raw.replace(b'&lt;/body&gt;', b'&lt;a href="/data.pdf"&gt;Technical datasheet&lt;/a&gt;&lt;img src="/curve.png"&gt;&lt;/body&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_missing_revision_conditions_or_pdf_only_attribute_is_unknown[Specification conditions]" time="0.350"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">missing = 'Specification conditions'
+
+    @pytest.mark.parametrize('missing', ['Data revision', 'Specification conditions', 'Rated flow'])
+    def test_missing_revision_conditions_or_pdf_only_attribute_is_unknown(missing):
+        pack = fixture()
+        # Copy saved producer input for the counterfactual, not the projected DTO.
+        raw = next(pack.resolve(e['evidence_ref'], expected_pack_ref=pack.ref)['content']
+                   for e in pack.document['evidence']
+                   if next(s for s in pack.document['snapshots'] if s['snapshot_ref'] == e['snapshot_ref'])['url'].endswith('/p40'))
+        import re
+        raw = re.sub(b'&lt;tr&gt;&lt;th&gt;' + missing.encode() + b'&lt;/th&gt;&lt;td&gt;[^&lt;]*&lt;/td&gt;&lt;/tr&gt;', b'', raw)
+        raw = raw.replace(b'&lt;/body&gt;', b'&lt;a href="/data.pdf"&gt;Technical datasheet&lt;/a&gt;&lt;img src="/curve.png"&gt;&lt;/body&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_missing_revision_conditions_or_pdf_only_attribute_is_unknown[Rated flow]" time="0.378"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">missing = 'Rated flow'
+
+    @pytest.mark.parametrize('missing', ['Data revision', 'Specification conditions', 'Rated flow'])
+    def test_missing_revision_conditions_or_pdf_only_attribute_is_unknown(missing):
+        pack = fixture()
+        # Copy saved producer input for the counterfactual, not the projected DTO.
+        raw = next(pack.resolve(e['evidence_ref'], expected_pack_ref=pack.ref)['content']
+                   for e in pack.document['evidence']
+                   if next(s for s in pack.document['snapshots'] if s['snapshot_ref'] == e['snapshot_ref'])['url'].endswith('/p40'))
+        import re
+        raw = re.sub(b'&lt;tr&gt;&lt;th&gt;' + missing.encode() + b'&lt;/th&gt;&lt;td&gt;[^&lt;]*&lt;/td&gt;&lt;/tr&gt;', b'', raw)
+        raw = raw.replace(b'&lt;/body&gt;', b'&lt;a href="/data.pdf"&gt;Technical datasheet&lt;/a&gt;&lt;img src="/curve.png"&gt;&lt;/body&gt;')
+&gt;       out = evaluate(fixture(overrides={'/products/p40': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;a href="/data.pdf"&gt;Technical datasheet&lt;/a&gt;&lt;img src="/curve.png"&gt;&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_duplicate_model_revisions_are_not_merged" time="0.278"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">def test_duplicate_model_revisions_are_not_merged():
+        raw = (DIRECTORY / 'valve.html').read_bytes().replace(b'V25', b'P40')
+&gt;       out = evaluate(fixture(overrides={'/products/v25': raw}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:115: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_proof_display_context_never_authenticates_or_invalidates[certificate-fields0]" time="0.188"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">kind = 'certificate'
+fields = {'Certificate issuer': 'Demo issuer', 'Certificate reference': 'DEMO-01', 'Certificate valid until': '2025-01-01'}
+
+    @pytest.mark.parametrize('kind,fields', [
+        ('certificate', {'Certificate issuer': 'Demo issuer', 'Certificate reference': 'DEMO-01', 'Certificate valid until': '2025-01-01'}),
+        ('case', {'Case issuer': 'Demo author', 'Case reference': 'CASE-01', 'Case date': '2025-01-01'}),
+        ('factory', {'Factory statement issuer': 'Demo operator', 'Factory statement reference': 'FACTORY-01', 'Factory statement date': '2025-01-01'}),
+    ])
+    def test_proof_display_context_never_authenticates_or_invalidates(kind, fields):
+        proof = table('Supplier proof', {'Proof type': kind, 'Applicable models': 'P40', **fields})
+&gt;       out = evaluate(fixture(overrides={'/products/proof': proof}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_proof_display_context_never_authenticates_or_invalidates[case-fields1]" time="0.243"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">kind = 'case'
+fields = {'Case issuer': 'Demo author', 'Case reference': 'CASE-01', 'Case date': '2025-01-01'}
+
+    @pytest.mark.parametrize('kind,fields', [
+        ('certificate', {'Certificate issuer': 'Demo issuer', 'Certificate reference': 'DEMO-01', 'Certificate valid until': '2025-01-01'}),
+        ('case', {'Case issuer': 'Demo author', 'Case reference': 'CASE-01', 'Case date': '2025-01-01'}),
+        ('factory', {'Factory statement issuer': 'Demo operator', 'Factory statement reference': 'FACTORY-01', 'Factory statement date': '2025-01-01'}),
+    ])
+    def test_proof_display_context_never_authenticates_or_invalidates(kind, fields):
+        proof = table('Supplier proof', {'Proof type': kind, 'Applicable models': 'P40', **fields})
+&gt;       out = evaluate(fixture(overrides={'/products/proof': proof}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_proof_display_context_never_authenticates_or_invalidates[factory-fields2]" time="0.196"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">kind = 'factory'
+fields = {'Factory statement issuer': 'Demo operator', 'Factory statement reference': 'FACTORY-01', 'Factory statement date': '2025-01-01'}
+
+    @pytest.mark.parametrize('kind,fields', [
+        ('certificate', {'Certificate issuer': 'Demo issuer', 'Certificate reference': 'DEMO-01', 'Certificate valid until': '2025-01-01'}),
+        ('case', {'Case issuer': 'Demo author', 'Case reference': 'CASE-01', 'Case date': '2025-01-01'}),
+        ('factory', {'Factory statement issuer': 'Demo operator', 'Factory statement reference': 'FACTORY-01', 'Factory statement date': '2025-01-01'}),
+    ])
+    def test_proof_display_context_never_authenticates_or_invalidates(kind, fields):
+        proof = table('Supplier proof', {'Proof type': kind, 'Applicable models': 'P40', **fields})
+&gt;       out = evaluate(fixture(overrides={'/products/proof': proof}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_proof_unresolved_context_remains_unknown[wrong-model]" time="0.219"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">change = 'wrong-model'
+
+    @pytest.mark.parametrize('change', ['wrong-model', 'missing-issuer', 'bad-date', 'unknown-kind'])
+    def test_proof_unresolved_context_remains_unknown(change):
+        fields = {'Proof type': 'certificate', 'Applicable models': 'P40',
+                  'Certificate issuer': 'Demo issuer', 'Certificate reference': 'DEMO-01',
+                  'Certificate valid until': '2027-01-01'}
+        if change == 'wrong-model':
+            fields['Applicable models'] = 'P400'
+        elif change == 'missing-issuer':
+            del fields['Certificate issuer']
+        elif change == 'bad-date':
+            fields['Certificate valid until'] = 'yesterday'
+        else:
+            fields['Proof type'] = 'authenticated certification'
+&gt;       out = evaluate(fixture(overrides={'/products/proof': table('Supplier proof', fields)}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:147: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_proof_unresolved_context_remains_unknown[missing-issuer]" time="0.223"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">change = 'missing-issuer'
+
+    @pytest.mark.parametrize('change', ['wrong-model', 'missing-issuer', 'bad-date', 'unknown-kind'])
+    def test_proof_unresolved_context_remains_unknown(change):
+        fields = {'Proof type': 'certificate', 'Applicable models': 'P40',
+                  'Certificate issuer': 'Demo issuer', 'Certificate reference': 'DEMO-01',
+                  'Certificate valid until': '2027-01-01'}
+        if change == 'wrong-model':
+            fields['Applicable models'] = 'P400'
+        elif change == 'missing-issuer':
+            del fields['Certificate issuer']
+        elif change == 'bad-date':
+            fields['Certificate valid until'] = 'yesterday'
+        else:
+            fields['Proof type'] = 'authenticated certification'
+&gt;       out = evaluate(fixture(overrides={'/products/proof': table('Supplier proof', fields)}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:147: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ference&lt;/th&gt;&lt;td&gt;DEMO-01&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Certificate valid until&lt;/th&gt;&lt;td&gt;2027-01-01&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_proof_unresolved_context_remains_unknown[bad-date]" time="0.228"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">change = 'bad-date'
+
+    @pytest.mark.parametrize('change', ['wrong-model', 'missing-issuer', 'bad-date', 'unknown-kind'])
+    def test_proof_unresolved_context_remains_unknown(change):
+        fields = {'Proof type': 'certificate', 'Applicable models': 'P40',
+                  'Certificate issuer': 'Demo issuer', 'Certificate reference': 'DEMO-01',
+                  'Certificate valid until': '2027-01-01'}
+        if change == 'wrong-model':
+            fields['Applicable models'] = 'P400'
+        elif change == 'missing-issuer':
+            del fields['Certificate issuer']
+        elif change == 'bad-date':
+            fields['Certificate valid until'] = 'yesterday'
+        else:
+            fields['Proof type'] = 'authenticated certification'
+&gt;       out = evaluate(fixture(overrides={'/products/proof': table('Supplier proof', fields)}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:147: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_proof_unresolved_context_remains_unknown[unknown-kind]" time="0.225"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">change = 'unknown-kind'
+
+    @pytest.mark.parametrize('change', ['wrong-model', 'missing-issuer', 'bad-date', 'unknown-kind'])
+    def test_proof_unresolved_context_remains_unknown(change):
+        fields = {'Proof type': 'certificate', 'Applicable models': 'P40',
+                  'Certificate issuer': 'Demo issuer', 'Certificate reference': 'DEMO-01',
+                  'Certificate valid until': '2027-01-01'}
+        if change == 'wrong-model':
+            fields['Applicable models'] = 'P400'
+        elif change == 'missing-issuer':
+            del fields['Certificate issuer']
+        elif change == 'bad-date':
+            fields['Certificate valid until'] = 'yesterday'
+        else:
+            fields['Proof type'] = 'authenticated certification'
+&gt;       out = evaluate(fixture(overrides={'/products/proof': table('Supplier proof', fields)}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:147: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_cited_conflicting_address_is_candidate_for_human_review" time="0.193"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">def test_cited_conflicting_address_is_candidate_for_human_review():
+&gt;       out = evaluate(fixture(overrides={'/contact': identity(address='20 Other Demo Road')}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_same_name_does_not_merge_unresolved_entities[args0]" time="0.183"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">args = {'entity': 'OTHER-002'}
+
+    @pytest.mark.parametrize('args', [{'entity': 'OTHER-002'}, {'entity': ''}, {'namespace': 'unconfigured-registry'}])
+    def test_same_name_does_not_merge_unresolved_entities(args):
+&gt;       out = evaluate(fixture(overrides={'/contact': identity(**args)}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...il&lt;/th&gt;&lt;td&gt;buyer@example.org&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Contact telephone&lt;/th&gt;&lt;td&gt;+1-555-0100&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_same_name_does_not_merge_unresolved_entities[args1]" time="0.196"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">args = {'entity': ''}
+
+    @pytest.mark.parametrize('args', [{'entity': 'OTHER-002'}, {'entity': ''}, {'namespace': 'unconfigured-registry'}])
+    def test_same_name_does_not_merge_unresolved_entities(args):
+&gt;       out = evaluate(fixture(overrides={'/contact': identity(**args)}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_same_name_does_not_merge_unresolved_entities[args2]" time="0.212"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">args = {'namespace': 'unconfigured-registry'}
+
+    @pytest.mark.parametrize('args', [{'entity': 'OTHER-002'}, {'entity': ''}, {'namespace': 'unconfigured-registry'}])
+    def test_same_name_does_not_merge_unresolved_entities(args):
+&gt;       out = evaluate(fixture(overrides={'/contact': identity(**args)}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...il&lt;/th&gt;&lt;td&gt;buyer@example.org&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Contact telephone&lt;/th&gt;&lt;td&gt;+1-555-0100&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_not_applicable_requires_independently_pinned_explicit_configuration" time="0.166"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">def test_not_applicable_requires_independently_pinned_explicit_configuration():
+        pack = fixture()
+&gt;       industrial = evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:170: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_access_blocked_is_not_website_fault[INFO-02-/products/p40]" time="0.084"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">rule = 'INFO-02', path = '/products/p40'
+
+    @pytest.mark.parametrize('rule,path', [('INFO-02', '/products/p40'), ('TRUST-02', '/products/proof'), ('TRUST-03', '/contact')])
+    def test_access_blocked_is_not_website_fault(rule, path):
+&gt;       out = evaluate(fixture(statuses={path: 403}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AB...y&gt;&lt;nav&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/nav&gt;&lt;/body&gt;&lt;/html&gt;')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_access_blocked_is_not_website_fault[TRUST-02-/products/proof]" time="0.176"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">rule = 'TRUST-02', path = '/products/proof'
+
+    @pytest.mark.parametrize('rule,path', [('INFO-02', '/products/p40'), ('TRUST-02', '/products/proof'), ('TRUST-03', '/contact')])
+    def test_access_blocked_is_not_website_fault(rule, path):
+&gt;       out = evaluate(fixture(statuses={path: 403}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...y&gt;&lt;nav&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/nav&gt;&lt;/body&gt;&lt;/html&gt;')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_access_blocked_is_not_website_fault[TRUST-03-/contact]" time="0.154"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">rule = 'TRUST-03', path = '/contact'
+
+    @pytest.mark.parametrize('rule,path', [('INFO-02', '/products/p40'), ('TRUST-02', '/products/proof'), ('TRUST-03', '/contact')])
+    def test_access_blocked_is_not_website_fault(rule, path):
+&gt;       out = evaluate(fixture(statuses={path: 403}))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...y&gt;&lt;nav&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/nav&gt;&lt;/body&gt;&lt;/html&gt;')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_unretained_sources_cannot_assert_pass_or_not_applicable" time="0.186"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">def test_unretained_sources_cannot_assert_pass_or_not_applicable():
+&gt;       out = evaluate(fixture(retain=False))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:189: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ef":"src-d6a0bd661d7ca772a1677386a2227e0d5cb8cfcdf09504fe1f97d41d1fc14297"}],"tenant_id":"tenant-example"}', _blobs=())
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_self_rehash_and_fake_source_location_are_rejected[quote]" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_self_rehash_and_fake_source_location_are_rejected[byte_start]" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_self_rehash_and_fake_source_location_are_rejected[source_ref]" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_self_rehash_and_fake_source_location_are_rejected[result]" time="0.001"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_self_rehash_and_fake_source_location_are_rejected[version]" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_self_rehash_and_fake_source_location_are_rejected[configuration]" time="0.001"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_cross_scope_cannot_replay[tenant_id]" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_cross_scope_cannot_replay[run_id]" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_cross_scope_cannot_replay[policy_id]" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_cross_scope_cannot_replay[policy_version]" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_configuration_ref_tenant_profile_and_version_cannot_be_rebound" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_no_native_finding_or_execution_admission" time="0.000"><error message="failed on setup with &quot;AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'&quot;">@pytest.fixture(scope='module')
+    def baseline():
+        pack = fixture()
+&gt;       return pack, evaluate(pack)
+                     ^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</error></testcase><testcase classname="tests.s2_contract.p1_industrial_cases" name="test_missing_buyer_conditions_do_not_turn_into_website_fault" time="0.211"><failure message="AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'">def test_missing_buyer_conditions_do_not_turn_into_website_fault():
+        # No buyer duty scenario was provided by this archive at all.
+&gt;       out = evaluate(fixture())
+              ^^^^^^^^^^^^^^^^^^^
+
+tests\s2_contract\p1_industrial_cases.py:247: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\s2_contract\p1_industrial_cases.py:29: in evaluate
+    projection_version=VERSION, industry_pins=pins(pack, profile_id))
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pack = EvidencePack(_payload=b'{"coverage":[{"locator":"/coverage/unverified_roles/0","reason":"ROLE_NOT_VERIFIED","role":"AP...ble&gt;\r\n&lt;nav&gt;&lt;a href="/contact"&gt;Request a quotation&lt;/a&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/nav&gt;\r\n&lt;/body&gt;&lt;/html&gt;\r\n')))
+profile_id = 'industrial'
+
+    def pins(pack, profile_id='industrial'):
+&gt;       config = configuration.load_s2(tenant_id=pack.document['tenant_id'], profile_id=profile_id)
+                 ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'vrae.industry.l2_v1.pack' has no attribute 'load_s2'
+
+tests\s2_contract\p1_industrial_cases.py:22: AttributeError</failure></testcase></testsuite></testsuites>

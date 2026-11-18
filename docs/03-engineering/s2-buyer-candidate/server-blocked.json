@@ -1,0 +1,499 @@
+{
+  "held": {
+    "tenant_id": "tenant-example",
+    "run_id": "run-synthetic",
+    "policy_id": "pol-001",
+    "policy_version": 1,
+    "pack_ref": "ep-94a5468388b0074c44373025c8c7afda3c37e89c20c580a7f9cf1c2286442e57",
+    "projection_ref": "s2p-188267273218e4b06bf8ea06abd4c805e632645203b4f70ece16fb6d4e645876",
+    "projection_version": "s2-projection-1.2.0",
+    "industry_pins": {
+      "industry_ref": "ip-849f9f9c2e6f935ad49931d506c2622c0511975e01162167da68ec60bbdd1b6e",
+      "tenant_id": "tenant-example",
+      "version": "1.1.0",
+      "profile_id": "industrial"
+    },
+    "subject_model": null,
+    "subject_snapshot_ref": "page-6202927b15f0ada9420ea15c071cf25a08e6cb76acedc93d7bb15c0a54bf367a",
+    "observations": [
+      {
+        "observation_id": "obs-a2b414b7cabadff25a41c30669d8b526de6713d7ece6072de895c666e6601f43",
+        "rule_id": "INFO-02",
+        "rule_version": "s2-industrial-context-1.0.0",
+        "source_version": "s2-industrial-source-1.0.0",
+        "snapshot_refs": [
+          "page-6202927b15f0ada9420ea15c071cf25a08e6cb76acedc93d7bb15c0a54bf367a"
+        ]
+      },
+      {
+        "observation_id": "obs-5da1db346bc2a23d2581633829a68cc35ab3d42afae1012cd80a0402fcbf732b",
+        "rule_id": "TRUST-02",
+        "rule_version": "s2-industrial-context-1.0.0",
+        "source_version": "s2-industrial-source-1.0.0",
+        "snapshot_refs": [
+          "page-6202927b15f0ada9420ea15c071cf25a08e6cb76acedc93d7bb15c0a54bf367a"
+        ]
+      }
+    ],
+    "reporting_version": "s2-buyer-candidate-1.0.0"
+  },
+  "expected_candidate_ref": "s2br-839d60decb62041047cc4f5a2a43ac526d8b9892a6b8b7a8623038ecec439fe1",
+  "pack_document": {
+    "coverage": [
+      {
+        "locator": "/coverage/unverified_roles/0",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "ABOUT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/1",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "APPLICATION",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/2",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CATEGORY",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/3",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "CONTACT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/4",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "OTHER",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/coverage/unverified_roles/5",
+        "reason": "ROLE_NOT_VERIFIED",
+        "role": "PRODUCT",
+        "scope": "ROLE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "UNKNOWN",
+        "url": null,
+        "viewport": null
+      },
+      {
+        "locator": "/inventory/2",
+        "reason": "INVENTORY_ONLY",
+        "role": "ABOUT",
+        "scope": "PAGE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "NOT_VISITED",
+        "url": "https://example.org/about",
+        "viewport": null
+      },
+      {
+        "locator": "/inventory/3",
+        "reason": "INVENTORY_ONLY",
+        "role": "CONTACT",
+        "scope": "PAGE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "NOT_VISITED",
+        "url": "https://example.org/contact",
+        "viewport": null
+      },
+      {
+        "locator": "/inventory/5",
+        "reason": "INVENTORY_ONLY",
+        "role": "PRODUCT",
+        "scope": "PAGE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "NOT_VISITED",
+        "url": "https://example.org/products/proof",
+        "viewport": null
+      },
+      {
+        "locator": "/inventory/6",
+        "reason": "INVENTORY_ONLY",
+        "role": "PRODUCT",
+        "scope": "PAGE",
+        "snapshot_ref": null,
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "NOT_VISITED",
+        "url": "https://example.org/products/v25",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/0/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-dbc23f7b3722776a49c8959506bf554c8675db10d5eaa86fd5432245378c8030",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "OBSERVED",
+        "url": "https://example.org/",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/1/snapshot",
+        "reason": "BOUNDED_CAPTURE_ONLY",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-cf1429d98cc725e080953cfd877769d83e9d7be3902e8db3b150c49a2839dfca",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "OBSERVED",
+        "url": "https://example.org/products",
+        "viewport": null
+      },
+      {
+        "locator": "/pages/2/snapshot",
+        "reason": "ACCESS_BLOCKED",
+        "role": null,
+        "scope": "PAGE",
+        "snapshot_ref": "page-6202927b15f0ada9420ea15c071cf25a08e6cb76acedc93d7bb15c0a54bf367a",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "ACCESS_BLOCKED",
+        "url": "https://example.org/products/p40",
+        "viewport": null
+      }
+    ],
+    "evidence": [
+      {
+        "blob_ref": "515f6f4381b21581a271fb6910087ba17fe5ae9108c42bde3adc68a5562d321c",
+        "content_sha256": "515f6f4381b21581a271fb6910087ba17fe5ae9108c42bde3adc68a5562d321c",
+        "content_verification": "HASH_VERIFIED",
+        "evidence_ref": "ev-5e1d12d3ca6d7b0861f5175d34eeaacccf5ee9a8b772df6a5ea0addcfeaa547e",
+        "kind": "HTTP_BODY",
+        "limitations": [
+          "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+        ],
+        "locator": "/pages/1/evidence",
+        "snapshot_ref": "page-cf1429d98cc725e080953cfd877769d83e9d7be3902e8db3b150c49a2839dfca",
+        "source_evidence_id": "ev-e6dae051444772e08867de8330c5d94db5467d45d76cb0f72d02ed680c0ef725",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "OBSERVED"
+      },
+      {
+        "blob_ref": "88042698eb7d7c7e3dfa33c939529eadf5200355f321ee2522814fce67a611c0",
+        "content_sha256": "88042698eb7d7c7e3dfa33c939529eadf5200355f321ee2522814fce67a611c0",
+        "content_verification": "HASH_VERIFIED",
+        "evidence_ref": "ev-f91e244ae6bb7cfcc3e00ee30faddb57d88d6769cf13c069426dc8a7177ebd45",
+        "kind": "HTTP_BODY",
+        "limitations": [
+          "NO_BUSINESS_OR_COMPLETENESS_ASSERTION"
+        ],
+        "locator": "/pages/0/evidence",
+        "snapshot_ref": "page-dbc23f7b3722776a49c8959506bf554c8675db10d5eaa86fd5432245378c8030",
+        "source_evidence_id": "ev-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "status": "OBSERVED"
+      }
+    ],
+    "integrity": {
+      "checks": [
+        "SOURCE_VERIFIERS",
+        "RETAINED_BLOB_HASHES",
+        "SCOPE_AND_REFERENCES",
+        "DETERMINISTIC_PROJECTION"
+      ],
+      "limitations": [
+        "CONSISTENCY_NOT_SIGNED_PROVENANCE",
+        "NO_BUSINESS_OR_COMPLETENESS_ASSERTION",
+        "PRIVATE_URL_DOM_SCREENSHOT_MAY_CONTAIN_PII",
+        "NO_CURRENT_POLICY_AUTHORIZATION_CHECK"
+      ],
+      "status": "VERIFIED"
+    },
+    "pack_ref": "ep-94a5468388b0074c44373025c8c7afda3c37e89c20c580a7f9cf1c2286442e57",
+    "policy_id": "pol-001",
+    "policy_version": 1,
+    "private": true,
+    "run_id": "run-synthetic",
+    "schema_version": "1.0",
+    "snapshots": [
+      {
+        "capture_mode": "HTTP",
+        "final_url": "https://example.org/products/p40",
+        "locator": "/pages/2/snapshot",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "snapshot_ref": "page-6202927b15f0ada9420ea15c071cf25a08e6cb76acedc93d7bb15c0a54bf367a",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "source_snapshot_id": "snap-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+        "status": "ACCESS_BLOCKED",
+        "url": "https://example.org/products/p40",
+        "viewport": null
+      },
+      {
+        "capture_mode": "HTTP",
+        "final_url": "https://example.org/products",
+        "locator": "/pages/1/snapshot",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "snapshot_ref": "page-cf1429d98cc725e080953cfd877769d83e9d7be3902e8db3b150c49a2839dfca",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "source_snapshot_id": "snap-e6dae051444772e08867de8330c5d94db5467d45d76cb0f72d02ed680c0ef725",
+        "status": "OBSERVED",
+        "url": "https://example.org/products",
+        "viewport": null
+      },
+      {
+        "capture_mode": "HTTP",
+        "final_url": "https://example.org/",
+        "locator": "/pages/0/snapshot",
+        "observed_at": "2026-11-10T12:00:00+00:00",
+        "snapshot_ref": "page-dbc23f7b3722776a49c8959506bf554c8675db10d5eaa86fd5432245378c8030",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "source_snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+        "status": "OBSERVED",
+        "url": "https://example.org/",
+        "viewport": null
+      }
+    ],
+    "sources": [
+      {
+        "document": {
+          "audit_id": "aud-001",
+          "collector_version": "ra1a-1.0.0",
+          "coverage": {
+            "inventory_truncated": false,
+            "note": "Unvisited or blocked pages do not prove absence or website defects.",
+            "observed_roles": [
+              "CATALOG",
+              "HOME"
+            ],
+            "unverified_roles": [
+              "ABOUT",
+              "APPLICATION",
+              "CATEGORY",
+              "CONTACT",
+              "OTHER",
+              "PRODUCT"
+            ]
+          },
+          "errors": [],
+          "inventory": [
+            {
+              "discovered_from": "https://example.org/",
+              "role": "HOME",
+              "url": "https://example.org/"
+            },
+            {
+              "discovered_from": "https://example.org/",
+              "role": "CATALOG",
+              "url": "https://example.org/products"
+            },
+            {
+              "discovered_from": "https://example.org/",
+              "role": "ABOUT",
+              "url": "https://example.org/about"
+            },
+            {
+              "discovered_from": "https://example.org/",
+              "role": "CONTACT",
+              "url": "https://example.org/contact"
+            },
+            {
+              "discovered_from": "https://example.org/products",
+              "role": "PRODUCT",
+              "url": "https://example.org/products/p40"
+            },
+            {
+              "discovered_from": "https://example.org/products",
+              "role": "PRODUCT",
+              "url": "https://example.org/products/proof"
+            },
+            {
+              "discovered_from": "https://example.org/products",
+              "role": "PRODUCT",
+              "url": "https://example.org/products/v25"
+            }
+          ],
+          "manifest_sha256": "1e228dc178c19d8583f1d6652a4cba7e9bfd8f92978dce663b380f7c160c789e",
+          "pages": [
+            {
+              "bytes": 125,
+              "error": null,
+              "evidence": {
+                "certainty": "OBSERVED",
+                "checksum": "88042698eb7d7c7e3dfa33c939529eadf5200355f321ee2522814fce67a611c0",
+                "evidence_id": "ev-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+                "excerpt": null,
+                "locator": "http-response-body",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "run_id": "run-synthetic",
+                "schema_version": "1.0",
+                "snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+                "tenant_id": "tenant-example"
+              },
+              "http_status": 200,
+              "raw_retained": true,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/"
+                }
+              ],
+              "role": "HOME",
+              "snapshot": {
+                "capture_mode": "HTTP",
+                "captured_at": "2026-11-10T12:00:00+00:00",
+                "final_url": "https://example.org/",
+                "policy_id": "pol-001",
+                "policy_version": 1,
+                "private_object_ref": "body-88042698eb7d7c7e3dfa33c939529eadf5200355f321ee2522814fce67a611c0",
+                "run_id": "run-synthetic",
+                "schema_version": "1.0",
+                "sha256": "88042698eb7d7c7e3dfa33c939529eadf5200355f321ee2522814fce67a611c0",
+                "snapshot_id": "snap-1ea8957b13e19eab687815e5eccc92b715d917410b45695b71e425c53820d658",
+                "status": "FETCHED",
+                "tenant_id": "tenant-example",
+                "url": "https://example.org/"
+              }
+            },
+            {
+              "bytes": 139,
+              "error": null,
+              "evidence": {
+                "certainty": "OBSERVED",
+                "checksum": "515f6f4381b21581a271fb6910087ba17fe5ae9108c42bde3adc68a5562d321c",
+                "evidence_id": "ev-e6dae051444772e08867de8330c5d94db5467d45d76cb0f72d02ed680c0ef725",
+                "excerpt": null,
+                "locator": "http-response-body",
+                "observed_at": "2026-11-10T12:00:00+00:00",
+                "run_id": "run-synthetic",
+                "schema_version": "1.0",
+                "snapshot_id": "snap-e6dae051444772e08867de8330c5d94db5467d45d76cb0f72d02ed680c0ef725",
+                "tenant_id": "tenant-example"
+              },
+              "http_status": 200,
+              "raw_retained": true,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 200,
+                  "url": "https://example.org/products"
+                }
+              ],
+              "role": "CATALOG",
+              "snapshot": {
+                "capture_mode": "HTTP",
+                "captured_at": "2026-11-10T12:00:00+00:00",
+                "final_url": "https://example.org/products",
+                "policy_id": "pol-001",
+                "policy_version": 1,
+                "private_object_ref": "body-515f6f4381b21581a271fb6910087ba17fe5ae9108c42bde3adc68a5562d321c",
+                "run_id": "run-synthetic",
+                "schema_version": "1.0",
+                "sha256": "515f6f4381b21581a271fb6910087ba17fe5ae9108c42bde3adc68a5562d321c",
+                "snapshot_id": "snap-e6dae051444772e08867de8330c5d94db5467d45d76cb0f72d02ed680c0ef725",
+                "status": "FETCHED",
+                "tenant_id": "tenant-example",
+                "url": "https://example.org/products"
+              }
+            },
+            {
+              "bytes": 892,
+              "error": {
+                "code": "ACCESS_BLOCKED",
+                "retryable": false,
+                "safe_message": "ACCESS_BLOCKED",
+                "schema_version": "1.0"
+              },
+              "evidence": null,
+              "http_status": 403,
+              "raw_retained": false,
+              "redirect_trace": [
+                {
+                  "location": null,
+                  "peer_ip": "93.184.216.20",
+                  "status": 403,
+                  "url": "https://example.org/products/p40"
+                }
+              ],
+              "role": "PRODUCT",
+              "snapshot": {
+                "capture_mode": "HTTP",
+                "captured_at": "2026-11-10T12:00:00+00:00",
+                "final_url": "https://example.org/products/p40",
+                "policy_id": "pol-001",
+                "policy_version": 1,
+                "private_object_ref": null,
+                "run_id": "run-synthetic",
+                "schema_version": "1.0",
+                "sha256": null,
+                "snapshot_id": "snap-ec7922923087fcea9867abdeddff12e1e35b551c47256016f48606632774f8ac",
+                "status": "ACCESS_BLOCKED",
+                "tenant_id": "tenant-example",
+                "url": "https://example.org/products/p40"
+              }
+            }
+          ],
+          "policy_id": "pol-001",
+          "policy_version": 1,
+          "received_body_bytes": 1180,
+          "requests": 4,
+          "robots": {
+            "sha256": "e5c4b84484ee4216e9373be99380320c25dd94805f99f0a805846f087636553f",
+            "status": 200,
+            "trace": [
+              {
+                "location": null,
+                "peer_ip": "93.184.216.20",
+                "status": 200,
+                "url": "https://example.org/robots.txt"
+              }
+            ],
+            "url": "https://example.org/robots.txt"
+          },
+          "rules_version": "http-evidence-1.0.0",
+          "run_id": "run-synthetic",
+          "schema_version": "1.0",
+          "tenant_id": "tenant-example",
+          "terms_reference": "terms-synthetic"
+        },
+        "document_sha256": "e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695",
+        "kind": "CaptureManifest",
+        "object_refs": {
+          "body-515f6f4381b21581a271fb6910087ba17fe5ae9108c42bde3adc68a5562d321c": "515f6f4381b21581a271fb6910087ba17fe5ae9108c42bde3adc68a5562d321c",
+          "body-88042698eb7d7c7e3dfa33c939529eadf5200355f321ee2522814fce67a611c0": "88042698eb7d7c7e3dfa33c939529eadf5200355f321ee2522814fce67a611c0"
+        },
+        "schema_version": "1.0",
+        "source_ref": "src-e602f7136d968527893d304541dcaa6aca4ee205044c6b54adfb72f94270b695"
+      }
+    ],
+    "tenant_id": "tenant-example"
+  },
+  "objects_base64": {
+    "515f6f4381b21581a271fb6910087ba17fe5ae9108c42bde3adc68a5562d321c": "PGh0bWw+PGJvZHk+PGgxPkNhdGFsb2c8L2gxPjxhIGhyZWY9Ii9wcm9kdWN0cy9wNDAiPlA0MDwvYT48YSBocmVmPSIvcHJvZHVjdHMvdjI1Ij5WMjU8L2E+PGEgaHJlZj0iL3Byb2R1Y3RzL3Byb29mIj5Qcm9vZjwvYT48L2JvZHk+PC9odG1sPg==",
+    "88042698eb7d7c7e3dfa33c939529eadf5200355f321ee2522814fce67a611c0": "PGh0bWw+PGJvZHk+PG5hdj48YSBocmVmPSIvcHJvZHVjdHMiPlByb2R1Y3RzPC9hPjxhIGhyZWY9Ii9hYm91dCI+QWJvdXQ8L2E+PGEgaHJlZj0iL2NvbnRhY3QiPkNvbnRhY3Q8L2E+PC9uYXY+PC9ib2R5PjwvaHRtbD4="
+  }
+}

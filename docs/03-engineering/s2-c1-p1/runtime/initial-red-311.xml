@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="1.288" timestamp="2026-11-17T18:46:22.058951-05:00" hostname="dong"><testcase classname="" name="tests.s2_contract.test_p1_static" time="0.000"><error message="collection failure">ImportError while importing test module 'D:\Projects\VRAE\.worktrees\s2-c1-p1\tests\s2_contract\test_p1_static.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.11.15-windows-x86_64-none\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\s2_contract\test_p1_static.py:9: in &lt;module&gt;
+    from tests.collection.test_pipeline import FixedDNS, SyntheticTransport
+tests\collection\test_pipeline.py:9: in &lt;module&gt;
+    from vrae.collection.collector import Collector
+vrae\collection\collector.py:7: in &lt;module&gt;
+    from .fetcher import SafeFetcher
+vrae\collection\fetcher.py:7: in &lt;module&gt;
+    from .http_transport import FetchResponse
+vrae\collection\http_transport.py:9: in &lt;module&gt;
+    import h11
+E   ModuleNotFoundError: No module named 'h11'</error></testcase></testsuite></testsuites>
