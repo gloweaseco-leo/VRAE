@@ -3,6 +3,11 @@ const mode=process.argv[2];
 if(mode==='early') { process.stderr.write('synthetic-secret-never-persist');process.exitCode=7; }
 else if(mode==='normal') process.exitCode=0;
 else if(mode==='alive') setInterval(()=>{},1000);
+else if(mode==='stdout-backpressure') {
+  process.stdout.write(Buffer.alloc(8*1024*1024,120),()=>{
+    process.stderr.write('DevTools listening on ws://127.0.0.1:1/devtools/browser/synthetic\n');
+  });
+}
 else if(mode==='endpoint-closed') {
   const server=net.createServer();
   server.listen(0,'127.0.0.1',()=>{const port=server.address().port;server.close(()=>{

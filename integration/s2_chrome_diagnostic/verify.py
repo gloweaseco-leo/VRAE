@@ -18,10 +18,12 @@ PINS = {
 def verify(receipt):
     assert receipt['acceptedBase'] == 'cb86cdb1b57962aa89fa2ef4465131219c8c45e9'
     assert re.fullmatch('[a-f0-9]{64}', receipt['binary']['sha256'])
+    assert receipt['binary']['executedExecutable'] == receipt['binary']['requestedExecutable']
     assert len(receipt['results']) == 2
     for row in receipt['results']:
         blob, deadline = PINS[row['file']]
         assert row['blob'] == blob and row['deadlineMs'] == deadline
+        assert row['spawnOptions'] == {'windowsHide': True, 'stdio': ['ignore', 'pipe', 'pipe']}
         assert row['classification'] == 'ENDPOINT_AVAILABLE'
         assert 0 <= row['spawnAtMs'] <= row['endpointAtMs'] <= deadline
         assert row['connected'] is True and row['cleanup']['closeObserved'] is True

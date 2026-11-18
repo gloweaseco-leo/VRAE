@@ -1,11 +1,11 @@
-import {readFile, realpath, mkdtemp, mkdir, writeFile, rm} from 'node:fs/promises';
+import {readFile, mkdtemp, mkdir, writeFile, rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
-import {observe} from './observer.mjs';
+import {observe,executableIdentity} from './observer.mjs';
 
 export const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 export const sources=[
@@ -18,20 +18,20 @@ export async function contract(source,profile) {
   const blob=execFileSync('git',['hash-object','--path',source.file,source.file],{cwd:root,encoding:'utf8'}).trim();
   if(blob!==source.blob) throw Error('FROZEN_SOURCE_MISMATCH');
   const text=bytes.toString();
-  const match=text.match(/chrome=spawn\(chromePath,(\[[^\n]+?\]),\{windowsHide:true,stdio:\['ignore','pipe','pipe'\]\}\)/);
+  const match=text.match(/chrome=spawn\(chromePath,(\[[^\n]+?\]),(\{windowsHide:true,stdio:\['ignore','pipe','pipe'\]\})\)/);
   if(!match || !text.includes(`,${source.deadlineMs});chrome.on('error'`)) throw Error('LAUNCH_CONTRACT_MISMATCH');
   const args=Array.from(vm.runInNewContext(match[1],{profile},{timeout:100}));
   if(args.at(-1)!=='about:blank'||args.at(-2)!==`--user-data-dir=${profile}`) throw Error('PROFILE_CONTRACT_MISMATCH');
-  return {args,blob,deadlineMs:source.deadlineMs};
+  const options=JSON.parse(JSON.stringify(vm.runInNewContext('('+match[2]+')',{}, {timeout:100})));
+  return {args,options,blob,deadlineMs:source.deadlineMs};
 }
 
 async function main() {
   const output=path.resolve(process.argv[2]||'diagnostic-output');
-  const bin=await realpath(process.env.RA4C0_CHROMIUM||'/usr/bin/google-chrome');
-  const hash=createHash('sha256').update(await readFile(bin)).digest('hex');
+  const bin=process.env.RA4C0_CHROMIUM||'/usr/bin/google-chrome';
   // Version comes only from our owned browser's version command, never a second
   // browser invocation that could select an existing default profile.
-  const binary={path:bin,sha256:hash};
+  const binary=await executableIdentity(bin);
   const results=[];
   await mkdir(output,{recursive:true});
   for(const source of sources) {
@@ -40,12 +40,12 @@ async function main() {
       const c=await contract(source,profile);
       const r=await observe({bin,args:c.args,deadlineMs:c.deadlineMs,profile});
       // Flags are source-derived; replace only our random profile path in the public record.
-      results.push({...source,launchArgs:c.args.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<owned-temp>':a),...r});
+      results.push({...source,spawnOptions:c.options,launchArgs:c.args.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<owned-temp>':a),...r});
     } finally { await rm(profile,{recursive:true,force:true,maxRetries:3}); }
   }
   const head=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
   const toolHashes={};
-  for(const file of ['observer.mjs','run.mjs','observer.test.mjs','fixture.mjs','verify.py','audit_history.py']) {
+  for(const file of ['observer.mjs','run.mjs','observer.test.mjs','fixture.mjs','verify.py','audit_history.py','supervisor.py']) {
     toolHashes[file]=createHash('sha256').update(await readFile(path.join(root,'integration/s2_chrome_diagnostic',file))).digest('hex');
   }
   const receipt={schema:1,head,nodeVersion:process.version,toolHashes,

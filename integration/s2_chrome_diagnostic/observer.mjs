@@ -3,6 +3,15 @@ import {createHash} from 'node:crypto';
 import {readFile, realpath, stat} from 'node:fs/promises';
 import net from 'node:net';
 
+export const spawnOptions=Object.freeze({windowsHide:true,stdio:Object.freeze(['ignore','pipe','pipe'])});
+
+export async function executableIdentity(requestedExecutable) {
+  const resolvedExecutable=await realpath(requestedExecutable);
+  return {requestedExecutable,resolvedExecutable,executedExecutable:requestedExecutable,
+    requestedDiffersFromRealpath:requestedExecutable!==resolvedExecutable,
+    sha256:createHash('sha256').update(await readFile(resolvedExecutable)).digest('hex')};
+}
+
 export function classify(r) {
   if (r.spawnError) return 'SPAWN_ERROR';
   if (r.endpointAtMs !== null) return 'ENDPOINT_AVAILABLE';
@@ -70,7 +79,9 @@ export async function observe({bin, args, deadlineMs, profile=null, connect=true
   let tail='', endpoint=null, decide, decisionMade=false;
   const decision = new Promise(resolve => { decide=resolve; });
   const finish = () => { if (!decisionMade) { decisionMade=true; r.decisionAtMs=now(); decide(); } };
-  const child = spawn(bin,args,{windowsHide:true,stdio:['ignore','ignore','pipe']});
+  const child = spawn(bin,args,spawnOptions);
+  // Preserve the original stdout PIPE and its unread/backpressure behavior.
+  // The frozen launchers do not consume stdout, so neither does this observer.
   r.childPid=child.pid??null;
   child.once('spawn',()=>{r.spawnAtMs=now();});
   child.once('error',e=>{r.spawnError=['ENOENT','EACCES','EPERM'].includes(e.code)?e.code:'OTHER';finish();});
@@ -120,7 +131,7 @@ export async function observe({bin, args, deadlineMs, profile=null, connect=true
   if (!await waitClose(1000) && child.pid && r.exitAtMs===null) r.cleanup.killRequested=child.kill('SIGKILL');
   r.cleanup.closeObserved=await waitClose(1000);
   r.binaryExitCategory=r.exitAtMs===null?'UNOBSERVED':r.signal?'SIGNALLED':r.exitCode===0?'EXIT_ZERO':'EXIT_NONZERO';
-  if (!r.cleanup.closeObserved) { child.stderr.destroy(); child.unref(); }
+  if (!r.cleanup.closeObserved) { child.stdout.destroy(); child.stderr.destroy(); child.unref(); }
   r.stderrSha256=digest.digest('hex');
   // No stderr text, endpoint UUID, environment or profile content leaves this function.
   return r;

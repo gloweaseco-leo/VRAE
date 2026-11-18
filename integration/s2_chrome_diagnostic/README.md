@@ -2,10 +2,55 @@
 
 Owner scope: [issue 126](https://github.com/gloweaseco-leo/VRAE/issues/126).
 Base: `cb86cdb1b57962aa89fa2ef4465131219c8c45e9`. PR124 and PR123 remain Draft/HOLD.
-This additive diagnostic does not launch the application, connect to PostgreSQL,
-load pages, navigate to third parties, or change the original acceptance suites.
-It is an independent startup scenario, **not a wrapper executing the old suites**.
+The independent startup scenario does not launch the application, connect to
+PostgreSQL or load pages. The single supervised scenario below runs the unchanged
+original PG+application suite. Neither changes the original acceptance criteria
+or navigates to third parties.
 No D1 fix is proposed: the historical cause remains UNKNOWN.
+
+## Owner-requested equivalence correction and single supervised attempt
+
+The first HEAD `1dfbc1c` used stdout `ignore` instead of the original stdout
+`pipe`, and executed a realpath instead of the requested path. Its 19 green
+workflows are historical results of that non-equivalent diagnostic; the earlier
+claim of fully preserved spawn options was incorrect. They do not establish
+causal equivalence or resolve the original REDs.
+
+The revision restores the complete original `{windowsHide:true,
+stdio:['ignore','pipe','pipe']}` options, including the **unread stdout pipe**.
+It does not drain stdout, preserving the original potential backpressure.
+Tests compare the observer's complete options with both pinned source literals;
+a large synthetic stdout write proves that unread-pipe behavior remains intact.
+Stderr fingerprinting remains unchanged; neither stream's text is published.
+The requested executable is now the actual spawn argument. Its separately
+resolved path and hash are recorded without assuming symlink equivalence.
+A directory-symlink test exercises a requested path that differs from realpath.
+
+Exactly one additional CI job, with no Python matrix or retry, runs
+`supervisor.py` around the original RA4C3 PG+Chrome suite using its unchanged
+`python -B -m integration.ra4c3.run_suite <fresh-owned-output> --browser` command.
+All original stages, flags, 20s gate, conditions and cleanup remain in place.
+The supervisor is not launched locally. An exclusive claim plus fresh output
+requirement rejects a second invocation in that workspace. Its outer 40-minute
+suite bound does not change the original Chrome's 20-second gate.
+
+The passive supervisor only follows its own verified process descendants. It
+samples original browser Node/Chrome PID/PPID/start identity, original Chrome
+argument equality, actual executable hash, and the owned temporary
+DevToolsActivePort file's first publication time and port. It never connects to
+Chrome, injects a hook, changes original pipes, or reads private HTTP/profile
+content. Only the bounded DevToolsActivePort protocol file is read; its UUID is
+discarded. Original suite stdout/stderr are hashed and counted, not published.
+
+**Observation gaps are deliberate:** passive sampling cannot obtain the
+descendant's original exit/close callbacks or original timer callback. Those
+fields remain null. First-seen +20s is labelled a sampling reference, never the
+actual gate event. A DevToolsActivePort file does not prove a listener. Missing
+samples do not prove exit. Polling also adds work, so equivalence to a historical
+runner is unproved. The final receipt chooses outcome 2 (valid observations,
+cause UNKNOWN) only when actual original Chrome arguments are observed equal;
+otherwise outcome 3 (equivalence unproved, HOLD). Neither outcome proposes D1.
+There is no extra diagnostic iteration after this bounded attempt.
 
 ## Contract and observation boundaries
 
@@ -67,7 +112,7 @@ The independent workflow runs the controls and real Linux Chrome scenario with
 Python 3.11 and 3.13, then uploads only the structured startup receipt. A Chrome
 failure remains a failing diagnostic job, with its receipt still uploaded.
 The Python receipt verifier rejects false promotion of a timeout result.
-Local Windows controls: 8/8; real Chrome: both endpoints available and TCP
+The initial local Windows controls were 8/8; real Chrome had both endpoints available and TCP
 connected within original deadlines, actual close observed. This is neither a
 Linux runner reproduction nor a resolution of the old failures.
 
