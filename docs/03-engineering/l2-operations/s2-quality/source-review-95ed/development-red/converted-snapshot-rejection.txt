@@ -1,0 +1,364 @@
+EEEEEEEEE                                                                [100%]
+=================================== ERRORS ====================================
+_ ERROR at setup of test_actual_accepted_source_replay_keeps_denominators_and_admission _
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+_______ ERROR at setup of test_each_review_quote_is_original_pack_bytes _______
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+_ ERROR at setup of test_existing_review_intake_stays_unsigned_and_not_evaluable _
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+_ ERROR at setup of test_self_rehash_cannot_rebind_source_or_promote_authority[result] _
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+_ ERROR at setup of test_self_rehash_cannot_rebind_source_or_promote_authority[foreign_ev] _
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+_ ERROR at setup of test_self_rehash_cannot_rebind_source_or_promote_authority[native_admission] _
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+_ ERROR at setup of test_self_rehash_cannot_rebind_source_or_promote_authority[gold] _
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+_ ERROR at setup of test_accepted_c1_replay_rejects_unknown_promoted_to_pass __
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+_ ERROR at setup of test_export_cannot_overwrite_a_prepared_or_human_edited_packet _
+
+    @pytest.fixture(scope="module")
+    def bundle():
+>       return build_bundle(Path(__file__).resolve().parents[2],
+                            Path(os.environ["C3_SOURCE_REVIEW_REPOSITORY"]))
+
+tests\s2_quality\source_review_cases.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+integration\l2_ops\s2_quality_source_review.py:75: in build_bundle
+    manifest = verify_source_root(source_root, repository)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117/integration/l2_ops/.private/source-review-95ed/source')
+repository = WindowsPath('D:/Projects/VRAE-codex3-S2Quality-20261117')
+
+    def verify_source_root(root, repository):
+        root, repository = Path(root).resolve(), Path(repository).resolve()
+        if not root.is_relative_to(repository / "integration/l2_ops/.private"):
+            raise SourceReviewError("OWNED_ACCEPTED_SNAPSHOT_REQUIRED")
+        raw = subprocess.check_output(["git", "ls-tree", "-r", ACCEPTED, "--",
+                                      "vrae", "tests", "contracts", "industry-packs",
+                                      "integration/s2_contract"], cwd=repository)
+        expected = {}
+        for line in raw.decode().splitlines():
+            meta, name = line.split("\t")
+            mode, kind, ref = meta.split()
+            if kind != "blob" or mode not in ("100644", "100755"):
+                raise SourceReviewError("SOURCE_ENTRY_TYPE")
+            if name in OVERLAYS:
+                continue
+            content = (root / name).read_bytes()
+            actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+            if actual != ref:
+>               raise SourceReviewError("ACCEPTED_SOURCE_BYTES_CHANGED")
+E               integration.l2_ops.s2_quality_source_review.SourceReviewError: ACCEPTED_SOURCE_BYTES_CHANGED
+
+integration\l2_ops\s2_quality_source_review.py:58: SourceReviewError
+=========================== short test summary info ===========================
+ERROR tests/s2_quality/source_review_cases.py::test_actual_accepted_source_replay_keeps_denominators_and_admission
+ERROR tests/s2_quality/source_review_cases.py::test_each_review_quote_is_original_pack_bytes
+ERROR tests/s2_quality/source_review_cases.py::test_existing_review_intake_stays_unsigned_and_not_evaluable
+ERROR tests/s2_quality/source_review_cases.py::test_self_rehash_cannot_rebind_source_or_promote_authority[result]
+ERROR tests/s2_quality/source_review_cases.py::test_self_rehash_cannot_rebind_source_or_promote_authority[foreign_ev]
+ERROR tests/s2_quality/source_review_cases.py::test_self_rehash_cannot_rebind_source_or_promote_authority[native_admission]
+ERROR tests/s2_quality/source_review_cases.py::test_self_rehash_cannot_rebind_source_or_promote_authority[gold]
+ERROR tests/s2_quality/source_review_cases.py::test_accepted_c1_replay_rejects_unknown_promoted_to_pass
+ERROR tests/s2_quality/source_review_cases.py::test_export_cannot_overwrite_a_prepared_or_human_edited_packet
+9 errors in 2.23s
