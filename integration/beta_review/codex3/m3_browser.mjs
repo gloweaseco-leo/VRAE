@@ -104,7 +104,13 @@ try{
     if(await ev("location.pathname==='/b5a/l2/challenge'"))await redeemL2(q);
     else await redeem(q);
   }
-  if(config.native_l2) {
+  if(config.s2_l2) {
+    const {s2Journey}=await import('../../l2_ops/s2_acceptance_journey.mjs');
+    await s2Journey({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2:redeemObservedChallenge,postForm,statusOf,writeFile,path,out,origin});
+    await check('no-browser-exceptions',exceptions.length===0);
+    await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'S2_REAL_SAME_TASK_BROWSER_CHAIN_PASS',version,records,shots,network,exceptions},null,2));
+    await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);
+  } else if(config.native_l2) {
     const {nativeJourney}=await import('../../l2_ops/native_journey.mjs');
     await nativeJourney({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2:redeemObservedChallenge,postForm,statusOf,writeFile,path,out,origin});
     await check('no-browser-exceptions',exceptions.length===0);

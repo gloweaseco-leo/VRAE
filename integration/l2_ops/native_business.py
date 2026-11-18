@@ -33,6 +33,7 @@ class NativeBusiness:
             raise OperationsDenied("L2_NATIVE_BUSINESS_PORTS_REQUIRED")
         self.app, self.ledger = app, ledger
         self.bindings = {}
+        self.source_views = {}
 
     def bind(self, report_id, *, bundle, activities, subject, factory):
         # Configuration comes from the trusted production context, never HTTP.
@@ -46,6 +47,9 @@ class NativeBusiness:
         self.bindings[report_id] = Binding(bundle, tuple(activities), subject, factory)
 
     def route(self, path):
+        from .s2_acceptance_sources import route
+        if (rid := route(self, path)) is not None:
+            return rid
         for rid in self.bindings:
             if path == "/b5a/l2/r/" + rid + "/brief":
                 return rid
@@ -59,12 +63,15 @@ class NativeBusiness:
                 html = reply.response.body.decode("utf-8")
                 marker = '<main id="main" tabindex="-1">'
                 if html.count(marker) == 1:
-                    html = html.replace(marker, marker + link(path+"/brief", "内部商务 RebuildBrief", key="l2-business-brief") + link("/b5a/m2/", "返回任务登录／恢复原任务", key="l2-task-login"), 1)
+                    html = html.replace(marker, marker + (link(path+"/source-tasks", "五维来源候选复核", key="l2-source-workbench") if rid in self.source_views else "") + link(path+"/brief", "内部商务 RebuildBrief", key="l2-business-brief") + link("/b5a/m2/", "返回任务登录／恢复原任务", key="l2-task-login"), 1)
                     response = reply.response
                     return Reply(Response(response.status, html.encode("utf-8"), response.content_type), reply.headers)
         return reply
 
     def handle(self, method, path, headers, raw):
+        from .s2_acceptance_sources import route, handle
+        if route(self, path) is not None:
+            return handle(self, method, path, headers, raw)
         try:
             rid = self.route(path)
             if rid is None or method not in ("GET", "HEAD", "POST") or headers.get("Authorization") is not None:
