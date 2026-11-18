@@ -1,0 +1,839 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:vrae:l2-launch:vf-b:r0.1",
+  "title": "VF-B R0 compatibility candidate — fixture only, never released",
+  "$defs": {
+    "VFConsent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "consent_version": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "accepted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "text_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "consent_version",
+        "accepted_at",
+        "text_sha256"
+      ]
+    },
+    "VFSubmit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1-vfb.1"
+        },
+        "command": {
+          "$ref": "urn:vrae:l2-launch:r0.1#/$defs/AuditCommand"
+        },
+        "normalized_host": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 253
+        },
+        "language": {
+          "enum": [
+            "en",
+            "zh"
+          ]
+        },
+        "subject_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "invitation_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "diagnosis_consent": {
+          "$ref": "#/$defs/VFConsent"
+        },
+        "submission_proof": {
+          "$ref": "urn:vrae:l2-launch:r0.1#/$defs/Attestation"
+        }
+      },
+      "required": [
+        "contract_version",
+        "command",
+        "normalized_host",
+        "language",
+        "subject_ref",
+        "invitation_ref",
+        "diagnosis_consent",
+        "submission_proof"
+      ]
+    },
+    "VFAccepted": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1-vfb.1"
+        },
+        "audit_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "run_status": {
+          "const": "CREATED"
+        },
+        "diagnosis_complete": {
+          "const": false
+        },
+        "poll_after_seconds": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 300
+        }
+      },
+      "required": [
+        "contract_version",
+        "audit_ref",
+        "run_id",
+        "run_status",
+        "diagnosis_complete",
+        "poll_after_seconds"
+      ]
+    },
+    "VFReturnGrant": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1-vfb.1"
+        },
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "audit_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "subject_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "audience": {
+          "const": "vf-bff-return"
+        },
+        "purpose": {
+          "const": "DIAGNOSIS_RETURN_ONLY"
+        },
+        "token_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "policy_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "revoked": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "contract_version",
+        "tenant_id",
+        "audit_ref",
+        "subject_ref",
+        "audience",
+        "purpose",
+        "token_sha256",
+        "policy_sha256",
+        "issued_at",
+        "expires_at",
+        "revoked"
+      ]
+    },
+    "VFStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1-vfb.1"
+        },
+        "audit_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "task": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "CREATED",
+                "POLICY_CHECK",
+                "QUEUED",
+                "FETCHING",
+                "EVIDENCE_READY",
+                "RULED",
+                "DRAFT_READY",
+                "REVIEW_REQUIRED",
+                "POLICY_BLOCKED",
+                "ACCESS_BLOCKED",
+                "INSUFFICIENT_EVIDENCE",
+                "MODEL_INVALID",
+                "FAILED",
+                "CANCELLED"
+              ]
+            },
+            "run_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            "progress_percent": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "run_id",
+            "progress_percent"
+          ]
+        },
+        "publication": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "enum": [
+                "UNPUBLISHED",
+                "APPROVED_FULL",
+                "APPROVED_PARTIAL",
+                "WITHDRAWN"
+              ]
+            },
+            "report_version_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "state",
+            "report_version_id"
+          ]
+        },
+        "access": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "enum": [
+                "ACTIVE",
+                "EXPIRED",
+                "ENDED"
+              ]
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        "display_state": {
+          "enum": [
+            "accepted",
+            "running",
+            "completed",
+            "partial",
+            "failed",
+            "expired",
+            "unavailable",
+            "access-ended"
+          ]
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason_code": {
+          "enum": [
+            "SOURCE_POLICY_BLOCKED",
+            "SOURCE_ACCESS_BLOCKED",
+            "NO_EVIDENCE",
+            "MODEL_INVALID",
+            "TASK_FAILED",
+            "WITHDRAWN",
+            "PUBLICATION_PENDING",
+            "TASK_STAGE",
+            "RATE_LIMITED",
+            "APPROVED_PUBLICATION",
+            "DEPENDENCY_UNAVAILABLE",
+            "ACCESS_EXPIRED",
+            "ACCESS_ENDED",
+            "PUBLICATION_WITHDRAWN"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retry_after_seconds": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contract_version",
+        "audit_ref",
+        "task",
+        "publication",
+        "access",
+        "display_state",
+        "updated_at",
+        "reason_code",
+        "retryable",
+        "retry_after_seconds"
+      ]
+    },
+    "VFPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "outcome": {
+          "enum": [
+            "reviewed",
+            "unknown"
+          ]
+        },
+        "unknown_reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "url",
+        "label",
+        "outcome",
+        "unknown_reason"
+      ]
+    },
+    "VFFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "original_fact_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "kind": {
+          "enum": [
+            "OBSERVATION",
+            "HYPOTHESIS",
+            "RECOMMENDATION",
+            "COUNTER_EVIDENCE",
+            "UNKNOWN"
+          ]
+        },
+        "status": {
+          "enum": [
+            "OBSERVED",
+            "ISSUE",
+            "UNKNOWN"
+          ]
+        },
+        "statement": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "en": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "zh": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            }
+          },
+          "required": [
+            "en",
+            "zh"
+          ]
+        },
+        "citation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+          },
+          "maxItems": 8,
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "buyer_impact": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "en": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                "zh": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "en",
+                "zh"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rebuild": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "en": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                "zh": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "en",
+                "zh"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unknown_reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "next_check": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "en": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                "zh": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "en",
+                "zh"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "fact_id",
+        "original_fact_ref",
+        "kind",
+        "status",
+        "statement",
+        "citation_ids",
+        "buyer_impact",
+        "rebuild",
+        "unknown_reason",
+        "next_check"
+      ]
+    },
+    "FreePreDiagnosticView": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1-vfb.1"
+        },
+        "view_type": {
+          "const": "FreePreDiagnosticView"
+        },
+        "kind": {
+          "const": "synthetic"
+        },
+        "audience": {
+          "const": "AUTHORIZED_RECIPIENT"
+        },
+        "anonymous_access": {
+          "const": false
+        },
+        "audit_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "report_version_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "target_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source": {
+          "const": "SYNTHETIC_CONTRACT_FIXTURE_NOT_A_RELEASE"
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VFPage"
+          },
+          "maxItems": 100,
+          "minItems": 0
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "authorized": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "attempted": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "successful": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "unknown": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "whole_site_denominator": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "authorized",
+            "attempted",
+            "successful",
+            "unknown",
+            "whole_site_denominator"
+          ]
+        },
+        "results": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "DISCOVER": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/VFFact"
+              },
+              "maxItems": 64,
+              "minItems": 1
+            },
+            "UNDERSTAND": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/VFFact"
+              },
+              "maxItems": 64,
+              "minItems": 1
+            },
+            "TRUST": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/VFFact"
+              },
+              "maxItems": 64,
+              "minItems": 1
+            },
+            "INQUIRE": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/VFFact"
+              },
+              "maxItems": 64,
+              "minItems": 1
+            },
+            "SEARCH_TECHNICAL": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/VFFact"
+              },
+              "maxItems": 64,
+              "minItems": 1
+            }
+          },
+          "required": [
+            "DISCOVER",
+            "UNDERSTAND",
+            "TRUST",
+            "INQUIRE",
+            "SEARCH_TECHNICAL"
+          ]
+        },
+        "priority": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+          },
+          "maxItems": 3,
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "A": {
+              "$ref": "urn:vrae:l2-launch:r0.1#/$defs/Bilingual"
+            },
+            "B": {
+              "$ref": "urn:vrae:l2-launch:r0.1#/$defs/Bilingual"
+            }
+          },
+          "required": [
+            "A",
+            "B"
+          ]
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:vrae:l2-launch:r0.1#/$defs/Citation"
+          },
+          "maxItems": 100,
+          "minItems": 0
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "en": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "zh": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "en",
+              "zh"
+            ]
+          },
+          "maxItems": 16,
+          "minItems": 1
+        }
+      },
+      "required": [
+        "contract_version",
+        "view_type",
+        "kind",
+        "audience",
+        "anonymous_access",
+        "audit_ref",
+        "report_version_id",
+        "target_url",
+        "checked_at",
+        "source",
+        "pages",
+        "coverage",
+        "results",
+        "priority",
+        "summary",
+        "citations",
+        "limitations"
+      ]
+    },
+    "VFInquiry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1-vfb.1"
+        },
+        "audit_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "report_version_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "customer_requested": {
+          "const": true
+        },
+        "inquiry_consent": {
+          "$ref": "#/$defs/VFConsent"
+        },
+        "command": {
+          "$ref": "urn:vrae:l2-launch:r0.1#/$defs/HandoffCommand"
+        }
+      },
+      "required": [
+        "contract_version",
+        "audit_ref",
+        "report_version_id",
+        "customer_requested",
+        "inquiry_consent",
+        "command"
+      ]
+    },
+    "VFSafeError": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1-vfb.1"
+        },
+        "http_status": {
+          "enum": [
+            403,
+            409,
+            429,
+            503
+          ]
+        },
+        "code": {
+          "enum": [
+            "ACCESS_DENIED",
+            "CONFLICT",
+            "SOURCE_BLOCKED",
+            "RATE_LIMITED",
+            "NO_EVIDENCE",
+            "MODEL_INVALID",
+            "UNAVAILABLE"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retry_after_seconds": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contract_version",
+        "http_status",
+        "code",
+        "retryable",
+        "retry_after_seconds"
+      ]
+    }
+  }
+}

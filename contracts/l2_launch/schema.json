@@ -1,0 +1,743 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:vrae:l2-launch:r0.1",
+  "title": "R0 DRAFT — not a live API / G0 pending",
+  "$defs": {
+    "Attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "alg": {
+          "const": "Ed25519"
+        },
+        "key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "claim": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "audience": {
+              "const": "vrae-launch-r0-contract"
+            },
+            "purpose": {
+              "enum": [
+                "permission",
+                "review",
+                "share",
+                "vf_storage",
+                "vf_qualification"
+              ]
+            },
+            "tenant_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            "subject_ref": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            "document_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "issued_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expires_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "audience",
+            "purpose",
+            "tenant_id",
+            "subject_ref",
+            "document_sha256",
+            "issued_at",
+            "expires_at"
+          ]
+        },
+        "signature": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{128}$"
+        }
+      },
+      "required": [
+        "alg",
+        "key_id",
+        "claim",
+        "signature"
+      ]
+    },
+    "AuditCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "request": {
+          "$ref": "https://vrae.invalid/contracts/v1/AuditRequest.schema.json"
+        },
+        "permission_reference": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reference": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            "consent_version": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            "consent_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "proof": {
+              "$ref": "#/$defs/Attestation"
+            }
+          },
+          "required": [
+            "reference",
+            "consent_version",
+            "consent_sha256",
+            "proof"
+          ]
+        }
+      },
+      "required": [
+        "contract_version",
+        "request",
+        "permission_reference"
+      ]
+    },
+    "Accepted": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "acceptance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "schema_version": {
+              "const": "1.0"
+            },
+            "tenant_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            "request_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            "audit_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+            },
+            "status": {
+              "const": "CREATED"
+            }
+          },
+          "required": [
+            "schema_version",
+            "tenant_id",
+            "request_id",
+            "audit_id",
+            "status"
+          ]
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "durably_recorded": {
+          "const": true
+        },
+        "queue_state": {
+          "enum": [
+            "PENDING_DISPATCH",
+            "DISPATCHED"
+          ]
+        },
+        "diagnosis_complete": {
+          "const": false
+        }
+      },
+      "required": [
+        "contract_version",
+        "acceptance",
+        "run_id",
+        "durably_recorded",
+        "queue_state",
+        "diagnosis_complete"
+      ]
+    },
+    "AuditStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "run": {
+          "$ref": "https://vrae.invalid/contracts/v1/AuditRun.schema.json"
+        },
+        "access_state": {
+          "enum": [
+            "ACTIVE",
+            "WITHDRAWN"
+          ]
+        },
+        "presentation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "enum": [
+                "PENDING",
+                "IN_PROGRESS",
+                "REVIEW_PENDING",
+                "BLOCKED",
+                "UNKNOWN",
+                "FAILED",
+                "CANCELLED"
+              ]
+            },
+            "progress_percent": {
+              "type": "null"
+            },
+            "scope": {
+              "const": "AUTHORIZED_PAGES_ONLY"
+            }
+          },
+          "required": [
+            "state",
+            "progress_percent",
+            "scope"
+          ]
+        }
+      },
+      "required": [
+        "contract_version",
+        "run",
+        "access_state",
+        "presentation"
+      ]
+    },
+    "Citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "citation_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "excerpt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        }
+      },
+      "required": [
+        "citation_id",
+        "source_url",
+        "captured_at",
+        "locator",
+        "excerpt"
+      ]
+    },
+    "Bilingual": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "zh": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "basis": {
+          "enum": [
+            "OBSERVATION",
+            "RECOMMENDATION",
+            "UNKNOWN"
+          ]
+        },
+        "citation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+          },
+          "uniqueItems": true,
+          "maxItems": 20
+        }
+      },
+      "required": [
+        "en",
+        "zh",
+        "basis",
+        "citation_ids"
+      ]
+    },
+    "ReportView": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "view_type": {
+          "enum": [
+            "PublicPreviewView",
+            "ApprovedL2ReportView"
+          ]
+        },
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "audit_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "report_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "report_version_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "audit_mode": {
+          "enum": [
+            "L1",
+            "L2"
+          ]
+        },
+        "audience": {
+          "const": "AUTHORIZED_RECIPIENT"
+        },
+        "anonymous_access": {
+          "const": false
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "A": {
+              "$ref": "#/$defs/Bilingual"
+            },
+            "B": {
+              "$ref": "#/$defs/Bilingual"
+            }
+          },
+          "required": [
+            "A",
+            "B"
+          ]
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "maxItems": 20
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "NO_CAPTURE",
+              "WHOLE_SITE_COVERAGE",
+              "FORM_SUBMISSION",
+              "INQUIRY_DELIVERY",
+              "CONVERSION",
+              "ENGINEERING_FIT",
+              "CERTIFICATE_AUTHENTICITY"
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "observed_pages": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "authorized_pages": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "whole_site_denominator": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "observed_pages",
+            "authorized_pages",
+            "whole_site_denominator"
+          ]
+        }
+      },
+      "required": [
+        "contract_version",
+        "view_type",
+        "tenant_id",
+        "audit_id",
+        "run_id",
+        "report_id",
+        "report_version_id",
+        "version",
+        "content_hash",
+        "audit_mode",
+        "audience",
+        "anonymous_access",
+        "summary",
+        "citations",
+        "unknowns",
+        "coverage"
+      ]
+    },
+    "HandoffCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "handoff": {
+          "$ref": "https://vrae.invalid/contracts/v1/SalesHandoff.schema.json"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 128
+        },
+        "consent_reference": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        }
+      },
+      "required": [
+        "contract_version",
+        "handoff",
+        "idempotency_key",
+        "consent_reference"
+      ]
+    },
+    "VFStorageReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "event_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "audit_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "handoff_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "report_version_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "request_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "vf_receipt_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "storage_receipt_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "stored_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "outcome": {
+          "const": "STORED"
+        }
+      },
+      "required": [
+        "contract_version",
+        "event_id",
+        "tenant_id",
+        "audit_id",
+        "handoff_id",
+        "report_version_id",
+        "request_sha256",
+        "vf_receipt_ref",
+        "storage_receipt_sha256",
+        "stored_at",
+        "outcome"
+      ]
+    },
+    "Qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "event_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "tenant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "handoff_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "vf_receipt_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "inquiry_evidence_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "verified_by": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "confirmed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "contract_version",
+        "event_id",
+        "tenant_id",
+        "handoff_id",
+        "vf_receipt_ref",
+        "inquiry_evidence_ref",
+        "verified_by",
+        "confirmed_at"
+      ]
+    },
+    "HandoffStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "handoff": {
+          "$ref": "https://vrae.invalid/contracts/v1/SalesHandoff.schema.json"
+        },
+        "delivery_state": {
+          "enum": [
+            "WAITING_ACK",
+            "ACKNOWLEDGED",
+            "WITHDRAWN"
+          ]
+        },
+        "customer_approval": {
+          "const": false
+        },
+        "counts_as_e2": {
+          "const": false
+        },
+        "counts_as_e3": {
+          "const": false
+        },
+        "quote_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "contract_version",
+        "handoff",
+        "delivery_state",
+        "customer_approval",
+        "counts_as_e2",
+        "counts_as_e3",
+        "quote_allowed"
+      ]
+    },
+    "Availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "state": {
+          "const": "NOT_AVAILABLE"
+        },
+        "submit_enabled": {
+          "const": false
+        },
+        "report_enabled": {
+          "const": false
+        },
+        "reason": {
+          "const": "G0_NOT_FROZEN_NO_LIVE_ADAPTER"
+        }
+      },
+      "required": [
+        "contract_version",
+        "state",
+        "submit_enabled",
+        "report_enabled",
+        "reason"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "vf-vrae-r0.1"
+        },
+        "http_status": {
+          "enum": [
+            400,
+            403,
+            409,
+            429,
+            503
+          ]
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,127}$"
+        },
+        "code": {
+          "enum": [
+            "INVALID_URL",
+            "POLICY_REQUIRED",
+            "POLICY_REVOKED",
+            "POLICY_EXPIRED",
+            "SOURCE_NOT_ALLOWED",
+            "SSRF_BLOCKED",
+            "ACCESS_BLOCKED",
+            "ROBOTS_DISALLOWED",
+            "LIMIT_EXCEEDED",
+            "QUOTA_EXCEEDED",
+            "WORKER_TIMEOUT",
+            "EVIDENCE_INSUFFICIENT",
+            "EVIDENCE_REFERENCE_INVALID",
+            "MODEL_SCHEMA_INVALID",
+            "MODEL_COST_UNKNOWN",
+            "REVIEW_REQUIRED",
+            "REPORT_NOT_APPROVED",
+            "REPORT_VERSION_STALE",
+            "SHARE_EXPIRED",
+            "FORBIDDEN_TENANT",
+            "FORBIDDEN_ROLE",
+            "INVALID_TRANSITION",
+            "IDEMPOTENCY_CONFLICT",
+            "BUSINESS_EVIDENCE_REQUIRED",
+            "R0_WRONG_CONTRACT",
+            "R0_ATTESTATION_DENIED",
+            "R0_COVERAGE_MISMATCH",
+            "R0_CITATION_DENIED",
+            "R0_PUBLIC_PROJECTION_DENIED",
+            "R0_FIXTURE_ONLY",
+            "R0_L2_BRIDGE_NOT_AVAILABLE",
+            "R0_STORAGE_UNAVAILABLE",
+            "R0_AWARE_CLOCK_REQUIRED",
+            "R0_VIEW_TIER_MISMATCH",
+            "R0_NOT_AVAILABLE"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retry_after_seconds": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3600
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "v1_error": {
+          "anyOf": [
+            {
+              "$ref": "https://vrae.invalid/contracts/v1/ErrorCode.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contract_version",
+        "http_status",
+        "request_id",
+        "code",
+        "retryable",
+        "retry_after_seconds",
+        "v1_error"
+      ]
+    }
+  }
+}

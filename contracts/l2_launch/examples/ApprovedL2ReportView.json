@@ -1,0 +1,56 @@
+{
+  "scope": "SYNTHETIC_CONTRACT_FIXTURE_NOT_A_RELEASE",
+  "type": "ReportView",
+  "body": {
+    "contract_version": "vf-vrae-r0.1",
+    "view_type": "ApprovedL2ReportView",
+    "tenant_id": "tenant-r0-fixture",
+    "run_id": "run-fixture",
+    "report_id": "report-fixture",
+    "report_version_id": "report-fixture.v1",
+    "version": 1,
+    "content_hash": "e18a29a3819aca3cbc7f22ffe6f28bda94b691a0335ed91b32aa8d53d2c6f775",
+    "audit_mode": "L2",
+    "audit_id": "audit-fixture",
+    "audience": "AUTHORIZED_RECIPIENT",
+    "anonymous_access": false,
+    "summary": {
+      "A": {
+        "en": "Synthetic retained snippet declares model P40; no live collection.",
+        "zh": "合成留存片段声明型号P40；未执行真实采集。",
+        "basis": "OBSERVATION",
+        "citation_ids": [
+          "citation-fixture"
+        ]
+      },
+      "B": {
+        "en": "Ask the supplier to verify operating conditions. Delivery and conversion are UNKNOWN.",
+        "zh": "建议向供应商核对工况；送达及转化结果UNKNOWN。",
+        "basis": "RECOMMENDATION",
+        "citation_ids": [
+          "citation-fixture"
+        ]
+      }
+    },
+    "citations": [
+      {
+        "citation_id": "citation-fixture",
+        "source_url": "https://legacy.example/products/p40",
+        "captured_at": "2026-11-18T11:00:00Z",
+        "locator": "synthetic-sample:paragraph-1",
+        "excerpt": "Model P40 — synthetic reference only."
+      }
+    ],
+    "unknowns": [
+      "FORM_SUBMISSION",
+      "INQUIRY_DELIVERY",
+      "CONVERSION",
+      "WHOLE_SITE_COVERAGE"
+    ],
+    "coverage": {
+      "observed_pages": 1,
+      "authorized_pages": 3,
+      "whole_site_denominator": null
+    }
+  }
+}
