@@ -116,7 +116,7 @@ def main():
                        "integration/l2_ops/runtime_tests/test_pg.py::test_pg_restart_marker"] if args.business_only
                       else ["integration/l2_ops/checks", "integration/l2_ops/runtime_tests",
                             "--ignore=integration/l2_ops/runtime_tests/test_pg_restart.py"])
-            tests = command([interpreter, "-m", "pytest", "-q", *suites, f"--junitxml={xml}"], env=env)
+            tests = command([interpreter, "-m", "pytest", "-q", *suites, *(['--tb=short'] if args.executive_only else []), f"--junitxml={xml}"], env=env)
             (output / f"native-{minor}.txt").write_text(tests, encoding="utf-8")
             before = command(["docker", "exec", name, "psql", "-U", "postgres", "-d", "l2ops", "-Atc",
                               "SELECT content_sha256 || ':' || md5(document) FROM l2_ops_v1.briefs WHERE brief_ref='restart-readback'"])

@@ -42,7 +42,7 @@ def project(view):
         groups[group].append(item)
         if f.get('native_result') == 'PASS':
             known_normal.append(f['id'])
-        if f['kind'] == 'HYPOTHESIS':
+        if f['buyer_impact']:
             groups['D6'].append(item)
     coverage = []
     tasks = [j['task'] for j in d['journey']] or list(TASKS)

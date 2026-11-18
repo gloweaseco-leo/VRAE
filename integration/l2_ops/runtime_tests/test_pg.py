@@ -155,10 +155,10 @@ def test_pg_native_c2_bridge_holds_review_and_task_context_through_real_commit(
     assert not state["task_locked"]
 
 
-def native_business_app(database, native_result, native_source, reviewed, monkeypatch, tmp_path):
+def native_business_app(database, native_result, native_source, reviewed, monkeypatch, tmp_path, *, seconds=60):
     from integration.l2_ops import native_report as assembly
     from integration.l2_ops.checks.test_native_report import detached_reader, mounted_application
-    reader, state, _ = detached_reader(monkeypatch, native_result, native_source, reviewed)
+    reader, state, _ = detached_reader(monkeypatch, native_result, native_source, reviewed, seconds=seconds)
     app, _ = mounted_application(reviewed, tmp_path)
     original, sid, rid = reviewed
     current = assembly.mount(app, native_source[0], original.directory, original.path, refresh=lambda: None)

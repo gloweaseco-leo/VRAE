@@ -13,6 +13,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
 from vrae.reviewing.canonical import canonical, parse, sha
 from .sources import OperationsDenied
+from .briefs import validate_document
 
 
 @dataclass(frozen=True)
@@ -46,6 +47,18 @@ class SyntheticIntake:
             doc, key = self._identity(service, ledger, brief_ref)
             row = self._rows.get(key)
             service.read_current(doc)
+            return parse(canonical(row)) if row else None
+
+    def view_verified(self, document):
+        """Pure view, like render_verified; caller retains original SSR authority.
+
+        Never an HTTP input or authorization port. NativeBusiness has just
+        loaded this exact document with the original BriefService.load_current.
+        """
+        validate_document(document)
+        key = sha(canonical({'pins': document['pins'], 'brief_sha256': document['content_sha256']}))
+        with self._lock:
+            row = self._rows.get(key)
             return parse(canonical(row)) if row else None
 
     def transition(self, service, ledger, brief_ref, action):

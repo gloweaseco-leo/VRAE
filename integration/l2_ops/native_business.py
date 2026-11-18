@@ -118,7 +118,7 @@ class NativeBusiness:
                 self.intake.transition(service, self.ledger, brief_ref, action)
             row = None
             if stored and document['source']['access_mode'] == 'OFFLINE_SYNTHETIC' and document['preparation_status'] == 'INTERNAL_REVIEW_RECORDED':
-                row = self.intake.current(service, self.ledger, brief_ref)
+                row = self.intake.view_verified(document)
             nonce = deep.directory.action(sid, root)
             nonces = {a: deep.directory.action(sid, root+'/'+a) for a in ('submit', 'retry', 'revoke')}
             body = ('<p data-key="l2-brief-persistence">' + ("已从 PostgreSQL 回读持久交接。" if stored else "预览尚未持久保存；保存时将再次核验任务与本版本审核。")
@@ -126,7 +126,6 @@ class NativeBusiness:
                 + render_verified(document) + '<form method="post" action="' + root + '">'
                 + hidden('_csrf', nonce) + '<button data-key="l2-save-brief">保存内部商务 Brief</button></form>'
                 + link('/b5a/l2/r/'+rid, '返回本次深度报告'))
-            service.read_current(document)
             return deep.reply("内部商务 RebuildBrief", body)
         except Exception:
             return self.app.deep.reply("请求未提供交接数据", '<p data-code="L2_NATIVE_BUSINESS_DENIED">L2_NATIVE_BUSINESS_DENIED</p><p>请重新签名登录本任务及深度审核，并核对当前版本已保存逐项决定。</p>' + link("/b5a/m2/", "返回任务登录，恢复原任务", key="l2-task-login"), 403)
