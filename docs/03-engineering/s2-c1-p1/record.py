@@ -65,7 +65,8 @@ write(HERE / 'receipt.json', {
     'native': native, 'full': full,
     'initial_rule_red': results(HERE / 'runtime/initial-red-rules-311.xml'),
     'initial_environment_red': results(HERE / 'runtime/initial-red-311.xml'),
-    'source_sha256': {p: digest(ROOT / p) for p in paths},
+    'source_lf_sha256': {p: hashlib.sha256((ROOT / p).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+                         for p in paths},
     'frozen_worktree_blobs': {p: subprocess.check_output(['git', 'hash-object', p], cwd=ROOT).decode().strip()
         for p in ('vrae/rules/execution.py', 'vrae/evidence/pack.py')},
     'raw_runtime_sha256': {p.name: digest(p) for p in sorted((HERE / 'runtime').iterdir()) if p.is_file()},
