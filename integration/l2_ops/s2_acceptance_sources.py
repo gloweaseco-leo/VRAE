@@ -1,0 +1,89 @@
+"""Add accepted C2 read-only source routes to the existing C3 business port."""
+import json
+from integration.s2_buyer_workbench.workbench import SourceBinding, Workbench
+from vrae.industry.l2_v1.pack import IndustryPins, load_s2
+from vrae.l2_ops.sources import OperationsDenied
+
+
+class CurrentSourceWorkbench(Workbench):
+    """Inherit the accepted handler unchanged; add only C3 receipt storage."""
+    _c3_buyer_receipt: bytes
+
+
+def bind(business, report_id):
+    app = business.app
+    manager = app.native_tasks
+    if manager is None or manager.active is None or manager.active["report_id"] != report_id:
+        raise OperationsDenied("S2_CURRENT_NATIVE_TASK_REQUIRED")
+    source = manager.active["source"]
+    if (report_id not in business.bindings or app.deep.ledgers[report_id].source is not source
+            or business.bindings[report_id].bundle is not manager.bundle):
+        raise OperationsDenied("S2_EXISTING_REPORT_PORT_REQUIRED")
+    # Original signed task authority is checked around both construction and every read.
+    with manager.access() as (evidence, _):
+        tenant = manager.identity["tenant_id"]
+        task = manager.active["task"]
+        scope = {"tenant_id": tenant, "run_id": task.run_id,
+                 "policy_id": evidence.pack.document["policy_id"],
+                 "policy_version": evidence.pack.document["policy_version"]}
+        config = load_s2(tenant_id=tenant)
+        held = IndustryPins(config["industry_ref"], tenant)
+        binding = SourceBinding(source, evidence.pack, trusted_scope=scope, industry_pins=held)
+        # Select only this controlled catalog's unambiguous P40 source anchor.
+        # Constructor produced this server-held projection; enable_buyer_cards below
+        # performs the accepted source/projection verification before building the DTO.
+        projection = json.loads(binding.payload)
+        anchors = [row for row in projection["industrial_projection"]["rows"]
+                   if row["observation"]["rule_id"] == "INFO-02" and row["model"] == "P40"]
+        if len(anchors) != 1 or len(anchors[0]["source_pages"]) != 1:
+            raise OperationsDenied("S2_CONTROLLED_BUYER_ANCHOR_REQUIRED")
+        binding.enable_buyer_cards(model="P40", snapshot_ref=anchors[0]["source_pages"][0]["snapshot_ref"])
+        component = CurrentSourceWorkbench(app.deep, binding)
+        # This is a receipt of the accepted builder's output, never read authority.
+        # C2 Workbench.handle still verifies the current projection/candidate on every read.
+        if binding.buyer_payload is None or binding.buyer_pins is None:
+            raise OperationsDenied("S2_CONTROLLED_BUYER_BINDING_REQUIRED")
+        buyer = json.loads(binding.buyer_payload)
+        component._c3_buyer_receipt = json.dumps({
+            "candidate_ref": binding.expected_buyer_ref,
+            "reporting_version": binding.buyer_pins.reporting_version,
+            "model": binding.buyer_pins.subject_model,
+            "snapshot_ref": binding.buyer_pins.subject_snapshot_ref,
+            "cards": [{"rule_id": card["rule_id"], "result": card["result"],
+                       "observation_id": card["observation_id"]} for card in buyer["cards"]]}).encode()
+    # Do not call the component installer or replace native_business/native_tasks.
+    business.source_views[report_id] = component
+    return component
+
+
+def route(business, path):
+    for rid, component in business.source_views.items():
+        match = component.route(path)
+        if match is not None and match[1] == rid:
+            return rid
+    return None
+
+
+def handle(business, method, path, headers, raw):
+    rid = route(business, path)
+    if rid is None:
+        raise OperationsDenied("S2_CURRENT_SOURCE_ROUTE_REQUIRED")
+    try:
+        with business.app.native_tasks.access():
+            reply = business.source_views[rid].handle(method, path, headers, raw)
+            business.app.native_tasks.audit()
+            return reply
+    except Exception:
+        return business.app.deep.reply("未提供来源候选",
+            '<p data-code="S2_NATIVE_SOURCE_DENIED">当前任务签名或来源绑定已失效，请重新认证。</p>', 403)
+
+
+def proof(business, rid):
+    component = business.source_views.get(rid)
+    if component is None:
+        return None
+    binding = component.binding
+    return {"authority": "READ_ONLY_CANDIDATE_NOT_RX_OR_GUARD",
+            "pack_ref": binding.pack.ref, "scope": binding.scope,
+            "projection_ref": binding.expected_ref, "industry_ref": binding.pins.industry_ref,
+            "buyer": json.loads(component._c3_buyer_receipt)}

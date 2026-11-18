@@ -1,0 +1,369 @@
+﻿2026-11-17T14:42:45.6459868Z Current runner version: '2.338.2'
+2026-11-17T14:42:45.6483509Z ##[group]Runner Image Provisioner
+2026-11-17T14:42:45.6484398Z Hosted Compute Agent
+2026-11-17T14:42:45.6484889Z Version: 20261103.629
+2026-11-17T14:42:45.6485462Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-17T14:42:45.6486066Z Build Date: 2026-11-03T17:26:59Z
+2026-11-17T14:42:45.6486614Z Worker ID: {45a892b8-9c82-42a6-a819-8ff89fe452fd}
+2026-11-17T14:42:45.6487254Z Region: eastus2
+2026-11-17T14:42:45.6487700Z Cloud: Azure
+2026-11-17T14:42:45.6488127Z ##[endgroup]
+2026-11-17T14:42:45.6489810Z ##[group]Operating System
+2026-11-17T14:42:45.6490355Z Ubuntu
+2026-11-17T14:42:45.6490915Z 26.04.1
+2026-11-17T14:42:45.6491332Z LTS
+2026-11-17T14:42:45.6491807Z ##[endgroup]
+2026-11-17T14:42:45.6492280Z ##[group]Runner Image
+2026-11-17T14:42:45.6492815Z Image: ubuntu-26.04
+2026-11-17T14:42:45.6493353Z Version: 20261111.196.1
+2026-11-17T14:42:45.6494429Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261111.196/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-17T14:42:45.6495753Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261111.196
+2026-11-17T14:42:45.6496585Z ##[endgroup]
+2026-11-17T14:42:45.6497514Z ##[group]GITHUB_TOKEN Permissions
+2026-11-17T14:42:45.6499630Z Contents: read
+2026-11-17T14:42:45.6500133Z Metadata: read
+2026-11-17T14:42:45.6500712Z ##[endgroup]
+2026-11-17T14:42:45.6502696Z Secret source: Actions
+2026-11-17T14:42:45.6503512Z Cache mode: write
+2026-11-17T14:42:45.6504286Z Prepare workflow directory
+2026-11-17T14:42:45.6787348Z Prepare all required actions
+2026-11-17T14:42:45.6829101Z Getting action download info
+2026-11-17T14:42:45.8618137Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-17T14:42:45.9714083Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-17T14:42:46.0416844Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-17T14:42:46.2535612Z Complete job name: quality (3.13, 313)
+2026-11-17T14:42:46.3282830Z ##[group]Run actions/checkout@v4
+2026-11-17T14:42:46.3283560Z with:
+2026-11-17T14:42:46.3284004Z   fetch-depth: 0
+2026-11-17T14:42:46.3284410Z   ref: 179034b70d3f2d12c11602161baabc731449c6e0
+2026-11-17T14:42:46.3284890Z   repository: gloweaseco-leo/VRAE
+2026-11-17T14:42:46.3288204Z   token: ***
+2026-11-17T14:42:46.3288563Z   ssh-strict: true
+2026-11-17T14:42:46.3288921Z   ssh-user: git
+2026-11-17T14:42:46.3289285Z   persist-credentials: true
+2026-11-17T14:42:46.3289807Z   clean: true
+2026-11-17T14:42:46.3290173Z   sparse-checkout-cone-mode: true
+2026-11-17T14:42:46.3290585Z   fetch-tags: false
+2026-11-17T14:42:46.3290936Z   show-progress: true
+2026-11-17T14:42:46.3291291Z   lfs: false
+2026-11-17T14:42:46.3291618Z   submodules: false
+2026-11-17T14:42:46.3291970Z   set-safe-directory: true
+2026-11-17T14:42:46.3292365Z   allow-unsafe-pr-checkout: false
+2026-11-17T14:42:46.3293009Z ##[endgroup]
+2026-11-17T14:42:46.5357113Z Syncing repository: gloweaseco-leo/VRAE
+2026-11-17T14:42:46.5359968Z ##[group]Getting Git version info
+2026-11-17T14:42:46.5360885Z Working directory is '/home/runner/work/VRAE/VRAE'
+2026-11-17T14:42:46.5362093Z [command]/usr/bin/git version
+2026-11-17T14:42:46.5381773Z git version 2.56.1
+2026-11-17T14:42:46.5400282Z ##[endgroup]
+2026-11-17T14:42:46.5415651Z Temporarily overriding HOME='/home/runner/work/_temp/bb0b89b1-bda3-4f66-918a-19e87c3f7799' before making global git config changes
+2026-11-17T14:42:46.5417736Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-17T14:42:46.5420874Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-17T14:42:46.5478033Z Deleting the contents of '/home/runner/work/VRAE/VRAE'
+2026-11-17T14:42:46.5482353Z ##[group]Initializing the repository
+2026-11-17T14:42:46.5486839Z [command]/usr/bin/git init /home/runner/work/VRAE/VRAE
+2026-11-17T14:42:46.5576523Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-17T14:42:46.5578405Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-17T14:42:46.5579735Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-17T14:42:46.5580527Z hint: call:
+2026-11-17T14:42:46.5580897Z hint:
+2026-11-17T14:42:46.5581478Z hint: 	git config --global init.defaultBranch <name>
+2026-11-17T14:42:46.5582089Z hint:
+2026-11-17T14:42:46.5582630Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-17T14:42:46.5583516Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-17T14:42:46.5584246Z hint:
+2026-11-17T14:42:46.5584694Z hint: 	git branch -m <name>
+2026-11-17T14:42:46.5585116Z hint:
+2026-11-17T14:42:46.5585743Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-17T14:42:46.5618101Z Initialized empty Git repository in /home/runner/work/VRAE/VRAE/.git/
+2026-11-17T14:42:46.5632417Z [command]/usr/bin/git remote add origin https://github.com/gloweaseco-leo/VRAE
+2026-11-17T14:42:46.5685041Z ##[endgroup]
+2026-11-17T14:42:46.5685791Z ##[group]Disabling automatic garbage collection
+2026-11-17T14:42:46.5688379Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-17T14:42:46.5722668Z ##[endgroup]
+2026-11-17T14:42:46.5723340Z ##[group]Setting up auth
+2026-11-17T14:42:46.5731223Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-17T14:42:46.5767355Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-17T14:42:46.6322031Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-17T14:42:46.6355525Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-17T14:42:46.6622317Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-17T14:42:46.6661383Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-17T14:42:46.6938431Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-17T14:42:46.6980830Z ##[endgroup]
+2026-11-17T14:42:46.6981579Z ##[group]Fetching the repository
+2026-11-17T14:42:46.6992612Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-17T14:42:50.6275613Z From https://github.com/gloweaseco-leo/VRAE
+2026-11-17T14:42:50.6278257Z  * [new branch]      baseline/v1.1-l0l1-20261115-prestart -> origin/baseline/v1.1-l0l1-20261115-prestart
+2026-11-17T14:42:50.6280298Z  * [new branch]      codex1/beta-disc-report-v1 -> origin/codex1/beta-disc-report-v1
+2026-11-17T14:42:50.6282406Z  * [new branch]      codex1/beta-s2-generated-result-bridge -> origin/codex1/beta-s2-generated-result-bridge
+2026-11-17T14:42:50.6284565Z  * [new branch]      codex1/evidence-pack-perf -> origin/codex1/evidence-pack-perf
+2026-11-17T14:42:50.6286580Z  * [new branch]      codex1/l2-industrial-buyer -> origin/codex1/l2-industrial-buyer
+2026-11-17T14:42:50.6288829Z  * [new branch]      codex1/m1-consumer-integration -> origin/codex1/m1-consumer-integration
+2026-11-17T14:42:50.6291862Z  * [new branch]      codex1/ra3d-d1d2-offline-review-contract -> origin/codex1/ra3d-d1d2-offline-review-contract
+2026-11-17T14:42:50.6294403Z  * [new branch]      codex1/ra4a-p1-postgres-rls-queue -> origin/codex1/ra4a-p1-postgres-rls-queue
+2026-11-17T14:42:50.6296748Z  * [new branch]      codex1/ra4a-p2a-private-bytes -> origin/codex1/ra4a-p2a-private-bytes
+2026-11-17T14:42:50.6299681Z  * [new branch]      codex1/ra4a-p2b1-review-cas-testonly -> origin/codex1/ra4a-p2b1-review-cas-testonly
+2026-11-17T14:42:50.6302240Z  * [new branch]      codex1/ra4a-p2b2a-identity-local -> origin/codex1/ra4a-p2b2a-identity-local
+2026-11-17T14:42:50.6304571Z  * [new branch]      codex1/ra4b-p1-private-api-worker-testonly -> origin/codex1/ra4b-p1-private-api-worker-testonly
+2026-11-17T14:42:50.6307214Z  * [new branch]      codex1/s2-c1-p0         -> origin/codex1/s2-c1-p0
+2026-11-17T14:42:50.6310449Z  * [new branch]      codex2/b3p0-testonly-atomic-review-intent -> origin/codex2/b3p0-testonly-atomic-review-intent
+2026-11-17T14:42:50.6313963Z  * [new branch]      codex2/b5b-accepted-consumer -> origin/codex2/b5b-accepted-consumer
+2026-11-17T14:42:50.6317319Z  * [new branch]      codex2/b6p0-private-handoff-preflight-testonly -> origin/codex2/b6p0-private-handoff-preflight-testonly
+2026-11-17T14:42:50.6320844Z  * [new branch]      codex2/ci01-standard-time-budget -> origin/codex2/ci01-standard-time-budget
+2026-11-17T14:42:50.6323796Z  * [new branch]      codex2/l1-diagnosis-experience -> origin/codex2/l1-diagnosis-experience
+2026-11-17T14:42:50.6326520Z  * [new branch]      codex2/l2-deep-audit    -> origin/codex2/l2-deep-audit
+2026-11-17T14:42:50.6328865Z  * [new branch]      codex2/l2-native-report -> origin/codex2/l2-native-report
+2026-11-17T14:42:50.6331760Z  * [new branch]      codex2/ra3b-claim-provenance -> origin/codex2/ra3b-claim-provenance
+2026-11-17T14:42:50.6334797Z  * [new branch]      codex2/ra3c-private-l1-report -> origin/codex2/ra3c-private-l1-report
+2026-11-17T14:42:50.6337945Z  * [new branch]      codex2/ra3d-phase0-review-design -> origin/codex2/ra3d-phase0-review-design
+2026-11-17T14:42:50.6341446Z  * [new branch]      codex2/ra3d-phase05-offline-reviewer-prototype -> origin/codex2/ra3d-phase05-offline-reviewer-prototype
+2026-11-17T14:42:50.6344777Z  * [new branch]      codex2/ra3d-phase06-native-review-evidence-bridge -> origin/codex2/ra3d-phase06-native-review-evidence-bridge
+2026-11-17T14:42:50.6348509Z  * [new branch]      codex2/ra3d-phase06-reviewer-first-p1 -> origin/codex2/ra3d-phase06-reviewer-first-p1
+2026-11-17T14:42:50.6352330Z  * [new branch]      codex2/ra4c-b5a-signed-review-read-testonly -> origin/codex2/ra4c-b5a-signed-review-read-testonly
+2026-11-17T14:42:50.6355263Z  * [new branch]      codex2/ra4c-b5p0-signed-to-testonly-intent -> origin/codex2/ra4c-b5p0-signed-to-testonly-intent
+2026-11-17T14:42:50.6358072Z  * [new branch]      codex2/ra4c0-operator-console-shell -> origin/codex2/ra4c0-operator-console-shell
+2026-11-17T14:42:50.6361016Z  * [new branch]      codex2/ra4c1-review-target-read-bridge -> origin/codex2/ra4c1-review-target-read-bridge
+2026-11-17T14:42:50.6363807Z  * [new branch]      codex2/ra4c2-offline-review-proposal-ux -> origin/codex2/ra4c2-offline-review-proposal-ux
+2026-11-17T14:42:50.6366536Z  * [new branch]      codex2/ra4c3-realpg-readside-testonly -> origin/codex2/ra4c3-realpg-readside-testonly
+2026-11-17T14:42:50.6369291Z  * [new branch]      codex2/ra4e-b7p0-disposable-pg-restore -> origin/codex2/ra4e-b7p0-disposable-pg-restore
+2026-11-17T14:42:50.6371789Z  * [new branch]      codex2/s2-ux-browser    -> origin/codex2/s2-ux-browser
+2026-11-17T14:42:50.6374501Z  * [new branch]      codex3/beta-b7p1-six-schema-restore -> origin/codex3/beta-b7p1-six-schema-restore
+2026-11-17T14:42:50.6377806Z  * [new branch]      codex3/beta-integration-20261114 -> origin/codex3/beta-integration-20261114
+2026-11-17T14:42:50.6381261Z  * [new branch]      codex3/beta-s2-consumer-20261115 -> origin/codex3/beta-s2-consumer-20261115
+2026-11-17T14:42:50.6384047Z  * [new branch]      codex3/beta-s2-disc-consumer-20261115 -> origin/codex3/beta-s2-disc-consumer-20261115
+2026-11-17T14:42:50.6386482Z  * [new branch]      codex3/l2-runtime-integration -> origin/codex3/l2-runtime-integration
+2026-11-17T14:42:50.6389112Z  * [new branch]      codex3/l2-workbench-business-handoff -> origin/codex3/l2-workbench-business-handoff
+2026-11-17T14:42:50.6392026Z  * [new branch]      codex3/ra4b-recovery-claimv2-testonly -> origin/codex3/ra4b-recovery-claimv2-testonly
+2026-11-17T14:42:50.6471308Z  * [new branch]      codex3/ra4e-b7p1-private-recovery-ops-testonly -> origin/codex3/ra4e-b7p1-private-recovery-ops-testonly
+2026-11-17T14:42:50.6475202Z  * [new branch]      codex3/s2-quality-p0    -> origin/codex3/s2-quality-p0
+2026-11-17T14:42:50.6478317Z  * [new branch]      feat/ra0-contracts-domain-foundation -> origin/feat/ra0-contracts-domain-foundation
+2026-11-17T14:42:50.6482037Z  * [new branch]      feat/ra1a-safe-http-collection -> origin/feat/ra1a-safe-http-collection
+2026-11-17T14:42:50.6485448Z  * [new branch]      feat/ra1b-browser-worker-isolation -> origin/feat/ra1b-browser-worker-isolation
+2026-11-17T14:42:50.6488236Z  * [new branch]      feat/ra2a-evidence-pack -> origin/feat/ra2a-evidence-pack
+2026-11-17T14:42:50.6490605Z  * [new branch]      feat/ra2b0-deterministic-rules -> origin/feat/ra2b0-deterministic-rules
+2026-11-17T14:42:50.6492687Z  * [new branch]      feat/ra2b1-buyer-journey -> origin/feat/ra2b1-buyer-journey
+2026-11-17T14:42:50.6494573Z  * [new branch]      feat/ra2b2-product-facts -> origin/feat/ra2b2-product-facts
+2026-11-17T14:42:50.6496930Z  * [new branch]      feat/ra2b3-info01-bounded-observation -> origin/feat/ra2b3-info01-bounded-observation
+2026-11-17T14:42:50.6499498Z  * [new branch]      feat/ra2b4-seo01-static-signals -> origin/feat/ra2b4-seo01-static-signals
+2026-11-17T14:42:50.6501582Z  * [new branch]      feat/ra2b5-trust-facts  -> origin/feat/ra2b5-trust-facts
+2026-11-17T14:42:50.6503440Z  * [new branch]      feat/ra2b6-trust01-optin -> origin/feat/ra2b6-trust01-optin
+2026-11-17T14:42:50.6505448Z  * [new branch]      feat/ra2c0-verified-findings -> origin/feat/ra2c0-verified-findings
+2026-11-17T14:42:50.6507828Z  * [new branch]      feat/ra2c1-info01-finding-integration -> origin/feat/ra2c1-info01-finding-integration
+2026-11-17T14:42:50.6510473Z  * [new branch]      feat/ra2c2-seo01-finding-package -> origin/feat/ra2c2-seo01-finding-package
+2026-11-17T14:42:50.6512872Z  * [new branch]      feat/ra2c3-trust01-finding-package -> origin/feat/ra2c3-trust01-finding-package
+2026-11-17T14:42:50.6515555Z  * [new branch]      feat/ra2d0-gold-quality-harness -> origin/feat/ra2d0-gold-quality-harness
+2026-11-17T14:42:50.6517711Z  * [new branch]      feat/ra2d1-human-gold-review -> origin/feat/ra2d1-human-gold-review
+2026-11-17T14:42:50.6520080Z  * [new branch]      feat/ra3a-offline-model-gateway -> origin/feat/ra3a-offline-model-gateway
+2026-11-17T14:42:50.6521913Z  * [new branch]      main                    -> origin/main
+2026-11-17T14:42:50.6524285Z  * [new branch]      owner/v1.1-l2-capability-access-orthogonal-20261115 -> origin/owner/v1.1-l2-capability-access-orthogonal-20261115
+2026-11-17T14:42:50.6527462Z  * [new branch]      owner/v11-l2-capability-acceptance-s0-20261116 -> origin/owner/v11-l2-capability-acceptance-s0-20261116
+2026-11-17T14:42:50.6530401Z  * [new branch]      owner/v11-l2-s1-design-closeout-20261117 -> origin/owner/v11-l2-s1-design-closeout-20261117
+2026-11-17T14:42:50.6532991Z  * [new branch]      test/ra2c3-independent-adversarial -> origin/test/ra2c3-independent-adversarial
+2026-11-17T14:42:50.6535381Z  * [new branch]      test/ra3b-independent-adversarial -> origin/test/ra3b-independent-adversarial
+2026-11-17T14:42:50.6537935Z  * [new branch]      test/ra3c-independent-product-acceptance -> origin/test/ra3c-independent-product-acceptance
+2026-11-17T14:42:50.6540599Z  * [new tag]         codex3/pr106-m3-evidence-69a56a1368aa -> codex3/pr106-m3-evidence-69a56a1368aa
+2026-11-17T14:42:50.6544486Z [command]/usr/bin/git rev-parse --verify --quiet 179034b70d3f2d12c11602161baabc731449c6e0^{object}
+2026-11-17T14:42:50.6546251Z 179034b70d3f2d12c11602161baabc731449c6e0
+2026-11-17T14:42:50.6548869Z ##[endgroup]
+2026-11-17T14:42:50.6550445Z ##[group]Determining the checkout info
+2026-11-17T14:42:50.6551970Z ##[endgroup]
+2026-11-17T14:42:50.6552914Z [command]/usr/bin/git sparse-checkout disable
+2026-11-17T14:42:50.6555585Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-17T14:42:50.6558600Z ##[group]Checking out the ref
+2026-11-17T14:42:50.6560541Z [command]/usr/bin/git checkout --progress --force 179034b70d3f2d12c11602161baabc731449c6e0
+2026-11-17T14:42:51.3438692Z Note: switching to '179034b70d3f2d12c11602161baabc731449c6e0'.
+2026-11-17T14:42:51.3439242Z 
+2026-11-17T14:42:51.3439638Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-17T14:42:51.3440215Z changes and commit them, and you can discard any commits you make in this
+2026-11-17T14:42:51.3440783Z state without impacting any branches by switching back to a branch.
+2026-11-17T14:42:51.3441103Z 
+2026-11-17T14:42:51.3441321Z If you want to create a new branch to retain commits you create, you may
+2026-11-17T14:42:51.3441854Z do so (now or later) by using -c with the switch command. Example:
+2026-11-17T14:42:51.3442174Z 
+2026-11-17T14:42:51.3442301Z   git switch -c <new-branch-name>
+2026-11-17T14:42:51.3442513Z 
+2026-11-17T14:42:51.3442645Z Or undo this operation with:
+2026-11-17T14:42:51.3442843Z 
+2026-11-17T14:42:51.3442996Z   git switch -
+2026-11-17T14:42:51.3443153Z 
+2026-11-17T14:42:51.3443426Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-17T14:42:51.3443817Z 
+2026-11-17T14:42:51.3444129Z HEAD is now at 179034b docs(s2-c3): seal native quality packet replay and pending Gold evidence
+2026-11-17T14:42:51.3530916Z ##[endgroup]
+2026-11-17T14:42:51.4175269Z [command]/usr/bin/git log -1 --format=%H
+2026-11-17T14:42:51.4201336Z 179034b70d3f2d12c11602161baabc731449c6e0
+2026-11-17T14:42:51.4433615Z ##[group]Run actions/setup-python@v5
+2026-11-17T14:42:51.4433864Z with:
+2026-11-17T14:42:51.4434051Z   python-version: 3.13
+2026-11-17T14:42:51.4434243Z   check-latest: false
+2026-11-17T14:42:51.4436306Z   token: ***
+2026-11-17T14:42:51.4436497Z   update-environment: true
+2026-11-17T14:42:51.4436701Z   allow-prereleases: false
+2026-11-17T14:42:51.4436897Z   freethreaded: false
+2026-11-17T14:42:51.4437074Z ##[endgroup]
+2026-11-17T14:42:51.5673933Z ##[group]Installed versions
+2026-11-17T14:42:51.6565074Z (node:2207) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-17T14:42:51.6566174Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-17T14:42:51.6566686Z Successfully set up CPython (3.13.18)
+2026-11-17T14:42:51.6586395Z ##[endgroup]
+2026-11-17T14:42:51.6731977Z ##[group]Run python -m pip install -r requirements-ra1a.lock
+2026-11-17T14:42:51.6732400Z [36;1mpython -m pip install -r requirements-ra1a.lock[0m
+2026-11-17T14:42:51.6886960Z shell: /usr/bin/bash -e {0}
+2026-11-17T14:42:51.6887210Z env:
+2026-11-17T14:42:51.6887469Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:42:51.6887854Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-17T14:42:51.6888189Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:42:51.6888493Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:42:51.6888794Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:42:51.6889125Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-17T14:42:51.6889571Z ##[endgroup]
+2026-11-17T14:42:54.9402291Z Collecting attrs==26.1.0 (from -r requirements-ra1a.lock (line 2))
+2026-11-17T14:42:54.9769131Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-11-17T14:42:55.0005196Z Collecting colorama==0.4.6 (from -r requirements-ra1a.lock (line 3))
+2026-11-17T14:42:55.0092992Z   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+2026-11-17T14:42:55.0434203Z Collecting dnspython==2.8.0 (from -r requirements-ra1a.lock (line 4))
+2026-11-17T14:42:55.0505931Z   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+2026-11-17T14:42:55.0892850Z Collecting h11==0.16.0 (from -r requirements-ra1a.lock (line 5))
+2026-11-17T14:42:55.0967022Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-11-17T14:42:55.1170057Z Collecting iniconfig==2.3.1 (from -r requirements-ra1a.lock (line 6))
+2026-11-17T14:42:55.1241162Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-17T14:42:55.1449127Z Collecting jsonschema-specifications==2025.9.1 (from -r requirements-ra1a.lock (line 7))
+2026-11-17T14:42:55.1523244Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-11-17T14:42:55.1811248Z Collecting jsonschema==4.26.0 (from -r requirements-ra1a.lock (line 8))
+2026-11-17T14:42:55.1889238Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-11-17T14:42:55.3096364Z Collecting librt==0.16.0 (from -r requirements-ra1a.lock (line 9))
+2026-11-17T14:42:55.3170261Z   Downloading librt-0.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-11-17T14:42:55.4769295Z Collecting mypy==1.20.2 (from -r requirements-ra1a.lock (line 10))
+2026-11-17T14:42:55.4847303Z   Downloading mypy-1.20.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-17T14:42:55.5050825Z Collecting mypy_extensions==1.2.0 (from -r requirements-ra1a.lock (line 11))
+2026-11-17T14:42:55.5129123Z   Downloading mypy_extensions-1.2.0-py3-none-any.whl.metadata (1.1 kB)
+2026-11-17T14:42:55.5416885Z Collecting packaging==26.3 (from -r requirements-ra1a.lock (line 12))
+2026-11-17T14:42:55.5511393Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-11-17T14:42:55.5713339Z Collecting pathspec==1.1.1 (from -r requirements-ra1a.lock (line 13))
+2026-11-17T14:42:55.5786429Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-11-17T14:42:55.6001589Z Collecting pluggy==1.7.0 (from -r requirements-ra1a.lock (line 14))
+2026-11-17T14:42:55.6079005Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-17T14:42:55.6315219Z Collecting Pygments==2.21.0 (from -r requirements-ra1a.lock (line 15))
+2026-11-17T14:42:55.6409837Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-11-17T14:42:55.6700393Z Collecting pytest==9.2.0 (from -r requirements-ra1a.lock (line 16))
+2026-11-17T14:42:55.6804196Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+2026-11-17T14:42:55.7176285Z Collecting PyYAML==6.0.3 (from -r requirements-ra1a.lock (line 17))
+2026-11-17T14:42:55.7257049Z   Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-17T14:42:55.7700983Z Collecting referencing==0.37.0 (from -r requirements-ra1a.lock (line 18))
+2026-11-17T14:42:55.7773683Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-11-17T14:42:55.9680951Z Collecting rpds-py==2026.9.1 (from -r requirements-ra1a.lock (line 19))
+2026-11-17T14:42:55.9751878Z   Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-11-17T14:42:56.2194317Z Collecting ruff==0.17.4 (from -r requirements-ra1a.lock (line 20))
+2026-11-17T14:42:56.2266378Z   Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+2026-11-17T14:42:56.2537806Z Collecting typing_extensions==4.16.0 (from -r requirements-ra1a.lock (line 21))
+2026-11-17T14:42:56.2613139Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-17T14:42:56.3225581Z Collecting setuptools==79.0.1 (from -r requirements-ra1a.lock (line 22))
+2026-11-17T14:42:56.3334576Z   Downloading setuptools-79.0.1-py3-none-any.whl.metadata (6.5 kB)
+2026-11-17T14:42:56.3573033Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-11-17T14:42:56.3710221Z Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+2026-11-17T14:42:56.3797373Z Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+2026-11-17T14:42:56.3976196Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-11-17T14:42:56.4063277Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-17T14:42:56.4159136Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-11-17T14:42:56.4648095Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-11-17T14:42:56.4744320Z Downloading librt-0.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (531 kB)
+2026-11-17T14:42:56.4999193Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 531.7/531.7 kB 35.9 MB/s  0:00:00
+2026-11-17T14:42:56.5071074Z Downloading mypy-1.20.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (14.7 MB)
+2026-11-17T14:42:56.6319022Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.7/14.7 MB 118.4 MB/s  0:00:00
+2026-11-17T14:42:56.6390036Z Downloading mypy_extensions-1.2.0-py3-none-any.whl (5.1 kB)
+2026-11-17T14:42:56.6792485Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-11-17T14:42:56.7301629Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-11-17T14:42:56.7393018Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-17T14:42:56.8099658Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-11-17T14:42:56.8196489Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 127.6 MB/s  0:00:00
+2026-11-17T14:42:56.8269316Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+2026-11-17T14:42:56.8373217Z Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+2026-11-17T14:42:56.8457115Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 88.5 MB/s  0:00:00
+2026-11-17T14:42:56.8537520Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-11-17T14:42:56.8638235Z Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (370 kB)
+2026-11-17T14:42:56.8882751Z Downloading ruff-0.17.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+2026-11-17T14:42:56.9654755Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 137.2 MB/s  0:00:00
+2026-11-17T14:42:56.9725017Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-17T14:42:56.9959140Z Downloading setuptools-79.0.1-py3-none-any.whl (1.3 MB)
+2026-11-17T14:42:57.0257272Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 38.9 MB/s  0:00:00
+2026-11-17T14:42:57.4030446Z Installing collected packages: typing_extensions, setuptools, ruff, rpds-py, PyYAML, Pygments, pluggy, pathspec, packaging, mypy_extensions, librt, iniconfig, h11, dnspython, colorama, attrs, referencing, pytest, mypy, jsonschema-specifications, jsonschema
+2026-11-17T14:43:00.9239846Z 
+2026-11-17T14:43:00.9262205Z Successfully installed PyYAML-6.0.3 Pygments-2.21.0 attrs-26.1.0 colorama-0.4.6 dnspython-2.8.0 h11-0.16.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 librt-0.16.0 mypy-1.20.2 mypy_extensions-1.2.0 packaging-26.3 pathspec-1.1.1 pluggy-1.7.0 pytest-9.2.0 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.17.4 setuptools-79.0.1 typing_extensions-4.16.0
+2026-11-17T14:43:01.0402209Z ##[group]Run python -m ruff check tests/benchmark/s2_quality.py tests/benchmark/s2_sites.py tests/benchmark/s2_review.py tests/s2_quality integration/l2_ops/s2_quality_cli.py integration/l2_ops/s2_quality_verify.py integration/l2_ops/s2_quality_cases.py --select E4,E7,E9,F
+2026-11-17T14:43:01.0403620Z [36;1mpython -m ruff check tests/benchmark/s2_quality.py tests/benchmark/s2_sites.py tests/benchmark/s2_review.py tests/s2_quality integration/l2_ops/s2_quality_cli.py integration/l2_ops/s2_quality_verify.py integration/l2_ops/s2_quality_cases.py --select E4,E7,E9,F[0m
+2026-11-17T14:43:01.0451131Z shell: /usr/bin/bash -e {0}
+2026-11-17T14:43:01.0451363Z env:
+2026-11-17T14:43:01.0451591Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:01.0451938Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-17T14:43:01.0452270Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:01.0452620Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:01.0452922Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:01.0453216Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-17T14:43:01.0453474Z ##[endgroup]
+2026-11-17T14:43:01.0933025Z All checks passed!
+2026-11-17T14:43:01.0992304Z ##[group]Run python integration/l2_ops/s2_quality_verify.py --label hosted313 --python-current python --base-ref 84276325befdcf858852a1ec791e8b0695a515eb
+2026-11-17T14:43:01.0993114Z [36;1mpython integration/l2_ops/s2_quality_verify.py --label hosted313 --python-current python --base-ref 84276325befdcf858852a1ec791e8b0695a515eb[0m
+2026-11-17T14:43:01.1039834Z shell: /usr/bin/bash -e {0}
+2026-11-17T14:43:01.1040049Z env:
+2026-11-17T14:43:01.1040276Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:01.1040621Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-17T14:43:01.1040958Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:01.1041267Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:01.1041564Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:01.1041863Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-17T14:43:01.1042174Z ##[endgroup]
+2026-11-17T14:43:02.0753022Z Traceback (most recent call last):
+2026-11-17T14:43:02.0782957Z   File "/home/runner/work/VRAE/VRAE/integration/l2_ops/s2_quality_verify.py", line 198, in <module>
+2026-11-17T14:43:02.0783403Z     main()
+2026-11-17T14:43:02.0783570Z     ~~~~^^
+2026-11-17T14:43:02.0783925Z   File "/home/runner/work/VRAE/VRAE/integration/l2_ops/s2_quality_verify.py", line 160, in main
+2026-11-17T14:43:02.0784402Z     raise RuntimeError(f"PRESERVED_NATIVE_RED_{minor}_stage_{stage}")
+2026-11-17T14:43:02.0784728Z RuntimeError: PRESERVED_NATIVE_RED_313_stage_0
+2026-11-17T14:43:02.0856766Z ##[error]Process completed with exit code 1.
+2026-11-17T14:43:02.0947053Z ##[group]Run actions/upload-artifact@v4
+2026-11-17T14:43:02.0947292Z with:
+2026-11-17T14:43:02.0947460Z   name: s2-c3-quality-313
+2026-11-17T14:43:02.0947660Z   retention-days: 7
+2026-11-17T14:43:02.0947840Z   if-no-files-found: error
+2026-11-17T14:43:02.0948092Z   path: docs/03-engineering/l2-operations/s2-quality/hosted313/
+2026-11-17T14:43:02.0948377Z   compression-level: 6
+2026-11-17T14:43:02.0948560Z   overwrite: false
+2026-11-17T14:43:02.0948737Z   include-hidden-files: false
+2026-11-17T14:43:02.0948925Z env:
+2026-11-17T14:43:02.0949134Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:02.0949666Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+2026-11-17T14:43:02.0949998Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:02.0950302Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:02.0950596Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+2026-11-17T14:43:02.0950924Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+2026-11-17T14:43:02.0951184Z ##[endgroup]
+2026-11-17T14:43:02.2391966Z (node:2287) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-17T14:43:02.2392537Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-17T14:43:02.2443695Z With the provided path, there will be 2 files uploaded
+2026-11-17T14:43:02.2448218Z Artifact name is valid!
+2026-11-17T14:43:02.2448787Z Root directory input is valid!
+2026-11-17T14:43:02.4728302Z Beginning upload of artifact content to blob storage
+2026-11-17T14:43:02.4893722Z (node:2287) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-17T14:43:02.5384952Z Uploaded bytes 12150
+2026-11-17T14:43:02.5587109Z Finished uploading artifact content to blob storage!
+2026-11-17T14:43:02.5587922Z SHA256 digest of uploaded artifact zip is c614c1b4de354cc9d0834c71ce4b64c80df442ecfef78da9fb9605b1d87841c5
+2026-11-17T14:43:02.5589634Z Finalizing artifact upload
+2026-11-17T14:43:03.7389866Z Artifact s2-c3-quality-313.zip successfully finalized. Artifact ID 14338642113
+2026-11-17T14:43:03.7390897Z Artifact s2-c3-quality-313 has been successfully uploaded! Final size is 12150 bytes. Artifact ID is 14338642113
+2026-11-17T14:43:03.7395846Z Artifact download URL: https://github.com/gloweaseco-leo/VRAE/actions/runs/44105664640/artifacts/14338642113
+2026-11-17T14:43:03.7579777Z Post job cleanup.
+2026-11-17T14:43:03.8359510Z [command]/usr/bin/git version
+2026-11-17T14:43:03.8401616Z git version 2.56.1
+2026-11-17T14:43:03.8439692Z Temporarily overriding HOME='/home/runner/work/_temp/83ff543e-db36-4ffb-9c78-56df598fca17' before making global git config changes
+2026-11-17T14:43:03.8440646Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-17T14:43:03.8445246Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/VRAE/VRAE
+2026-11-17T14:43:03.8496424Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-17T14:43:03.8540065Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-17T14:43:03.8861217Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-17T14:43:03.8904771Z http.https://github.com/.extraheader
+2026-11-17T14:43:03.8918623Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-17T14:43:03.8965862Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-17T14:43:03.9277548Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-17T14:43:03.9314221Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-17T14:43:03.9752034Z Cleaning up orphan processes
+2026-11-17T14:43:04.0073877Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
