@@ -28,7 +28,11 @@ def source_binding(profile_id='industrial'):
     source = NativeSource(pack, data, held=task)
     current = load_s2(tenant_id=scope['tenant_id'], profile_id=profile_id)
     pins = IndustryPins(current['industry_ref'], scope['tenant_id'], profile_id=profile_id)
-    return SourceBinding(source, pack, trusted_scope=scope, industry_pins=pins)
+    binding = SourceBinding(source, pack, trusted_scope=scope, industry_pins=pins)
+    anchor = next(snapshot['snapshot_ref'] for snapshot in pack.document['snapshots']
+                  if snapshot['url']=='https://example.org/products/p40')
+    binding.enable_buyer_cards(model='P40', snapshot_ref=anchor)
+    return binding
 
 
 def application(folder, *, clock=None):
