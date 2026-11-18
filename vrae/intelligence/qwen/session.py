@@ -212,15 +212,20 @@ async def run_session(session, operation, *, provider, timeout_ms, cancel):
         out['code'] = 'PROVIDER_FAILURE'
     try:
         identity = digest({'scope': asdict(c.gateway_pins.scope), 'operation': operation})
-        out['usage'] = provider.quota.receipt(identity) or out['usage']
+        held_usage = provider.quota.receipt(identity)
+        if held_usage and (held_usage.get('context_ref') != c.context_ref
+                           or held_usage.get('operation_ref') != identity):
+            fail('QUOTA_CONTEXT_MISMATCH')
+        out['usage'] = held_usage or out['usage']
         if provider.quota.dispatched(identity):
             out['provider_attempts'] = 1
             if not provider.protocol_fake:
                 # Timeout/invalid usage cannot prove zero billable vendor work.
                 out['real_model_calls'] = None
-    except Exception:
+    except Exception as exc:
         # A durable usage failure must never publish candidates as success.
-        out.update(status='AI_UNAVAILABLE', code='QUOTA_UNAVAILABLE', claims=[])
+        out.update(status='AI_UNAVAILABLE', code=str(exc) if type(exc) is QwenError else
+                   'QUOTA_UNAVAILABLE', claims=[], usage=None)
     if out['usage'] is not None:
         out['usage_status'] = out['usage']['usage_origin']
         out['real_model_calls'] = out['usage']['real_model_calls']

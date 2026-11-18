@@ -192,6 +192,7 @@ class QwenProvider:
             if type(request_id) is not str or not 1 <= len(request_id) <= 256:
                 fail('REQUEST_ID_MISSING')
             receipt = {'provider': PROVIDER, 'model_id': response['model'],
+                'context_ref': context_ref, 'operation_ref': identity,
                 'request_id_hash': hashlib.sha256(request_id.encode()).hexdigest(),
                 'prompt_version': PROMPT, 'input_tokens': counts[0], 'output_tokens': counts[1],
                 'total_tokens': counts[2], 'amount_micros': self.price.cost(*counts[:2]),

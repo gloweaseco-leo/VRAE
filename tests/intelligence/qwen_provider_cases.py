@@ -53,6 +53,7 @@ def test_native_fields_usage_real_tokens_not_utf8_and_original_guard(tmp_path, c
     assert out['usage']['amount_micros'] == 303
     assert out['usage']['cost_status'] == 'ESTIMATED'
     assert out['usage']['model_id'] == MODEL
+    assert out['usage']['context_ref'] == c.context_ref
     assert len(out['usage']['request_id_hash']) == 64
     assert 'fake-request-never' not in json.dumps(out)
     assert out['claims'][0]['status'] == 'HUMAN_REVIEW_REQUIRED'
@@ -194,6 +195,18 @@ def test_quota_missing_and_policy_mutation_fail_closed(tmp_path, c):
     run(c, p)
     changed = replace(p, permission=replace(p.permission, cap_micros=2000000))
     assert run(c, changed, op='operation-policy')[1]['code'] == 'QUOTA_POLICY_MISMATCH'
+
+
+def test_restarted_usage_cannot_be_attached_to_a_foreign_context(tmp_path, c):
+    path = tmp_path / 'q.sqlite'
+    p = provider(path, c)
+    first = run(c, p)[1]
+    receipt = {**first['usage'], 'context_ref': 's3ctx-' + '0' * 64}
+    with sqlite3.connect(path) as db:
+        db.execute('UPDATE calls SET receipt=?', (json.dumps(receipt),))
+    replay = run(c, p)[1]
+    assert replay['code'] == 'QUOTA_CONTEXT_MISMATCH'
+    assert replay['usage'] is None and not replay['claims'] and p._transport.calls == 1
 
 
 def test_concurrent_same_operation_and_cancellation_do_not_retry(tmp_path, c):
