@@ -47,7 +47,7 @@ def main():
     server_process = browser = None
     streams = []
     started = time.monotonic()
-    files = ['workbench.py','fixture.py','server.py','lab.py','browser.mjs','test_workbench.py']
+    files = ['workbench.py','buyer_cards.py','fixture.py','server.py','lab.py','browser.mjs','test_workbench.py','test_buyer_cards.py']
     source_hashes = {name:hashlib.sha256((OWN/name).read_bytes()).hexdigest() for name in files}
     try:
         errors = (out/'private-server.stderr').open('wb')
@@ -60,6 +60,7 @@ def main():
             time.sleep(0.1)
         actual = json.loads(ready.read_text())
         assert actual['reportId'] == rid and actual['displayHash'] == report.display_hash
+        assert actual['buyerCandidateRef'] == binding.expected_buyer_ref
 
         def login(subject):
             if subject not in {person.subject for person in people()}:
@@ -110,12 +111,16 @@ def main():
             raise RuntimeError('CONTROLLED_BROWSER_RED')
         if source_hashes != {name:hashlib.sha256((OWN/name).read_bytes()).hexdigest() for name in files}:
             raise RuntimeError('SOURCE_CHANGED_DURING_LIVE_RUN')
-        receipt = {'acceptedMain':'95ed55321775223e95cf0a1585220951cc692648',
+        receipt = {'acceptedMain':'4a227f1b58afc97d8af1778a066f37b80ff0f399',
                    'head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT).decode().strip(),
                    'composition':'Original B5B Application / DeepConsole / Directory / Ledger',
                    'signerOutsideHttpChild':True,'sourceAccessMode':'OFFLINE_SYNTHETIC',
                    'reportId':rid,'displayHash':report.display_hash,'packRef':binding.pack.ref,
                    'projectionRef':binding.expected_ref,'projectionVersion':json.loads(binding.payload)['projection_version'],
+                   'buyerCandidateRef':binding.expected_buyer_ref,'buyerCandidateAuthority':'READ_ONLY_REVIEW_CANDIDATE',
+                   'buyerCandidatePins':asdict(binding.buyer_pins),
+                   'reportVersionId':report.version['report_version_id'],
+                   'reportContentHash':report.version['content_hash'],
                    'sourceHashes':source_hashes,
                    'browser':done,'formalHumanReview':False,'externalDelivery':False}
         (out/'source.json').write_text(json.dumps(receipt,indent=2)+'\n')

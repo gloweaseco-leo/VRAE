@@ -45,7 +45,8 @@ def main():
     http = server(app)
     ready.write_text(json.dumps({'origin': app.origin, 'reportId': rid,
                                 'displayHash': binding.source.read().display_hash,
-                                'projectionRef': binding.expected_ref}), encoding='utf-8')
+                                'projectionRef': binding.expected_ref,
+                                'buyerCandidateRef': binding.expected_buyer_ref}), encoding='utf-8')
     try:
         http.serve_forever()
     finally:
