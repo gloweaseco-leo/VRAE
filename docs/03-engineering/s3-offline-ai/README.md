@@ -43,4 +43,16 @@ python -m integration.s3_offline.demo --output integration/s3_offline/.runtime/d
 
 工程候选状态仅为 `S3_OFFLINE_AI_ENGINEERING_PASS_PROVIDER_PENDING`，需 Owner 对实际 SHA/CI 独立审核；不是 S3 真实 Provider、生产、真实人审或外部交付 PASS。真实供应商、用途/地区、费率、密钥和客户内容传输必须另获 Owner GO。
 
-回滚：撤去本增量的新 S3 包、演练/显式测试和路径限定 workflow；原代码、数据库、账本格式及报告均未迁移，无数据回滚。CI、源码 SHA、拒绝与费用证据在审核提交时补充。
+## 本次可复核证据
+
+最终代码 SHA：`9b139cb85332304a4f829d7ed30a1653a5e095bc`，[Draft PR139](https://github.com/gloweaseco-leo/VRAE/pull/139)。[真实3.13专项 CI](https://github.com/gloweaseco-leo/VRAE/actions/runs/44246948353) SUCCESS：**289/289 PASS、0 SKIP**（43项新增显式 S3、246项原 Gateway/Guard/Evidence/候选安全依赖），ruff/mypy 与11组配对演练均成功。原3.13核心回归日志仍为2539 PASS + 25 SKIP = 2564。
+
+[EVIDENCE.json](EVIDENCE.json) 保存来源/报告 hash、逐例拒绝状态、成本来源、artifact/JUnit hash、受保护 blob/tree 对比和旧全局 CI 的只读状态快照。[无模型片段](technical-cross-page-before_markdown.md) / [fixture 片段](technical-cross-page-after_markdown.md) 均直接取自这个 SHA 的 CI 产物；全套11组片段与可重放字面 Guard bundle 在原 artifact，不手工改写模型或原始 JUnit。
+
+本次新 S3 Job 实际分配 runner 时间 **80秒（1.3333分钟）**，包含安装/清理，不含排队，不是计费或 CPU。前一代码 SHA `294d504a3891df8f7f5ce815d2b4c5829d7c51a1` 的[初版自然CI](https://github.com/gloweaseco-leo/VRAE/actions/runs/44246373750) 也成功（96秒）；因专业片段可读性修正产生上述最终新 SHA，自然验证两次 S3 Job 共176秒。旧全局 CI 的成本没有合并到此数字，不声称全仓费用变化。真实模型费用仍 UNKNOWN/null，不是0。
+
+原 accepted main 的已有文件均未修改（本增量为新增路径），原 Gateway、Guard、EvidencePack、执行器、Worker/SQL/infra/apps/L2 等 blob/tree 完整对照相同。B5A 原源码冻结在本地通过，未加例外；原全局门禁仍自然运行，未取消或重跑。快照中未结束的旧全局检查不记为 PASS，这不是全仓/系统 FINAL PASS。
+
+最后证据提交仅修改本目录，使用 `[skip ci]` 避免在完全相同业务/CI 代码上再触发一次无因果全局回归；不产生文档 HEAD 的新绿色结论。审核实测对象固定为上面的代码 SHA。
+
+回滚：撤去本增量的新 S3 包、演练/显式测试和路径限定 workflow；原代码、数据库、账本格式及报告均未迁移，无数据回滚。保持 Draft，待 Owner 对实际代码和证据独立 FINAL PASS，禁止自行合并或启用真实 Provider。
