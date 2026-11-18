@@ -7,6 +7,8 @@ from vrae.evidence import EvidenceError
 from vrae.l2.native import NativeSource
 from vrae.l2.report import TASKS, deny
 from vrae.rules.s2 import INDUSTRIAL_PROJECTION_VERSION, evaluate_s2, verify_s2_projection
+from vrae.reporting.s2_candidate import build_candidate, verify_candidate
+from . import buyer_cards
 
 LABELS = {'DISCOVER': '找到产品与型号', 'UNDERSTAND': '核对规格与工况',
           'TRUST': '核对供应商资料', 'INQUIRE': '准备型号询价',
@@ -36,6 +38,24 @@ class SourceBinding:
                           industry_pins=industry_pins)
         self.payload = json.dumps(out, ensure_ascii=False, sort_keys=True).encode()
         self.expected_ref = out['projection_ref']
+        self.buyer_pins = self.buyer_payload = self.expected_buyer_ref = None
+
+    def enable_buyer_cards(self, *, model, snapshot_ref):
+        projection = self.read(self.source.read())
+        self.buyer_pins = buyer_cards.selection(projection, scope=self.scope,
+            pack_ref=self.source.held.native_pack_ref, industry_pins=self.pins,
+            model=model, snapshot_ref=snapshot_ref)
+        candidate = build_candidate(self.pack, projection, held=self.buyer_pins)
+        self.buyer_payload = json.dumps(candidate, ensure_ascii=False, sort_keys=True).encode()
+        self.expected_buyer_ref = candidate['candidate_ref']
+
+    def read_buyer(self, projection):
+        if self.buyer_pins is None:
+            return None
+        candidate = json.loads(self.buyer_payload)
+        verify_candidate(candidate, self.pack, projection, held=self.buyer_pins,
+                         expected_candidate_ref=self.expected_buyer_ref)
+        return candidate
 
     def read(self, report):
         if (report.source_digest != self.source.expected or
@@ -54,9 +74,10 @@ def candidate_rows(projection):
     return projection['industrial_projection']['rows'] + projection['static_projection']['rows']
 
 
-def render(report, projection, root):
+def render(report, projection, root, buyer=None):
     snapshots = {snapshot['id']: snapshot for snapshot in report.document['snapshots']}
     rows = candidate_rows(projection)
+    displayed = {card['observation_id'] for card in buyer['cards']} if buyer else set()
     ready = [row for row in rows if row['observation']['rule_id']=='INFO-02' and row['observation']['result']=='PASS']
     body = '<section class="card" data-key="s2-source-workbench"><p class="eyebrow">受控工业采购复核</p>'
     body += '<h1>五维采购复核</h1><p>先核对型号、规格和供应商声明，再整理询价资料。</p>'
@@ -70,7 +91,8 @@ def render(report, projection, root):
     body += '<nav class="l2-nav" aria-label="五维采购任务">' + ''.join(link('#'+task, LABELS[task]) for task in TASKS) + '</nav></section>'
     for task in TASKS:
         body += '<section class="card" id="'+task+'" data-task="'+task+'"><h2>'+e(LABELS[task])+'</h2>'
-        selected = [(i, row) for i, row in enumerate(rows) if RULES.get(row['observation']['rule_id'], ('',))[0] == task]
+        selected = [(i, row) for i, row in enumerate(rows) if RULES.get(row['observation']['rule_id'], ('',))[0] == task
+                    and row['observation']['observation_id'] not in displayed]
         for i, row in selected:
             observation = row['observation']
             _, label, next_step = RULES[observation['rule_id']]
@@ -108,6 +130,9 @@ def render(report, projection, root):
     body += '<p>来源候选不会自动加入原审核项；所有决定和蓝图修订仍使用原接口。</p>'
     body += '<details><summary>来源与报告绑定</summary><p>原报告 '+e(report.version['report_version_id'])+'</p><p>报告显示 hash '+e(report.display_hash)+'</p>'
     body += '<p>来源 pack '+e(projection['pack_ref'])+'</p><p>只读候选 '+e(projection['projection_ref'])+'</p><p>固定行业配置 '+e(projection['industrial_projection']['industry_ref'])+'</p></details></section>'
+    if buyer is not None:
+        navigation = '<nav class="l2-nav" aria-label="五维采购任务">'+''.join(link('#'+task, LABELS[task]) for task in TASKS)+'</nav>'
+        return buyer_cards.attach(body, buyer, root, navigation)
     return body
 
 
@@ -119,7 +144,7 @@ class Workbench:
         self.deep, self.binding = deep, binding
 
     def route(self, path):
-        return re.fullmatch(r'/b5a/l2/r/([A-Za-z0-9_.-]{3,128})/source-tasks(?:/cite/(\d{1,3}))?', path)
+        return re.fullmatch(r'/b5a/l2/r/([A-Za-z0-9_.-]{3,128})/source-tasks(?:/cite/(\d{1,3})|/buyer-cite/([01]))?', path)
 
     def decorate(self, path, reply):
         return reply
@@ -136,17 +161,30 @@ class Workbench:
                 sid, rid = self.deep.sid(headers), match[1]
                 _, report = self.deep.current(sid, rid)
                 projection = self.binding.read(report)
+                buyer = self.binding.read_buyer(projection)
                 root = '/b5a/l2/r/'+rid
-                if match[2] is None:
-                    body = render(report, projection, root)
+                if match[2] is None and match[3] is None:
+                    body = render(report, projection, root, buyer)
                 else:
-                    rows = candidate_rows(projection)
-                    index = int(match[2])
-                    if index >= len(rows) or not rows[index]['citations']:
-                        deny()
+                    if match[3] is not None:
+                        index = int(match[3])
+                        if buyer is None or index >= len(buyer['cards']):
+                            deny()
+                        citations = buyer['cards'][index]['source_excerpts']
+                        context = buyer_cards.render_card(buyer['cards'][index], index, root)
+                    else:
+                        rows = candidate_rows(projection)
+                        index = int(match[2])
+                        if index >= len(rows) or not rows[index]['citations']:
+                            deny()
+                        citations = rows[index]['citations']
+                        context = ''
                     body = '<section class="card"><h1>保留来源的原文定位</h1><p>以下仅为原始来源声明，不认证其真实性。</p>'
+                    body += context
+                    if not citations:
+                        body += '<p>本卡仅有配置或响应记录，没有可展示的材料原文。</p>'
                     snapshots = {snapshot['id']:snapshot for snapshot in report.document['snapshots']}
-                    for citation in rows[index]['citations']:
+                    for citation in citations:
                         raw_source = self.binding.pack.resolve(citation['evidence_ref'], expected_pack_ref=projection['pack_ref'])['content']
                         if raw_source[citation['byte_start']:citation['byte_end']].decode() != citation['quote']:
                             raise EvidenceError('S2_SOURCE_QUOTE')

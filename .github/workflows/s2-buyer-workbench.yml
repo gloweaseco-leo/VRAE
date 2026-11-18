@@ -36,6 +36,7 @@ jobs:
           python -B -m pytest -q integration/s2_buyer_workbench
           integration/l2/test_l2.py integration/l2/test_codex1.py
           tests/s2_contract/p1_industrial_cases.py
+          tests/s2_contract/buyer_candidate_cases.py
           --junitxml=integration/s2_buyer_workbench/native.xml
       - name: Actual controlled signed HTTP, original SSR and Chrome viewports
         env:
