@@ -628,6 +628,16 @@ def serve(run):
                     from integration.l2_ops.workbench import PreparationWorkbench
                     assert type(run) is PreparationWorkbench, "S0_PRIVATE_AUDIT_RUNTIME_REQUIRED"
                     result = run.audit_control(body["case"], read=operation == "s0-audit-result")
+                elif operation in ('s4-intake-queue', 's4-intake-result'):
+                    from integration.l2_ops.workbench import PreparationWorkbench
+                    from integration.l2_executive.runtime_intake import control
+                    assert type(run) is PreparationWorkbench, 'S4_PRIVATE_RUNTIME_REQUIRED'
+                    if operation == 's4-intake-queue' and set(body) == {'operation', 'command'}:
+                        result = control(run, command=body['command'])
+                    elif operation == 's4-intake-result' and set(body) == {'operation'}:
+                        result = {'s4_result': control(run, read=True)}
+                    else:
+                        result = {'denied': 'S4_PRIVATE_CONTROL_DENIED'}
                 elif operation == "restart-pg" and set(body) == {"operation"}:
                     result = run.case("actual_pg_restart_" + str(run.boot), run.restart_pg)
                 else:

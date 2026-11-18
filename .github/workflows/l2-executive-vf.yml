@@ -1,0 +1,59 @@
+name: S4 executive summary and synthetic VF intake
+on:
+  pull_request:
+    paths:
+      - 'vrae/l2/**'
+      - 'vrae/l2_ops/**'
+      - 'apps/operator_console/l2*'
+      - 'integration/l2_executive/**'
+      - 'integration/l2_ops/**'
+      - '.github/workflows/l2-executive-vf.yml'
+permissions:
+  contents: read
+jobs:
+  executive-vf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Original locked dependencies
+        run: python -m pip install -r requirements-ra1a.lock -r requirements-ra4a-p2b2a.lock
+      - name: Focused source checks
+        run: |
+          python -m ruff check vrae/l2/executive.py vrae/l2_ops/intake.py vrae/l2_ops/intake_panel.py apps/operator_console/l2_executive_views.py integration/l2_executive integration/l2_ops/checks/test_executive.py integration/l2_ops/checks/test_intake.py --select E4,E7,E9,F
+          python -m mypy vrae
+          node --check integration/l2_executive/browser.mjs
+          node --check integration/l2_executive/joint_journey.mjs
+      - name: Pinned original PG16 and Chinese document fonts
+        run: |
+          docker pull postgres@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Focused S4 UI, receiver negatives and original PG fences
+        env:
+          L2_CHROMIUM: /usr/bin/google-chrome
+        run: python integration/l2_ops/verify.py --executive-only --label s4${{ strategy.job-index }} --python-current python --pg-image postgres@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+      - name: Accepted S2 source and shared routing regressions
+        run: python -m pytest -q integration/l2_ops/checks/test_s2_acceptance_sources.py integration/l2_ops/checks/test_s4_joint.py --tb=short --junitxml=integration/l2_ops/.private/s4-routing-${{ strategy.job-index }}.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s4-executive-vf-${{ matrix.python }}
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            docs/03-engineering/l2-operations/s4${{ strategy.job-index }}/
+            integration/l2_ops/.private/s4-routing-${{ strategy.job-index }}.xml

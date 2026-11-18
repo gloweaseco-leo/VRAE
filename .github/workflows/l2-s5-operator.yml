@@ -1,8 +1,12 @@
-name: S5 single operator S2 S3 integration
+name: S5 single operator S2 S3 S4 assembly
 on:
   pull_request:
     paths:
       - 'integration/s5_ops/**'
+      - 'integration/l2_executive/**'
+      - 'vrae/l2/executive.py'
+      - 'vrae/l2_ops/intake*'
+      - 'apps/operator_console/l2*'
       - 'integration/l2_ops/**'
       - 'integration/beta_review/codex3/**'
       - '.github/workflows/l2-s5-operator.yml'
@@ -40,7 +44,7 @@ jobs:
         run: |
           python -m ruff check integration/s5_ops --select E4,E7,E9,F
           python -m mypy --explicit-package-bases --follow-imports=silent integration/s5_ops
-          python -m pytest -q integration/s5_ops/test_ports.py integration/l2_ops/checks/test_s2_acceptance_sources.py integration/l2_ops/checks/test_native_tasks.py --junitxml=integration/s5_ops/.private/native-${{ matrix.slug }}.xml
+          python -m pytest -q integration/s5_ops/test_ports.py integration/l2_ops/checks/test_s2_acceptance_sources.py integration/l2_ops/checks/test_native_tasks.py integration/l2_ops/checks/test_executive.py integration/l2_ops/checks/test_intake.py integration/l2_ops/checks/test_s4_joint.py --junitxml=integration/s5_ops/.private/native-${{ matrix.slug }}.xml
       - name: Original dependency-only Worker image
         run: python integration/l2_ops/build_image.py --python ${{ matrix.python }}
       - name: Actual APP202 PG16 Worker signed SSR Chrome and restart

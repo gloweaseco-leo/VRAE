@@ -213,3 +213,22 @@ def test_same_task_reauthentication_cannot_reuse_foreign_report_source(ports):
             port.reauthenticate(manager.active["task"], manager.active["sid"])
     finally:
         app.deep.ledgers[rid].source = original
+
+
+def test_merged_S2_S3_S4_routes_share_original_authority_and_report(ports):
+    app, manager, port, headers, rid, _ = ports
+    business = app.native_business
+    root = "/b5a/l2/r/" + rid
+    before = manager.active["source"].read()
+    assert business.extensions["s5-offline"] is port
+    assert rid in business.source_views and business.intake.receiver is None
+    for suffix in ("/source-tasks", "/s3", "/brief", "/brief/submit", "/brief/retry", "/brief/revoke"):
+        assert business.route(root + suffix) == rid
+    for suffix in ("/source-tasks", "/s3", "/executive", "/executive-document"):
+        assert app.handle("GET", root + suffix, headers).response.status == 200
+        assert app.handle("GET", root + suffix, {}).response.status == 403
+    for action in ("submit", "retry", "revoke"):
+        assert app.handle("GET", root + "/brief/" + action, headers).response.status == 403
+    after = manager.active["source"].read()
+    assert after.version == before.version and after.display_hash == before.display_hash
+    assert not port.jobs

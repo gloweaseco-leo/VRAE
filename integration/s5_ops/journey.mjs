@@ -1,6 +1,6 @@
 // Hooks on the original browser transport. No extra page/server/auth issuer.
 export function hooks() {
-  const receipt={scope:'S5_PARTIAL_S2_S3_S4_PENDING',formalHuman:false,realProvider:false};
+  const receipt={scope:'S5_S2_S3_S4_REAL_SAME_TASK_INTERNAL_ASSEMBLY',formalHuman:false,realProvider:false};
   async function result(c,mode,root,reportPins){
     await c.nav(root+'/s3');
     await c.select('[name=mode]',mode==='NO_MODEL'?0:1);
@@ -25,6 +25,9 @@ export function hooks() {
       await c.check('S5-offline-entry-same-original-SSR',await c.ev("!!document.querySelector('[data-key=s5-offline]')&&!!document.querySelector('[data-key=s5-original-report]')"));
       const form=await c.ev("new URLSearchParams(new FormData(document.querySelector('form[method=post]'))).toString()");
       await c.check('S5-browser-cannot-submit-task-or-report-pins',await c.postForm(root+'/s3',form+'&report_hash='+'0'.repeat(64))===403);
+      await fresh();await c.nav(root+'/s3');
+      const refForm=await c.ev("new URLSearchParams(new FormData(document.querySelector('form[method=post]'))).toString()");
+      await c.check('S5-browser-forged-context-ref-denied',await c.postForm(root+'/s3',refForm+'&context_ref=s3ctx-forged')===403);
       await fresh();
       receipt.noModel=await result(c,'NO_MODEL',root,reportPins);
       await fresh();
@@ -45,7 +48,7 @@ export function hooks() {
       await c.check('S5-restart-cannot-reset-fixture-ledger',await c.postForm(root+'/s3',form.replace('mode=NO_MODEL','mode=FIXTURE'))===403);
       await c.nav(root);const pins=await c.ev("JSON.parse(document.querySelector('.l2-technical pre').textContent)");
       await c.check('S5-original-report-version-hash-unchanged',pins.display_hash===reportPins.display_hash&&JSON.stringify(pins.report_version)===JSON.stringify(reportPins.report_version));
-      receipt.afterTask=task;receipt.actualS4='NOT_MERGED_NOT_CLAIMED';receipt.aiHistory='METADATA_ONLY_NOT_A_DURABLE_CANDIDATE_STORE';
+      receipt.afterTask=task;receipt.actualS4='OWNER_MERGED_S4_SAME_TASK_EXECUTIVE_AND_INDEPENDENT_SYNTHETIC_ACK';receipt.aiHistory='METADATA_ONLY_NOT_A_DURABLE_CANDIDATE_STORE';
       await c.screenshot('s5-restart-history.png');
       await c.writeFile(c.path.join(c.out,'s5-offline-proof.json'),JSON.stringify(receipt,null,2));
     }

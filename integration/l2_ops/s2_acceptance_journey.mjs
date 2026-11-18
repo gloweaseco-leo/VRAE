@@ -1,5 +1,6 @@
 // Same-task S2 product QA on original transport, signer, Worker and SSR.
 export async function s2Journey(c) {
+  const s4=c.executive?(await import('../l2_executive/joint_journey.mjs')).executiveJourney(c):null;
   const {ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,postForm,statusOf,writeFile,path,out,origin}=c;
   const base=origin+'/b5a/m2/';
   await nav(base);
@@ -46,6 +47,7 @@ export async function s2Journey(c) {
   await fresh();await nav(sourceURL);await click('[data-key=s2-source-citation]',true);
   await check('S2-real-citation-not-executed-source-HTML',await ev("!!document.querySelector('[data-key=s2-original-citation]')&&document.body.innerText.includes('原始 UTF-8 字节')&&document.scripts.length===0"));
   await screenshot('s2-original-citation.png');
+  if(s4){await fresh();await s4.summary(root,reportPins,fresh)}
   await nav(root+'/blueprint');const packages=await ev('document.querySelectorAll(".l2-blueprint").length');
   await check('S2-original-seven-package-blueprint',packages===7);
   await screenshot('s2-blueprint.png');
@@ -62,6 +64,7 @@ export async function s2Journey(c) {
   await check('S2-full-single-task-source-review-Brief-chain',proof.brief_stored&&['request_id','run_id','job_id','source_ref'].every(k=>proof.task[k]===task[k])&&proof.brief.pins.native_pack_ref===proof.pack_ref&&proof.brief.pins.diagnosis_ref===proof.diagnosis_ref&&proof.brief.pins.report_sha256===reportPins.display_hash&&proof.s2_source.pack_ref===proof.pack_ref,proof.brief.pins);
   await screenshot('s2-internal-Brief.png');
   const before=proof;
+  if(s4)await s4.intake(proof,fresh);
   await fresh();
   for(const [suffix,name] of [['/report-print','s2-report-zh-A4.pdf'],['/blueprint-print','s2-blueprint-zh-A4.pdf']]){
     await nav(root+suffix);await check(name+'-actual-current-report',await ev("document.body.innerText.includes('P40')&&document.body.innerText.includes('V25')&&!document.body.innerText.includes('L2_REQUEST_DENIED')"));
@@ -81,7 +84,9 @@ export async function s2Journey(c) {
   await check('S2-same-report-review-Brief-readback',after.brief_stored&&after.pack_ref===before.pack_ref&&after.diagnosis_sha256===before.diagnosis_sha256&&after.brief.content_sha256===before.brief.content_sha256&&after.brief.review.receipt_sha256===before.brief.review.receipt_sha256&&after.s2_source.projection_ref===before.s2_source.projection_ref&&JSON.stringify(after.s2_source.buyer)===JSON.stringify(before.s2_source.buyer));
   await screenshot('s2-restart-readback.png');
   if(c.s5Hooks)await c.s5Hooks.after(c,{root,task,reportPins,before,after,fresh});
+  if(s4){await s4.restarted(after);await s4.finish(fresh)}
   await call('Network.deleteCookies',{name:'b5a_l2_session',url:origin+'/b5a/l2/'});await nav(sourceURL);
   await check('S2-unsigned-source-reader-refused',statusOf(sourceURL)===403&&!await ev("!!document.querySelector('[data-key=s2-source-workbench]')"));
+  if(c.s5Hooks){await nav(root+'/s3');await check('S5-unsigned-original-review-reader-refused',statusOf(root+'/s3')===403)}
   await writeFile(path.join(out,'s2-native-chain.json'),JSON.stringify({scope:'S2_P2_INDUSTRIAL_STAGE_NOT_FULL_S2_EXIT',task,worker,reportPins,before,after,formalHumanGold:false,modelCalls:0,externalDelivery:false},null,2));
 }

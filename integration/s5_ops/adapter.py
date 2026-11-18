@@ -365,7 +365,7 @@ class S5Ports:
                 "s3_history": self.history(held),
                 "customer_approval": False,
                 "external_delivery_allowed": False,
-                "s4": "AWAITING_ACCEPTED_MAIN",
+                "s4": "OWNER_MERGED_SYNTHETIC_INTAKE_ACK_VOLATILE",
             }
 
     def handle(self, method, path, headers, raw):

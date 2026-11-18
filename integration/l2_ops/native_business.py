@@ -10,6 +10,8 @@ from vrae.l2_ops.briefs import BriefService
 from vrae.l2_ops.ledger import BriefLedger
 from vrae.l2_ops.panel import render_verified
 from vrae.l2_ops.sources import OperationsDenied
+from vrae.l2_ops.intake import SyntheticIntake
+from vrae.l2_ops.intake_panel import render as render_intake
 from .native_report import NativeCurrentReader
 
 
@@ -33,6 +35,7 @@ class NativeBusiness:
             raise OperationsDenied("L2_NATIVE_BUSINESS_PORTS_REQUIRED")
         self.app, self.ledger = app, ledger
         self.bindings = {}
+        self.intake = SyntheticIntake()
         self.source_views = {}
         self.extensions = {}
 
@@ -55,7 +58,7 @@ class NativeBusiness:
         if (rid := route(self, path)) is not None:
             return rid
         for rid in self.bindings:
-            if path == "/b5a/l2/r/" + rid + "/brief":
+            if path in {"/b5a/l2/r/" + rid + "/brief" + suffix for suffix in ('', '/submit', '/retry', '/revoke')}:
                 return rid
         return None
 
@@ -90,6 +93,10 @@ class NativeBusiness:
             sid = deep.sid(headers)
             person = deep.directory.require(sid, rid).person
             binding = self.bindings[rid]
+            root = "/b5a/l2/r/" + rid + "/brief"
+            action = path.removeprefix(root).lstrip('/')
+            if action and method != 'POST':
+                raise OperationsDenied('S4_POST_REQUIRED')
             if (person.subject != binding.subject or person.tenant_id != binding.bundle.tenant_id
                     or person.role not in ("OWNER", "REVIEWER")):
                 raise OperationsDenied("L2_NATIVE_BUSINESS_IDENTITY_DENIED")
@@ -100,7 +107,7 @@ class NativeBusiness:
                     or reader.ledger is not deep.ledgers[rid] or reader.bundle != binding.bundle):
                 raise OperationsDenied("L2_NATIVE_BUSINESS_CURRENT_READER_REQUIRED")
             service = BriefService(reader)
-            if method == "POST" and self.app.native_tasks is not None:
+            if method == "POST" and not action and self.app.native_tasks is not None:
                 from .runtime_audit import consume
                 audit = consume(self.app.native_tasks, reader, self.ledger, binding.bundle, binding.activities)
                 if audit is not None:
@@ -108,7 +115,7 @@ class NativeBusiness:
             with reader.current() as current:
                 # Each stored review has its own immutable internal Brief.
                 brief_ref = "rb-" + current.review["receipt_ref"]
-            if method == "POST":
+            if method == "POST" and not action:
                 document = service.prepare(binding.bundle, brief_ref=brief_ref, activities=binding.activities)
                 service.save_current(self.ledger, document)
             try:
@@ -121,9 +128,21 @@ class NativeBusiness:
                 stored = False
             if self.app.native_tasks is not None:
                 self.app.native_tasks.audit(document, stored)
-            nonce = deep.directory.action(sid, path)
+            if action:
+                if not stored:
+                    raise OperationsDenied('S4_SAVED_BRIEF_REQUIRED')
+                self.intake.transition(service, self.ledger, brief_ref, action)
+            if stored and self.app.native_tasks is not None:
+                from integration.l2_executive.runtime_intake import consume
+                consume(self.app.native_tasks, self.intake, service, self.ledger, brief_ref)
+            row = None
+            if stored and document['source']['access_mode'] == 'OFFLINE_SYNTHETIC' and document['preparation_status'] == 'INTERNAL_REVIEW_RECORDED':
+                row = self.intake.view_verified(document)
+            nonce = deep.directory.action(sid, root)
+            nonces = {a: deep.directory.action(sid, root+'/'+a) for a in ('submit', 'retry', 'revoke')}
             body = ('<p data-key="l2-brief-persistence">' + ("已从 PostgreSQL 回读持久交接。" if stored else "预览尚未持久保存；保存时将再次核验任务与本版本审核。")
-                + '</p>' + render_verified(document) + '<form method="post" action="' + path + '">'
+                + '</p>' + render_intake(document, row, root, nonces, stored=stored and document['source']['access_mode'] == 'OFFLINE_SYNTHETIC' and document['preparation_status'] == 'INTERNAL_REVIEW_RECORDED')
+                + render_verified(document) + '<form method="post" action="' + root + '">'
                 + hidden('_csrf', nonce) + '<button data-key="l2-save-brief">保存内部商务 Brief</button></form>'
                 + link('/b5a/l2/r/'+rid, '返回本次深度报告'))
             return deep.reply("内部商务 RebuildBrief", body)
