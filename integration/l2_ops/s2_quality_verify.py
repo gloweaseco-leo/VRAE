@@ -37,10 +37,25 @@ OWN = (
     "integration/l2_ops/s2_quality_verify.py",
     ".github/workflows/s2-c3-quality.yml",
 )
+REVIEWED_S4_HEAD = 'acfbb379097c662d39d128a0fa8538ddef248408'
+REVIEWED_S4_BASE = '676fdde5c14a23bb284a0cb00df25773b30ed4b3'
+REVIEWED_S4_FILES = frozenset({
+    'vrae/l2/executive.py', 'vrae/l2_ops/intake.py', 'vrae/l2_ops/intake_panel.py',
+    'apps/operator_console/l2_executive_views.py', 'apps/operator_console/l2_http.py',
+    'apps/operator_console/l2_views.py', 'apps/operator_console/l2.css',
+})
 
 
 def git(*args):
     return subprocess.check_output(["git", *args], cwd=ROOT).decode().strip()
+
+
+def reviewed_s4_overlay(changed, base):
+    """Owner-approved exact blobs only; never a general core-directory waiver."""
+    if base != REVIEWED_S4_BASE or not changed or not set(changed) <= REVIEWED_S4_FILES:
+        return False
+    return all(git('rev-parse', 'HEAD:'+name) == git('rev-parse', REVIEWED_S4_HEAD+':'+name)
+               for name in changed)
 
 
 def main():
@@ -50,6 +65,7 @@ def main():
     parser.add_argument("--python-current")
     parser.add_argument("--python311")
     parser.add_argument("--python313")
+    parser.add_argument('--reviewed-s4', action='store_true', help='Exact Owner-reviewed PR140 component blobs')
     args = parser.parse_args()
     if not re.fullmatch("[a-z0-9-]{3,40}", args.label):
         parser.error("new bounded label required")
@@ -63,7 +79,8 @@ def main():
         interpreters = [args.python311, args.python313]
     if not re.fullmatch("[a-f0-9]{40}", args.base_ref):
         parser.error("exact accepted base SHA required")
-    if git("diff", "--name-only", args.base_ref + "...HEAD", "--", *FROZEN):
+    changed = git("diff", "--name-only", args.base_ref + "...HEAD", "--", *FROZEN).splitlines()
+    if changed and not (args.reviewed_s4 and reviewed_s4_overlay(changed, args.base_ref)):
         raise RuntimeError("FROZEN_SOURCE_CHANGED")
     if git("diff", "--name-only", "HEAD", "--", *OWN):
         raise RuntimeError("COMMIT_EXECUTABLE_CANDIDATE_BEFORE_NATIVE_GATE")
@@ -126,6 +143,7 @@ def main():
                 "tests/benchmark",
                 "tests/s2_quality/quality_cases.py",
                 "tests/s2_quality/input_cases.py",
+                "tests/s2_quality/source_scope_cases.py",
                 "tests/industry/l2_cases.py",
                 "--junitxml=" + str(folder / "native.xml"),
             ],

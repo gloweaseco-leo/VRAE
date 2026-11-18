@@ -39,7 +39,7 @@ jobs:
       - name: Native offline replay and exact old Gold compatibility
         run: >-
           python integration/l2_ops/s2_quality_verify.py --label hosted${{ matrix.slug }}
-          --python-current python --base-ref ${{ github.event.pull_request.base.sha }}
+          --reviewed-s4 --python-current python --base-ref ${{ github.event.pull_request.base.sha }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
