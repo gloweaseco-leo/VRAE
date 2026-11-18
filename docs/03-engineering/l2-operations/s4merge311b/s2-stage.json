@@ -1,0 +1,83 @@
+{
+  "source_sha": "7814f30aa6fa84d91e226f2c4ed4ee420bf74184",
+  "accepted_main": "676fdde5c14a23bb284a0cb00df25773b30ed4b3",
+  "minor": "3.11",
+  "label": "s4merge311b",
+  "scope": "S2_S4_REAL_SAME_TASK_APP202_WORKER_PG_SSR_EXECUTIVE_INTAKE",
+  "pass": false,
+  "formal_human_gold": false,
+  "external_delivery": false,
+  "model_calls": 0,
+  "failure_type": "AssertionError",
+  "snapshot_failure": "CalledProcessError",
+  "closed": true,
+  "owned_cleanup": {
+    "volumes": [
+      {
+        "name": "vrae-beta-c3-72b793825db0-routing",
+        "container_id": "0698c9f0fb4564a19b4d9669b210d53338c8ab30347a88eff1cc1c1a8d79ef6e",
+        "owner_label": "s4merge311b",
+        "destination": "/state",
+        "absent": true,
+        "removed_after_owned_stop": false
+      },
+      {
+        "name": "vrae-beta-c3-72b793825db0",
+        "container_id": "0698c9f0fb4564a19b4d9669b210d53338c8ab30347a88eff1cc1c1a8d79ef6e",
+        "owner_label": "s4merge311b",
+        "destination": "/work",
+        "absent": true,
+        "removed_after_owned_stop": false
+      }
+    ],
+    "old_anonymous_volumes": "UNKNOWN_UNTOUCHED",
+    "global_prune": false
+  },
+  "first_failure": {
+    "phase": "original_browser.same_task",
+    "exception_type": "AssertionError",
+    "original_exception_type": "AssertionError",
+    "original_method_locations": [
+      {
+        "module": "integration/beta_review/codex3/local_app.py",
+        "line": 329,
+        "method": "main"
+      },
+      {
+        "module": "integration/beta_review/codex3/local_app.py",
+        "line": 194,
+        "method": "supervise"
+      },
+      {
+        "module": "integration/l2_ops/workbench.py",
+        "line": 160,
+        "method": "main"
+      },
+      {
+        "module": "integration/beta_review/codex3/m3_workbench.py",
+        "line": 608,
+        "method": "serve"
+      },
+      {
+        "module": "integration/beta_review/codex3/m3_workbench.py",
+        "line": 358,
+        "method": "dispatch"
+      }
+    ],
+    "observed_transport_exception_type": null,
+    "private_logs": [
+      {
+        "role": "s2_controller",
+        "bytes": 616,
+        "sha256": "52c0592616497197e2640bd768835ed0cc0366009fe190dec0f782b93f5ec53c"
+      },
+      {
+        "role": "original_supervisor",
+        "bytes": 2092,
+        "sha256": "04944451ab5d3e77613c80d81b944ef2d88da30983d6a1eb6e793026d7b1418f"
+      }
+    ],
+    "private_text_published": false,
+    "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"
+  }
+}

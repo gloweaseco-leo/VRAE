@@ -1,0 +1,61 @@
+{
+  "source_sha": "7814f30aa6fa84d91e226f2c4ed4ee420bf74184",
+  "accepted_main": "676fdde5c14a23bb284a0cb00df25773b30ed4b3",
+  "minor": "3.13",
+  "label": "s4merge313a",
+  "scope": "S2_S4_REAL_SAME_TASK_APP202_WORKER_PG_SSR_EXECUTIVE_INTAKE",
+  "pass": false,
+  "formal_human_gold": false,
+  "external_delivery": false,
+  "model_calls": 0,
+  "failure_type": "AssertionError",
+  "closed": true,
+  "owned_cleanup": {
+    "volumes": [
+      {
+        "name": "vrae-beta-c3-531cfb079e0a-routing",
+        "container_id": "d456abefec36cf83ebdbef67535f57f58b3881f8e766d5081fece09ae080db5f",
+        "owner_label": "s4merge313a",
+        "destination": "/state",
+        "absent": true,
+        "removed_after_owned_stop": false
+      },
+      {
+        "name": "vrae-beta-c3-531cfb079e0a",
+        "container_id": "d456abefec36cf83ebdbef67535f57f58b3881f8e766d5081fece09ae080db5f",
+        "owner_label": "s4merge313a",
+        "destination": "/work",
+        "absent": true,
+        "removed_after_owned_stop": false
+      }
+    ],
+    "old_anonymous_volumes": "UNKNOWN_UNTOUCHED",
+    "global_prune": false
+  },
+  "first_failure": {
+    "phase": "original_browser.same_task",
+    "exception_type": "AssertionError",
+    "original_exception_type": null,
+    "original_method_locations": [],
+    "observed_transport_exception_type": "Empty",
+    "private_logs": [
+      {
+        "role": "s2_controller",
+        "bytes": 616,
+        "sha256": "fce9a43aa5202e0630e2ba20752bf81ed8c4a92140ac18462441025e80865ed2"
+      },
+      {
+        "role": "original_supervisor",
+        "bytes": 739,
+        "sha256": "bc512550f112eba107c839de79aa1a566b90ac1492466fcbde07141c32c13da8"
+      },
+      {
+        "role": "original_http_transport",
+        "bytes": 25,
+        "sha256": "f0cf09e203c65f8d99a86c73c71801802c593b85fea690d9dc2abca3305edc8c"
+      }
+    ],
+    "private_text_published": false,
+    "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"
+  }
+}

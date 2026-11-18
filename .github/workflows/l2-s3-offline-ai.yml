@@ -1,0 +1,49 @@
+name: S3 offline AI procurement candidates
+on:
+  pull_request:
+    paths:
+      - 'vrae/intelligence/**'
+      - 'integration/s3_offline/**'
+      - 'tests/intelligence/s3_offline_cases.py'
+      - 'vrae/interpretation/**'
+      - 'vrae/evidence/**'
+      - 'vrae/reporting/s2_candidate.py'
+      - 'vrae/rules/s2/**'
+      - 'vrae/industry/l2_v1/**'
+      - 'requirements-ra1a.lock'
+      - '.github/workflows/l2-s3-offline-ai.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-procurement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+      - run: python -m ruff check vrae/intelligence/s3 integration/s3_offline tests/intelligence/s3_offline_cases.py --select E4,E7,E9,F
+      - run: python -m mypy vrae
+      - name: Explicit S3 adversarial and original dependency safety tests
+        run: >-
+          python -m pytest -q --tb=short tests/intelligence/s3_offline_cases.py
+          tests/intelligence/test_gateway.py tests/intelligence/test_accounting.py
+          tests/intelligence/test_request.py tests/interpretation/test_guard.py
+          tests/interpretation/test_fixed_replay.py tests/evidence/test_site_coherence.py
+          tests/s2_contract/buyer_candidate_cases.py
+          --junitxml=integration/s3_offline/.runtime/security.xml
+      - name: Paired same-source NO_MODEL and fixture demonstrations; no real provider
+        run: python -m integration.s3_offline.demo --output integration/s3_offline/.runtime/demo
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-offline-procurement-313
+          path: integration/s3_offline/.runtime/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

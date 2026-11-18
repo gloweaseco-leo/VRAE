@@ -1,0 +1,855 @@
+{
+  "version": "c3-s2-preparation-1.0.0",
+  "status": "PREPARATION_ONLY_RUNTIME_NOT_RUN",
+  "authority": "NONE_NOT_EVIDENCEPACK_OR_REVIEW",
+  "dependency_gate": {
+    "pr124_owner_merge_required": true,
+    "merge_permission": false
+  },
+  "future_lanes": [
+    {
+      "lane": "A",
+      "fixture_site": "s2_static",
+      "actual_runtime_identity": {
+        "tenant_id": null,
+        "request_id": null,
+        "run_id": null,
+        "job_id": null,
+        "pack_ref": null,
+        "diagnosis_sha": null,
+        "report_id": null,
+        "report_version": null,
+        "report_hash": null,
+        "review_receipt_hash": null,
+        "brief_ref": null
+      }
+    },
+    {
+      "lane": "B",
+      "fixture_site": "s2_cms",
+      "actual_runtime_identity": {
+        "tenant_id": null,
+        "request_id": null,
+        "run_id": null,
+        "job_id": null,
+        "pack_ref": null,
+        "diagnosis_sha": null,
+        "report_id": null,
+        "report_version": null,
+        "report_hash": null,
+        "review_receipt_hash": null,
+        "brief_ref": null
+      }
+    }
+  ],
+  "future_runtime_requirements": {
+    "lanes_must_have_distinct_real_run_and_pack": true,
+    "single_original_app_worker_ssr_pg": true,
+    "original_worker_lease_seconds": 30,
+    "generic_rule_target": 16,
+    "industrial_rule_target": 6,
+    "new_ten_rules_implemented": false,
+    "viewports": [
+      1280,
+      390,
+      375,
+      320
+    ],
+    "required_chain": [
+      "APP202",
+      "original Worker COMMIT",
+      "same-run EvidencePack replay",
+      "accepted C1 Port",
+      "accepted C2 original workbench",
+      "version-bound Controlled review",
+      "Brief PG COMMIT",
+      "PG restart and original report/hash/review/Brief readback"
+    ],
+    "actual_runtime_checks": "NOT_EXECUTED"
+  },
+  "catalog": [
+    {
+      "site_id": "s2_static",
+      "site_type": "STATIC",
+      "source_mode": "SYNTHETIC_OFFLINE",
+      "scope_before_capture": [
+        {
+          "role": "HOME",
+          "url": "https://example.org/",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CATEGORY",
+          "url": "https://example.org/category/valves",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "PRODUCT",
+          "url": "https://example.org/products/valve-v1",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CONTACT",
+          "url": "https://example.org/contact",
+          "selection": "SELECTED",
+          "applicable": true
+        }
+      ],
+      "fixture_routes": [
+        {
+          "url": "https://example.org/",
+          "status": 200,
+          "body_sha256": "2fcaa2b3f7f5be3c052dfdbb642e51cba1e3f55028427015d2efe9dd90224b49"
+        },
+        {
+          "url": "https://example.org/category/valves",
+          "status": 200,
+          "body_sha256": "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8"
+        },
+        {
+          "url": "https://example.org/products/valve-v1",
+          "status": 200,
+          "body_sha256": "efc47e9af59a25ccd8d009f28412ad877ee98205412f58b533f328673137c140"
+        },
+        {
+          "url": "https://example.org/contact",
+          "status": 200,
+          "body_sha256": "7e980d6ff54db3a9dab7ca11c26dd5117a2ae5cf13f071bc67595856bbf32447"
+        },
+        {
+          "url": "https://example.org/robots.txt",
+          "status": 200,
+          "body_sha256": "e5c4b84484ee4216e9373be99380320c25dd94805f99f0a805846f087636553f"
+        }
+      ],
+      "authored_expectations_not_gold": [
+        {
+          "rule_id": "DISC-01",
+          "source_url": "https://example.org/",
+          "target_url": "https://example.org/category/valves",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Static nav href, captured category HTTP200."
+        },
+        {
+          "rule_id": "DISC-02",
+          "source_url": "https://example.org/category/valves",
+          "target_url": "https://example.org/products/valve-v1",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Static product href, captured product HTTP200."
+        },
+        {
+          "rule_id": "CTA-02",
+          "source_url": "https://example.org/products/valve-v1",
+          "target_url": "https://example.org/contact",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Read-only contact href HTTP200; no delivery claim."
+        }
+      ]
+    },
+    {
+      "site_id": "s2_cms",
+      "site_type": "CMS",
+      "source_mode": "SYNTHETIC_OFFLINE",
+      "scope_before_capture": [
+        {
+          "role": "HOME",
+          "url": "https://example.org/",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CATEGORY",
+          "url": "https://example.org/category/valves",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "PRODUCT",
+          "url": "https://example.org/products/valve-v1",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CONTACT",
+          "url": "https://example.org/contact",
+          "selection": "SELECTED",
+          "applicable": true
+        }
+      ],
+      "fixture_routes": [
+        {
+          "url": "https://example.org/",
+          "status": 200,
+          "body_sha256": "219307e0732c7d46d34f7bb400a5064f79a3cec6451449bfe23c894acfaac9e1"
+        },
+        {
+          "url": "https://example.org/category/valves",
+          "status": 200,
+          "body_sha256": "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8"
+        },
+        {
+          "url": "https://example.org/products/valve-v1",
+          "status": 200,
+          "body_sha256": "efc47e9af59a25ccd8d009f28412ad877ee98205412f58b533f328673137c140"
+        },
+        {
+          "url": "https://example.org/contact",
+          "status": 404,
+          "body_sha256": "7e980d6ff54db3a9dab7ca11c26dd5117a2ae5cf13f071bc67595856bbf32447"
+        },
+        {
+          "url": "https://example.org/robots.txt",
+          "status": 200,
+          "body_sha256": "e5c4b84484ee4216e9373be99380320c25dd94805f99f0a805846f087636553f"
+        }
+      ],
+      "authored_expectations_not_gold": [
+        {
+          "rule_id": "DISC-01",
+          "source_url": "https://example.org/",
+          "target_url": "https://example.org/category/valves",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Static nav href, captured category HTTP200."
+        },
+        {
+          "rule_id": "DISC-02",
+          "source_url": "https://example.org/category/valves",
+          "target_url": "https://example.org/products/valve-v1",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Static product href, captured product HTTP200."
+        },
+        {
+          "rule_id": "CTA-02",
+          "source_url": "https://example.org/products/valve-v1",
+          "target_url": "https://example.org/contact",
+          "expected": "FAIL_WITH_EVIDENCE",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Captured CMS contact href returns404; no delivery inference."
+        }
+      ]
+    },
+    {
+      "site_id": "s2_spa",
+      "site_type": "SPA",
+      "source_mode": "SYNTHETIC_OFFLINE",
+      "scope_before_capture": [
+        {
+          "role": "HOME",
+          "url": "https://example.org/",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CATEGORY",
+          "url": "https://example.org/category/valves",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "PRODUCT",
+          "url": "https://example.org/products/valve-v1",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CONTACT",
+          "url": "https://example.org/contact",
+          "selection": "SELECTED",
+          "applicable": true
+        }
+      ],
+      "fixture_routes": [
+        {
+          "url": "https://example.org/",
+          "status": 200,
+          "body_sha256": "8b67fa5843b0ad3acea194cc346a8aac84649ad91a4590c2288307f3ead7fdd0"
+        },
+        {
+          "url": "https://example.org/robots.txt",
+          "status": 200,
+          "body_sha256": "e5c4b84484ee4216e9373be99380320c25dd94805f99f0a805846f087636553f"
+        }
+      ],
+      "authored_expectations_not_gold": [
+        {
+          "rule_id": "DISC-01",
+          "source_url": "https://example.org/",
+          "target_url": null,
+          "expected": "UNKNOWN",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "No supported static nav anchor."
+        },
+        {
+          "rule_id": "DISC-02",
+          "source_url": null,
+          "target_url": null,
+          "expected": "UNKNOWN",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "No captured category source."
+        },
+        {
+          "rule_id": "CTA-02",
+          "source_url": null,
+          "target_url": null,
+          "expected": "UNKNOWN",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "No captured product source."
+        }
+      ]
+    },
+    {
+      "site_id": "s2_skus",
+      "site_type": "MULTI_SKU",
+      "source_mode": "SYNTHETIC_OFFLINE",
+      "scope_before_capture": [
+        {
+          "role": "HOME",
+          "url": "https://example.org/",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CATEGORY",
+          "url": "https://example.org/category/valves",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "PRODUCT",
+          "url": "https://example.org/products/valve-v1",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CONTACT",
+          "url": "https://example.org/contact",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "PRODUCT_SECOND",
+          "url": "https://example.org/products/pump-p40",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "RFQ",
+          "url": "https://example.org/rfq",
+          "selection": "SELECTED",
+          "applicable": true
+        }
+      ],
+      "fixture_routes": [
+        {
+          "url": "https://example.org/",
+          "status": 200,
+          "body_sha256": "2fcaa2b3f7f5be3c052dfdbb642e51cba1e3f55028427015d2efe9dd90224b49"
+        },
+        {
+          "url": "https://example.org/category/valves",
+          "status": 200,
+          "body_sha256": "20ba517b201ca0d8476b9c70df0a7e4ac785e8de1aa0d9bbfd8c7c6c48f20bd8"
+        },
+        {
+          "url": "https://example.org/products/valve-v1",
+          "status": 200,
+          "body_sha256": "efc47e9af59a25ccd8d009f28412ad877ee98205412f58b533f328673137c140"
+        },
+        {
+          "url": "https://example.org/contact",
+          "status": 200,
+          "body_sha256": "7e980d6ff54db3a9dab7ca11c26dd5117a2ae5cf13f071bc67595856bbf32447"
+        },
+        {
+          "url": "https://example.org/robots.txt",
+          "status": 200,
+          "body_sha256": "e5c4b84484ee4216e9373be99380320c25dd94805f99f0a805846f087636553f"
+        },
+        {
+          "url": "https://example.org/products/pump-p40",
+          "status": 200,
+          "body_sha256": "5acb5ed3408b176caaca0e1c5d7b53121b65392bfb4ccd59e624942b64060c5e"
+        },
+        {
+          "url": "https://example.org/rfq",
+          "status": 403,
+          "body_sha256": "6973dddd3ef9cb6a2932702f31777faad9c9bf3124d147a84f31aadb6d139546"
+        }
+      ],
+      "authored_expectations_not_gold": [
+        {
+          "rule_id": "DISC-01",
+          "source_url": "https://example.org/",
+          "target_url": "https://example.org/category/valves",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Static nav href, captured category HTTP200."
+        },
+        {
+          "rule_id": "DISC-02",
+          "source_url": "https://example.org/category/valves",
+          "target_url": "https://example.org/products/valve-v1",
+          "expected": "UNKNOWN",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "403 on selected RFQ stops the bounded capture before the other SKU."
+        },
+        {
+          "rule_id": "CTA-02",
+          "source_url": "https://example.org/products/valve-v1",
+          "target_url": "https://example.org/contact",
+          "expected": "UNKNOWN",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Other SKU was not visited; authored scope is retained unobserved, not TN."
+        },
+        {
+          "rule_id": "DISC-02",
+          "source_url": "https://example.org/category/valves",
+          "target_url": "https://example.org/products/pump-p40",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Second captured SKU path only."
+        },
+        {
+          "rule_id": "CTA-02",
+          "source_url": "https://example.org/products/pump-p40",
+          "target_url": "https://example.org/rfq",
+          "expected": "ACCESS_BLOCKED",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Captured403 is not business failure."
+        }
+      ]
+    },
+    {
+      "site_id": "s2_languages",
+      "site_type": "MULTILINGUAL",
+      "source_mode": "SYNTHETIC_OFFLINE",
+      "scope_before_capture": [
+        {
+          "role": "HOME",
+          "url": "https://example.org/",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CATEGORY",
+          "url": "https://example.org/category/valves",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "PRODUCT",
+          "url": "https://example.org/products/valve-v1",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CONTACT",
+          "url": "https://example.org/contact",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "DE_PRODUCT",
+          "url": "https://example.org/de/products/valve-v1",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "JP_PRODUCT",
+          "url": "https://example.org/ja/products/valve-v1",
+          "selection": "UNSELECTED",
+          "applicable": true
+        }
+      ],
+      "fixture_routes": [
+        {
+          "url": "https://example.org/",
+          "status": 200,
+          "body_sha256": "7f316f8f29c48ee988f5cbff40ba62edab2f64ca5876b439d569f3aed0a662cf"
+        },
+        {
+          "url": "https://example.org/category/valves",
+          "status": 200,
+          "body_sha256": "fbe5d31f48a64d948eb3c2c23052d22ce8f3c6f0cb541846a411e6b2ef0aa5f8"
+        },
+        {
+          "url": "https://example.org/products/valve-v1",
+          "status": 200,
+          "body_sha256": "efc47e9af59a25ccd8d009f28412ad877ee98205412f58b533f328673137c140"
+        },
+        {
+          "url": "https://example.org/contact",
+          "status": 200,
+          "body_sha256": "7e980d6ff54db3a9dab7ca11c26dd5117a2ae5cf13f071bc67595856bbf32447"
+        },
+        {
+          "url": "https://example.org/robots.txt",
+          "status": 200,
+          "body_sha256": "e5c4b84484ee4216e9373be99380320c25dd94805f99f0a805846f087636553f"
+        }
+      ],
+      "authored_expectations_not_gold": [
+        {
+          "rule_id": "DISC-01",
+          "source_url": "https://example.org/",
+          "target_url": "https://example.org/category/valves",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Static nav href, captured category HTTP200."
+        },
+        {
+          "rule_id": "DISC-02",
+          "source_url": "https://example.org/category/valves",
+          "target_url": "https://example.org/products/valve-v1",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Static product href, captured product HTTP200."
+        },
+        {
+          "rule_id": "CTA-02",
+          "source_url": "https://example.org/products/valve-v1",
+          "target_url": "https://example.org/contact",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Read-only contact href HTTP200; no delivery claim."
+        }
+      ]
+    },
+    {
+      "site_id": "s2_skus_complete",
+      "site_type": "MULTI_SKU",
+      "source_mode": "SYNTHETIC_OFFLINE",
+      "scope_before_capture": [
+        {
+          "role": "HOME",
+          "url": "https://example.org/",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CATEGORY",
+          "url": "https://example.org/category/valves",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "PRODUCT",
+          "url": "https://example.org/products/valve-v1",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "CONTACT",
+          "url": "https://example.org/contact",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "PRODUCT_SECOND",
+          "url": "https://example.org/products/pump-p40",
+          "selection": "SELECTED",
+          "applicable": true
+        },
+        {
+          "role": "RFQ",
+          "url": "https://example.org/rfq",
+          "selection": "SELECTED",
+          "applicable": true
+        }
+      ],
+      "fixture_routes": [
+        {
+          "url": "https://example.org/",
+          "status": 200,
+          "body_sha256": "2fcaa2b3f7f5be3c052dfdbb642e51cba1e3f55028427015d2efe9dd90224b49"
+        },
+        {
+          "url": "https://example.org/category/valves",
+          "status": 200,
+          "body_sha256": "20ba517b201ca0d8476b9c70df0a7e4ac785e8de1aa0d9bbfd8c7c6c48f20bd8"
+        },
+        {
+          "url": "https://example.org/products/valve-v1",
+          "status": 200,
+          "body_sha256": "efc47e9af59a25ccd8d009f28412ad877ee98205412f58b533f328673137c140"
+        },
+        {
+          "url": "https://example.org/contact",
+          "status": 200,
+          "body_sha256": "7e980d6ff54db3a9dab7ca11c26dd5117a2ae5cf13f071bc67595856bbf32447"
+        },
+        {
+          "url": "https://example.org/robots.txt",
+          "status": 200,
+          "body_sha256": "e5c4b84484ee4216e9373be99380320c25dd94805f99f0a805846f087636553f"
+        },
+        {
+          "url": "https://example.org/products/pump-p40",
+          "status": 200,
+          "body_sha256": "5acb5ed3408b176caaca0e1c5d7b53121b65392bfb4ccd59e624942b64060c5e"
+        },
+        {
+          "url": "https://example.org/rfq",
+          "status": 200,
+          "body_sha256": "8e5c0001b34726bbf2a73ad18eafd033ae8f49b4f8fc853b486ed6e7d15355d4"
+        }
+      ],
+      "authored_expectations_not_gold": [
+        {
+          "rule_id": "DISC-01",
+          "source_url": "https://example.org/",
+          "target_url": "https://example.org/category/valves",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Static nav href, captured category HTTP200."
+        },
+        {
+          "rule_id": "DISC-02",
+          "source_url": "https://example.org/category/valves",
+          "target_url": "https://example.org/products/valve-v1",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Captured200 in this complete bounded fixture; no inquiry submitted."
+        },
+        {
+          "rule_id": "CTA-02",
+          "source_url": "https://example.org/products/valve-v1",
+          "target_url": "https://example.org/contact",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Captured200 in this complete bounded fixture; no inquiry submitted."
+        },
+        {
+          "rule_id": "DISC-02",
+          "source_url": "https://example.org/category/valves",
+          "target_url": "https://example.org/products/pump-p40",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Second captured SKU path only."
+        },
+        {
+          "rule_id": "CTA-02",
+          "source_url": "https://example.org/products/pump-p40",
+          "target_url": "https://example.org/rfq",
+          "expected": "PASS",
+          "scope": "ONE_CAPTURED_HREF_OR_EXPLICIT_EVIDENCE_GAP",
+          "rationale": "Captured200 in this complete bounded fixture; no inquiry submitted."
+        }
+      ]
+    }
+  ],
+  "industrial_cases": [
+    {
+      "site_id": "s2_duty_conflict",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-DUTY",
+      "model": "P40",
+      "attribute": "pressure",
+      "expected": "FAIL_WITH_EVIDENCE",
+      "rationale": "Declared10bar vs requested18bar; engineering fit UNKNOWN.",
+      "fixture_override_sha256": {}
+    },
+    {
+      "site_id": "s2_model_collision",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-SELECTION",
+      "model": "P40",
+      "attribute": null,
+      "expected": "UNKNOWN",
+      "rationale": "Two source records useP40; identity unresolved.",
+      "fixture_override_sha256": {
+        "/products/valve-v25": "e4707dd7678d1a7c07d5288754a8804e82c82718588e543619281dc2071ff6c0"
+      }
+    },
+    {
+      "site_id": "s2_unit_conversion",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-DUTY",
+      "model": "P40",
+      "attribute": "flow",
+      "expected": "PASS",
+      "rationale": "200L/min=12m3/h meets declared10m3/h only.",
+      "fixture_override_sha256": {
+        "/products/pump-p40": "fcebdf2a5d9fb8fe7b4a1d73536bdaead87d32b15d24666235721c7bffb9f680"
+      }
+    },
+    {
+      "site_id": "s2_pdf_unparsed",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-SPEC",
+      "model": "P40",
+      "attribute": null,
+      "expected": "UNKNOWN",
+      "rationale": "Power absent in parsed table; unparsed PDF is not proof of absence.",
+      "fixture_override_sha256": {
+        "/products/pump-p40": "55bcb6f0fcba8bce3a0340d375bc113400f0fb0884df62b4c5370e3c8035d802"
+      }
+    },
+    {
+      "site_id": "s2_certificate_claim",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-PROOF",
+      "model": "P40",
+      "attribute": null,
+      "expected": "FAIL_WITH_EVIDENCE",
+      "rationale": "Source date precedes capture; independent authenticity UNKNOWN.",
+      "fixture_override_sha256": {}
+    },
+    {
+      "site_id": "s2_certificate_current_claim",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-PROOF",
+      "model": "P40",
+      "attribute": null,
+      "expected": "PASS",
+      "rationale": "Source date later than capture; NOT authenticated qualification.",
+      "fixture_override_sha256": {
+        "/products/supplier-proof": "5165f38d4f1a7c8dcff8278ae739b7849c7043b3c5c81de23e7015d2038ea884"
+      }
+    },
+    {
+      "site_id": "s2_buyer_input_gap",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-RFQ",
+      "model": "P40",
+      "attribute": null,
+      "expected": "UNKNOWN",
+      "rationale": "Destination buyer input missing; no form submitted.",
+      "fixture_override_sha256": {}
+    },
+    {
+      "site_id": "s2_engineering_fit_unknown",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-FIT",
+      "model": "P40",
+      "attribute": null,
+      "expected": "UNKNOWN",
+      "rationale": "Catalog scalar values do not establish engineering suitability.",
+      "fixture_override_sha256": {}
+    },
+    {
+      "site_id": "s2_motor_not_applicable",
+      "site_type": "INDUSTRIAL_MULTI_SKU",
+      "source_origin": "SYNTHETIC_OFFLINE",
+      "rule": "IND-DUTY",
+      "model": "V25",
+      "attribute": "motor_electrical",
+      "expected": "NOT_APPLICABLE",
+      "rationale": "Declared valve profile excludes motor comparison.",
+      "fixture_override_sha256": {}
+    }
+  ],
+  "industrial_fixture_bytes_sha256": {
+    "application.html": "d9d32f3dba9446ae46efd4d00fe7a27167e17868d3eda0f83e18b4af0b5fa4ae",
+    "catalog.html": "2daba4ac157d301f7f470b7b6c32c302fb218c6d49a8d8ab04166c96c314815e",
+    "contact.html": "767fcf1ee177569bbc239bdcf219306b1930cd08057c00ec83313226dc102d61",
+    "home.html": "a571d8cbd0e92a93a5ed7890de9d1a87a94c0aced2949f899a9d98381ea13467",
+    "proof.html": "6c69cf7b71e3d6466792442e1eb6e6fdd18a207c9aec9e07963a48dc7c7bde2b",
+    "pump.html": "99e2b8bd40de9f8a9864e4a19bc1afdc4c5e2a056af3682701b962043e0d7b0a",
+    "rfq.html": "077ab59347b24dfcdaf97fd217ccd02e79bf4f5eb72000ebfc444cc44158f3c9",
+    "robots.txt": "1cbdbc6504be7abe1267d01d7f565bfcfe5851ba3f6a3754d1d61c8f8a2c6aa3",
+    "routes.json": "f92bb10d0edc2a3aea7245686c8e01db5deaab7bcb9d5d2f90c5377dd79b70b0",
+    "valve.html": "089f0b4bbbd4263e1b8bdeabad8a2d4c80d8cc6ea4915a2d953a41363aba096d"
+  },
+  "adversarial_requirements": [
+    {
+      "id": "foreign_tenant",
+      "required_outcome": "Reject through original signed tenant authority.",
+      "observed": null
+    },
+    {
+      "id": "foreign_run_or_pack",
+      "required_outcome": "Reject mixed run/pack through original replayers.",
+      "observed": null
+    },
+    {
+      "id": "foreign_source_or_capture_time",
+      "required_outcome": "Reject source/time outside held pins.",
+      "observed": null
+    },
+    {
+      "id": "stale_report_or_review_version",
+      "required_outcome": "Reject stale original report/review bindings.",
+      "observed": null
+    },
+    {
+      "id": "rights_revoked_before_brief_commit",
+      "required_outcome": "Recheck BOTH authorities at real COMMIT.",
+      "observed": null
+    },
+    {
+      "id": "authority_expired_before_brief_commit",
+      "required_outcome": "Use minimum original expiry; lease is not approval.",
+      "observed": null
+    },
+    {
+      "id": "scope_dropped_after_capture",
+      "required_outcome": "Retain planned unobserved scope; never inflate coverage.",
+      "observed": null
+    },
+    {
+      "id": "blocked_source_called_defect",
+      "required_outcome": "Keep ACCESS_BLOCKED distinct from site defect.",
+      "observed": null
+    },
+    {
+      "id": "unknown_promoted_to_tn",
+      "required_outcome": "UNKNOWN contributes abstention, not human TN.",
+      "observed": null
+    },
+    {
+      "id": "forged_human_review",
+      "required_outcome": "Reject through unchanged OwnerTrust/verified_owner_rows.",
+      "observed": null
+    },
+    {
+      "id": "forged_engineering_or_certificate",
+      "required_outcome": "No fit/authenticity claim beyond original evidence.",
+      "observed": null
+    },
+    {
+      "id": "unapproved_network_or_write",
+      "required_outcome": "Deny real collection, RFQ submission, sharing and models.",
+      "observed": null
+    }
+  ],
+  "gold": {
+    "legacy_verified": 0,
+    "legacy_pending": 26,
+    "new_verified": 0,
+    "quality_status": "S2_QUALITY_NOT_EVALUABLE"
+  },
+  "business": {
+    "real_consultation": "UNKNOWN",
+    "rate": "UNKNOWN",
+    "human_hours": "UNKNOWN",
+    "customer_approval": "UNKNOWN",
+    "E2": "UNKNOWN",
+    "E3": "UNKNOWN"
+  },
+  "resource_policy": {
+    "cleanup": "EXACT_THIS_RUN_OWNERSHIP_ONLY",
+    "historical_anonymous_volumes": "UNKNOWN_UNTOUCHED",
+    "global_prune": false
+  },
+  "collection_calls": 0,
+  "model_calls": 0,
+  "runtime_acceptance": false,
+  "plan_ref": "c3-offline-plan-589c3e31694cdd89153c91c21dce03636fac17bf68b43ac603d3a2829b1096ce"
+}
