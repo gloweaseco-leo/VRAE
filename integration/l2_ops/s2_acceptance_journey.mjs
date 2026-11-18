@@ -46,7 +46,7 @@ export async function s2Journey(c) {
   await fresh();await nav(sourceURL);await click('[data-key=s2-source-citation]',true);
   await check('S2-real-citation-not-executed-source-HTML',await ev("!!document.querySelector('[data-key=s2-original-citation]')&&document.body.innerText.includes('原始 UTF-8 字节')&&document.scripts.length===0"));
   await screenshot('s2-original-citation.png');
-  if(s4){await fresh();await s4.summary(root,reportPins)}
+  if(s4){await fresh();await s4.summary(root,reportPins,fresh)}
   await nav(root+'/blueprint');const packages=await ev('document.querySelectorAll(".l2-blueprint").length');
   await check('S2-original-seven-package-blueprint',packages===7);
   await screenshot('s2-blueprint.png');

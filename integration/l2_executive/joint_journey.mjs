@@ -12,7 +12,7 @@ export function executiveJourney(c) {
   async function read(){return privateOperation('read')}
   function internalOnly(row){return ['customer_approval','counts_as_e2','counts_as_e3','quote_allowed','external_delivery_allowed','material_authorization'].every(k=>row[k]===false)}
   return {
-    async summary(url,pins){
+    async summary(url,pins,fresh){
       root=url;reportPins=pins;
       for(const width of [1280,390,375,320]){
         await call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});await nav(root+'/executive');
@@ -22,7 +22,8 @@ export function executiveJourney(c) {
         await check('S4-mobile-source-boundary-'+width,await ev("document.documentElement.scrollWidth<=innerWidth&&document.scripts.length===0&&document.body.innerText.includes('UNKNOWN')"));
         await screenshot('s4-executive-'+width+'.png');
       }
-      await nav(root+'/executive-document');
+      await fresh();await nav(root+'/executive-document');
+      await check('S4-PDF-is-current-summary-not-denial',statusOf(root+'/executive-document')===200&&await ev("!!document.querySelector('.l2-executive')&&document.body.innerText.includes('SERVICE_CATALOG_PENDING')"));
       const raw=Buffer.from((await call('Page.printToPDF',{preferCSSPageSize:true,printBackground:true})).data,'base64');
       const pages=(raw.toString('latin1').match(/\/Type\s*\/Page\b/g)||[]).length;
       await check('S4-same-task-actual-one-two-page-summary',pages>=1&&pages<=2,{pages,bytes:raw.length});
