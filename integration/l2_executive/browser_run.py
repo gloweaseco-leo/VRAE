@@ -11,6 +11,7 @@ import subprocess
 import sys
 import threading
 import urllib.request
+import faulthandler
 
 from apps.operator_console.b5a_http import server
 from vrae.l2_ops.briefs import BriefService
@@ -41,8 +42,13 @@ def run(database, native_result, native_source, reviewed, monkeypatch, tmp_path)
         # Exercise the original HTTP/PG read independently before CDP so a
         # renderer/navigation failure cannot be mislabelled as a PG failure.
         request = urllib.request.Request(app.origin+path, headers={'Cookie': 'b5a_l2_session='+reviewed[1]})
-        with urllib.request.urlopen(request, timeout=10) as response:
-            assert response.status == 200 and 'VF 内部接单准备' in response.read().decode()
+        with (out/'http-stacks.txt').open('w', encoding='utf-8') as trace:
+            faulthandler.dump_traceback_later(8, file=trace)
+            try:
+                with urllib.request.urlopen(request, timeout=10) as response:
+                    assert response.status == 200 and 'VF 内部接单准备' in response.read().decode()
+            finally:
+                faulthandler.cancel_dump_traceback_later()
         with (out/'browser-stderr.txt').open('w', encoding='utf-8') as errors:
             browser = subprocess.Popen(['node', 'integration/l2_executive/browser.mjs'], cwd=ROOT,
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=errors,
