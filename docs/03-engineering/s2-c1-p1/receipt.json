@@ -1,6 +1,6 @@
 {
   "base": "a5b8c30ccefb656c266d75e66f9f20ceb7df1080",
-  "code_commit": "1eaadc537cfc16858d16ec57c4f413abf04bbaf1",
+  "code_commit": "32ffbf5dc9173b63f59fb92932d5cfbd2a0ede4a",
   "phase": "C1_P1_BATCH1_THREE_BOUNDED_STATIC_SUBSETS_NOT_S2_EXIT",
   "projection_version": "s2-projection-1.1.0",
   "native": {
@@ -39,6 +39,26 @@
       "failed_ids": []
     }
   },
+  "local_full_head": "4c72b03554d34cb69060e1d31c4031cbb8903489",
+  "test_portability_followup_native": {
+    "311": {
+      "tests": 128,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "raw_junit_sha256": "f27d8c8818cb8c648178965365ac063d06b5ada9b5290212443c702abcbe0f0f",
+      "failed_ids": []
+    },
+    "313": {
+      "tests": 128,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "raw_junit_sha256": "34e64bb3d7d86f63b6760329046b12b6dced4b6821cb59e2616ceef9f6e860b2",
+      "failed_ids": []
+    }
+  },
+  "test_portability_scope": "TEST_SETUP_ONLY_NO_PRODUCTION_SOURCE_CHANGE; FINAL_HEAD_FULL_CI_ON_PR",
   "initial_rule_red": {
     "tests": 26,
     "failures": 25,
@@ -87,7 +107,7 @@
     "vrae/rules/s2/__init__.py": "12ff37451f79c80a0981059f02227adc0e1aeb88bb00bf7007a992197ff0b9a6",
     "vrae/rules/s2/contract.py": "3ef53f7046fa546c71548d3595d064b68c6da4cb5e4b3dc9fa691491c2f470fb",
     "vrae/rules/s2/static.py": "9bcbc67ffb8d3867fec49b206971943e5003549246fe55549e1c6b7891b64cab",
-    "tests/s2_contract/test_p1_static.py": "6acfff8da4f04804924eb8324d4bdd79374da5afadeddb3a4af9af9be22160ef",
+    "tests/s2_contract/test_p1_static.py": "7aa9cb0b2d1b73f0a6578b1883bbf79131e3e6df6098ebea07b9441260a227d1",
     ".github/workflows/s2-rule-contract.yml": "b65b8c53b815746cddd1c1902c34c227a76fabd9f8946334a12fc8c760733623"
   },
   "frozen_worktree_blobs": {
@@ -95,6 +115,9 @@
     "vrae/evidence/pack.py": "8d45d5882103323e62bc4bd61a4379899e759966"
   },
   "raw_runtime_sha256": {
+    "ci-first-contracts-311-red.log": "74d749d33ad516d204db044a72a4f3e44d72163dd6c46def4d20dcaa0f209dcc",
+    "ci-first-contracts-313-red.log": "86a5d7deefa1168b686e75f579eae76d77a2918cda8a7619c1523b2d09626a1e",
+    "ci-first-isolated-http-red.log": "654228f9582b56783e3d202b2b9c6f3273fe99baa1ef470f8722f90f2eb24fa4",
     "focused-311.log": "639061fa691ef9fbc65887e28631fb8d670d0b8852e297831bf17c259c14e0f8",
     "focused-311.xml": "69aa6d521ff1d69e9265c6db81ad17a0ce763dd085b1200063ba55e1436b16d1",
     "full-311.log": "2ad1895d70c4caa740f4634abe9e94f14e88d8dced76453f71fde08fe92dee61",
@@ -110,7 +133,13 @@
     "native-311.log": "79459cbf75ba575968c216819c467bfed03dfcdf0059092c681aab0aadbfe254",
     "native-311.xml": "dd45b373be63a040817c364b90c9f06b593a1a7e4b6aa46384ecff9261c59e88",
     "native-313.log": "9c4f6eb5de521caa49a20d5bb1157e5ec72234aaadce224dc6a6074abd792012",
-    "native-313.xml": "518c9bd0e929849f73854f3cb12352a0235481b0f1e47b6a35549cd7606ee59b"
+    "native-313.xml": "518c9bd0e929849f73854f3cb12352a0235481b0f1e47b6a35549cd7606ee59b",
+    "portable-311.log": "985d75709345508e635e0fa32209ceba54e051959514d652ac12fb7299f4e1c9",
+    "portable-311.xml": "223b2cb5e3802520e998e16f98cab17015a3c0bf202076c5d5e41cb531c5658f",
+    "portable-native-311.log": "15b58b0ad7ec7ec57e25b16077d11cc346cc372e3eba325bd463671b0b4a2099",
+    "portable-native-311.xml": "f27d8c8818cb8c648178965365ac063d06b5ada9b5290212443c702abcbe0f0f",
+    "portable-native-313.log": "334832fb6f9e0fe66889c71aab9ed526427f768805eb97d98b6ca28a1039af8a",
+    "portable-native-313.xml": "34e64bb3d7d86f63b6760329046b12b6dced4b6821cb59e2616ceef9f6e860b2"
   },
   "example_sha256": "bef7c57ad7294004974d256b9fa8b8102f5ecec7ff643853e71f7f81a6eb47c7",
   "saved_pack_sha256": "83aecce5e6b79f7864ff0bd88904684010432152baa3f952e4b098528c8fd706",
