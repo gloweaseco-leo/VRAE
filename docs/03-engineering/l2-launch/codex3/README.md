@@ -26,3 +26,5 @@ All outputs are ignored under `infra/l2_launch/.private/<label>/`. Only `public/
 Read [R0 decision](R0.md) and [interface gaps](interfaces.md). New CI adds both Python minors; all existing workflows and their bounds remain unchanged. No frozen source, contract, worker lease or chrome behavior is changed. Tests live outside the default `tests` inventory.
 
 Local committed-source epoch and retained first REDs: [local-verification.json](local-verification.json). Subsequent final-head natural CI is authoritative for the latest source; no stale-head green implies final acceptance.
+
+Latest Owner return/resume design is exercised as a callable controlled proposal, including single-use invite, wrong tenant, URL/query credential refusal, task-ID-as-bearer refusal, no-store cookie header proposal and restart/revocation ending old sessions. It does not create VF service identity or a public API. See the latest clarification in [interface gaps](interfaces.md).

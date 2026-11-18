@@ -280,6 +280,52 @@ def main():
                 )[0]
                 in (400, 403),
             )
+            from integration.l2_launch.runtime.resume import ResumeProposal
+
+            resume = ResumeProposal(adapter)
+            invitation = resume.issue_controlled("tenant-test", task)
+            set_cookie, headers = resume.exchange("tenant-test", invitation)
+            cookie = set_cookie.split(";", 1)[0]
+            check(
+                "return_cookie_private_transport_proposal",
+                "HttpOnly" in set_cookie
+                and "Secure" in set_cookie
+                and "SameSite=Strict" in set_cookie
+                and headers["Cache-Control"] == "no-store",
+            )
+            check(
+                "return_current_original_pg_status",
+                resume.status("tenant-test", cookie)[0]["request_id"] == task.request_id,
+            )
+            for name, action in [
+                ("return_invite_replay_denied", lambda: resume.exchange("tenant-test", invitation)),
+                ("return_wrong_tenant_denied", lambda: resume.status("tenant-beta", cookie)),
+                (
+                    "return_url_query_denied",
+                    lambda: resume.status(
+                        "tenant-test", cookie, query="audit_id=" + task.request_id
+                    ),
+                ),
+                (
+                    "return_id_is_not_bearer",
+                    lambda: resume.status("tenant-test", "__Host-vrae-return=" + task.request_id),
+                ),
+                (
+                    "return_restart_ends_old_cookie",
+                    lambda: ResumeProposal(adapter).status("tenant-test", cookie),
+                ),
+            ]:
+                try:
+                    action()
+                    raise AssertionError(name)
+                except Denied as error:
+                    check(name, error.code == "RETURN_ACCESS_ENDED")
+            resume.revoke_all()
+            try:
+                resume.status("tenant-test", cookie)
+                raise AssertionError("REVOKED_RETURN_ACCEPTED")
+            except Denied:
+                check("return_revocation_denied", True)
             pending = adapter.status("tenant-test", task)
             check(
                 "queue_stall_no_false_progress",
