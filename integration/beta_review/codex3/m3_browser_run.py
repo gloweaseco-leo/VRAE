@@ -18,12 +18,20 @@ def control(label, operation, **args):
     request.chmod(0o600)
     response = request.with_name(request.name.replace(".request.json", ".response.json"))
     deadline = time.monotonic() + (150 if operation == "restart-pg" else 100)
-    while not response.exists():
+    while True:
+        if response.exists():
+            try:
+                result = json.loads(response.read_bytes())
+                break
+            except PermissionError:
+                # Windows can briefly hold the atomically renamed private file.
+                # Keep the original control deadline; never repeat the operation.
+                if os.name != "nt" or time.monotonic() >= deadline:
+                    raise
         if (launch_for(label) / "supervisor-end.json").exists():
             raise RuntimeError("M3_SUPERVISOR_EXIT_SEE_PRIVATE_EVIDENCE")
         assert time.monotonic() < deadline, "M3_PRIVATE_CONTROL_DEADLINE"
         time.sleep(0.05)
-    result = json.loads(response.read_bytes())
     if isinstance(result, dict) and "denied" in result:
         raise RuntimeError(result["denied"])
     return result

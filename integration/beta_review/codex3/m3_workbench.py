@@ -626,12 +626,14 @@ def serve(run):
                         "python", "-c", "from pathlib import Path; print(Path('/state/l2-native/active-proof.json').read_text())"]))
                 elif operation in ("s0-audit-queue", "s0-audit-result") and set(body) == {"operation", "case"}:
                     from integration.l2_ops.workbench import PreparationWorkbench
-                    assert type(run) is PreparationWorkbench, "S0_PRIVATE_AUDIT_RUNTIME_REQUIRED"
+                    from integration.s5_ops.workbench import Workbench as S5Workbench
+                    assert type(run) in (PreparationWorkbench, S5Workbench), "S0_PRIVATE_AUDIT_RUNTIME_REQUIRED"
                     result = run.audit_control(body["case"], read=operation == "s0-audit-result")
                 elif operation in ('s4-intake-queue', 's4-intake-result'):
                     from integration.l2_ops.workbench import PreparationWorkbench
                     from integration.l2_executive.runtime_intake import control
-                    assert type(run) is PreparationWorkbench, 'S4_PRIVATE_RUNTIME_REQUIRED'
+                    from integration.s5_ops.workbench import Workbench as S5Workbench
+                    assert type(run) in (PreparationWorkbench, S5Workbench), 'S4_PRIVATE_RUNTIME_REQUIRED'
                     if operation == 's4-intake-queue' and set(body) == {'operation', 'command'}:
                         result = control(run, command=body['command'])
                     elif operation == 's4-intake-result' and set(body) == {'operation'}:
