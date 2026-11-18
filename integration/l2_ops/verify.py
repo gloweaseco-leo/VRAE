@@ -35,6 +35,7 @@ def main():
     focused = parser.add_mutually_exclusive_group()
     focused.add_argument("--business-only", action="store_true", help="Only the new native business routes and actual PG restart marker; not the full package")
     focused.add_argument("--lifecycle-only", action="store_true", help="Only real PG commit/restart/owned-volume cleanup; not package or Worker proof")
+    focused.add_argument("--executive-only", action="store_true", help="S4 summary/receiver browser plus original PG/signature fences")
     parser.add_argument("--pg-image", default="postgres:16-alpine")
     args = parser.parse_args()
     version_code = "import sys; print(str(sys.version_info.major)+str(sys.version_info.minor))"
@@ -59,7 +60,7 @@ def main():
     output = ROOT / "docs/03-engineering/l2-operations" / args.label
     output.mkdir(parents=True, exist_ok=False)
     image = command(["docker", "image", "inspect", args.pg_image, "--format", "{{.Id}}"])
-    source_paths = ["vrae/l2_ops", "integration/l2_ops", "scripts/beta_internal.py", "integration/ra4c_b5a/publication.py", ".github/workflows/l2-ops.yml", "apps/operator_console/b5b_http.py", "vrae/l2", "vrae/industry/l2_v1"]
+    source_paths = ["vrae/l2_ops", "integration/l2_ops", "integration/l2_executive", "apps/operator_console/l2_executive_views.py", "apps/operator_console/l2_http.py", "apps/operator_console/l2_views.py", "apps/operator_console/l2.css", "scripts/beta_internal.py", "integration/ra4c_b5a/publication.py", ".github/workflows/l2-ops.yml", "apps/operator_console/b5b_http.py", "vrae/l2", "vrae/industry/l2_v1"]
     command(["git", "diff", "--exit-code", "HEAD", "--", *source_paths])
     candidate_sha = command(["git", "rev-parse", "HEAD"])
     files = command(["git", "ls-files", "--", *source_paths]).splitlines()
@@ -95,12 +96,19 @@ def main():
             else:
                 raise RuntimeError("PG startup did not become ready")
             env = os.environ.copy()
-            env["PYTHONPATH"] = str(ROOT)
+            env["PYTHONPATH"] = str(ROOT) + os.pathsep + os.environ.get("PYTHONPATH", "")
+            if args.executive_only:
+                env['S4_OUTPUT'] = str(output / f'browser-{minor}')
+                env['S4_REAL_BROWSER'] = '1'
             env["L2OPS_RUNTIME_OUTPUT"] = str(folder / f"runtime-{minor}.private")
             env["L2OPS_TEST_DSN"] = f"host=127.0.0.1 port={port} user=postgres password={password} dbname=l2ops connect_timeout=5"
             version = command([interpreter, "--version"])
             xml = output / f"native-{minor}.xml"
-            suites = (["integration/l2_ops/runtime_tests/test_pg.py::test_pg_restart_marker"] if args.lifecycle_only else
+            suites = (["integration/l2_ops/checks/test_executive.py", "integration/l2_ops/checks/test_intake.py",
+                       "integration/l2_ops/runtime_tests/test_pg.py::test_pg_executive_summary_and_independent_receipts",
+                       "integration/l2_ops/runtime_tests/test_pg.py::test_pg_native_business_ui_denies_without_current_dual_authority",
+                       "integration/l2_ops/runtime_tests/test_pg.py::test_pg_restart_marker"] if args.executive_only else
+                      ["integration/l2_ops/runtime_tests/test_pg.py::test_pg_restart_marker"] if args.lifecycle_only else
                       ["integration/l2_ops/checks/test_panel.py",
                        "integration/l2_ops/checks/test_native_report.py::test_production_keeps_task_context_and_records_separate_c2_runtime",
                        "integration/l2_ops/runtime_tests/test_pg.py::test_pg_native_business_ui_preview_save_readback_and_nonce_replay",
@@ -140,7 +148,8 @@ def main():
                             "pg_image_id": image, "restart_readback": before, "xml_sha256": hashlib.sha256(xml.read_bytes()).hexdigest(),
                             "measurement_wall_ns": time.monotonic_ns() - started,
                             "cost_status": "UNKNOWN", "amount_micros": None,
-                            "scope": ("C3_PG_LIFECYCLE_ONLY_NOT_PACKAGE_OR_WORKER_E2E" if args.lifecycle_only else
+                            "scope": ("S4_SUMMARY_RECEIVER_REAL_PG_DETACHED_TASK_NOT_WORKER_E2E" if args.executive_only else
+                                      "C3_PG_LIFECYCLE_ONLY_NOT_PACKAGE_OR_WORKER_E2E" if args.lifecycle_only else
                                       "C3_BUSINESS_ROUTES_REAL_PG_SYNTHETIC_TASK_NOT_FULL_PACKAGE_OR_WORKER_E2E" if args.business_only
                                       else "C3_PACKAGE_REAL_PG_SYNTHETIC_UPSTREAM_NOT_FULL_L2_E2E")})
         except Exception as exc:  # noqa: BLE001 -- archive/redact every failure, then propagate

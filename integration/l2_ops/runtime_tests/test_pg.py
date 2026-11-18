@@ -173,6 +173,13 @@ def native_business_app(database, native_result, native_source, reviewed, monkey
     return app, path, headers, reader, state, pg
 
 
+@pytest.mark.skipif(os.environ.get('S4_REAL_BROWSER') != '1', reason='Dedicated S4 real-browser lane')
+def test_pg_executive_summary_and_independent_receipts(
+        database, native_result, native_source, reviewed, monkeypatch, tmp_path):
+    from integration.l2_executive.browser_run import run
+    run(database, native_result, native_source, reviewed, monkeypatch, tmp_path)
+
+
 def test_pg_native_business_ui_preview_save_readback_and_nonce_replay(
         database, native_result, native_source, reviewed, monkeypatch, tmp_path):
     # Original B5B Application.handle + real Controlled signature/C2 ledger +

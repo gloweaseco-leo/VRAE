@@ -205,7 +205,11 @@ class DeepConsole:
                     state=self.review_state(sid,rid,person,view)
                     self.current(sid,rid,version)
                     return Reply(Response(200,v.export(view,person,action,self.directory.mode,state).encode()))
-                if action=='':
+                if action in ('executive','executive-document'):
+                    from .l2_executive_views import render
+                    state=self.review_state(sid,rid,person,view)
+                    body=render(view,person,state,document=action=='executive-document')
+                elif action=='':
                     state=self.review_state(sid,rid,person,view)
                     body=v.report(view,person,review_state=state)
                 elif action=='blueprint':
