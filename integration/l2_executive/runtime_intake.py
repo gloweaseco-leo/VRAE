@@ -47,8 +47,15 @@ def consume(manager, adapter, service, ledger, brief_ref):
         elif operation != 'read' or set(body) != base:
             raise OperationsDenied('S4_PRIVATE_CONTROL_DENIED')
         result.update(ok=True, row=row)
-    except Exception:
+    except Exception as error:
         result['denied'] = 'S4_PRIVATE_CONTROL_DENIED'
+        code = error.args[0] if error.args else None
+        result['code'] = code if isinstance(code, str) and code in {
+            'L2_CURRENT_AUTHORITY_EXPIRED', 'L2_BRIEF_STALE_OR_CROSS_TASK',
+            'S4_PRIVATE_TASK_CHANGED', 'S4_RECEIVER_REPLACEMENT_DENIED',
+            'S4_RECEIVER_SIGNATURE_DENIED', 'S4_RECEIPT_STALE_OR_CROSS_TASK',
+            'S4_RECEIVER_UNAVAILABLE_OR_REVOKED', 'S4_RECEIPT_CONFLICT',
+        } else 'ORIGINAL_AUTHORITY_OR_PRIVATE_CONTROL_DENIED'
         raise
     finally:
         temporary = root/'s4-intake-response.tmp'

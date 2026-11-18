@@ -135,7 +135,7 @@ def run(label, *, interactive=False, preparation_only=False, native_l2=False, s2
                     last_row = result['row']
                 # Never publish the private attempt nonce or signed receipt.
                 row = result.get('row')
-                value = {'ok': result['ok'], 'row': None if row is None else
+                value = {'ok': result['ok'], 'code': result.get('code'), 'row': None if row is None else
                     {k: v for k, v in row.items() if k != 'nonce'}}
             elif message["kind"] == "restart":
                 value = control(label, "restart-pg")

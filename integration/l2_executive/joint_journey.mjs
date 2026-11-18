@@ -5,8 +5,9 @@ export function executiveJourney(c) {
   async function privateOperation(operation,extra={},expected=true){
     await rpc('s4-queue',{operation,...extra});await nav(root+'/brief');
     const result=await rpc('s4-result');
-    await check('S4-private-'+operation+'-'+(extra.negative||extra.state||'current'),result.ok===expected);
-    records.push({operation,...extra,ok:result.ok,row:result.row});return result.row;
+    const reason=extra.negative==='signature'?'S4_RECEIVER_SIGNATURE_DENIED':extra.negative==='old_attempt'?'S4_RECEIPT_STALE_OR_CROSS_TASK':'S4_RECEIVER_UNAVAILABLE_OR_REVOKED';
+    await check('S4-private-'+operation+'-'+(extra.negative||extra.state||'current'),result.ok===expected&&(expected||result.code===reason),{denial_code:result.code||null});
+    records.push({operation,...extra,ok:result.ok,denial_code:result.code||null,row:result.row});return result.row;
   }
   async function read(){return privateOperation('read')}
   function internalOnly(row){return ['customer_approval','counts_as_e2','counts_as_e3','quote_allowed','external_delivery_allowed','material_authorization'].every(k=>row[k]===false)}
@@ -33,14 +34,16 @@ export function executiveJourney(c) {
       await privateOperation('configure');
       await click('[data-key=vf-submit]',true);let row=await read();
       await check('S4-producer-cannot-self-ACK',row.state==='WAITING_ACK'&&internalOnly(row));
+      await fresh();await nav(root+'/brief');
       await privateOperation('receive',{state:'ACKNOWLEDGED',negative:'signature'},false);
       await check('S4-forged-receiver-signature-denied',statusOf(root+'/brief')===403);
-      await nav(root+'/brief');
+      await fresh();await nav(root+'/brief');
       row=await privateOperation('receive',{state:'REJECTED'});await check('S4-independent-return',row.state==='REJECTED');
       await fresh();await nav(root+'/brief');await click('[data-key=vf-retry]',true);row=await read();
       await check('S4-retry-original-brief-next-attempt',row.state==='WAITING_ACK'&&row.attempt===2&&row.brief_sha256===before.brief.content_sha256);
       await privateOperation('receive',{negative:'old_attempt'},false);
       await check('S4-old-attempt-receipt-denied',statusOf(root+'/brief')===403);
+      await fresh();await nav(root+'/brief');
       row=await privateOperation('receive',{state:'RETRYABLE_FAILED'});await check('S4-independent-retryable-failure',row.state==='RETRYABLE_FAILED');
       await fresh();await nav(root+'/brief');await click('[data-key=vf-retry]',true);await read();
       row=await privateOperation('receive',{state:'ACKNOWLEDGED'});
@@ -58,8 +61,10 @@ export function executiveJourney(c) {
     },
     async finish(fresh){
       await fresh();await nav(root+'/brief');await click('[data-key=vf-submit]',true);await read();
+      await fresh();await nav(root+'/brief');
       await click('[data-key=vf-revoke]',true);let row=await read();
       await check('S4-explicit-revocation',row.state==='REVOKED'&&internalOnly(row));
+      await fresh();await nav(root+'/brief');
       await privateOperation('receive',{state:'ACKNOWLEDGED'},false);
       await check('S4-revoked-receipt-denied',statusOf(root+'/brief')===403);
       await fresh();await nav(root+'/brief');
