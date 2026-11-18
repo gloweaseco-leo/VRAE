@@ -26,8 +26,10 @@ from vrae.collection.errors import CollectionError
 VERSION = "vf-vrae-r0.1"
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = json.loads((Path(__file__).parent / "schema.json").read_text(encoding="utf-8"))
+VFB_SCHEMA = json.loads((Path(__file__).parent / "vf-b.schema.json").read_text(encoding="utf-8"))
 resources = [
     SCHEMA,
+    VFB_SCHEMA,
     *(
         json.loads(p.read_text(encoding="utf-8"))
         for p in (ROOT / "contracts/v1").glob("*.schema.json")
@@ -53,12 +55,13 @@ def digest(value):
 
 
 def validate(name, value):
-    if name not in SCHEMA["$defs"]:
+    schema = SCHEMA if name in SCHEMA["$defs"] else VFB_SCHEMA
+    if name not in schema["$defs"]:
         raise Refused("R0_WRONG_CONTRACT", 400)
     try:
         canonical(value)
         Draft202012Validator(
-            {"$ref": SCHEMA["$id"] + "#/$defs/" + name},
+            {"$ref": schema["$id"] + "#/$defs/" + name},
             registry=REGISTRY,
             format_checker=FormatChecker(),
         ).validate(value)

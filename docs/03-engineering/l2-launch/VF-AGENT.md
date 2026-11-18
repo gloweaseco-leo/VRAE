@@ -1,5 +1,7 @@
 # 给VEYFRONT Agent的最小交接（G0待审）
 
+Owner补充的VF PR36 / VF-B六项行为，逐项对应[一页consumer compatibility matrix](VF-B-COMPATIBILITY.md)。客户接口优先消费其中的独立VF-B envelope；本页原字段表是基础内部合同，不可直接暴露完整AuditRun/内部tenant/audit_id，也不能把旧单槽results强行填入多事实数据。双方候选并存，需Owner冻结版本。
+
 只读核查：[当前leads源码](https://github.com/gloweaseco-leo/VEYFRONT/blob/348ba4a6a9e885431e769e008dd4b7c157405104/app/api/leads/route.ts)。UTF-8源码SHA256 `31aa3ff9cd016e1019e39b1ceb2c6e33649fe3bef4bdb1e4e4a785ac47cfa2d7`。本PR未写VF仓库、未请求该API、未触发Blob或邮件。
 
 ## 最小字段/信任方向

@@ -60,8 +60,10 @@ def main():
     suite = ET.fromstring(raw)
     cases = suite.findall(".//testcase")
     consumer = [c for c in cases if "l2_launch.consumer_cases" in c.get("classname", "")]
+    vfb_consumer = [c for c in consumer if c.get("name", "").startswith("test_vfb_")]
     assert (
-        len(consumer) >= 70
+        len(consumer) >= 160
+        and len(vfb_consumer) >= 80
         and not suite.findall(".//failure")
         and not suite.findall(".//error")
         and not suite.findall(".//skipped")
@@ -89,12 +91,14 @@ def main():
         "native_python": sys.version,
         "platform": platform.system(),
         "consumer_pass": len(consumer),
+        "vf_b_consumer_pass": len(vfb_consumer),
         "total_selected_pass": len(cases),
         "examples": example_count,
         "junit_sha256": hashlib.sha256(raw).hexdigest(),
         "frozen_sources_verified": len(baseline["frozen_sources"]),
         "vf_source_commit": baseline["vf_source"]["commit"],
         "vf_source_sha256": baseline["vf_source"]["sha256"],
+        "vf_b_candidate_source": baseline["vf_b_candidate"],
         "source_files_sha256": hashes,
         "network_boundary": "PYTHON_SOCKET_DNS_DENY_HOOK_NOT_KERNEL_ISOLATION",
         "target_network_attempts": 0,

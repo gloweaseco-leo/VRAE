@@ -27,6 +27,14 @@ from tests.l2_launch.fixtures import (
     sign,
     verifier,
 )
+from contracts.l2_launch.vf_b import safe_error, vf_status
+from tests.l2_launch.vf_b_fixtures import (
+    RETURN_TOKEN,
+    facade_fixture,
+    free_publication_fixture,
+    inquiry_fixture,
+    return_fixture,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -128,6 +136,78 @@ def build():
         finally:
             journal.close()
             vf.db.close()
+    with TemporaryDirectory(prefix="vrae-vfb-contract-") as directory:
+        journal = FixtureJournal(Path(directory) / "vfb.sqlite")
+        try:
+            adapter, submission, policy, publications = facade_fixture(journal)
+            result["vfb-submit"] = ("VFSubmit", submission)
+            with (
+                patch("contracts.l2_launch.fixture_stub.uuid4", return_value=UUID(int=2)),
+                patch("contracts.l2_launch.vf_b.uuid4", return_value=UUID(int=3)),
+            ):
+                response = adapter.submit(
+                    submission, CALLER, policy, verifier(), NOW, queue_available=False
+                )
+                accepted = response["body"]
+                ref = accepted["audit_ref"]
+                result["vfb-accepted-202"] = ("VFAccepted", accepted)
+                grant = return_fixture(ref, policy)
+                adapter.install_return_fixture(
+                    grant, sign("owner", "share", grant), verifier(), NOW
+                )
+                result["vfb-server-only-return-grant"] = ("VFReturnGrant", grant)
+                restored = adapter.exchange(
+                    ref, grant["subject_ref"], RETURN_TOKEN, CALLER, policy, verifier(), NOW
+                )
+            cookie = restored["set_cookie"]["value"]
+            result["vfb-unpublished-status"] = (
+                "VFStatus",
+                adapter.read("status", ref, cookie, CALLER, policy, verifier(), NOW)["body"],
+            )
+            result["vfb-unpublished-report-denied"] = (
+                "VFSafeError",
+                adapter.read("report", ref, cookie, CALLER, policy, verifier(), NOW)["body"],
+            )
+            journal.dispatch(TENANT, "audit-fixture")
+            for stage in ("FETCHING", "EVIDENCE_READY", "RULED", "DRAFT_READY"):
+                journal.advance_fixture(TENANT, "audit-fixture", stage)
+            result["vfb-draft-ready-not-completed"] = (
+                "VFStatus",
+                adapter.read("status", ref, cookie, CALLER, policy, verifier(), NOW)["body"],
+            )
+            journal.advance_fixture(TENANT, "audit-fixture", "REVIEW_REQUIRED")
+            record = free_publication_fixture(ref, accepted["run_id"])
+            publications["audit-fixture"] = record
+            result["vfb-approved-partial-status"] = (
+                "VFStatus",
+                adapter.read("status", ref, cookie, CALLER, policy, verifier(), NOW)["body"],
+            )
+            result["vfb-five-task-multiple-facts"] = (
+                "FreePreDiagnosticView",
+                adapter.read("report", ref, cookie, CALLER, policy, verifier(), NOW)["body"],
+            )
+            for access in ("EXPIRED", "ENDED"):
+                result["vfb-display-" + access.lower()] = (
+                    "VFStatus",
+                    vf_status(ref, record["bundle"]["run"], NOW, access=access),
+                )
+            result["vfb-disconnected-unavailable"] = (
+                "VFStatus",
+                vf_status(ref, record["bundle"]["run"], NOW, available=False),
+            )
+            inquiry = inquiry_fixture(ref)
+            result["vfb-independent-inquiry-consent"] = ("VFInquiry", inquiry)
+            result["vfb-inquiry-waiting-ack"] = (
+                "HandoffStatus",
+                adapter.inquiry(inquiry, cookie, CALLER, policy, verifier(), NOW)["body"],
+            )
+            for status in (403, 409, 429, 503):
+                result["vfb-safe-error-" + str(status)] = (
+                    "VFSafeError",
+                    safe_error(Refused("R0_STORAGE_UNAVAILABLE", status, status in {429, 503})),
+                )
+        finally:
+            journal.close()
     return {
         name: {"scope": "SYNTHETIC_CONTRACT_FIXTURE_NOT_A_RELEASE", "type": kind, "body": body}
         for name, (kind, body) in result.items()

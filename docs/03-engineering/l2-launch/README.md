@@ -4,8 +4,10 @@ Owner [#146](https://github.com/gloweaseco-leo/VRAE/issues/146) / [#147](https:/
 
 ## 可运行交付
 
+- [VF-B一页兼容矩阵](VF-B-COMPATIBILITY.md)：对照Owner补充要求与VF PR36，新增 `vf-vrae-r0.1-vfb.1` consumer profile、五维多事实视图、三维状态及独立返回授权；[可执行fixture](../../../contracts/l2_launch/vf_b.py)与[Schema](../../../contracts/l2_launch/vf-b.schema.json)。不是运行中的VF服务。
+
 - [JSON Schema](../../../contracts/l2_launch/schema.json)：候选 envelope、许可签名引用、两层视图、错误及收据；只引用本地注册的原 V1 Schema，验证不访问 schema URL。
-- [22个JSON示例](../../../contracts/l2_launch/examples/)：创建202、待派发、状态、UNKNOWN/BLOCKED、双语视图、无采证、403/409/429/503、WAITING_ACK、独立保存收据、人工确认合成样例和撤回。
+- [JSON示例](../../../contracts/l2_launch/examples/)：基础22例及新增VF-B提交/返回授权/三维状态/五维多事实/独立咨询和安全错误例，均可按固定种子重建。
 - [纯合同校验](../../../contracts/l2_launch/contract.py)：原 `authorize_source` / `check_share` 及 JSON Schema 重用；Ed25519仅验证合成测试权威。签名不证明法律许可、人身份或事实真伪。
 - [离线持久fixture](../../../contracts/l2_launch/fixture_stub.py)：临时SQLite事务、outbox、租户幂等、收据重放和撤回；没有HTTP监听、采集器、模型、CRM或可部署入口。
 - [consumer cases](../../../tests/l2_launch/consumer_cases.py)：正例与拒绝路径；整个测试过程禁止socket/DNS。调用方身份、当前版本/撤销查询必须来自受信适配器，不能从HTTP body中取role或布尔授权。
@@ -14,6 +16,7 @@ Owner [#146](https://github.com/gloweaseco-leo/VRAE/issues/146) / [#147](https:/
 
 ```powershell
 python -m pip install -r requirements-ra4b-p1.lock
+New-Item -ItemType Directory -Force docs/03-engineering/l2-launch/.runtime | Out-Null
 python -X utf8 -m pytest -q tests/l2_launch/consumer_cases.py --basetemp=docs/03-engineering/l2-launch/.runtime/pytest-local --junitxml=docs/03-engineering/l2-launch/.runtime/consumer.xml
 python -X utf8 -m tests.l2_launch.evidence --junit docs/03-engineering/l2-launch/.runtime/consumer.xml --output docs/03-engineering/l2-launch/.runtime/evidence.json
 ```
@@ -32,6 +35,8 @@ python -X utf8 -m tests.l2_launch.evidence --junit docs/03-engineering/l2-launch
 ## 原 AuditRun 与必要 UI 状态
 
 这里只建议状态信息，不决定VF页面或框架。`presentation.state` 属于候选展示层，不写回原AuditRun；不造COMPLETE，也不伪造百分比。
+
+下表是基础内部摘要；VF-B客户状态以[三维兼容矩阵](VF-B-COMPATIBILITY.md)及 `VFStatus` 为准，不能把REVIEW_PENDING直接映射completed。免费“免留资”仍有独立身份/会话与许可约束，不代表匿名公共分享。
 
 | 原V1状态 | 候选UI状态 | 展示约束 |
 | --- | --- | --- |

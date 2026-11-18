@@ -39,6 +39,22 @@ from tests.l2_launch.fixtures import (
     sign,
     verifier,
 )
+from contracts.l2_launch.vf_b import (
+    COOKIE_POLICY,
+    HEADERS,
+    VFBCandidate,
+    safe_log_record,
+    submission_document,
+    validate_free_view,
+    vf_status,
+)
+from tests.l2_launch.vf_b_fixtures import (
+    RETURN_TOKEN,
+    facade_fixture,
+    free_publication_fixture,
+    inquiry_fixture,
+    return_fixture,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -577,3 +593,402 @@ def test_contract_examples_are_offline_validated():
         sample = json.loads(path.read_text(encoding="utf-8"))
         assert sample["scope"] == "SYNTHETIC_CONTRACT_FIXTURE_NOT_A_RELEASE"
         validate(sample["type"], sample["body"])
+
+
+@pytest.fixture
+def vfb(setup):
+    db, vf, _, _, v, directory = setup
+    adapter, submission, policy, publications = facade_fixture(db)
+    response = adapter.submit(submission, CALLER, policy, v, NOW, queue_available=False)
+    assert response["status"] == 202
+    ref = response["body"]["audit_ref"]
+    grant = return_fixture(ref, policy)
+    adapter.install_return_fixture(grant, sign("owner", "share", grant), v, NOW)
+    restored = adapter.exchange(ref, PRINCIPAL["subject_ref"], RETURN_TOKEN, CALLER, policy, v, NOW)
+    cookie = restored["set_cookie"]["value"]
+    return adapter, submission, policy, publications, response, ref, cookie, v, vf, directory
+
+
+def vfb_publish(vfb):
+    adapter, _, _, publications, response, ref, *_ = vfb
+    adapter.journal.dispatch(TENANT, "audit-fixture")
+    for stage in ("FETCHING", "EVIDENCE_READY", "RULED", "DRAFT_READY", "REVIEW_REQUIRED"):
+        adapter.journal.advance_fixture(TENANT, "audit-fixture", stage)
+    publications["audit-fixture"] = free_publication_fixture(ref, response["body"]["run_id"])
+    return publications["audit-fixture"]
+
+
+def vfb_read(vfb, operation="status", **kwargs):
+    adapter, _, policy, _, _, ref, cookie, v, *_ = vfb
+    return adapter.read(
+        operation,
+        kwargs.pop("ref", ref),
+        kwargs.pop("cookie", cookie),
+        kwargs.pop("caller", CALLER),
+        kwargs.pop("policy", policy),
+        v,
+        kwargs.pop("now", NOW),
+        **kwargs,
+    )
+
+
+def test_vfb_producer_consumer_202_status_publication_return_and_VF_receipt(vfb):
+    adapter, submission, policy, _, accepted, ref, cookie, v, vf, _ = vfb
+    assert accepted["headers"] == HEADERS
+    assert set(accepted["body"]) == {
+        "contract_version",
+        "audit_ref",
+        "run_id",
+        "run_status",
+        "diagnosis_complete",
+        "poll_after_seconds",
+    }
+    assert "audit-fixture" not in ref and not accepted["body"]["diagnosis_complete"]
+    assert vfb_read(vfb)["body"]["display_state"] == "accepted"
+    assert vfb_read(vfb, "report")["status"] == 403
+    assert adapter.submit(submission, CALLER, policy, v, NOW)["body"]["audit_ref"] == ref
+    record = vfb_publish(vfb)
+    result = vfb_read(vfb)
+    assert result["body"]["task"]["status"] == "REVIEW_REQUIRED"
+    assert result["body"]["publication"]["state"] == "APPROVED_PARTIAL"
+    assert result["body"]["display_state"] == "partial"
+    view = vfb_read(vfb, "report")["body"]
+    assert view["kind"] == "synthetic" and len(view["results"]["UNDERSTAND"]) == 5
+    assert {f["kind"] for f in view["results"]["UNDERSTAND"]} == {
+        "OBSERVATION",
+        "COUNTER_EVIDENCE",
+        "HYPOTHESIS",
+        "RECOMMENDATION",
+        "UNKNOWN",
+    }
+    assert view["coverage"] == {
+        "authorized": 3,
+        "attempted": 2,
+        "successful": 1,
+        "unknown": 1,
+        "whole_site_denominator": None,
+    }
+    assert vfb_read(vfb, "citation", citation_id="citation-fixture")["body"] == view["citations"][0]
+    inquiry = inquiry_fixture(ref)
+    response = adapter.inquiry(inquiry, cookie, CALLER, policy, v, NOW)
+    assert response["status"] == 202 and response["body"]["delivery_state"] == "WAITING_ACK"
+    with pytest.raises(OSError):
+        vf.record(inquiry["command"], storage_available=False)
+    receipt, proof = vf.record(inquiry["command"])
+    saved = adapter.journal.receive(receipt, proof, v, NOW)
+    assert saved["handoff"]["stage"] == "VF_INQUIRY_RECORDED"
+    assert not saved["counts_as_e2"] and not saved["counts_as_e3"]
+    assert record["free_view"] == view
+
+
+@pytest.mark.parametrize(
+    "fault",
+    [
+        "missing-invitation",
+        "revoked",
+        "expired",
+        "tenant",
+        "subject",
+        "scope",
+        "host",
+        "service",
+        "language",
+        "consent-time",
+        "consent-version",
+        "consent-body",
+        "tamper-proof",
+        "no-policy",
+        "storage",
+        "quota",
+    ],
+)
+def test_vfb_submit_fail_closed_before_reference(setup, fault):
+    db, _, _, _, v, _ = setup
+    adapter, submission, policy, _ = facade_fixture(db)
+    caller, kwargs = dict(CALLER), {}
+    invitation = adapter.invitations["invitation-fixture"]
+    if fault == "missing-invitation":
+        adapter.invitations.clear()
+    elif fault == "revoked":
+        invitation["revoked"] = True
+    elif fault == "expired":
+        invitation["expires_at"] = "2026-11-18T10:00:00Z"
+    elif fault == "tenant":
+        invitation["tenant_id"] = "other-tenant"
+    elif fault == "subject":
+        submission["subject_ref"] = "other-subject"
+    elif fault == "scope":
+        invitation["policy_sha256"] = "0" * 64
+    elif fault == "host":
+        submission["normalized_host"] = "other.example"
+    elif fault == "service":
+        caller["actor_id"] = "untrusted-service"
+    elif fault == "language":
+        submission["language"] = "fr"
+    elif fault == "consent-time":
+        submission["diagnosis_consent"]["accepted_at"] = "2026-11-20T12:00:00Z"
+    elif fault == "consent-version":
+        submission["diagnosis_consent"]["consent_version"] = "other-consent"
+    elif fault == "consent-body":
+        submission["diagnosis_consent"]["text_sha256"] = "0" * 64
+    elif fault == "tamper-proof":
+        submission["submission_proof"]["signature"] = "0" * 128
+    elif fault == "no-policy":
+        policy = None
+    elif fault == "storage":
+        kwargs["storage_available"] = False
+    elif fault == "quota":
+        kwargs["capacity_available"] = False
+    result = adapter.submit(submission, caller, policy, v, NOW, **kwargs)
+    assert result["status"] == (503 if fault == "storage" else 429 if fault == "quota" else 403)
+    assert result["headers"]["Cache-Control"] == "no-store" and "audit_ref" not in result["body"]
+    assert db.db.execute("SELECT COUNT(*) FROM vfb_refs").fetchone()[0] == 0
+
+
+def test_vfb_idempotency_binds_language_consent_and_subject(vfb):
+    adapter, submission, policy, _, _, _, _, v, *_ = vfb
+    changed = deepcopy(submission)
+    changed["language"] = "en"
+    changed["submission_proof"] = sign("permission", "permission", submission_document(changed))
+    assert adapter.submit(changed, CALLER, policy, v, NOW)["status"] == 409
+
+
+@pytest.mark.parametrize("operation", ["status", "report", "citation"])
+@pytest.mark.parametrize(
+    "fault",
+    [
+        "bare-ref",
+        "nonexistent",
+        "cross-tenant",
+        "expired",
+        "revoked",
+        "source-revoked",
+        "invitation-revoked",
+    ],
+)
+def test_vfb_every_read_checks_session_current_source_and_permission(vfb, operation, fault):
+    adapter, _, policy, _, _, ref, _, v, *_ = vfb
+    vfb_publish(vfb)
+    kwargs = {"citation_id": "citation-fixture"}
+    if fault == "bare-ref":
+        kwargs["cookie"] = ""
+    elif fault == "nonexistent":
+        kwargs["ref"] = "nonexistent-fixture"
+    elif fault == "cross-tenant":
+        kwargs["caller"] = {**CALLER, "tenant_id": "other-tenant"}
+    elif fault == "expired":
+        kwargs["now"] = NOW + timedelta(days=2)
+    elif fault == "revoked":
+        adapter.revoke_return_fixture(
+            ref, sign("owner", "share", {"audit_ref": ref, "action": "REVOKE_RETURN"}), v, NOW
+        )
+    elif fault == "source-revoked":
+        kwargs["policy"] = {**policy, "revoked_at": NOW.isoformat()}
+    elif fault == "invitation-revoked":
+        adapter.invitations["invitation-fixture"]["revoked"] = True
+    denied = vfb_read(vfb, operation, **kwargs)
+    missing = vfb_read(
+        vfb, operation, ref="nonexistent-fixture", cookie="", citation_id="citation-fixture"
+    )
+    assert denied == missing and denied["status"] == 403
+    assert set(denied["body"]) == {
+        "contract_version",
+        "http_status",
+        "code",
+        "retryable",
+        "retry_after_seconds",
+    }
+
+
+def test_vfb_return_exchange_is_distinct_single_use_private_and_durable(vfb):
+    adapter, _, policy, _, _, ref, cookie, v, _, directory = vfb
+    assert COOKIE_POLICY == {"HttpOnly": True, "Secure": True, "SameSite": "Strict", "Path": "/"}
+    again = adapter.exchange(ref, PRINCIPAL["subject_ref"], RETURN_TOKEN, CALLER, policy, v, NOW)
+    assert again["status"] == 403
+    assert (
+        adapter.exchange(ref, "wrong-subject", RETURN_TOKEN, CALLER, policy, v, NOW)["status"]
+        == 403
+    )
+    assert vfb_read(vfb, cookie=RETURN_TOKEN)["status"] == 403
+    db = FixtureJournal(directory / "vrae-fixture.sqlite")
+    restarted = VFBCandidate(
+        db,
+        service_actor=CALLER["actor_id"],
+        invitations=adapter.invitations,
+        publication_resolver=lambda _: None,
+    )
+    try:
+        assert restarted.read("status", ref, cookie, CALLER, policy, v, NOW)["status"] == 200
+        restored = restarted.exchange(
+            ref, PRINCIPAL["subject_ref"], RETURN_TOKEN, CALLER, policy, v, NOW
+        )
+        assert restored["status"] == 403
+    finally:
+        db.close()
+
+
+@pytest.mark.parametrize(
+    "fault",
+    [
+        "draft",
+        "old-version",
+        "view-tamper",
+        "counter-drop",
+        "hypothesis-as-issue",
+        "private",
+        "false-coverage",
+        "wrong-source",
+        "four-priorities",
+        "wrong-run",
+        "released",
+        "private-raw",
+        "missing-task",
+        "report-withdrawn",
+        "unknown-without-reason",
+    ],
+)
+def test_vfb_projection_or_publication_tamper_cannot_become_released(vfb, fault):
+    record = vfb_publish(vfb)
+    view, bundle = record["free_view"], record["bundle"]
+    if fault == "draft":
+        bundle["report"]["status"] = "DRAFT"
+    elif fault == "old-version":
+        bundle["latest_version"] = 2
+    elif fault == "view-tamper":
+        view["results"]["UNDERSTAND"][0]["status"] = "OBSERVED"
+    elif fault == "counter-drop":
+        view["results"]["UNDERSTAND"].pop(1)
+    elif fault == "hypothesis-as-issue":
+        view["results"]["UNDERSTAND"][2]["status"] = "ISSUE"
+    elif fault == "private":
+        view["limitations"][0]["en"] = "contact secret@example.com"
+    elif fault == "false-coverage":
+        view["coverage"]["successful"] = 2
+    elif fault == "wrong-source":
+        view["pages"][1]["url"] = "https://outside.example/private"
+    elif fault == "four-priorities":
+        view["priority"] = ["projected-0", "two", "three", "four"]
+    elif fault == "wrong-run":
+        bundle["run"]["run_id"] = "run-other"
+    elif fault == "released":
+        view["kind"] = "released"
+    elif fault == "private-raw":
+        view["evidence_pack"] = {"raw": "private text"}
+    elif fault == "missing-task":
+        del view["results"]["TRUST"]
+    elif fault == "report-withdrawn":
+        record["current_grant"]["grant"]["status"] = "REVOKED"
+    elif fault == "unknown-without-reason":
+        view["results"]["UNDERSTAND"][2]["unknown_reason"] = None
+    if fault in {
+        "counter-drop",
+        "hypothesis-as-issue",
+        "private",
+        "false-coverage",
+        "wrong-source",
+        "four-priorities",
+        "released",
+        "private-raw",
+        "missing-task",
+        "unknown-without-reason",
+    }:
+        record["projection_proof"] = sign(
+            "owner",
+            "share",
+            {
+                "audit_ref": view["audit_ref"],
+                "report_version_id": view["report_version_id"],
+                "view_sha256": digest(view),
+            },
+        )
+    denied = vfb_read(vfb, "report")
+    assert denied["status"] in {403, 409} and denied["body"].get("kind") != "released"
+
+
+@pytest.mark.parametrize("stage", list(STATE_MAP))
+def test_vfb_status_never_publishes_from_run_status_alone(stage):
+    run = report_bundle()["run"]
+    run["status"] = stage
+    body = vf_status("aref-fixture", run, NOW)
+    assert body["display_state"] not in {"completed", "partial"}
+    assert body["task"]["status"] == stage and body["task"]["progress_percent"] is None
+
+
+def test_vfb_expiry_access_and_unavailability_are_independent_of_run():
+    run = report_bundle()["run"]
+    for access, available, expected in [
+        ("EXPIRED", True, "expired"),
+        ("ENDED", True, "access-ended"),
+        ("ACTIVE", False, "unavailable"),
+    ]:
+        result = vf_status("aref-fixture", run, NOW, access=access, available=available)
+        assert result["display_state"] == expected and result["task"]["status"] == "REVIEW_REQUIRED"
+    assert (
+        vf_status(
+            "aref-fixture", run, NOW, publication="APPROVED_FULL", version="report-fixture.v1"
+        )["display_state"]
+        == "completed"
+    )
+
+
+@pytest.mark.parametrize(
+    "fault",
+    ["not-requested", "diagnosis-consent", "expired", "old-version", "no-publication", "withdrawn"],
+)
+def test_vfb_inquiry_requires_independent_active_access_and_consent(vfb, fault):
+    adapter, _, policy, publications, _, ref, cookie, v, *_ = vfb
+    vfb_publish(vfb)
+    envelope, now = inquiry_fixture(ref), NOW
+    if fault == "not-requested":
+        envelope["customer_requested"] = False
+    elif fault == "diagnosis-consent":
+        envelope["inquiry_consent"]["consent_version"] = "VF-SCAN-CONSENT-DRAFT-1"
+    elif fault == "expired":
+        now += timedelta(days=2)
+    elif fault == "old-version":
+        envelope["report_version_id"] = "report-fixture.v0"
+    elif fault == "no-publication":
+        publications.clear()
+    elif fault == "withdrawn":
+        adapter.journal.withdraw(TENANT, "audit-fixture", CALLER, policy, v, NOW)
+    response = adapter.inquiry(envelope, cookie, CALLER, policy, v, now)
+    assert response["status"] == 403
+    assert adapter.db.execute("SELECT COUNT(*) FROM items WHERE kind='handoff'").fetchone()[0] == 0
+
+
+def test_vfb_projection_consumer_checks_all_facts_and_log_allowlist(vfb):
+    record = vfb_publish(vfb)
+    validate_free_view(record["free_view"], record["bundle"])
+    assert safe_log_record("report", "ACCESS_DENIED") == {
+        "operation": "report",
+        "code": "ACCESS_DENIED",
+    }
+    for value in ("https://legacy.example/products/p40", RETURN_TOKEN, "cookie", "raw_excerpt"):
+        with pytest.raises(Refused):
+            safe_log_record("report", value)
+
+
+@pytest.mark.parametrize(
+    "stage,reason",
+    [
+        ("POLICY_BLOCKED", "SOURCE_POLICY_BLOCKED"),
+        ("ACCESS_BLOCKED", "SOURCE_ACCESS_BLOCKED"),
+        ("INSUFFICIENT_EVIDENCE", "NO_EVIDENCE"),
+        ("MODEL_INVALID", "MODEL_INVALID"),
+    ],
+)
+def test_vfb_blocked_unknown_model_reasons_are_safe_and_not_auto_retried(stage, reason):
+    run = report_bundle()["run"]
+    run["status"] = stage
+    body = vf_status("aref-fixture", run, NOW)
+    assert body["reason_code"] == reason and not body["retryable"]
+    assert body["publication"]["report_version_id"] is None
+
+
+def test_vfb_external_quota_and_report_withdrawal_have_bounded_semantics():
+    run = report_bundle()["run"]
+    run["status"], run["error_code"] = "FAILED", "QUOTA_EXCEEDED"
+    body = vf_status("aref-fixture", run, NOW)
+    assert body["reason_code"] == "RATE_LIMITED" and body["retry_after_seconds"] == 60
+    ended = vf_status("aref-fixture", run, NOW, publication="WITHDRAWN")
+    assert ended["display_state"] == "access-ended" and not ended["retryable"]

@@ -6,6 +6,8 @@ VF main `348ba4a6a9e885431e769e008dd4b7c157405104` 及leads route只经GitHub源
 
 本地原生Python3.11/3.13各 **351 PASS**：其中新R0 consumer **79**，其余为原V1合同/领域/RA0F相关回归。Ruff通过。22个JSON示例可从固定合成种子/时钟重建，schema和实际对象逐项一致。旧Windows默认GBK读取原中文源文件的失败XML保留在忽略的本地.runtime；最终显式UTF-8复验，没有修改旧测试或跳过检查。
 
+纳入Owner VF-B补充要求后，本地最终原生Python3.11/3.13各 **433 PASS**：consumer共161（基础79、VF-B82），原V1合同/领域/RA0F回归272。Ruff通过；39个JSON示例精确重建。VF PR36文档和presentation源码只读SHA见inputs.json；[一页VF-B兼容矩阵](VF-B-COMPATIBILITY.md)对应六项行为与负例。上述351/22保留为前一阶段记录，不能替代最新HEAD的433/39自然CI。新evidence要求至少160个consumer且至少80个VF-B用例，无skip/failure/error。
+
 `.runtime/evidence*.json` 记录实际source_sha、clean/working-tree区别、Python、JUnit SHA、实际文件SHA和fixture计数。开发工作树结果标WORKING_TREE_UNCOMMITTED；提交本身不把旧结果变成新HEAD验收。自然CI必须checkout本HEAD并重新运行；最终Job/工件/digest核验以Draft PR描述为准，不复用其它HEAD全绿。
 
 可复验内容：
