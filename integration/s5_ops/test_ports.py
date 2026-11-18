@@ -172,3 +172,44 @@ def test_modes_keep_one_original_ledger_and_refuse_parallel_dispatch(ports, monk
     assert second.result["status"] == "CANDIDATES_FOR_HUMAN_REVIEW"
     assert port.books[port.key(first.held)] is book
     assert first.session.ledger is second.session.ledger is book.ledger
+
+
+def test_same_task_reauthentication_uses_original_reader_without_reproducing_report(
+    ports, monkeypatch
+):
+    app, manager, port, headers, rid, _ = ports
+    source = manager.active["source"]
+    report = app.deep.ledgers[rid]
+    task = manager.active["task"]
+    before = source.read().version
+    calls = []
+    original = adapter.current_worker
+
+    def observed(*args, **kwargs):
+        calls.append((args[1], args[3]))
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(adapter, "current_worker", observed)
+    from integration.l2_ops import native_report
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Same task reauth must not rebuild report")
+
+    monkeypatch.setattr(native_report, "produce_current", forbidden)
+    held_job_sid = manager.active["sid"]
+    assert manager.activate(task, held_job_sid) is report
+    assert calls == [(task, held_job_sid)]
+    assert manager.active["source"] is source
+    assert source.read().version == before
+    assert not port.jobs
+
+
+def test_same_task_reauthentication_cannot_reuse_foreign_report_source(ports):
+    app, manager, port, headers, rid, _ = ports
+    original = app.deep.ledgers[rid].source
+    app.deep.ledgers[rid].source = object()
+    try:
+        with pytest.raises(Exception, match="S5_CURRENT_REPORT_SOURCE_CHANGED"):
+            port.reauthenticate(manager.active["task"], manager.active["sid"])
+    finally:
+        app.deep.ledgers[rid].source = original

@@ -32,3 +32,11 @@ python -m integration.l2_ops.s2_acceptance_runtime --s5 --run s5-local-313 --min
 S4 狭窄接口为 S5Ports.read_only_s4_port：仅在双重当前权限下读取服务端同源 task/pack/report 和历史候选引用。未合并 S4 代码不导入；没有模拟 ACK 或外部接单。
 
 真实模型、Gold、咨询、费率、人工时长和客户批准没有凭据时保持 UNKNOWN/UNLINKED。旧匿名卷状态 UNKNOWN，历史 dump 与 A1/MAX3 保持封存。
+
+## 同任务重新认证
+
+S5 模式下，对同一 TaskHandle 使用原签名 Reader 重新核对当前 Worker 证据、pack 与报告来源，保留已生成的不可变 NativeSource、报告版本和审核。不同任务仍走原完整生产路径。只更新此次真实登录的 M1 会话引用；不会延长 C2 会话、旧 S3 Session、原签名 TTL 或 Worker 租约。Brief 保存与回读继续使用原双重当前权限及 PG COMMIT 规则。
+
+阶段计时记录在私有 S5 状态中；公开证据仅含有限阶段名与时间。历史 RED 保留：
+- e914bbf 的首次登录前 HTTP Empty，缺少对应阶段计时，根因仍 UNKNOWN。
+- fc3c1b6 的 Brief 测试 RED：实际 PG 行 completed=true，created_at=08:09:32Z、授权到期=08:09:46Z，浏览器回读于08:09:48Z失败。不能将其表述为 COMMIT 未发生或丢失。该轮完整重建同任务报告的额外工作已由上述重新认证适配移除；权限到期拒绝仍保留。

@@ -30,6 +30,11 @@ export function hooks() {
       await fresh();
       receipt.fixture=await result(c,'FIXTURE',root,reportPins);
       await c.check('S5-mode-change-preserves-original-report-hash',receipt.noModel.contentHash===receipt.fixture.contentHash);
+      for(const width of [1280,390,375,320]){
+        await c.call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
+        await c.check('S5-procurement-explanation-readable-'+width,await c.ev("document.documentElement.scrollWidth<=innerWidth&&document.querySelectorAll('[data-s5-task]').length===5&&[...document.querySelectorAll('a.action,summary,button')].filter(e=>e.getClientRects().length).every(e=>e.getBoundingClientRect().height>=44)"));
+        await c.screenshot('s5-procurement-'+width+'.png');
+      }
       await c.nav(root);
     },
     async after(c,{root,task,reportPins}){

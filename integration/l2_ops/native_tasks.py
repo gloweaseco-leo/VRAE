@@ -74,6 +74,8 @@ class NativeTasks:
     def activate(self, task, sid):
         if not self.enabled:
             raise OperationsDenied("L2_NATIVE_RUNTIME_BLOCKED")
+        if self.s5 is not None and self.s5.reauthenticate(task, sid):
+            return self.app.deep.ledgers[self.active["report_id"]]
         if self.s5 is not None:
             self.s5.phase("activate_enter")
         stamp = assembly.production_stamp(self.root, task, self.bundle)

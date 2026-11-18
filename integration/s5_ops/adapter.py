@@ -54,11 +54,37 @@ class S5Ports:
         self.books = {}
         self.lock = threading.RLock()
 
+    def reauthenticate(self, task, sid):
+        """Fresh ORIGINAL task authority for the same held immutable report.
+
+        Reauthentication does not extend an existing S3 Session or C2 review.
+        No report/Guard result is fabricated or replaced.
+        """
+        manager = self.manager
+        active = manager.active
+        if active is None or active["task"] != task:
+            return False
+        with current_worker(
+            manager.port, task, manager.sessions, sid, policy_expires_at=manager.deadline
+        ) as (evidence, deadline):
+            bind_worker(evidence, active["source"], manager.bundle)
+            ledger = manager.app.deep.ledgers[active["report_id"]]
+            if ledger.source is not active["source"]:
+                raise OperationsDenied("S5_CURRENT_REPORT_SOURCE_CHANGED")
+            if datetime.now(UTC) >= deadline:
+                raise OperationsDenied("S5_CURRENT_TASK_EXPIRED")
+        # No callback/deferred authorization: old S3 jobs keep their held sid/expiry.
+        manager.active = {**active, "sid": sid}
+        self.phase("same_task_original_signature_reauthenticated")
+        return True
+
     def phase(self, name):
         # Finite stage names only; no credential or request body.
         path = self.root / "activation-timing.json"
         rows = read(path, 65536) if path.exists() else []
-        rows.append({"phase": name, "monotonic": time.monotonic(), "utc": datetime.now(UTC).isoformat()})
+        rows.append(
+            {"phase": name, "monotonic": time.monotonic(), "utc": datetime.now(UTC).isoformat()}
+        )
         write(path, rows[-80:])
 
     def route(self, path):
