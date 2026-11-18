@@ -376,21 +376,6 @@ def main():
                 "raw_logs_and_backups_uploaded": False,
             },
         )
-        write(
-            public / "result.json",
-            {
-                "status": "PASS",
-                "candidate": "R1B_PRIVATE_RUNTIME_CANDIDATE_DEPLOYMENT_GO_PENDING",
-                "release_status": "R1_ENGINEERING_CANDIDATE_NO_LIVE_SOURCE_NO_EXTERNAL_RELEASE",
-                "checks_measured": sum(len(o["checks"]) for o in outcomes),
-                "elapsed_seconds_measured": time.monotonic() - started,
-                "cloud_resources_created": 0,
-                "model_calls": 0,
-                "money_status": "UNKNOWN",
-                "cpu_ram_capacity": "ESTIMATED_UNMEASURED",
-                "checks": [c for o in outcomes for c in o["checks"]],
-            },
-        )
     except BaseException as exc:
         failures.append(type(exc).__name__ + ": " + str(exc))
         if str(exc) == "PUBLIC_SECRET_DETECTED":
@@ -451,6 +436,22 @@ def main():
         )
         secret.unlink(missing_ok=True)
         assert not leftover and not volumes, "OWNED_CLEANUP_INCOMPLETE"
+        if not failures:
+            write(
+                public / "result.json",
+                {
+                    "status": "PASS",
+                    "candidate": "R1B_PRIVATE_RUNTIME_CANDIDATE_DEPLOYMENT_GO_PENDING",
+                    "release_status": "R1_ENGINEERING_CANDIDATE_NO_LIVE_SOURCE_NO_EXTERNAL_RELEASE",
+                    "checks_measured": sum(len(o["checks"]) for o in outcomes),
+                    "elapsed_seconds_measured": time.monotonic() - started,
+                    "cloud_resources_created": 0,
+                    "model_calls": 0,
+                    "money_status": "UNKNOWN",
+                    "cpu_ram_capacity": "ESTIMATED_UNMEASURED",
+                    "checks": [c for o in outcomes for c in o["checks"]],
+                },
+            )
         print(
             json.dumps(
                 {

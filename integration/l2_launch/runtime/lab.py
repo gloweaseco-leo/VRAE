@@ -149,6 +149,27 @@ def main():
     old.STATE.chmod(0o600)
     native.OUT = OUT
     network()
+    from importlib.metadata import version
+    from packaging.requirements import Requirement
+
+    installed = {}
+
+    def audit_lock(path):
+        for line in path.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith("-r "):
+                audit_lock(path.parent / line[3:])
+                continue
+            requirement = Requirement(line)
+            if requirement.marker is not None and not requirement.marker.evaluate():
+                continue
+            actual = version(requirement.name)
+            check("locked_dependency_" + requirement.name, actual in requirement.specifier)
+            installed[requirement.name] = actual
+
+    audit_lock(Path("/work/requirements-ra4b-p1.lock"))
     from integration.ra4b.support import migrate, seed
     from integration.beta_review.codex3.m3_bootstrap import install
     from integration.l2_ops.catalog import install as install_source
@@ -413,6 +434,8 @@ def main():
             phase + "-result.json",
             {
                 "phase": phase,
+                "native_python": sys.version,
+                "locked_dependencies_measured": installed,
                 "checks": CHECKS,
                 "result": result,
                 "elapsed_seconds": time.monotonic() - start,

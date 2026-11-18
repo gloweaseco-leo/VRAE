@@ -10,7 +10,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ['3.11', '3.13']
+        include:
+          - python: '3.11'
+            slug: '311'
+          - python: '3.13'
+            slug: '313'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -24,7 +28,7 @@ jobs:
           python -m ruff check --no-cache infra/l2_launch integration/l2_launch/runtime --select E4,E7,E9,F
           python -B -m unittest integration.l2_launch.runtime.test_boundary -v
       - name: Real no-route PG16, original 30s lease, SIGKILL and restore
-        run: python -B -m infra.l2_launch.runner --label ci-${{ matrix.python }} --build
+        run: python -B -m infra.l2_launch.runner --label ci-${{ matrix.slug }} --build
       - name: Publish metadata only; original CI remains unchanged
         if: always()
         uses: actions/upload-artifact@v4
@@ -32,4 +36,4 @@ jobs:
           name: l2-launch-private-${{ matrix.python }}
           retention-days: 3
           if-no-files-found: error
-          path: infra/l2_launch/.private/ci-${{ matrix.python }}/public/
+          path: infra/l2_launch/.private/ci-${{ matrix.slug }}/public/
