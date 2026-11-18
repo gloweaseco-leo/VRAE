@@ -32,7 +32,10 @@ Owner 指令：[6971592459](https://github.com/gloweaseco-leo/VRAE/pull/140#issu
 | s4merge311b / 7814f30 | 并行演练中原 canonical Worker 退出，浏览器在原任务页失败 | 原 worker/supervisor 的 AssertionError 与清理记录保留；不归因于 S4 或宣称已知底层原因 |
 | s4merge313a / 7814f30 | 并行演练中 S2 重新登录后页面不符，BROWSER_EVALUATION_FAILED | 根因未定，后改为串行排除同机并行负载变量 |
 | s4merge313b / 7814f30 | 来源卡与四个摘要视口通过，回原蓝图时 HTTP403 | 七包没有被更改；驱动在新增摘要测量后补原流程重新签名，并增加打印前 HTTP200/摘要内容核验 |
+| s4merge311c / 5d9d6cf | 严格验签、旧尝试拒绝、退回和失败重试通过；正向 ACK 时原权威拒绝 | 原文仅有允许公开的 `ORIGINAL_AUTHORITY_OR_PRIVATE_CONTROL_DENIED`，不将它归因为已证实的底层原因；驱动补齐 ACK 前原流程重新签名。清理已确认，未宣称 Windows 完整联合 PASS |
 
 上述公开失败工件位于 `../l2-operations/<run>/`，包含源码哈希、实际检查、旧 RED 与所属资源清理。原私有日志、DB dump、凭据和浏览器 profile 不发布。没有改旧权限期限或靠换镜像/扩大超时掩盖失败。
+
+新整合 head 5d9d6cf 的原生 Linux 3.11/3.13 真实同任务联合 Job 已各 attempt1 SUCCESS，两个离线质量 Job 则因整目录冻结拒绝已审 S4 字节。4b18148 只加显式、精确的原 S4 七个 Git blob 例外；identity、Guard、Gold、其他路径及这七个文件的任何字节变化仍拒绝，三项专门负例通过。后续每一 HEAD 的自然 CI 均独立记录，不将前一 HEAD 结果移植为新绿。
 
 复验：`python -B -m integration.l2_ops.s2_acceptance_runtime --executive --run <唯一标签> --minor 3.11`（原生 3.13 则改 minor 与解释器）。使用原依赖镜像、Docker、Chrome/CJK；Windows 可通过 `B5B_CHROMIUM` 指向受控 Chrome。新 HEAD 自然 CI / 完整联合结果以 PR140 最新描述与对应工件为准，未记录前不得宣称联合 PASS。

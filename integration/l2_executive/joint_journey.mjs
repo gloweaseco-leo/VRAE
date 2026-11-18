@@ -47,6 +47,7 @@ export function executiveJourney(c) {
       await fresh();await nav(root+'/brief');
       row=await privateOperation('receive',{state:'RETRYABLE_FAILED'});await check('S4-independent-retryable-failure',row.state==='RETRYABLE_FAILED');
       await fresh();await nav(root+'/brief');await click('[data-key=vf-retry]',true);await read();
+      await fresh();await nav(root+'/brief');
       row=await privateOperation('receive',{state:'ACKNOWLEDGED'});
       await check('S4-independent-ACK-only-internal',row.state==='ACKNOWLEDGED'&&row.attempt===3&&internalOnly(row)&&row.brief_sha256===before.brief.content_sha256);
       const after=await rpc('native-proof');
