@@ -83,6 +83,11 @@ workflow 原样自然运行。首次本地调试 RED 保留：原 transport 测�
 引用（实际为UNKNOWN），另一项本地环境缺原锁psycopg。现改用实际有字节引用的
 静态候选测试，并隔离安装原依赖；首轮RED XML保留在 .runtime/first-combined-red.xml。
 
+本分包首轮官方CI `b605fc1` / run44228176135 的双minor原生100项均通过，
+浏览器步骤在启动前被受限标签校验拒绝：workflow传入 `hosted-3.11/3.13` 含点号。
+修正仅把workflow调用和工件路径换为固定slug `hosted-311/313`；保留原严格标签
+校验、Chrome参数、时限与权限。不将该首轮RED改为PASS，也不手动重跑原HEAD。
+
 ## 边界
 
 P40/V25 为 accepted C1 合成资料，URL 仅是内存来源标识；没有真实第三方访问。

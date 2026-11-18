@@ -13,7 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.11', '3.13']
+        include:
+          - python-version: '3.11'
+            slug: '311'
+          - python-version: '3.13'
+            slug: '313'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -36,16 +40,16 @@ jobs:
       - name: Actual controlled signed HTTP, original SSR and Chrome viewports
         env:
           RA4C0_CHROMIUM: /usr/bin/google-chrome
-        run: python -B -m integration.s2_buyer_workbench.lab hosted-${{ matrix.python-version }}
+        run: python -B -m integration.s2_buyer_workbench.lab hosted-${{ matrix.slug }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: s2-buyer-source-reading-${{ matrix.python-version }}
           path: |
             integration/s2_buyer_workbench/native.xml
-            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.python-version }}/browser.json
-            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.python-version }}/source.json
-            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.python-version }}/process-cleanup.json
-            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.python-version }}/*.png
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/browser.json
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/source.json
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/process-cleanup.json
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/*.png
           include-hidden-files: true
           if-no-files-found: error
