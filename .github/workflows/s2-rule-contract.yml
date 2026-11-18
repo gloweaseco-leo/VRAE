@@ -1,6 +1,13 @@
 name: S2 native rule and read-only projection contracts
 on:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      python:
+        description: Python target (3.11 retains on-demand compatibility)
+        type: choice
+        options: ['3.13', '3.11']
+        default: '3.13'
 permissions:
   contents: read
 jobs:
@@ -10,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ['3.11', '3.13']
+        python: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.python == '3.11' && '["3.11"]' || '["3.13"]') }}
     steps:
       - uses: actions/checkout@v4
         with:

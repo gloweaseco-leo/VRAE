@@ -1,0 +1,92 @@
+{
+  "base": "6a15ab4514d24c60b4d03d4ec795f6e3bcd435c3",
+  "files": [
+    {
+      "path": ".github/workflows/s2-rule-contract.yml",
+      "entry_contains_file": false,
+      "unchanged_original_job_contract": true,
+      "unchanged_pr_trigger": true,
+      "matrix_cases": [
+        {
+          "event": "pull_request",
+          "input": null,
+          "matrix": [
+            "3.13"
+          ]
+        },
+        {
+          "event": "pull_request",
+          "input": "3.11",
+          "matrix": [
+            "3.13"
+          ]
+        },
+        {
+          "event": "workflow_dispatch",
+          "input": "3.11",
+          "matrix": [
+            "3.11"
+          ]
+        },
+        {
+          "event": "workflow_dispatch",
+          "input": "3.13",
+          "matrix": [
+            "3.13"
+          ]
+        }
+      ]
+    },
+    {
+      "path": ".github/workflows/s2-buyer-workbench.yml",
+      "entry_contains_file": false,
+      "unchanged_original_job_contract": true,
+      "unchanged_pr_trigger": true,
+      "matrix_cases": [
+        {
+          "event": "pull_request",
+          "input": null,
+          "matrix": [
+            {
+              "python-version": "3.13",
+              "slug": "313"
+            }
+          ]
+        },
+        {
+          "event": "pull_request",
+          "input": "3.11",
+          "matrix": [
+            {
+              "python-version": "3.13",
+              "slug": "313"
+            }
+          ]
+        },
+        {
+          "event": "workflow_dispatch",
+          "input": "3.11",
+          "matrix": [
+            {
+              "python-version": "3.11",
+              "slug": "311"
+            }
+          ]
+        },
+        {
+          "event": "workflow_dispatch",
+          "input": "3.13",
+          "matrix": [
+            {
+              "python-version": "3.13",
+              "slug": "313"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actionlint": "PASS (v1.7.12)",
+  "global_workflow_changes": [],
+  "b5a_original_source_check": "PASS_UNMODIFIED"
+}
