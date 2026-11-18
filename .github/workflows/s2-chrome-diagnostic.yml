@@ -1,0 +1,40 @@
+name: S2 D0 isolated Chrome startup evidence
+on:
+  pull_request:
+    paths:
+      - 'integration/s2_chrome_diagnostic/**'
+      - '.github/workflows/s2-chrome-diagnostic.yml'
+permissions:
+  contents: read
+jobs:
+  startup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Deterministic subprocess controls and exact frozen source contracts
+        run: |
+          node --test integration/s2_chrome_diagnostic/observer.test.mjs
+          python integration/s2_chrome_diagnostic/verify.py
+      - name: Independent real Chrome startup with original flags and deadlines
+        env:
+          RA4C0_CHROMIUM: /usr/bin/google-chrome
+        run: node integration/s2_chrome_diagnostic/run.mjs diagnostic-output
+      - name: Independent Python receipt and false-promotion verification
+        run: python integration/s2_chrome_diagnostic/verify.py diagnostic-output/startup.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s2-chrome-d0-${{ matrix.python-version }}
+          path: diagnostic-output/startup.json
+          if-no-files-found: error
