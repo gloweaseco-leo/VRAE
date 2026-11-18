@@ -1,0 +1,45 @@
+name: S2 INFO-03 TECH-02 retained source candidates
+on:
+  pull_request:
+    paths:
+      - 'vrae/rules/s2/source_quality.py'
+      - 'integration/s2_source_quality/**'
+      - 'tests/s2_contract/source_quality_cases.py'
+      - '.github/workflows/s2-source-quality.yml'
+permissions:
+  contents: read
+jobs:
+  retained-source-313:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Existing locked dependencies
+        run: python -m pip install -r requirements-ra4b-p1.lock
+      - name: Source candidates, signed SSR and existing parent contracts
+        run: >-
+          python -B -m pytest -q
+          tests/s2_contract/source_quality_cases.py
+          integration/s2_source_quality/view_cases.py
+          tests/s2_contract/p1_static_cases.py
+          tests/s2_contract/p1_industrial_cases.py
+          tests/s2_contract/buyer_candidate_cases.py
+          integration/s2_buyer_workbench/test_workbench.py
+          integration/l2/test_codex1.py
+          tests/collection tests/evidence tests/interpretation/test_guard.py
+          --junitxml=integration/s2_source_quality/.runtime/contracts.xml
+      - name: Twelve runnable business examples and original signed HTTP
+        run: python -B -m integration.s2_source_quality.demo hosted-313
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s2-source-quality-313
+          path: |
+            integration/s2_source_quality/.runtime/contracts.xml
+            integration/s2_source_quality/.runtime/hosted-313/*.json
+            integration/s2_source_quality/.runtime/hosted-313/*.html
+          include-hidden-files: true
+          if-no-files-found: error
