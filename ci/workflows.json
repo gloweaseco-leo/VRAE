@@ -1,0 +1,500 @@
+{
+  "base": "4a227f1b58afc97d8af1778a066f37b80ff0f399",
+  "workflows": [
+    {
+      "family": "b3_p0",
+      "path": ".github/workflows/b3-p0.yml",
+      "workflow_name": "B3 P0 TEST_ONLY atomic intents",
+      "job": "testonly-pg16-http-restore",
+      "old_matrix": {
+        "include": [
+          {
+            "python-version": "3.11",
+            "tag": "311"
+          },
+          {
+            "python-version": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python-version": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "b5b_m2",
+      "path": ".github/workflows/b5b-m2.yml",
+      "workflow_name": "M2 actual generated L1 internal review and A4",
+      "job": "generated-review-pg16-browser",
+      "old_matrix": {
+        "include": [
+          {
+            "python": "3.11",
+            "slug": "311"
+          },
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "b5b",
+      "path": ".github/workflows/b5b.yml",
+      "workflow_name": "B5B accepted signed SSR private preview and blocked result boundary",
+      "job": "signed-ssr-pg16-browser",
+      "old_matrix": {
+        "include": [
+          {
+            "python": "3.11",
+            "tag": "311"
+          },
+          {
+            "python": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "b6_p0",
+      "path": ".github/workflows/b6-p0.yml",
+      "workflow_name": "B6-P0 private handoff and unconditional delivery denial",
+      "job": "private-handoff-pg16",
+      "old_matrix": {
+        "include": [
+          {
+            "python-version": "3.11",
+            "tag": "311"
+          },
+          {
+            "python-version": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python-version": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "beta_b7p1_six_schema",
+      "path": ".github/workflows/beta-b7p1-six-schema.yml",
+      "workflow_name": "B7-P1 deterministic six-schema three-DB TEST_ONLY recovery",
+      "job": "restore",
+      "old_matrix": {
+        "include": [
+          {
+            "python": "3.11",
+            "minor": "311"
+          },
+          {
+            "python": "3.13",
+            "minor": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python": "3.13",
+            "minor": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": false
+    },
+    {
+      "family": "evidence_pack_perf",
+      "path": ".github/workflows/evidence-pack-perf.yml",
+      "workflow_name": "EvidencePack instance consistency performance",
+      "job": "isolated-consistency",
+      "old_matrix": {
+        "python": [
+          "3.11",
+          "3.13"
+        ]
+      },
+      "python313_matrix": {
+        "python": [
+          "3.13"
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "l2_deep_audit",
+      "path": ".github/workflows/l2-deep-audit.yml",
+      "workflow_name": "L2 deep report, responsible review and controlled directed access",
+      "job": "deep-product-browser",
+      "old_matrix": {
+        "include": [
+          {
+            "python": "3.11",
+            "slug": "311"
+          },
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": false
+    },
+    {
+      "family": "l2_industrial",
+      "path": ".github/workflows/l2-industrial.yml",
+      "workflow_name": "L2 industrial buyer diagnosis",
+      "job": "industry",
+      "old_matrix": {
+        "python": [
+          "3.11",
+          "3.13"
+        ]
+      },
+      "python313_matrix": {
+        "python": [
+          "3.13"
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "l2_ops",
+      "path": ".github/workflows/l2-ops.yml",
+      "workflow_name": "L2 controlled source and internal RebuildBrief PG16",
+      "job": "l2-ops-pg16",
+      "old_matrix": {
+        "include": [
+          {
+            "python": "3.11",
+            "slug": "311"
+          },
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4a_p2b2a_identity",
+      "path": ".github/workflows/ra4a-p2b2a-identity.yml",
+      "workflow_name": "RA4A P2B2A TEST_ONLY signed identity and real PG16",
+      "job": "identity-pg16",
+      "old_matrix": {
+        "python-version": [
+          "3.11",
+          "3.13"
+        ]
+      },
+      "python313_matrix": {
+        "python-version": [
+          "3.13"
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4a_pg",
+      "path": ".github/workflows/ra4a-pg.yml",
+      "workflow_name": "RA4A P1 real PostgreSQL 16",
+      "job": "postgres-16",
+      "old_matrix": {
+        "python-version": [
+          "3.11",
+          "3.13"
+        ]
+      },
+      "python313_matrix": {
+        "python-version": [
+          "3.13"
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4b_p1",
+      "path": ".github/workflows/ra4b-p1.yml",
+      "workflow_name": "RA4B P1 private TEST_ONLY runtime",
+      "job": "private-runtime",
+      "old_matrix": {
+        "include": [
+          {
+            "python": "3.11",
+            "slug": "311"
+          },
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4b_p2_consumer",
+      "path": ".github/workflows/ra4b-p2-consumer.yml",
+      "workflow_name": "M1 server consumer integration",
+      "job": "consumer",
+      "old_matrix": {
+        "include": [
+          {
+            "python": "3.11",
+            "slug": "311"
+          },
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4b_p2_m1",
+      "path": ".github/workflows/ra4b-p2-m1.yml",
+      "workflow_name": "M1 synthetic Worker generated result",
+      "job": "generated-result",
+      "old_matrix": {
+        "include": [
+          {
+            "python": "3.11",
+            "slug": "311"
+          },
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4c_b5a",
+      "path": ".github/workflows/ra4c-b5a.yml",
+      "workflow_name": "B5A signed TEST_ONLY Reviewer original read",
+      "job": "signed-reviewer-pg16-browser",
+      "old_matrix": {
+        "include": [
+          {
+            "python-version": "3.11",
+            "tag": "311"
+          },
+          {
+            "python-version": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python-version": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4c_b5p0",
+      "path": ".github/workflows/ra4c-b5p0.yml",
+      "workflow_name": "B5-P0 signed Reviewer atomic TEST_ONLY rehearsal",
+      "job": "signed-rehearsal-pg16-browser",
+      "old_matrix": {
+        "include": [
+          {
+            "python-version": "3.11",
+            "tag": "311"
+          },
+          {
+            "python-version": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python-version": "3.13",
+            "tag": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4c3_pg_read",
+      "path": ".github/workflows/ra4c3-pg-read.yml",
+      "workflow_name": "RA4C3 TEST_ONLY actual PG read UI",
+      "job": "pg-read",
+      "old_matrix": {
+        "python-version": [
+          "3.11",
+          "3.13"
+        ]
+      },
+      "python313_matrix": {
+        "python-version": [
+          "3.13"
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "ra4e_b7p0_restore",
+      "path": ".github/workflows/ra4e-b7p0-restore.yml",
+      "workflow_name": "B7-P0 disposable cross-environment PostgreSQL restore",
+      "job": "restore-pg16",
+      "old_matrix": {
+        "python-version": [
+          "3.11",
+          "3.13"
+        ]
+      },
+      "python313_matrix": {
+        "python-version": [
+          "3.13"
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "s2_buyer_workbench",
+      "path": ".github/workflows/s2-buyer-workbench.yml",
+      "workflow_name": "C2 controlled S2 source reading workbench",
+      "job": "source-reading",
+      "old_matrix": {
+        "include": [
+          {
+            "python-version": "3.11",
+            "slug": "311"
+          },
+          {
+            "python-version": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "python313_matrix": {
+        "include": [
+          {
+            "python-version": "3.13",
+            "slug": "313"
+          }
+        ]
+      },
+      "old_unconditional_pr": false
+    },
+    {
+      "family": "s2_rule_contract",
+      "path": ".github/workflows/s2-rule-contract.yml",
+      "workflow_name": "S2 native rule and read-only projection contracts",
+      "job": "native-contract",
+      "old_matrix": {
+        "python": [
+          "3.11",
+          "3.13"
+        ]
+      },
+      "python313_matrix": {
+        "python": [
+          "3.13"
+        ]
+      },
+      "old_unconditional_pr": true
+    },
+    {
+      "family": "s2_ux",
+      "path": ".github/workflows/s2-ux.yml",
+      "workflow_name": "S2 C2 bounded browser evidence P0",
+      "job": "projection-and-chrome",
+      "old_matrix": {
+        "python": [
+          "3.11",
+          "3.13"
+        ]
+      },
+      "python313_matrix": {
+        "python": [
+          "3.13"
+        ]
+      },
+      "old_unconditional_pr": false
+    }
+  ]
+}

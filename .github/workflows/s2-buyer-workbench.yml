@@ -1,9 +1,18 @@
 name: C2 controlled S2 source reading workbench
 on:
-  pull_request:
-    paths:
-      - 'integration/s2_buyer_workbench/**'
-      - '.github/workflows/s2-buyer-workbench.yml'
+  workflow_call:
+    inputs:
+      legacy_311:
+        type: boolean
+        default: false
+        required: false
+  workflow_dispatch:
+    inputs:
+      legacy_311:
+        description: Include retained Python 3.11 compatibility and historical gates
+        type: boolean
+        default: false
+        required: false
 permissions:
   contents: read
 jobs:
@@ -12,12 +21,7 @@ jobs:
     timeout-minutes: 15
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - python-version: '3.11'
-            slug: '311'
-          - python-version: '3.13'
-            slug: '313'
+      matrix: ${{ fromJSON(inputs.legacy_311 && '{"include":[{"python-version":"3.11","slug":"311"},{"python-version":"3.13","slug":"313"}]}' || '{"include":[{"python-version":"3.13","slug":"313"}]}') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

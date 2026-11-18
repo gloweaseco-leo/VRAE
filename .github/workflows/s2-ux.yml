@@ -1,10 +1,18 @@
 name: S2 C2 bounded browser evidence P0
 on:
-  pull_request:
-    paths:
-      - 'vrae/rules/s2_ux.py'
-      - 'integration/s2_ux/**'
-      - '.github/workflows/s2-ux.yml'
+  workflow_call:
+    inputs:
+      legacy_311:
+        type: boolean
+        default: false
+        required: false
+  workflow_dispatch:
+    inputs:
+      legacy_311:
+        description: Include retained Python 3.11 compatibility and historical gates
+        type: boolean
+        default: false
+        required: false
 permissions:
   contents: read
 jobs:
@@ -13,8 +21,7 @@ jobs:
     timeout-minutes: 15
     strategy:
       fail-fast: false
-      matrix:
-        python: ['3.11', '3.13']
+      matrix: ${{ fromJSON(inputs.legacy_311 && '{"python":["3.11","3.13"]}' || '{"python":["3.13"]}') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

@@ -1,35 +1,102 @@
 name: VRAE contract, domain and synthetic collection CI
-
 on:
   pull_request:
   push:
-    branches:
-      - feat/ra0-contracts-domain-foundation
-
+    branches: [feat/ra0-contracts-domain-foundation]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: FULL/SECURITY, compatibility, or controlled same-code path comparison
+        type: choice
+        options: [full, security, compatibility, compare-readonly, compare-security, compare-baseline]
+        default: full
+      legacy_311:
+        description: Explicitly include retained Python 3.11 compatibility
+        type: boolean
+        default: false
+  schedule:
+    - cron: '17 7 * * 1'
 permissions:
   contents: read
-
 jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      plan: ${{ steps.plan.outputs.plan }}
+      tier: ${{ steps.plan.outputs.tier }}
+      legacy_311: ${{ steps.plan.outputs.legacy_311 }}
+      contracts_matrix: ${{ steps.plan.outputs.contracts_matrix }}
+      b3_p0: ${{ steps.plan.outputs.b3_p0 }}
+      b5b_m2: ${{ steps.plan.outputs.b5b_m2 }}
+      b5b: ${{ steps.plan.outputs.b5b }}
+      b6_p0: ${{ steps.plan.outputs.b6_p0 }}
+      beta_b7p1_six_schema: ${{ steps.plan.outputs.beta_b7p1_six_schema }}
+      evidence_pack_perf: ${{ steps.plan.outputs.evidence_pack_perf }}
+      l2_deep_audit: ${{ steps.plan.outputs.l2_deep_audit }}
+      l2_industrial: ${{ steps.plan.outputs.l2_industrial }}
+      l2_ops: ${{ steps.plan.outputs.l2_ops }}
+      ra4a_p2b2a_identity: ${{ steps.plan.outputs.ra4a_p2b2a_identity }}
+      ra4a_pg: ${{ steps.plan.outputs.ra4a_pg }}
+      ra4b_p1: ${{ steps.plan.outputs.ra4b_p1 }}
+      ra4b_p2_consumer: ${{ steps.plan.outputs.ra4b_p2_consumer }}
+      ra4b_p2_m1: ${{ steps.plan.outputs.ra4b_p2_m1 }}
+      ra4c_b5a: ${{ steps.plan.outputs.ra4c_b5a }}
+      ra4c_b5p0: ${{ steps.plan.outputs.ra4c_b5p0 }}
+      ra4c3_pg_read: ${{ steps.plan.outputs.ra4c3_pg_read }}
+      ra4e_b7p0_restore: ${{ steps.plan.outputs.ra4e_b7p0_restore }}
+      s2_buyer_workbench: ${{ steps.plan.outputs.s2_buyer_workbench }}
+      s2_rule_contract: ${{ steps.plan.outputs.s2_rule_contract }}
+      s2_ux: ${{ steps.plan.outputs.s2_ux }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - id: plan
+        run: python -m ci.policy plan
+
   contracts-domain:
+    needs: plan
     strategy:
       fail-fast: false
-      matrix:
-        python-version: ['3.11', '3.13']
+      matrix: ${{ fromJSON(needs.plan.outputs.contracts_matrix) }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+      - name: CI selection and unchanged executable contract
+        run: python -m pytest -q ci/tests.py
       - run: python -m compileall -q vrae
       - run: ruff check vrae tests --select E4,E7,E9,F
       - run: mypy vrae
-      - run: python -m pytest -q
+      - name: Selected source-security smoke or complete original regression
+        env:
+          PLAN_JSON: ${{ needs.plan.outputs.plan }}
+          CI_PYTHON: ${{ matrix.python-version }}
+        run: python -m ci.run_tests
       - run: python -m pip check
+      - name: Observed target facts; not a production lock
+        run: python -m ci.environment
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ci-core-${{ matrix.python-version }}
+          path: ci/.runtime/
+          include-hidden-files: true
+          if-no-files-found: error
 
   isolated-http:
+    needs: plan
+    if: needs.plan.outputs.tier != 'FAST'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -41,7 +108,10 @@ jobs:
           --tmpfs /tmp:rw,nosuid,nodev,size=128m --memory 512m --cpus 1 --pids-limit 128
           --security-opt no-new-privileges vrae-ra1a-lab:ci
 
+
   isolated-browser:
+    needs: plan
+    if: needs.plan.outputs.tier != 'FAST'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -59,3 +129,169 @@ jobs:
         with:
           name: ra1b-synthetic-security-evidence
           path: /tmp/ra1b-evidence
+
+  b3_p0:
+    needs: plan
+    if: needs.plan.outputs.b3_p0 == 'true'
+    uses: ./.github/workflows/b3-p0.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  b5b_m2:
+    needs: plan
+    if: needs.plan.outputs.b5b_m2 == 'true'
+    uses: ./.github/workflows/b5b-m2.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  b5b:
+    needs: plan
+    if: needs.plan.outputs.b5b == 'true'
+    uses: ./.github/workflows/b5b.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  b6_p0:
+    needs: plan
+    if: needs.plan.outputs.b6_p0 == 'true'
+    uses: ./.github/workflows/b6-p0.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  beta_b7p1_six_schema:
+    needs: plan
+    if: needs.plan.outputs.beta_b7p1_six_schema == 'true'
+    uses: ./.github/workflows/beta-b7p1-six-schema.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  evidence_pack_perf:
+    needs: plan
+    if: needs.plan.outputs.evidence_pack_perf == 'true'
+    uses: ./.github/workflows/evidence-pack-perf.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  l2_deep_audit:
+    needs: plan
+    if: needs.plan.outputs.l2_deep_audit == 'true'
+    uses: ./.github/workflows/l2-deep-audit.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  l2_industrial:
+    needs: plan
+    if: needs.plan.outputs.l2_industrial == 'true'
+    uses: ./.github/workflows/l2-industrial.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  l2_ops:
+    needs: plan
+    if: needs.plan.outputs.l2_ops == 'true'
+    uses: ./.github/workflows/l2-ops.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4a_p2b2a_identity:
+    needs: plan
+    if: needs.plan.outputs.ra4a_p2b2a_identity == 'true'
+    uses: ./.github/workflows/ra4a-p2b2a-identity.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4a_pg:
+    needs: plan
+    if: needs.plan.outputs.ra4a_pg == 'true'
+    uses: ./.github/workflows/ra4a-pg.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4b_p1:
+    needs: plan
+    if: needs.plan.outputs.ra4b_p1 == 'true'
+    uses: ./.github/workflows/ra4b-p1.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4b_p2_consumer:
+    needs: plan
+    if: needs.plan.outputs.ra4b_p2_consumer == 'true'
+    uses: ./.github/workflows/ra4b-p2-consumer.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4b_p2_m1:
+    needs: plan
+    if: needs.plan.outputs.ra4b_p2_m1 == 'true'
+    uses: ./.github/workflows/ra4b-p2-m1.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4c_b5a:
+    needs: plan
+    if: needs.plan.outputs.ra4c_b5a == 'true'
+    uses: ./.github/workflows/ra4c-b5a.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4c_b5p0:
+    needs: plan
+    if: needs.plan.outputs.ra4c_b5p0 == 'true'
+    uses: ./.github/workflows/ra4c-b5p0.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4c3_pg_read:
+    needs: plan
+    if: needs.plan.outputs.ra4c3_pg_read == 'true'
+    uses: ./.github/workflows/ra4c3-pg-read.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ra4e_b7p0_restore:
+    needs: plan
+    if: needs.plan.outputs.ra4e_b7p0_restore == 'true'
+    uses: ./.github/workflows/ra4e-b7p0-restore.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  s2_buyer_workbench:
+    needs: plan
+    if: needs.plan.outputs.s2_buyer_workbench == 'true'
+    uses: ./.github/workflows/s2-buyer-workbench.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  s2_rule_contract:
+    needs: plan
+    if: needs.plan.outputs.s2_rule_contract == 'true'
+    uses: ./.github/workflows/s2-rule-contract.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  s2_ux:
+    needs: plan
+    if: needs.plan.outputs.s2_ux == 'true'
+    uses: ./.github/workflows/s2-ux.yml
+    with:
+      legacy_311: ${{ fromJSON(needs.plan.outputs.legacy_311) }}
+
+  ci-policy-result:
+    name: ${{ github.event_name == 'pull_request' && 'ci-policy-result' || 'ci-policy-manual-result' }}
+    if: always()
+    needs: [plan, contracts-domain, isolated-http, isolated-browser, b3_p0, b5b_m2, b5b, b6_p0, beta_b7p1_six_schema, evidence_pack_perf, l2_deep_audit, l2_industrial, l2_ops, ra4a_p2b2a_identity, ra4a_pg, ra4b_p1, ra4b_p2_consumer, ra4b_p2_m1, ra4c_b5a, ra4c_b5p0, ra4c3_pg_read, ra4e_b7p0_restore, s2_buyer_workbench, s2_rule_contract, s2_ux]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Reject missing, skipped, failed or cancelled selected jobs
+        env:
+          PLAN_JSON: ${{ needs.plan.outputs.plan }}
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: python -m ci.policy result

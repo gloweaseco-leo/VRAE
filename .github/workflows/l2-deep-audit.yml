@@ -1,18 +1,18 @@
 name: L2 deep report, responsible review and controlled directed access
 on:
-  pull_request:
-    paths:
-      - 'vrae/l2/**'
-      - 'contracts/l2_consumer/**'
-      - 'apps/operator_console/l2*'
-      - 'apps/operator_console/b5b_http.py'
-      - 'apps/operator_console/b5b_profile.py'
-      - 'integration/l2/**'
-      - 'integration/b5b/http_server.py'
-      - 'integration/b5b/m2_bridge.py'
-      - 'fixtures/l2/**'
-      - 'docs/03-engineering/l2-deep-audit/**'
-      - '.github/workflows/l2-deep-audit.yml'
+  workflow_call:
+    inputs:
+      legacy_311:
+        type: boolean
+        default: false
+        required: false
+  workflow_dispatch:
+    inputs:
+      legacy_311:
+        description: Include retained Python 3.11 compatibility and historical gates
+        type: boolean
+        default: false
+        required: false
 permissions:
   contents: read
 jobs:
@@ -21,12 +21,7 @@ jobs:
     timeout-minutes: 20
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - python: '3.11'
-            slug: '311'
-          - python: '3.13'
-            slug: '313'
+      matrix: ${{ fromJSON(inputs.legacy_311 && '{"include":[{"python":"3.11","slug":"311"},{"python":"3.13","slug":"313"}]}' || '{"include":[{"python":"3.13","slug":"313"}]}') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

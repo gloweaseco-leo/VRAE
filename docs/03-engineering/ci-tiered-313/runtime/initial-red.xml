@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="22" skipped="0" tests="22" time="1.204" timestamp="2026-11-17T22:50:49.282243-05:00" hostname="dong"><testcase classname="ci.tests" name="test_readonly_known_paths_fast_with_source_security_smoke[vrae/reporting/s2_candidate.py]" time="0.006"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'vrae/reporting/s2_candidate.py'
+
+    @pytest.mark.parametrize('path', ['vrae/reporting/s2_candidate.py', 'vrae/rules/s2/static.py',
+                                      'tests/s2_contract/buyer_candidate_cases.py'])
+    def test_readonly_known_paths_fast_with_source_security_smoke(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_readonly_known_paths_fast_with_source_security_smoke[vrae/rules/s2/static.py]" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'vrae/rules/s2/static.py'
+
+    @pytest.mark.parametrize('path', ['vrae/reporting/s2_candidate.py', 'vrae/rules/s2/static.py',
+                                      'tests/s2_contract/buyer_candidate_cases.py'])
+    def test_readonly_known_paths_fast_with_source_security_smoke(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_readonly_known_paths_fast_with_source_security_smoke[tests/s2_contract/buyer_candidate_cases.py]" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'tests/s2_contract/buyer_candidate_cases.py'
+
+    @pytest.mark.parametrize('path', ['vrae/reporting/s2_candidate.py', 'vrae/rules/s2/static.py',
+                                      'tests/s2_contract/buyer_candidate_cases.py'])
+    def test_readonly_known_paths_fast_with_source_security_smoke(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_security_paths_require_all_affected_real_safety_suites[vrae/evidence/pack.py]" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'vrae/evidence/pack.py'
+
+    @pytest.mark.parametrize('path', ['vrae/evidence/pack.py', 'vrae/interpretation/guard.py',
+        'vrae/collection/policy.py', 'vrae/application/ra4b/store.py', 'worker/ra4b/run.py',
+        'db/migrations/0004.sql', 'apps/operator_console/b5b_http.py'])
+    def test_security_paths_require_all_affected_real_safety_suites(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_security_paths_require_all_affected_real_safety_suites[vrae/interpretation/guard.py]" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'vrae/interpretation/guard.py'
+
+    @pytest.mark.parametrize('path', ['vrae/evidence/pack.py', 'vrae/interpretation/guard.py',
+        'vrae/collection/policy.py', 'vrae/application/ra4b/store.py', 'worker/ra4b/run.py',
+        'db/migrations/0004.sql', 'apps/operator_console/b5b_http.py'])
+    def test_security_paths_require_all_affected_real_safety_suites(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_security_paths_require_all_affected_real_safety_suites[vrae/collection/policy.py]" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'vrae/collection/policy.py'
+
+    @pytest.mark.parametrize('path', ['vrae/evidence/pack.py', 'vrae/interpretation/guard.py',
+        'vrae/collection/policy.py', 'vrae/application/ra4b/store.py', 'worker/ra4b/run.py',
+        'db/migrations/0004.sql', 'apps/operator_console/b5b_http.py'])
+    def test_security_paths_require_all_affected_real_safety_suites(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_security_paths_require_all_affected_real_safety_suites[vrae/application/ra4b/store.py]" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'vrae/application/ra4b/store.py'
+
+    @pytest.mark.parametrize('path', ['vrae/evidence/pack.py', 'vrae/interpretation/guard.py',
+        'vrae/collection/policy.py', 'vrae/application/ra4b/store.py', 'worker/ra4b/run.py',
+        'db/migrations/0004.sql', 'apps/operator_console/b5b_http.py'])
+    def test_security_paths_require_all_affected_real_safety_suites(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_security_paths_require_all_affected_real_safety_suites[worker/ra4b/run.py]" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'worker/ra4b/run.py'
+
+    @pytest.mark.parametrize('path', ['vrae/evidence/pack.py', 'vrae/interpretation/guard.py',
+        'vrae/collection/policy.py', 'vrae/application/ra4b/store.py', 'worker/ra4b/run.py',
+        'db/migrations/0004.sql', 'apps/operator_console/b5b_http.py'])
+    def test_security_paths_require_all_affected_real_safety_suites(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_security_paths_require_all_affected_real_safety_suites[db/migrations/0004.sql]" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'db/migrations/0004.sql'
+
+    @pytest.mark.parametrize('path', ['vrae/evidence/pack.py', 'vrae/interpretation/guard.py',
+        'vrae/collection/policy.py', 'vrae/application/ra4b/store.py', 'worker/ra4b/run.py',
+        'db/migrations/0004.sql', 'apps/operator_console/b5b_http.py'])
+    def test_security_paths_require_all_affected_real_safety_suites(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_security_paths_require_all_affected_real_safety_suites[apps/operator_console/b5b_http.py]" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'apps/operator_console/b5b_http.py'
+
+    @pytest.mark.parametrize('path', ['vrae/evidence/pack.py', 'vrae/interpretation/guard.py',
+        'vrae/collection/policy.py', 'vrae/application/ra4b/store.py', 'worker/ra4b/run.py',
+        'db/migrations/0004.sql', 'apps/operator_console/b5b_http.py'])
+    def test_security_paths_require_all_affected_real_safety_suites(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_unknown_policy_or_dependency_changes_are_full_not_silent_skip[new/unknown.py]" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'new/unknown.py'
+
+    @pytest.mark.parametrize('path', ['new/unknown.py', 'README.md', '.github/workflows/ra0-ci.yml',
+                                      'ci/policy.py', 'requirements-ra4b-p1.lock', 'pyproject.toml'])
+    def test_unknown_policy_or_dependency_changes_are_full_not_silent_skip(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_unknown_policy_or_dependency_changes_are_full_not_silent_skip[README.md]" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'README.md'
+
+    @pytest.mark.parametrize('path', ['new/unknown.py', 'README.md', '.github/workflows/ra0-ci.yml',
+                                      'ci/policy.py', 'requirements-ra4b-p1.lock', 'pyproject.toml'])
+    def test_unknown_policy_or_dependency_changes_are_full_not_silent_skip(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_unknown_policy_or_dependency_changes_are_full_not_silent_skip[.github/workflows/ra0-ci.yml]" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = '.github/workflows/ra0-ci.yml'
+
+    @pytest.mark.parametrize('path', ['new/unknown.py', 'README.md', '.github/workflows/ra0-ci.yml',
+                                      'ci/policy.py', 'requirements-ra4b-p1.lock', 'pyproject.toml'])
+    def test_unknown_policy_or_dependency_changes_are_full_not_silent_skip(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_unknown_policy_or_dependency_changes_are_full_not_silent_skip[ci/policy.py]" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'ci/policy.py'
+
+    @pytest.mark.parametrize('path', ['new/unknown.py', 'README.md', '.github/workflows/ra0-ci.yml',
+                                      'ci/policy.py', 'requirements-ra4b-p1.lock', 'pyproject.toml'])
+    def test_unknown_policy_or_dependency_changes_are_full_not_silent_skip(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_unknown_policy_or_dependency_changes_are_full_not_silent_skip[requirements-ra4b-p1.lock]" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'requirements-ra4b-p1.lock'
+
+    @pytest.mark.parametrize('path', ['new/unknown.py', 'README.md', '.github/workflows/ra0-ci.yml',
+                                      'ci/policy.py', 'requirements-ra4b-p1.lock', 'pyproject.toml'])
+    def test_unknown_policy_or_dependency_changes_are_full_not_silent_skip(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_unknown_policy_or_dependency_changes_are_full_not_silent_skip[pyproject.toml]" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">path = 'pyproject.toml'
+
+    @pytest.mark.parametrize('path', ['new/unknown.py', 'README.md', '.github/workflows/ra0-ci.yml',
+                                      'ci/policy.py', 'requirements-ra4b-p1.lock', 'pyproject.toml'])
+    def test_unknown_policy_or_dependency_changes_are_full_not_silent_skip(path):
+&gt;       plan = policy().make_plan([path])
+               ^^^^^^^^
+
+ci\tests.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_mixed_and_rename_old_security_path_cannot_be_hidden_by_readonly_path" time="0.003"><failure message="ModuleNotFoundError: No module named 'ci.policy'">def test_mixed_and_rename_old_security_path_cannot_be_hidden_by_readonly_path():
+&gt;       assert policy().make_plan(['vrae/reporting/s2_candidate.py', 'vrae/evidence/pack.py'])['tier'] == 'SECURITY'
+               ^^^^^^^^
+
+ci\tests.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_only_manual_comparisons_can_select_controlled_readonly_paths" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">def test_only_manual_comparisons_can_select_controlled_readonly_paths():
+        with pytest.raises(ValueError):
+&gt;           policy().make_plan(['vrae/evidence/pack.py'], event='pull_request', mode='compare-readonly')
+            ^^^^^^^^
+
+ci\tests.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_legacy_manual_and_scheduled_entries_retained" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">def test_legacy_manual_and_scheduled_entries_retained():
+&gt;       assert policy().make_plan([], event='schedule')['legacy_311'] is True
+               ^^^^^^^^
+
+ci\tests.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_job_results_do_not_turn_skips_or_failures_into_business_pass" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">def test_job_results_do_not_turn_skips_or_failures_into_business_pass():
+&gt;       plan = policy().make_plan(['vrae/reporting/s2_candidate.py'])
+               ^^^^^^^^
+
+ci\tests.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase><testcase classname="ci.tests" name="test_pr_gate_and_comparison_check_names_are_distinct" time="0.010"><failure message="AssertionError: assert ('ci-policy-result' in 'name: VRAE contract, domain and synthetic collection CI\n\non:\n  pull_request:\n  push:\n    branches:\n      - feat...   if: always()\n        with:\n          name: ra1b-synthetic-security-evidence\n          path: /tmp/ra1b-evidence\n')">def test_pr_gate_and_comparison_check_names_are_distinct():
+        source = (Path(__file__).parents[1] / '.github/workflows/ra0-ci.yml').read_text(encoding='utf-8')
+&gt;       assert 'ci-policy-result' in source and 'ci-policy-manual-result' in source
+E       AssertionError: assert ('ci-policy-result' in 'name: VRAE contract, domain and synthetic collection CI\n\non:\n  pull_request:\n  push:\n    branches:\n      - feat...   if: always()\n        with:\n          name: ra1b-synthetic-security-evidence\n          path: /tmp/ra1b-evidence\n')
+
+ci\tests.py:79: AssertionError</failure></testcase><testcase classname="ci.tests" name="test_existing_workflows_are_reused_without_changing_original_executable_steps" time="0.002"><failure message="ModuleNotFoundError: No module named 'ci.policy'">def test_existing_workflows_are_reused_without_changing_original_executable_steps():
+&gt;       policy().verify_workflow_parity()
+        ^^^^^^^^
+
+ci\tests.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+ci\tests.py:9: in policy
+    return importlib.import_module('ci.policy')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\liu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1395: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'ci.policy', import_ = &lt;function _gcd_import at 0x00000200923304A0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'ci.policy'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase></testsuite></testsuites>
