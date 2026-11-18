@@ -1,0 +1,177 @@
+{
+  "authority": "OWNER_ISSUE118_COMMENT_6965467885",
+  "base": "cb86cdb1b57962aa89fa2ef4465131219c8c45e9",
+  "code_commit": "d80b2cd6951076cfcb00e09aab0703f5c535a095",
+  "phase": "C1_P1_BATCH2_THREE_CONFIGURED_READ_ONLY_CANDIDATE_SUBSETS_NOT_S2_EXIT",
+  "projection_version": "s2-projection-1.2.0",
+  "industry_version": "1.1.0",
+  "rule_version": "s2-industrial-context-1.0.0",
+  "source_version": "s2-industrial-source-1.0.0",
+  "native": {
+    "311": {
+      "tests": 202,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "raw_junit_sha256": "eb04bb090aefc381d1cbe6b127786ae63ca59726033aaefee784492c4b31ac11",
+      "failed_ids": []
+    },
+    "313": {
+      "tests": 202,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "raw_junit_sha256": "d237b5a1c56c3e61450b25676f8b2a291eff4f45fd7b9fee8d3f29b8bd8e83df",
+      "failed_ids": []
+    }
+  },
+  "full": {
+    "311": {
+      "tests": 2564,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 25,
+      "raw_junit_sha256": "bc38af741243a8e06a1143a01c307962f1296de7e07996c33dff1282efb1aec9",
+      "failed_ids": []
+    },
+    "313": {
+      "tests": 2564,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 25,
+      "raw_junit_sha256": "6a4d1417c2e3bf8c1d2e37cde67015491a871ca1a44676374e1705614791cf8b",
+      "failed_ids": []
+    }
+  },
+  "unchanged_exact_original_inventory": {
+    "311": {
+      "kind": "EXACT_2473_ORIGINAL_PLUS_2_ACCEPTED_B5_PLUS_43_ACCEPTED_B6_PLUS_46_DISC",
+      "manifest_sha256": "ee50d3ce0a4c424c7d98d94ef123629ddcbd40a4be0992e2fd81fb7711c5f537",
+      "actual_full_cases": 2564,
+      "accepted_b6_layer_cases": 2518,
+      "disc_cases": 46,
+      "disc_skipped": 0,
+      "ids_unique": true,
+      "unknown_ids": 0,
+      "test_discovery_filtered": false,
+      "original_b5_verifier_still_required": true
+    },
+    "313": {
+      "kind": "EXACT_2473_ORIGINAL_PLUS_2_ACCEPTED_B5_PLUS_43_ACCEPTED_B6_PLUS_46_DISC",
+      "manifest_sha256": "ee50d3ce0a4c424c7d98d94ef123629ddcbd40a4be0992e2fd81fb7711c5f537",
+      "actual_full_cases": 2564,
+      "accepted_b6_layer_cases": 2518,
+      "disc_cases": 46,
+      "disc_skipped": 0,
+      "ids_unique": true,
+      "unknown_ids": 0,
+      "test_discovery_filtered": false,
+      "original_b5_verifier_still_required": true
+    }
+  },
+  "initial_red": {
+    "tests": 42,
+    "failures": 29,
+    "errors": 13,
+    "skipped": 0,
+    "raw_junit_sha256": "7afdba1cc9ddb88fd950ed46ba6207d80faaada7e75a629c394b55deb6306dd1",
+    "failed_ids": [
+      "tests.s2_contract.p1_industrial_cases::test_three_rules_replay_from_original_bytes_and_configuration",
+      "tests.s2_contract.p1_industrial_cases::test_industry_v1_default_bytes_and_parent_remain_unchanged",
+      "tests.s2_contract.p1_industrial_cases::test_no_independent_config_pin_is_unknown_not_an_inferred_default",
+      "tests.s2_contract.p1_industrial_cases::test_unsupported_or_wrong_dimension_units_are_unknown[10 psi]",
+      "tests.s2_contract.p1_industrial_cases::test_unsupported_or_wrong_dimension_units_are_unknown[10-20 bar]",
+      "tests.s2_contract.p1_industrial_cases::test_unsupported_or_wrong_dimension_units_are_unknown[PN10]",
+      "tests.s2_contract.p1_industrial_cases::test_unsupported_or_wrong_dimension_units_are_unknown[1e9 bar]",
+      "tests.s2_contract.p1_industrial_cases::test_unsupported_or_wrong_dimension_units_are_unknown[400 V]",
+      "tests.s2_contract.p1_industrial_cases::test_equivalent_units_and_model_beyond_demo_are_bounded_not_engineering_fit",
+      "tests.s2_contract.p1_industrial_cases::test_missing_revision_conditions_or_pdf_only_attribute_is_unknown[Data revision]",
+      "tests.s2_contract.p1_industrial_cases::test_missing_revision_conditions_or_pdf_only_attribute_is_unknown[Specification conditions]",
+      "tests.s2_contract.p1_industrial_cases::test_missing_revision_conditions_or_pdf_only_attribute_is_unknown[Rated flow]",
+      "tests.s2_contract.p1_industrial_cases::test_duplicate_model_revisions_are_not_merged",
+      "tests.s2_contract.p1_industrial_cases::test_proof_display_context_never_authenticates_or_invalidates[certificate-fields0]",
+      "tests.s2_contract.p1_industrial_cases::test_proof_display_context_never_authenticates_or_invalidates[case-fields1]",
+      "tests.s2_contract.p1_industrial_cases::test_proof_display_context_never_authenticates_or_invalidates[factory-fields2]",
+      "tests.s2_contract.p1_industrial_cases::test_proof_unresolved_context_remains_unknown[wrong-model]",
+      "tests.s2_contract.p1_industrial_cases::test_proof_unresolved_context_remains_unknown[missing-issuer]",
+      "tests.s2_contract.p1_industrial_cases::test_proof_unresolved_context_remains_unknown[bad-date]",
+      "tests.s2_contract.p1_industrial_cases::test_proof_unresolved_context_remains_unknown[unknown-kind]",
+      "tests.s2_contract.p1_industrial_cases::test_cited_conflicting_address_is_candidate_for_human_review",
+      "tests.s2_contract.p1_industrial_cases::test_same_name_does_not_merge_unresolved_entities[args0]",
+      "tests.s2_contract.p1_industrial_cases::test_same_name_does_not_merge_unresolved_entities[args1]",
+      "tests.s2_contract.p1_industrial_cases::test_same_name_does_not_merge_unresolved_entities[args2]",
+      "tests.s2_contract.p1_industrial_cases::test_not_applicable_requires_independently_pinned_explicit_configuration",
+      "tests.s2_contract.p1_industrial_cases::test_access_blocked_is_not_website_fault[INFO-02-/products/p40]",
+      "tests.s2_contract.p1_industrial_cases::test_access_blocked_is_not_website_fault[TRUST-02-/products/proof]",
+      "tests.s2_contract.p1_industrial_cases::test_access_blocked_is_not_website_fault[TRUST-03-/contact]",
+      "tests.s2_contract.p1_industrial_cases::test_unretained_sources_cannot_assert_pass_or_not_applicable",
+      "tests.s2_contract.p1_industrial_cases::test_self_rehash_and_fake_source_location_are_rejected[quote]",
+      "tests.s2_contract.p1_industrial_cases::test_self_rehash_and_fake_source_location_are_rejected[byte_start]",
+      "tests.s2_contract.p1_industrial_cases::test_self_rehash_and_fake_source_location_are_rejected[source_ref]",
+      "tests.s2_contract.p1_industrial_cases::test_self_rehash_and_fake_source_location_are_rejected[result]",
+      "tests.s2_contract.p1_industrial_cases::test_self_rehash_and_fake_source_location_are_rejected[version]",
+      "tests.s2_contract.p1_industrial_cases::test_self_rehash_and_fake_source_location_are_rejected[configuration]",
+      "tests.s2_contract.p1_industrial_cases::test_cross_scope_cannot_replay[tenant_id]",
+      "tests.s2_contract.p1_industrial_cases::test_cross_scope_cannot_replay[run_id]",
+      "tests.s2_contract.p1_industrial_cases::test_cross_scope_cannot_replay[policy_id]",
+      "tests.s2_contract.p1_industrial_cases::test_cross_scope_cannot_replay[policy_version]",
+      "tests.s2_contract.p1_industrial_cases::test_configuration_ref_tenant_profile_and_version_cannot_be_rebound",
+      "tests.s2_contract.p1_industrial_cases::test_no_native_finding_or_execution_admission",
+      "tests.s2_contract.p1_industrial_cases::test_missing_buyer_conditions_do_not_turn_into_website_fault"
+    ]
+  },
+  "source_lf_sha256": {
+    "vrae/rules/s2/contract.py": "5707ad164893b7df5dc4002466c9a41e50c13caefd1ac39f6ae0b554092d31ae",
+    "vrae/rules/s2/__init__.py": "8994ebb469764d3b2d1204a6d29452cee465ab949f283e0aa6318df4dee701d4",
+    "vrae/rules/s2/industrial.py": "b79cf1428a0f77d51b7feb98281b62a6243d27275735938c433483a45a1a0b05",
+    "vrae/industry/l2_v1/pack.py": "7144ed0905b14cdcfb4dab62e0f3482827c193221e78082d05716458f26a6a84",
+    "vrae/industry/l2_v1/__init__.py": "37ac1a82e4e1462a07ef9e128a104e95276a4c68187bfc61a0ce3fd8463bc1ef",
+    "vrae/industry/l2_v1/s2_sources.py": "4f7aba679d0b7a20c5dbdd939ddf9fc0b646ace67d8e7887f1f4914f36e6ab00",
+    "industry-packs/l2-industrial-v1/s2-1.1.0.json": "d50c4583b72be6802d974247780ff79d8ca5cb49ab1bdfbe11692e95c3d82d46",
+    "tests/s2_contract/p1_industrial_cases.py": "6546069525871f325a3ef761ce88197c3af0caf68406b791bccd89dca8758667",
+    "tests/s2_contract/batch2_fixtures.py": "4660a24710ad0c1801064a65a9c4b682d761bcd778297374d14532e8450c4519",
+    ".github/workflows/s2-rule-contract.yml": "a73be1e6a270c2d53e65e94fda454f5ebc87f6c9db5e50ac8003d900d425870c"
+  },
+  "frozen_worktree_blobs": {
+    "vrae/rules/execution.py": "c183970fd90ec69729221a4174c38d193f4b054b",
+    "vrae/evidence/pack.py": "8d45d5882103323e62bc4bd61a4379899e759966"
+  },
+  "raw_runtime_sha256": {
+    "default-inventory-311.log": "87da2b22ca154652eaa1b02f308c95e63b0651c3c8904c837dabe29ef3e82140",
+    "first-implementation-311.log": "be239f6d139d3b9ddc86f298c4571aaf8cd35495bc5213ec7668202961b5243d",
+    "first-implementation-311.xml": "9d5cfa8a242c51b72b25b5e8b8afffa85893f5be5b6437352c8c7e86e2316ca0",
+    "focused-311.log": "f37a13815bcf0ecc2c23c021b73105b62c793d5d5bdf53577e465c1a734ae582",
+    "focused-311.xml": "b508ac3eda4dc47db13e6b5ea2bb07393de9bdfd8d3c368b89377497fa202432",
+    "full-311.log": "c5ad2af45087d0186c3bd338ab9dabf5ddf7a4dbb341cdee37b1a985649bfaa3",
+    "full-311.xml": "bc38af741243a8e06a1143a01c307962f1296de7e07996c33dff1282efb1aec9",
+    "full-313.log": "fba231819904956ae0e8676aadea25943dafef5189d7144cf07fc1e5662c5db8",
+    "full-313.xml": "6a4d1417c2e3bf8c1d2e37cde67015491a871ca1a44676374e1705614791cf8b",
+    "initial-red-311.log": "5e916c508c1ef4198927894c755ed24860bf62d0a53a03aa13177dfdf2966d8a",
+    "initial-red-311.xml": "7afdba1cc9ddb88fd950ed46ba6207d80faaada7e75a629c394b55deb6306dd1",
+    "native-311.log": "9e89fde72ac29dd9d7b76773daf1b1939dca7ec1c26f7598b0a9a94cc107e32d",
+    "native-311.xml": "eb04bb090aefc381d1cbe6b127786ae63ca59726033aaefee784492c4b31ac11",
+    "native-313.log": "ef4d1f123b6a713a98caa32006cfb61126cb2851894042bcf47fcfc230263a3a",
+    "native-313.xml": "d237b5a1c56c3e61450b25676f8b2a291eff4f45fd7b9fee8d3f29b8bd8e83df"
+  },
+  "saved_example_sha256": {
+    "example-pack.json": "11df3f8696a3ae75d00344df9f7adf0a93aa0c0bbbdbccbc1f2c4d32b35a12a0",
+    "example.json": "55703eda6af795fa7b287c5f6f8e0a6fc2209adb1018ad40e96f776832a820ab",
+    "conflict-example-pack.json": "b044040428b1dc62654127f047ee91106b9ad699b1c3d58696aa5735bd80d718",
+    "conflict-example.json": "31501eb63922a5cf396e193f14e0be1f131727afdd71cd625a4ebdbd360cf90d",
+    "applicability-example-pack.json": "f20d89b963546df123d2f4a7e61f30865085026d8e5ac56b5e1f3ac7c4d25bc9",
+    "applicability-example.json": "badc7f736bb8a07cd26d8df05724cd244bcf249236c955e507408cd4c4fda2aa"
+  },
+  "example_replay": "THREE_SAVED_PACKS_PASS_ORIGINAL_BYTES_AND_HELD_REFS",
+  "native_legacy_enabled": 6,
+  "industry_original_rules": 6,
+  "new_rules_are_candidate_only": [
+    "INFO-02",
+    "TRUST-02",
+    "TRUST-03"
+  ],
+  "model_calls": 0,
+  "real_third_party_sites": 0,
+  "production_outbound": 0,
+  "human_gold": "0/26_NO_QUALITY_CLAIM",
+  "ci": "PRE_PR_RECORD_FINAL_HEAD_NATURAL_CI_RESULTS_ON_DRAFT_PR"
+}
