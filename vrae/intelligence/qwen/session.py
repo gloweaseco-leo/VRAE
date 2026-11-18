@@ -226,6 +226,9 @@ async def run_session(session, operation, *, provider, timeout_ms, cancel):
         # A durable usage failure must never publish candidates as success.
         out.update(status='AI_UNAVAILABLE', code=str(exc) if type(exc) is QwenError else
                    'QUOTA_UNAVAILABLE', claims=[], usage=None)
+        if not provider.protocol_fake:
+            out['real_model_calls'] = None
+            out['provider_attempts'] = None
     if out['usage'] is not None:
         out['usage_status'] = out['usage']['usage_origin']
         out['real_model_calls'] = out['usage']['real_model_calls']
