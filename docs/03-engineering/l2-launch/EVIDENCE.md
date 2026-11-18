@@ -10,6 +10,8 @@ VF main `348ba4a6a9e885431e769e008dd4b7c157405104` 及leads route只经GitHub源
 
 可复验内容：
 
+首轮自然CI [44358578073](https://github.com/gloweaseco-leo/VRAE/actions/runs/44358578073) 对应 `4dbe44c8655edffcf05519260854addc12e1d726`，两版本均RED。3.11日志为312 PASS、39个setup ERROR：干净runner缺少`.runtime`父目录；随后冻结源校验因浅克隆不含基线提交而失败。修复仅为专项CI预建目录及完整拉取历史，保留原失败，不重跑旧HEAD；新HEAD结果以其自然CI为准。
+
 - 202真实本地fixture提交、队列未派发、重开journal同run、同key异body/同audit异key冲突、存储503及限流429。
 - 缺许可/撤销/过期/错租户/错scope/坏签名/错audience与跨请求重放；L2桥接未实现时明确不可用。
 - 双语A/B、source/citation和观察分母、无采证UNKNOWN、未审/旧版/错误收方token及撤销/过期拒绝、Owner签名不能扩张SourcePolicy。
