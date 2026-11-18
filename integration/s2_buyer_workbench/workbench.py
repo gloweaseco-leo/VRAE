@@ -10,6 +10,7 @@ from vrae.rules.s2 import INDUSTRIAL_PROJECTION_VERSION, evaluate_s2, verify_s2_
 from vrae.reporting.s2_candidate import build_candidate, verify_candidate
 from . import buyer_cards
 from integration.s2_cta import views as cta_views
+from integration.s2_cta.candidate import CTADenied
 from apps.operator_console.b5a_http import Reply
 from apps.operator_console.interface import Response
 
@@ -166,7 +167,15 @@ class Workbench:
                 _, report = self.deep.current(sid, rid)
                 projection = self.binding.read(report)
                 buyer = self.binding.read_buyer(projection)
-                cta = self.binding.cta.read(self.binding,report) if self.binding.cta is not None else None
+                cta = None
+                if self.binding.cta is not None:
+                    try:
+                        cta = self.binding.cta.read(self.binding,report)
+                    except CTADenied:
+                        # Optional CTA references cannot suppress accepted S2
+                        # source reads. Their own detail/image routes stay denied.
+                        if match[4] is not None:
+                            raise
                 root = '/b5a/l2/r/'+rid
                 image = None
                 if match[4] is not None:

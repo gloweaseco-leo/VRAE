@@ -83,7 +83,7 @@ export async function s2Journey(c) {
   await nav(root+'/brief');const after=await rpc('native-proof');
   await check('S2-same-report-review-Brief-readback',after.brief_stored&&after.pack_ref===before.pack_ref&&after.diagnosis_sha256===before.diagnosis_sha256&&after.brief.content_sha256===before.brief.content_sha256&&after.brief.review.receipt_sha256===before.brief.review.receipt_sha256&&after.s2_source.projection_ref===before.s2_source.projection_ref&&JSON.stringify(after.s2_source.buyer)===JSON.stringify(before.s2_source.buyer));
   await screenshot('s2-restart-readback.png');
-  if(s4){await s4.restarted(after);await s4.finish(fresh)}
+  if(s4){await s4.restarted(after);await s4.finish(fresh);await (await import('../s2_cta/journey.mjs')).ctaAfterRevision(c,root)}
   await call('Network.deleteCookies',{name:'b5a_l2_session',url:origin+'/b5a/l2/'});await nav(sourceURL);
   await check('S2-unsigned-source-reader-refused',statusOf(sourceURL)===403&&!await ev("!!document.querySelector('[data-key=s2-source-workbench]')"));
   await nav(root+'/source-tasks/cta/covered/375/image');

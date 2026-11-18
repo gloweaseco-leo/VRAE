@@ -53,8 +53,14 @@ def test_main_cta_details_and_PNG_keep_original_boundaries(runtime, monkeypatch,
     elif negative == 'version':
         report = ledger.read(sid, rid)
         ledger.revise(sid,rid,**pins(report),changes={report.document['blueprint'][0]['id']:'按原接口显式修订；旧CTA引用不自动继承新版本。'})
+        source = app.handle('GET','/b5a/l2/r/'+rid+'/source-tasks',headers).response
+        assert source.status == 200 and source.body.count(b'data-key="buyer-task-card"') == 2
+        assert b'cta-review-candidates' not in source.body
     elif negative == 'receipt':
         app.native_business.source_views[rid].binding.cta.expected = '0'*64
+        source = app.handle('GET','/b5a/l2/r/'+rid+'/source-tasks',headers).response
+        assert source.status == 200 and source.body.count(b'data-key="buyer-task-card"') == 2
+        assert b'cta-review-candidates' not in source.body
     elif negative == 'task':
         @contextmanager
         def denied():

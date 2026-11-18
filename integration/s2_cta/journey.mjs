@@ -21,3 +21,13 @@ export async function ctaJourney(c,root,fresh) {
   }
   await fresh();await nav(root+'/source-tasks');
 }
+
+export async function ctaAfterRevision(c,root) {
+  const {ev,nav,check,statusOf}=c;
+  await nav(root+'/source-tasks');
+  await check('CTA-main-revision-preserves-original-S2-sources',statusOf(root+'/source-tasks')===200&&await ev("document.querySelectorAll('[data-key=buyer-task-card]').length===2&&document.querySelectorAll('[data-task]').length===5&&!document.querySelector('[data-key=cta-review-candidates]')"));
+  for(const suffix of ['', '/image']) {
+    const url=root+'/source-tasks/cta/covered/375'+suffix;
+    await nav(url);await check('CTA-main-old-version-reference-denied'+suffix,statusOf(url)===403&&await ev("document.contentType!=='image/png'&&!document.querySelector('[data-key=cta-source-detail]')"));
+  }
+}
