@@ -47,7 +47,9 @@ def render(root, nonce, job, current_hash, historical):
     body += '</select></label><button data-key="s5-run">运行本任务解释</button></form>'
     body += link(root + "/s3", "刷新本任务解释状态", key="s5-refresh")
     body += link(root, "原确定性专业报告始终可用", key="s5-original-report")
-    body += "<p>摘要与内部模拟接单待已验收 S4 接口接入；当前不虚构 ACK、客户批准或持久接单。</p></section>"
+    body += link(root + "/executive", "查看本任务执行摘要", key="s5-summary")
+    body += link(root + "/brief", "内部 Brief 与模拟接单", key="s5-brief")
+    body += "<p>模拟收方可独立回执；模拟 ACK 在服务重启后清除，已保存的内部 Brief 保留。客户批准、真实费用与实际外发仍未获确认。</p></section>"
     if job and job.result is not None:
         data = job.result
         attrs = " ".join(

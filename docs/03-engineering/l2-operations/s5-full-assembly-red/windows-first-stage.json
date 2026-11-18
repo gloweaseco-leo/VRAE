@@ -1,0 +1,66 @@
+{
+  "source_sha": "400814c417fc25fea55245da28e50a9ed72afa85",
+  "accepted_main": "d38fd7263ea0d8ce357de54ef22cda90cdb86b9b",
+  "minor": "3.13",
+  "label": "s5full-313a",
+  "scope": "S5_S2_S3_S4_REAL_SAME_TASK_INTERNAL_ASSEMBLY",
+  "pass": false,
+  "formal_human_gold": false,
+  "external_delivery": false,
+  "model_calls": 0,
+  "missing_gates": [
+    "GOLD",
+    "REAL_PROVIDER",
+    "COMMERCIAL_APPROVAL",
+    "CUSTOMER_CONSENT"
+  ],
+  "known_limits": [
+    "S3_SESSION_CACHE_HISTORY_ONLY_AFTER_RESTART_NOT_A_DURABLE_PG_JOB",
+    "S4_SYNTHETIC_ACK_VOLATILE_PG_BRIEF_DURABLE"
+  ],
+  "failure_type": "PermissionError",
+  "closed": true,
+  "owned_cleanup": {
+    "volumes": [
+      {
+        "name": "vrae-beta-c3-f4d66f5a0d5e-routing",
+        "container_id": "1f94a42283d9b8f929abd2ce8dff9184c7b313f8d6105340602a15f871155e58",
+        "owner_label": "s5full-313a",
+        "destination": "/state",
+        "absent": true,
+        "removed_after_owned_stop": false
+      },
+      {
+        "name": "vrae-beta-c3-f4d66f5a0d5e",
+        "container_id": "1f94a42283d9b8f929abd2ce8dff9184c7b313f8d6105340602a15f871155e58",
+        "owner_label": "s5full-313a",
+        "destination": "/work",
+        "absent": true,
+        "removed_after_owned_stop": false
+      }
+    ],
+    "old_anonymous_volumes": "UNKNOWN_UNTOUCHED",
+    "global_prune": false
+  },
+  "first_failure": {
+    "phase": "original_browser.same_task",
+    "exception_type": "PermissionError",
+    "original_exception_type": null,
+    "original_method_locations": [],
+    "observed_transport_exception_type": null,
+    "private_logs": [
+      {
+        "role": "s2_controller",
+        "bytes": 1348,
+        "sha256": "f6986d89cee0cee63f018e5faefee56c4f3451dd13ce068548d53cb4261a9fb4"
+      },
+      {
+        "role": "original_supervisor",
+        "bytes": 739,
+        "sha256": "7b56d7d13fe41d250aa72738a0d8e8ba232767409911a9058c3d93e4e3bc8978"
+      }
+    ],
+    "private_text_published": false,
+    "root_cause": "UNKNOWN_REQUIRES_PRIVATE_LOG_CORRELATION"
+  }
+}

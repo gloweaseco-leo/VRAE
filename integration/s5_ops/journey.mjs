@@ -22,7 +22,7 @@ export function hooks() {
     async before(c,{root,task,reportPins,fresh}){
       receipt.task=task;receipt.reportPins=reportPins;
       await fresh();await c.nav(root+'/s3');
-      await c.check('S5-offline-entry-same-original-SSR',await c.ev("!!document.querySelector('[data-key=s5-offline]')&&!!document.querySelector('[data-key=s5-original-report]')"));
+      await c.check('S5-offline-entry-same-original-SSR',await c.ev("!!document.querySelector('[data-key=s5-offline]')&&!!document.querySelector('[data-key=s5-original-report]')&&!!document.querySelector('[data-key=s5-summary][href$=\"/executive\"]')&&!!document.querySelector('[data-key=s5-brief][href$=\"/brief\"]')"));
       const form=await c.ev("new URLSearchParams(new FormData(document.querySelector('form[method=post]'))).toString()");
       await c.check('S5-browser-cannot-submit-task-or-report-pins',await c.postForm(root+'/s3',form+'&report_hash='+'0'.repeat(64))===403);
       await fresh();await c.nav(root+'/s3');
