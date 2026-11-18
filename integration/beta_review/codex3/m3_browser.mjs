@@ -106,7 +106,7 @@ try{
   }
   if(config.s2_l2) {
     const {s2Journey}=await import('../../l2_ops/s2_acceptance_journey.mjs');
-    await s2Journey({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2:redeemObservedChallenge,postForm,statusOf,writeFile,path,out,origin});
+    await s2Journey({ev,call,nav,click,select,check,screenshot,rpc,login,openNewReport,redeemL2:redeemObservedChallenge,postForm,statusOf,writeFile,path,out,origin,executive:config.s4_executive===true});
     await check('no-browser-exceptions',exceptions.length===0);
     await writeFile(path.join(out,'browser.json'),JSON.stringify({status:'S2_REAL_SAME_TASK_BROWSER_CHAIN_PASS',version,records,shots,network,exceptions},null,2));
     await call('Target.disposeBrowserContext',{browserContextId:context.browserContextId},null);

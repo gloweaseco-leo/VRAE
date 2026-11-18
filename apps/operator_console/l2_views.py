@@ -30,7 +30,7 @@ def navigation(view,person,section):
     m=view.document['meta']
     root=PREFIX+'r/'+m['report_id']
     body='<nav class="l2-nav" aria-label="L2 工作区">'
-    for suffix,label in [('', '深度报告'),('/blueprint','Rebuild 蓝图'),('/evidence','证据与覆盖')]:
+    for suffix,label in [('/executive','管理层摘要'),('', '深度报告'),('/blueprint','Rebuild 蓝图'),('/evidence','证据与覆盖')]:
         body+=link(root+suffix,label,key='l2-'+(suffix[1:] or 'report'))
     if person.role in ('OWNER','REVIEWER'):
         body+=link(root+'/review','责任人审核',key='l2-review')
