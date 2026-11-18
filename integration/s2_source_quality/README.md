@@ -14,7 +14,7 @@ python -B -m integration.s2_source_quality.demo local-demo
 
 演示只用合成的 `example.org` 已保存输入和原 Collector 的内存 transport；没有对这些 URL 发网络请求。真实 HTTP 只访问原 B5B server 的随机 loopback 端口，经原 nonce、CSRF、签名身份和 HttpOnly session 读取。输出在本目录 `.runtime/local-demo`，重复运行须使用新标签。
 
-每个场景输出 pack、候选 JSON、业务 HTML 和总览 `summary.json`。pack 保留原证据；候选的 URL、采集角色、采集时间、source/snapshot/evidence refs、SHA256、UTF-8 起止位置和 quote 可逐字复核。HTML 是离线业务预览；签名 HTTP 的页面与原文链接另由 demo 真实请求验证。没有把合成来源说成客户实站，也没有把 fixture 验证算作准确率。
+每个场景输出 pack、原 parent、候选 JSON、业务 HTML 和总览 `summary.json`。`*-pack.json` 包含 document 和 objects_base64；demo 实际解码、调用原 EvidencePack.load 重载并重新校验候选与每条原文字节，而非仅保存 manifest 哈希。候选的 URL、采集角色、采集时间、source/snapshot/evidence refs、SHA256、UTF-8 起止位置和 quote 可逐字复核。HTML 是离线业务预览；签名 HTTP 的页面与原文链接另由 demo 真实请求验证。没有把合成来源说成客户实站，也没有把 fixture 验证算作准确率。
 
 ## 能得到什么
 

@@ -1,4 +1,5 @@
 """Offline business examples and real loopback HTTP using the original signed server."""
+import base64
 import json
 import re
 import sys
@@ -12,6 +13,7 @@ from urllib.request import HTTPCookieProcessor, HTTPRedirectHandler, Request, bu
 from apps.operator_console.b5a_http import server
 from integration.s2_source_quality.fixture import application, prepared
 from integration.s2_source_quality.workbench import render
+from vrae.evidence import EvidencePack
 from vrae.rules.s2.source_quality import evaluate_source_quality, verify_source_quality
 
 
@@ -35,8 +37,22 @@ def main():
         pack, parent, held = prepared(name, **options)
         value = evaluate_source_quality(pack, parent, held=held)
         verify_source_quality(value, pack, parent, held=held, expected_quality_ref=value['quality_ref'])
-        # Full retained bundle makes each byte citation independently replayable.
-        (out / (name+'-pack.json')).write_text(json.dumps(pack.document, ensure_ascii=False), encoding='utf-8')
+        # The manifest contains hashes, not blob bytes. Export both, then actually
+        # reload the artifact instead of claiming the manifest alone is replayable.
+        bundle = {'document': pack.document,
+                  'objects_base64': {ref: base64.b64encode(raw).decode('ascii') for ref, raw in pack.objects.items()}}
+        saved = out / (name+'-pack.json')
+        saved.write_text(json.dumps(bundle, ensure_ascii=False), encoding='utf-8')
+        archived = json.loads(saved.read_text(encoding='utf-8'))
+        replay = EvidencePack.load(archived['document'],
+            {ref: base64.b64decode(raw, validate=True) for ref, raw in archived['objects_base64'].items()}, expected_ref=pack.ref)
+        verify_source_quality(value, replay, parent, held=held, expected_quality_ref=value['quality_ref'])
+        for row in value['rows']:
+            for item in row['items']:
+                for cite in item['citations']:
+                    raw = replay.resolve(cite['evidence_ref'], expected_pack_ref=pack.ref)['content']
+                    assert raw[cite['byte_start']:cite['byte_end']].decode() == cite['quote']
+        (out / (name+'-parent.json')).write_text(json.dumps(parent, ensure_ascii=False), encoding='utf-8')
         (out / (name+'.json')).write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
         (out / (name+'.html')).write_text('<!doctype html><meta charset="utf-8">'+render(value, '/controlled-demo'), encoding='utf-8')
         summary.append({'scenario': name, 'quality_ref': value['quality_ref'], 'parent_ref': held.parent_ref,
@@ -90,7 +106,7 @@ def main():
     result = {'source_mode': 'OFFLINE_SYNTHETIC', 'network': 'LOOPBACK_ORIGINAL_SERVER_ONLY',
               'model_calls': 0, 'paid_calls': 0, 'real_customer_sources': 0,
               'quality': 'NOT_EVALUABLE', 'gold': 0, 'http': results, 'server_closed': True,
-              'original_report_unchanged': True, 'scenarios': summary}
+              'original_report_unchanged': True, 'exported_blob_reload_and_byte_replay': True, 'scenarios': summary}
     (out/'summary.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
     print(json.dumps({'scenarios': len(summary), 'signed_http': results, 'server_closed': True}))
 

@@ -159,7 +159,8 @@ def _analyze(pack, record, held, profile):
     except Exception:  # noqa: BLE001 -- unsupported parser inputs yield no negative finding
         return None, 'UNKNOWN', 'UNSUPPORTED_UTF8_OR_SOURCE_TEXT'
     info, tech = [], []
-    cite = lambda span: _cite(ev, span) | {'url': record[2]['url'], 'observed_at': record[2]['observed_at']}
+    def cite(span):
+        return _cite(ev, span) | {'url': record[2]['url'], 'observed_at': record[2]['observed_at']}
     if parsed.language and parsed.language['lang'] is not None:
         info.append(_item('DECLARED_LANGUAGE', 'OBSERVED', 'AUTHOR_DECLARATION_NOT_LANGUAGE_QUALITY',
             [cite(parsed.language['span'])], declared_language=parsed.language['lang']))
