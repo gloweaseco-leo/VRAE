@@ -12,6 +12,12 @@ from .request import InputPins, prepare_request
 
 
 class ModelGateway:
+    async def run_qwen(self, context, *, provider, operation_id, now, timeout_ms):
+        """Separate trusted post-COMMIT entry; original run remains fixture-only."""
+        from .qwen.session import dispatch
+        return await dispatch(context, provider=provider, operation=operation_id,
+                              now=now, timeout_ms=timeout_ms)
+
     def __init__(self, *, provider: OfflineProvider | None = None, ledger: Ledger | None = None,
                  provider_name: str | None = None, model_id: str | None = None, credentials: object = None):
         self._provider = provider if type(provider) is FixtureProvider else None

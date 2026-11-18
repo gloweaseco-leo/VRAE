@@ -345,6 +345,10 @@ class Session:
 
     async def run(self, operation_id, *, mode='NO_MODEL', provider=None,
                   timeout_ms=1000, cancel_before_dispatch=False):
+        if mode == 'REAL_QWEN':
+            from vrae.intelligence.qwen.session import run_session
+            return await run_session(self, operation_id, provider=provider,
+                                     timeout_ms=timeout_ms, cancel=cancel_before_dispatch)
         if (type(operation_id) is not str or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{2,127}', operation_id)
                 or mode not in ('NO_MODEL', 'FIXTURE') or type(provider) not in (FixtureProvider, type(None))
                 or mode == 'FIXTURE' and provider is None or mode == 'NO_MODEL' and provider is not None
@@ -420,6 +424,9 @@ class Session:
 
     def markdown(self, operation_id):
         data = self.read(operation_id)
+        if data['mode'] == 'REAL_QWEN':
+            from vrae.intelligence.qwen.session import markdown
+            return markdown(data)
         labels = dict(zip(TASKS, ('发现产品', '理解产品', '核对信任资料', '准备询价', '搜索技术')))
         rules = {'DISCOVER': ('IND-SELECTION',), 'UNDERSTAND': ('IND-SPEC', 'IND-DUTY', 'IND-FIT'),
                  'TRUST': ('IND-PROOF',), 'INQUIRE': ('IND-RFQ',), 'SEARCH_TECHNICAL': ()}
