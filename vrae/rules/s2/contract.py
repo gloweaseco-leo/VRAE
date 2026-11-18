@@ -9,10 +9,12 @@ from vrae.rules.readiness import GAPS
 from vrae.rules import execute, verify_execution
 from vrae.rules.execution import TRUST_VERSION
 from vrae.rules.s2_ux import BrowserPins, project_browser
+from vrae.industry.l2_v1.pack import IndustryPins
 
 CONTRACT_VERSION = 's2-readonly-1.0.0'
 PROJECTION_VERSION = 's2-projection-1.0.0'
 STATIC_PROJECTION_VERSION = 's2-projection-1.1.0'
+INDUSTRIAL_PROJECTION_VERSION = 's2-projection-1.2.0'
 UX_RULES = ('INFO-03', 'CTA-01', 'CTA-03', 'TECH-02')
 STATIC_RULES = ('DISC-03', 'INFO-02', 'TRUST-02', 'TRUST-03', 'SEO-02', 'TECH-01')
 SCOPE = ('tenant_id', 'run_id', 'policy_id', 'policy_version')
@@ -123,14 +125,16 @@ def resolve_input(request: dict, pack: EvidencePack, *, expected_pack_ref: str,
 
 def evaluate_s2(pack: EvidencePack, *, expected_pack_ref: str, trusted_scope: dict,
                 browser_pins: BrowserPins | None = None,
-                projection_version: str = PROJECTION_VERSION) -> dict:
+                projection_version: str = PROJECTION_VERSION,
+                industry_pins: IndustryPins | None = None) -> dict:
     """Compose a non-authoritative projection; caller retains live signed authority.
 
     No browser source/time pins are inferred from the pack. Only an independently
     held BrowserPins allows the accepted C2 read-only projection to be included.
     This function grants neither access nor FindingPackage/Guard approval.
     """
-    if projection_version not in (PROJECTION_VERSION, STATIC_PROJECTION_VERSION):
+    if (projection_version not in (PROJECTION_VERSION, STATIC_PROJECTION_VERSION, INDUSTRIAL_PROJECTION_VERSION)
+            or industry_pins is not None and projection_version != INDUSTRIAL_PROJECTION_VERSION):
         _fail()
     requests = {rule: adapter_request(pack, expected_pack_ref=expected_pack_ref,
         rule_id=rule, expected_scope=trusted_scope) for rule in UX_RULES}
@@ -163,7 +167,7 @@ def evaluate_s2(pack: EvidencePack, *, expected_pack_ref: str, trusted_scope: di
         'C2_PROJECTION_IS_READ_ONLY_UNKNOWN_NOT_NEW_RULE_PASS',
         'S2_NOT_ADMITTED_BY_LEGACY_FINDINGPACKAGE_OR_GUARD',
         'HUMAN_GOLD_PENDING_NO_QUALITY_METRIC']
-    if projection_version == STATIC_PROJECTION_VERSION:
+    if projection_version in (STATIC_PROJECTION_VERSION, INDUSTRIAL_PROJECTION_VERSION):
         from .static import project_static, RULES, RULE_VERSION, SOURCE_VERSION
         result['static_projection'] = project_static(pack)
         for capability in result['s2_capabilities']:
@@ -171,6 +175,16 @@ def evaluate_s2(pack: EvidencePack, *, expected_pack_ref: str, trusted_scope: di
                 capability.update(implementation='BOUNDED_READ_ONLY_CANDIDATE',
                                   rule_version=RULE_VERSION, source_version=SOURCE_VERSION)
         result['limitations'][0] = 'S2_P1_THREE_BOUNDED_STATIC_SUBSETS_OTHER_RULES_PENDING'
+    if projection_version == INDUSTRIAL_PROJECTION_VERSION:
+        from .industrial import project_industrial
+        from .industrial import RULES as INDUSTRIAL_RULES, RULE_VERSION as INDUSTRIAL_RULE_VERSION
+        from .industrial import SOURCE_VERSION as INDUSTRIAL_SOURCE_VERSION
+        result['industrial_projection'] = project_industrial(pack, industry_pins)
+        for capability in result['s2_capabilities']:
+            if capability['rule_id'] in INDUSTRIAL_RULES:
+                capability.update(implementation='BOUNDED_READ_ONLY_CANDIDATE',
+                    rule_version=INDUSTRIAL_RULE_VERSION, source_version=INDUSTRIAL_SOURCE_VERSION)
+        result['limitations'][0] = 'S2_P1_SIX_BOUNDED_C1_SUBSETS_NOT_NATIVE_FACT_ADMISSION_OR_QUALITY_EXIT'
     result['projection_ref'] = 's2p-' + document_hash(result)
     return result
 
@@ -178,16 +192,17 @@ def evaluate_s2(pack: EvidencePack, *, expected_pack_ref: str, trusted_scope: di
 def verify_s2_projection(output: dict, pack: EvidencePack, *, expected_pack_ref: str,
                          trusted_scope: dict, expected_projection_ref: str,
                          browser_pins: BrowserPins | None = None,
+                         industry_pins: IndustryPins | None = None,
                          expected_projection_version: str = PROJECTION_VERSION) -> None:
     """Independently replay original execution and all derived inputs/projections."""
     try:
-        if (expected_projection_version not in (PROJECTION_VERSION, STATIC_PROJECTION_VERSION)
+        if (expected_projection_version not in (PROJECTION_VERSION, STATIC_PROJECTION_VERSION, INDUSTRIAL_PROJECTION_VERSION)
                 or type(expected_projection_ref) is not str
                 or not re.fullmatch(r's2p-[0-9a-f]{64}', expected_projection_ref)):
             _fail()
         expected = evaluate_s2(pack, expected_pack_ref=expected_pack_ref,
                               trusted_scope=trusted_scope, browser_pins=browser_pins,
-                              projection_version=expected_projection_version)
+                              projection_version=expected_projection_version, industry_pins=industry_pins)
         if expected['projection_ref'] != expected_projection_ref or _encode(output) != _encode(expected):
             _fail()
     except Exception as exc:
