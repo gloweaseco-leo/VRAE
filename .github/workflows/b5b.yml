@@ -1,6 +1,18 @@
 name: B5B accepted signed SSR private preview and blocked result boundary
 on:
-  pull_request:
+  workflow_call:
+    inputs:
+      legacy_311:
+        type: boolean
+        default: false
+        required: false
+  workflow_dispatch:
+    inputs:
+      legacy_311:
+        description: Include retained Python 3.11 compatibility and historical gates
+        type: boolean
+        default: false
+        required: false
 permissions:
   contents: read
 jobs:
@@ -9,12 +21,7 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - python: '3.11'
-            tag: '311'
-          - python: '3.13'
-            tag: '313'
+      matrix: ${{ fromJSON(inputs.legacy_311 && '{"include":[{"python":"3.11","tag":"311"},{"python":"3.13","tag":"313"}]}' || '{"include":[{"python":"3.13","tag":"313"}]}') }}
     steps:
       - uses: actions/checkout@v4
         with:

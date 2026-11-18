@@ -1,6 +1,18 @@
 name: L2 industrial buyer diagnosis
 on:
-  pull_request:
+  workflow_call:
+    inputs:
+      legacy_311:
+        type: boolean
+        default: false
+        required: false
+  workflow_dispatch:
+    inputs:
+      legacy_311:
+        description: Include retained Python 3.11 compatibility and historical gates
+        type: boolean
+        default: false
+        required: false
 permissions:
   contents: read
 jobs:
@@ -9,8 +21,7 @@ jobs:
     timeout-minutes: 20
     strategy:
       fail-fast: false
-      matrix:
-        python: ['3.11', '3.13']
+      matrix: ${{ fromJSON(inputs.legacy_311 && '{"python":["3.11","3.13"]}' || '{"python":["3.13"]}') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
