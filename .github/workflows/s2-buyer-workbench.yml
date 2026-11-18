@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'integration/s2_buyer_workbench/**'
+      - 'integration/s2_cta/**'
       - '.github/workflows/s2-buyer-workbench.yml'
 permissions:
   contents: read
@@ -37,6 +38,7 @@ jobs:
           integration/l2/test_l2.py integration/l2/test_codex1.py
           tests/s2_contract/p1_industrial_cases.py
           tests/s2_contract/buyer_candidate_cases.py
+          integration/s2_cta
           --junitxml=integration/s2_buyer_workbench/native.xml
       - name: Actual controlled signed HTTP, original SSR and Chrome viewports
         env:
@@ -52,5 +54,8 @@ jobs:
             integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/source.json
             integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/process-cleanup.json
             integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/*.png
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/cta/receipt.json
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/cta/cleanup.json
+            integration/s2_buyer_workbench/.runtime/hosted-${{ matrix.slug }}/cta/*.png
           include-hidden-files: true
           if-no-files-found: error
