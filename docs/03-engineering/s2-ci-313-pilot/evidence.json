@@ -1,0 +1,392 @@
+{
+  "base": "6a15ab4514d24c60b4d03d4ec795f6e3bcd435c3",
+  "files": [
+    {
+      "path": ".github/workflows/s2-rule-contract.yml",
+      "entry_contains_file": false,
+      "unchanged_original_job_contract": true,
+      "unchanged_pr_trigger": true,
+      "matrix_cases": [
+        {
+          "event": "pull_request",
+          "input": null,
+          "matrix": [
+            "3.13"
+          ]
+        },
+        {
+          "event": "pull_request",
+          "input": "3.11",
+          "matrix": [
+            "3.13"
+          ]
+        },
+        {
+          "event": "workflow_dispatch",
+          "input": "3.11",
+          "matrix": [
+            "3.11"
+          ]
+        },
+        {
+          "event": "workflow_dispatch",
+          "input": "3.13",
+          "matrix": [
+            "3.13"
+          ]
+        }
+      ]
+    },
+    {
+      "path": ".github/workflows/s2-buyer-workbench.yml",
+      "entry_contains_file": false,
+      "unchanged_original_job_contract": true,
+      "unchanged_pr_trigger": true,
+      "matrix_cases": [
+        {
+          "event": "pull_request",
+          "input": null,
+          "matrix": [
+            {
+              "python-version": "3.13",
+              "slug": "313"
+            }
+          ]
+        },
+        {
+          "event": "pull_request",
+          "input": "3.11",
+          "matrix": [
+            {
+              "python-version": "3.13",
+              "slug": "313"
+            }
+          ]
+        },
+        {
+          "event": "workflow_dispatch",
+          "input": "3.11",
+          "matrix": [
+            {
+              "python-version": "3.11",
+              "slug": "311"
+            }
+          ]
+        },
+        {
+          "event": "workflow_dispatch",
+          "input": "3.13",
+          "matrix": [
+            {
+              "python-version": "3.13",
+              "slug": "313"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actionlint": "PASS (v1.7.12)",
+  "global_workflow_changes": [],
+  "b5a_original_source_check": "PASS_UNMODIFIED",
+  "code_sha": "5351ee0ffaf90505aa78746692e2b01528ba26e9",
+  "branch_settings": {
+    "main_protection_http_status": 404,
+    "rulesets": [],
+    "settings_changed": false
+  },
+  "frozen_blobs": {
+    "vrae/rules/execution.py": "c183970fd90ec69729221a4174c38d193f4b054b",
+    "vrae/evidence/pack.py": "8d45d5882103323e62bc4bd61a4379899e759966"
+  },
+  "runs": [
+    {
+      "run_id": 44241794393,
+      "suite": "rule",
+      "event": "pull_request",
+      "python": "3.13",
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241794393",
+      "head_sha": "5351ee0ffaf90505aa78746692e2b01528ba26e9",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "artifacts": [
+        {
+          "id": 14400515758,
+          "name": "s2-p0-native-3.13",
+          "size_in_bytes": 4074,
+          "digest": "sha256:6b6f5e546fae532c769c5c828f081c8a9ee7fcfcdc66b065cb1c610e9c3ce80f",
+          "expired": false
+        }
+      ],
+      "job": {
+        "id": 134591205477,
+        "name": "native-contract (3.13)",
+        "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241794393/job/134591205477",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-18T05:05:40Z",
+        "completed_at": "2026-11-18T05:06:28Z",
+        "assigned_runner": true,
+        "runner_seconds": 48.0
+      },
+      "all_original_steps_success": true,
+      "junit": {
+        "passed": 219,
+        "skip": 0,
+        "failure": 0,
+        "error": 0,
+        "sha256": "eadc08ab08917961e275709fd22471c290782441b66273c39fdf2075aea9eabd",
+        "sorted_case_ids_sha256": "31cadfef32f425b715889bc181a2de7f5f39a1369f9cc52511d4bc8e0bd069e1"
+      }
+    },
+    {
+      "run_id": 44241794509,
+      "suite": "workbench",
+      "event": "pull_request",
+      "python": "3.13",
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241794509",
+      "head_sha": "5351ee0ffaf90505aa78746692e2b01528ba26e9",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "artifacts": [
+        {
+          "id": 14400515993,
+          "name": "s2-buyer-source-reading-3.13",
+          "size_in_bytes": 833629,
+          "digest": "sha256:0e434a006c48ffa0b7d012ed11b6cdd86185476c13f1bea054da3cba9bba5051",
+          "expired": false
+        }
+      ],
+      "job": {
+        "id": 134591205612,
+        "name": "source-reading (3.13, 313)",
+        "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241794509/job/134591205612",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-18T05:05:40Z",
+        "completed_at": "2026-11-18T05:07:40Z",
+        "assigned_runner": true,
+        "runner_seconds": 120.0
+      },
+      "all_original_steps_success": true,
+      "junit": {
+        "passed": 152,
+        "skip": 0,
+        "failure": 0,
+        "error": 0,
+        "sha256": "cbc3cac19d898bbdeff122dca2441f11623cb4dc24cef7a3f0dae4bcdef6b2c9",
+        "sorted_case_ids_sha256": "348c0e1d2e9eb0470ae129c94a0562d4635fbc9b73f886c55a77720af13ca96e"
+      },
+      "browser": {
+        "passed_checks": 29,
+        "screenshots": 10,
+        "chrome_exit_observed": true,
+        "server_and_browser_processes_exited": true,
+        "signer_outside_http_child": true,
+        "source_access_mode": "OFFLINE_SYNTHETIC",
+        "formal_human_review": false,
+        "external_delivery": false,
+        "source_hashes": {
+          "workbench.py": "66dde265800bd7610ebae894828cd75ea7d5cd1e2e083a48519a279ec50dbeba",
+          "buyer_cards.py": "4ae7537da6b61b6f3aa48db2983d261de7be21d5839f3efad43a2a41b042f644",
+          "fixture.py": "25ca9b296e9351ee1d3c3d889aef87cbc4557db82916014b44f9889306d57e88",
+          "server.py": "31c145d67702ad1b4a6dbc6106fff383dd4c3d4b550deee52839c8128de457a0",
+          "lab.py": "a614677419ee943904b10bbb46fe9639f14ebea3d4f5a81ed2a65a007ea38d43",
+          "browser.mjs": "ee9ae7b2b6243913015bed5de3aaa23a1d412c3534ed551a900cd845ec3c3c2d",
+          "test_workbench.py": "42943d0425811cfc3261661c028e7f32109c701f80648bfac6e64d2b66f70360",
+          "test_buyer_cards.py": "5feebaf99a1edfb9c96f985cec117f8f212fda7c37254abe483b6c7571e36b60"
+        },
+        "passed_check_names": [
+          "signed-five-dimensions-393",
+          "viewport-and-permission-393",
+          "actual-touch-targets-393",
+          "two-readonly-buyer-cards-393",
+          "four-procurement-questions-on-first-screen-393",
+          "actual-chinese-glyphs",
+          "signed-five-dimensions-375",
+          "viewport-and-permission-375",
+          "actual-touch-targets-375",
+          "two-readonly-buyer-cards-375",
+          "four-procurement-questions-on-first-screen-375",
+          "signed-five-dimensions-320",
+          "viewport-and-permission-320",
+          "actual-touch-targets-320",
+          "two-readonly-buyer-cards-320",
+          "four-procurement-questions-on-first-screen-320",
+          "signed-five-dimensions-1280",
+          "viewport-and-permission-1280",
+          "actual-touch-targets-1280",
+          "two-readonly-buyer-cards-1280",
+          "four-procurement-questions-on-first-screen-1280",
+          "verified-buyer-card-original-bytes-0",
+          "verified-buyer-card-original-bytes-1",
+          "actual-citation-navigation",
+          "original-rebuild-blueprint",
+          "original-control-review-real-submit",
+          "same-report-hash-after-review",
+          "actual-browser-cross-tenant-denied",
+          "actual-browser-unclaimed-reader-denied"
+        ],
+        "receipt_sha256": "a61c959433322fe04e3b4518f0abacdd8e949f955822e747816c5f8bfba2411e",
+        "source_receipt_sha256": "5ab7e239caae5ff649c277e3104c8c1edc5e5e698232075a853c3ca55d755ae0"
+      }
+    },
+    {
+      "run_id": 44241793552,
+      "suite": "rule",
+      "event": "workflow_dispatch",
+      "python": "3.11",
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241793552",
+      "head_sha": "5351ee0ffaf90505aa78746692e2b01528ba26e9",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "artifacts": [
+        {
+          "id": 14399666788,
+          "name": "s2-p0-native-3.11",
+          "size_in_bytes": 4040,
+          "digest": "sha256:c4055dbe7f4c21f39a483b85f1c79871a5f8344bdecbf21d290e4989ac0885c2",
+          "expired": false
+        }
+      ],
+      "job": {
+        "id": 134591207888,
+        "name": "native-contract (3.11)",
+        "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241793552/job/134591207888",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-18T05:05:40Z",
+        "completed_at": "2026-11-18T05:06:23Z",
+        "assigned_runner": true,
+        "runner_seconds": 43.0
+      },
+      "all_original_steps_success": true,
+      "junit": {
+        "passed": 219,
+        "skip": 0,
+        "failure": 0,
+        "error": 0,
+        "sha256": "fd7e6881d459de434f27e7fb7a3a971929089c5afa83af4c7f2b897e3d84f0da",
+        "sorted_case_ids_sha256": "31cadfef32f425b715889bc181a2de7f5f39a1369f9cc52511d4bc8e0bd069e1"
+      }
+    },
+    {
+      "run_id": 44241798676,
+      "suite": "workbench",
+      "event": "workflow_dispatch",
+      "python": "3.11",
+      "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241798676",
+      "head_sha": "5351ee0ffaf90505aa78746692e2b01528ba26e9",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "artifacts": [
+        {
+          "id": 14399731843,
+          "name": "s2-buyer-source-reading-3.11",
+          "size_in_bytes": 833713,
+          "digest": "sha256:4ab0ed6546afbdedb540a53779ed6b48b03c9789996b908b27e2da962ba3989a",
+          "expired": false
+        }
+      ],
+      "job": {
+        "id": 134591224181,
+        "name": "source-reading (3.11, 311)",
+        "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241798676/job/134591224181",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-18T05:05:42Z",
+        "completed_at": "2026-11-18T05:07:10Z",
+        "assigned_runner": true,
+        "runner_seconds": 88.0
+      },
+      "all_original_steps_success": true,
+      "junit": {
+        "passed": 152,
+        "skip": 0,
+        "failure": 0,
+        "error": 0,
+        "sha256": "c00f156b2a012d513b0b1201fa52e4cfc2fc44cf4d47de86f08144fdb8d5a5f3",
+        "sorted_case_ids_sha256": "348c0e1d2e9eb0470ae129c94a0562d4635fbc9b73f886c55a77720af13ca96e"
+      },
+      "browser": {
+        "passed_checks": 29,
+        "screenshots": 10,
+        "chrome_exit_observed": true,
+        "server_and_browser_processes_exited": true,
+        "signer_outside_http_child": true,
+        "source_access_mode": "OFFLINE_SYNTHETIC",
+        "formal_human_review": false,
+        "external_delivery": false,
+        "source_hashes": {
+          "workbench.py": "66dde265800bd7610ebae894828cd75ea7d5cd1e2e083a48519a279ec50dbeba",
+          "buyer_cards.py": "4ae7537da6b61b6f3aa48db2983d261de7be21d5839f3efad43a2a41b042f644",
+          "fixture.py": "25ca9b296e9351ee1d3c3d889aef87cbc4557db82916014b44f9889306d57e88",
+          "server.py": "31c145d67702ad1b4a6dbc6106fff383dd4c3d4b550deee52839c8128de457a0",
+          "lab.py": "a614677419ee943904b10bbb46fe9639f14ebea3d4f5a81ed2a65a007ea38d43",
+          "browser.mjs": "ee9ae7b2b6243913015bed5de3aaa23a1d412c3534ed551a900cd845ec3c3c2d",
+          "test_workbench.py": "42943d0425811cfc3261661c028e7f32109c701f80648bfac6e64d2b66f70360",
+          "test_buyer_cards.py": "5feebaf99a1edfb9c96f985cec117f8f212fda7c37254abe483b6c7571e36b60"
+        },
+        "passed_check_names": [
+          "signed-five-dimensions-393",
+          "viewport-and-permission-393",
+          "actual-touch-targets-393",
+          "two-readonly-buyer-cards-393",
+          "four-procurement-questions-on-first-screen-393",
+          "actual-chinese-glyphs",
+          "signed-five-dimensions-375",
+          "viewport-and-permission-375",
+          "actual-touch-targets-375",
+          "two-readonly-buyer-cards-375",
+          "four-procurement-questions-on-first-screen-375",
+          "signed-five-dimensions-320",
+          "viewport-and-permission-320",
+          "actual-touch-targets-320",
+          "two-readonly-buyer-cards-320",
+          "four-procurement-questions-on-first-screen-320",
+          "signed-five-dimensions-1280",
+          "viewport-and-permission-1280",
+          "actual-touch-targets-1280",
+          "two-readonly-buyer-cards-1280",
+          "four-procurement-questions-on-first-screen-1280",
+          "verified-buyer-card-original-bytes-0",
+          "verified-buyer-card-original-bytes-1",
+          "actual-citation-navigation",
+          "original-rebuild-blueprint",
+          "original-control-review-real-submit",
+          "same-report-hash-after-review",
+          "actual-browser-cross-tenant-denied",
+          "actual-browser-unclaimed-reader-denied"
+        ],
+        "receipt_sha256": "14bb29d29e8bb2579abb45818256c1e9c0ad7b41d5e58a2f460e5918d2307879",
+        "source_receipt_sha256": "e120f72f383459b49ed73c112e1f69635bd0d12f73b91dc0c318854ccc54ad32"
+      }
+    }
+  ],
+  "paired_test_ids_and_workbench_source_hashes_equal": true,
+  "measurement": {
+    "scope": "Only the two S2 workflows; no whole-repository savings conclusion",
+    "seconds_basis": "Assigned runner job started_at/completed_at including setup and cleanup, excluding queue; not billing or CPU",
+    "pr_313_runner_seconds": 168.0,
+    "manual_311_runner_seconds": 131.0,
+    "old_configuration_pass_ab_baseline": "NOT_MEASURED",
+    "whole_repository_savings_percent": null,
+    "cpu": "NOT_MEASURED",
+    "default_jobs_when_both_s2_workflows_match": {
+      "before": 4,
+      "after": 2
+    }
+  },
+  "unchanged_b5a_live_run": {
+    "run_id": 44241794554,
+    "url": "https://github.com/gloweaseco-leo/VRAE/actions/runs/44241794554",
+    "python_311_job_id": 134591205850,
+    "python_313_job_id": 134591205568,
+    "both_original_jobs": "SUCCESS",
+    "entry_or_allowlist_modified": false
+  }
+}
