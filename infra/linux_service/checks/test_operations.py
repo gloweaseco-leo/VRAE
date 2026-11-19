@@ -58,3 +58,26 @@ def test_foreign_resource_label_is_never_adopted(monkeypatch):
     )
     with pytest.raises(PermissionError, match="RESOURCE_OWNERSHIP_MISMATCH"):
         control.owned("container", "vrae-primary-runtime", "vrae-primary")
+
+
+def test_model_activation_reuses_existing_pg_and_linux_private_operator_volume(monkeypatch):
+    events = []
+    monkeypatch.setattr(control, 'owned', lambda *a: {'existing': True})
+    monkeypatch.setattr(control, 'inspect', lambda *a: {'Config': {'Labels': {'vrae.source_sha': '2' * 40}}})
+    monkeypatch.setattr(control, 'docker', lambda *a, **k: json.dumps({
+        'image': 'sha256:' + '1' * 64, 'source_sha': '1' * 40}).encode())
+    monkeypatch.setattr(control, 'start_runtime', lambda owner, names, root, d:
+                        events.append((owner, names['pg'], root, d['isolated_model_runtime'])))
+    monkeypatch.setattr(control, 'start_ai', lambda *a: None)
+    monkeypatch.setattr(control, 'config', lambda *a: pytest.fail('NO_HOST_SECRET_DIRECTORY_ALLOWED'))
+    result = control.activate_model('vrae-current', 'sha256:' + '2' * 64)
+    assert events == [('vrae-current', 'vrae-current-pg', None, True)]
+    assert result['same_pg'] == 'vrae-current-pg' and result['same_ledger'] == 'vrae-current-ledger'
+    assert result['model_go_attested'] is False
+
+
+def test_model_activation_refuses_missing_existing_authority_before_mutation(monkeypatch):
+    monkeypatch.setattr(control, 'owned', lambda *a: False)
+    monkeypatch.setattr(control, 'docker', lambda *a, **k: pytest.fail('NO_MUTATION_ALLOWED'))
+    with pytest.raises(PermissionError, match='EXISTING_DEPLOYMENT_REQUIRED'):
+        control.activate_model('vrae-current', 'sha256:' + '2' * 64)

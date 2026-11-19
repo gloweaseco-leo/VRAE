@@ -10,6 +10,7 @@ on:
       - 'tests/intelligence/qwen_postcommit_cases.py'
       - 'tests/intelligence/qwen_committed_cases.py'
       - 'tests/intelligence/qwen_batch_cases.py'
+      - 'tests/intelligence/qwen_runtime_budget_cases.py'
       - '.github/workflows/qwen-provider.yml'
   workflow_dispatch:
 permissions:
@@ -38,6 +39,7 @@ jobs:
           tests/intelligence/qwen_postcommit_cases.py
           tests/intelligence/qwen_committed_cases.py
           tests/intelligence/qwen_batch_cases.py
+          tests/intelligence/qwen_runtime_budget_cases.py
           tests/test_domain.py::test_no_network_or_unauthorized_framework_code
           tests/intelligence/s3_offline_cases.py tests/intelligence/test_gateway.py
           tests/intelligence/test_accounting.py tests/intelligence/test_request.py

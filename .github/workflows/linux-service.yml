@@ -5,6 +5,8 @@ on:
       - 'infra/linux_service/**'
       - 'integration/authorized_targets/**'
       - 'infra/authorized_targets/**'
+      - 'vrae/intelligence/qwen/**'
+      - 'infra/qwen_provider/**'
       - 'docs/03-engineering/linux-service/**'
       - '.github/workflows/linux-service.yml'
 permissions:
@@ -36,7 +38,7 @@ jobs:
           python -m ruff check --no-cache integration/authorized_targets infra/authorized_targets --select E4,E7,E9,F
           python -m ruff check --no-cache infra/linux_service --select E4,E7,E9,F
       - name: Permission and default customer egress denials
-        run: python -B -m pytest -q infra/linux_service/checks/test_operations.py integration/authorized_targets/checks/test_api_contract.py integration/authorized_targets/checks/test_authority.py integration/authorized_targets/checks/test_source_authority.py tests/collection/test_security.py
+        run: python -B -m pytest -q infra/linux_service/checks/test_operations.py infra/linux_service/checks/test_qwen_runtime.py integration/authorized_targets/checks/test_api_contract.py integration/authorized_targets/checks/test_authority.py integration/authorized_targets/checks/test_source_authority.py tests/collection/test_security.py
       - name: Build original dependency image without changing its lock
         env:
           SLUG: ${{ matrix.slug }}

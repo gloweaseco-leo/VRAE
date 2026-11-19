@@ -33,7 +33,7 @@ def names(name):
         raise ValueError("VRAE_DEPLOYMENT_NAME_REQUIRED")
     return {
         k: name + "-" + k
-        for k in ("pg", "runtime", "data", "ledger", "net", "operator", "relay", "ingress")
+        for k in ("pg", "runtime", "data", "ledger", "net", "operator", "relay", "ingress", "ai", "model-net")
     }
 
 
@@ -77,18 +77,58 @@ def start_runtime(owner, n, root, d):
         raise PermissionError("NETWORK_MODE_MISMATCH")
     # Facts supplied by the host operator, not a workload's self-report.
     d.update(network_id=net["Id"], network_internal=bool(net["Internal"]))
-    (root / "manifest.json").write_text(json.dumps(d))
-    (root / "manifest.json").chmod(0o600)
+    if owned('container', n['ai'], owner):
+        docker('stop', '-t', '30', n['ai'])
+        docker('rm', n['ai'])
+    if d.get('isolated_model_runtime') is True:
+        # Fixed private PG wire endpoint, never an exposed or dynamic SQL port.
+        pg = owned('container', n['pg'], owner)
+        endpoint = {'host': pg['NetworkSettings']['Networks'][n['net']]['IPAddress'], 'port': 15432}
+        if root is not None:
+            (root / 'ai-pg-endpoint.json').write_text(json.dumps(endpoint))
+            (root / 'ai-pg-endpoint.json').chmod(0o600)
+    if root is None:
+        # Existing ext4 operator material never crosses back into NTFS. This
+        # update contains only inspected topology/image metadata, no secret.
+        update = {'manifest': d}
+        if d.get('isolated_model_runtime') is True:
+            update['endpoint'] = endpoint
+        docker('run', '--rm', '-i', '--network', 'none', '--read-only', '--cap-drop', 'ALL',
+            '--mount', 'type=volume,src=' + n['operator'] + ',dst=/operator', d['image'],
+            'python', '-c',
+            "import sys,json,os;from pathlib import Path;d=json.load(sys.stdin);"
+            "p=Path('/operator/manifest.json');p.write_text(json.dumps(d['manifest']));p.chmod(0o600);"
+            "p=Path('/operator/ai-pg-endpoint.json');p.write_text(json.dumps(d['endpoint']));p.chmod(0o600)",
+            input=json.dumps(update).encode())
+    else:
+        (root / "manifest.json").write_text(json.dumps(d))
+        (root / "manifest.json").chmod(0o600)
     if not owned("volume", n["operator"], owner):
         docker("volume", "create", "--label", LABEL + "=" + owner, n["operator"])
     archive = io.BytesIO()
     with tarfile.open(fileobj=archive, mode="w:gz") as tar:
-        for path in root.iterdir():
+        for path in (() if root is None else root.iterdir()):
             info = tarfile.TarInfo(path.name)
             raw = path.read_bytes()
             info.size = len(raw)
             info.mode = 0o600
             tar.addfile(info, io.BytesIO(raw))
+    if root is not None:
+        stage_operator(d, n, archive.getvalue())
+    docker(
+        "run", "--rm", "--network", "container:" + n["pg"], "--read-only", "--cap-drop", "ALL",
+        "--tmpfs", "/run/vrae-targets:rw,nosuid,nodev,size=2m", "--mount",
+        "type=volume,src=" + n["operator"] + ",dst=/operator,readonly", d["image"],
+        "python", "-m", "infra.linux_service.initialize",
+    )
+    old = owned("container", n["runtime"], owner)
+    if old:
+        docker("stop", "-t", "30", n["runtime"])
+        docker("rm", n["runtime"])
+    launch_runtime(owner, n, d)
+
+
+def stage_operator(d, n, archive):
     docker(
         "run",
         "--rm",
@@ -104,29 +144,11 @@ def start_runtime(owner, n, root, d):
         "python",
         "-c",
         "import sys,tarfile,os;tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/inputs',filter='data');os.chmod('/inputs',0o700)",
-        input=archive.getvalue(),
+        input=archive,
     )
-    docker(
-        "run",
-        "--rm",
-        "--network",
-        "container:" + n["pg"],
-        "--read-only",
-        "--cap-drop",
-        "ALL",
-        "--tmpfs",
-        "/run/vrae-targets:rw,nosuid,nodev,size=2m",
-        "--mount",
-        "type=volume,src=" + n["operator"] + ",dst=/operator,readonly",
-        d["image"],
-        "python",
-        "-m",
-        "infra.linux_service.initialize",
-    )
-    old = owned("container", n["runtime"], owner)
-    if old:
-        docker("stop", "-t", "30", n["runtime"])
-        docker("rm", n["runtime"])
+
+
+def launch_runtime(owner, n, d):
     docker(
         "run",
         "-d",
@@ -171,6 +193,34 @@ def start_runtime(owner, n, root, d):
         "type=volume,src=" + n["ledger"] + ",dst=/ledger",
         d["image"],
     )
+
+
+def activate_model(owner, image):
+    """Upgrade this SAME running service from existing Linux-private materials.
+
+    No source renewal, key/fee grant fabrication, PG replacement or NTFS secret
+    export. The operator stages the independently signed model grant beforehand.
+    """
+    n = names(owner)
+    for kind, key in (('container', 'pg'), ('container', 'runtime'),
+                      ('volume', 'operator'), ('volume', 'ledger')):
+        if not owned(kind, n[key], owner):
+            raise PermissionError('EXISTING_DEPLOYMENT_REQUIRED')
+    if type(image) is not str or not re.fullmatch(r'sha256:[0-9a-f]{64}', image):
+        raise ValueError('IMMUTABLE_IMAGE_REQUIRED')
+    item = inspect('image', image)
+    if item is None:
+        raise ValueError('IMMUTABLE_IMAGE_REQUIRED')
+    sha = item['Config']['Labels'].get('vrae.source_sha')
+    if not re.fullmatch(r'[0-9a-f]{40}', sha or ''):
+        raise ValueError('IMAGE_SOURCE_MISMATCH')
+    d = json.loads(docker('exec', n['runtime'], 'cat', '/operator/manifest.json'))
+    d.update(previous={'image': d['image'], 'source_sha': d['source_sha']},
+             image=image, source_sha=sha, isolated_model_runtime=True)
+    start_runtime(owner, n, None, d)
+    start_ai(owner, n, d)
+    return {'source_sha': sha, 'same_pg': n['pg'], 'same_ledger': n['ledger'],
+            'ai_container': n['ai'], 'model_go_attested': False}
 
 
 def up(owner, path):
@@ -231,9 +281,31 @@ def up(owner, path):
         docker("start", n["pg"])
     wait_pg(n)
     start_runtime(owner, n, root, d)
+    if d.get('isolated_model_runtime') is True:
+        start_ai(owner, n, d)
     if d.get("publish"):
         start_ingress(owner, n, d)
     return n
+
+
+def start_ai(owner, n, d):
+    # Only the relocated AI loop has a routable namespace. The original PG/
+    # Worker namespace stays on its inspected internal network without change.
+    if not owned('network', n['model-net'], owner):
+        docker('network', 'create', '--label', LABEL + '=' + owner, n['model-net'])
+    docker('create', '--name', n['ai'], '--label', LABEL + '=' + owner,
+        '--restart', 'unless-stopped', '--network', n['model-net'], '--read-only',
+        '--cap-drop', 'ALL', '--cap-add', 'SETUID', '--cap-add', 'SETGID',
+        '--cap-add', 'CHOWN', '--cap-add', 'NET_ADMIN', '--security-opt', 'no-new-privileges',
+        '--pids-limit', '80', '--memory', '512m', '--cpus', '2',
+        '--tmpfs', '/tmp:rw,nosuid,nodev,size=32m',
+        '--tmpfs', '/run/service:rw,nosuid,nodev,size=8m',
+        '--tmpfs', '/run/vrae-targets:rw,nosuid,nodev,size=2m',
+        '--mount', 'type=volume,src=' + n['operator'] + ',dst=/operator,readonly',
+        '--mount', 'type=volume,src=' + n['ledger'] + ',dst=/model-ledger,volume-subpath=qwen',
+        d['image'], 'python', '-m', 'infra.linux_service.ai_bootstrap')
+    docker('network', 'connect', n['net'], n['ai'])
+    docker('start', n['ai'])
 
 
 def start_ingress(owner, n, d):
@@ -288,7 +360,7 @@ def wait_pg(n):
 
 def stop(owner):
     n = names(owner)
-    for key in ("relay", "runtime", "pg"):
+    for key in ("ai", "relay", "runtime", "pg"):
         if owned("container", n[key], owner):
             docker("stop", "-t", "30", n[key])
 
@@ -437,14 +509,16 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument(
         "action",
-        choices=["up", "stop", "restart", "upgrade", "rollback", "backup", "restore", "status"],
+        choices=["up", "stop", "restart", "upgrade", "rollback", "backup", "restore", "status", "activate-model"],
     )
     p.add_argument("--name", required=True)
     p.add_argument("--config")
     p.add_argument("--image")
     p.add_argument("--backup")
     a = p.parse_args()
-    if a.action == "up":
+    if a.action == 'activate-model':
+        result = activate_model(a.name, a.image)
+    elif a.action == "up":
         result = up(a.name, a.config)
     elif a.action == "stop":
         result = stop(a.name)
