@@ -153,3 +153,15 @@ VPS以后迁移：先冷备份PG和Ledger，经私有渠道迁移root私有材�
 原UID/namespace/DNS/防火墙、实际FQDN证书与SNI/Host；重新验证身份发行和MFA链，
 不能复制本机密码验证元数据冒充VPS本地身份。再做外部实际读/撤销和新网站授权验收。
 本轮没有等待VPS，也没有修改VEYFRONT仓库、Vercel配置、域名或上线安排。
+
+
+## 交接前最终读回
+
+2026-11-19 23:12 UTC 的当前用户网络读回确认 Tailscale在线、原始443/8443转发、
+v2rayN/xray及原代理仍正常。之后的
+[外部运行44635592022](https://github.com/gloweaseco-leo/VRAE/actions/runs/44635592022)
+再次验证最终be4ca8e版本两个公网端口均200，错证/错Bearer403、无证TLS拒绝；
+[当前外部健康回执](evidence/14581439902-handoff-current-public-health.json)已持久保存。
+服务没有在验收后停止。仅供本轮外部验收的 GitHub Actions secret
+`VRAE_WINDOWS_PUBLIC_MTLS` 已删除；服务自己的凭据仍在原受保护私有卷。
+后续显式实测须重新通过安全运营渠道提供当前有效客户端配置。
