@@ -9,7 +9,7 @@ from integration.authorized_targets.authority import check_submission, service_b
 from integration.authorized_targets.capture import components
 from integration.l2_launch.g1.fixtures import submission
 from tests.collection.test_security import fixture
-from tests.authorized_targets.issuer import Issuer
+from integration.authorized_targets.checks.issuer import Issuer
 
 
 def setup():

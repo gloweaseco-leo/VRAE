@@ -30,7 +30,7 @@ from integration.l2_launch.g1 import supervisor as process
 from integration.l2_launch.g1.tls import create as create_tls
 from integration.l2_launch.g1.fixtures import submission
 from integration.l2_launch.g1.http_server import MEDIA
-from tests.authorized_targets.issuer import Issuer
+from integration.authorized_targets.checks.issuer import Issuer
 
 ROOT = Path("/evidence/.private-root")
 ENV = process.ENV
@@ -237,7 +237,12 @@ def main():
     Path("/tmp/lab/site.json").write_text(json.dumps({"hosts": hosts}))
     with (ROOT / "site.log").open("wb") as log:
         site = subprocess.Popen(
-            [sys.executable, "-m", "tests.authorized_targets.site", "/tmp/lab/site.json"],
+            [
+                sys.executable,
+                "-m",
+                "integration.authorized_targets.checks.site",
+                "/tmp/lab/site.json",
+            ],
             env=ENV,
             stdout=log,
             stderr=log,

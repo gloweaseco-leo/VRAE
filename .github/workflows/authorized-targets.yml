@@ -3,7 +3,6 @@ on:
   pull_request:
     paths:
       - 'integration/authorized_targets/**'
-      - 'tests/authorized_targets/**'
       - 'infra/authorized_targets/**'
       - 'docs/03-engineering/authorized-targets/**'
       - '.github/workflows/authorized-targets.yml'
@@ -33,9 +32,9 @@ jobs:
       - name: Check new service source only
         run: |
           python -m pip check
-          python -m ruff check --no-cache integration/authorized_targets infra/authorized_targets tests/authorized_targets --select E4,E7,E9,F
+          python -m ruff check --no-cache integration/authorized_targets infra/authorized_targets --select E4,E7,E9,F
       - name: Permission and default customer egress denials
-        run: python -B -m pytest -q integration/authorized_targets/checks/test_authority.py
+        run: python -B -m pytest -q integration/authorized_targets/checks/test_authority.py tests/collection/test_security.py
       - name: Build original dependency image without changing its lock
         env:
           SLUG: ${{ matrix.slug }}
