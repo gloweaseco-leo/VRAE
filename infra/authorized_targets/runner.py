@@ -19,6 +19,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--label", required=True)
     parser.add_argument("--image", default="vrae-g1:313")
+    parser.add_argument("--delivery-bridge", action="store_true")
     args = parser.parse_args()
     assert args.label.replace("-", "").isalnum() and len(args.label) < 64
     private = ROOT / "infra/authorized_targets/.private" / args.label
@@ -68,6 +69,7 @@ def main():
         "ra4a_test_unassigned",
     )
     state = {
+        "delivery_bridge": args.delivery_bridge,
         "host": "127.0.0.1",
         "port": 5432,
         "dbname": "vrae_ra4a_p1",
@@ -208,6 +210,8 @@ def main():
             "160",
             "--tmpfs",
             "/tmp:rw,nosuid,nodev,size=192m",
+            "--tmpfs",
+            "/run/vrae-targets:rw,nosuid,nodev,size=2m",
             "--mount",
             "type=volume,src=" + names["source"] + ",dst=/work,readonly",
             "--mount",
@@ -237,7 +241,9 @@ def main():
             "cp", names["runtime"] + ":/evidence/.private-root", str(private / "runtime-private")
         )
 
-        for file in ("targets.json",):
+        for file in (
+            ("targets.json", "delivery.json") if args.delivery_bridge else ("targets.json",)
+        ):
             found = subprocess.run(
                 ["docker", "cp", names["runtime"] + ":/evidence/" + file, str(public / file)],
                 capture_output=True,

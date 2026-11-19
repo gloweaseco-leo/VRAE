@@ -51,6 +51,9 @@ class Handler(StrictHandler):
         except (ValueError, KeyError, TypeError):
             self.close_connection = True
             self.send(403, safe_error(Refused("FORBIDDEN_ROLE")))
+        except PermissionError:
+            self.close_connection = True
+            self.send(403, safe_error(Refused("FORBIDDEN_ROLE")))
         except OSError:
             self.close_connection = True
             self.send(503, safe_error(Refused("R0_STORAGE_UNAVAILABLE", 503, True)))
@@ -81,6 +84,18 @@ class Handler(StrictHandler):
         tenant = binding["tenant_id"]
         if "?" in self.path or "%" in self.path or len(self.path) > 256:
             raise Refused("FORBIDDEN_ROLE")
+        if method == "POST" and self.path == "/v1/internal/committed-input":
+            if binding.get("port") != "REVIEW":
+                raise Refused("FORBIDDEN_ROLE")
+            body = self.body()
+            if set(body) != {"job_id"}:
+                raise Refused("FORBIDDEN_ROLE")
+            from uuid import UUID
+            from integration.authorized_targets.delivery import committed_input
+
+            job = str(UUID(body["job_id"]))
+            with committed_input(binding, job, purpose="HUMAN_REVIEW_INPUT") as current:
+                return self.send(200, current)
         if method == "POST" and self.path == "/v1/invitation-session":
             body = self.body()
             if set(body) != {"invitation_token"} or type(body["invitation_token"]) is not str:
@@ -128,6 +143,14 @@ class Handler(StrictHandler):
             resolved = store.invoke(
                 binding, "plan", tenant, cookie, csrf, body["command"]["request"]["site_url"]
             )
+            if resolved["plan"].get("execution_profile") == "ADMIN_TARGET_V2":
+                from integration.authorized_targets.source_authority import authorization
+
+                authorization(
+                    resolved["source_authorization"],
+                    resolved["plan"],
+                    plan_sha256=resolved["plan_sha256"],
+                )
             actor = {**resolved["actor"], "tenant_id": tenant}
             inv = actor["invitation"]
             plan = resolved["plan"]
@@ -173,7 +196,14 @@ class Handler(StrictHandler):
                 "error_code": None,
             }
             return self.send(
-                200, vf_status(match[1], run, datetime.now(UTC), publication="UNPUBLISHED")
+                200,
+                vf_status(
+                    match[1],
+                    run,
+                    datetime.now(UTC),
+                    publication="UNPUBLISHED",
+                    access=native.get("access_state", "ACTIVE"),
+                ),
             )
         raise TransportError(404)
 
