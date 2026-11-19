@@ -9,7 +9,7 @@ on:
       mode:
         description: 'health verifies current public mTLS; full requires current invited source and actual human grants'
         type: choice
-        options: [health, full]
+        options: [health, full, ai]
         default: health
 permissions:
   contents: read
@@ -53,7 +53,7 @@ jobs:
           mkdir -p public-receipts
           python -B -m infra.windows_service.probe_from_environment > public-receipts/public-mtls.json
       - name: Actual sequential invited URL captures
-        if: ${{ inputs.mode == 'full' }}
+        if: ${{ inputs.mode != 'health' }}
         env:
           VRAE_WINDOWS_PUBLIC_MTLS: ${{ secrets.VRAE_WINDOWS_PUBLIC_MTLS }}
         run: python -B -m infra.windows_service.acceptance_client
