@@ -9,6 +9,17 @@ from infra.windows_service.windows_credentials import current_sid, current_accou
 
 
 def dialog(value):
+    if value.get("mode")=="pairing":
+        import base64
+        import io
+        from datetime import datetime,UTC
+        from urllib.parse import quote
+        import qrcode
+        uri="otpauth://totp/"+quote("VRAE:Windows Reviewer",safe="")+"?secret="+value["seed"]+"&issuer=VRAE&algorithm=SHA1&digits=6&period=30"
+        buffer=io.BytesIO()
+        qrcode.make(uri).save(buffer,format="PNG")
+        value={**value,"qr_png":base64.b64encode(buffer.getvalue()).decode(),
+               "utc_display":datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC")}
     result=subprocess.run(["powershell.exe","-NoProfile","-STA","-ExecutionPolicy","Bypass",
         "-File",str(Path(__file__).with_name("otp_dialog.ps1"))],
         input=json.dumps(value).encode(),capture_output=True,check=True)

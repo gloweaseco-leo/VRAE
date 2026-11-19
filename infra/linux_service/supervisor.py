@@ -282,7 +282,8 @@ def main():
                         user=uid,
                         group=uid,
                         extra_groups=[],
-                        env=ENV,
+                        env=({**ENV,"PATH":"/usr/local/sbin:/usr/sbin:/sbin:"+ENV["PATH"]}
+                             if name=="target-issuer" else ENV),
                         stdin=subprocess.DEVNULL,
                     )
             Path("/run/service/ready.json").write_bytes(
