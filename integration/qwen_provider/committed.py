@@ -25,6 +25,31 @@ def current_input(binding, job_id):
         return deepcopy(value)
 
 
+def execute(binding, job_id, adapter, *, operation_id):
+    """Call the original PG port, preserving usage if its final recheck fails.
+
+    The provider ledger settles only supplier usage. A failed PG receipt is never
+    presented as a committed candidate, and never retried by this wrapper.
+    """
+    from integration.authorized_targets.postcommit import run
+    seen = {}
+
+    def invoke(request):
+        result = adapter(request)
+        seen.update(deepcopy(result))
+        return result
+
+    try:
+        result = run(binding, job_id, invoke, operation_id=operation_id)
+        return {**result, 'pg_receipt_status': 'RECORDED'}
+    except Exception:
+        return {**seen, 'state': 'AI_UNAVAILABLE', 'reason': 'CURRENT_PG_RECEIPT_UNAVAILABLE',
+                'operation_id': operation_id, 'claims': [],
+                'usage': seen.get('usage'), 'cost_status': seen.get('cost_status', 'UNKNOWN'),
+                'pg_receipt_status': 'UNKNOWN', 'grants_report_access': False,
+                'shareable': False, 'approval_status': 'NOT_APPROVED'}
+
+
 class Adapter:
     """Trusted server composition; projection/BuyerCandidatePins are held by C1.
 

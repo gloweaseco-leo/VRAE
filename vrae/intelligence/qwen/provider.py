@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 MODEL = 'qwen4-max'
 MODEL_SOURCE = 'https://help.aliyun.com/zh/model-studio/qwen4-max'
 PROVIDER = 'aliyun-bailian-beijing'
-PROMPT = 'qwen-minimized-buyer-1.0.0'
+PROMPT = 'qwen-minimized-buyer-1.1.0'
 INPUT_CAP = 65536  # Conservative reservation ceiling, never reported as actual usage.
 OUTPUT_CAP = 2048
 OUTPUT_RESERVE = OUTPUT_CAP + 10  # Documented supplier cap rounding tolerance.
