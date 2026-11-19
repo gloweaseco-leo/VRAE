@@ -156,7 +156,8 @@ def resolve_public(host):
     r = resolver()
     ips = []
     for kind in ("A", "AAAA"):
-        answer = r.resolve(host + ".", kind, search=False, raise_on_no_answer=False)
+        answer = r.resolve(host + ".", kind, search=False, raise_on_no_answer=False,
+                           tcp=root_document(DEPLOYMENT)["document"].get("dns_transport","UDP")=="TCP")
         ips.extend(str(record) for record in answer)
     return list(public_addresses(ips))
 
@@ -235,7 +236,8 @@ def authorize(binding, actor, body):
     expected = "vrae-" + doc["nonce"] + "-" + digest(target)
     owned=operator_owned(doc["origin"])
     if owned is None:
-        answers = resolver().resolve("_vrae-authorization." + doc["host"] + ".", "TXT", search=False)
+        answers = resolver().resolve("_vrae-authorization." + doc["host"] + ".", "TXT", search=False,
+                                     tcp=root_document(DEPLOYMENT)["document"].get("dns_transport","UDP")=="TCP")
         if expected not in [b"".join(record.strings).decode() for record in answers]:
             raise Denied("DNS_DOMAIN_CONTROL_PROOF_REQUIRED")
     ips = resolve_public(doc["host"])

@@ -23,8 +23,8 @@ from vrae.collection.fetcher import SafeFetcher
 
 
 class ScopedResolver:
-    def __init__(self, nameservers, allowed):
-        self.resolver = DNSResolver(nameservers)
+    def __init__(self, nameservers, allowed, *, tcp=False):
+        self.resolver = DNSResolver(nameservers,tcp=tcp)
         self.allowed = set(public_addresses(allowed))
 
     async def resolve(self, host):
@@ -100,6 +100,6 @@ def components(audit, policy_provider, plan, run_id, workload, current):
         plan["retain_raw_html"],
     )
     access = CurrentAccess(source, held, permit, current, plan)
-    resolver = RecheckingResolver(ScopedResolver(deploy["nameservers"], grant["destination_ips"]))
+    resolver = RecheckingResolver(ScopedResolver(deploy["nameservers"], grant["destination_ips"],tcp=deploy.get("dns_transport","UDP")=="TCP"))
     transport = PinnedTransport(cafile=deploy["cafile"])
     return access, SafeFetcher(resolver, ConnectionFence(resolver, transport, access, deploy))

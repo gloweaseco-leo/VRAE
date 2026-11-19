@@ -133,6 +133,7 @@ def deployment(envelope, grant, plan, now=None):
             or d["deployment_go"] != "GRANTED"
             or d["source_network_fee_go"] != "GRANTED"
             or d["model_fee_go"] != "NOT_GRANTED"
+            or d.get("dns_transport","UDP") not in ("UDP","TCP")
             or d["namespace_inode"] != os.stat("/proc/self/ns/net").st_ino
             or sorted(os.listdir("/sys/class/net")) != sorted(d["interfaces"])
             or d["parent_network_mode"] not in ("none", "isolated-egress", "internal")
