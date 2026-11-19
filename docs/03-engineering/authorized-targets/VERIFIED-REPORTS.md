@@ -73,6 +73,11 @@ user/Owner. No 26-Gold or universal personal-Owner approval gate is added.
 ## Transport and actual calls
 
 Reuse [REPORT-API.md](REPORT-API.md) paths/media. The verified profile requires
+the same operations under `/v1/report-authority/audits/{audit_ref}/...`, using
+the opaque reference returned by task admission; a caller need not know PG job
+IDs. Original `/jobs/{job_id}/...` paths remain compatible. The server resolves
+the reference through a tenant-scoped REVIEW-only port and rechecks source and
+person authority; knowing either ID grants no access. The verified profile uses
 the accepted `transport` config with bind/port/hosts/origins/client_ca, mtls=true,
 and client_certificate_sha256 on each REVIEW service binding. A wrong trusted-CA
 leaf still gets 403. Keep REVIEW config/ledger separate from APP/Worker/AI.

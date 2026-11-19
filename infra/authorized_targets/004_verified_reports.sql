@@ -16,9 +16,21 @@ BEGIN
  JOIN target_v1.actors caller ON caller.db_role=SESSION_USER AND caller.tenant_id=t
  WHERE p.tenant_id=t AND p.target_id=b.target_id AND NOT a.revoked;
  IF deadline IS NULL OR deadline<=clock_timestamp() THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='CURRENT_REPORT_AUTHORITY_DENIED'; END IF;
- RETURN d||jsonb_build_object('recipient_subject',b.subject_ref,'invitation_ref',b.invitation_ref,'authority_expires_at',deadline);
+ RETURN d||jsonb_build_object('audit_ref',b.audit_ref,'recipient_subject',b.subject_ref,'invitation_ref',b.invitation_ref,'authority_expires_at',deadline);
+END $$;
+CREATE FUNCTION target_v1.report_job(t text,ref text) RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER
+SET search_path=pg_catalog,ra4a,target_v1,pg_temp AS $$
+DECLARE id uuid;
+BEGIN
+ SELECT j.job_id INTO id FROM target_v1.bindings b JOIN ra4a.runs r USING(tenant_id,request_id)
+ JOIN ra4a.jobs j USING(tenant_id,run_id) WHERE b.tenant_id=t AND b.audit_ref=ref;
+ IF id IS NULL THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='CURRENT_REPORT_AUTHORITY_DENIED'; END IF;
+ PERFORM target_v1.report_context(t,id);
+ RETURN id;
 END $$;
 REVOKE ALL ON FUNCTION target_v1.report_context(text,uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION target_v1.report_job(text,text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION target_v1.report_context(text,uuid) TO target_v1_reviewer;
+GRANT EXECUTE ON FUNCTION target_v1.report_job(text,text) TO target_v1_reviewer;
 RESET ROLE;
 COMMIT;

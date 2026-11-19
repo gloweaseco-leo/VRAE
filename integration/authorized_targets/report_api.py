@@ -336,14 +336,33 @@ class Handler(StrictHandler):
             sid = self.app.directory.login(body["responsible_bearer"], body["nonce"], body["csrf"])
             self.app.person(sid, binding)
             return self.send(200, {"contract": PROFILE, "report_session": sid})
+        audit_match = (
+            re.fullmatch(
+                BASE
+                + r"/audits/(aref-[0-9a-f]{32})/(report|history|actions|decisions|revisions|grants|revocations)",
+                self.path,
+            )
+            if self.app.verified
+            else None
+        )
         match = re.fullmatch(
             BASE
             + r"/jobs/([0-9a-f-]{36})/(report|history|actions|decisions|revisions|grants|revocations)",
             self.path,
         )
-        if not match:
+        if not match and not audit_match:
             raise TransportError(404)
-        job, operation = match.groups()
+        if audit_match:
+            self.app.person(self.headers.get("X-Report-Session"), binding)
+            ref, operation = audit_match.groups()
+            with store.connect(binding) as c, c.transaction():
+                job = str(
+                    c.execute(
+                        "SELECT target_v1.report_job(%s,%s)", (binding["tenant_id"], ref)
+                    ).fetchone()[0]
+                )
+        else:
+            job, operation = match.groups()
         if str(UUID(job)) != job:
             raise Refused("FORBIDDEN_ROLE")
         if method != ("GET" if operation in ("report", "history") else "POST"):

@@ -48,6 +48,7 @@ def run(admin, rows, reviewers, state):
                 selected.append((row, ctx))
     assert len(selected) >= 2
     selected = selected[:2]
+    assert len({ctx["source_plan"]["target_id"] for _, ctx in selected}) == 2
     identity_key = Ed25519PrivateKey.generate()
     authority_key = Ed25519PrivateKey.generate()
     issuer = "https://verified-protocol-test.invalid"
@@ -318,7 +319,8 @@ def run(admin, rows, reviewers, state):
         login("reviewer", expected=403, expired=True)
         login("reviewer", expected=403, bad_signature=True)
         sids = {p["subject"]: login(p["subject"]) for p in people}
-        paths = [BASE + "/jobs/" + str(row[2]) for row, _ in selected]
+        paths = [BASE + "/audits/" + ctx["audit_ref"] for _, ctx in selected]
+        updated_views = []
         for i, (row, source_ctx) in enumerate(selected):
             if i:
                 sids = {p["subject"]: login(p["subject"]) for p in people}
@@ -440,6 +442,7 @@ def run(admin, rows, reviewers, state):
                 409,
             )
             updated = call("current draft " + str(i), "GET", path + "/report", sid=sids["reviewer"])
+            updated_views.append(updated)
             check(
                 updated["report"]["findings"] == view["report"]["findings"]
                 and updated["report"]["evidence"] == view["report"]["evidence"],
@@ -517,6 +520,30 @@ def run(admin, rows, reviewers, state):
         registry["keys"]["report-test-authority"]["revoked"] = False
         root_write(TRUST, registry)
         # Current source authorization, independent of identity/report approval.
+        sids = {p["subject"]: login(p["subject"]) for p in people}
+        active_headers = []
+        for i, (_, source_ctx) in enumerate(selected):
+            who = source_ctx["recipient_subject"]
+            fresh = mutate(
+                "fresh current grant before source withdrawal " + str(i),
+                paths[i],
+                sids["owner"],
+                "grants",
+                updated_views[i],
+                {"recipient_id": who, "ttl": 300},
+            )
+            gh = {
+                "X-Report-Grant": fresh["grant"]["grant_id"],
+                "X-Report-Token": fresh["access_token"],
+            }
+            active_headers.append(gh)
+            call(
+                "current legal recipient before withdrawal " + str(i),
+                "GET",
+                paths[i] + "/report",
+                sid=sids[who],
+                extra=gh,
+            )
         target = selected[0][1]["artifact"]["task"]["source_ref"]
         admin.execute(
             "UPDATE target_v1.authorizations SET revoked=true WHERE tenant_id=%s AND target_id=%s",
@@ -528,6 +555,21 @@ def run(admin, rows, reviewers, state):
             paths[0] + "/report",
             sid=sids["reviewer"],
             expected=403,
+        )
+        call(
+            "active customer grant rejected after source withdrawal",
+            "GET",
+            paths[0] + "/report",
+            sid=sids[selected[0][1]["recipient_subject"]],
+            extra=active_headers[0],
+            expected=403,
+        )
+        call(
+            "other source and customer remain accessible",
+            "GET",
+            paths[1] + "/report",
+            sid=sids[selected[1][1]["recipient_subject"]],
+            extra=active_headers[1],
         )
         admin.execute(
             "UPDATE target_v1.authorizations SET revoked=false WHERE tenant_id=%s AND target_id=%s",
