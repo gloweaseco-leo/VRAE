@@ -14,13 +14,14 @@ def main():
     envelope = json.loads(sys.stdin.buffer.read(65537))
     workspace, key = envelope['workspace'], envelope['key']
     if (not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,62}', workspace)
-            or not re.fullmatch(r'[A-Za-z0-9_-]{16,256}', key)
+            or type(key) is not str or not 16 <= len(key) <= 256
+            or not re.fullmatch(r'[A-Za-z0-9._~+/-]+=*', key)
             or type(envelope['timeout_ms']) is not int
-            or not 1 <= envelope['timeout_ms'] <= 30000):
+            or not 1 <= envelope['timeout_ms'] <= 120000):
         return 1
     host = workspace + '.cn-beijing.maas.aliyuncs.com'
     body = json.dumps(envelope['body'], separators=(',', ':')).encode()
-    if len(body) > 48000 or envelope['body']['model'] != 'qwen3.7-plus-2026-05-26':
+    if len(body) > 48000 or envelope['body']['model'] != 'qwen4-max':
         return 1
     addresses = {str(item[4][0]) for item in socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)}
     if not addresses:
@@ -52,7 +53,9 @@ def main():
                            headers={'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key})
         response = connection.getresponse()
         # No redirects, retries, tool execution, cookies, proxies or remote error logging.
-        content = response.read(MAX + 1) if response.status == 200 else b''
+        # Retain bounded errors on the anonymous return pipe too. Parent never
+        # reflects remote error text; operator can retain protected originals.
+        content = response.read(MAX + 1)
         if len(content) > MAX:
             return 1
         sys.stdout.write(json.dumps({'status': response.status, 'body': content.decode('utf-8')}))

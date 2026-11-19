@@ -1,9 +1,21 @@
 """Dedicated bounded egress process, kept outside the network-free domain tree."""
 import asyncio
+import os
 from pathlib import Path
 import sys
 
 from vrae.intelligence.common import encode
+
+
+def child_environment():
+    """Windows DNS needs SystemRoot; inherit no proxy, key, PATH or other input."""
+    if sys.platform != 'win32':
+        return {}
+    root = os.environ.get('SystemRoot')
+    if not root:
+        from vrae.intelligence.qwen.provider import fail
+        fail('EGRESS_SYSTEMROOT_REQUIRED')
+    return {'SystemRoot': root}
 
 
 class NativeTransport:
@@ -18,7 +30,7 @@ class NativeTransport:
         process = await asyncio.create_subprocess_exec(
             sys.executable, '-I', '-X', 'utf8', str(Path(__file__).with_name('egress.py')),
             stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.DEVNULL, env={})
+            stderr=asyncio.subprocess.DEVNULL, env=child_environment())
         envelope = encode({'workspace': config.workspace_id, 'key': key,
                            'body': body, 'timeout_ms': timeout_ms})
         try:
