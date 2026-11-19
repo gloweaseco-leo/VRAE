@@ -18,6 +18,8 @@ from integration.authorized_targets.authority import token_hash
 from integration.l2.support import Issuer
 from integration.l2_launch.g1 import supervisor as process
 
+REPORT_UID = 10007
+
 
 def run(admin, rows, reviewers, app_bindings, tls, state):
     tenant, _, job, original_sha, raw, _ = rows[0]
@@ -53,7 +55,7 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
     }
     root = Path("/evidence/report-authority-ledger")
     root.mkdir(mode=0o700)
-    os.chown(root, 10001, 10001)
+    os.chown(root, REPORT_UID, REPORT_UID)
     config = {
         "kind": "APP",
         "authority": "AUTHORIZED_TARGET_V1",
@@ -63,9 +65,9 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
         "ledger_root": str(root),
         "max_inflight": 1,
     }
-    cfg = process.provision("report-api", 10001, config, tls["facade"])
+    cfg = process.provision("report-api", REPORT_UID, config, tls["facade"])
     child, log = process.spawn(
-        "report-api", 10001, cfg, "integration.authorized_targets.report_api"
+        "report-api", REPORT_UID, cfg, "integration.authorized_targets.report_api"
     )
     context = ssl.create_default_context(cafile=tls["ca"])
     events = []
@@ -84,8 +86,8 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
                 str(root),
                 str(mode),
             ],
-            user=10001,
-            group=10001,
+            user=REPORT_UID,
+            group=REPORT_UID,
             extra_groups=[],
             env=process.ENV,
             capture_output=True,
@@ -372,7 +374,7 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
         # responsible sessions deliberately require fresh signed authentication.
         process.stop(child)
         child, log = process.spawn(
-            "report-api-restarted", 10001, cfg, "integration.authorized_targets.report_api"
+            "report-api-restarted", REPORT_UID, cfg, "integration.authorized_targets.report_api"
         )
         process.wait(lambda: b"REPORT_AUTHORITY_HTTPS_READY" in log.read_bytes())
         call(
@@ -391,6 +393,25 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
             "restart retains current version pins",
         )
 
+        # Ordinary API processes must not read REVIEW credentials or the ledger.
+        for private_path in (cfg, root / (tenant + "-" + job + ".sqlite")):
+            probe = subprocess.run(
+                [
+                    sys.executable,
+                    "-c",
+                    "from pathlib import Path;import sys;Path(sys.argv[1]).read_bytes()",
+                    str(private_path),
+                ],
+                user=10001,
+                group=10001,
+                extra_groups=[],
+                env=process.ENV,
+                capture_output=True,
+            )
+            check(
+                probe.returncode and b"PermissionError" in probe.stderr,
+                "ordinary APP UID cannot read report authority private file",
+            )
         # Actual SQLite journal failure must be a safe unavailable response.
         storage_token = call(
             "storage failure action",

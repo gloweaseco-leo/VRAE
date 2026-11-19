@@ -23,6 +23,13 @@ Run `python -m integration.authorized_targets.report_api --config <0600-config>`
 The config must be owned by the process UID. It uses the original
 `AUTHORIZED_TARGET_V1` config envelope (`kind=APP`) and adds:
 
+Run this REVIEW service under a Unix UID distinct from the ordinary task API,
+Worker and AI processes; do not mount its private config/ledger into those
+workloads. The drill uses UID10007 and restricts it to loopback PG5432. UID10001
+(ordinary API) is explicitly tested unable to read the report config or ledger.
+Both config and ledger are private to the REVIEW service, not merely separated
+by a header or DB role name.
+
 - `bindings`: distinct server-only service token hashes mapped to provisioned
   `port=REVIEW` roles. APP/Worker/AI service bindings cannot use this API.
 - `report_directory`: original Directory issuer, audience, pinned public JWKS,

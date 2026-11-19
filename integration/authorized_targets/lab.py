@@ -48,7 +48,7 @@ def network():
     for address in ("93.184.216.20/32", "93.184.216.53/32"):
         subprocess.run(["ip", "addr", "add", address, "dev", "lo"], check=True, capture_output=True)
     for tool in ("iptables", "ip6tables"):
-        for uid, ports in ((10001, (5432,)), (65532, (5432,))):
+        for uid, ports in ((10001, (5432,)), (10007, (5432,)), (65532, (5432,))):
             base = [tool, "-A", "OUTPUT", "-m", "owner", "--uid-owner", str(uid)]
             subprocess.run(
                 base + ["-m", "conntrack", "--ctstate", "ESTABLISHED,RELATED", "-j", "ACCEPT"],
