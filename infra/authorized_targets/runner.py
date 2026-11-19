@@ -242,7 +242,7 @@ def main():
         )
 
         for file in (
-            ("targets.json", "delivery.json") if args.delivery_bridge else ("targets.json",)
+            ("targets.json", "delivery.json", "c1-committed.json") if args.delivery_bridge else ("targets.json",)
         ):
             found = subprocess.run(
                 ["docker", "cp", names["runtime"] + ":/evidence/" + file, str(public / file)],
