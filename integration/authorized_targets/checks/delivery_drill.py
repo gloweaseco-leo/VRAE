@@ -246,6 +246,26 @@ class Drill:
             check(getattr(error, "sqlstate", None) == "42501", "BFF cannot read AI raw receipts")
         else:
             raise AssertionError("AI_RAW_TABLE_LEAK")
+        seen = []
+
+        def adapter(request):
+            seen.append((request["task"], request["ai_operation_id"]))
+            return {
+                "state": "AI_UNAVAILABLE",
+                "reason": "CONTROLLED_ADAPTER_HOOK_NO_PROVIDER",
+                "real_model_calls": 0,
+                "usage": None,
+                "model": "qwen4-max",
+                "operation_id": request["ai_operation_id"],
+            }
+
+        operation = "controlled-ai-" + str(job)
+        mapped = run(b, job, adapter, operation_id=operation)
+        check(
+            seen == [(artifact["task"], operation)]
+            and mapped["provider_operation_id"] == operation,
+            "C1 adapter receives same task and stable usage operation id",
+        )
         # Real kernel policy rejects source Worker -> BFF and metadata sockets.
         code = "import socket,json;out=[]\nfor ip,port in [('127.0.0.1',8769),('169.254.169.254',80)]:\n try:s=socket.create_connection((ip,port),timeout=.3);s.close();out.append(False)\n except OSError:out.append(True)\nprint(json.dumps(out))"
         p = subprocess.run(

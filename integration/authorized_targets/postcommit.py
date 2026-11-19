@@ -13,7 +13,10 @@ from integration.authorized_targets.delivery import committed_input
 from integration.authorized_targets.store import connect
 
 
-def run(binding, job_id, adapter=None):
+def run(binding, job_id, adapter=None, *, operation_id=None):
+    operation = operation_id or "ai-" + secrets.token_hex(16)
+    if type(operation) is not str or not 8 <= len(operation) <= 128:
+        raise ValueError("AI_OPERATION_REQUIRED")
     with committed_input(binding, job_id, purpose="POST_COMMIT_AI_INPUT") as current:
         artifact = current["artifact"]
         result = {
@@ -26,13 +29,18 @@ def run(binding, job_id, adapter=None):
         if adapter is not None:
             # Trusted C1 composition supplies Session.run(mode='REAL_QWEN') only
             # after its own current permission/price/fee and input bridge checks.
-            result = adapter(deepcopy(current))
+            request = deepcopy(current)
+            request["ai_operation_id"] = operation
+            result = adapter(request)
             if result.get("model", "qwen4-max") != "qwen4-max":
                 raise ValueError("STRICT_QWEN4_REQUIRED")
         if result["state"] not in ("AI_UNAVAILABLE", "AI_CANDIDATES_FOR_HUMAN_REVIEW"):
             raise ValueError("AI_CANDIDATE_ONLY")
+        provider_operation = result.get("operation_id")
         receipt = {
-            **result,
+            **{k: v for k, v in result.items() if k != "operation_id"},
+            "operation_id": operation,
+            "provider_operation_id": provider_operation,
             "task": current["task"],
             "artifact_sha256": current["commit"]["artifact_sha256"],
             "report_content_hash": artifact["version"]["content_hash"],
@@ -41,10 +49,9 @@ def run(binding, job_id, adapter=None):
             "grants_report_access": False,
             "recorded_at": datetime.now(UTC).isoformat(),
         }
-        operation = "ai-" + secrets.token_hex(16)
         with connect(binding) as c, c.transaction():
             c.execute(
                 "SELECT target_v1.ai_record(%s,%s,%s,%s)",
                 (binding["tenant_id"], job_id, operation, Jsonb(receipt)),
             )
-        return {"operation_id": operation, **receipt}
+        return receipt

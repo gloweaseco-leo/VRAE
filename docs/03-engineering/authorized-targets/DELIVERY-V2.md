@@ -114,3 +114,10 @@ is reimplemented, no model configuration is accepted from HTTP, and no real
 adapter/key/paid permission is enabled by this patch. AI receipts bind the same
 artifact/report/display/task and cannot grant report access. Its candidate
 output remains a human-review input; original report hashes are not overwritten.
+
+C1 may supply a stable server-held operation_id to postcommit.run; the adapter
+receives ai_operation_id on its current input and passes it to Session.run.
+The receipt stores both this handoff operation and C1 provider_operation_id, so
+usage cannot silently be attributed to a different local operation. Adapter
+results use state AI_UNAVAILABLE or AI_CANDIDATES_FOR_HUMAN_REVIEW; C1 maps its
+Session status to this narrow receipt without changing report authority.
