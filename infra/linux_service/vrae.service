@@ -1,0 +1,18 @@
+[Unit]
+Description=VRAE persistent diagnosis service
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=root
+WorkingDirectory=/opt/vrae
+ExecStart=/usr/bin/python3 -m infra.linux_service.control up --name vrae-primary --config /etc/vrae-service
+ExecStop=/usr/bin/python3 -m infra.linux_service.control stop --name vrae-primary
+TimeoutStartSec=180
+TimeoutStopSec=90
+
+[Install]
+WantedBy=multi-user.target

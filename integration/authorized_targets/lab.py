@@ -75,7 +75,7 @@ def network(interfaces=None):
             subprocess.run(base + ["-j", "REJECT"], check=True)
 
 
-def certificates(hosts):
+def certificates(hosts, validity_hours=1):
     lab = Path("/tmp/lab")
     lab.mkdir(mode=0o755)
     key = ec.generate_private_key(ec.SECP256R1())
@@ -88,7 +88,7 @@ def certificates(hosts):
         .public_key(key.public_key())
         .serial_number(x509.random_serial_number())
         .not_valid_before(now - timedelta(minutes=1))
-        .not_valid_after(now + timedelta(hours=1))
+        .not_valid_after(now + timedelta(hours=validity_hours))
         .add_extension(x509.BasicConstraints(ca=True, path_length=0), critical=True)
         .add_extension(x509.SubjectKeyIdentifier.from_public_key(key.public_key()), False)
         .add_extension(x509.AuthorityKeyIdentifier.from_issuer_public_key(key.public_key()), False)
@@ -139,7 +139,7 @@ def main():
         return deepcopy(next(c["data"] for c in fixtures if c["schema"] == name))
 
     now = datetime.now(UTC)
-    expiry = (now + timedelta(hours=1)).isoformat()
+    expiry = (now + timedelta(hours=state.get("local_validity_hours", 1))).isoformat()
     tenants = []
     issuers = {}
     bindings = []
@@ -248,7 +248,7 @@ def main():
     install(admin, tenants)
     if extension:
         extension.activate(admin, tenants)
-    certificates(hosts)
+    certificates(hosts, validity_hours=state.get("local_validity_hours", 1))
     if extension:
         extension.ready()
     Path("/tmp/lab/site.json").write_text(json.dumps({"hosts": hosts}))

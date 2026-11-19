@@ -54,7 +54,12 @@ class ApiDrill(Drill):
             self.external.append((plan, inv))
 
     def tls(self, path):
-        self.pki = create(path)
+        self.pki = create(
+            path,
+            validity_hours=self.state["local_validity_hours"]
+            if self.state.get("keep_local")
+            else 2,
+        )
         return self.pki
 
     def local_client_tls(self, context):
@@ -179,6 +184,10 @@ class ApiDrill(Drill):
         )
         self.app = app
         self.workers = scope["workers"]
+        if self.state.get("linux_service"):
+            from infra.linux_service.controlled import export
+
+            export(self, scope, successful)
 
     def hold(self):
         config = process.provision(

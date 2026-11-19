@@ -23,8 +23,19 @@ def main():
     parser.add_argument("--report-api", action="store_true")
     parser.add_argument('--verified-reports', action='store_true')
     parser.add_argument("--standalone", action="store_true")
+    parser.add_argument("--linux-service", action="store_true")
+    parser.add_argument("--verified-linux-service", action="store_true")
+    parser.add_argument("--keep-local", action="store_true")
+    parser.add_argument("--host-probe", action="store_true")
+    parser.add_argument("--local-validity-hours", type=int, default=24)
     parser.add_argument("--serve", action="store_true")
     args = parser.parse_args()
+    if args.local_validity_hours < 1:
+        parser.error("local validity must be positive")
+    if args.keep_local or args.host_probe or args.verified_linux_service:
+        args.linux_service = True
+    if args.linux_service:
+        args.standalone = True
     if args.standalone:
         args.delivery_bridge = True
     if args.report_api and not args.delivery_bridge:
@@ -82,6 +93,11 @@ def main():
     )
     state = {
         "standalone": args.standalone,
+        "linux_service": args.linux_service,
+        "verified_linux_service": args.verified_linux_service,
+        "keep_local": args.keep_local,
+        "host_probe": args.host_probe,
+        "local_validity_hours": args.local_validity_hours if args.keep_local else 1,
         "serve": args.serve,
         "delivery_bridge": args.delivery_bridge,
         "report_api": args.report_api,
@@ -313,6 +329,10 @@ def main():
             files += ["report-api.json"]
         if args.verified_reports:
             files += ['verified-reports.json']
+        if args.linux_service and code == 0:
+            from infra.linux_service.drill import exercise as persistent_exercise
+
+            persistent_exercise(docker, names, image, private, public, state)
         for file in files:
             found = subprocess.run(
                 ["docker", "cp", names["runtime"] + ":/evidence/" + file, str(public / file)],
@@ -397,6 +417,11 @@ def main():
                 }
             )
         write(public / "cleanup.json", cleanup)
+        # Only intentionally sanitized public receipts may be read by the
+        # non-root artifact uploader. Private inputs/logs/backups stay private.
+        if args.linux_service:
+            for receipt in public.glob("*.json"):
+                receipt.chmod(0o644)
     if failure:
         raise RuntimeError(failure)
     print(

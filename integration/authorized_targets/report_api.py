@@ -1,7 +1,8 @@
 """Versioned trusted report/review API over the existing PG source and L2 ledger.
 
-NativeSource remains CONTROLLED-only. An authenticated service is neither a
-responsible person nor a report recipient. No customer/formal release is added.
+NativeSource remains CONTROLLED-only. The explicit verified profile uses the
+accepted signed authority and current recipient checks. Service authentication
+alone is neither responsible-person verification nor report release.
 """
 
 import argparse
@@ -294,23 +295,24 @@ class Handler(StrictHandler):
         ) and requested_profile != self.app.profile:
             raise TransportError(406)
         if self.app.verified:
-            if self.headers.get("Cookie"):
-                raise Refused("FORBIDDEN_ROLE")
             self.app.authority.check()
-            check_headers(self, self.app.cfg)
+        transport = None
+        if self.app.cfg.get("transport") is not None:
+            transport = check_headers(self, self.app.cfg)
         elif (
             self.headers.get("Host") != "127.0.0.1:8770"
             or self.headers.get("Origin") != self.app.origin
-            or self.headers.get("Cookie")
         ):
+            raise Refused("FORBIDDEN_ROLE")
+        if self.headers.get("Cookie"):
             raise Refused("FORBIDDEN_ROLE")
         if self.headers.get("Accept") != MEDIA:
             raise TransportError(406)
         if method == "POST" and self.headers.get("Content-Type") != MEDIA:
             raise TransportError(415)
         binding = self.app.binding(self.headers)
-        if self.app.verified:
-            bind_peer(self, binding, self.app.transport)
+        if transport is not None:
+            bind_peer(self, binding, transport)
         if method == "GET" and self.path == BASE + "/health":
             with store.connect(binding) as c:
                 c.execute("SELECT 1").fetchone()
@@ -387,10 +389,13 @@ def main():
     tls.minimum_version = ssl.TLSVersion.TLSv1_2
     tls.load_cert_chain(cfg["certificate"], cfg["certificate_key"])
     address = ("127.0.0.1", 8770)
-    if app.verified:
+    if cfg.get("transport") is not None:
+        from integration.authorized_targets.transport import endpoint
+
+        ep = endpoint(cfg)
+        tls.load_verify_locations(cafile=ep["client_ca"])
         tls.verify_mode = ssl.CERT_REQUIRED
-        tls.load_verify_locations(cafile=app.transport["client_ca"])
-        address = (app.transport["bind"], app.transport["port"])
+        address = (ep["bind"], ep["port"])
     server = BoundedServer(address, Handler, tls)
     server.report_app = app
     server.source_sha = cfg["source_sha"]
