@@ -322,6 +322,10 @@ class Drill:
             call("alpha", "GET", "/v1/audits/" + other[2]["audit_ref"], session=other[3])[0] == 200,
             "withdrawal does not revoke unrelated target subject",
         )
+        check(
+            '"objects_base64"' not in canonical(scope["transcript"]).decode(),
+            "public HTTP evidence omits private committed artifact bytes",
+        )
         process.write(
             Path("/evidence/delivery.json"),
             {

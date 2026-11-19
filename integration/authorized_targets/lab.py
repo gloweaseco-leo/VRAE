@@ -290,7 +290,17 @@ def main():
         hs = dict(resp.getheaders())
         c.close()
         result = json.loads(data)
-        transcript.append({"method": method, "path": path, "status": resp.status, "body": result})
+        recorded = result
+        if path == "/v1/internal/committed-input" and resp.status == 200:
+            recorded = {
+                "contract": result["contract"],
+                "task": result["task"],
+                "commit": result["commit"],
+                "report_content_hash": result["artifact"]["version"]["content_hash"],
+                "display_hash": result["artifact"]["display_hash"],
+                "grants_report_access": False,
+            }
+        transcript.append({"method": method, "path": path, "status": resp.status, "body": recorded})
         return resp.status, result, hs
 
     sessions = []

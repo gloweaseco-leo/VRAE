@@ -149,6 +149,7 @@ def deployment(envelope, grant, plan, now=None):
             raise AuthorityDenied()
         expected = [{"ip": "127.0.0.1", "protocol": "tcp", "port": 5432}]
         grants = d["permitted_destination_ips"]
+        public_addresses(grants)
         expected += [{"ip": ip, "protocol": "tcp", "port": 443} for ip in sorted(set(grants))]
         expected += [
             {"ip": ip, "protocol": proto, "port": 53}
