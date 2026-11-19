@@ -4,8 +4,11 @@ from dataclasses import replace
 from datetime import timedelta
 import json
 import io
+import os
 import socket
 import sqlite3
+import sys
+from types import SimpleNamespace
 
 import pytest
 
@@ -380,7 +383,8 @@ def test_native_timeout_kills_and_waits_for_egress_child_without_creating_proces
     child = Process()
     async def spawn(*args, **kwargs):
         assert all('synthetic-key' not in value for value in args)
-        assert kwargs['env'] == {} and kwargs['stderr'] == asyncio.subprocess.DEVNULL
+        expected = {'SystemRoot': os.environ['SystemRoot']} if sys.platform == 'win32' else {}
+        assert kwargs['env'] == expected and kwargs['stderr'] == asyncio.subprocess.DEVNULL
         return child
     monkeypatch.setattr(asyncio, 'create_subprocess_exec', spawn)
     with pytest.raises(TimeoutError):
@@ -410,3 +414,21 @@ def test_invalid_bearer_or_header_injection_stays_refused_in_parent_and_child(tm
             'body': {'model': MODEL}, 'timeout_ms': 1000}).encode())
     monkeypatch.setattr(egress.sys, 'stdin', Stdin())
     assert egress.main() == 1
+
+
+@pytest.mark.parametrize('platform', ['win32', 'linux', 'darwin'])
+def test_child_environment_only_copies_windows_systemroot(monkeypatch, platform):
+    from infra.qwen_provider import transport
+    monkeypatch.setattr(transport, 'sys', SimpleNamespace(platform=platform))
+    monkeypatch.setattr(transport, 'os', SimpleNamespace(environ={
+        'SystemRoot': 'C:/Windows', 'HTTPS_PROXY': 'http://synthetic.invalid',
+        'DASHSCOPE_API_KEY': 'never-copy-this-fixture-key', 'PATH': 'never-copy-path'}))
+    assert transport.child_environment() == ({'SystemRoot': 'C:/Windows'} if platform == 'win32' else {})
+
+
+def test_windows_missing_systemroot_refuses_without_spawning(monkeypatch):
+    from infra.qwen_provider import transport
+    monkeypatch.setattr(transport, 'sys', SimpleNamespace(platform='win32'))
+    monkeypatch.setattr(transport, 'os', SimpleNamespace(environ={}))
+    with pytest.raises(QwenError, match='EGRESS_SYSTEMROOT_REQUIRED'):
+        transport.child_environment()
