@@ -49,8 +49,8 @@ def replay_input(raw: bytes, *, pins: InputPins) -> tuple[EvidencePack, NativeSo
         d = strict_json(raw)
         task = asdict(pins.task)
         if (type(d) is not dict or set(d) != FIELDS
-                or d['task'] != {k: task[k] for k in TASK_FIELDS}
-                or d['native_document']['native_context'] != task
+                or encode(d['task']) != encode({k: task[k] for k in TASK_FIELDS})
+                or encode(d['native_document']['native_context']) != encode(task)
                 or d['pack_ref'] != pins.task.native_pack_ref
                 or d['diagnosis_ref'] != pins.task.diagnosis_ref
                 or d['source_bundle_sha256'] != pins.task.source_bundle_sha256
@@ -64,7 +64,8 @@ def replay_input(raw: bytes, *, pins: InputPins) -> tuple[EvidencePack, NativeSo
         pack = EvidencePack(encode(d['pack']), tuple(sorted(objects.items())))
         source = NativeSource(pack, d['diagnosis'], held=pins.task)
         view = source.read()
-        if (view.document != d['native_document'] or view.version != d['version']
+        if (encode(view.document) != encode(d['native_document'])
+                or encode(view.version) != encode(d['version'])
                 or view.version['content_hash'] != pins.report_content_hash
                 or view.display_hash != pins.display_hash or d['display_hash'] != pins.display_hash):
             raise ValueError

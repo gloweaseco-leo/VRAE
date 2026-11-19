@@ -86,7 +86,7 @@ def test_hash_pins_are_independent(sample, field):
 
 @pytest.mark.parametrize('change', ['task', 'mode', 'depth', 'ai', 'release', 'authority',
     'pack', 'diagnosis', 'report', 'version', 'objects', 'base64', 'pack_ref',
-    'diagnosis_ref', 'bundle', 'display', 'publication', 'extra'])
+    'diagnosis_ref', 'bundle', 'display', 'publication', 'extra', 'report_bool', 'version_bool'])
 def test_even_matching_artifact_hash_does_not_bypass_original_replay(sample, change):
     _, original, _, pins = sample
     d = deepcopy(original)
@@ -98,6 +98,10 @@ def test_even_matching_artifact_hash_does_not_bypass_original_replay(sample, cha
         d['diagnosis']['source_facts'] = []
     elif change == 'report':
         d['native_document']['semantic_approval'] = True
+    elif change == 'report_bool':
+        d['native_document']['semantic_approval'] = 0
+    elif change == 'version_bool':
+        d['version']['version'] = True
     elif change == 'version':
         d['version']['content_hash'] = '0' * 64
     elif change == 'extra':

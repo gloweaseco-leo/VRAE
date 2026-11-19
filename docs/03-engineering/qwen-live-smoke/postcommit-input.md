@@ -60,6 +60,10 @@ creation and DNS resolution fail the tests. The Qwen protocol workflow executes
 these cases explicitly on Python 3.11/3.13 alongside the existing Guard, protocol,
 usage, failure and offline-session suites; default core test discovery is unchanged.
 
+Canonical JSON byte comparison preserves JSON types: replacing a report's false
+with 0 or its version 1 with true is refused. Both regression cases first failed
+against the initial Python object-equality implementation, then drove this fix.
+
 Live Qwen4 calls remain zero. The original three Qwen3.7 attempts remain exhausted;
 actual cost, account balance and effective account price remain UNKNOWN. No secret,
 quota database, network/Server/SourcePolicy/Guard implementation or customer report
