@@ -7,6 +7,7 @@ responsible person nor a report recipient. No customer/formal release is added.
 import argparse
 import hashlib
 import re
+import sqlite3
 import ssl
 from pathlib import Path
 from threading import BoundedSemaphore
@@ -227,6 +228,7 @@ class Handler(StrictHandler):
             psycopg.OperationalError,
             psycopg.errors.LockNotAvailable,
             psycopg.errors.QueryCanceled,
+            sqlite3.Error,
             OSError,
         ):
             self.close_connection = True

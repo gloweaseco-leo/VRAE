@@ -368,6 +368,32 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
             "restart retains current version pins",
         )
 
+        # Actual SQLite journal failure must be a safe unavailable response.
+        storage_token = call(
+            "storage failure action",
+            "POST",
+            path + "/actions",
+            {"operation": "decisions"},
+            sid=sids["reviewer"],
+        )["action_token"]
+        root.chmod(0o500)
+        try:
+            action(
+                sids["reviewer"],
+                "decisions",
+                restored,
+                approval(restored),
+                token=storage_token,
+                expected=503,
+                label="ledger storage unavailable",
+            )
+        finally:
+            root.chmod(0o700)
+        after_storage = call(
+            "ledger storage recovery", "GET", path + "/history", sid=sids["reviewer"]
+        )
+        check(len(after_storage["decisions"]) == 2, "storage failure did not COMMIT decision")
+
         # Actual original row lock: first read waits; resource capacity returns
         # safe 429; bounded PG lock failure returns safe 503, with no fake result.
         def waiting_for_lock():
@@ -398,9 +424,10 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
                 call("bounded report capacity", "GET", BASE + "/health", expected=429)
                 pending.result(timeout=10)
         call("PG lock recovery", "GET", path + "/report", sid=sids["reviewer"])
-        admin.execute(
-            "UPDATE target_v1.invitations SET revoked=true WHERE tenant_id=%s AND reference=(SELECT invitation_ref FROM target_v1.bindings WHERE tenant_id=%s AND request_id=(SELECT request_id FROM ra4a.jobs WHERE tenant_id=%s AND job_id=%s))",
-            (tenant, tenant, tenant, job),
+        revoke_sql = "UPDATE target_v1.invitations i SET revoked=%s FROM target_v1.bindings b JOIN target_v1.results z USING(tenant_id,request_id) WHERE i.tenant_id=b.tenant_id AND i.reference=b.invitation_ref AND z.tenant_id=%s AND z.job_id=%s"
+        check(
+            admin.execute(revoke_sql, (True, tenant, job)).rowcount == 1,
+            "exact current invitation revoked",
         )
         call(
             "current source invitation revoked",
@@ -411,9 +438,9 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
         )
         # Restore only this controlled fixture to leave the accepted base drill
         # independent. This is not a customer reauthorization route.
-        admin.execute(
-            "UPDATE target_v1.invitations SET revoked=false WHERE tenant_id=%s AND reference=(SELECT invitation_ref FROM target_v1.bindings WHERE tenant_id=%s AND request_id=(SELECT request_id FROM ra4a.jobs WHERE tenant_id=%s AND job_id=%s))",
-            (tenant, tenant, tenant, job),
+        check(
+            admin.execute(revoke_sql, (False, tenant, job)).rowcount == 1,
+            "exact controlled fixture restored",
         )
         check(
             admin.execute(
