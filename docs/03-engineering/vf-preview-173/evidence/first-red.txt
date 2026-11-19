@@ -1,0 +1,10 @@
+First attempt: disposable vrae-c1-vf173-checks container, vrae-g1:313,
+network none, read-only root, cap-drop ALL, no-new-privileges,
+only own worktree read-only and /private root-owned tmpfs mounted.
+TMPDIR was not set. pytest failed before collecting tests, exit 1.
+Original traceback terminal excerpt:
+FileNotFoundError: [Errno 2] No usable temporary directory found in ['/tmp', '/var/tmp', '/usr/tmp', '/src']
+
+Correction: set TMPDIR=/private (already allocated private tmpfs).
+No permissions or assertions were relaxed. The next run passed 7 tests.
+This is a test harness failure, not an observed live API failure.

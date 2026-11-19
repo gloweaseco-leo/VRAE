@@ -1,0 +1,23 @@
+Run from the independent worktree; use an already available image, no pull/build.
+
+docker run --rm --name vrae-c1-vf173-checks --network none --read-only --cap-drop ALL --security-opt no-new-privileges --user 0:0 --env TMPDIR=/private --tmpfs /private:rw,noexec,nosuid,size=16m,mode=0700 --mount type=bind,source=D:/Projects/VRAE/.worktrees/vf-preview-173,target=/src,readonly --workdir /src --entrypoint python vrae-g1:313 -B -m pytest -q -p no:cacheprovider integration/vf_preview_handoff/test_stage_identity.py
+
+node --test integration/vf_preview_handoff/probe.test.mjs
+node --check integration/vf_preview_handoff/vercel_probe.mjs
+git diff --check
+
+No model access, live credentials, actual PG, or real Vercel invocation is used.
+Synthetic key material never leaves the container private tmpfs.
+
+Public upstream check metadata observed on 2026-11-19:
+PR172 reviewed SHA 7fcf0e45cc6cce69aaac8ef3747a3e214b9d98a0:
+51 checks reported; first page of 30 returned completed/success.
+This is not a claim that all 51 checks were enumerated.
+actual-public check returned completed/success:
+https://github.com/gloweaseco-leo/VRAE/actions/runs/44539404205/job/135613380371
+No artifact was inspected for this run; this is check metadata, not Vercel proof.
+
+PR37 reviewed SHA ce1de7b8d57f1c49e8a62de49ee401ca8e9a6607:
+Vercel status success, description: Deployment has completed
+https://vercel.com/gloweaseco-1757s-projects/veyfront/8GkNxVc34qCjSRsR84za8zuV4fix
+Deployment completion does not establish any successful outbound VRAE request.
