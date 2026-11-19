@@ -35,4 +35,4 @@ def test_incomplete_tls_client_does_not_block_next_source_request(tmp_path):
 def test_real_source_detail_is_supported_without_relaxing_original_parser():
     assert page_role("https://controlled.example.com/products/tx10")=="PRODUCT"
     name,fields=_parse(PAGES["/products/tx10"].encode())
-    assert name["text"] and {label["text"] for label,value in fields}=={"Model","Material"}
+    assert name["text"] and {label["text"] for label,value in fields}=={"Product family","Model","Material"}
