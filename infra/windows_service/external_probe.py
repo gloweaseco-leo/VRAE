@@ -1,5 +1,6 @@
 """Real end-to-end mTLS health probes. Never logs bodies, keys or bearers."""
 import argparse
+import errno
 import hashlib
 import http.client
 import json
@@ -65,8 +66,11 @@ def run(cfg, connect_host=None):
                 events.append({"service":name,"case":case,"status":r.status,
                                "response_sha256":hashlib.sha256(raw).hexdigest(),
                                "server_certificate_sha256":certificate_sha256,"passed":True})
-            except (ssl.SSLError, ConnectionResetError, http.client.RemoteDisconnected) as error:
-                if case not in ("wrong_certificate","no_certificate"):
+            except (OSError, http.client.RemoteDisconnected) as error:
+                negative_tls=case in ("wrong_certificate","no_certificate")
+                closed=(isinstance(error,(ssl.SSLError,ConnectionResetError,http.client.RemoteDisconnected))
+                        or getattr(error,"errno",None) in (errno.ENOTCONN,errno.ECONNRESET,errno.EPIPE))
+                if not negative_tls or not closed:
                     raise
                 events.append({"service":name,"case":case,"tls_rejected":True,
                                "exception_type":type(error).__name__,"passed":True})

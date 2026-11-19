@@ -56,7 +56,7 @@ Use `Accept` and POST `Content-Type`:
 `X-Report-Profile: VERIFIED_HUMAN_CUSTOMER_REPORT`, plus the REVIEW bearer and client certificate.
 The report service rejects task cookies in the HTTP Cookie header.
 
-Actual local Reviewer/Owner enrollment uses `pair_reviewer.py`: a visible Windows credential
+Actual local Reviewer/Owner enrollment uses `pair_reviewer.py` (local Windows dependency: `qrcode[pil]==8.2`): a visible Windows credential
 prompt checks the password with LogonUserW and matches its token SID to the enrolled account.
 The phone uses Microsoft Authenticator Other account/TOTP. Root-protected SQLite stores the
 pairing state and rejects reused TOTP steps, primary authentications and report nonces.

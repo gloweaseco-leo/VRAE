@@ -21,6 +21,7 @@ if ($request.mode -eq 'pairing') {
 } else {
     $label.Text = 'Windows 账户密码已验证。请填写手机 Authenticator 中 VRAE Windows Reviewer 这一条目的当前六位验证码（不是短信码或 Microsoft 账户验证码）。'
 }
+if ($request.account_label) { $label.Text = $label.Text.Replace('VRAE Windows Reviewer',$request.account_label) }
 $form.Controls.Add($label)
 $input = New-Object System.Windows.Forms.TextBox
 $input.Left = 20
@@ -52,6 +53,7 @@ if ($request.mode -eq 'pairing') {
     $help.Width = 280
     $help.Height = 240
     $help.Text = "左侧就是要用手机扫描的二维码。`r`n`r`n扫描后，手机应出现 VRAE Windows Reviewer，以及每30秒变化的六位数字。看到后再勾选下方确认框。`r`n`r`n电脑时间：" + $request.utc_display + "`r`n手机日期和时间请设为自动。"
+    if ($request.account_label) { $help.Text = $help.Text.Replace('VRAE Windows Reviewer',$request.account_label) }
     $form.Controls.Add($help)
 }
 
@@ -81,6 +83,7 @@ if ($request.mode -ne 'pairing') {
     $confirmation.Width = 590
     $confirmation.Height = 45
     $confirmation.Text = '我已用手机扫描此二维码，手机已显示 VRAE Windows Reviewer 的六位验证码'
+    if ($request.account_label) { $confirmation.Text = $confirmation.Text.Replace('VRAE Windows Reviewer',$request.account_label) }
     $confirmation.Add_CheckedChanged({ $ok.Enabled = $confirmation.Checked })
     $form.Controls.Add($confirmation)
 }

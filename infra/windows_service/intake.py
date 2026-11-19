@@ -265,7 +265,7 @@ def authorize(binding, actor, body):
                 "authorization_kind":"ADMIN_AUTHORIZED_READONLY","execution_profile":"ADMIN_TARGET_V2",
                 "source_class":delegate["source_class"],"expires_at":end.isoformat(),"revoked":False,
                 "policy":policy,"limits":{"max_pages":4,"max_bytes":500000,"max_total_bytes":2000000,
-                "max_requests":12,"max_redirects":2,"request_seconds":4,"task_seconds":18,"interval_seconds":1}}
+                "max_requests":12,"max_redirects":2,"request_seconds":8,"task_seconds":24,"interval_seconds":1}}
             c.execute("INSERT INTO ra4a.policies VALUES(%s,%s,1,'ALLOWED',%s,'AUTHORIZED_READONLY')",
                       (tenant,policy["policy_id"],end))
             c.execute("INSERT INTO target_v1.plans VALUES(%s,%s,%s,%s,false)",
@@ -290,7 +290,7 @@ def authorize(binding, actor, body):
                       (Jsonb(value),tenant,actor["invitation_ref"]))
         apply_policy(c)
     return {"contract":"vrae.target-application.v1","state":"AUTHORIZED_FOR_READONLY_DIAGNOSIS",
-            "target_id":target_id,"expires_at":plan["expires_at"],"legal_reference_kind":"OPERATOR_OWNED_PUBLIC_SOURCE" if owned else "INVITED_ATTESTATION_AND_DNS_CONTROL"}
+            "target_id":target_id,"expires_at":plan["expires_at"],"limits":plan["limits"],"legal_reference_kind":"OPERATOR_OWNED_PUBLIC_SOURCE" if owned else "INVITED_ATTESTATION_AND_DNS_CONTROL"}
 
 
 def signed_submission(binding, actor, body, cookie, csrf):
@@ -354,8 +354,8 @@ def contract():
                     "consent_version":CONSENT,"language":"zh"}},
         "report_path":"/v1/report-authority/audits/{audit_ref}/report",
         "report_profile":"VERIFIED_HUMAN_CUSTOMER_REPORT","report_port":8443,
-        "limits":{"concurrent_worker":1,"max_pages":4,"request_seconds":4,
-                  "capture_seconds":18,"original_worker_lease_seconds":30},
+        "limits":{"concurrent_worker":1,"max_pages":4,"request_seconds":8,
+                  "capture_seconds":24,"original_worker_lease_seconds":30},
         "ownership":"DNS TXT control and explicit permission, or separately operator-signed owned source",
         "rejection":"Private or mixed DNS, wrong subject, missing permission, expiry and revoked sources are denied",
         "report_release":"Actual verified Reviewer decision and current directed ShareGrant required"}

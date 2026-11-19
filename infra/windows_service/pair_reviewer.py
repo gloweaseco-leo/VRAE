@@ -4,7 +4,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
-from infra.windows_service.private_host import invoke
+from infra.windows_service.private_host import invoke, put_private
 from infra.windows_service.windows_credentials import current_sid, current_account_name, verify
 
 
@@ -15,7 +15,7 @@ def dialog(value):
         from datetime import datetime,UTC
         from urllib.parse import quote
         import qrcode
-        uri="otpauth://totp/"+quote("VRAE:Windows Reviewer",safe="")+"?secret="+value["seed"]+"&issuer=VRAE&algorithm=SHA1&digits=6&period=30"
+        uri="otpauth://totp/"+quote("VRAE:"+value.get("account_label","Windows Reviewer"),safe="")+"?secret="+value["seed"]+"&issuer=VRAE&algorithm=SHA1&digits=6&period=30"
         buffer=io.BytesIO()
         qrcode.make(uri).save(buffer,format="PNG")
         value={**value,"qr_png":base64.b64encode(buffer.getvalue()).decode(),
@@ -47,6 +47,9 @@ def main():
     p.add_argument("--operator-image",required=True)
     p.add_argument("--name",default="vrae-windows")
     p.add_argument("--receipt",required=True)
+    mode=p.add_mutually_exclusive_group()
+    mode.add_argument("--pairing-only",action="store_true")
+    mode.add_argument("--verify-existing",action="store_true")
     a=p.parse_args()
     target=Path(a.receipt)
     target.parent.mkdir(parents=True,exist_ok=True)
@@ -57,9 +60,24 @@ def main():
             raise PermissionError("ACTUAL_WINDOWS_OPERATOR_REQUIRED")
         sid=current_sid()
         pair=action(a.operator_image,a.name,"begin-pair",{"sid":sid})
-        progress("WAITING_PHONE_PAIRING")
-        dialog({"mode":"pairing","seed":pair["seed"]})
+        import hashlib
+        fingerprint=hashlib.sha256(pair["seed"].encode()).hexdigest()
+        if a.verify_existing:
+            program="import os,json,pathlib;print((pathlib.Path(os.environ['VRAE_PRIVATE_ROOT'])/'pairing-label.json').read_text())"
+            label=json.loads(invoke(a.operator_image,a.name,"python","-B","-c",program))
+            if label["sid"]!=sid or label["seed_sha256"]!=fingerprint:
+                raise PermissionError("CURRENT_PHONE_PAIRING_REQUIRED")
+            account_label=label["account_label"]
+        else:
+            account_label="VRAE Reviewer "+pair["nonce"][-6:]
+            progress("WAITING_PHONE_PAIRING",account_label=account_label)
+            dialog({"mode":"pairing","seed":pair["seed"],"account_label":account_label})
+            put_private(a.operator_image,a.name,"pairing-label.json",json.dumps({
+                "sid":sid,"seed_sha256":fingerprint,"account_label":account_label}).encode())
         del pair["seed"]
+        if a.pairing_only:
+            progress("PHONE_KEY_ADDED_REQUIRES_WINDOWS_AND_TOTP",account_label=account_label)
+            return
         progress("WAITING_ACTUAL_WINDOWS_PASSWORD")
         # A visible owner window and a user click establish the foreground
         # window for the native credential provider, even with a hidden launcher.
@@ -95,7 +113,7 @@ def main():
             raise PermissionError("WINDOWS_VERIFICATION_WINDOW_CLOSED")
         primary=result["primary"]
         progress("WAITING_ACTUAL_PHONE_CODE")
-        code=dialog({"mode":"otp"})["code"]
+        code=dialog({"mode":"otp","account_label":account_label})["code"]
         result=action(a.operator_image,a.name,"finish-pair",{"primary":primary,"code":code})
         del code,primary
         progress("ACTUAL_WINDOWS_PASSWORD_AND_TOTP_ENROLLED",**result)
