@@ -90,10 +90,10 @@ def main():
             'old_calls': len(held['calls']), 'canonical_storage': 'LINUX_EXT4', 'invoice': 'UNKNOWN'}),
             uid=10008, mode=0o640)
         os.chown(target / 'lineage.json', 10008, 10007)
-        os.chown(database, 10008, 10007)
         database.chmod(0o640)
-        os.chown(target, 10008, 10007)
+        os.chown(database, 10008, 10007)
         target.chmod(0o750)
+        os.chown(target, 10008, 10007)
         transferred = len(held['calls'])
     elif not database.is_file():
         raise PermissionError('LOST_RETAINED_QUOTA_NO_RECREATE')
@@ -109,6 +109,9 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except Exception:
-        print('{"phase":"OPERATOR_AI_MATERIAL_REFUSED","model_dispatches":0}', flush=True)
+    except Exception as error:
+        code = str(error)
+        print(canonical({'phase': 'OPERATOR_AI_MATERIAL_REFUSED', 'model_dispatches': 0,
+            'failure_type': type(error).__name__,
+            'code': code if re.fullmatch(r'[A-Z][A-Z0-9_]{2,80}', code) else 'PRIVATE_STAGING_FAILURE'}).decode(), flush=True)
         raise SystemExit(1) from None
