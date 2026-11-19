@@ -66,6 +66,14 @@ def execute(cfg,root,events,state):
             cookie=SimpleCookie()
             cookie.load(h['Set-Cookie'])
             subject.update(cookie='__Host-vrae-targets='+cookie['__Host-vrae-targets'].value,csrf=h['X-CSRF-Token'])
+        for case,url in (('private-ip','https://127.0.0.1/'),('metadata-ip','https://169.254.169.254/'),
+                         ('non-https',cfg['acceptance_source'].replace('https://','http://',1))):
+            call(case+'-denied-'+invited['subject_ref'],'POST','/v1/target-applications',
+                 {'url':url,'paths':[],'consent':{'version':contract['consent_version'],
+                  'read_only_authorized':True,'model_data_notice':True}},subject,403)
+        call('missing-consent-denied-'+invited['subject_ref'],'POST','/v1/target-applications',
+             {'url':cfg['acceptance_source'],'paths':cfg.get('acceptance_paths',[]),
+              'consent':{'version':contract['consent_version'],'read_only_authorized':False,'model_data_notice':True}},subject,403)
         if not subject.get('authorized'):
             app,_=call('application-'+invited['subject_ref'],'POST','/v1/target-applications',{
                 'url':cfg['acceptance_source'],'paths':cfg.get('acceptance_paths',['/products','/contact']),

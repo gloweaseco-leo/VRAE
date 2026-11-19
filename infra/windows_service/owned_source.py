@@ -2,6 +2,7 @@
 import http.server
 import ssl
 from pathlib import Path
+from threading import BoundedSemaphore
 
 PAGES={
  "/":"""<!doctype html><html lang="en"><title>VRAE public controlled industrial sample</title><h1>Controlled sample pump catalog</h1><p>This operator-owned public integration website is not a customer. Published content is deliberately limited.</p><a href="/products/tx10">TX10 controlled sample detail</a><a href="/contact">Contact</a></html>""",
@@ -34,12 +35,50 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(raw)
 
+
+class BoundedTLSServer(http.server.ThreadingHTTPServer):
+    daemon_threads=True
+    request_queue_size=8
+
+    def __init__(self,address,handler,tls):
+        self.tls=tls
+        self.slots=BoundedSemaphore(8)
+        super().__init__(address,handler)
+
+    def get_request(self):
+        raw,address=super().get_request()
+        raw.settimeout(6)
+        try:
+            return self.tls.wrap_socket(raw,server_side=True,do_handshake_on_connect=False),address
+        except Exception:
+            raw.close()
+            raise
+
+    def process_request(self,request,address):
+        if not self.slots.acquire(blocking=False):
+            request.close()
+            return
+        try:
+            super().process_request(request,address)
+        except Exception:
+            self.slots.release()
+            raise
+
+    def process_request_thread(self,request,address):
+        try:
+            request.do_handshake()
+            super().process_request_thread(request,address)
+        except (OSError,ssl.SSLError):
+            self.shutdown_request(request)
+        finally:
+            self.slots.release()
+
+
 def main():
     tls=ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     tls.minimum_version=ssl.TLSVersion.TLSv1_2
     tls.load_cert_chain(str(Path("/tls/source.pem")),str(Path("/tls/source-key.pem")))
-    server=http.server.ThreadingHTTPServer(("127.0.0.1",9443),Handler)
-    server.socket=tls.wrap_socket(server.socket,server_side=True)
+    server=BoundedTLSServer(("127.0.0.1",9443),Handler,tls)
     print('{"phase":"OPERATOR_OWNED_PUBLIC_SOURCE_READY","customer_website":false}',flush=True)
     server.serve_forever()
 
