@@ -83,6 +83,7 @@ class Permission:
     cap_micros: int
     region: str = 'cn-beijing'
     synthetic_only: bool = True
+    runtime_approval: str | None = None
 
     def check(self, now):
         if (not re.fullmatch(r'[A-Za-z0-9_.-]{3,128}', self.approval_ref)
@@ -90,8 +91,13 @@ class Permission:
                 or now.utcoffset() is None or now >= self.expires_at
                 or type(self.max_calls) is not int or not 1 <= self.max_calls <= 16
                 or type(self.cap_micros) is not int or not 1 <= self.cap_micros <= 100_000_000
-                or self.region != 'cn-beijing' or self.synthetic_only is not True):
+                or self.region != 'cn-beijing' or type(self.synthetic_only) is not bool
+                or not self.synthetic_only and self.runtime_approval is None):
             fail('OWNER_PERMISSION_REQUIRED')
+        if self.runtime_approval is not None:
+            # POSIX/root-only runtime verification is absent from offline mode.
+            from importlib import import_module
+            import_module('infra.linux_service.qwen_runtime').check_permission(self, now)
 
 
 @dataclass(frozen=True)
@@ -176,7 +182,7 @@ class QwenProvider:
                          'protocol_fake': self.protocol_fake})
         # A restart/replay can never dispatch the same operation a second time.
         self.quota.reserve(identity, intent, config=self.config, permission=self.permission,
-                           price=self.price, protocol_fake=self.protocol_fake)
+                           price=self.price, protocol_fake=self.protocol_fake, now=now)
         start = monotonic()
         try:
             status, raw = await asyncio.wait_for(

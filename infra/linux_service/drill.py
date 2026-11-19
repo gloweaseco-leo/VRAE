@@ -303,6 +303,9 @@ def exercise(docker, seed, image, private, public, state):
                     indent=2,
                 )
             )
+        if state.get('verified_linux_service') and not state.get('keep_local'):
+            from infra.linux_service.checks.runtime_drill import exercise as model_exercise
+            model_exercise(restored, config, seed['client'], private, public)
         completed = True
     finally:
         for item in (owner, restored):
@@ -319,6 +322,7 @@ def exercise(docker, seed, image, private, public, state):
                     ctl.docker("container", "inspect", n["runtime"])
                 )
             for kind, key in [
+                ("container", "ai"),
                 ("container", "relay"),
                 ("container", "runtime"),
                 ("container", "pg"),
@@ -327,6 +331,7 @@ def exercise(docker, seed, image, private, public, state):
                 ("volume", "operator"),
                 ("network", "net"),
                 ("network", "ingress"),
+                ("network", "model-net"),
             ]:
                 verified = bool(ctl.owned(kind, n[key], item))
                 if verified:

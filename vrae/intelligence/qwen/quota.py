@@ -5,6 +5,7 @@
     retains the full reservation. No background retry/refund or secret/body storage.
 """
 from dataclasses import asdict
+from datetime import datetime, timezone
 import json
 import re
 from pathlib import Path
@@ -14,7 +15,7 @@ from .provider import INPUT_CAP, OUTPUT_RESERVE, digest, fail
 
 
 class Quota:
-    def __init__(self, path, *, create=False, batch=None):
+    def __init__(self, path, *, create=False, batch=None, daily_cap_micros=None):
         candidate = Path(path)
         if candidate.is_symlink() or (not create and not candidate.is_file()):
             fail('QUOTA_UNAVAILABLE')
@@ -23,6 +24,10 @@ class Quota:
                 not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{7,127}', batch)):
             fail('QUOTA_BATCH_INVALID')
         self.batch = batch
+        if daily_cap_micros is not None and (batch is None or type(daily_cap_micros) is not int
+                or not 1 <= daily_cap_micros <= 100_000_000):
+            fail('DAILY_BUDGET_REQUIRED')
+        self.daily_cap_micros = daily_cap_micros
         if create:
             # Explicit exclusive initialization: never silently recreate a lost ledger.
             with self.path.open('xb'):
@@ -39,6 +44,32 @@ class Quota:
                            '(id TEXT PRIMARY KEY, approval_ref TEXT UNIQUE NOT NULL, pin TEXT NOT NULL)')
                 db.execute('CREATE TABLE IF NOT EXISTS call_batches '
                            '(call_id TEXT PRIMARY KEY, batch_id TEXT NOT NULL)')
+        if daily_cap_micros is not None:
+            with self._connect() as db:
+                db.execute('CREATE TABLE IF NOT EXISTS runtime_calls '
+                           '(call_id TEXT PRIMARY KEY, day TEXT NOT NULL)')
+                db.execute('CREATE TABLE IF NOT EXISTS runtime_budgets '
+                           '(day TEXT, approval_ref TEXT, cap INTEGER NOT NULL, '
+                           'PRIMARY KEY(day,approval_ref))')
+
+    @staticmethod
+    def _daily_used(db, day):
+        # All unknown reservations remain occupied, including historical smoke
+        # attempts. Known legacy usage on the same UTC date also consumes budget.
+        return db.execute("SELECT coalesce(sum(c.reserved),0) FROM calls c "
+            "LEFT JOIN runtime_calls r ON r.call_id=c.id "
+            "WHERE c.state='DISPATCHED_USAGE_UNKNOWN' OR r.day=? "
+            "OR date(json_extract(c.receipt,'$.recorded_at'))=?", (day, day)).fetchone()[0]
+
+    def daily_status(self, now):
+        if self.daily_cap_micros is None or now.utcoffset() is None:
+            fail('DAILY_BUDGET_REQUIRED')
+        day = now.astimezone(timezone.utc).date().isoformat()
+        with self._connect() as db:
+            used = self._daily_used(db, day)
+        return {'day_utc': day, 'cap_micros': self.daily_cap_micros,
+                'occupied_micros': used, 'remaining_micros': max(0, self.daily_cap_micros - used),
+                'currency': 'CNY', 'actual_invoice': 'UNKNOWN'}
 
     def _owns(self, db, identity):
         if self.batch is not None and not db.execute(
@@ -52,11 +83,19 @@ class Quota:
         except Exception:
             fail('QUOTA_UNAVAILABLE')
 
-    def reserve(self, identity, intent, *, config, permission, price, protocol_fake):
-        policy = {**asdict(permission), 'expires_at': permission.expires_at.isoformat(),
+    def reserve(self, identity, intent, *, config, permission, price, protocol_fake, now=None):
+        # Preserve the exact old policy pins when no runtime extension is used.
+        allowance = {k: v for k, v in asdict(permission).items()
+                     if k != 'runtime_approval' or v is not None}
+        policy = {**allowance, 'expires_at': permission.expires_at.isoformat(),
                   'config': asdict(config), 'price': price.document, 'protocol_fake': protocol_fake}
         pin = digest(policy)
         amount = price.cost(INPUT_CAP, OUTPUT_RESERVE)
+        day = None
+        if self.daily_cap_micros is not None:
+            if type(now) is not datetime or now.utcoffset() is None:
+                fail('DAILY_BUDGET_REQUIRED')
+            day = now.astimezone(timezone.utc).date().isoformat()
         try:
             with self._connect() as db:
                 db.execute('BEGIN IMMEDIATE')
@@ -75,6 +114,11 @@ class Quota:
                     fail('QUOTA_POLICY_MISMATCH')
                 if db.execute('SELECT 1 FROM calls WHERE id=?', (identity,)).fetchone():
                     fail('OPERATION_ALREADY_RESERVED')
+                if day is not None:
+                    if self._daily_used(db, day) + amount > self.daily_cap_micros:
+                        fail('DAILY_BUDGET_REFUSED')
+                    db.execute('INSERT OR IGNORE INTO runtime_budgets VALUES (?,?,?)',
+                               (day, permission.approval_ref, self.daily_cap_micros))
                 if self.batch is None:
                     count, spent = db.execute('SELECT count(*), coalesce(sum(reserved),0) FROM calls').fetchone()
                 else:
@@ -86,6 +130,8 @@ class Quota:
                            (identity, intent, amount, 'DISPATCHED_USAGE_UNKNOWN'))
                 if self.batch is not None:
                     db.execute('INSERT INTO call_batches VALUES (?, ?)', (identity, self.batch))
+                if day is not None:
+                    db.execute('INSERT INTO runtime_calls VALUES (?, ?)', (identity, day))
         except sqlite3.Error:
             fail('QUOTA_UNAVAILABLE')
 
