@@ -81,3 +81,27 @@ def test_model_activation_refuses_missing_existing_authority_before_mutation(mon
     monkeypatch.setattr(control, 'docker', lambda *a, **k: pytest.fail('NO_MUTATION_ALLOWED'))
     with pytest.raises(PermissionError, match='EXISTING_DEPLOYMENT_REQUIRED'):
         control.activate_model('vrae-current', 'sha256:' + '2' * 64)
+
+
+def test_shared_model_quota_mounts_same_canonical_ledger(monkeypatch):
+    calls = []
+    monkeypatch.setattr(control, 'owned', lambda *a: {'existing': True})
+    monkeypatch.setattr(control, 'docker', lambda *a, **k: calls.append(a))
+    control.start_ai('vrae-windows', control.names('vrae-windows'), {
+        'image': 'sha256:' + '1' * 64, 'model_quota_owner': 'vrae-local',
+        'model_quota_shared': True})
+    created = next(c for c in calls if c[0] == 'create')
+    assert 'type=volume,src=vrae-local-ledger,dst=/model-ledger,volume-subpath=qwen' in created
+    assert not any(c[:2] == ('volume', 'create') for c in calls)
+
+
+@pytest.mark.parametrize('exists,shared,code', [
+    (False, True, 'EXISTING_QUOTA_VOLUME_REQUIRED'),
+    (True, False, 'EXPLICIT_SHARED_QUOTA_REQUIRED')])
+def test_shared_model_quota_fails_before_container_creation(monkeypatch, exists, shared, code):
+    monkeypatch.setattr(control, 'owned', lambda kind, *a: kind == 'network' or exists)
+    monkeypatch.setattr(control, 'docker', lambda *a, **k: pytest.fail('NO_MUTATION_ALLOWED'))
+    with pytest.raises(PermissionError, match=code):
+        control.start_ai('vrae-windows', control.names('vrae-windows'), {
+            'image': 'sha256:' + '1' * 64, 'model_quota_owner': 'vrae-local',
+            'model_quota_shared': shared})
