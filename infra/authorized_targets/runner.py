@@ -21,9 +21,13 @@ def main():
     parser.add_argument("--image", default="vrae-g1:313")
     parser.add_argument("--delivery-bridge", action="store_true")
     parser.add_argument("--report-api", action="store_true")
+    parser.add_argument("--standalone", action="store_true")
+    parser.add_argument("--serve", action="store_true")
     args = parser.parse_args()
+    if args.standalone:
+        args.delivery_bridge = True
     if args.report_api and not args.delivery_bridge:
-        parser.error('--report-api requires --delivery-bridge')
+        parser.error("--report-api requires --delivery-bridge")
     assert args.label.replace("-", "").isalnum() and len(args.label) < 64
     private = ROOT / "infra/authorized_targets/.private" / args.label
     private.mkdir(parents=True, exist_ok=False)
@@ -47,6 +51,8 @@ def main():
 
     ident = "vrae-targets-" + uuid.uuid4().hex[:12]
     names = {k: ident + "-" + k for k in ("pg", "runtime", "data", "source", "evidence", "stage")}
+    if args.standalone:
+        names.update({k: ident + "-" + k for k in ("net", "client", "client-secrets")})
     image = docker("image", "inspect", "--format", "{{.Id}}", args.image).decode().strip()
     pg_image = (ROOT / "infra/ra4a/image.txt").read_text().strip()
     write(
@@ -56,7 +62,7 @@ def main():
             "names": names,
             "image_id": image,
             "pg_image": pg_image,
-            "network": "none",
+            "network": "internal" if args.standalone else "none",
             "published_ports": [],
         },
     )
@@ -72,6 +78,8 @@ def main():
         "ra4a_test_unassigned",
     )
     state = {
+        "standalone": args.standalone,
+        "serve": args.serve,
         "delivery_bridge": args.delivery_bridge,
         "report_api": args.report_api,
         "host": "127.0.0.1",
@@ -86,7 +94,17 @@ def main():
     created = []
     failure = None
     try:
-        for key in ("data", "source", "evidence"):
+        if args.standalone:
+            docker("network", "create", "--internal", "--label", LABEL + "=" + ident, names["net"])
+            net = json.loads(docker("network", "inspect", names["net"]))[0]
+            assert net["Internal"] is True and net["Labels"][LABEL] == ident
+            state["network_internal"] = True
+            state["network_id"] = net["Id"]
+        for key in (
+            ("data", "source", "evidence", "client-secrets")
+            if args.standalone
+            else ("data", "source", "evidence")
+        ):
             docker("volume", "create", "--label", LABEL + "=" + ident, names[key])
             created.append(("volume", names[key]))
         paths = (
@@ -144,7 +162,8 @@ def main():
             "--label",
             LABEL + "=" + ident,
             "--network",
-            "none",
+            names["net"] if args.standalone else "none",
+            *(["--network-alias", "vrae-api"] if args.standalone else []),
             "--memory",
             "512m",
             "--cpus",
@@ -160,6 +179,15 @@ def main():
             "--mount",
             "type=volume,src=" + names["data"] + ",dst=/var/lib/postgresql/data",
             pg_image,
+            *(
+                [
+                    "sh",
+                    "-c",
+                    "docker-entrypoint.sh postgres -c listen_addresses=127.0.0.1 & wait $!; while :; do sleep 30; done",
+                ]
+                if args.standalone
+                else []
+            ),
         )
         created.append(("container", names["pg"]))
         end = time.monotonic() + 90
@@ -220,6 +248,11 @@ def main():
             "type=volume,src=" + names["source"] + ",dst=/work,readonly",
             "--mount",
             "type=volume,src=" + names["evidence"] + ",dst=/evidence",
+            *(
+                ["--mount", "type=volume,src=" + names["client-secrets"] + ",dst=/client-share"]
+                if args.standalone
+                else []
+            ),
             image,
             "python",
             "-m",
@@ -238,15 +271,40 @@ def main():
             )
             process.stdin.write(json.dumps(state).encode())
             process.stdin.close()
-            process.wait(timeout=900)
+            if args.standalone:
+                from infra.authorized_targets.standalone import exercise
+
+                exercise(docker, names, image, public)
+                if args.serve:
+                    print(
+                        json.dumps(
+                            {
+                                "owned_runtime": names["runtime"],
+                                "trusted_service_endpoint": "https://vrae-api:8769",
+                                "client": names["client"],
+                                "stop": "Ctrl-C cleans only this owned deployment",
+                            }
+                        ),
+                        flush=True,
+                    )
+                    process.wait()
+                else:
+                    process.wait(timeout=900)
+            else:
+                process.wait(timeout=900)
         # docker start returns zero even if child failed; inspect is authoritative.
         code = int(docker("inspect", "--format", "{{.State.ExitCode}}", names["runtime"]).decode())
         docker(
             "cp", names["runtime"] + ":/evidence/.private-root", str(private / "runtime-private")
         )
 
-        files = ['targets.json'] + (['delivery.json', 'c1-committed.json'] if args.delivery_bridge else [])
-        files += ['report-api.json'] if args.report_api else []
+        files = ["targets.json"]
+        if args.delivery_bridge:
+            files += ["delivery.json", "c1-committed.json"]
+        if args.standalone:
+            files += ["api.json"]
+        if args.report_api:
+            files += ["report-api.json"]
         for file in files:
             found = subprocess.run(
                 ["docker", "cp", names["runtime"] + ":/evidence/" + file, str(public / file)],
@@ -259,6 +317,22 @@ def main():
                 "TARGET_VERTICAL_RUNTIME_RED exit=" + str(code) + " private=" + str(private)
             )
     except BaseException as error:
+        # Preserve private runtime diagnostics even when an external stage fails
+        # before the normal final copy. No private files enter public receipts.
+        inspected = subprocess.run(
+            ["docker", "inspect", "--format", "{{json .Config.Labels}}", names["runtime"]],
+            capture_output=True,
+        )
+        if inspected.returncode == 0 and json.loads(inspected.stdout).get(LABEL) == ident:
+            subprocess.run(
+                [
+                    "docker",
+                    "cp",
+                    names["runtime"] + ":/evidence/.private-root",
+                    str(private / "runtime-failure-private"),
+                ],
+                capture_output=True,
+            )
         failure = type(error).__name__ + ": " + str(error)
         write(
             public / "first-red.json",
@@ -267,8 +341,28 @@ def main():
     finally:
         cleanup = []
         # Include the auto-removed staging helper in the absence receipt too.
-        for key in ("runtime", "pg", "stage", "evidence", "source", "data"):
-            kind = "container" if key in ("runtime", "pg", "stage") else "volume"
+        for key in (
+            (
+                "client",
+                "runtime",
+                "pg",
+                "stage",
+                "client-secrets",
+                "evidence",
+                "source",
+                "data",
+                "net",
+            )
+            if args.standalone
+            else ("runtime", "pg", "stage", "evidence", "source", "data")
+        ):
+            kind = (
+                "network"
+                if key == "net"
+                else "container"
+                if key in ("runtime", "pg", "stage", "client")
+                else "volume"
+            )
             name = names[key]
             template = "{{json .Config.Labels}}" if kind == "container" else "{{json .Labels}}"
             inspected = subprocess.run(
@@ -278,7 +372,7 @@ def main():
             if inspected.returncode == 0:
                 assert json.loads(inspected.stdout).get(LABEL) == ident
                 verified = True
-                docker("rm", "-f", name) if kind == "container" else docker("volume", "rm", name)
+                docker("rm", "-f", name) if kind == "container" else docker(kind, "rm", name)
             absent = subprocess.run(["docker", kind, "inspect", name], capture_output=True)
             assert (
                 absent.returncode

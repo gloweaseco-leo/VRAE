@@ -66,8 +66,23 @@ class Adapter:
             if type(operation) is not str or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{7,127}', operation):
                 raise S3Error('COMMITTED_OPERATION_INVALID')
             held = current_input(self._binding, self._job_id)
-            expected = {k: v for k, v in request.items() if k != 'ai_operation_id'}
-            if (canonical(expected) != canonical(held)
+            expected = {k: v for k, v in request.items()
+                        if k not in ('ai_operation_id', 'current_authority')}
+            authority = request.get('current_authority')
+            extra_deadline = None
+            if authority is not None:
+                # The additional V2 authority is a server-held PG-rechecking
+                # object, never a JSON trust hint or model input.
+                from integration.authorized_targets.current_authority import CurrentCommittedAuthority
+                if type(authority) is not CurrentCommittedAuthority:
+                    raise S3Error('COMMITTED_AUTHORITY_INVALID')
+                live = authority.check_current()
+                base_live = {k: v for k, v in live.items()
+                             if k not in ('authority_profile', 'authority_expires_at')}
+                if canonical(base_live) != canonical(held) or canonical(expected) != canonical(live):
+                    raise S3Error('COMMITTED_INPUT_MISMATCH')
+                extra_deadline = live['authority_expires_at']
+            if (canonical(expected) != canonical(held) and authority is None
                     or held['contract'] != 'vrae.committed-target-input.v1'
                     or held['purpose'] != 'POST_COMMIT_AI_INPUT'
                     or held['publication'] != 'UNPUBLISHED' or held['grants_report_access'] is not False
@@ -83,6 +98,8 @@ class Adapter:
 
             def recheck(checked_source, now):
                 try:
+                    if authority is not None:
+                        authority.check_current()
                     if (checked_source.held != task or
                             canonical(current_input(self._binding, self._job_id)) != frozen):
                         raise ValueError
@@ -95,6 +112,8 @@ class Adapter:
             if 'source_authority' in d:
                 auth = d['source_authority']['authorization']['document']
                 deadlines += [auth['expires_at'], auth['retention_until']]
+            if extra_deadline is not None:
+                deadlines.append(extra_deadline)
             completion = CommittedCompletionPins(task, pins.report_content_hash,
                 datetime.fromisoformat(commit['lease_started_at']),
                 datetime.fromisoformat(commit['lease_expires_at']),

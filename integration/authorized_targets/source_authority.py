@@ -135,7 +135,7 @@ def deployment(envelope, grant, plan, now=None):
             or d["model_fee_go"] != "NOT_GRANTED"
             or d["namespace_inode"] != os.stat("/proc/self/ns/net").st_ino
             or sorted(os.listdir("/sys/class/net")) != sorted(d["interfaces"])
-            or d["parent_network_mode"] not in ("none", "isolated-egress")
+            or d["parent_network_mode"] not in ("none", "isolated-egress", "internal")
             or hashlib.sha256(Path(d["cafile"]).read_bytes()).hexdigest() != d["ca_sha256"]
         ):
             raise AuthorityDenied()
@@ -170,11 +170,17 @@ def deployment(envelope, grant, plan, now=None):
             raise AuthorityDenied()
         if Path("/var/run/docker.sock").exists():
             raise AuthorityDenied()
-        # Test authority cannot be used on a routable/customer namespace.
-        if plan["source_class"] == "CONTROLLED_NON_CUSTOMER" and (
-            d["parent_network_mode"] != "none" or d["interfaces"] != ["lo"]
-        ):
-            raise AuthorityDenied()
+        # Test grants can use only none or an independently inspected internal
+        # Docker network; source kernel rules still reject every undeclared peer.
+        if plan["source_class"] == "CONTROLLED_NON_CUSTOMER":
+            if d["parent_network_mode"] == "none":
+                if d["interfaces"] != ["lo"]:
+                    raise AuthorityDenied()
+            elif d["parent_network_mode"] == "internal":
+                if d.get("network_internal") is not True or not d.get("network_id"):
+                    raise AuthorityDenied()
+            else:
+                raise AuthorityDenied()
         return d
     except (KeyError, ValueError, TypeError, OSError, InvalidSignature):
         raise AuthorityDenied() from None

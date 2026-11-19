@@ -9,19 +9,17 @@ from copy import deepcopy
 from datetime import datetime, UTC
 import secrets
 from psycopg.types.json import Jsonb
-from integration.authorized_targets.delivery import committed_input
 from integration.authorized_targets.store import connect
-from contracts.l2_launch.contract import canonical
 
 
 def run(binding, job_id, adapter=None, *, operation_id=None):
     operation = operation_id or "ai-" + secrets.token_hex(16)
     if type(operation) is not str or not 8 <= len(operation) <= 128:
         raise ValueError("AI_OPERATION_REQUIRED")
-    with committed_input(binding, job_id, purpose="POST_COMMIT_AI_INPUT") as current:
-        current = deepcopy(current)
-    # Provider latency must not retain the original PG source/review locks.
-    # Re-open the original current authority before recording any result.
+    from integration.authorized_targets.current_authority import CurrentCommittedAuthority
+
+    authority = CurrentCommittedAuthority(binding, job_id)
+    current = authority.snapshot()
     artifact = current["artifact"]
     result = {
         "state": "AI_UNAVAILABLE",
@@ -35,6 +33,7 @@ def run(binding, job_id, adapter=None, *, operation_id=None):
         # after its own current permission/price/fee and input bridge checks.
         request = deepcopy(current)
         request["ai_operation_id"] = operation
+        request["current_authority"] = authority
         result = adapter(request)
         if result.get("model", "qwen4-max") != "qwen4-max":
             raise ValueError("STRICT_QWEN4_REQUIRED")
@@ -53,12 +52,10 @@ def run(binding, job_id, adapter=None, *, operation_id=None):
         "grants_report_access": False,
         "recorded_at": datetime.now(UTC).isoformat(),
     }
-    with committed_input(binding, job_id, purpose="POST_COMMIT_AI_INPUT") as latest:
-        if canonical(latest) != canonical(current):
-            raise ValueError("CURRENT_DELIVERY_INPUT_CHANGED")
-        with connect(binding) as c, c.transaction():
-            c.execute(
-                "SELECT target_v1.ai_record(%s,%s,%s,%s)",
-                (binding["tenant_id"], job_id, operation, Jsonb(receipt)),
-            )
+    authority.check_current()
+    with connect(binding) as c, c.transaction():
+        c.execute(
+            "SELECT target_v1.ai_record(%s,%s,%s,%s)",
+            (binding["tenant_id"], job_id, operation, Jsonb(receipt)),
+        )
     return receipt

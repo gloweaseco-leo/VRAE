@@ -1,4 +1,4 @@
-"""Tenant/subject-bound BFF boundary. Draft status is separate from report release."""
+"""Tenant/subject-bound trusted service boundary. Draft status is separate from report release."""
 
 import argparse
 from datetime import datetime, UTC
@@ -58,6 +58,21 @@ class Handler(StrictHandler):
             self.close_connection = True
             self.send(503, safe_error(Refused("R0_STORAGE_UNAVAILABLE", 503, True)))
 
+    def send(self, status, body, extra=()):
+        return super().send(status, body, [*extra, ("X-VRAE-API-Version", "vrae.diagnosis-api.v1")])
+
+    def send_api(self, status, body):
+        raw = canonical(body)
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(raw)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-VRAE-API-Version", "vrae.diagnosis-api.v1")
+        self.send_header("X-VRAE-Source-SHA", self.server.source_sha)
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.end_headers()
+        self.wfile.write(raw)
+
     def route_target(self, method):
         cfg = self.server.cfg
         for name in (
@@ -71,17 +86,52 @@ class Handler(StrictHandler):
         ):
             if len(self.headers.get_all(name, [])) > 1:
                 raise Refused("FORBIDDEN_ROLE")
-        if (
-            self.headers.get("Host") != "127.0.0.1:8769"
-            or self.headers.get("Origin") != "https://127.0.0.1:8769"
-        ):
-            raise Refused("FORBIDDEN_ROLE")
-        if self.headers.get("Accept") != MEDIA:
+        from integration.authorized_targets.transport import check_headers, bind_peer
+
+        transport = check_headers(self, cfg)
+        if method == "GET" and self.path == "/health/live":
+            return self.send_api(
+                200,
+                {
+                    "api_version": "vrae.diagnosis-api.v1",
+                    "status": "LIVE",
+                    "source_sha": self.server.source_sha,
+                },
+            )
+        api_json = self.path in ("/health/ready", "/v1/errors", "/v1/openapi.json")
+        if self.headers.get("Accept") != ("application/json" if api_json else MEDIA):
             raise TransportError(406)
         if method == "POST" and self.headers.get("Content-Type") != MEDIA:
             raise TransportError(415)
         binding = service_binding(self.headers.get("Authorization"), cfg["bindings"])
+        bind_peer(self, binding, transport)
         tenant = binding["tenant_id"]
+        if method == "GET" and api_json:
+            from integration.authorized_targets.api_contract import (
+                VERSION as API,
+                ERRORS,
+                error,
+                openapi,
+            )
+
+            if self.path == "/health/ready":
+                try:
+                    ready = store.invoke(binding, "readiness", tenant)
+                except (psycopg.Error, Refused, OSError):
+                    return self.send_api(503, error("UNAVAILABLE"))
+                return self.send_api(
+                    200,
+                    {
+                        "api_version": API,
+                        "status": "READY" if ready else "UNAVAILABLE",
+                        "source_sha": self.server.source_sha,
+                    },
+                )
+            if self.path == "/v1/errors":
+                return self.send_api(
+                    200, {"api_version": API, "errors": [error(code)["error"] for code in ERRORS]}
+                )
+            return self.send_api(200, openapi())
         if "?" in self.path or "%" in self.path or len(self.path) > 256:
             raise Refused("FORBIDDEN_ROLE")
         if method == "POST" and self.path == "/v1/internal/committed-input":
@@ -96,16 +146,17 @@ class Handler(StrictHandler):
             job = str(UUID(body["job_id"]))
             with committed_input(binding, job, purpose="HUMAN_REVIEW_INPUT") as current:
                 return self.send(200, current)
-        if method == "POST" and self.path == "/v1/invitation-session":
+        if method == "POST" and self.path in ("/v1/invitation-session", "/v1/return-sessions"):
             body = self.body()
-            if set(body) != {"invitation_token"} or type(body["invitation_token"]) is not str:
+            key = "invitation_token" if self.path == "/v1/invitation-session" else "return_token"
+            if set(body) != {key} or type(body[key]) is not str:
                 raise Refused("FORBIDDEN_ROLE")
             cookie, csrf = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
             result = store.invoke(
                 binding,
-                "exchange",
+                "exchange" if key == "invitation_token" else "exchange_return",
                 tenant,
-                token_hash(body["invitation_token"]),
+                token_hash(body[key]),
                 token_hash(cookie),
                 token_hash(csrf),
             )
@@ -137,6 +188,45 @@ class Handler(StrictHandler):
         if COOKIE not in cookies or not self.headers.get("X-CSRF-Token"):
             raise Refused("FORBIDDEN_ROLE")
         cookie, csrf = token_hash(cookies[COOKIE].value), token_hash(self.headers["X-CSRF-Token"])
+        source = re.fullmatch("/v1/source-plans/([A-Za-z0-9][A-Za-z0-9_.-]{2,127})", self.path)
+        if method == "GET" and source:
+            resolved = store.invoke(binding, "source_context", tenant, cookie, csrf, source[1])
+            plan = resolved["plan"]
+            if plan.get("execution_profile") == "ADMIN_TARGET_V2":
+                from integration.authorized_targets.source_authority import authorization
+
+                authorization(
+                    resolved["source_authorization"], plan, plan_sha256=resolved["plan_sha256"]
+                )
+            return self.send(
+                200,
+                {
+                    "contract": "vrae.authorized-source-context.v1",
+                    "tenant_id": tenant,
+                    "subject_ref": resolved["actor"]["subject_ref"],
+                    "invitation_ref": resolved["actor"]["invitation_ref"],
+                    "target_id": source[1],
+                    "site_url": plan["origin"] + "/",
+                    "source_policy": plan["policy"],
+                    "audit_modes": ["L0", "L1"],
+                    "diagnostic_depth": "L2",
+                },
+            )
+        recovery = re.fullmatch("/v1/audits/(" + REF + ")/return-tokens", self.path)
+        if method == "POST" and recovery:
+            body = self.body()
+            if not set(body) <= {"ttl_seconds"}:
+                raise Refused("FORBIDDEN_ROLE")
+            ttl = body.get("ttl_seconds", 300)
+            if type(ttl) is not int or not 1 <= ttl <= 900:
+                raise Refused("FORBIDDEN_ROLE")
+            token = secrets.token_urlsafe(32)
+            result = store.invoke(
+                binding, "make_return", tenant, cookie, csrf, recovery[1], token_hash(token), ttl
+            )
+            return self.send(
+                201, {"contract": "vrae.task-return-token.v1", **result, "return_token": token}
+            )
         if method == "POST" and self.path == "/v1/audit-requests":
             body = self.body()
             validate("VFSubmit", body)
@@ -213,10 +303,16 @@ def main():
     parser.add_argument("--config", required=True)
     args = parser.parse_args()
     cfg = store.config(args.config, "APP")
+    from integration.authorized_targets.transport import endpoint
+
+    ep = endpoint(cfg)
     tls = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     tls.minimum_version = ssl.TLSVersion.TLSv1_2
     tls.load_cert_chain(cfg["certificate"], cfg["certificate_key"])
-    server = BoundedServer(("127.0.0.1", 8769), Handler, tls)
+    if ep["mtls"]:
+        tls.load_verify_locations(cafile=ep["client_ca"])
+        tls.verify_mode = ssl.CERT_REQUIRED
+    server = BoundedServer((ep["bind"], ep["port"]), Handler, tls)
     server.cfg = cfg
     server.source_sha = cfg["source_sha"]
     print('{"stage":"AUTHORIZED_TARGET_HTTPS_READY","port":8769}', flush=True)

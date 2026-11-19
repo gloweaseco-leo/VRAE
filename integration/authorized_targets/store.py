@@ -48,6 +48,10 @@ def connect(binding):
 
 def invoke(binding, name, *values):
     signatures = {
+        "source_context": 4,
+        "readiness": 1,
+        "make_return": 6,
+        "exchange_return": 4,
         "exchange": 4,
         "session": 3,
         "plan": 4,

@@ -43,8 +43,8 @@ def check(value, label):
     checks.append(label)
 
 
-def network():
-    assert os.geteuid() == 0 and set(os.listdir("/sys/class/net")) == {"lo"}
+def network(interfaces=None):
+    assert os.geteuid() == 0 and set(os.listdir("/sys/class/net")) == set(interfaces or ["lo"])
     for address in ("93.184.216.20/32", "93.184.216.53/32"):
         subprocess.run(["ip", "addr", "add", address, "dev", "lo"], check=True, capture_output=True)
     for tool in ("iptables", "ip6tables"):
@@ -116,8 +116,12 @@ def main():
         from integration.authorized_targets.checks.delivery_drill import Drill
 
         extension = Drill()
+    if state.get("standalone"):
+        from integration.authorized_targets.checks.api_drill import ApiDrill
+
+        extension = ApiDrill(state)
     ROOT.mkdir(mode=0o700)
-    network()
+    network(sorted(os.listdir("/sys/class/net")) if state.get("standalone") else None)
     admin = psycopg.connect(
         host="127.0.0.1",
         dbname="vrae_ra4a_p1",
@@ -262,7 +266,7 @@ def main():
             cwd="/work",
         )
     process.wait(lambda: Path("/tmp/lab/ready").exists())
-    tls = create_tls(ROOT / "tls")
+    tls = extension.tls(ROOT / "tls") if hasattr(extension, "tls") else create_tls(ROOT / "tls")
     cfg = {
         "kind": "APP",
         "authority": "AUTHORIZED_TARGET_V1",
@@ -275,6 +279,8 @@ def main():
     app, log = process.spawn("targets-api", 10001, appcfg, "integration.authorized_targets.http")
     process.wait(lambda: b"AUTHORIZED_TARGET_HTTPS_READY" in log.read_bytes())
     context = ssl.create_default_context(cafile=tls["ca"])
+    if hasattr(extension, "local_client_tls"):
+        extension.local_client_tls(context)
     transcript = []
 
     def call(slug, method, path, body=None, session=None, bearer=True):
@@ -403,7 +409,7 @@ def main():
         worker.wait(timeout=120)
         if worker.returncode:
             raise AssertionError("ACTUAL_WORKER_RED " + wlog.read_text())
-        return [json.loads(x) for x in wlog.read_text().splitlines()]
+        return [d for x in wlog.read_text().splitlines() if (d := json.loads(x)).get("claimed")]
 
     receipts = consume()
     check(len(receipts) == 4, "four independent actual DNS TLS captures")
@@ -456,7 +462,7 @@ def main():
             and d["external_release"] is False,
             "source permission not diagnostic depth " + str(run),
         )
-    if state.get('report_api'):
+    if state.get("report_api"):
         from integration.authorized_targets.checks.report_api_drill import run as report_api_drill
 
         report_api_drill(admin, rows, reviewers, bindings, tls, state)
@@ -609,6 +615,16 @@ def main():
     )
     if extension:
         extension.exercise(locals())
+    if state.get("standalone"):
+        admin.close()
+        admin = psycopg.connect(
+            host="127.0.0.1",
+            dbname="vrae_ra4a_p1",
+            user="postgres",
+            password=state["admin_password"],
+            autocommit=True,
+        )
+
     # Plan edits cannot widen an already admitted task/source binding.
     admin.execute(
         "UPDATE target_v1.plans SET document=jsonb_set(document,'{terms_reference}','\"changed-terms\"') WHERE tenant_id=%s AND target_id=%s",
@@ -628,6 +644,8 @@ def main():
         call("alpha", "GET", path, session=sessions[0])[0] == 403,
         "revoked invitation rejects current session",
     )
+    if state.get("serve") and extension:
+        extension.hold()
     process.stop(app)
     site.terminate()
     site.wait(timeout=5)

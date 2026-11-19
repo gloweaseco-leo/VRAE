@@ -12,15 +12,25 @@ from contracts.l2_launch.contract import digest
 from vrae.collection.resolver import public_addresses
 
 
-def install(*, namespace_inode, parent_network_mode, interfaces, destination_ips, nameservers):
+def install(
+    *,
+    namespace_inode,
+    parent_network_mode,
+    interfaces,
+    destination_ips,
+    nameservers,
+    network_internal=False,
+):
     if (
         os.geteuid() != 0
         or os.stat("/proc/self/ns/net").st_ino != namespace_inode
         or sorted(os.listdir("/sys/class/net")) != sorted(interfaces)
-        or parent_network_mode not in ("none", "isolated-egress")
+        or parent_network_mode not in ("none", "isolated-egress", "internal")
         or Path("/var/run/docker.sock").exists()
     ):
         raise PermissionError("ISOLATED_PARENT_REQUIRED")
+    if parent_network_mode == "internal" and network_internal is not True:
+        raise PermissionError("INSPECTED_INTERNAL_NETWORK_REQUIRED")
     public_addresses(destination_ips)
     public_addresses(nameservers)
     rules = [{"ip": "127.0.0.1", "protocol": "tcp", "port": 5432}]

@@ -112,6 +112,9 @@ class Drill:
         else:
             raise AssertionError("MISMATCHED_LEGAL_SCOPE_ACCEPTED")
 
+    def deployment_environment(self):
+        return {}
+
     def ready(self):
         d = {
             "contract": "vrae.bounded-egress-deployment.v2",
@@ -130,6 +133,7 @@ class Drill:
             "cafile": "/tmp/lab/cert.pem",
             "ca_sha256": hashlib.sha256(Path("/tmp/lab/cert.pem").read_bytes()).hexdigest(),
         }
+        d.update(self.deployment_environment())
         from infra.authorized_targets.egress_policy import install
 
         policy = install(
@@ -138,6 +142,7 @@ class Drill:
             interfaces=d["interfaces"],
             destination_ips=["93.184.216.20"],
             nameservers=d["nameservers"],
+            network_internal=d.get("network_internal", False),
         )
         d["firewall_policy_sha256"] = policy.pop("policy_sha256")
         d["firewall_policy"] = policy
@@ -249,6 +254,12 @@ class Drill:
         seen = []
 
         def adapter(request):
+            count = admin.execute(
+                "SELECT count(*) FROM pg_stat_activity WHERE usename=%s AND state='idle in transaction'",
+                (b["role"],),
+            ).fetchone()[0]
+            check(count == 0, "post COMMIT callback does not hold source PG transaction")
+            request["current_authority"].check_current()
             seen.append((request["task"], request["ai_operation_id"]))
             return {
                 "state": "AI_UNAVAILABLE",

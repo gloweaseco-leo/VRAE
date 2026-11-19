@@ -38,6 +38,9 @@ def run(binding, workload, port):
 def execute(binding, workload, port, lease):
     job, run, token, seq, until = lease
     args = (binding["tenant_id"], job, token, seq)
+    print(
+        json.dumps({"worker_phase": "LEASE_HELD", "job_id": str(job), "lease_seq": seq}), flush=True
+    )
     loaded = port.call("load", *args)
     task = loaded["task"]
     plan = loaded["plan"]
@@ -64,6 +67,16 @@ def execute(binding, workload, port, lease):
         bounded,
         current=lambda: port.call("load", *args),
     )
+    print(
+        json.dumps(
+            {
+                "worker_phase": "CAPTURE_RETURNED",
+                "job_id": str(job),
+                "seconds": time.monotonic() - started,
+            }
+        ),
+        flush=True,
+    )
     output = produce_capture(
         captured, task, plan["policy"]["authorization_reference"], loaded["loaded_at"]
     )
@@ -73,6 +86,16 @@ def execute(binding, workload, port, lease):
             "plan_sha256": loaded["plan_sha256"],
             "retention_until": loaded["source_authorization"]["document"]["retention_until"],
         }
+    print(
+        json.dumps(
+            {
+                "worker_phase": "DRAFT_PRODUCED",
+                "job_id": str(job),
+                "seconds": time.monotonic() - started,
+            }
+        ),
+        flush=True,
+    )
     digest = port.call("commit", *args, canonical(output))
     return {
         "claimed": True,
@@ -96,16 +119,29 @@ def main():
     parser.add_argument("--config", required=True)
     args = parser.parse_args()
     cfg = store.config(args.config, "WORKER")
-    for binding in cfg["bindings"]:
-        port = store.WorkerPort(binding)
-        try:
-            while True:
-                receipt = run(binding, cfg["workload"], port)
-                if not receipt["claimed"]:
-                    break
-                print(json.dumps(receipt), flush=True)
-        finally:
-            port.close()
+    interval = cfg.get("poll_interval_seconds")
+    if interval is not None and (type(interval) not in (int, float) or not 0.1 <= interval <= 30):
+        raise ValueError("BOUNDED_POLL_INTERVAL_REQUIRED")
+    while True:
+        for binding in cfg["bindings"]:
+            port = None
+            try:
+                port = store.WorkerPort(binding)
+                while True:
+                    receipt = run(binding, cfg["workload"], port)
+                    if not receipt["claimed"]:
+                        break
+                    print(json.dumps(receipt), flush=True)
+            except Exception:
+                if interval is None:
+                    raise
+                print('{"worker_state":"DEPENDENCY_UNAVAILABLE","retryable":true}', flush=True)
+            finally:
+                if port is not None:
+                    port.close()
+        if interval is None:
+            break
+        time.sleep(interval)
 
 
 if __name__ == "__main__":
