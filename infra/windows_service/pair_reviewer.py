@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import subprocess
 from infra.windows_service.private_host import invoke
-from infra.windows_service.windows_credentials import current_sid, verify
+from infra.windows_service.windows_credentials import current_sid, current_account_name, verify
 
 
 def dialog(value):
@@ -58,7 +58,7 @@ def main():
         window.geometry("620x210")
         window.attributes("-topmost",True)
         result={}
-        tk.Label(window,text="Verify your current Windows account using its PASSWORD.\n"
+        tk.Label(window,text="Account: "+current_account_name()+"\nVerify this account using its PASSWORD.\n"
             "The native Windows dialog opens when you click below.\n"
             "Use the account password, not a Windows Hello PIN.\n"
             "Do not send the password or phone code in chat.",pady=20).pack()
@@ -68,7 +68,10 @@ def main():
             try:
                 result["primary"]=verify(pair["nonce"],sid,window.winfo_id())
             except Exception as error:
-                result["error"]=error
+                from tkinter import messagebox
+                messagebox.showerror("VRAE Windows verification",str(error)+"\nNo identity has been issued. Check the account password, not a PIN.",parent=window)
+                button.configure(state="normal")
+                return
             window.destroy()
         button=tk.Button(window,text="Open Windows password verification",command=authenticate)
         button.pack()

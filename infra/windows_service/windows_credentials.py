@@ -47,6 +47,19 @@ def current_sid():
         kernel.CloseHandle(token)
 
 
+
+def current_account_name():
+    if os.name!="nt":
+        raise PermissionError("ACTUAL_WINDOWS_LOGON_REQUIRED")
+    security=ctypes.WinDLL("secur32",use_last_error=True)
+    security.GetUserNameExW.argtypes=[w.DWORD,w.LPWSTR,ctypes.POINTER(w.ULONG)]
+    size=w.ULONG(512)
+    value=ctypes.create_unicode_buffer(512)
+    if not security.GetUserNameExW(2,value,ctypes.byref(size)):
+        raise PermissionError("WINDOWS_ACCOUNT_NAME_REQUIRED")
+    return value.value
+
+
 def verify(nonce, expected_sid, parent=None):
     adv,kernel=_libraries()
     credui=ctypes.WinDLL("credui",use_last_error=True)
@@ -61,6 +74,16 @@ def verify(nonce, expected_sid, parent=None):
         info.hwndParent=parent
     info.pszCaptionText="VRAE - actual Windows identity verification"
     info.pszMessageText="Re-enter your Windows account PASSWORD for VRAE. This is not a username-only check. The password stays in Windows memory."
+    account=current_account_name()
+    info.pszMessageText="Verify account "+account+" using its PASSWORD, not its Hello PIN. Password is checked by Windows and never stored."
+    credui.CredPackAuthenticationBufferW.argtypes=[w.DWORD,w.LPCWSTR,w.LPCWSTR,w.LPVOID,ctypes.POINTER(w.DWORD)]
+    packed_size=w.DWORD()
+    credui.CredPackAuthenticationBufferW(4,account,"",None,ctypes.byref(packed_size))
+    if not 0<packed_size.value<65536:
+        raise PermissionError("WINDOWS_CREDENTIAL_PREFILL_REQUIRED")
+    packed=ctypes.create_string_buffer(packed_size.value)
+    if not credui.CredPackAuthenticationBufferW(4,account,"",packed,ctypes.byref(packed_size)):
+        raise PermissionError("WINDOWS_CREDENTIAL_PREFILL_REQUIRED")
     package=w.ULONG()
     auth=w.LPVOID()
     auth_size=w.ULONG()
@@ -69,7 +92,7 @@ def verify(nonce, expected_sid, parent=None):
         ctypes.POINTER(Info),w.DWORD,ctypes.POINTER(w.ULONG),w.LPVOID,w.ULONG,
         ctypes.POINTER(w.LPVOID),ctypes.POINTER(w.ULONG),ctypes.POINTER(w.BOOL),w.DWORD]
     status=credui.CredUIPromptForWindowsCredentialsW(
-        ctypes.byref(info),0,ctypes.byref(package),None,0,ctypes.byref(auth),
+        ctypes.byref(info),0,ctypes.byref(package),packed,packed_size.value,ctypes.byref(auth),
         ctypes.byref(auth_size),ctypes.byref(save),1)
     if status!=0:
         raise PermissionError("WINDOWS_CREDENTIAL_UI_CANCELLED_OR_UNAVAILABLE")
