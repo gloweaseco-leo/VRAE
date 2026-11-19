@@ -2,6 +2,7 @@
 import base64
 from datetime import datetime,UTC
 import hashlib
+import http.client
 from http.cookies import SimpleCookie
 import json
 import os
@@ -33,6 +34,20 @@ def execute(cfg,root,events,state):
     ctx=ssl.create_default_context()
     ctx.load_cert_chain(root/'certificate.pem',root/'key.pem')
     def call(name,method,path,body=None,subject=None,expect=200,media=MEDIA):
+        # A dropped response does not establish rejection or success. Only
+        # original idempotent diagnosis submissions and reads can be retried,
+        # with the exact same payload/key; one-use invitation/authorization
+        # exchanges are never repeated blindly. Preserve every network failure.
+        retryable=method=='GET' or (method=='POST' and path=='/v1/diagnoses')
+        for attempt in range(3 if retryable else 1):
+            try:
+                return request(name,method,path,body,subject,expect,media)
+            except (http.client.RemoteDisconnected,ConnectionResetError,TimeoutError,ssl.SSLEOFError) as error:
+                events.append({'case':name,'transport_error':type(error).__name__,'attempt':attempt+1,'passed':False})
+                if not retryable or attempt==2:raise
+                time.sleep(attempt+1)
+
+    def request(name,method,path,body=None,subject=None,expect=200,media=MEDIA):
         c=Connection(cfg['host'],443,ctx)
         headers={'Accept':media,'Authorization':'Bearer '+cfg['api_bearer']}
         if subject and subject.get('cookie'):
