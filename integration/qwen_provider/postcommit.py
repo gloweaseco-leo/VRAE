@@ -48,7 +48,7 @@ def replay_input(raw: bytes, *, pins: InputPins) -> tuple[EvidencePack, NativeSo
             raise ValueError
         d = strict_json(raw)
         task = asdict(pins.task)
-        if (type(d) is not dict or set(d) != FIELDS
+        if (type(d) is not dict or set(d) not in (FIELDS, FIELDS | {'source_authority'})
                 or encode(d['task']) != encode({k: task[k] for k in TASK_FIELDS})
                 or encode(d['native_document']['native_context']) != encode(task)
                 or d['pack_ref'] != pins.task.native_pack_ref

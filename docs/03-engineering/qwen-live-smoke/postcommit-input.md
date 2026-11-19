@@ -1,5 +1,9 @@
 # Same-run post-COMMIT input replay (offline only)
 
+Historical PR162 boundary below. Accepted PR164 now supplies the current PG
+handoff. See [committed-api.md](committed-api.md) for the new server adapter and
+separate capture-mode S3 compatibility path; the original offline gate stays intact.
+
 Base: accepted main `cf1a67bdab7c2acadff6cedbbe7be64357fb51be`, including
 PR162 HEAD `994c0372b2b3b8fd30ad60d3a7f2dc5cad236b33` and accepted PR161.
 Scope: Owner #156 comment 6997245247 and PR162 comment 6997493678.
