@@ -75,9 +75,9 @@ class Port:
             raise PermissionError("ORIGINAL_REPORT_API_STATUS_" + str(result["status"]))
         return result["body"]
 
-    def private(self, filename):
-        program = "import os,pathlib,sys;sys.stdout.buffer.write((pathlib.Path(os.environ['VRAE_PRIVATE_ROOT'])/sys.argv[1]).read_bytes())"
-        return json.loads(invoke(self.image, self.name, "python", "-B", "-c", program, filename))
+    def private(self, filename, optional=False):
+        program = "import os,pathlib,sys;p=pathlib.Path(os.environ['VRAE_PRIVATE_ROOT'])/sys.argv[1];sys.stdout.buffer.write(b'null' if sys.argv[2]=='optional' and not p.exists() else p.read_bytes())"
+        return json.loads(invoke(self.image, self.name, "python", "-B", "-c", program, filename, "optional" if optional else "required"))
 
 
 def visible_primary(nonce, sid):

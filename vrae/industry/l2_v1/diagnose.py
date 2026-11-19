@@ -157,7 +157,7 @@ def analyze(pack, execution, facts, profile):
     pages = records(facts, profile)
     by_ref = {f["fact_ref"]: f for f in facts}
     scope = {k: pack.document[k] for k in ("tenant_id", "run_id")}
-    assessments = []
+    assessments: list[dict] = []
     rfq_packets = []
     rule_map = {r["rule_id"]: r for r in profile["rules"]}
     native_rows = [row for r in execution["executions"] for row in r["observations"]]

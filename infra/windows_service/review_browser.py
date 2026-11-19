@@ -32,7 +32,15 @@ def main():
     route = "/review/" + capability
     done = threading.Event()
     deadline = time.monotonic() + 1800
-    reviews = []
+    saved=port.private("review-progress.json",optional=True)
+    pins=[{"audit_ref":d["audit_ref"],"display_hash":d["display_hash"]} for d in drafts]
+    if saved is not None and (saved["windows_sid_sha256"]!=sid_hash or saved["report_pins"]!=pins):
+        raise PermissionError("SAVED_REVIEW_SCOPE_CHANGED")
+    reviews = saved["reviews"] if saved is not None else []
+    if not 0<=len(reviews)<=len(drafts):raise PermissionError("SAVED_REVIEW_SCOPE_CHANGED")
+    if len(reviews)==len(drafts):
+        receipt.write_text(json.dumps({"state":"HUMAN_REVIEW_STAGED_REQUIRES_FRESH_MFA","review_count":len(reviews)}),encoding="utf8")
+        return
     lock = threading.Lock()
 
     def progress(state, **extra):
@@ -48,7 +56,7 @@ def main():
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(raw)))
             self.send_header("Cache-Control", "no-store, max-age=0")
-            self.send_header("Referrer-Policy", "no-referrer")
+            self.send_header("Referrer-Policy", "same-origin")
             self.send_header("X-Content-Type-Options", "nosniff")
             self.send_header(
                 "Content-Security-Policy",
@@ -108,16 +116,16 @@ def main():
                     + escape(item.get("title", item["id"]))
                     + "</h3>"
                     + content
-                    + '<p><label><input required type="checkbox" name="ack" value="'
+                    + '<p><label><input type="checkbox" name="ack" value="'
                     + escape(item["id"], quote=True)
                     + '"> 我已审阅本项及其限制，确认保留 UNKNOWN 与原始引用。</label></p></article>'
                 )
             checks = "".join(cards)
             return (
-                '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>VRAE 自控来源实际报告审核</title>'
+                '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>VRAE 本机报告审核（提交已修复）</title>'
                 "<style>body{font:17px system-ui;max-width:1150px;margin:24px auto;padding:0 24px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f4f4;padding:20px;max-height:65vh;overflow:auto}code{overflow-wrap:anywhere}p{line-height:1.6}textarea{width:95%;font:18px system-ui}article{border:1px solid #ccc;padding:20px;margin:20px 0;border-radius:8px}button{font-size:20px;padding:14px}input[type=checkbox]{width:20px;height:20px}</style>"
                 "<h1>实际报告审核 " + str(len(reviews) + 1) + " / " + str(len(drafts)) + "</h1>"
-                "<p><b>尚未批准或发布。</b>仅针对已授权的自控公网样例，不是真实客户、真实供应商资格或工程认证。模型未获费用授权，AI 不可用。</p>"
+                "<p>每份提交后会保存进度；完成两份后页面会明确显示已暂存，再进行 Windows 与手机签名。可以在下方统一确认已逐项审阅的全部项目。</p><p><b>尚未批准或发布。</b>仅针对已授权的自控公网样例，不是真实客户、真实供应商资格或工程认证。模型未获费用授权，AI 不可用。</p>"
                 "<p>受邀主体：<b>"
                 + escape(d["subject_ref"])
                 + "</b><br>任务："
@@ -148,6 +156,7 @@ def main():
                 '<input type="hidden" name="position" value="' + str(len(reviews)) + '">'
                 "<h2>逐项审阅：观察、UNKNOWN、反证与建议</h2>"
                 + checks
+                + '<p><label><input type="checkbox" name="ack_all" value="yes"> 我已经逐项阅读并确认本份全部 ' + str(len(items)) + ' 个项目，同意对每个项目记录 ACK，继续保留全部 UNKNOWN、来源引用及限制。（可选择此项统一确认，或逐项勾选上方各项。）</label></p>'
                 + '<p><label><input required type="checkbox" name="attest" value="yes"> 我实际阅读了上述报告，确认来源声明仅为样例，缺失参数和未验证内容继续保持 UNKNOWN，没有被当成已证实的业务事实。</label></p>'
                 '<p><label><input required type="checkbox" name="directed_grant" value="yes"> 我同意审核通过后，仅向该任务当前受邀收件人发放短期报告读取授权，供本轮外部验收，并允许之后测试撤销。</label></p>'
                 '<p>请填写你的实际审核意见（至少12个字符）：</p><textarea required name="reason" minlength="12" maxlength="2000" rows="4"></textarea>'
@@ -176,20 +185,23 @@ def main():
                     or not 0 < int(n) <= 16384
                     or self.headers.get("Content-Type") != "application/x-www-form-urlencoded"
                 ):
-                    return self.reply(403, "Forbidden")
+                    progress("LOCAL_REVIEW_POST_REJECTED", reason=(
+                        "ORIGIN" if self.headers.get("Origin") != "http://" + authority else
+                        "ROUTE_OR_EXPIRY" if not self.valid() else "CONTENT_HEADERS"))
+                    return self.reply(403, '<meta charset="utf-8"><p>本机提交校验未通过，意见尚未保存。请保留页面；开发者可通过脱敏回执定位。</p>')
                 body = parse_qs(self.rfile.read(int(n)).decode("utf8"))
                 d = drafts[len(reviews)]
                 expected = {x["id"] for x in d["report"]["findings"] + d["report"]["blueprint"]}
                 reason = body.get("reason", [""])[0].strip()
                 if (
-                    set(body)
-                    != {"confirmation", "position", "ack", "attest", "directed_grant", "reason"}
+                    not {"confirmation", "position", "attest", "directed_grant", "reason"} <= set(body)
+                    or not set(body) <= {"confirmation", "position", "ack", "ack_all", "attest", "directed_grant", "reason"}
                     or body["confirmation"] != [capability]
                     or body["position"] != [str(len(reviews))]
                     or body["attest"] != ["yes"]
                     or body["directed_grant"] != ["yes"]
-                    or set(body["ack"]) != expected
-                    or len(body["ack"]) != len(expected)
+                    or not (body.get("ack_all") == ["yes"] or
+                            (set(body.get("ack",[])) == expected and len(body.get("ack",[])) == len(expected)))
                     or not 12 <= len(reason) <= 2000
                 ):
                     return self.reply(
@@ -208,7 +220,12 @@ def main():
                         },
                     }
                 )
+                put_private(a.operator_image,a.name,"review-progress.json",json.dumps({
+                    "windows_sid_sha256":sid_hash,"reviews":reviews,
+                    "report_pins":[{"audit_ref":d["audit_ref"],"display_hash":d["display_hash"]} for d in drafts]
+                }).encode())
                 if len(reviews) < len(drafts):
+                    progress("HUMAN_REVIEW_PARTIALLY_SAVED", saved_count=len(reviews), next_case=len(reviews)+1)
                     return self.reply(200, self.page())
                 put_private(
                     a.operator_image,
