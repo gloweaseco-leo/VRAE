@@ -14,6 +14,7 @@ import re
 import secrets
 import socket
 import struct
+import tempfile
 from urllib.parse import urlsplit
 import dns.resolver
 import psycopg
@@ -24,7 +25,7 @@ from contracts.l2_launch.vf_b import VERSION, submission_document
 from integration.authorized_targets import store
 from integration.authorized_targets.source_authority import authorization, verify, DEPLOYMENT, root_document
 from integration.authorized_targets.operator import activate
-from infra.linux_service.supervisor import INPUT, private, write, clear_chain
+from infra.linux_service.supervisor import INPUT, private, clear_chain
 from infra.authorized_targets.egress_policy import install
 from vrae.collection.policy import canonical_url
 from vrae.collection.resolver import public_addresses
@@ -83,7 +84,31 @@ def apply_policy(connection=None):
         network_internal=doc["network_internal"], allow_no_targets=not grants)
     doc.update(authorization_hashes=[digest(g) for g in grants], permitted_destination_ips=ips,
                firewall_policy_sha256=policy.pop("policy_sha256"), firewall_policy=policy)
-    write(DEPLOYMENT, canonical(envelope("deployment", doc)), mode=0o444)
+    replace_deployment(DEPLOYMENT, canonical(envelope("deployment", doc)))
+
+
+
+def replace_deployment(path,raw):
+    # The root supervisor intentionally drops DAC_OVERRIDE. Replace the signed
+    # read-only document atomically; never open the existing 0444 inode for write.
+    temporary=None
+    try:
+        with tempfile.NamedTemporaryFile(dir=path.parent,prefix=".deployment-",delete=False) as f:
+            temporary=f.name
+            f.write(raw)
+            f.flush()
+            os.fchmod(f.fileno(),0o444)
+            os.fsync(f.fileno())
+        os.replace(temporary,path)
+        temporary=None
+        fd=os.open(path.parent,os.O_RDONLY|os.O_DIRECTORY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+    finally:
+        if temporary is not None:
+            os.unlink(temporary)
 
 
 def scope(body):

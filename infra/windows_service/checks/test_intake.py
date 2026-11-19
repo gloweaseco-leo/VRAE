@@ -63,3 +63,15 @@ def test_new_url_submission_passes_original_verifier_and_retries_are_stable(monk
     with pytest.raises(intake.Denied):
         intake.signed_submission(binding,actor,{**body,"url":"https://owner.example.com/outside"},"cookie","csrf")
 
+
+
+def test_signed_deployment_replacement_preserves_read_only_permissions(tmp_path):
+    path=tmp_path/"deployment.json"
+    path.write_bytes(b"old-signed-document")
+    path.chmod(0o444)
+    previous=path.stat().st_ino
+    intake.replace_deployment(path,b"new-signed-document")
+    assert path.read_bytes()==b"new-signed-document"
+    assert path.stat().st_ino!=previous
+    assert path.stat().st_mode&0o777==0o444
+    assert sorted(p.name for p in tmp_path.iterdir())==["deployment.json"]
