@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import http.client
 import json
+import ipaddress
 import os
 from pathlib import Path
 import socket
@@ -25,6 +26,7 @@ class Connection(http.client.HTTPSConnection):
 
 def run(cfg, connect_host=None):
     events = []
+    authorized_peers = []
     for name, port, route, bearer, media in (
         ("diagnosis", cfg.get("api_port",443), "/health/ready", cfg["api_bearer"], "application/json"),
         ("review", cfg.get("review_port",8443), "/v1/report-authority/health", cfg["review_bearer"],
@@ -40,6 +42,9 @@ def run(cfg, connect_host=None):
             if name == "review":
                 headers["X-Report-Profile"] = "VERIFIED_HUMAN_CUSTOMER_REPORT"
             try:
+                c.connect()
+                peer = c.sock.getpeername()[0]
+                certificate_sha256 = hashlib.sha256(c.sock.getpeercert(binary_form=True)).hexdigest()
                 c.request("GET", route, headers=headers)
                 r = c.getresponse()
                 raw = r.read(65537)
@@ -48,6 +53,7 @@ def run(cfg, connect_host=None):
                 if case == "authorized":
                     doc = json.loads(raw)
                     assert r.status == 200
+                    authorized_peers.append(peer)
                     assert doc.get("status") == "READY" or doc.get("ready") is True
                     assert r.getheader("X-VRAE-Source-SHA") == cfg["source_sha"]
                     assert "no-store" in r.getheader("Cache-Control","")
@@ -57,7 +63,8 @@ def run(cfg, connect_host=None):
                 else:
                     assert r.status == 403, "INVALID_CLIENT_MUST_BE_DENIED"
                 events.append({"service":name,"case":case,"status":r.status,
-                               "response_sha256":hashlib.sha256(raw).hexdigest(),"passed":True})
+                               "response_sha256":hashlib.sha256(raw).hexdigest(),
+                               "server_certificate_sha256":certificate_sha256,"passed":True})
             except (ssl.SSLError, ConnectionResetError, http.client.RemoteDisconnected) as error:
                 if case not in ("wrong_certificate","no_certificate"):
                     raise
@@ -67,7 +74,9 @@ def run(cfg, connect_host=None):
                 c.close()
     return {"contract":"vrae.windows-public-mtls-probe.v1","host":cfg["host"],
             "source_sha":cfg["source_sha"],"passed":True,"events":events,
-            "external_network": bool(os.environ.get("GITHUB_ACTIONS")=="true" and connect_host is None),
+            "external_network": bool(os.environ.get("GITHUB_ACTIONS")=="true" and connect_host is None
+                and cfg["host"].endswith(".ts.net") and len(authorized_peers)==2
+                and all(ipaddress.ip_address(ip).is_global for ip in authorized_peers)),
             "customer_diagnosis_complete":False}
 
 

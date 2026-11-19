@@ -193,6 +193,12 @@ def bootstrap():
     registered = root_document(TRUST)["keys"][envelope["key_id"]]
     if key.public_key().public_bytes(Encoding.Raw, PublicFormat.Raw).hex() != registered["public"]:
         raise PermissionError("DEPLOYMENT_KEY_MISMATCH")
+    if cfg.get("intake_enabled"):
+        from infra.windows_service.intake import current_grants, delegation
+        delegation()
+        enrolled = current_grants()
+        grant["authorization_hashes"] = [digest(g) for g in enrolled]
+        grant["destination_ips"] = sorted({ip for g in enrolled for ip in g["document"]["destination_ips"]})
     for tool in ("iptables", "ip6tables"):
         clear_chain(tool, "VRAE_TARGET_V2", 65532)
     inode = os.stat("/proc/self/ns/net").st_ino
@@ -236,6 +242,9 @@ def bootstrap():
     elif ledger.stat().st_uid != 10007 or ledger.stat().st_mode & 0o077:
         raise PermissionError("PRIVATE_LEDGER_REQUIRED")
     configs = {name: provision(name, uid, cfg["source_sha"]) for name, (uid, _) in SERVICES.items()}
+    if cfg.get("intake_enabled"):
+        SERVICES["target-issuer"] = (0, "infra.windows_service.intake")
+        configs["target-issuer"] = INPUT / "enrollment-delegation.json"
     if cfg.get("controlled_fixture"):
         if (
             cfg["source_class"] != "CONTROLLED_NON_CUSTOMER"
