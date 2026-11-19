@@ -18,7 +18,7 @@ from vrae.intelligence import FixtureProvider, ModelGateway
 from vrae.intelligence.qwen import Config, QwenError, Quota
 from vrae.intelligence.qwen.provider import MODEL
 from vrae.intelligence.qwen.provider import NativeTransport
-from vrae.intelligence.qwen.session import SCHEMA
+from vrae.intelligence.qwen.session import SCHEMA, WIRE_SCHEMA, VALIDATOR
 from vrae.intelligence.qwen.testing import FakeTransport
 from vrae.intelligence.s3 import S3Error, Session
 
@@ -70,7 +70,7 @@ def test_native_fields_usage_real_tokens_not_utf8_and_original_guard(tmp_path, c
     body = p._transport.bodies[0]
     assert body['max_completion_tokens'] == 2048 and body['enable_thinking'] is False
     assert 'max_tokens' not in body and not body['stream']
-    assert body['response_format']['json_schema']['schema'] == SCHEMA
+    assert body['response_format']['json_schema']['schema'] == WIRE_SCHEMA
     assert 'tools' not in body and 'extra_body' not in body
     sent = json.dumps(body)
     assert 'synthetic-key' not in sent and 'example.com' not in sent and '12 m3/h' not in sent
@@ -109,6 +109,7 @@ def test_missing_permission_price_key_and_budget_never_dispatch(tmp_path, c, cha
 
 @pytest.mark.parametrize('fault,code', [
     ('timeout', 'TIMEOUT'), ('429', 'RATE_LIMITED'), ('503', 'PROVIDER_HTTP_ERROR'),
+    ('400', 'PROVIDER_HTTP_ERROR'),
     ('302', 'PROVIDER_HTTP_ERROR'), ('json', 'INVALID_JSON'), ('duplicate', 'DUPLICATE_JSON_FIELD'),
     ('missing_usage', 'USAGE_UNKNOWN'), ('bool_usage', 'USAGE_UNKNOWN'),
     ('over_usage', 'USAGE_UNKNOWN'), ('sum_usage', 'USAGE_UNKNOWN'), ('model', 'MODEL_NOT_CONFIRMED'),
@@ -123,7 +124,7 @@ def test_protocol_and_candidate_failures_are_safe_with_persistent_usage(tmp_path
     content = candidate(c)
     if fault == 'timeout':
         fake.timeout = True
-    elif fault in ('429', '503', '302'):
+    elif fault in ('429', '503', '302', '400'):
         fake.status = int(fault)
         fake.response = b'hostile-server-body synthetic-key-no-real-secret-0000'
     elif fault in ('json', 'duplicate'):
@@ -325,7 +326,8 @@ def test_unknown_cards_remain_unknown_while_candidates_are_only_hypotheses(tmp_p
 
 
 @pytest.mark.parametrize('key', ['synthetic-key-no-real-secret-0000', 'sk-fake.+/~token_1234=='])
-def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(monkeypatch, key):
+@pytest.mark.parametrize('http_status', [200, 400])
+def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(monkeypatch, key, http_status):
     from infra.qwen_provider import egress
     envelope = {'workspace': 'synthetic-workspace', 'key': key,
                 'body': {'model': MODEL}, 'timeout_ms': 1000}
@@ -339,7 +341,7 @@ def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(m
             sent.append(data)
         def makefile(self, *args):
             body = b'{"protocol_fake":true}'
-            return io.BytesIO(b'HTTP/1.1 200 OK\r\nContent-Length: ' + str(len(body)).encode()
+            return io.BytesIO(b'HTTP/1.1 ' + str(http_status).encode() + b' Synthetic\r\nContent-Length: ' + str(len(body)).encode()
                               + b'\r\nConnection: close\r\n\r\n' + body)
         def close(self):
             pass
@@ -363,7 +365,8 @@ def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(m
     request = b''.join(sent)
     assert b'POST /compatible-mode/v1/chat/completions HTTP/1.1' in request
     assert b'Host: synthetic-workspace.cn-beijing.maas.aliyuncs.com' in request
-    assert json.loads(output.getvalue())['status'] == 200
+    assert json.loads(output.getvalue())['status'] == http_status
+    assert json.loads(json.loads(output.getvalue())['body']) == {'protocol_fake': True}
     assert 'synthetic-key' not in output.getvalue()
 
 
@@ -432,3 +435,27 @@ def test_windows_missing_systemroot_refuses_without_spawning(monkeypatch):
     monkeypatch.setattr(transport, 'os', SimpleNamespace(environ={}))
     with pytest.raises(QwenError, match='EGRESS_SYSTEMROOT_REQUIRED'):
         transport.child_environment()
+
+
+def test_vendor_schema_omits_only_unsupported_uniqueness_keyword():
+    from copy import deepcopy
+    from vrae.intelligence.qwen.session import wire_schema
+    before = deepcopy(SCHEMA)
+    assert 'uniqueItems' not in json.dumps(WIRE_SCHEMA)
+    assert SCHEMA == before and SCHEMA['properties']['claims']['items']['properties']['refs']['uniqueItems']
+    assert wire_schema(SCHEMA) == WIRE_SCHEMA
+    assert WIRE_SCHEMA['properties']['claims']['maxItems'] == 8
+    assert WIRE_SCHEMA['properties']['claims']['items']['properties']['explanation']['maxLength'] == 600
+    assert WIRE_SCHEMA['properties']['claims']['items']['additionalProperties'] is False
+
+
+@pytest.mark.parametrize('field', ['refs', 'counter_refs'])
+def test_local_validator_still_rejects_duplicate_refs_after_wire_projection(tmp_path, c, field):
+    document = candidate(c)
+    ref = document['claims'][0]['refs'][0]
+    document['claims'][0][field] = [ref, ref]
+    assert not VALIDATOR.is_valid(document)
+    raw = response(c)
+    raw['choices'][0]['message']['content'] = json.dumps(document)
+    p = provider(tmp_path / 'q.sqlite', c, fake=FakeTransport(raw))
+    assert run(c, p)[1]['code'] == 'CANDIDATE_SCHEMA'

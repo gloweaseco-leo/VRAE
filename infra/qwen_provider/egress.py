@@ -53,7 +53,9 @@ def main():
                            headers={'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key})
         response = connection.getresponse()
         # No redirects, retries, tool execution, cookies, proxies or remote error logging.
-        content = response.read(MAX + 1) if response.status == 200 else b''
+        # Retain bounded errors on the anonymous return pipe too. Parent never
+        # reflects remote error text; operator can retain protected originals.
+        content = response.read(MAX + 1)
         if len(content) > MAX:
             return 1
         sys.stdout.write(json.dumps({'status': response.status, 'body': content.decode('utf-8')}))

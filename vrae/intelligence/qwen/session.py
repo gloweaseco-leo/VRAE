@@ -29,6 +29,22 @@ SCHEMA = {'type': 'object', 'additionalProperties': False,
         'prompt_version': {'const': PROMPT},
         'context_ref': {'type': 'string', 'pattern': r'^s3ctx-[0-9a-f]{64}$'},
         'claims': {'type': 'array', 'minItems': 1, 'maxItems': 8, 'items': CLAIM}}}
+
+
+def wire_schema(value):
+    """Bailian strict mode rejects uniqueItems; original local schema keeps it.
+
+    https://help.aliyun.com/zh/model-studio/qwen-structured-output
+    Only this documented unsupported keyword is omitted on the wire.
+    """
+    if isinstance(value, dict):
+        return {key: wire_schema(item) for key, item in value.items() if key != 'uniqueItems'}
+    if isinstance(value, list):
+        return [wire_schema(item) for item in value]
+    return value
+
+
+WIRE_SCHEMA = wire_schema(SCHEMA)
 VALIDATOR = Draft202012Validator(SCHEMA)
 UNSAFE = re.compile(r'https?://|www\.|[\w.+-]+@[\w.-]+\.[a-z]{2,}|[<>]|'
     r'certificate\s+(?:is\s+)?(?:authentic|genuine|valid)|'
@@ -85,7 +101,7 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
     body = {'model': MODEL, 'messages': [{'role': 'system', 'content': SYSTEM},
         {'role': 'user', 'content': encode(data).decode()}],
         'response_format': {'type': 'json_schema', 'json_schema': {
-            'name': 'buyer_candidates', 'strict': True, 'schema': SCHEMA}},
+            'name': 'buyer_candidates', 'strict': True, 'schema': WIRE_SCHEMA}},
         'enable_thinking': False, 'max_completion_tokens': OUTPUT_CAP, 'stream': False}
     dispatch_at = clock()
     context.completion.check(context.source, dispatch_at)
