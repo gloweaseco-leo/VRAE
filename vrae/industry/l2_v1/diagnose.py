@@ -173,7 +173,16 @@ def analyze(pack, execution, facts, profile):
         observation = dict(schema_version="1.0", **scope, rule_id=rule_id, rule_version="1.0.0",
                            result=result, kind="OBJECTIVE" if objective else "UNKNOWN", evidence_ids=evidence_ids,
                            statement=statement, coverage_note="Captured source declarations and configured procurement checks only; not whole-site absence, engineering fit, authenticated qualification or business outcome.")
-        observation["observation_id"] = "obs-" + document_hash(dict(observation=observation, model=model, related=related, reason=reason))
+        identity = dict(observation=observation, model=model, related=related, reason=reason)
+        observation["observation_id"] = "obs-" + document_hash(identity)
+        if any(a["observation"]["observation_id"] == observation["observation_id"] for a in assessments):
+            # Missing scalar pairs can have identical UNKNOWN wording and no
+            # evidence. Preserve each configured comparison with its context;
+            # never merge it away or bypass the report's unique-ID guard.
+            identity["assessment_details"] = details or {}
+            observation["observation_id"] = "obs-" + document_hash(identity)
+            if any(a["observation"]["observation_id"] == observation["observation_id"] for a in assessments):
+                denied()
         validate_contract("Observation", observation)
         finding = dict(schema_version="1.0", **scope, observation_id=observation["observation_id"],
                        kind="OBSERVATION" if objective else "UNKNOWN", evidence_ids=[], statement=statement,

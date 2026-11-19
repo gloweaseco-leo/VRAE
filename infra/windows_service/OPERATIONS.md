@@ -105,3 +105,39 @@ session state are sealed to an operator X25519 key before upload and decrypted o
 private volume. Keep failed receipts. Delete temporary Actions client secrets after acceptance.
 Migration to a future VPS preserves PG/Ledger and trust/revocation state, installs actual new
 hostname certificates and tests external mTLS again; it is not a prerequisite for local acceptance.
+
+
+## Actual local review operation
+
+The enrolled Reviewer phone label is read privately from `pairing-label.json`.
+Successful enrollment is established by the identity store transaction and signed
+directory, not an expired browser pairing-page status. Do not enroll again to sign
+a report. `review_browser` presents the exact committed native report and evidence
+on a temporary loopback capability URL. It requires a human to read every item,
+retain UNKNOWN, enter their own reason, and consent to the directed short grant
+and its revocation test. Closing the page creates no approval.
+
+After both reviews are staged, run `python -B -m infra.windows_service.review_operator
+--operator-image <immutable trusted operator> --receipt <private operator receipt>`
+in the actual Windows user's interactive session. It verifies the Windows account
+password through the native credential API and the enrolled phone TOTP. It obtains
+fresh original report challenges and signed VERIFIED_PERSON_MFA identities, then
+compares the exact reviewed report/version/display/content hashes before recording
+each decision and the current recipient's 900-second grant through the original API.
+`--mode revoke` uses fresh actual Owner MFA to revoke those original grants.
+Never pass passwords, OTPs, seeds, JWTs or grant tokens as command arguments.
+
+The public report acceptance program returns an explicit incomplete state until
+actual human decisions and directed grants exist. Once supplied privately, it
+checks formal external reads, the exact committed report, subject isolation and
+Reader role restrictions over the real public mTLS service. After actual Owner
+revocation it first checks a still-live task session, then verifies grant rejection.
+Do not count isolated regression fixtures as any of these public checks.
+
+The current self-owned source scope is bounded to `/robots.txt`, `/`,
+`/products/tx10`, `/contact`, 10 seconds per request and 24 seconds per capture,
+inside the unchanged 30-second original lease. DNS uses signed container-scoped
+TCP resolvers 223.6.6.6 and 223.5.5.5. This does not change Windows/VPN DNS,
+proxy or routes; all original public-answer validation and preconnect pinning remain.
+Missing scalar comparisons remain separate UNKNOWN assessments with distinct
+identities; the original report's duplicate-ID rejection remains enforced.

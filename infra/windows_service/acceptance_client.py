@@ -85,11 +85,14 @@ def execute(cfg,root,events,state):
         if 'submission' not in subject:
             subject['submission']={'url':cfg['acceptance_source'],'idempotency_key':'live-'+secrets.token_hex(16),
                 'accepted_at':datetime.now(UTC).isoformat(),'consent_version':contract['consent_version'],'language':'zh'}
-        accepted,_=call('submit-'+invited['subject_ref'],'POST','/v1/diagnoses',subject['submission'],subject,202)
-        subject['audit_ref']=accepted['audit_ref']
-        repeated,_=call('same-intent-'+invited['subject_ref'],'POST','/v1/diagnoses',subject['submission'],subject,202)
-        assert repeated==accepted
-        call('changed-intent-'+invited['subject_ref'],'POST','/v1/diagnoses',{**subject['submission'],'language':'en'},subject,409)
+        if subject.get('audit_ref') and subject.get('last_status',{}).get('task',{}).get('status')=='DRAFT_READY':
+            accepted={'audit_ref':subject['audit_ref']}
+        else:
+            accepted,_=call('submit-'+invited['subject_ref'],'POST','/v1/diagnoses',subject['submission'],subject,202)
+            subject['audit_ref']=accepted['audit_ref']
+            repeated,_=call('same-intent-'+invited['subject_ref'],'POST','/v1/diagnoses',subject['submission'],subject,202)
+            assert repeated==accepted
+            call('changed-intent-'+invited['subject_ref'],'POST','/v1/diagnoses',{**subject['submission'],'language':'en'},subject,409)
         deadline=time.monotonic()+150
         while True:
             status,_=call('status-'+invited['subject_ref'],'GET','/v1/audits/'+accepted['audit_ref'],subject=subject)
