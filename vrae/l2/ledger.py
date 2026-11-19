@@ -29,7 +29,8 @@ class Ledger:
         self.path=Path(path)
         self.source,self.directory=source,directory
         if getattr(source,'controlled_only',False) and directory.mode!='CONTROLLED':
-            deny('L2_NATIVE_CONTROLLED_CONTEXT_REQUIRED')
+            from .verified import require_verified
+            require_verified(source,directory)
         self.path.parent.mkdir(parents=True,exist_ok=True)
         if self.path.is_symlink():
             deny('L2_LEDGER_PATH_DENIED')
@@ -75,6 +76,9 @@ class Ledger:
             c.execute('BEGIN IMMEDIATE')
             try:
                 yield c
+                if getattr(self.source,'profile',None)=='VERIFIED_HUMAN_CUSTOMER_REPORT':
+                    from .verified import require_verified
+                    require_verified(self.source,self.directory)
                 c.commit()
             except BaseException:
                 c.rollback()
@@ -193,6 +197,13 @@ class Ledger:
         if row is None:
             deny('L2_REVIEW_REQUIRED')
         receipt=json.loads(row[0])
+        if getattr(self.source,'profile',None)=='VERIFIED_HUMAN_CUSTOMER_REPORT':
+            from .verified import require_verified
+            require_verified(self.source,self.directory)
+            if (receipt.get('formal_human_review') is not True
+                    or receipt.get('reviewer_attested') is not True
+                    or receipt.get('source_hash')!=self.source.expected):
+                deny('L2_VERIFIED_RESPONSIBLE_PERSON_REQUIRED')
         expected='CONTROLLED_REVIEW_SIMULATION' if self.directory.mode=='CONTROLLED' else 'RESPONSIBLE_PERSON_REVIEW'
         if receipt['scope']!=expected or receipt['display_hash']!=view.display_hash:
             deny('L2_REVIEW_REQUIRED')
@@ -200,7 +211,7 @@ class Ledger:
                        if v.actor_id==receipt['decision']['reviewer_id']),None)
         if (reviewer is None or not reviewer.active or reviewer.role not in ('OWNER','REVIEWER')
                 or reviewer.tenant_id!=p.tenant_id
-                or report not in reviewer.report_ids or receipt['identity_issuer']!=self.directory.issuer
+                or not self.directory.permits(reviewer,report) or receipt['identity_issuer']!=self.directory.issuer
                 or receipt['identity_subject']!=reviewer.subject
                 or receipt['identity_verification_ref']!=reviewer.verification_ref
                 or receipt['authentication_key_id'] in self.directory.revoked_keys):
@@ -219,23 +230,29 @@ class Ledger:
             p=self.person(sid,report)
             require_access(p.actor,p.tenant_id,'share')
             if self.directory.mode!='CONTROLLED':
-                deny('L2_EXTERNAL_ACCESS_NOT_ENABLED')
+                from .verified import require_verified
+                require_verified(self.source,self.directory,code='L2_EXTERNAL_ACCESS_NOT_ENABLED')
             recipient=next((r for r in self.directory.people.values() if r.actor_id==recipient_id),None)
             if (recipient is None or recipient.role!='READER' or not recipient.active
-                    or recipient.tenant_id!=p.tenant_id or report not in recipient.report_ids
+                    or recipient.tenant_id!=p.tenant_id or not self.directory.permits(recipient,report)
                     or type(ttl) is not int or not 1<=ttl<=1800):
                 deny('L2_DIRECTED_RECIPIENT_REQUIRED')
+            if self.directory.mode=='VERIFIED_DIRECTORY':
+                self.source.recipient(recipient,report)
             with self.transaction() as c:
                 view=self._get(c,p.tenant_id,report)
                 self._pins(view,version,content_hash,display_hash)
                 receipt,approved=self._decision(c,p,report,view)
                 now=self.directory.now()
                 token=secrets.token_urlsafe(32)
+                expiry=now+ttl
+                if self.directory.mode=='VERIFIED_DIRECTORY':
+                    expiry=min(expiry,self.source.authority_deadline,self.directory.expires)
                 grant={'schema_version':'1.0','tenant_id':p.tenant_id,'grant_id':'grant-'+uuid4().hex,
                     'report_version_id':view.version['report_version_id'],'content_hash':content_hash,
                     'subject_ref':recipient_id,'token_hash':hashlib.sha256(token.encode()).hexdigest(),
                     'status':'ACTIVE','issued_at':at(now),
-                    'expires_at':(datetime.fromtimestamp(now,timezone.utc)+timedelta(seconds=ttl)).isoformat(),
+                    'expires_at':at(expiry) if self.directory.mode=='VERIFIED_DIRECTORY' else (datetime.fromtimestamp(now,timezone.utc)+timedelta(seconds=ttl)).isoformat(),
                     'revoked_at':None}
                 validate_contract('ShareGrant',grant)
                 check_share(approved,receipt['decision'],grant,p.actor,version,
@@ -243,7 +260,7 @@ class Ledger:
                 c.execute('INSERT INTO grants VALUES(?,?,?,?,?,?,?,?,?,?)',(grant['grant_id'],p.tenant_id,
                     report,version,receipt['decision']['decision_id'],
                     encoded([recipient.actor_id,self.directory.issuer,recipient.subject]).decode(),
-                    'CONTROLLED_DIRECTED_ACCESS',encoded([p.actor_id,self.directory.issuer,p.subject]).decode(),
+                    'VERIFIED_HUMAN_CUSTOMER_REPORT' if self.directory.mode=='VERIFIED_DIRECTORY' else 'CONTROLLED_DIRECTED_ACCESS',encoded([p.actor_id,self.directory.issuer,p.subject]).decode(),
                     display_hash,encoded(grant)))
                 self.directory.require(sid,report)
                 return grant,token
@@ -267,12 +284,19 @@ class Ledger:
     def access(self,sid,report,grant_id,token_hash):
         with self.directory.lock:
             p=self.person(sid,report)
-            if self.directory.mode!='CONTROLLED' or p.role!='READER':
+            if p.role!='READER':
                 deny('L2_DIRECTED_ACCESS_DENIED')
+            if self.directory.mode!='CONTROLLED':
+                from .verified import require_verified
+                require_verified(self.source,self.directory,code='L2_DIRECTED_ACCESS_DENIED')
+                self.source.recipient(p,report)
             with self.connection() as c:
-                row=c.execute('SELECT decision_id,recipient,display_hash,grant_json,issued_by FROM grants '
+                row=c.execute('SELECT decision_id,recipient,display_hash,grant_json,issued_by,scope FROM grants '
                     'WHERE id=? AND tenant=? AND report=?',(grant_id,p.tenant_id,report)).fetchone()
                 if row is None or row[1]!=encoded([p.actor_id,self.directory.issuer,p.subject]).decode():
+                    deny('L2_DIRECTED_ACCESS_DENIED')
+                scope='VERIFIED_HUMAN_CUSTOMER_REPORT' if self.directory.mode=='VERIFIED_DIRECTORY' else 'CONTROLLED_DIRECTED_ACCESS'
+                if row[5]!=scope:
                     deny('L2_DIRECTED_ACCESS_DENIED')
                 grant=json.loads(row[3])
                 if not secrets.compare_digest(grant['token_hash'],token_hash):
@@ -286,7 +310,7 @@ class Ledger:
                 # reader role or a fabricated actor supplied in a request.
                 owners=[v for v in self.directory.people.values() if v.role=='OWNER'
                         and encoded([v.actor_id,self.directory.issuer,v.subject]).decode()==row[4]
-                        and v.tenant_id==p.tenant_id and report in v.report_ids and v.active]
+                        and v.tenant_id==p.tenant_id and self.directory.permits(v,report) and v.active]
                 if len(owners)!=1:
                     deny('L2_GRANT_AUTHORITY_UNAVAILABLE')
                 check_share(approved,receipt['decision'],grant,owners[0].actor,view.version['version'],

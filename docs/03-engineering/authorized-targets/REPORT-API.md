@@ -7,7 +7,7 @@ response. It uses the existing L2 Ledger for versions, decisions, directed grant
 and revocation. It never accepts a submitted pack/report, caller-selected DB role,
 tenant, reviewer name, approval flag or directory as authority.
 
-**Current profile: CONTROLLED_NATIVE_REPORT_ONLY.** NativeSource's existing
+**Default profile: CONTROLLED_NATIVE_REPORT_ONLY.** NativeSource's existing
 `controlled_only` restriction and Ledger's external-access restriction are
 unchanged. A controlled approval or directed read is not formal human approval or
 customer release. This API does not enable the customer `/v1/audits/{ref}/report`
@@ -16,6 +16,11 @@ with those original authorities before customer publication. There is no
 configuration flag that turns this profile into formal release. No new Gold
 count, universal Owner reapproval step, frontend, CRM or delivery transport is
 introduced.
+
+The separate [VERIFIED_HUMAN_CUSTOMER_REPORT contract](VERIFIED-REPORTS.md) adds
+root-signed identity authority, original current invited-recipient binding,
+certificate-bound mTLS and original formal review/grant checks. It does not
+promote controlled reviews or change this default profile.
 
 ## Transport and authentication
 
