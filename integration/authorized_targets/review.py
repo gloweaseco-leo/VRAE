@@ -16,6 +16,36 @@ from integration.authorized_targets.store import connect
 from contracts.l2_launch.contract import canonical
 
 
+def committed_ledger(current, binding, job_id, path, directory):
+    """Reconstitute the original ledger only from a held committed-input port."""
+    d = current["artifact"]
+    if d["task"]["tenant_id"] != binding["tenant_id"] or d["task"]["job_id"] != str(job_id):
+        raise ValueError("CURRENT_REVIEW_SCOPE")
+    objects = {k: base64.b64decode(v, validate=True) for k, v in d["objects_base64"].items()}
+    pack = EvidencePack(canonical(d["pack"]), tuple(sorted(objects.items())))
+    source = NativeSource(
+        pack, d["diagnosis"], held=NativeTask(**d["native_document"]["native_context"])
+    )
+    initial = source.read()
+    if initial.display_hash != d["display_hash"] or initial.version != d["version"]:
+        raise ValueError("CURRENT_REVIEW_REPLAY")
+    return Ledger(path, source, directory), initial.version["report_id"]
+
+
+@contextmanager
+def current_committed_review(binding, job_id, path, directory):
+    """Keep current PG source authority through every report operation/output.
+
+    Uses the accepted V2 port, including its current source-authorization replay.
+    No request body can supply evidence, a report, a directory or a PG binding.
+    """
+    from integration.authorized_targets.delivery import committed_input
+
+    with committed_input(binding, job_id, purpose="HUMAN_REVIEW_INPUT") as current:
+        ledger, report_id = committed_ledger(current, binding, job_id, path, directory)
+        yield ledger, report_id
+
+
 @contextmanager
 def current_review(binding, job_id, path, directory):
     # The original PostgreSQL source/subject/policy/assignment locks are retained
