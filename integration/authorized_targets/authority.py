@@ -36,7 +36,10 @@ def check_submission(body, plan, invitation, principal, keys):
         raise Refused("FORBIDDEN_ROLE")
     if request["site_url"] != plan["origin"] + "/":
         raise Refused("SOURCE_NOT_ALLOWED")
-    if plan["authorization_kind"] not in (
+    if plan.get("execution_profile") == "ADMIN_TARGET_V2":
+        if plan["authorization_kind"] != "ADMIN_AUTHORIZED_READONLY":
+            raise Refused("POLICY_REQUIRED")
+    elif plan["authorization_kind"] not in (
         "CONTROLLED_NON_CUSTOMER",
         "EXPLICIT_CUSTOMER_AUTHORIZATION",
     ):

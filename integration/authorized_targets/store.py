@@ -77,7 +77,7 @@ class WorkerPort:
         self.connection = connect(binding)
 
     def call(self, name, *values):
-        if name not in ("load", "commit"):
+        if name not in ("load", "commit", "capture_failure"):
             raise ValueError("NARROW_WORKER_PORT")
         with self.connection.transaction():
             return self.connection.execute(

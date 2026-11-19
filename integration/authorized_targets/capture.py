@@ -15,7 +15,11 @@ from vrae.collection.limits import Limits
 from vrae.collection.policy import SourceAccess
 
 
-def components(audit, policy_provider, plan, run_id, workload):
+def components(audit, policy_provider, plan, run_id, workload, current=None):
+    if plan.get("execution_profile") == "ADMIN_TARGET_V2":
+        from integration.authorized_targets.egress import components as authorized
+
+        return authorized(audit, policy_provider, plan, run_id, workload, current)
     policy = policy_provider()
     source = SourceAccess(audit, policy_provider, terms_reference=plan["terms_reference"])
     held = TaskPins(
@@ -54,9 +58,13 @@ def components(audit, policy_provider, plan, run_id, workload):
     raise PermissionError("LIVE_CAPTURE_DISABLED")
 
 
-def capture(audit, policy_provider, plan, run_id, workload):
-    access, fetcher = components(audit, policy_provider, plan, run_id, workload)
-    limits = Limits(**plan["limits"])
+def capture(audit, policy_provider, plan, run_id, workload, current=None):
+    access, fetcher = components(audit, policy_provider, plan, run_id, workload, current)
+    configured = dict(plan["limits"])
+    configured["task_seconds"] = min(
+        configured["task_seconds"], workload.get("task_seconds", configured["task_seconds"])
+    )
+    limits = Limits(**configured)
     result = asyncio.run(
         Collector(fetcher).capture(
             run_id, access, limits=limits, retain_raw_html=plan["retain_raw_html"]
