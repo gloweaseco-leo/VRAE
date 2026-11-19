@@ -48,6 +48,9 @@ into the Docker/WSL ext4 operator volume. Do not write plaintext keys to NTFS,
 argv/env, GitHub/CI, logs or VEYFRONT. Root operator key is0600; runtime key is
 root-owned0440 with AI10008 group access, under a root-owned0750 directory. AI
 cannot chmod/replace it. Grant uses the same pinned operator key, not a CI issuer.
+The runtime Dockerfile has its own build exclusions for local `.private`,
+`.runtime`, environments and worktrees; ignored operator/test materials must not
+be copied into image layers. Only runtime volumes/tmpfs carry operator material.
 
 The offline `qwen_provision` command reads only a bounded private stdin envelope:
 explicit operator_fee_go, fee approval reference/expiry (max24h), daily cap,
