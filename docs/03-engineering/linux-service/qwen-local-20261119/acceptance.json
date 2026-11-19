@@ -1,0 +1,216 @@
+{
+  "scope": "CONTROLLED_NON_CUSTOMER_SAME_RETAINED_C3_SERVICE",
+  "runtime_source_sha": "29d6f2444e80bb0da687fbb15b1326e4466e4800",
+  "local_api": "127.0.0.1:18769",
+  "local_review": "127.0.0.1:18770",
+  "service_owner": "vrae-local",
+  "same_pg": "vrae-local-pg",
+  "same_ledger": "vrae-local-ledger",
+  "source_permissions_changed": false,
+  "old_sessions_reset": false,
+  "fresh_controlled_invitation_via_original_mtls_api": true,
+  "fee_approval": {
+    "daily_cny": 5,
+    "expires_at": "2026-11-20T11:05:11+00:00",
+    "calls_per_task": 1,
+    "output_tokens": 2048,
+    "new_real_calls_this_round": 1,
+    "automatic_retry": false
+  },
+  "fake": {
+    "fake_cases": 6,
+    "isolation": {
+      "capabilities_zero": true,
+      "kernel_denials": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "no_new_privileges": true
+    },
+    "lineage_unchanged": true,
+    "real_model_calls": 0,
+    "same_pg_worker_https": true,
+    "sole_ai_loop": true,
+    "source_namespace_internal": true
+  },
+  "real_preflight": {
+    "isolation": {
+      "capabilities_zero": true,
+      "kernel_denials": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "no_new_privileges": true
+    },
+    "model_dispatches": 0,
+    "ready": {
+      "actual_invoice": "UNKNOWN",
+      "model": "qwen4-max",
+      "model_configuration_valid": true,
+      "phase": "AI_SUPERVISED",
+      "policy": {
+        "allowed_https_port": 443,
+        "default": "REJECT",
+        "dns_count": 0,
+        "provider_ip_count": 2,
+        "uid": 10008
+      },
+      "source_sha": "29d6f2444e80bb0da687fbb15b1326e4466e4800"
+    },
+    "tls": {
+      "api_requests": 0,
+      "official_tls_verified": true,
+      "tls": "TLSv1.3"
+    }
+  },
+  "fake_cases": [
+    {
+      "state": "AI_UNAVAILABLE",
+      "reason": "OWNER_PERMISSION_REQUIRED",
+      "real_model_calls": 0
+    },
+    {
+      "state": "AI_UNAVAILABLE",
+      "reason": "KEY_REQUIRED",
+      "real_model_calls": 0
+    },
+    {
+      "state": "AI_CANDIDATES_FOR_HUMAN_REVIEW",
+      "reason": "CANDIDATES_BOUND_NOT_APPROVED",
+      "real_model_calls": 0
+    },
+    {
+      "state": "AI_UNAVAILABLE",
+      "reason": "CANDIDATE_SCHEMA",
+      "real_model_calls": 0
+    },
+    {
+      "state": "AI_UNAVAILABLE",
+      "reason": "TIMEOUT",
+      "real_model_calls": 0
+    },
+    {
+      "state": "AI_UNAVAILABLE",
+      "reason": "BUDGET_REFUSED",
+      "real_model_calls": 0
+    }
+  ],
+  "real_receipt": {
+    "approval_status": "NOT_APPROVED",
+    "artifact_sha256": "0d1a07122fb9551b49cf49946c6bfca65e99cfaf9a2e7fe5626cb55569157aee",
+    "claims": [],
+    "context_ref": "s3ctx-5a2bf5ed6fd4408e1ded1e59b828e15f5b546d969f90cd0b2c160d31cb0dc4a5",
+    "cost_status": "ESTIMATED",
+    "deterministic_report_hash": "2c18b809ddc22df65bcd412bd8d29d78dcaf573982d83e052fe37794179c0725",
+    "display_hash": "8aebdcde847ff3495aee372af00cbc8a7217596449afe78825e3041d28e3638e",
+    "grants_report_access": false,
+    "model": "qwen4-max",
+    "model_constraint": "qwen4-max",
+    "model_runtime": {
+      "actual_invoice": "UNKNOWN",
+      "budget": {
+        "actual_invoice": "UNKNOWN",
+        "cap_micros": 5000000,
+        "currency": "CNY",
+        "day_utc": "2026-11-19",
+        "occupied_micros": 591868,
+        "remaining_micros": 4408132
+      },
+      "configured": true,
+      "mode": "REAL_QWEN"
+    },
+    "operation_id": "service-ai-84a21c12-414b-406b-98bc-22c7ba622e9b",
+    "provider_attempts": 1,
+    "provider_operation_id": "service-ai-84a21c12-414b-406b-98bc-22c7ba622e9b",
+    "real_model_calls": 1,
+    "reason": "GUARD_ANCHOR_REQUIRED",
+    "recorded_at": "2026-11-19T11:27:56.107003+00:00",
+    "report_content_hash": "2c18b809ddc22df65bcd412bd8d29d78dcaf573982d83e052fe37794179c0725",
+    "shareable": false,
+    "state": "AI_UNAVAILABLE",
+    "task": {
+      "event_id": "4e90abc5-2e1b-4272-9597-febd303785f2",
+      "job_id": "84a21c12-414b-406b-98bc-22c7ba622e9b",
+      "request_id": "aaf152fb-d155-47d3-9de4-aa9974eb468a",
+      "run_id": "22bcba7f-8226-4bac-9dbd-d55761f95e7a",
+      "source_ref": "target-pumps",
+      "tenant_id": "tenant-beta"
+    },
+    "usage": {
+      "amount_micros": 29520,
+      "billing_origin": "TOKEN_BASED_ESTIMATE_NOT_INVOICE",
+      "context_ref": "s3ctx-5a2bf5ed6fd4408e1ded1e59b828e15f5b546d969f90cd0b2c160d31cb0dc4a5",
+      "cost_status": "ESTIMATED",
+      "currency": "CNY",
+      "duration_ms": 14350,
+      "input_tokens": 1218,
+      "model_id": "qwen4-max",
+      "operation_ref": "8e79c1dfe8bccd7f56437d6fe359542adf460937757c52c42a8d0dd521f9708b",
+      "output_tokens": 578,
+      "price_snapshot": {
+        "basis": "ESTIMATE_NOT_PROVIDER_INVOICE",
+        "currency": "CNY",
+        "input_micros_per_million": 10000000,
+        "model_id": "qwen4-max",
+        "output_micros_per_million": 30000000,
+        "snapshot_id": "runtime-official-qwen4",
+        "source": "https://help.aliyun.com/zh/model-studio/qwen4-max",
+        "valid_until": "2026-11-20T11:05:11+00:00"
+      },
+      "prompt_version": "qwen-minimized-buyer-1.1.0",
+      "provider": "aliyun-bailian-beijing",
+      "provider_attempts": 1,
+      "real_model_calls": 1,
+      "recorded_at": "2026-11-19T11:27:34.869473+00:00",
+      "request_id_hash": "c4925f02c90704d675ba62268e32a7fb4fa378d760194d78828abb1cb18672c7",
+      "total_tokens": 1796,
+      "usage_origin": "PROVIDER_REPORTED"
+    },
+    "verification_realm": "REAL_PROVIDER"
+  },
+  "final_checks": {
+    "actual_invoice": "UNKNOWN",
+    "api": {
+      "status": 200
+    },
+    "budget": {
+      "actual_invoice": "UNKNOWN",
+      "cap_micros": 5000000,
+      "currency": "CNY",
+      "day_utc": "2026-11-19",
+      "occupied_micros": 591868,
+      "remaining_micros": 4408132
+    },
+    "canonical_calls": 7,
+    "customer_report_published": false,
+    "model_candidate_acceptance": "FAILED_GUARD_ANCHOR_REQUIRED",
+    "native_dispatches_this_round": 1,
+    "original_six_rows_unchanged": true,
+    "quota_recreated": false,
+    "quota_reimported_on_renewal": false,
+    "same_ledger": "vrae-local-ledger",
+    "same_pg": "vrae-local-pg",
+    "source_sha": "29d6f2444e80bb0da687fbb15b1326e4466e4800",
+    "supplier_usage_rows": 4,
+    "unknown_historical_calls": 3
+  },
+  "outcome": "RUNTIME_AND_USAGE_DURABILITY_PASS_REAL_CANDIDATE_ACCEPTANCE_FAILED",
+  "candidate_schema": "PASS",
+  "candidate_guard_binding": "REFUSED_GUARD_ANCHOR_REQUIRED",
+  "native_guard_candidate_approval": "NONE",
+  "customer_report_published": false,
+  "actual_invoice": "UNKNOWN",
+  "new_paid_dispatches_after_failure": 0,
+  "raw_model_content_retained": false,
+  "customer_or_personal_data": false,
+  "ai_restart_same_pg_receipt_no_redispatch": "PASS",
+  "public_funnel_customer_readiness": "NOT_TESTED_C3_SCOPE"
+}

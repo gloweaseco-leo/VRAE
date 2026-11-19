@@ -127,7 +127,31 @@ private DPAPI import, then one fresh task. Do not repeat supplier probes or reus
 PR170's result as this run. Keep the service/data running afterward; no VEYFRONT
 change, customer-data upload or human approval is implied.
 
-At initial local read-only check, C3 port18769 was reachable but both existing
-linux-service-07 caller source-context requests returned403 with the correct
-original MEDIA. No task or model call was made. C3 must provide current authorized
-caller/source material; do not manufacture a session or loosen original checks.
+The 2026-11-19 local acceptance used C3's retained `vrae-local` controlled service,
+the same PG/Ledger volumes and ports18769/18770. The initial caller403 was traced
+to expired sessions. A new30-minute invitation for the existing controlled subject
+and already signed source was issued through the trusted operator and exchanged
+through the original mTLS API; old sessions and source permissions were untouched.
+This retained controlled instance is not represented as C3's new customer runtime.
+
+Six fresh HTTPS fake tasks passed positive/negative PG receipt checks. The actual
+AI UID passed official TLS1.3 and kernel denials. Exactly one newly authorized
+native dispatch returned1218 input/578 output tokens, estimated CNY0.029520,
+actual invoice UNKNOWN. JSON/compact schema passed; the unchanged candidate
+validator refused `GUARD_ANCHOR_REQUIRED` before original Guard binding. Its
+durable original PG receipt is AI_UNAVAILABLE with no claims/access/publication.
+The original deterministic report survives. **Real candidate acceptance FAILED**;
+PR170's older success is not substituted. No further paid dispatch was attempted.
+
+See [sanitized acceptance](qwen-local-20261119/acceptance.json) for exact task/report
+pins, signed-runtime SHA, usage and daily budget. The original six historical
+rows remain unchanged; canonical storage now contains seven calls (three old
+UNKNOWN, four provider-usage rows). Key/permit live only in root-private Linux
+volumes/tmpfs; the former Windows quota is read-only archival material. The same
+operator24-hour expiry was retained through image renewal, without quota reimport.
+
+The supplier's rejected prose is not retained, so no exact generated-reference
+repair is claimed. Do not weaken Guard, manufacture an anchor or replay a paid
+call to make this result green. Additional real candidate acceptance requires a
+new explicit single-call allowance. C3 still owns customer source consent/identity,
+public connectivity and integration of the reviewed PR into its customer runtime.
