@@ -1,0 +1,52 @@
+name: Qwen native provider offline protocol
+on:
+  pull_request:
+    paths:
+      - 'vrae/intelligence/**'
+      - 'vrae/interpretation/**'
+      - 'integration/qwen_provider/**'
+      - 'infra/qwen_provider/**'
+      - 'tests/intelligence/qwen_provider_cases.py'
+      - '.github/workflows/qwen-provider.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  protocol:
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.13']
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -e '.[dev]' -c requirements-ra1a.lock
+      - run: python -m ruff check vrae/intelligence/qwen infra/qwen_provider integration/qwen_provider tests/intelligence/qwen_provider_cases.py --select E4,E7,E9,F
+      - run: python -m mypy --explicit-package-bases vrae infra/qwen_provider
+      - name: Protocol fakes and unchanged offline authorities
+        run: >-
+          python -m pytest -q --tb=short tests/intelligence/qwen_provider_cases.py
+          tests/test_domain.py::test_no_network_or_unauthorized_framework_code
+          tests/intelligence/s3_offline_cases.py tests/intelligence/test_gateway.py
+          tests/intelligence/test_accounting.py tests/intelligence/test_request.py
+          tests/interpretation/test_guard.py tests/interpretation/test_fixed_replay.py
+          --junitxml=integration/qwen_provider/.runtime/tests.xml
+      - name: Same-source business example (no sockets, no real API)
+        run: python -B -m integration.qwen_provider.demo --output integration/qwen_provider/.runtime/demo
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qwen-protocol-${{ matrix.python }}
+          path: |
+            integration/qwen_provider/.runtime/tests.xml
+            integration/qwen_provider/.runtime/demo/*.json
+            integration/qwen_provider/.runtime/demo/*.md
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
