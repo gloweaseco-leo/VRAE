@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from integration.authorized_targets.postcommit import run
-from integration.qwen_provider.committed import Adapter, current_input
+from integration.qwen_provider.committed import Adapter, current_input, execute
 from integration.qwen_provider.postcommit import InputPins, replay_input
 from integration.qwen_provider.fixture import response
 from contracts.l2_launch.contract import canonical
@@ -17,7 +17,7 @@ from vrae.reporting.s2_candidate import BuyerCandidatePins, ObservationPin
 from vrae.rules.s2 import IndustryPins, evaluate_s2
 
 
-def verify(binding, job, admin, check):
+def build_adapter(binding, job):
     held = current_input(binding, job)
     d = held['artifact']
     pack, _ = replay_input(canonical(d), pins=InputPins(
@@ -40,6 +40,11 @@ def verify(binding, job, admin, check):
             r['observation']['rule_id'], r['observation']['rule_version'], r['source_version'],
             tuple(sorted(p['snapshot_ref'] for p in r['source_pages']))) for r in rows))
     adapter = Adapter(binding, job, projection=projection, buyer_pins=buyer)
+    return adapter, held
+
+
+def verify(binding, job, admin, check):
+    adapter, held = build_adapter(binding, job)
     unavailable = run(binding, job, adapter, operation_id='c1-pg-no-go-' + str(job))
     check(unavailable['reason'] == 'PROVIDER_GO_NOT_GRANTED' and unavailable['real_model_calls'] == 0,
           'C1 original committed capture prepares S3 without fee permission or model dispatch')
@@ -49,7 +54,7 @@ def verify(binding, job, admin, check):
     # This exclusive, disposable FAKE quota is unrelated to the exhausted real ledger.
     quota = Quota(Path('/tmp') / ('FAKE-c1-pg-' + str(job) + '.sqlite'), create=True)
     adapter._provider = QwenProvider(config=Config('synthetic-workspace'), quota=quota,
-        permission=Permission('TEST_ONLY_CONTROLLED_PG_PROTOCOL', expiry, 3, 1000000),
+        permission=Permission('TEST_ONLY_CONTROLLED_PG_PROTOCOL', expiry, 6, 1000000),
         price=Price('TEST_ONLY_FICTITIOUS_PRICE', MODEL_SOURCE, 1000000, 2000000, expiry),
         key='synthetic-key-no-real-secret-0000', _transport=fake)
     original = FakeTransport.post
@@ -72,6 +77,44 @@ def verify(binding, job, admin, check):
         failed = run(binding, job, adapter, operation_id='c1-pg-schema-' + str(job))
         check(failed['state'] == 'AI_UNAVAILABLE' and failed['usage'] is not None
               and failed['claims'] == [], 'C1 invalid model candidate retains settled usage and deterministic fallback')
+        for name, finish in (('length', 'length'), ('bad-ref', 'stop')):
+            fake.response = response(context)
+            fake.response['choices'][0]['finish_reason'] = finish
+            if name == 'bad-ref':
+                content = json.loads(fake.response['choices'][0]['message']['content'])
+                content['claims'][0]['refs'] = ['cf-' + '0' * 64]
+                fake.response['choices'][0]['message']['content'] = json.dumps(content)
+            denied = run(binding, job, adapter, operation_id='c1-pg-' + name + '-' + str(job))
+            check(denied['state'] == 'AI_UNAVAILABLE' and not denied['claims'] and denied['usage'],
+                  'C1 actual PG persists unavailable ' + name + ' with durable usage')
+        for item in (result, failed, denied):
+            stored = admin.execute('SELECT receipt FROM target_v1.ai_receipts '
+                'WHERE tenant_id=%s AND job_id=%s AND operation_id=%s',
+                (binding['tenant_id'], job, item['operation_id'])).fetchone()[0]
+            check(stored == item, 'C1 actual PG receipt readback equals bound Session output')
+        # Withdraw only the owned synthetic grant after supplier usage is returned.
+        # The original authority port, not a mocked PG read, must refuse it.
+        async def withdraw(self, *args):
+            reply = await post(self, *args)
+            admin.execute('UPDATE target_v1.authorizations SET revoked=true '
+                          'WHERE tenant_id=%s AND target_id=%s',
+                          (binding['tenant_id'], held['task']['source_ref']))
+            return reply
+        fake.response = response(context)
+        FakeTransport.post = withdraw
+        try:
+            refused = execute(binding, job, adapter, operation_id='c1-pg-withdraw-' + str(job))
+            check(refused['state'] == 'AI_UNAVAILABLE' and not refused['claims']
+                  and refused['usage'] and refused['pg_receipt_status'] == 'UNKNOWN',
+                  'C1 post-dispatch actual PG withdrawal preserves usage without candidate receipt')
+            check(admin.execute('SELECT count(*) FROM target_v1.ai_receipts WHERE operation_id=%s',
+                                (refused['operation_id'],)).fetchone()[0] == 0,
+                  'C1 failed current authority cannot insert or publish a PG candidate')
+        finally:
+            admin.execute('UPDATE target_v1.authorizations SET revoked=false '
+                          'WHERE tenant_id=%s AND target_id=%s',
+                          (binding['tenant_id'], held['task']['source_ref']))
+            FakeTransport.post = post
         after = current_input(binding, job)
         check(canonical(after) == canonical(held) and not result['grants_report_access'],
               'C1 source/task/artifact/report/display hashes and unpublished authority are unchanged')

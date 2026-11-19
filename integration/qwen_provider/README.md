@@ -1,5 +1,46 @@
 # Trusted post-COMMIT Qwen Provider
 
+## Current buyer-output repair (#156 comment 7002712356)
+
+The legacy preflight/NO-GO narrative below is historical. PR168 already recorded
+two real Qwen4 HTTP200 responses, including real usage; the second was truncated
+and did **not** pass buyer-candidate acceptance. See the immutable batch2 evidence
+under `docs/03-engineering/qwen-live-smoke/20261119-batch2`.
+
+The new single-dispatch buyer acceptance passed with real 1208/333 tokens,
+original Guard/current-PG pins and durable PG readback. See
+`docs/03-engineering/qwen-live-smoke/20261119-buyer`; CNY0.022070 is an estimate,
+not an invoice, and all candidate text still requires human review.
+
+Prompt 1.1 keeps the original 2048 output-token bound, selects one representative
+Guard anchor per task (plus every conflict and counterfact), and asks for one
+valuable hypothesis, at most two. Wire and local compact validation cap prose at
+220 characters and each uncertainty/question/rebuild list at one item. The full
+original local schema remains a prerequisite. No truncated JSON is repaired or
+accepted, and usage persists before content/Guard validation.
+
+`committed.execute(binding, job, adapter, operation_id=...)` wraps the original
+post-COMMIT PG API. Its `pg_receipt_status=RECORDED` requires the original final
+current-authority check and receipt transaction to succeed. Failure returns
+AI_UNAVAILABLE with no candidates, preserves any known usage, and marks the PG
+receipt UNKNOWN (an interrupted commit cannot be called definitively absent).
+It never retries, publishes a report, or refunds a reservation.
+
+`buyer_drill` and `buyer_live` are explicit operator-only controlled acceptance
+harnesses, not public APIs. A separate POSIX caller uses password-authenticated
+TCP to the owned PG; original readers run short transactions without Docker
+control RPCs. The source Worker retains its original internal network, firewall
+and 30-second lease. Only the multi-job parent test wait is longer. Native egress
+runs separately from that Worker. No key belongs in arguments, env, files or CI.
+
+The comment explicitly permits a **new** batch of at most two synthetic Beijing
+Qwen4 dispatches with a CNY3 cap. This is not standing product authorization.
+`buyer_live` is deliberately one-shot, appends to the retained original ledger,
+verifies all five old rows unchanged, and stops after its result. No automatic
+second call is implemented. A successful acceptance additionally requires
+nontruncated schema/Guard candidates, current task/report pins, real provider
+usage, and an independent durable PG receipt readback. Invoices remain UNKNOWN.
+
 Refs #156 / PR161 Owner comment 6995853239. Original engineering base:
 `7fdeeed0f427ce3b94677ab2a480eae1556e85ca`; smoke-fix base:
 `0b2c171b680e39ad8a410d7bc6708a9f82221072`.

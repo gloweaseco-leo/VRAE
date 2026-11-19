@@ -1,5 +1,6 @@
 """Bounded free-prose buyer candidates; original Guard checks bindings, not semantics."""
 import asyncio
+from copy import deepcopy
 from dataclasses import asdict
 from html import escape
 import json
@@ -44,14 +45,28 @@ def wire_schema(value):
     return value
 
 
-WIRE_SCHEMA = wire_schema(SCHEMA)
+# A strict subset of the accepted local contract; no shortened REF aliases or
+# schema repair. Keep the existing 2048-token cap and bound the business output.
+COMPACT_SCHEMA: dict = deepcopy(SCHEMA)
+COMPACT_SCHEMA['properties']['claims']['maxItems'] = 2
+compact_fields = COMPACT_SCHEMA['properties']['claims']['items']['properties']
+compact_fields['explanation']['maxLength'] = 220
+for compact_name in ('uncertainties', 'questions', 'rebuild'):
+    compact_fields[compact_name]['maxItems'] = 1
+    compact_fields[compact_name]['items']['maxLength'] = 220
+WIRE_SCHEMA = wire_schema(COMPACT_SCHEMA)
 VALIDATOR = Draft202012Validator(SCHEMA)
+COMPACT_VALIDATOR = Draft202012Validator(COMPACT_SCHEMA)
 UNSAFE = re.compile(r'https?://|www\.|[\w.+-]+@[\w.-]+\.[a-z]{2,}|[<>]|'
     r'certificate\s+(?:is\s+)?(?:authentic|genuine|valid)|'
     r'(?:guarantee|prove[sd]?)\b.{0,30}(?:rank|traffic|revenue|delivery)|'
     r'证书.{0,6}(?:真实|有效)|保证.{0,10}(?:排名|流量|营收)', re.I)
-SYSTEM = ('Return JSON only using the schema. Produce autonomous conditional buyer reasoning '
-    'over supplied bounded typed observations, never invent source quotations, quantities, '
+SYSTEM = ('Return JSON only using the schema. Produce conditional buyer reasoning '
+    'over supplied bounded typed observations. '
+    'Choose ONE highest-value buyer hypothesis, at most two. Use concise English: one sentence '
+    'per field, one uncertainty, one seller question and one rebuild action. Cite only the '
+    'minimum necessary supplied refs; never enumerate interchangeable anchors. '
+    'Never invent source quotations, quantities, '
     'identities or engineering requirements. Each claim needs one GUARD_LITERAL anchor for its '
     'task. Include every known same-task configuration conflict and all its counter_refs '
     'in the combined refs/counter_refs. Explain buyer impact as a hypothesis, retain uncertainty, ask '
@@ -84,6 +99,30 @@ def catalog(context):
     return output
 
 
+def compact_input(context, minimized):
+    """Keep typed facts/UNKNOWNs, one interchangeable anchor per task, all conflicts.
+
+    Original gateway minimization/replay still runs first. No raw source content
+    is introduced, and no counterfact for any selectable task is discarded.
+    """
+    rows = catalog(context)
+    required = {ref for row in rows for ref in row.get('counter_refs', [])}
+    selected, anchored = [], set()
+    for row in rows:
+        if row['type'] == 'GUARD_LITERAL':
+            if row['task'] in anchored and row['ref'] not in required:
+                continue
+            anchored.add(row['task'])
+        selected.append(row)
+    facts = minimized['data']
+    return {'context_ref': context.context_ref, 'prompt_version': PROMPT,
+            'references': selected,
+            'confirmed': facts['confirmed'],
+            'unknown_or_blocked_rules': sorted({r['rule_id'] for r in facts['unknown_or_blocked']}),
+            'unknown_is_not_defect': True, 'source_text': 'WITHHELD_BY_DEFAULT',
+            'coverage': 'PINNED_RECORDED_SOURCES_ONLY'}
+
+
 async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
     from vrae.intelligence.gateway import ModelGateway
     from vrae.intelligence.s3.offline import Context
@@ -96,8 +135,7 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
         context.package, pins=context.gateway_pins, operation_id=operation, recorded_at=now.isoformat())
     if preflight['code'] != 'NO_MODEL':
         fail('ORIGINAL_GATEWAY_REFUSED')
-    data = {'bounded_request': preflight['request']['provider_request'], 'references': catalog(context),
-            'context_ref': context.context_ref, 'prompt_version': PROMPT}
+    data = compact_input(context, preflight['request']['provider_request'])
     body = {'model': MODEL, 'messages': [{'role': 'system', 'content': SYSTEM},
         {'role': 'user', 'content': encode(data).decode()}],
         'response_format': {'type': 'json_schema', 'json_schema': {
@@ -116,6 +154,8 @@ def validate_candidates(text, context, receipt):
     raw = strict_json(text)
     if not VALIDATOR.is_valid(raw):
         fail('CANDIDATE_SCHEMA')
+    if not COMPACT_VALIDATOR.is_valid(raw):
+        fail('CANDIDATE_OUTPUT_BOUND')
     if raw['context_ref'] != context.context_ref or raw['prompt_version'] != PROMPT:
         fail('CANDIDATE_CONTEXT')
     entries = context.catalog['entries']
