@@ -32,6 +32,13 @@ def install():
 
     def verify(binding, job, admin, check):
         original(binding, job, admin, check)
+        # The generic standalone runner expects an api.json artifact. This hook
+        # deliberately scopes its API exercise to C1, so label that distinction
+        # explicitly rather than pretending the unrelated full API drill ran.
+        Path('/evidence/api.json').write_text(json.dumps({
+            'scope': 'C1_BUYER_PG_ONLY_NOT_FULL_API_DRILL',
+            'actual_pg_fake_pass': True, 'customer_targets': 0,
+            'full_api_drill_executed': False}))
         # Only the dedicated owned internal network is reachable here.
         ip = socket.gethostbyname(socket.gethostname())
 

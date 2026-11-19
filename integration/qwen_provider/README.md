@@ -7,6 +7,11 @@ two real Qwen4 HTTP200 responses, including real usage; the second was truncated
 and did **not** pass buyer-candidate acceptance. See the immutable batch2 evidence
 under `docs/03-engineering/qwen-live-smoke/20261119-batch2`.
 
+The new single-dispatch buyer acceptance passed with real 1208/333 tokens,
+original Guard/current-PG pins and durable PG readback. See
+`docs/03-engineering/qwen-live-smoke/20261119-buyer`; CNY0.022070 is an estimate,
+not an invoice, and all candidate text still requires human review.
+
 Prompt 1.1 keeps the original 2048 output-token bound, selects one representative
 Guard anchor per task (plus every conflict and counterfact), and asks for one
 valuable hypothesis, at most two. Wire and local compact validation cap prose at

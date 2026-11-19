@@ -194,14 +194,18 @@ def test_concurrent_invocation_cannot_share_session_between_event_loops(bridge):
 
 @pytest.mark.parametrize('stage', ['before_adapter', 'after_adapter', 'receipt_write'])
 def test_original_pg_port_failure_never_returns_candidates_or_refunds_usage(bridge, tmp_path, monkeypatch, stage):
-    from integration.authorized_targets import postcommit
+    import sys
+    from types import SimpleNamespace
     adapter, request, _, _ = bridge
     enable(adapter, request, tmp_path)
     def fail(binding, job, invoke, *, operation_id):
         if stage != 'before_adapter':
             assert invoke(request)['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW'
         raise TimeoutError('private DB detail must never escape')
-    monkeypatch.setattr(postcommit, 'run', fail)
+    # This is a protocol-only port failure unit test; CI intentionally has no
+    # psycopg. The separate actual-PG matrix exercises the original module.
+    monkeypatch.setitem(sys.modules, 'integration.authorized_targets.postcommit',
+                        SimpleNamespace(run=fail))
     out = committed.execute({}, 'unused', adapter, operation_id=request['ai_operation_id'])
     assert out['state'] == 'AI_UNAVAILABLE' and out['claims'] == []
     assert out['pg_receipt_status'] == 'UNKNOWN' and not out['grants_report_access']
