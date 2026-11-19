@@ -19,6 +19,7 @@ def exercise(docker, seed, image, private, public, state):
     completed = False
     events = []
     cleanup = []
+    retained = None
 
     def wait(predicate, seconds=90):
         end = time.monotonic() + seconds
@@ -39,22 +40,6 @@ def exercise(docker, seed, image, private, public, state):
         return probe.returncode == 0
 
     def fixture_site(n):
-        code = """from pathlib import Path
-import shutil,subprocess
-p=Path('/tmp/lab');p.mkdir(exist_ok=True)
-for src,dst in [('source-ca.pem','cert.pem'),('source-key.pem','key.pem'),('site.json','site.json')]:shutil.copyfile('/operator/'+src,p/dst)
-for ip in ['93.184.216.20/32','93.184.216.53/32']:subprocess.run(['ip','addr','add',ip,'dev','lo'],capture_output=True)
-"""
-        ctl.docker("exec", n["runtime"], "python", "-c", code)
-        ctl.docker(
-            "exec",
-            "-d",
-            n["runtime"],
-            "python",
-            "-m",
-            "integration.authorized_targets.checks.site",
-            "/tmp/lab/site.json",
-        )
         wait(
             lambda: (
                 subprocess.run(
@@ -196,6 +181,10 @@ for ip in ['93.184.216.20/32','93.184.216.53/32']:subprocess.run(['ip','addr','a
         saved = private / "service-backup"
         receipt = ctl.backup(owner, config, saved)
         ctl.stop(owner)
+        if state.get("keep_local"):
+            manifest = json.loads((config / "manifest.json").read_bytes())
+            manifest["publish"] = ["127.0.0.1:18769:8769", "127.0.0.1:18770:8770"]
+            (config / "manifest.json").write_text(json.dumps(manifest))
         n2 = ctl.restore(restored, config, saved)
         attach(n2)
         wait(lambda: runtime_ok(n2))
@@ -206,10 +195,63 @@ for ip in ['93.184.216.20/32','93.184.216.53/32']:subprocess.run(['ip','addr','a
         events.append(
             {"phase": "cold_backup_restore", "passed": True, "backup_sha256": receipt["files"]}
         )
+        if state.get("keep_local"):
+            caller = private / "caller"
+            docker("cp", seed["client"] + ":/client", str(caller))
+            docker("cp", seed["client"] + ":/state/session.json", str(caller / "session.json"))
+            app = json.loads((caller / "config.json").read_bytes())
+            report = json.loads((caller / "service-report.json").read_bytes())
+            probe = {
+                "host": "localhost",
+                "api_port": 18769,
+                "review_port": 18770,
+                "ca": str((caller / "ca.pem").resolve()),
+                "certificate": str((caller / "client.pem").resolve()),
+                "key": str((caller / "client-key.pem").resolve()),
+                "api_bearer": app["bearer"],
+                "review_bearer": report["bearer"],
+            }
+            (caller / "probe-config.json").write_text(json.dumps(probe))
+            (caller / "probe-config.json").chmod(0o600)
+            result = subprocess.run(
+                [
+                    "python",
+                    "-m",
+                    "infra.linux_service.probe",
+                    "--config",
+                    str(caller / "probe-config.json"),
+                ],
+                capture_output=True,
+                cwd=ctl.ROOT,
+            )
+            (private / "host-probe.stderr").write_bytes(result.stderr)
+            if result.returncode:
+                raise RuntimeError("HOST_LOCAL_MTLS_RED")
+            events.append(
+                {"phase": "host_local_mtls", "passed": True, "result": json.loads(result.stdout)}
+            )
+            retained = restored
+            (private / "local-deployment.json").write_text(
+                json.dumps(
+                    {
+                        "name": retained,
+                        "config": str(config),
+                        "caller_config": str(caller / "probe-config.json"),
+                        "api": "https://localhost:18769",
+                        "report": "https://localhost:18770",
+                    },
+                    indent=2,
+                )
+            )
         completed = True
     finally:
         for item in (owner, restored):
             n = ctl.names(item)
+            if item == retained:
+                cleanup.append(
+                    {"kind": "deployment", "name": item, "retained_on_user_request": True}
+                )
+                continue
             if ctl.owned("container", n["runtime"], item):
                 log = subprocess.run(["docker", "logs", n["runtime"]], capture_output=True)
                 (private / (item + "-runtime.log")).write_bytes(log.stdout + log.stderr)
@@ -251,7 +293,8 @@ for ip in ['93.184.216.20/32','93.184.216.53/32']:subprocess.run(['ip','addr','a
                     "events": events,
                     "cleanup": cleanup,
                     "public_host_deployed": False,
-                    "host_access": "NOT_PROVIDED",
+                    "host_access": "LOCAL_DOCKER_ONLY",
+                    "retained_local_deployment": retained,
                     "customer_targets": 0,
                     "model_dispatch": 0,
                 },

@@ -23,8 +23,11 @@ def main():
     parser.add_argument("--report-api", action="store_true")
     parser.add_argument("--standalone", action="store_true")
     parser.add_argument("--linux-service", action="store_true")
+    parser.add_argument("--keep-local", action="store_true")
     parser.add_argument("--serve", action="store_true")
     args = parser.parse_args()
+    if args.keep_local:
+        args.linux_service = True
     if args.linux_service:
         args.standalone = True
     if args.standalone:
@@ -83,6 +86,7 @@ def main():
     state = {
         "standalone": args.standalone,
         "linux_service": args.linux_service,
+        "keep_local": args.keep_local,
         "serve": args.serve,
         "delivery_bridge": args.delivery_bridge,
         "report_api": args.report_api,

@@ -56,6 +56,7 @@ def export(drill, scope, receipts):
             "source_sha": drill.state["g1_source_sha"],
             "source_class": "CONTROLLED_NON_CUSTOMER",
             "network_mode": "internal",
+            "controlled_fixture": True,
             "publish": [],
         },
     )
@@ -70,6 +71,7 @@ def export(drill, scope, receipts):
     api = deepcopy(scope["cfg"])
     api["bindings"] = [b for b in api["bindings"] if not b.get("port")]
     api.update(certificate="server.pem", certificate_key="server-key.pem")
+    api["transport"]["hosts"] += ["localhost:18769", "127.0.0.1:18769"]
     save("api.json", api)
     save(
         "worker.json",
@@ -152,7 +154,7 @@ def export(drill, scope, receipts):
         "transport": {
             "bind": "0.0.0.0",
             "port": 8770,
-            "hosts": ["vrae-api:8770"],
+            "hosts": ["vrae-api:8770", "localhost:18770", "127.0.0.1:18770"],
             "origins": [],
             "mtls": True,
             "client_ca": "client-ca.pem",

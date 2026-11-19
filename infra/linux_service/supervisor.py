@@ -129,7 +129,6 @@ def provision(name, uid):
         raise ValueError("SEPARATE_SERVICE_ROLES_REQUIRED")
     directory = RUNTIME / name
     directory.mkdir(mode=0o700)
-    os.chown(directory, uid, uid)
     for field in ("certificate", "certificate_key"):
         if field in cfg:
             filename = cfg[field]
@@ -145,6 +144,7 @@ def provision(name, uid):
     if name == "review":
         cfg["ledger_root"] = "/ledger"
     write(directory / "config.json", canonical(cfg), uid)
+    os.chown(directory, uid, uid)
     return directory / "config.json"
 
 
@@ -220,7 +220,16 @@ def bootstrap():
         os.chown(ledger, 10007, 10007)
     elif ledger.stat().st_uid != 10007 or ledger.stat().st_mode & 0o077:
         raise PermissionError("PRIVATE_LEDGER_REQUIRED")
-    return {name: provision(name, uid) for name, (uid, _) in SERVICES.items()}, digest(signed)
+    configs = {name: provision(name, uid) for name, (uid, _) in SERVICES.items()}
+    if cfg.get("controlled_fixture"):
+        if (
+            cfg["source_class"] != "CONTROLLED_NON_CUSTOMER"
+            or cfg.get("network_internal") is not True
+        ):
+            raise PermissionError("CONTROLLED_FIXTURE_ONLY")
+        SERVICES["controlled-source"] = (0, "infra.linux_service.local_site")
+        configs["controlled-source"] = INPUT / "site.json"
+    return configs, digest(signed)
 
 
 def main():
