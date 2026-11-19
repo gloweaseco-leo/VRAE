@@ -1,0 +1,55 @@
+name: Authorized targets real DNS TLS vertical (customer release closed)
+on:
+  pull_request:
+    paths:
+      - 'integration/authorized_targets/**'
+      - 'infra/authorized_targets/**'
+      - 'docs/03-engineering/authorized-targets/**'
+      - '.github/workflows/authorized-targets.yml'
+permissions:
+  contents: read
+jobs:
+  actual-http:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.11'
+            slug: '311'
+          - python: '3.13'
+            slug: '313'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Original optional dependency lock
+        run: python -m pip install -r requirements-ra4b-p1.lock
+      - name: Check new service source only
+        run: |
+          python -m pip check
+          python -m ruff check --no-cache integration/authorized_targets infra/authorized_targets --select E4,E7,E9,F
+      - name: Permission and default customer egress denials
+        run: python -B -m pytest -q integration/authorized_targets/checks/test_authority.py tests/collection/test_security.py
+      - name: Build original dependency image without changing its lock
+        env:
+          SLUG: ${{ matrix.slug }}
+          PYVER: ${{ matrix.python }}
+        run: |
+          BASE=$(python -c 'import json,os;print(json.load(open("integration/ra4b/python-images.json"))[os.environ["PYVER"]])')
+          docker build --build-arg PYTHON_BASE="$BASE" -t vrae-ra4b-p1:$SLUG -f integration/ra4b/Dockerfile .
+          docker build --build-arg DEPENDENCY_IMAGE=vrae-ra4b-p1:$SLUG -t vrae-g1:$SLUG infra/l2_g1
+      - name: Real original queue, isolated DNS TLS Collector and current report review
+        run: python -B -m infra.authorized_targets.runner --label ci-${{ matrix.slug }} --image vrae-g1:${{ matrix.slug }}
+      - name: Publish sanitized receipts only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: authorized-targets-real-dns-tls-${{ matrix.python }}
+          retention-days: 3
+          if-no-files-found: error
+          path: infra/authorized_targets/.private/ci-${{ matrix.slug }}/public/
