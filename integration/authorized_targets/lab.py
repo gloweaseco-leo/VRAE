@@ -456,6 +456,10 @@ def main():
             and d["external_release"] is False,
             "source permission not diagnostic depth " + str(run),
         )
+    if state.get('report_api'):
+        from integration.authorized_targets.checks.report_api_drill import run as report_api_drill
+
+        report_api_drill(admin, rows, reviewers, bindings, tls, state)
     # Actual signed controlled review through the ORIGINAL source and ledger.
     # No simulated identity is promoted to formal human approval.
     from integration.authorized_targets.review import current_review

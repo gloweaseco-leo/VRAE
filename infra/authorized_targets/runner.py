@@ -20,7 +20,10 @@ def main():
     parser.add_argument("--label", required=True)
     parser.add_argument("--image", default="vrae-g1:313")
     parser.add_argument("--delivery-bridge", action="store_true")
+    parser.add_argument("--report-api", action="store_true")
     args = parser.parse_args()
+    if args.report_api and not args.delivery_bridge:
+        parser.error('--report-api requires --delivery-bridge')
     assert args.label.replace("-", "").isalnum() and len(args.label) < 64
     private = ROOT / "infra/authorized_targets/.private" / args.label
     private.mkdir(parents=True, exist_ok=False)
@@ -70,6 +73,7 @@ def main():
     )
     state = {
         "delivery_bridge": args.delivery_bridge,
+        "report_api": args.report_api,
         "host": "127.0.0.1",
         "port": 5432,
         "dbname": "vrae_ra4a_p1",
@@ -241,9 +245,9 @@ def main():
             "cp", names["runtime"] + ":/evidence/.private-root", str(private / "runtime-private")
         )
 
-        for file in (
-            ("targets.json", "delivery.json") if args.delivery_bridge else ("targets.json",)
-        ):
+        files = ['targets.json'] + (['delivery.json'] if args.delivery_bridge else [])
+        files += ['report-api.json'] if args.report_api else []
+        for file in files:
             found = subprocess.run(
                 ["docker", "cp", names["runtime"] + ":/evidence/" + file, str(public / file)],
                 capture_output=True,
