@@ -211,11 +211,76 @@ def serve(old, authority, ca, tls, owner_token, worker, hydrate, spawn, lifecycl
                                 "native_task": task,
                                 "original_commit": result["original_commit"],
                             }
+                            # Hand only the already-authorized return session to
+                            # an independent server consumer; never issuer keys,
+                            # APP bearer or a production customer grant.
+                            from integration.l2_launch.g1.http_server import COOKIE
+                            from contracts.l2_launch.contract import digest, permission_document
+                            from contracts.l2_launch.vf_b import submission_document
+
+                            if client.request("GET", "/v1/audits/" + ref)[0] != 200:
+                                raise ValueError("CURRENT_RETURN_SESSION_NOT_ACTIVE")
+                            cookie_header = "; ".join(
+                                k + "=" + v for k, v in client.cookies.items()
+                            )
+                            cookie = client.cookies[COOKIE]
+                            with old.connect() as c:
+                                session_row = c.execute(
+                                    "SELECT expires_at,revoked FROM g1_http.sessions WHERE hash=%s AND audit_ref=%s",
+                                    (hashlib.sha256(cookie.encode()).hexdigest(), ref),
+                                ).fetchone()
+                                plan = hydrate(
+                                    c.execute(
+                                        "SELECT document FROM g1_http.sourceplans WHERE source_ref=%s",
+                                        (task["source_ref"],),
+                                    ).fetchone()[0]
+                                )
+                            if (
+                                not session_row
+                                or session_row[1]
+                                or session_row[0] <= datetime.now(UTC)
+                            ):
+                                raise ValueError("CURRENT_RETURN_SESSION_NOT_ACTIVE")
+                            private_session = {
+                                "scope": "PRIVATE_EXISTING_RETURN_SESSION_SYNTHETIC_ONLY",
+                                "server_sha": source,
+                                "owned_run_id": state["g1_owned_run_id"],
+                                "audit_ref": ref,
+                                "cookies": dict(client.cookies),
+                                "cookie_header": cookie_header,
+                                "csrf": client.csrf,
+                                "session_sha256": hashlib.sha256(
+                                    cookie_header.encode()
+                                ).hexdigest(),
+                                "expires_at": session_row[0].isoformat(),
+                                "first_exchange_already_consumed": True,
+                                "formal_human_review": False,
+                            }
+                            variant, invitation = submission(plan, authority)
+                            variant["command"]["request"]["idempotency_key"] = body["command"][
+                                "request"
+                            ]["idempotency_key"]
+                            invitation["request_sha256"] = digest(variant["command"]["request"])
+                            variant["command"]["permission_reference"]["proof"] = authority.sign(
+                                "permission",
+                                "permission",
+                                permission_document(variant["command"], plan.policy),
+                            )
+                            variant["submission_proof"] = authority.sign(
+                                "permission", "permission", submission_document(variant)
+                            )
+                            with old.connect() as c:
+                                c.execute(
+                                    "INSERT INTO g1_http.invitations VALUES(%s,%s,%s)",
+                                    (variant["invitation_ref"], "tenant-test", Jsonb(invitation)),
+                                )
                             exports = {}
                             for name, document in (
                                 ("original-bundle", bundle),
                                 ("pg-receipt", pg),
                                 ("vf-submit", body),
+                                ("current-session", private_session),
+                                ("changed-intent", variant),
                             ):
                                 path = directory / (name + ".json")
                                 raw = json.dumps(

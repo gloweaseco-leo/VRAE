@@ -25,6 +25,19 @@ bundle, original PG row/count/COMMIT receipt and exact signed VFSubmit are under
 originals or config secrets. Source/body are the same newly created original
 native task, not G0 examples. Exporting a snapshot grants no ongoing access.
 
+C2 feedback6995605922/6995680836 identified two missing P0 inputs. Export now
+also includes **private0600** `current-session.json` (actual Cookie map/header,
+CSRF, expiry and same-session hash) and `changed-intent.json` (independently valid
+permission/invitation/submission signatures, same durable key, different intent).
+All values remain behind the UID0-only directory. Command output/public records
+contain only locations and digests, never these credential values. Import the
+session only in a trusted consumer process; do not print it or put it in URLs.
+The exported session's first exchange is already consumed: importing it enables
+real current-session P0 reads/CSRF tests, **not** a new first-exchange200 claim.
+A case requiring a fresh exchange remains explicitly pending until that separate
+fixture stage is arranged. Private signing keys and APP credentials are not
+exported. The valid changed intent should receive409 without creating a new job.
+
 Both real endpoints are inside this exclusively owned network-none namespace:
 
 | Item | Actual interface |
