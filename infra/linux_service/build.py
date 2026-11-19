@@ -8,6 +8,10 @@ from infra.linux_service.control import ROOT
 
 
 def build(base, tag):
+    if base.startswith("sha256:"):
+        local = "vrae-runtime-base:" + base.removeprefix("sha256:")[:24]
+        subprocess.run(["docker", "tag", base, local], check=True)
+        base = local
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
     if subprocess.check_output(["git", "diff", "HEAD", "--binary"], cwd=ROOT):
         raise ValueError("CLEAN_COMMITTED_SOURCE_REQUIRED")

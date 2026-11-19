@@ -67,7 +67,7 @@ def export(drill, scope, receipts):
         ("server-key.pem", drill.pki["facade"]["key"]),
     ]:
         save(name, Path(source).read_bytes())
-    api = json.loads(Path(scope["appcfg"]).read_bytes())
+    api = deepcopy(scope["cfg"])
     api["bindings"] = [b for b in api["bindings"] if not b.get("port")]
     api.update(certificate="server.pem", certificate_key="server-key.pem")
     save("api.json", api)

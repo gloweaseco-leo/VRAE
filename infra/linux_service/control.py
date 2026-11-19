@@ -24,7 +24,8 @@ def docker(*args, input=None, check=True):
 
 def inspect(kind, name):
     raw = docker(kind, "inspect", name, check=False)
-    return json.loads(raw)[0] if raw.strip() else None
+    items = json.loads(raw) if raw.strip() else []
+    return items[0] if items else None
 
 
 def names(name):
