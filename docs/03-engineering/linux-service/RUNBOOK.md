@@ -152,8 +152,10 @@ The AI UID discovers committed results with the additive tenant-scoped function,
 after the original lease expires. It invokes the merged C1 Adapter via the merged
 postcommit port; operation ID is stable per job. Current PG/source authority is
 rechecked in short transactions. No provider/key/fee authorization is created;
-AI_UNAVAILABLE leaves deterministic evidence intact. Missing trusted buyer pins
-remain unavailable, not a fabricated model selection. Real qwen4-max dispatch
+AI_UNAVAILABLE leaves deterministic evidence intact. The optional buyer_selection map in ai.json is keyed by tenant_id/target_id and
+contains the explicitly selected model, subject_url and rule IDs. The daemon
+rebuilds BuyerCandidatePins only from that task's current pack and projection;
+missing or invalid selection stays unavailable, not a fabricated model result. Real qwen4-max dispatch
 requires the separate actual provider/price/quota/fee GO and the existing C1
 composition; this release does not silently unlock the exhausted budget.
 
@@ -179,8 +181,33 @@ only statuses/hashes/cleanup, never test signing keys or report/evidence bodies.
 Existing runner resources and new service resources use separate exact ownership
 labels. No global Docker prune or deletion of unrelated resources occurs.
 
-No SSH/VPS/hosting connection was provided at implementation time. A local Docker
-exercise is not a public deployment. The remaining live-execution input is an
-already authorized Linux host (SSH alias/private credential path or equivalent
-controlled host access), plus its actual DNS/TLS/network and target permissions.
-The package can be developed and checked without those production secrets.
+The user requested local containers first. To retain the successfully restored
+controlled deployment and publish only localhost ports, run:
+
+```sh
+python -B -m infra.authorized_targets.runner --label unique-local-deploy --keep-local --image vrae-g1:313
+```
+
+The retained instance uses https://localhost:18769 (tasks/health) and
+https://localhost:18770 (REVIEW). The caller certificate/key, session handoff and
+file-configured mTLS probe are kept under the run's private caller directory;
+local-deployment.json records its name and paths. Run the probe without putting
+credentials on the command line:
+
+```sh
+python -m infra.linux_service.probe --config <private-caller>/probe-config.json
+```
+
+The optional controlled source is supervised only when the signed deployment is
+CONTROLLED_NON_CUSTOMER on an inspected internal network. Its root-owned test
+CA/key and test Directory issuer are never production credentials. Legal source
+permissions, invitation sessions and TLS certificates expire according to their
+actual configured times; the service does not auto-renew legal authority.
+Stop/restart/backup the retained instance with control.py using the name/config
+paths in local-deployment.json. Volumes remain after stop. To enable host boot
+start on Linux install infra/linux_service/vrae.service after adapting the checked
+out source/config paths; it invokes the same control script.
+
+No remote SSH/VPS deployment was performed. An eventual external host requires
+its own authorized access, DNS/TLS/network and target permissions. Local Docker
+success is never described as a public deployment.

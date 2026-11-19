@@ -375,7 +375,7 @@ def restore(owner, path, source):
             d["image"],
             "python",
             "-c",
-            "import sys,tarfile;tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/restore',filter=lambda m,p:tarfile.data_filter(m,p).replace(uid=m.uid,gid=m.gid))",
+            "import sys,tarfile;tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/restore',filter=lambda m,p:tarfile.data_filter(m,p).replace(uid=m.uid,gid=m.gid,mode=m.mode&0o777))",
             input=raw,
         )
     return up(owner, root)

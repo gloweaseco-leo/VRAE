@@ -151,6 +151,34 @@ def exercise(docker, seed, image, private, public, state):
         if repeat.returncode:
             raise RuntimeError("CONTINUOUS_NEW_TASKS_RED")
         events.append(json.loads(repeat.stdout))
+
+        def ai_ready():
+            count = (
+                ctl.docker(
+                    "exec",
+                    "-u",
+                    "postgres",
+                    n["pg"],
+                    "psql",
+                    "-U",
+                    "postgres",
+                    "-d",
+                    "vrae_ra4a_p1",
+                    "-Atc",
+                    "SELECT count(*) FROM target_v1.ai_receipts WHERE operation_id LIKE 'service-ai-%' AND tenant_id='tenant-beta' AND state='AI_UNAVAILABLE' AND receipt->>'reason'='PROVIDER_GO_NOT_GRANTED'",
+                )
+                .decode()
+                .strip()
+            )
+            return int(count) >= 4
+
+        wait(ai_ready)
+        events.append(
+            {"phase": "c1_current_postcommit_no_fee", "passed": True, "model_dispatch": 0}
+        )
+        isolation = "from pathlib import Path\nout=[]\nfor p in ['/run/service/review/config.json','/ledger']:\n try: f=Path(p); f.read_bytes() if f.is_file() else list(f.iterdir());out.append(False)\n except PermissionError:out.append(True)\nassert all(out);print('PRIVATE_REVIEW_ISOLATED')"
+        ctl.docker("exec", "-u", "10001", n["runtime"], "python", "-c", isolation)
+        events.append({"phase": "api_cannot_read_review_keys_or_ledger", "passed": True})
         # Killing only the Worker proves parent supervision without changing PG.
         status = json.loads(ctl.docker("exec", n["runtime"], "cat", "/run/service/ready.json"))
         old = status["children"]["worker"]
@@ -177,6 +205,27 @@ def exercise(docker, seed, image, private, public, state):
         fixture_site(n)
         client(n, "restart")
         client(n, "retained", report=True)
+        # Exercise actual immutable-image replacement and rollback with an
+        # equivalent-source image; no schema compatibility claim is inferred.
+        variant_tag = tag + "-upgrade"
+        build(service_image, variant_tag)
+        variant = ctl.inspect("image", variant_tag)["Id"]
+        assert variant != service_image
+        ctl.upgrade(owner, config, variant)
+        wait(lambda: runtime_ok(n))
+        fixture_site(n)
+        client(n, "upgraded", report=True)
+        ctl.rollback(owner, config)
+        wait(lambda: runtime_ok(n))
+        fixture_site(n)
+        client(n, "rolled-back", report=True)
+        events.append(
+            {
+                "phase": "immutable_image_upgrade_and_rollback",
+                "passed": True,
+                "equivalent_source": True,
+            }
+        )
         # Actual stopped PG+Ledger backup, then a new independent deployment.
         saved = private / "service-backup"
         receipt = ctl.backup(owner, config, saved)
