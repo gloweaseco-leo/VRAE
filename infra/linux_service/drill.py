@@ -86,6 +86,12 @@ def exercise(docker, seed, image, private, public, state):
                 break
             time.sleep(0.2)
         (private / ("persistent-" + phase + ".stderr")).write_bytes(result.stderr)
+        if report and result.stdout:
+            # Only the probe's fixed diagnostic schema, never exception messages,
+            # bearer values, response bodies or private traceback source text.
+            diagnostic = json.loads(result.stdout)
+            safe = {key: diagnostic[key] for key in ("failure_type", "frames", "http")}
+            (public / ("persistent-" + phase + "-failure.json")).write_text(json.dumps(safe))
         raise RuntimeError("PERSISTENT_EXTERNAL_" + phase + "_RED")
 
     try:

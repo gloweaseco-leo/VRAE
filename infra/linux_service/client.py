@@ -122,4 +122,14 @@ def main(phase):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    try:
+        main(sys.argv[1])
+    except Exception as error:
+        import traceback
+        print(json.dumps({
+            "failure_type": type(error).__name__,
+            "frames": [{"file": Path(f.filename).name, "line": f.lineno}
+                       for f in traceback.extract_tb(error.__traceback__)],
+            "http": EVENTS,
+        }), flush=True)
+        raise
