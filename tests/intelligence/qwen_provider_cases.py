@@ -4,18 +4,21 @@ from dataclasses import replace
 from datetime import timedelta
 import json
 import io
+import os
 import socket
 import sqlite3
+import sys
+from types import SimpleNamespace
 
 import pytest
 
 from integration.qwen_provider.fixture import candidate, provider, response
 from integration.s3_offline.fixture import NOW, context
 from vrae.intelligence import FixtureProvider, ModelGateway
-from vrae.intelligence.qwen import Config, QwenError, Quota
-from vrae.intelligence.qwen.provider import MODEL
+from vrae.intelligence.qwen import Config, Price, QwenError, Quota
+from vrae.intelligence.qwen.provider import MODEL, MODEL_SOURCE
 from vrae.intelligence.qwen.provider import NativeTransport
-from vrae.intelligence.qwen.session import SCHEMA
+from vrae.intelligence.qwen.session import SCHEMA, WIRE_SCHEMA, VALIDATOR
 from vrae.intelligence.qwen.testing import FakeTransport
 from vrae.intelligence.s3 import S3Error, Session
 
@@ -67,7 +70,7 @@ def test_native_fields_usage_real_tokens_not_utf8_and_original_guard(tmp_path, c
     body = p._transport.bodies[0]
     assert body['max_completion_tokens'] == 2048 and body['enable_thinking'] is False
     assert 'max_tokens' not in body and not body['stream']
-    assert body['response_format']['json_schema']['schema'] == SCHEMA
+    assert body['response_format']['json_schema']['schema'] == WIRE_SCHEMA
     assert 'tools' not in body and 'extra_body' not in body
     sent = json.dumps(body)
     assert 'synthetic-key' not in sent and 'example.com' not in sent and '12 m3/h' not in sent
@@ -106,6 +109,7 @@ def test_missing_permission_price_key_and_budget_never_dispatch(tmp_path, c, cha
 
 @pytest.mark.parametrize('fault,code', [
     ('timeout', 'TIMEOUT'), ('429', 'RATE_LIMITED'), ('503', 'PROVIDER_HTTP_ERROR'),
+    ('400', 'PROVIDER_HTTP_ERROR'),
     ('302', 'PROVIDER_HTTP_ERROR'), ('json', 'INVALID_JSON'), ('duplicate', 'DUPLICATE_JSON_FIELD'),
     ('missing_usage', 'USAGE_UNKNOWN'), ('bool_usage', 'USAGE_UNKNOWN'),
     ('over_usage', 'USAGE_UNKNOWN'), ('sum_usage', 'USAGE_UNKNOWN'), ('model', 'MODEL_NOT_CONFIRMED'),
@@ -120,7 +124,7 @@ def test_protocol_and_candidate_failures_are_safe_with_persistent_usage(tmp_path
     content = candidate(c)
     if fault == 'timeout':
         fake.timeout = True
-    elif fault in ('429', '503', '302'):
+    elif fault in ('429', '503', '302', '400'):
         fake.status = int(fault)
         fake.response = b'hostile-server-body synthetic-key-no-real-secret-0000'
     elif fault in ('json', 'duplicate'):
@@ -321,10 +325,12 @@ def test_unknown_cards_remain_unknown_while_candidates_are_only_hypotheses(tmp_p
     assert all(item['unknown_is_not_defect'] for item in cards)
 
 
-def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(monkeypatch):
+@pytest.mark.parametrize('key', ['synthetic-key-no-real-secret-0000', 'sk-fake.+/~token_1234=='])
+@pytest.mark.parametrize('http_status', [200, 400])
+def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(monkeypatch, key, http_status):
     from infra.qwen_provider import egress
-    envelope = {'workspace': 'synthetic-workspace', 'key': 'synthetic-key-no-real-secret-0000',
-                'body': {'model': MODEL}, 'timeout_ms': 1000}
+    envelope = {'workspace': 'synthetic-workspace', 'key': key,
+                'body': {'model': MODEL}, 'timeout_ms': 120000}
     class Stdin:
         buffer = io.BytesIO(json.dumps(envelope).encode())
     sent, connected, names = [], [], []
@@ -335,12 +341,13 @@ def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(m
             sent.append(data)
         def makefile(self, *args):
             body = b'{"protocol_fake":true}'
-            return io.BytesIO(b'HTTP/1.1 200 OK\r\nContent-Length: ' + str(len(body)).encode()
+            return io.BytesIO(b'HTTP/1.1 ' + str(http_status).encode() + b' Synthetic\r\nContent-Length: ' + str(len(body)).encode()
                               + b'\r\nConnection: close\r\n\r\n' + body)
         def close(self):
             pass
     def connect(address, **kwargs):
         connected.append(address)
+        assert kwargs['timeout'] == 120
         return Wire()
     class TLS:
         def wrap_socket(self, raw, *, server_hostname):
@@ -359,7 +366,8 @@ def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(m
     request = b''.join(sent)
     assert b'POST /compatible-mode/v1/chat/completions HTTP/1.1' in request
     assert b'Host: synthetic-workspace.cn-beijing.maas.aliyuncs.com' in request
-    assert json.loads(output.getvalue())['status'] == 200
+    assert json.loads(output.getvalue())['status'] == http_status
+    assert json.loads(json.loads(output.getvalue())['body']) == {'protocol_fake': True}
     assert 'synthetic-key' not in output.getvalue()
 
 
@@ -379,10 +387,158 @@ def test_native_timeout_kills_and_waits_for_egress_child_without_creating_proces
     child = Process()
     async def spawn(*args, **kwargs):
         assert all('synthetic-key' not in value for value in args)
-        assert kwargs['env'] == {} and kwargs['stderr'] == asyncio.subprocess.DEVNULL
+        expected = {'SystemRoot': os.environ['SystemRoot']} if sys.platform == 'win32' else {}
+        assert kwargs['env'] == expected and kwargs['stderr'] == asyncio.subprocess.DEVNULL
         return child
     monkeypatch.setattr(asyncio, 'create_subprocess_exec', spawn)
     with pytest.raises(TimeoutError):
         asyncio.run(NativeTransport().post(Config('synthetic-workspace'),
             'synthetic-key-no-real-secret-0000', {'model': MODEL}, 1))
     assert child.killed and child.waited
+
+
+@pytest.mark.parametrize('key', ['sk-fake-test-token.1234', 'sk-fake-test-token~1234',
+    'sk-fake-test-token+1234', 'sk-fake-test-token/1234', 'sk-fake-test-token1234=='])
+def test_server_held_opaque_bearer_characters_are_valid_without_network(tmp_path, c, key):
+    p = provider(tmp_path / 'q.sqlite', c, key=key)
+    p.authorize(NOW)
+    assert p._transport.calls == 0
+
+
+@pytest.mark.parametrize('key', ['sk-fake-test\r\nInjected: value', 'sk-fake-test-token 123',
+    'sk-fake-test-token\t123', 'sk-fake-test-token:123', 'sk-fake=test-token123',
+    '"sk-fake-test-token123"', 'sk-fake-test-token\x00123'])
+def test_invalid_bearer_or_header_injection_stays_refused_in_parent_and_child(tmp_path, c, key, monkeypatch):
+    p = provider(tmp_path / 'q.sqlite', c, key=key)
+    with pytest.raises(QwenError, match='KEY_REQUIRED'):
+        p.authorize(NOW)
+    from infra.qwen_provider import egress
+    class Stdin:
+        buffer = io.BytesIO(json.dumps({'workspace': 'synthetic-workspace', 'key': key,
+            'body': {'model': MODEL}, 'timeout_ms': 1000}).encode())
+    monkeypatch.setattr(egress.sys, 'stdin', Stdin())
+    assert egress.main() == 1
+
+
+@pytest.mark.parametrize('platform', ['win32', 'linux', 'darwin'])
+def test_child_environment_only_copies_windows_systemroot(monkeypatch, platform):
+    from infra.qwen_provider import transport
+    monkeypatch.setattr(transport, 'sys', SimpleNamespace(platform=platform))
+    monkeypatch.setattr(transport, 'os', SimpleNamespace(environ={
+        'SystemRoot': 'C:/Windows', 'HTTPS_PROXY': 'http://synthetic.invalid',
+        'DASHSCOPE_API_KEY': 'never-copy-this-fixture-key', 'PATH': 'never-copy-path'}))
+    assert transport.child_environment() == ({'SystemRoot': 'C:/Windows'} if platform == 'win32' else {})
+
+
+def test_windows_missing_systemroot_refuses_without_spawning(monkeypatch):
+    from infra.qwen_provider import transport
+    monkeypatch.setattr(transport, 'sys', SimpleNamespace(platform='win32'))
+    monkeypatch.setattr(transport, 'os', SimpleNamespace(environ={}))
+    with pytest.raises(QwenError, match='EGRESS_SYSTEMROOT_REQUIRED'):
+        transport.child_environment()
+
+
+def test_vendor_schema_omits_only_unsupported_uniqueness_keyword():
+    from copy import deepcopy
+    from vrae.intelligence.qwen.session import wire_schema
+    before = deepcopy(SCHEMA)
+    assert 'uniqueItems' not in json.dumps(WIRE_SCHEMA)
+    assert SCHEMA == before and SCHEMA['properties']['claims']['items']['properties']['refs']['uniqueItems']
+    assert wire_schema(SCHEMA) == WIRE_SCHEMA
+    assert WIRE_SCHEMA['properties']['claims']['maxItems'] == 8
+    assert WIRE_SCHEMA['properties']['claims']['items']['properties']['explanation']['maxLength'] == 600
+    assert WIRE_SCHEMA['properties']['claims']['items']['additionalProperties'] is False
+
+
+@pytest.mark.parametrize('field', ['refs', 'counter_refs'])
+def test_local_validator_still_rejects_duplicate_refs_after_wire_projection(tmp_path, c, field):
+    document = candidate(c)
+    ref = document['claims'][0]['refs'][0]
+    document['claims'][0][field] = [ref, ref]
+    assert not VALIDATOR.is_valid(document)
+    raw = response(c)
+    raw['choices'][0]['message']['content'] = json.dumps(document)
+    p = provider(tmp_path / 'q.sqlite', c, fake=FakeTransport(raw))
+    assert run(c, p)[1]['code'] == 'CANDIDATE_SCHEMA'
+
+
+def test_native_wait_is_independent_of_unchanged_worker_lease_and_still_bounded(tmp_path, c):
+    p = provider(tmp_path / 'q.sqlite', c)
+    assert (c.completion.lease_expires_at - c.completion.lease_started_at).total_seconds() == 30
+    _, out = run(c, p, timeout_ms=120000)
+    assert out['status'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW'
+    assert p._transport.calls == 1
+    with pytest.raises(S3Error, match='TRUSTED_QWEN_CONFIGURATION_REQUIRED'):
+        run(c, p, op='operation-unbounded', timeout_ms=120001)
+    assert p._transport.calls == 1
+
+
+@pytest.mark.parametrize('reported', ['qwen3.7-plus-2026-05-26', 'qwen3.7-plus',
+                                     'qwen4-max-latest', 'qwen4-max-2026-11-16'])
+def test_qwen4_response_must_confirm_documented_exact_model_without_alias_guessing(tmp_path, c, reported):
+    raw = response(c)
+    raw['model'] = reported
+    p = provider(tmp_path / 'q.sqlite', c, fake=FakeTransport(raw))
+    assert run(c, p)[1]['code'] == 'MODEL_NOT_CONFIRMED'
+
+
+@pytest.mark.parametrize('model_id,source', [
+    ('qwen3.7-plus-2026-05-26', MODEL_SOURCE),
+    (MODEL, 'https://help.aliyun.com/zh/model-studio/models')])
+def test_legacy_model_or_price_source_cannot_authorize_qwen4(tmp_path, c, model_id, source):
+    p = provider(tmp_path / 'q.sqlite', c)
+    p = replace(p, price=replace(p.price, model_id=model_id, source=source))
+    with pytest.raises(QwenError, match='PRICE_REQUIRED'):
+        p.authorize(NOW)
+    assert p._transport.calls == 0
+
+
+def test_qwen4_minimal_probe_fake_usage_and_official_rate_reservation(tmp_path, c):
+    from vrae.intelligence.qwen.provider import INPUT_CAP, OUTPUT_RESERVE
+    from integration.qwen_provider.probe import minimal_probe_body
+    body = minimal_probe_body()
+    assert MODEL == body['model'] == 'qwen4-max'
+    assert body['enable_thinking'] is False and body['stream'] is False
+    assert body['max_completion_tokens'] == 64 and 'uniqueItems' not in json.dumps(body)
+    raw = response(c)
+    raw['choices'][0]['message']['content'] = '{"ok":true}'
+    raw['usage'] = {'prompt_tokens': 137, 'completion_tokens': 8, 'total_tokens': 145}
+    price = Price('TEST_ONLY_QWEN4_PUBLIC_LIST', MODEL_SOURCE, 10000000, 30000000,
+                  NOW + timedelta(minutes=9))
+    assert price.cost(INPUT_CAP, OUTPUT_RESERVE) == 717100
+    assert price.document['model_id'] == MODEL
+    p = provider(tmp_path / 'q.sqlite', c, price=price, fake=FakeTransport(raw))
+    text, usage = asyncio.run(p.complete(body, operation='operation-minimal-probe',
+        scope={'synthetic': 'protocol-only'}, context_ref='synthetic-probe-not-a-report',
+        now=NOW, timeout_ms=120000))
+    assert json.loads(text) == {'ok': True}
+    assert usage['model_id'] == MODEL and usage['amount_micros'] == 1610
+    assert usage['usage_origin'] == 'PROTOCOL_FAKE_NOT_REAL_API' and usage['real_model_calls'] == 0
+
+
+def test_probe_usage_cannot_exceed_its_own_output_limit(tmp_path, c):
+    from integration.qwen_provider.probe import minimal_probe_body
+    raw = response(c)  # 83 output exceeds the 64+10 probe bound.
+    p = provider(tmp_path / 'q.sqlite', c, fake=FakeTransport(raw))
+    with pytest.raises(QwenError, match='USAGE_UNKNOWN'):
+        asyncio.run(p.complete(minimal_probe_body(), operation='operation-probe-overflow',
+            scope={'synthetic': 'protocol-only'}, context_ref='synthetic-probe-not-a-report',
+            now=NOW, timeout_ms=120000))
+    assert p._transport.calls == 1
+
+
+@pytest.mark.parametrize('field,value', [('enable_thinking', True), ('stream', True),
+    ('max_completion_tokens', 0), ('max_completion_tokens', True),
+    ('max_completion_tokens', 2049), ('model', 'qwen3.7-plus-2026-05-26')])
+def test_minimal_probe_invalid_parameters_refuse_before_reservation(tmp_path, c, field, value):
+    from integration.qwen_provider.probe import minimal_probe_body
+    body = minimal_probe_body()
+    body[field] = value
+    p = provider(tmp_path / 'q.sqlite', c)
+    with pytest.raises(QwenError, match='REQUEST_BOUND'):
+        asyncio.run(p.complete(body, operation='operation-probe-parameters',
+            scope={'synthetic': 'protocol-only'}, context_ref='synthetic-probe-not-a-report',
+            now=NOW, timeout_ms=120000))
+    assert p._transport.calls == 0
+    with sqlite3.connect(tmp_path / 'q.sqlite') as db:
+        assert db.execute('SELECT count(*) FROM calls').fetchone()[0] == 0

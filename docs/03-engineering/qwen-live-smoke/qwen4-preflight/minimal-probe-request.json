@@ -1,0 +1,36 @@
+{
+  "enable_thinking": false,
+  "max_completion_tokens": 64,
+  "messages": [
+    {
+      "content": "Return only JSON containing ok=true. This is a pure synthetic protocol check.",
+      "role": "system"
+    },
+    {
+      "content": "Confirm this synthetic check. No source or customer data.",
+      "role": "user"
+    }
+  ],
+  "model": "qwen4-max",
+  "response_format": {
+    "json_schema": {
+      "name": "qwen4_minimal_protocol_probe",
+      "schema": {
+        "additionalProperties": false,
+        "properties": {
+          "ok": {
+            "const": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ok"
+        ],
+        "type": "object"
+      },
+      "strict": true
+    },
+    "type": "json_schema"
+  },
+  "stream": false
+}
