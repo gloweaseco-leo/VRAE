@@ -22,8 +22,11 @@ def main():
     parser.add_argument("--delivery-bridge", action="store_true")
     parser.add_argument("--report-api", action="store_true")
     parser.add_argument("--standalone", action="store_true")
+    parser.add_argument("--linux-service", action="store_true")
     parser.add_argument("--serve", action="store_true")
     args = parser.parse_args()
+    if args.linux_service:
+        args.standalone = True
     if args.standalone:
         args.delivery_bridge = True
     if args.report_api and not args.delivery_bridge:
@@ -79,6 +82,7 @@ def main():
     )
     state = {
         "standalone": args.standalone,
+        "linux_service": args.linux_service,
         "serve": args.serve,
         "delivery_bridge": args.delivery_bridge,
         "report_api": args.report_api,
@@ -305,6 +309,10 @@ def main():
             files += ["api.json"]
         if args.report_api:
             files += ["report-api.json"]
+        if args.linux_service:
+            from infra.linux_service.drill import exercise as persistent_exercise
+
+            persistent_exercise(docker, names, image, private, public, state)
         for file in files:
             found = subprocess.run(
                 ["docker", "cp", names["runtime"] + ":/evidence/" + file, str(public / file)],

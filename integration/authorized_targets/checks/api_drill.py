@@ -179,6 +179,10 @@ class ApiDrill(Drill):
         )
         self.app = app
         self.workers = scope["workers"]
+        if self.state.get("linux_service"):
+            from infra.linux_service.controlled import export
+
+            export(self, scope, successful)
 
     def hold(self):
         config = process.provision(

@@ -255,17 +255,26 @@ class Handler(StrictHandler):
         ):
             if len(self.headers.get_all(name, [])) > 1:
                 raise Refused("FORBIDDEN_ROLE")
-        if (
-            self.headers.get("Host") != "127.0.0.1:8770"
-            or self.headers.get("Origin") != self.app.origin
-            or self.headers.get("Cookie")
-        ):
+        from integration.authorized_targets.transport import check_headers, bind_peer
+
+        if self.app.cfg.get("transport") is not None:
+            transport = check_headers(self, self.app.cfg)
+        else:
+            transport = None
+            if (
+                self.headers.get("Host") != "127.0.0.1:8770"
+                or self.headers.get("Origin") != self.app.origin
+            ):
+                raise Refused("FORBIDDEN_ROLE")
+        if self.headers.get("Cookie"):
             raise Refused("FORBIDDEN_ROLE")
         if self.headers.get("Accept") != MEDIA:
             raise TransportError(406)
         if method == "POST" and self.headers.get("Content-Type") != MEDIA:
             raise TransportError(415)
         binding = self.app.binding(self.headers)
+        if transport is not None:
+            bind_peer(self, binding, transport)
         if method == "GET" and self.path == BASE + "/health":
             with store.connect(binding) as c:
                 c.execute("SELECT 1").fetchone()
@@ -313,7 +322,15 @@ def main():
     tls = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     tls.minimum_version = ssl.TLSVersion.TLSv1_2
     tls.load_cert_chain(cfg["certificate"], cfg["certificate_key"])
-    server = BoundedServer(("127.0.0.1", 8770), Handler, tls)
+    address = ("127.0.0.1", 8770)
+    if cfg.get("transport") is not None:
+        from integration.authorized_targets.transport import endpoint
+
+        ep = endpoint(cfg)
+        tls.load_verify_locations(cafile=ep["client_ca"])
+        tls.verify_mode = ssl.CERT_REQUIRED
+        address = (ep["bind"], ep["port"])
+    server = BoundedServer(address, Handler, tls)
     server.report_app = app
     server.source_sha = cfg["source_sha"]
     print('{"stage":"REPORT_AUTHORITY_HTTPS_READY","customer_release":false}', flush=True)
