@@ -145,6 +145,17 @@ def provision(name, uid, source_sha=None):
         cfg["transport"]["client_ca"] = "/run/vrae-targets/client-ca.pem"
     if name == "review":
         cfg["ledger_root"] = "/ledger"
+        if cfg.get("report_profile") == "VERIFIED_HUMAN_CUSTOMER_REPORT":
+            reports = Path("/run/vrae-reports")
+            reports.mkdir(mode=0o750, exist_ok=True)
+            os.chown(reports, 0, uid)
+            for filename in ("trust", "authority"):
+                write(
+                    reports / (filename + ".json"),
+                    private(INPUT / ("report-" + filename + ".json")),
+                    mode=0o640,
+                )
+                os.chown(reports / (filename + ".json"), 0, uid)
     write(directory / "config.json", canonical(cfg), uid)
     os.chown(directory, uid, uid)
     return directory / "config.json"

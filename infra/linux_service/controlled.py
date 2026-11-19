@@ -160,6 +160,43 @@ def export(drill, scope, receipts):
             "client_ca": "client-ca.pem",
         },
     }
+    verified = drill.state.get("verified_linux_service", False)
+    reader_subject = "reader"
+    if verified:
+        from datetime import datetime, UTC, timedelta
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+        from cryptography.hazmat.primitives.serialization import PublicFormat
+        from vrae.l2.verified import PROFILE, CURRENT_REPORTS
+
+        admin.execute(Path("/work/infra/authorized_targets/004_verified_reports.sql").read_text())
+        context = admin.execute(
+            "SELECT target_v1.report_context(%s,%s)", ("tenant-beta", job)
+        ).fetchone()[0]
+        reader_subject = context["recipient_subject"]
+        directory["mode"] = "VERIFIED_DIRECTORY"
+        for person in directory["people"]:
+            person["report_ids"] = [CURRENT_REPORTS]
+            person["verification_ref"] = "ISOLATED_PROTOCOL_TEST_NOT_HUMAN-" + person["actor_id"]
+            if person["role"] == "READER":
+                person["subject"] = reader_subject
+        now = datetime.now(UTC)
+        authority_key = Ed25519PrivateKey.generate()
+        document = {
+            "contract": "vrae.verified-report-authority.v1",
+            "profile": PROFILE,
+            "reference": "ISOLATED_DEPLOYMENT_PROTOCOL_TEST_NOT_CUSTOMER_SIGNOFF",
+            "allowed_source_classes": ["CONTROLLED_NON_CUSTOMER"],
+            "not_before": (now - timedelta(minutes=1)).isoformat(),
+            "expires_at": datetime.fromtimestamp(directory["expires"], UTC).isoformat(),
+            "directory": directory,
+        }
+        save("report-trust.json", {"keys": {"test-report-authority": {
+            "role": "REPORT_AUTHORITY", "revoked": False,
+            "public": authority_key.public_key().public_bytes(Encoding.Raw, PublicFormat.Raw).hex(),
+        }}})
+        save("report-authority.json", signed(authority_key, "test-report-authority", document))
+        review["report_profile"] = PROFILE
+        review.pop("report_directory")
     save("review.json", review)
     save("pg-password", drill.state["admin_password"].encode())
     save("site.json", Path("/tmp/lab/site.json").read_bytes())
@@ -169,6 +206,8 @@ def export(drill, scope, receipts):
         canonical(
             {
                 "bearer": bearer,
+                "verified": verified,
+                "reader_subject": reader_subject,
                 "job": job,
                 "issuer_kid": issuer.kid,
                 "jwks": issuer.jwks,

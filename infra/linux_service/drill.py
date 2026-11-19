@@ -263,6 +263,7 @@ def exercise(docker, seed, image, private, public, state):
                 "key": str((caller / "client-key.pem").resolve()),
                 "api_bearer": app["bearer"],
                 "review_bearer": report["bearer"],
+                "report_profile": "VERIFIED_HUMAN_CUSTOMER_REPORT" if report.get("verified") else None,
             }
             (caller / "probe-config.json").write_text(json.dumps(probe))
             (caller / "probe-config.json").chmod(0o600)

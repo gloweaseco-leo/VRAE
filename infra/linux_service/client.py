@@ -20,6 +20,8 @@ def call(method, path, body=None, sid=None, headers=None, expected=200):
     ctx.load_cert_chain("/client/client.pem", "/client/client-key.pem")
     c = http.client.HTTPSConnection("vrae-api", 8770, context=ctx, timeout=10)
     h = {"Authorization": "Bearer " + CFG["bearer"], "Accept": MEDIA, "Content-Type": MEDIA}
+    if CFG.get("verified"):
+        h["X-Report-Profile"] = "VERIFIED_HUMAN_CUSTOMER_REPORT"
     if sid:
         h["X-Report-Session"] = sid
     h.update(headers or {})
@@ -52,11 +54,14 @@ def main(phase):
             "POST",
             "/session",
             {
-                "responsible_bearer": issuer.token(person, ch["nonce"]),
+                "responsible_bearer": issuer.token(CFG.get("reader_subject", person) if person == "reader" else person, ch["nonce"], acr="VERIFIED_PERSON_MFA" if CFG.get("verified") else "CONTROLLED_TEST_PERSON"),
                 "nonce": ch["nonce"],
                 "csrf": ch["csrf"],
             },
         )["report_session"]
+    if CFG.get("verified"):
+        wrong = call("GET", "/health", headers={"X-Report-Profile": "CONTROLLED_NATIVE_REPORT_ONLY"}, expected=406)
+        assert "report" not in wrong
     path = "/jobs/" + CFG["job"]
     view = call("GET", path + "/report", sid=sids["owner"])
     assert view["formal_human_review"] is False and view["external_release"] is False
@@ -84,9 +89,11 @@ def main(phase):
             view,
             sids["reviewer"],
         )
+        call("GET", path + "/report", sid=sids["reader"], expected=403)
         grant = action("grants", {"recipient_id": "reader", "ttl": 300}, view, sids["owner"])
         gh = {"X-Report-Grant": grant["grant"]["grant_id"], "X-Report-Token": grant["access_token"]}
-        call("GET", path + "/report", sid=sids["reader"], headers=gh)
+        released = call("GET", path + "/report", sid=sids["reader"], headers=gh)
+        assert released["external_release"] is bool(CFG.get("verified"))
         action("revocations", {"grant_id": grant["grant"]["grant_id"]}, view, sids["owner"])
         call("GET", path + "/report", sid=sids["reader"], headers=gh, expected=403)
         action(
@@ -111,7 +118,7 @@ def main(phase):
     else:
         assert view["report_version"]["version"] == 2
         assert view["report_version"]["status"] == "REVIEW_REQUIRED"
-    print(json.dumps({"phase": phase, "passed": True, "controlled_only": True, "http": EVENTS}))
+    print(json.dumps({"phase": phase, "passed": True, "controlled_only": not CFG.get("verified", False), "isolated_protocol_test_not_customer_signoff": True, "http": EVENTS}))
 
 
 if __name__ == "__main__":

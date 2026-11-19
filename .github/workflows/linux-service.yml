@@ -46,7 +46,7 @@ jobs:
           docker build --build-arg PYTHON_BASE="$BASE" -t vrae-ra4b-p1:$SLUG -f integration/ra4b/Dockerfile .
           docker build --build-arg DEPENDENCY_IMAGE=vrae-ra4b-p1:$SLUG -t vrae-g1:$SLUG infra/l2_g1
       - name: Real original queue, isolated DNS TLS Collector and current report review
-        run: sudo env LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}" GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$GITHUB_WORKSPACE" "$(command -v python)" -B -m infra.authorized_targets.runner --label linux-service-ci-${{ matrix.slug }} --linux-service --host-probe --image vrae-g1:${{ matrix.slug }}
+        run: sudo env LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}" GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$GITHUB_WORKSPACE" "$(command -v python)" -B -m infra.authorized_targets.runner --label linux-service-ci-${{ matrix.slug }} --verified-linux-service --host-probe --image vrae-g1:${{ matrix.slug }}
       - name: Publish sanitized receipts only
         if: always()
         uses: actions/upload-artifact@v4

@@ -466,6 +466,10 @@ def main():
         from integration.authorized_targets.checks.report_api_drill import run as report_api_drill
 
         report_api_drill(admin, rows, reviewers, bindings, tls, state)
+    if state.get('verified_reports'):
+        from integration.authorized_targets.checks.verified_report_drill import run as verified_report_drill
+        admin.execute(Path('/work/infra/authorized_targets/004_verified_reports.sql').read_text())
+        verified_report_drill(admin, rows, reviewers, state)
     # Actual signed controlled review through the ORIGINAL source and ledger.
     # No simulated identity is promoted to formal human approval.
     from integration.authorized_targets.review import current_review

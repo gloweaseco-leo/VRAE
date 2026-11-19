@@ -165,17 +165,24 @@ missing or invalid selection stays unavailable, not a fabricated model result. R
 requires the separate actual provider/price/quota/fee GO and the existing C1
 composition; this release does not silently unlock the exhausted budget.
 
-The merged C2 profile remains CONTROLLED_NATIVE_REPORT_ONLY. Its current read,
-revision/review/grant/revoke APIs persist in the private Ledger and are reachable
-by external mTLS. The existing NativeSource/Directory/Ledger restrictions remain:
-a controlled test approval is not formal human approval or customer release.
-Unapproved customer report access stays403. This deployment package cannot turn
-an unimplemented verified-human source consumer into formal report publication.
+The accepted C2 VERIFIED_HUMAN_CUSTOMER_REPORT profile is available through
+review.json with report_profile explicitly set to that value. Supply root-owned
+0600 report-trust.json and report-authority.json alongside the other inputs;
+bootstrap exposes them root-owned and read-only under /run/vrae-reports.
+These are the existing signed REPORT_AUTHORITY registry and authority envelope,
+including the actual verified Directory. The administrator installs the accepted
+004_verified_reports.sql narrow REVIEW functions, with no new report database.
+Every request must send X-Report-Profile: VERIFIED_HUMAN_CUSTOMER_REPORT.
+The accepted current invitation/recipient, signed VERIFIED_PERSON_MFA identity,
+Reviewer decision and Owner-role grant remain required. The default controlled
+profile and its old loopback compatibility remain available. See the accepted
+VERIFIED-REPORTS.md contract in Git. Never install exercise identity keys in a
+customer deployment or treat a service certificate as human verification.
 
 ## Self-controlled exercise and current deployment evidence
 
 ```sh
-python -B -m infra.authorized_targets.runner --label unique-linux-exercise --linux-service --image vrae-g1:313
+python -B -m infra.authorized_targets.runner --label unique-linux-exercise --verified-linux-service --image vrae-g1:313
 ```
 
 This extends the accepted controlled actual HTTP/PG run, exports only test
@@ -220,3 +227,5 @@ out source/config paths; it invokes the same control script.
 No remote SSH/VPS deployment was performed. An eventual external host requires
 its own authorized access, DNS/TLS/network and target permissions. Local Docker
 success is never described as a public deployment.
+
+The verified deployment exercise uses isolated signed identity protocol keys on self-controlled sources. It verifies report grant/revocation and version persistence across restart and cold restore; it does not attest that real customer human review occurred.

@@ -32,7 +32,10 @@ def main():
     for port, route, bearer, media in probes:
         c = http.client.HTTPSConnection(cfg["host"], port, context=ctx, timeout=10)
         try:
-            c.request("GET", route, headers={"Authorization": "Bearer " + bearer, "Accept": media})
+            headers = {"Authorization": "Bearer " + bearer, "Accept": media}
+            if port == cfg.get("review_port") and cfg.get("report_profile"):
+                headers["X-Report-Profile"] = cfg["report_profile"]
+            c.request("GET", route, headers=headers)
             r = c.getresponse()
             value = json.loads(r.read(65537))
             results.append(

@@ -162,6 +162,8 @@ def start_runtime(owner, n, root, d):
         "--tmpfs",
         "/run/service:rw,nosuid,nodev,size=8m",
         "--tmpfs",
+        "/run/vrae-reports:rw,nosuid,nodev,size=2m",
+        "--tmpfs",
         "/run/vrae-targets:rw,nosuid,nodev,size=2m",
         "--mount",
         "type=volume,src=" + n["operator"] + ",dst=/operator,readonly",
