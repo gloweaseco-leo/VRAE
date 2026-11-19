@@ -10,7 +10,7 @@ import hashlib
 import re
 import threading
 
-from contracts.l2_launch.contract import canonical
+from vrae.intelligence.common import encode as canonical
 from integration.qwen_provider.postcommit import InputPins, replay_input
 from vrae.intelligence.qwen import QwenError
 from vrae.intelligence.s3 import Session, S3Error, prepare_context
