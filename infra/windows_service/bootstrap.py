@@ -25,7 +25,7 @@ def generate(root, hostname, image):
     now = datetime.now(UTC)
     end = now + timedelta(days=1)
     expiry = end.isoformat()
-    tenant = "vrae-invited"
+    tenant = "tenant-vrae-invited"
     source_class = "EXPLICIT_CUSTOMER_AUTHORIZATION"
     sha = Path("/work/infra/linux_service/source-sha").read_text().strip()
 
