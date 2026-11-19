@@ -16,7 +16,7 @@ from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives import hashes,serialization
 from infra.windows_service.external_probe import Connection
 
-MEDIA='application/vnd.vrae.launch+json; profile="vf-vrae-r0.1"'
+from integration.l2_launch.g1.http_server import MEDIA
 
 
 def seal(public,state):

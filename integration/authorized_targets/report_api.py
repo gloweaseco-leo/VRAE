@@ -139,6 +139,10 @@ class Application:
                             "external_release": released,
                             "scope": self.profile,
                         }
+                        from infra.windows_service.recipient import for_current_owner_view
+                        recipient = for_current_owner_view(self, person)
+                        if recipient is not None:
+                            result["current_recipient"] = recipient
                         if released:
                             result["review_decision"] = review
                     elif operation == "history":

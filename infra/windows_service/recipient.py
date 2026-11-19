@@ -58,15 +58,7 @@ def exchange(app,binding,body):
         "grant_id":body["grant_id"],"grant_token_sha256":hashlib.sha256(body["grant_token"].encode()).hexdigest()}
     with app.directory.lock,store.connect(binding) as c,c.transaction():
         scope=current(c,binding,claims)
-        subject=scope["subject_ref"]
-        person=app.directory.people.get(subject)
-        if person is None:
-            person=Person("recipient-"+digest([scope["tenant_id"],subject])[:20],subject,
-                "Current invited report recipient",scope["tenant_id"],"READER",(CURRENT_REPORTS,),
-                verification_ref="PG_INVITED_RECIPIENT-"+digest(scope))
-            app.directory.people[subject]=person
-        if person.role!="READER" or not person.active or person.tenant_id!=binding["tenant_id"]:
-            raise Refused("FORBIDDEN_ROLE")
+        person=register(app,scope["tenant_id"],scope["subject_ref"],scope)
         now=app.directory.now()
         if len(app.directory.sessions)>=64:
             raise Refused("FORBIDDEN_ROLE")
@@ -87,6 +79,32 @@ def exchange(app,binding,body):
             app.directory.sessions.pop(sid_hash,None)
             raise
         return result
+
+
+
+def register(app,tenant,subject,scope):
+    authorized(app)
+    person=app.directory.people.get(subject)
+    if person is None:
+        person=Person("recipient-"+digest([tenant,subject])[:20],subject,
+            "Current invited report recipient",tenant,"READER",(CURRENT_REPORTS,),
+            verification_ref="PG_INVITED_RECIPIENT-"+digest(scope))
+        app.directory.people[subject]=person
+    if person.role!="READER" or not person.active or person.tenant_id!=tenant:
+        raise Refused("FORBIDDEN_ROLE")
+    return person
+
+
+def for_current_owner_view(app,person):
+    if (not app.verified or person.role not in ("OWNER","REVIEWER")
+        or app.authority.document.get("recipient_authority")!=ASSURANCE):
+        return None
+    scope=app.authority.scope.get()
+    if not scope or scope["tenant_id"]!=person.tenant_id:
+        raise Refused("FORBIDDEN_ROLE")
+    recipient=register(app,scope["tenant_id"],scope["recipient_subject"],scope)
+    return {"recipient_id":recipient.actor_id,"subject_ref":recipient.subject,
+            "assurance":ASSURANCE,"grants_review_or_owner_role":False}
 
 
 def check_grant(app,sid,headers):
