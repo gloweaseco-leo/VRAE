@@ -277,6 +277,9 @@ class Drill:
             and mapped["provider_operation_id"] == operation,
             "C1 adapter receives same task and stable usage operation id",
         )
+        from integration.qwen_provider.pg_check import verify as verify_c1
+
+        verify_c1(b, job, admin, check)
         # Real kernel policy rejects source Worker -> BFF and metadata sockets.
         code = "import socket,json;out=[]\nfor ip,port in [('127.0.0.1',8769),('169.254.169.254',80)]:\n try:s=socket.create_connection((ip,port),timeout=.3);s.close();out.append(False)\n except OSError:out.append(True)\nprint(json.dumps(out))"
         p = subprocess.run(

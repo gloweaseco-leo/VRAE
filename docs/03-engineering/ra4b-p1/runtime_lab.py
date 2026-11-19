@@ -31,6 +31,18 @@ def command(argv, dest, *, data=None, timeout=600):
             except (ValueError, TypeError):
                 pass  # Raw output is never echoed; genuine exit is checked below.
     print(json.dumps({"stage": dest.name, "exit": result.returncode}), flush=True)
+    if result.returncode and argv[:2] == ["docker", "build"]:
+        # Build context contains only the pinned Dockerfile/locks. Keep raw logs
+        # private; expose a fixed cause only when the captured stderr proves it.
+        causes = ((b"no space left on device", "STORAGE_EXHAUSTED"),
+                  (b"429 Too Many Requests", "REMOTE_RATE_LIMIT"),
+                  (b"no such host", "DNS_RESOLUTION_FAILURE"),
+                  (b"x509:", "TLS_CERTIFICATE_FAILURE"),
+                  (b"failed to read dockerfile", "DOCKERFILE_READ_FAILURE"))
+        cause = next((code for marker, code in causes if marker in result.stderr), "CAUSE_UNDETERMINED")
+        print(json.dumps({"build_failure": cause,
+                          "stderr_sha256": hashlib.sha256(result.stderr).hexdigest(),
+                          "stderr_bytes": len(result.stderr)}), flush=True)
     result.check_returncode()
     return result.stdout
 

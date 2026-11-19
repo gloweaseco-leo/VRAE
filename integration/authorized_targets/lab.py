@@ -48,7 +48,7 @@ def network(interfaces=None):
     for address in ("93.184.216.20/32", "93.184.216.53/32"):
         subprocess.run(["ip", "addr", "add", address, "dev", "lo"], check=True, capture_output=True)
     for tool in ("iptables", "ip6tables"):
-        for uid, ports in ((10001, (5432,)), (65532, (5432,))):
+        for uid, ports in ((10001, (5432,)), (10007, (5432,)), (65532, (5432,))):
             base = [tool, "-A", "OUTPUT", "-m", "owner", "--uid-owner", str(uid)]
             subprocess.run(
                 base + ["-m", "conntrack", "--ctstate", "ESTABLISHED,RELATED", "-j", "ACCEPT"],
@@ -462,6 +462,10 @@ def main():
             and d["external_release"] is False,
             "source permission not diagnostic depth " + str(run),
         )
+    if state.get("report_api"):
+        from integration.authorized_targets.checks.report_api_drill import run as report_api_drill
+
+        report_api_drill(admin, rows, reviewers, bindings, tls, state)
     # Actual signed controlled review through the ORIGINAL source and ledger.
     # No simulated identity is promoted to formal human approval.
     from integration.authorized_targets.review import current_review

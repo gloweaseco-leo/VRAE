@@ -123,7 +123,8 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins,
                     completion: CompletionPins, now: datetime) -> Context:
     """Replay C1/S2/Guard; no model call, lease mutation or native artifact edit."""
     try:
-        if type(completion) is not CompletionPins or type(pack) is not EvidencePack:
+        from .committed import CommittedCompletionPins
+        if type(completion) not in (CompletionPins, CommittedCompletionPins) or type(pack) is not EvidencePack:
             deny()
         completion.check(source, now)
         task = completion.task
@@ -177,6 +178,11 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins,
             'lease_expires_at': completion.lease_expires_at.isoformat(),
             'worker_completed_at': completion.worker_completed_at.isoformat(),
             'authority_expires_at': completion.authority_expires_at.isoformat()}
+        if type(completion) is CommittedCompletionPins:
+            descriptor['committed_input'] = {
+                'transaction_id': completion.transaction_id,
+                'artifact_sha256': completion.artifact_sha256,
+                'current_input_ref': completion.current_input_ref}
         result = object.__new__(Context)
         values = (pack, source, completion, encode(execution), package, pins, encode(gp),
                   encode({'context': known['context'], 'entries': entries}), encode(candidate),
