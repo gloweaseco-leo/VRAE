@@ -36,12 +36,9 @@ def public_addresses(values: list[str]) -> tuple[str, ...]:
 
 
 class DNSResolver:
-    def __init__(self, nameservers: list[str], *, tcp: bool = False):
+    def __init__(self, nameservers: list[str]):
         if not nameservers:
             raise ValueError("Explicit infrastructure resolver required")
-        if type(tcp) is not bool:
-            raise ValueError("Explicit DNS transport required")
-        self.tcp=tcp
         for server in nameservers:
             ipaddress.ip_address(server)
         self.resolver = dns.asyncresolver.Resolver(configure=False)
@@ -54,7 +51,7 @@ class DNSResolver:
             async with asyncio.timeout(5):
                 for kind in ("A", "AAAA"):
                     answer = await self.resolver.resolve(host + ".", kind, search=False,
-                                                         lifetime=2.5, raise_on_no_answer=False, tcp=self.tcp)
+                                                         lifetime=2.5, raise_on_no_answer=False)
                     values.extend(str(record) for record in answer)
         except (dns.exception.DNSException, TimeoutError, OSError) as exc:
             raise CollectionError("DNS_FAILED") from exc

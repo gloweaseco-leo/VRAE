@@ -77,9 +77,10 @@ def test_signed_deployment_replacement_preserves_read_only_permissions(tmp_path)
     assert sorted(p.name for p in tmp_path.iterdir())==["deployment.json"]
 
 
-def test_tcp_dns_still_checks_complete_a_and_aaaa_answers():
+def test_tcp_dns_still_checks_complete_a_and_aaaa_answers(monkeypatch):
     import asyncio
-    from vrae.collection.resolver import DNSResolver
+    from integration.authorized_targets.dns_transport import DNSResolver
+    import dns.asyncresolver
     from vrae.collection.errors import CollectionError
     calls=[]
     class Answers:
@@ -87,7 +88,7 @@ def test_tcp_dns_still_checks_complete_a_and_aaaa_answers():
             calls.append((host,kind,kwargs["tcp"]))
             return ["93.184.216.20"] if kind=="A" else ["::1"]
     resolver=DNSResolver(["8.8.8.8"],tcp=True)
-    resolver.resolver=Answers()
+    monkeypatch.setattr(dns.asyncresolver.Resolver,"resolve",Answers.resolve)
     with pytest.raises(CollectionError,match="SSRF_BLOCKED"):
         asyncio.run(resolver.resolve("owned.example.com"))
     assert calls==[("owned.example.com.","A",True),("owned.example.com.","AAAA",True)]

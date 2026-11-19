@@ -17,7 +17,8 @@ from integration.authorized_targets.source_authority import (
 )
 from vrae.collection.errors import CollectionError
 from vrae.collection.policy import SourceAccess
-from vrae.collection.resolver import DNSResolver, public_addresses
+from vrae.collection.resolver import public_addresses
+from integration.authorized_targets.dns_transport import DNSResolver
 from vrae.collection.http_transport import PinnedTransport
 from vrae.collection.fetcher import SafeFetcher
 
