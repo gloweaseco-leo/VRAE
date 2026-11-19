@@ -245,7 +245,7 @@ def main():
             "cp", names["runtime"] + ":/evidence/.private-root", str(private / "runtime-private")
         )
 
-        files = ['targets.json'] + (['delivery.json'] if args.delivery_bridge else [])
+        files = ['targets.json'] + (['delivery.json', 'c1-committed.json'] if args.delivery_bridge else [])
         files += ['report-api.json'] if args.report_api else []
         for file in files:
             found = subprocess.run(
