@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 import subprocess
+import sys
 import tarfile
 import time
 import uuid
@@ -230,7 +231,7 @@ def exercise(docker, seed, image, private, public, state):
         saved = private / "service-backup"
         receipt = ctl.backup(owner, config, saved)
         ctl.stop(owner)
-        if state.get("keep_local"):
+        if state.get("keep_local") or state.get("host_probe"):
             manifest = json.loads((config / "manifest.json").read_bytes())
             manifest["publish"] = ["127.0.0.1:18769:8769", "127.0.0.1:18770:8770"]
             (config / "manifest.json").write_text(json.dumps(manifest))
@@ -244,7 +245,7 @@ def exercise(docker, seed, image, private, public, state):
         events.append(
             {"phase": "cold_backup_restore", "passed": True, "backup_sha256": receipt["files"]}
         )
-        if state.get("keep_local"):
+        if state.get("keep_local") or state.get("host_probe"):
             caller = private / "caller"
             docker("cp", seed["client"] + ":/client", str(caller))
             (caller / "session.json").write_bytes(
@@ -267,7 +268,7 @@ def exercise(docker, seed, image, private, public, state):
             (caller / "probe-config.json").chmod(0o600)
             result = subprocess.run(
                 [
-                    "python",
+                    sys.executable,
                     "-m",
                     "infra.linux_service.probe",
                     "--config",
@@ -282,7 +283,7 @@ def exercise(docker, seed, image, private, public, state):
             events.append(
                 {"phase": "host_local_mtls", "passed": True, "result": json.loads(result.stdout)}
             )
-            retained = restored
+            retained = restored if state.get("keep_local") else None
             (private / "local-deployment.json").write_text(
                 json.dumps(
                     {
@@ -311,14 +312,17 @@ def exercise(docker, seed, image, private, public, state):
                     ctl.docker("container", "inspect", n["runtime"])
                 )
             for kind, key in [
+                ("container", "relay"),
                 ("container", "runtime"),
                 ("container", "pg"),
                 ("volume", "data"),
                 ("volume", "ledger"),
                 ("volume", "operator"),
                 ("network", "net"),
+                ("network", "ingress"),
             ]:
-                if ctl.owned(kind, n[key], item):
+                verified = bool(ctl.owned(kind, n[key], item))
+                if verified:
                     if kind == "container":
                         ctl.docker("rm", "-f", n[key])
                     elif kind == "network":
@@ -335,7 +339,15 @@ def exercise(docker, seed, image, private, public, state):
                         ctl.docker("network", "rm", n[key])
                     else:
                         ctl.docker("volume", "rm", n[key])
-                cleanup.append({"kind": kind, "absent": ctl.inspect(kind, n[key]) is None})
+                cleanup.append(
+                    {
+                        "kind": kind,
+                        "name": n[key],
+                        "label_verified_before_delete": verified,
+                        "already_absent": not verified,
+                        "absent": ctl.inspect(kind, n[key]) is None,
+                    }
+                )
         (public / "linux-service.json").write_text(
             json.dumps(
                 {

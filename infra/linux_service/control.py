@@ -31,7 +31,10 @@ def inspect(kind, name):
 def names(name):
     if not re.fullmatch(r"vrae-[a-z0-9][a-z0-9-]{1,40}", name):
         raise ValueError("VRAE_DEPLOYMENT_NAME_REQUIRED")
-    return {k: name + "-" + k for k in ("pg", "runtime", "data", "ledger", "net", "operator")}
+    return {
+        k: name + "-" + k
+        for k in ("pg", "runtime", "data", "ledger", "net", "operator", "relay", "ingress")
+    }
 
 
 def owned(kind, name, owner):
@@ -183,6 +186,13 @@ def up(owner, path):
     for key in ("data", "ledger"):
         if not owned("volume", n[key], owner):
             docker("volume", "create", "--label", LABEL + "=" + owner, n[key])
+    pg = owned("container", n["pg"], owner)
+    if pg and pg["HostConfig"].get("PortBindings"):
+        # Migrate an earlier direct-publish container without touching its data.
+        if owned("container", n["runtime"], owner):
+            docker("stop", "-t", "30", n["runtime"])
+        docker("stop", "-t", "30", n["pg"])
+        docker("rm", n["pg"])
     if not owned("container", n["pg"], owner):
         # Publish only explicit operator-selected addresses; PG5432 is never mapped.
         ports = d.get("publish", [])
@@ -202,7 +212,6 @@ def up(owner, path):
             n["net"],
             "--network-alias",
             "vrae-api",
-            *[item for port in ports for item in ("--publish", port)],
             "--env",
             "POSTGRES_DB=vrae_ra4a_p1",
             "--env",
@@ -220,7 +229,48 @@ def up(owner, path):
         docker("start", n["pg"])
     wait_pg(n)
     start_runtime(owner, n, root, d)
+    if d.get("publish"):
+        start_ingress(owner, n, d)
     return n
+
+
+def start_ingress(owner, n, d):
+    if not owned("network", n["ingress"], owner):
+        docker("network", "create", "--label", LABEL + "=" + owner, n["ingress"])
+    if owned("container", n["relay"], owner):
+        docker("stop", "-t", "10", n["relay"])
+        docker("rm", n["relay"])
+    docker(
+        "run",
+        "-d",
+        "--name",
+        n["relay"],
+        "--label",
+        LABEL + "=" + owner,
+        "--restart",
+        "unless-stopped",
+        "--network",
+        n["ingress"],
+        *[x for p in d["publish"] for x in ("--publish", p)],
+        "--read-only",
+        "--cap-drop",
+        "ALL",
+        "--security-opt",
+        "no-new-privileges",
+        "--user",
+        "10009:10009",
+        "--pids-limit",
+        "64",
+        "--memory",
+        "64m",
+        "--cpus",
+        "0.5",
+        d["image"],
+        "python",
+        "-m",
+        "infra.linux_service.relay",
+    )
+    docker("network", "connect", n["net"], n["relay"])
 
 
 def wait_pg(n):
@@ -236,7 +286,7 @@ def wait_pg(n):
 
 def stop(owner):
     n = names(owner)
-    for key in ("runtime", "pg"):
+    for key in ("relay", "runtime", "pg"):
         if owned("container", n[key], owner):
             docker("stop", "-t", "30", n[key])
 

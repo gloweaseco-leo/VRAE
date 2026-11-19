@@ -24,12 +24,13 @@ def main():
     parser.add_argument("--standalone", action="store_true")
     parser.add_argument("--linux-service", action="store_true")
     parser.add_argument("--keep-local", action="store_true")
+    parser.add_argument("--host-probe", action="store_true")
     parser.add_argument("--local-validity-hours", type=int, default=24)
     parser.add_argument("--serve", action="store_true")
     args = parser.parse_args()
     if args.local_validity_hours < 1:
         parser.error("local validity must be positive")
-    if args.keep_local:
+    if args.keep_local or args.host_probe:
         args.linux_service = True
     if args.linux_service:
         args.standalone = True
@@ -90,6 +91,7 @@ def main():
         "standalone": args.standalone,
         "linux_service": args.linux_service,
         "keep_local": args.keep_local,
+        "host_probe": args.host_probe,
         "local_validity_hours": args.local_validity_hours if args.keep_local else 1,
         "serve": args.serve,
         "delivery_bridge": args.delivery_bridge,

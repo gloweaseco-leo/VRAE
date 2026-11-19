@@ -59,6 +59,12 @@ internal network is used only for the controlled non-customer exercise. Real
 source egress uses an explicitly authorized isolated-egress network and the same
 per-UID kernel default-deny rules. No API listener implicitly exposes PG5432.
 No port is published unless its exact IPv4 binding appears in the manifest.
+Published calls pass through a bounded keyless TCP relay on a separate ingress
+bridge. TLS still terminates in the original API/REVIEW processes; the relay has
+no certificate, bearer, HTTP authorization or dynamic destination. The workload
+and Worker remain on the same inspected internal/isolated namespace with the
+original signed egress policy. PG5432 is never forwarded. This also supports
+Docker Desktop where an internal-only bridge does not activate host publishing.
 
 api.json and review.json use certificate/server-key **filenames**, not arbitrary
 host paths. Their explicit `transport` contains bind, port, hosts, origins, mtls,
