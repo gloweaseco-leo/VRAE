@@ -29,7 +29,6 @@ def exercise(docker, seed, image, private, public, state):
         raise RuntimeError("SERVICE_DRILL_BOUNDED_WAIT")
 
     def runtime_ok(n):
-        raw = ctl.docker("exec", n["runtime"], "test", "-f", "/run/service/ready.json", check=False)
         d = ctl.inspect("container", n["runtime"])
         if not d["State"]["Running"]:
             raise RuntimeError("PERSISTENT_RUNTIME_EXITED")

@@ -49,7 +49,13 @@ def main(phase):
     for person in ("owner", "reviewer", "reader"):
         ch = call("POST", "/challenge", {})
         sids[person] = call(
-            "POST", "/session", {"responsible_bearer": issuer.token(person, ch["nonce"]), **ch}
+            "POST",
+            "/session",
+            {
+                "responsible_bearer": issuer.token(person, ch["nonce"]),
+                "nonce": ch["nonce"],
+                "csrf": ch["csrf"],
+            },
         )["report_session"]
     path = "/jobs/" + CFG["job"]
     view = call("GET", path + "/report", sid=sids["owner"])

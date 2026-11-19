@@ -102,6 +102,23 @@ def start_runtime(owner, n, root, d):
         "import sys,tarfile,os;tarfile.open(fileobj=sys.stdin.buffer,mode='r|gz').extractall('/inputs',filter='data');os.chmod('/inputs',0o700)",
         input=archive.getvalue(),
     )
+    docker(
+        "run",
+        "--rm",
+        "--network",
+        "container:" + n["pg"],
+        "--read-only",
+        "--cap-drop",
+        "ALL",
+        "--tmpfs",
+        "/run/vrae-targets:rw,nosuid,nodev,size=2m",
+        "--mount",
+        "type=volume,src=" + n["operator"] + ",dst=/operator,readonly",
+        d["image"],
+        "python",
+        "-m",
+        "infra.linux_service.initialize",
+    )
     old = owned("container", n["runtime"], owner)
     if old:
         docker("stop", "-t", "30", n["runtime"])
