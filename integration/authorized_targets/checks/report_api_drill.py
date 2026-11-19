@@ -8,6 +8,8 @@ import os
 from pathlib import Path
 import secrets
 import ssl
+import subprocess
+import sys
 import time
 
 from contracts.l2_launch.contract import canonical
@@ -68,6 +70,27 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
     context = ssl.create_default_context(cafile=tls["ca"])
     events = []
     checks = []
+    completed = False
+    failure_class = None
+
+    def storage_mode(mode):
+        # The runtime deliberately has no CAP_FOWNER. Exercise this owned
+        # directory as its actual service UID; do not add container privileges.
+        subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import os,sys;os.chmod(sys.argv[1],int(sys.argv[2]))",
+                str(root),
+                str(mode),
+            ],
+            user=10001,
+            group=10001,
+            extra_groups=[],
+            env=process.ENV,
+            capture_output=True,
+            check=True,
+        )
 
     def check(value, label):
         if not value:
@@ -376,7 +399,7 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
             {"operation": "decisions"},
             sid=sids["reviewer"],
         )["action_token"]
-        root.chmod(0o500)
+        storage_mode(0o500)
         try:
             action(
                 sids["reviewer"],
@@ -388,7 +411,7 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
                 label="ledger storage unavailable",
             )
         finally:
-            root.chmod(0o700)
+            storage_mode(0o700)
         after_storage = call(
             "ledger storage recovery", "GET", path + "/history", sid=sids["reviewer"]
         )
@@ -450,12 +473,18 @@ def run(admin, rows, reviewers, app_bindings, tls, state):
             == original_sha,
             "PG original COMMIT immutable",
         )
+        completed = True
+    except Exception as error:
+        failure_class = type(error).__name__
+        raise
     finally:
         process.stop(child)
         process.write(
             Path("/evidence/report-api.json"),
             {
                 "contract": "vrae.report-authority.drill.v1",
+                "completed": completed,
+                "failure_class": failure_class,
                 "source_sha": state["g1_source_sha"],
                 "checks": checks,
                 "http": events,
