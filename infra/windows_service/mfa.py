@@ -55,9 +55,13 @@ class Store:
                 raise PermissionError("ACTUAL_MFA_ENROLLMENT_REQUIRED")
             c.execute("DELETE FROM challenges WHERE expires<?",(now-3600,))
             nonce=secrets.token_urlsafe(32)
-            seed=base64.b32encode(secrets.token_bytes(20)).decode() if pair else None
-            c.execute("INSERT INTO challenges VALUES(?,?,?,?,0)",(nonce,sid,seed,now+300))
-        return {"nonce":nonce,"seed":seed,"expires":now+300,"sid":sid}
+            pending=c.execute("SELECT seed FROM challenges WHERE sid=? AND seed IS NOT NULL AND used=0 AND expires>? ORDER BY expires DESC LIMIT 1",(sid,now-86400)).fetchone() if pair else None
+            seed=(pending[0] if pending else base64.b32encode(secrets.token_bytes(20)).decode()) if pair else None
+            expiry=now+(900 if pair else 300)
+            if pair:
+                c.execute("UPDATE challenges SET used=1 WHERE sid=? AND seed IS NOT NULL",(sid,))
+            c.execute("INSERT INTO challenges VALUES(?,?,?,?,0)",(nonce,sid,seed,expiry))
+        return {"nonce":nonce,"seed":seed,"expires":expiry,"sid":sid}
 
     def finish(self,primary,code,pair=False,report_nonces=()):
         now=int(self.clock())

@@ -47,7 +47,7 @@ def current_sid():
         kernel.CloseHandle(token)
 
 
-def verify(nonce, expected_sid):
+def verify(nonce, expected_sid, parent=None):
     adv,kernel=_libraries()
     credui=ctypes.WinDLL("credui",use_last_error=True)
     ole=ctypes.WinDLL("ole32",use_last_error=True)
@@ -57,6 +57,8 @@ def verify(nonce, expected_sid):
                   ("pszCaptionText",w.LPCWSTR),("hbmBanner",w.HBITMAP)]
     info=Info()
     info.cbSize=ctypes.sizeof(info)
+    if parent is not None:
+        info.hwndParent=parent
     info.pszCaptionText="VRAE - actual Windows identity verification"
     info.pszMessageText="Re-enter your Windows account PASSWORD for VRAE. This is not a username-only check. The password stays in Windows memory."
     package=w.ULONG()
@@ -95,7 +97,7 @@ def verify(nonce, expected_sid):
             realm="."
         adv.LogonUserW.argtypes=[w.LPCWSTR,w.LPCWSTR,w.LPVOID,w.DWORD,w.DWORD,ctypes.POINTER(w.HANDLE)]
         if not adv.LogonUserW(user,realm,ctypes.cast(password,w.LPVOID),2,0,ctypes.byref(token)):
-            raise PermissionError("WINDOWS_PASSWORD_VERIFICATION_FAILED")
+            raise PermissionError("WINDOWS_PASSWORD_VERIFICATION_FAILED_WIN32_"+str(ctypes.get_last_error()))
         sid=token_sid(token)
         if sid!=expected_sid or sid!=current_sid():
             raise PermissionError("WINDOWS_ACCOUNT_DOES_NOT_MATCH_ENROLLED_OPERATOR")

@@ -32,6 +32,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+      - run: python -m pip install -r requirements-ra4b-p1.lock
       - name: Actual public mTLS and forbidden client cases
         env:
           VRAE_WINDOWS_PUBLIC_MTLS: ${{ secrets.VRAE_WINDOWS_PUBLIC_MTLS }}
@@ -39,9 +40,14 @@ jobs:
           umask 077
           mkdir -p public-receipts
           python -B -m infra.windows_service.probe_from_environment > public-receipts/public-mtls.json
+      - name: Actual sequential invited URL captures
+        env:
+          VRAE_WINDOWS_PUBLIC_MTLS: ${{ secrets.VRAE_WINDOWS_PUBLIC_MTLS }}
+        run: python -B -m infra.windows_service.acceptance_client
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: actual-windows-public-mtls
-          path: public-receipts/public-mtls.json
+          path: public-receipts/*.json
           if-no-files-found: error
           retention-days: 3

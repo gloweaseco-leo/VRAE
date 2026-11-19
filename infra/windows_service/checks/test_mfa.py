@@ -64,3 +64,16 @@ def test_repeated_bad_phone_codes_lock_the_local_operator(tmp_path):
             state.finish(p,bad,True)
     with pytest.raises(PermissionError,match="RATE_LIMITED"):
         state.finish(p,actual,True)
+
+
+def test_pairing_retry_keeps_pending_phone_key_but_invalidates_old_challenge(tmp_path):
+    tmp_path.chmod(0o700)
+    state=Store(tmp_path/"mfa.sqlite",lambda:600)
+    first=state.begin("S-1-5-test",True)
+    retry=state.begin("S-1-5-test",True)
+    assert first["seed"]==retry["seed"] and first["nonce"]!=retry["nonce"]
+    with pytest.raises(PermissionError,match="REPLAY_OR_EXPIRY"):
+        state.finish(primary("S-1-5-test",first["nonce"],600,"primary-1"),totp(first["seed"],20),True)
+    state.finish(primary("S-1-5-test",retry["nonce"],600,"primary-2"),totp(retry["seed"],20),True)
+    with pytest.raises(PermissionError,match="MUST_NOT_BE_REPLACED"):
+        state.begin("S-1-5-test",True)
