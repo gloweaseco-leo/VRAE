@@ -113,6 +113,7 @@ def serve(old, authority, ca, tls, owner_token, worker, hydrate, spawn, lifecycl
                     "allow",
                     "expire",
                     "custody",
+                    "export",
                     "replay",
                 ):
                     ref = value["audit_ref"]
@@ -154,7 +155,7 @@ def serve(old, authority, ca, tls, owner_token, worker, hydrate, spawn, lifecycl
                             {"return_token": return_token},
                         )
                         result = {"http_status": code, "body": response, "fresh_challenge": True}
-                    elif op == "custody":
+                    elif op in ("custody", "export"):
                         with old.connect() as c:
                             task = c.execute(
                                 "SELECT native_task FROM g1_http.admissions WHERE audit_ref=%s",
@@ -184,6 +185,61 @@ def serve(old, authority, ca, tls, owner_token, worker, hydrate, spawn, lifecycl
                             ),
                             "original_result_rows": count,
                         }
+                        if op == "export":
+                            from pathlib import Path
+
+                            code, bundle, _ = owner.request(
+                                "GET", "/__fixture__/audits/" + ref + "/evidence", owner=True
+                            )
+                            if code != 200:
+                                raise ValueError("CURRENT_ORIGINAL_EVIDENCE_UNAVAILABLE")
+                            state = json.loads(old.STATE.read_text(encoding="utf8"))
+                            directory = Path("/evidence/.private-root/consumer-exports") / ref
+                            directory.mkdir(parents=True, mode=0o700, exist_ok=True)
+                            source = (
+                                state["g1_source_sha"]
+                                if not state["g1_source_dirty"]
+                                else "UNCOMMITTED_WORKING_SOURCE"
+                            )
+                            pg = {
+                                "server_sha": source,
+                                "owned_run_id": state["g1_owned_run_id"],
+                                "audit_ref": ref,
+                                "run_id": task["run_id"],
+                                "committed": count == 1,
+                                "job_count": count,
+                                "native_task": task,
+                                "original_commit": result["original_commit"],
+                            }
+                            exports = {}
+                            for name, document in (
+                                ("original-bundle", bundle),
+                                ("pg-receipt", pg),
+                                ("vf-submit", body),
+                            ):
+                                path = directory / (name + ".json")
+                                raw = json.dumps(
+                                    document,
+                                    ensure_ascii=False,
+                                    sort_keys=True,
+                                    separators=(",", ":"),
+                                ).encode()
+                                path.write_bytes(raw)
+                                path.chmod(0o600)
+                                exports[name] = {
+                                    "path": str(path),
+                                    "sha256": hashlib.sha256(raw).hexdigest(),
+                                }
+                            result = {
+                                "scope": "PRIVATE_CONSUMER_INPUTS_NOT_INDEPENDENT_ACCEPTANCE",
+                                "server_sha": source,
+                                "owned_run_id": state["g1_owned_run_id"],
+                                "base_url": "https://127.0.0.1:8766",
+                                "ca_path": str(ca),
+                                "certificate_sha256": tls["facade"]["der_sha256"],
+                                "facade_config_path": "/tmp/g1-facade/config.json",
+                                "exports": exports,
+                            }
                     elif op == "status":
                         code, result, _ = client.request("GET", "/v1/audits/" + ref)
                         result = {"http_status": code, "body": result}
@@ -275,6 +331,7 @@ def main():
             "allow",
             "expire",
             "custody",
+            "export",
             "replay",
             "service-down",
             "service-up",
@@ -296,6 +353,7 @@ def main():
         "expire",
         "custody",
         "replay",
+        "export",
     ):
         value["audit_ref"] = args.value
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:

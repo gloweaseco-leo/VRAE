@@ -14,9 +14,35 @@ def fixture(handler, method, ref, operation):
         c.execute("SELECT pg_advisory_xact_lock_shared(%s)", (REALM_LOCK,))
         record = store.current_record(c, ref)
         with handler.app.flow.current(record) as current:
-            _, pins = project(record, current)
+            projected, pins = project(record, current)
             if method == "GET" and operation == "pins":
                 return handler.send(200, pins)
+            if method == "GET" and operation == "evidence":
+                versions, decisions, _ = current.ledger.history(
+                    current.review_sid, current.report_id
+                )
+                return handler.send(
+                    200,
+                    {
+                        "scope": "PRIVATE_CONTROLLED_SNAPSHOT_NOT_ACCESS_AUTHORITY",
+                        "report": current.view.version,
+                        "latest_version": max(v[0] for v in versions),
+                        "findings": current.view.findings,
+                        "source_command": record["submission"]["command"],
+                        "source_policy": current.plan.policy,
+                        "view": {
+                            "citations": projected["citations"],
+                            "summary": projected["summary"],
+                            "coverage": {
+                                "authorized_pages": projected["coverage"]["authorized"],
+                                "observed_pages": projected["coverage"]["successful"],
+                            },
+                        },
+                        "controlled_review": decisions[0] if decisions else None,
+                        "pins": pins,
+                        "external_release": False,
+                    },
+                )
             if method != "POST":
                 raise Refused("FORBIDDEN_ROLE")
             body = handler.body()

@@ -83,6 +83,9 @@ def main():
         "port": 5432,
         "dbname": "vrae_ra4a_p1",
         "admin_password": password,
+        "g1_source_sha": run("git", "rev-parse", "HEAD").decode().strip(),
+        "g1_source_dirty": bool(run("git", "status", "--porcelain").strip()),
+        "g1_owned_run_id": ident,
         "runtime_passwords": {r: secrets.token_urlsafe(24) for r in roles},
     }
     created = []

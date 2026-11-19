@@ -153,6 +153,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-VRAE-Scope", "OFFLINE_SYNTHETIC_NO_RELEASE")
         self.send_header("X-G1-AI-State", "NO_MODEL")
+        self.send_header("X-VRAE-Source-SHA", self.server.source_sha)
         for key, value in extra:
             self.send_header(key, value)
         self.end_headers()
@@ -255,7 +256,9 @@ class Handler(BaseHTTPRequestHandler):
                     ("X-G1-CSRF", csrf),
                 ],
             )
-        match = re.fullmatch("/__fixture__/audits/(" + REF + ")/(pins|review|preview-permit)", path)
+        match = re.fullmatch(
+            "/__fixture__/audits/(" + REF + ")/(pins|review|preview-permit|evidence)", path
+        )
         if match:
             from integration.l2_launch.g1.preview import fixture
 
@@ -386,6 +389,7 @@ def main():
     tls.load_cert_chain(cfg["certificate"], cfg["certificate_key"])
     server = BoundedServer(("127.0.0.1", 8766), Handler, tls)
     server.app = app
+    server.source_sha = cfg["source_sha"]
     print('{"stage":"G1_REAL_LOOPBACK_TLS_READY","port":8766,"public":false}', flush=True)
     server.serve_forever(poll_interval=0.1)
 

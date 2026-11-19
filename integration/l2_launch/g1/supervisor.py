@@ -179,6 +179,10 @@ def main():
         "app_bearer": app["bearer"],
         "source_refs": list(app["sources"]),
         "service_token": token,
+        "source_sha": state["g1_source_sha"]
+        if not state["g1_source_dirty"]
+        else "UNCOMMITTED_WORKING_SOURCE",
+        "owned_run_id": state["g1_owned_run_id"],
         "owner_token": owner,
         "epoch": 1,
         "routing_key": routing,
@@ -202,7 +206,12 @@ def main():
     facade_path = provision("facade", 10003, cfg, tls["facade"])
     facade, facade_log = spawn("facade", 10003, facade_path, "integration.l2_launch.g1.http_server")
     wait(lambda: b"G1_REAL_LOOPBACK_TLS_READY" in facade_log.read_bytes())
-    vf_cfg = {"ca": str(ca), "facade_pin": tls["facade"]["der_sha256"], "service_token": token}
+    vf_cfg = {
+        "ca": str(ca),
+        "facade_pin": tls["facade"]["der_sha256"],
+        "service_token": token,
+        "source_sha": cfg["source_sha"],
+    }
     vf_path = provision("vf", 10004, vf_cfg, tls["vf"])
     vf, vf_log = spawn("vf", 10004, vf_path, "integration.l2_launch.g1.vf_stub")
     wait(lambda: b"G1_VF_SYNTHETIC_SERVER_READY" in vf_log.read_bytes())
@@ -463,6 +472,29 @@ def main():
             actual_pack["run_id"] == native["run_id"]
             and actual_pack["run_id"] != plan.native.pack.document["run_id"],
         )
+        if kind == "manufacturer":
+            code, bundle, _ = owner_client.request(
+                "GET", "/__fixture__/audits/" + ref + "/evidence", owner=True
+            )
+            from vrae.domain.reviews import report_content_hash
+
+            check(
+                "PRIVATE_ORIGINAL_BUNDLE_SAME_NATIVE_RUN",
+                code == 200
+                and bundle["report"]["run_id"] == native["run_id"]
+                and bundle["source_command"] == body["command"],
+            )
+            check(
+                "PRIVATE_BUNDLE_PRESERVES_CONTROLLED_REVIEW_NOT_RELEASE",
+                bundle["report"]["status"] == "REVIEW_REQUIRED"
+                and bundle["controlled_review"]["formal_human_review"] is False
+                and bundle["external_release"] is False,
+            )
+            check(
+                "PRIVATE_BUNDLE_ORIGINAL_FACT_CONTENT_HASH",
+                report_content_hash(bundle["report"], bundle["findings"])
+                == bundle["report"]["content_hash"],
+            )
         tasks.append(
             {
                 "kind": kind,
@@ -495,6 +527,17 @@ def main():
                 "report_pins": pins if kind in ("manufacturer", "distributor") else None,
             }
         )
+    check(
+        "SOURCE_SHA_HTTP_HEADER_MATCHES_RUNTIME",
+        all(
+            event["source_sha"] == cfg["source_sha"]
+            for event in vf_client.trace + owner_client.trace
+        ),
+    )
+    check(
+        "SINGLE_TRUTHFUL_NO_MODEL_HTTP_HEADER",
+        all(event["ai_state"] == "NO_MODEL" for event in vf_client.trace + owner_client.trace),
+    )
     write(
         OUT / "t0.json",
         {

@@ -82,6 +82,8 @@ class Client:
                 "status": response.status,
                 "profile": response.getheader("Content-Type"),
                 "cache_control": response.getheader("Cache-Control"),
+                "source_sha": response.getheader("X-VRAE-Source-SHA"),
+                "ai_state": response.getheader("X-G1-AI-State"),
                 "body_sha256": hashlib.sha256(raw).hexdigest(),
                 "set_cookie_attributes": [
                     {

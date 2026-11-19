@@ -42,7 +42,7 @@ class VFHandler(Handler):
             extra = [
                 (k, v)
                 for k, v in client.last_response_headers
-                if k.lower() in ("set-cookie", "x-g1-csrf", "etag", "x-g1-ai-state")
+                if k.lower() in ("set-cookie", "x-g1-csrf", "etag")
             ]
             return self.send(code, result, extra)
         except TransportError as error:
@@ -69,6 +69,7 @@ def main():
     tls.load_cert_chain(cfg["certificate"], cfg["certificate_key"])
     server = BoundedServer(("127.0.0.1", 8767), VFHandler, tls)
     server.cfg = cfg
+    server.source_sha = cfg["source_sha"]
     print('{"stage":"G1_VF_SYNTHETIC_SERVER_READY","port":8767}', flush=True)
     server.serve_forever(poll_interval=0.1)
 

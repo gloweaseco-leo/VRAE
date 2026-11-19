@@ -4,6 +4,12 @@ Scope: a runnable T0 candidate for Issue #153's SPEED-TO-TEST release. **This is
 not G1 final acceptance or a customer release.** Accepted base:
 `7fdeeed0f427ce3b94677ab2a480eae1556e85ca`.
 
+Accepted main0b2c171b680e39ad8a410d7bc6708a9f82221072 has now been normally
+merged; no G1 results were discarded. Its Provider modules are available but
+this T0 continues NO_MODEL. For independent consumers see
+[exact wiring and explicit gaps](CONSUMER-HANDOFF.md). The old build RED decision
+is preserved in [BUILD-RED-5962.md](BUILD-RED-5962.md).
+
 ## What actually runs
 
 A separate UID10004 VF synthetic HTTPS server calls a UID10003 loopback VRAE
