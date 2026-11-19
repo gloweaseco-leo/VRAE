@@ -44,7 +44,7 @@ class Session:
 
 
 class Directory:
-    def __init__(self, *, issuer, audience, jwks, people, expires, mode='CONTROLLED', clock=time.time):
+    def __init__(self, *, issuer, audience, jwks, people, expires, mode='CONTROLLED', clock=time.time, report_authorizer=None):
         if mode not in ('CONTROLLED','VERIFIED_DIRECTORY') or not issuer.startswith('https://'):
             deny('L2_IDENTITY_CONFIGURATION_DENIED')
         if mode=='VERIFIED_DIRECTORY' and any(not p.verification_ref for p in people):
@@ -58,6 +58,7 @@ class Directory:
                        or not p.name.strip() or not p.subject or not p.report_ids for p in people)):
             deny('L2_IDENTITY_CONFIGURATION_DENIED')
         self.mode,self.clock = mode,clock
+        self.report_authorizer = report_authorizer
         self.revoked_keys=set()
         self.sessions,self.challenges,self.actions,self.seen = {},{},{},{}
         self.boot=secrets.token_hex(32)
@@ -79,6 +80,11 @@ class Directory:
 
     def generation(self):
         return hashlib.sha256((self.boot+self.issuer+self.audience+self.mode+json.dumps(self.jwks,sort_keys=True)).encode()).hexdigest()
+
+    def permits(self, person, report_id):
+        return (report_id in person.report_ids or
+                (self.mode=='VERIFIED_DIRECTORY' and self.report_authorizer is not None
+                 and self.report_authorizer(person,report_id) is True))
 
     def challenge(self):
         with self.lock:
@@ -144,7 +150,7 @@ class Directory:
             s=self.sessions.get(hashlib.sha256(sid.encode()).digest())
             if (s is None or s.key_id in self.revoked_keys or s.generation!=self.generation()
                     or self.people.get(s.person.subject)!=s.person or not s.person.active
-                    or (report_id is not None and report_id not in s.person.report_ids)):
+                    or (report_id is not None and not self.permits(s.person,report_id))):
                 deny()
             return s
 

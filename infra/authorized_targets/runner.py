@@ -21,6 +21,7 @@ def main():
     parser.add_argument("--image", default="vrae-g1:313")
     parser.add_argument("--delivery-bridge", action="store_true")
     parser.add_argument("--report-api", action="store_true")
+    parser.add_argument('--verified-reports', action='store_true')
     parser.add_argument("--standalone", action="store_true")
     parser.add_argument("--serve", action="store_true")
     args = parser.parse_args()
@@ -28,6 +29,8 @@ def main():
         args.delivery_bridge = True
     if args.report_api and not args.delivery_bridge:
         parser.error("--report-api requires --delivery-bridge")
+    if args.verified_reports and not args.delivery_bridge:
+        parser.error('--verified-reports requires --delivery-bridge')
     assert args.label.replace("-", "").isalnum() and len(args.label) < 64
     private = ROOT / "infra/authorized_targets/.private" / args.label
     private.mkdir(parents=True, exist_ok=False)
@@ -82,6 +85,7 @@ def main():
         "serve": args.serve,
         "delivery_bridge": args.delivery_bridge,
         "report_api": args.report_api,
+        "verified_reports": args.verified_reports,
         "host": "127.0.0.1",
         "port": 5432,
         "dbname": "vrae_ra4a_p1",
@@ -244,6 +248,8 @@ def main():
             "/tmp:rw,nosuid,nodev,size=192m",
             "--tmpfs",
             "/run/vrae-targets:rw,nosuid,nodev,size=2m",
+            "--tmpfs",
+            "/run/vrae-reports:rw,nosuid,nodev,size=2m",
             "--mount",
             "type=volume,src=" + names["source"] + ",dst=/work,readonly",
             "--mount",
@@ -305,6 +311,8 @@ def main():
             files += ["api.json"]
         if args.report_api:
             files += ["report-api.json"]
+        if args.verified_reports:
+            files += ['verified-reports.json']
         for file in files:
             found = subprocess.run(
                 ["docker", "cp", names["runtime"] + ":/evidence/" + file, str(public / file)],

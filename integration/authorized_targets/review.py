@@ -16,7 +16,7 @@ from integration.authorized_targets.store import connect
 from contracts.l2_launch.contract import canonical
 
 
-def committed_ledger(current, binding, job_id, path, directory):
+def committed_source(current, binding, job_id):
     """Reconstitute the original ledger only from a held committed-input port."""
     d = current["artifact"]
     if d["task"]["tenant_id"] != binding["tenant_id"] or d["task"]["job_id"] != str(job_id):
@@ -29,7 +29,12 @@ def committed_ledger(current, binding, job_id, path, directory):
     initial = source.read()
     if initial.display_hash != d["display_hash"] or initial.version != d["version"]:
         raise ValueError("CURRENT_REVIEW_REPLAY")
-    return Ledger(path, source, directory), initial.version["report_id"]
+    return source, initial.version["report_id"]
+
+
+def committed_ledger(current, binding, job_id, path, directory):
+    source, report_id = committed_source(current, binding, job_id)
+    return Ledger(path, source, directory), report_id
 
 
 @contextmanager
