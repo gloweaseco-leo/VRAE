@@ -190,3 +190,21 @@ def test_concurrent_invocation_cannot_share_session_between_event_loops(bridge):
         assert out['cost_status'] == 'UNKNOWN' and adapter._session is None
     finally:
         adapter._lock.release()
+
+
+@pytest.mark.parametrize('stage', ['before_adapter', 'after_adapter', 'receipt_write'])
+def test_original_pg_port_failure_never_returns_candidates_or_refunds_usage(bridge, tmp_path, monkeypatch, stage):
+    from integration.authorized_targets import postcommit
+    adapter, request, _, _ = bridge
+    enable(adapter, request, tmp_path)
+    def fail(binding, job, invoke, *, operation_id):
+        if stage != 'before_adapter':
+            assert invoke(request)['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW'
+        raise TimeoutError('private DB detail must never escape')
+    monkeypatch.setattr(postcommit, 'run', fail)
+    out = committed.execute({}, 'unused', adapter, operation_id=request['ai_operation_id'])
+    assert out['state'] == 'AI_UNAVAILABLE' and out['claims'] == []
+    assert out['pg_receipt_status'] == 'UNKNOWN' and not out['grants_report_access']
+    assert (out['usage'] is not None) == (stage != 'before_adapter')
+    assert adapter._provider._transport.calls == (0 if stage == 'before_adapter' else 1)
+    assert 'private DB' not in str(out)

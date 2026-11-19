@@ -440,14 +440,51 @@ def test_windows_missing_systemroot_refuses_without_spawning(monkeypatch):
 
 def test_vendor_schema_omits_only_unsupported_uniqueness_keyword():
     from copy import deepcopy
-    from vrae.intelligence.qwen.session import wire_schema
+    from vrae.intelligence.qwen.session import wire_schema, COMPACT_SCHEMA
     before = deepcopy(SCHEMA)
     assert 'uniqueItems' not in json.dumps(WIRE_SCHEMA)
     assert SCHEMA == before and SCHEMA['properties']['claims']['items']['properties']['refs']['uniqueItems']
-    assert wire_schema(SCHEMA) == WIRE_SCHEMA
-    assert WIRE_SCHEMA['properties']['claims']['maxItems'] == 8
-    assert WIRE_SCHEMA['properties']['claims']['items']['properties']['explanation']['maxLength'] == 600
+    assert wire_schema(COMPACT_SCHEMA) == WIRE_SCHEMA
+    assert SCHEMA['properties']['claims']['maxItems'] == 8
+    assert SCHEMA['properties']['claims']['items']['properties']['explanation']['maxLength'] == 600
+    assert WIRE_SCHEMA['properties']['claims']['maxItems'] == 2
+    assert WIRE_SCHEMA['properties']['claims']['items']['properties']['explanation']['maxLength'] == 220
     assert WIRE_SCHEMA['properties']['claims']['items']['additionalProperties'] is False
+
+
+@pytest.mark.parametrize('change', ['three_claims', 'long_text', 'multiple_questions'])
+def test_compact_output_is_stricter_than_existing_schema_and_retains_usage(tmp_path, c, change):
+    document = candidate(c)
+    if change == 'three_claims':
+        document['claims'] *= 3
+    elif change == 'long_text':
+        document['claims'][0]['explanation'] = 'x' * 221
+    else:
+        document['claims'][0]['questions'] *= 2
+    assert VALIDATOR.is_valid(document)
+    raw = response(c)
+    raw['choices'][0]['message']['content'] = json.dumps(document)
+    p = provider(tmp_path / 'q.sqlite', c, fake=FakeTransport(raw))
+    out = run(c, p)[1]
+    assert out['code'] == 'CANDIDATE_OUTPUT_BOUND' and not out['claims']
+    assert out['usage']['input_tokens'] == 137
+    assert out['deterministic_report_hash'] == c.source.read().version['content_hash']
+
+
+def test_compact_input_keeps_unknown_and_every_conflict_counterfact(c):
+    from vrae.intelligence.qwen.session import compact_input, catalog
+    minimized = {'data': {'confirmed': [], 'unknown_or_blocked': [
+        {'rule_id': 'INFO-02', 'outcome': 'UNKNOWN', 'not_a_defect': True}]}}
+    for ctx in (c, context(conflict=True)):
+        data = compact_input(ctx, minimized)
+        refs = {r['ref'] for r in data['references']}
+        original = catalog(ctx)
+        assert len(data['references']) < len(original)
+        assert data['unknown_is_not_defect'] and data['unknown_or_blocked_rules'] == ['INFO-02']
+        assert {r['task'] for r in original} == {r['task'] for r in data['references']}
+        for row in original:
+            if row['type'] == 'CONFIGURATION_CONFLICT':
+                assert {row['ref'], *row['counter_refs']} <= refs
 
 
 @pytest.mark.parametrize('field', ['refs', 'counter_refs'])
