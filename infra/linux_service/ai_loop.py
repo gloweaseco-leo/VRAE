@@ -10,9 +10,10 @@ from integration.qwen_provider.postcommit import InputPins, replay_input
 from vrae.l2.native import NativeTask
 from vrae.industry.l2_v1.pack import load_s2
 from vrae.rules.s2 import IndustryPins, evaluate_s2
+from vrae.reporting.s2_candidate import BuyerCandidatePins, ObservationPin
 
 
-def adapter(binding, job):
+def adapter(binding, job, selections):
     held = current_input(binding, job)
     d = held["artifact"]
     pack, _ = replay_input(
@@ -34,9 +35,40 @@ def adapter(binding, job):
         projection_version="s2-projection-1.2.0",
         industry_pins=industry,
     )
-    # No selection is invented for a caller. Missing configured buyer pins is
-    # an explicit unavailable S3 candidate, while deterministic evidence survives.
-    return Adapter(binding, job, projection=projection, buyer_pins=None)
+    selected = selections.get(binding["tenant_id"] + "/" + held["task"]["source_ref"])
+    if selected is None:
+        return None
+    rows = [
+        next(
+            r
+            for r in projection["industrial_projection"]["rows"]
+            if r["model"] == selected["model"] and r["observation"]["rule_id"] == rule
+        )
+        for rule in selected["rules"]
+    ]
+    snapshot = next(
+        s["snapshot_ref"] for s in pack.document["snapshots"] if s["url"] == selected["subject_url"]
+    )
+    buyer = BuyerCandidatePins(
+        **scope,
+        pack_ref=pack.ref,
+        projection_ref=projection["projection_ref"],
+        projection_version="s2-projection-1.2.0",
+        industry_pins=industry,
+        subject_model=selected["model"],
+        subject_snapshot_ref=snapshot,
+        observations=tuple(
+            ObservationPin(
+                r["observation"]["observation_id"],
+                r["observation"]["rule_id"],
+                r["observation"]["rule_version"],
+                r["source_version"],
+                tuple(sorted(p["snapshot_ref"] for p in r["source_pages"])),
+            )
+            for r in rows
+        ),
+    )
+    return Adapter(binding, job, projection=projection, buyer_pins=buyer)
 
 
 def main():
@@ -55,7 +87,12 @@ def main():
                     ]
                 for job in jobs:
                     try:
-                        run(binding, job, adapter(binding, job), operation_id="service-ai-" + job)
+                        run(
+                            binding,
+                            job,
+                            adapter(binding, job, cfg.get("buyer_selection", {})),
+                            operation_id="service-ai-" + job,
+                        )
                         print('{"phase":"POST_COMMIT_RECORDED","model_dispatch":0}', flush=True)
                     except Exception:
                         # Authority loss cannot be turned into an AI receipt.

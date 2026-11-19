@@ -128,21 +128,7 @@ for ip in ['93.184.216.20/32','93.184.216.53/32']:subprocess.run(['ip','addr','a
         )
         docker("stop", "-t", "10", seed["pg"])
         backup.mkdir(mode=0o700)
-        raw = docker(
-            "run",
-            "--rm",
-            "--network",
-            "none",
-            "--read-only",
-            "--cap-drop",
-            "ALL",
-            "--mount",
-            "type=volume,src=" + seed["data"] + ",dst=/snapshot,readonly",
-            image,
-            "python",
-            "-c",
-            "import sys,tarfile;t=tarfile.open(fileobj=sys.stdout.buffer,mode='w|gz');t.add('/snapshot',arcname='.');t.close()",
-        )
+        raw = ctl.volume_archive(seed["data"], image)
         (backup / "data.tar.gz").write_bytes(raw)
         empty = io.BytesIO()
         with tarfile.open(fileobj=empty, mode="w:gz"):
@@ -163,6 +149,23 @@ for ip in ['93.184.216.20/32','93.184.216.53/32']:subprocess.run(['ip','addr','a
         fixture_site(n)
         client(n, "restart")
         client(n, "prepare", report=True)
+        repeat = subprocess.run(
+            [
+                "docker",
+                "exec",
+                "-u",
+                "10004",
+                seed["client"],
+                "python",
+                "-m",
+                "infra.linux_service.repeat",
+            ],
+            capture_output=True,
+        )
+        (private / "continuous-worker.stderr").write_bytes(repeat.stderr)
+        if repeat.returncode:
+            raise RuntimeError("CONTINUOUS_NEW_TASKS_RED")
+        events.append(json.loads(repeat.stdout))
         # Killing only the Worker proves parent supervision without changing PG.
         status = json.loads(ctl.docker("exec", n["runtime"], "cat", "/run/service/ready.json"))
         old = status["children"]["worker"]

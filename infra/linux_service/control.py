@@ -266,6 +266,46 @@ def rollback(owner, path):
     return upgrade(owner, root, previous["image"])
 
 
+def volume_archive(volume, image):
+    mount = "type=volume,src=" + volume + ",dst=/snapshot,readonly"
+    uid = (
+        docker(
+            "run",
+            "--rm",
+            "--network",
+            "none",
+            "--read-only",
+            "--cap-drop",
+            "ALL",
+            "--mount",
+            mount,
+            image,
+            "python",
+            "-c",
+            "import os;d=os.stat('/snapshot');print(str(d.st_uid)+':'+str(d.st_gid))",
+        )
+        .decode()
+        .strip()
+    )
+    return docker(
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--read-only",
+        "--cap-drop",
+        "ALL",
+        "--user",
+        uid,
+        "--mount",
+        mount,
+        image,
+        "python",
+        "-c",
+        "import sys,tarfile;t=tarfile.open(fileobj=sys.stdout.buffer,mode='w|gz');t.add('/snapshot',arcname='.');t.close()",
+    )
+
+
 def backup(owner, path, destination):
     root, d = config(path)
     n = names(owner)
@@ -275,21 +315,7 @@ def backup(owner, path, destination):
     try:
         for key in ("data", "ledger"):
             owned("volume", n[key], owner)
-            raw = docker(
-                "run",
-                "--rm",
-                "--network",
-                "none",
-                "--read-only",
-                "--cap-drop",
-                "ALL",
-                "--mount",
-                "type=volume,src=" + n[key] + ",dst=/snapshot,readonly",
-                d["image"],
-                "python",
-                "-c",
-                "import sys,tarfile;t=tarfile.open(fileobj=sys.stdout.buffer,mode='w|gz');t.add('/snapshot',arcname='.');t.close()",
-            )
+            raw = volume_archive(n[key], d["image"])
             target = out / (key + ".tar.gz")
             target.write_bytes(raw)
             target.chmod(0o600)
