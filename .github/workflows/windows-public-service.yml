@@ -5,6 +5,12 @@ on:
       - 'infra/windows_service/**'
       - '.github/workflows/windows-public-service.yml'
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'health verifies current public mTLS; full requires current invited source and actual human grants'
+        type: choice
+        options: [health, full]
+        default: health
 permissions:
   contents: read
 jobs:
@@ -23,6 +29,9 @@ jobs:
       - run: python -m pip install -r requirements-ra4b-p1.lock
       - run: python -B -m pytest -q infra/windows_service/checks
   actual-public:
+    # Real clients, source consent and human MFA expire independently of Git.
+    # Retain offline PR boundaries; explicitly dispatch real live operations.
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     concurrency:
       group: vrae-windows-actual-public
       cancel-in-progress: false
@@ -44,10 +53,12 @@ jobs:
           mkdir -p public-receipts
           python -B -m infra.windows_service.probe_from_environment > public-receipts/public-mtls.json
       - name: Actual sequential invited URL captures
+        if: ${{ inputs.mode == 'full' }}
         env:
           VRAE_WINDOWS_PUBLIC_MTLS: ${{ secrets.VRAE_WINDOWS_PUBLIC_MTLS }}
         run: python -B -m infra.windows_service.acceptance_client
       - name: Actual directed formal report and isolation
+        if: ${{ inputs.mode == 'full' }}
         env:
           VRAE_WINDOWS_PUBLIC_MTLS: ${{ secrets.VRAE_WINDOWS_PUBLIC_MTLS }}
         run: python -B -m infra.windows_service.report_acceptance

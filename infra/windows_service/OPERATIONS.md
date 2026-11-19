@@ -1,7 +1,11 @@
 # Windows public VRAE service
 
-Current acceptance is NOT_READY until the external sequential capture, actual human review,
-directed recipient reads and revocation checks all finish. The controlled public source is
+Actual controlled-source technical flow completed on 2026-11-19: external
+sequential captures, actual Windows/password + phone MFA, human review,
+directed recipient reads and Owner revocations. This is NOT approval of customer
+report business value or presentation quality. The human review expressly limits
+approval to controlled-sample workflow acceptance and retains every UNKNOWN.
+See the single Issue153 handoff receipt for immutable artifact/version pins. The controlled public source is
 operator-owned acceptance infrastructure, not a customer website. Health alone is insufficient.
 
 ## Actual listeners and authentication
@@ -141,3 +145,30 @@ TCP resolvers 223.6.6.6 and 223.5.5.5. This does not change Windows/VPN DNS,
 proxy or routes; all original public-answer validation and preconnect pinning remain.
 Missing scalar comparisons remain separate UNKNOWN assessments with distinct
 identities; the original report's duplicate-ID rejection remains enforced.
+
+
+## Live test modes and operating window
+
+PRs run offline service boundaries. Real public tests require explicit dispatch of
+`windows-public-service.yml`: `mode=health` checks current mTLS (and forbidden
+clients), while `mode=full` additionally requires current source consent, task
+sessions and actual human grants. A health artifact never proves a capture,
+human review or customer release. All historical failures and full-flow receipts
+remain evidence; they are not overwritten to make a later health run look complete.
+
+The current temporary client certificate, deployment/issuer delegation and review
+directory expire at **2026-11-20 10:30 UTC**. Operations must rotate/reprovision
+these authorities before that deadline for continued service; the public server
+certificate alone (valid until 2027-02-17) does not extend them. Existing two sample
+grants were explicitly revoked. Their source authorization expired at
+2026-11-19 15:35 UTC; it is not renewed by replaying an old invitation or report.
+Future actual website diagnoses require fresh valid domain proof/consent and their
+own actual Reviewer decision. Customer business quality remains separately pending.
+
+Docker Desktop already starts at this Windows user's login; owned containers use
+`unless-stopped`. A bounded process wake request and this user's
+`VRAE-TemporaryWake.lnk` remain effective only until the current temporary authority
+window. Stop the wake request by creating the configured
+`windows-power-guard.stop` file or ending its recorded PID; exiting releases it.
+No power plan, global proxy, DNS or route was changed. Manual sleep, logout,
+network/VPN outages and Windows shutdown can interrupt availability.
