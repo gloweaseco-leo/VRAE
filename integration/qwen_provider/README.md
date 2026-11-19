@@ -116,7 +116,7 @@ native provider, and calls only after original Worker COMMIT and lease end:
 p = QwenProvider(Config(workspace_id), retained_quota, permission=owner_allowance,
                  price=verified_price, key=server_secret)
 result = await existing_session.run(operation_id, mode='REAL_QWEN', provider=p,
-                                    timeout_ms=30000)
+                                    timeout_ms=120000)
 ```
 
 This increment intentionally accepts only the original OFFLINE_SYNTHETIC
@@ -127,3 +127,10 @@ Actual model usage, exact returned version, text candidates, Guard review and
 sanitized egress receipt remain required future live evidence. Real customer
 sources, public capture, human approval, sharing, cloud deployment and production
 access remain outside this task's current authorization.
+
+The independent provider wait is capped at 120 seconds; this does not change the
+original 30-second Worker lease. A timeout keeps usage/cost UNKNOWN and retains
+the reservation. Supplier strict Schema omits its unsupported `uniqueItems`
+keyword only on the wire; the original full local schema still rejects duplicates.
+See `docs/03-engineering/qwen-live-smoke/20261119` for the first authorized attempt
+receipts. None of those failed attempts establishes a successful live integration.

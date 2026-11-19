@@ -180,7 +180,7 @@ async def run_session(session, operation, *, provider, timeout_ms, cancel):
     if (type(provider) is not QwenProvider or type(operation) is not str
             or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{2,127}', operation)
             or type(cancel) is not bool or type(timeout_ms) is not int
-            or not 1 <= timeout_ms <= 30000):
+            or not 1 <= timeout_ms <= 120000):
         raise S3Error('TRUSTED_QWEN_CONFIGURATION_REQUIRED')
     c = session.context
     c.completion.check(c.source, session.clock())

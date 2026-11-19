@@ -162,7 +162,7 @@ class QwenProvider:
     async def complete(self, body, *, operation, scope, context_ref, now, timeout_ms):
         self.authorize(now)
         assert self.price is not None and self.permission is not None
-        if type(timeout_ms) is not int or not 1 <= timeout_ms <= 30000:
+        if type(timeout_ms) is not int or not 1 <= timeout_ms <= 120000:
             fail('TIMEOUT_BOUND')
         if len(encode(body)) > 48000 or body['model'] != MODEL:
             fail('REQUEST_BOUND')

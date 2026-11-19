@@ -330,7 +330,7 @@ def test_unknown_cards_remain_unknown_while_candidates_are_only_hypotheses(tmp_p
 def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(monkeypatch, key, http_status):
     from infra.qwen_provider import egress
     envelope = {'workspace': 'synthetic-workspace', 'key': key,
-                'body': {'model': MODEL}, 'timeout_ms': 1000}
+                'body': {'model': MODEL}, 'timeout_ms': 120000}
     class Stdin:
         buffer = io.BytesIO(json.dumps(envelope).encode())
     sent, connected, names = [], [], []
@@ -347,6 +347,7 @@ def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(m
             pass
     def connect(address, **kwargs):
         connected.append(address)
+        assert kwargs['timeout'] == 120
         return Wire()
     class TLS:
         def wrap_socket(self, raw, *, server_hostname):
@@ -459,3 +460,14 @@ def test_local_validator_still_rejects_duplicate_refs_after_wire_projection(tmp_
     raw['choices'][0]['message']['content'] = json.dumps(document)
     p = provider(tmp_path / 'q.sqlite', c, fake=FakeTransport(raw))
     assert run(c, p)[1]['code'] == 'CANDIDATE_SCHEMA'
+
+
+def test_native_wait_is_independent_of_unchanged_worker_lease_and_still_bounded(tmp_path, c):
+    p = provider(tmp_path / 'q.sqlite', c)
+    assert (c.completion.lease_expires_at - c.completion.lease_started_at).total_seconds() == 30
+    _, out = run(c, p, timeout_ms=120000)
+    assert out['status'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW'
+    assert p._transport.calls == 1
+    with pytest.raises(S3Error, match='TRUSTED_QWEN_CONFIGURATION_REQUIRED'):
+        run(c, p, op='operation-unbounded', timeout_ms=120001)
+    assert p._transport.calls == 1

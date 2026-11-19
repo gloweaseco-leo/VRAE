@@ -17,7 +17,7 @@ def main():
             or type(key) is not str or not 16 <= len(key) <= 256
             or not re.fullmatch(r'[A-Za-z0-9._~+/-]+=*', key)
             or type(envelope['timeout_ms']) is not int
-            or not 1 <= envelope['timeout_ms'] <= 30000):
+            or not 1 <= envelope['timeout_ms'] <= 120000):
         return 1
     host = workspace + '.cn-beijing.maas.aliyuncs.com'
     body = json.dumps(envelope['body'], separators=(',', ':')).encode()
