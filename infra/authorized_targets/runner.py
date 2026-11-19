@@ -309,7 +309,7 @@ def main():
             files += ["api.json"]
         if args.report_api:
             files += ["report-api.json"]
-        if args.linux_service:
+        if args.linux_service and code == 0:
             from infra.linux_service.drill import exercise as persistent_exercise
 
             persistent_exercise(docker, names, image, private, public, state)

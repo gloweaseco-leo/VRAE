@@ -80,7 +80,22 @@ def export(drill, scope, receipts):
             "workload": {"kind": "AUTHORIZED_EGRESS_V2"},
         },
     )
-    save("ai.json", {"kind": "APP", "authority": "AUTHORIZED_TARGET_V1", "bindings": drill.ai})
+    save(
+        "ai.json",
+        {
+            "kind": "APP",
+            "authority": "AUTHORIZED_TARGET_V1",
+            "bindings": drill.ai,
+            "buyer_selection": {
+                "tenant-beta/" + plan["target_id"]: {
+                    "model": "TX10",
+                    "rules": ["INFO-02", "TRUST-02"],
+                    "subject_url": plan["origin"] + "/products/item",
+                }
+                for plan, _ in drill.external
+            },
+        },
+    )
     admin = scope["admin"]
     # The parent connection was deliberately invalidated by actual PG restart.
     import psycopg

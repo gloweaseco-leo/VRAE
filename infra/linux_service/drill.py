@@ -30,7 +30,7 @@ def exercise(docker, seed, image, private, public, state):
 
     def runtime_ok(n):
         d = ctl.inspect("container", n["runtime"])
-        if not d["State"]["Running"]:
+        if not d["State"]["Running"] or d.get("RestartCount", 0) > 0:
             raise RuntimeError("PERSISTENT_RUNTIME_EXITED")
         probe = subprocess.run(
             ["docker", "exec", n["runtime"], "test", "-f", "/run/service/ready.json"],
@@ -211,8 +211,10 @@ for ip in ['93.184.216.20/32','93.184.216.53/32']:subprocess.run(['ip','addr','a
         for item in (owner, restored):
             n = ctl.names(item)
             if ctl.owned("container", n["runtime"], item):
-                (private / (item + "-runtime.log")).write_bytes(
-                    ctl.docker("logs", n["runtime"], check=False)
+                log = subprocess.run(["docker", "logs", n["runtime"]], capture_output=True)
+                (private / (item + "-runtime.log")).write_bytes(log.stdout + log.stderr)
+                (private / (item + "-inspect.json")).write_bytes(
+                    ctl.docker("container", "inspect", n["runtime"])
                 )
             for kind, key in [
                 ("container", "runtime"),

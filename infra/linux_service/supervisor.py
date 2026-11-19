@@ -151,7 +151,7 @@ def provision(name, uid):
 def bootstrap():
     if os.geteuid() != 0 or Path("/var/run/docker.sock").exists():
         raise PermissionError("NAMESPACE_PARENT_REQUIRED")
-    RUNTIME.mkdir(mode=0o700)
+    RUNTIME.mkdir(mode=0o700, exist_ok=True)
     # Traversal only; each individual service directory remains private.
     RUNTIME.chmod(0o711)
     TRUST.parent.mkdir(mode=0o755, exist_ok=True)
