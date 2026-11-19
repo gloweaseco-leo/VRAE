@@ -4,7 +4,7 @@ import json
 
 from integration.s3_offline.fixture import NOW, context, references
 from vrae.intelligence.qwen import Config, Permission, Price, QwenProvider, Quota
-from vrae.intelligence.qwen.provider import MODEL, PROMPT
+from vrae.intelligence.qwen.provider import MODEL, MODEL_SOURCE, PROMPT
 from vrae.intelligence.qwen.testing import FakeTransport
 
 
@@ -31,7 +31,7 @@ def provider(path, c=None, *, fake=None, **overrides):
     c = c or context()
     values = dict(config=Config('synthetic-workspace'), quota=Quota(path, create=True),
         permission=Permission('TEST_ONLY_NOT_OWNER_LIVE_PERMISSION', NOW + timedelta(minutes=9), 3, 1000000),
-        price=Price('TEST_ONLY_FICTITIOUS_PRICE', 'https://help.aliyun.com/zh/model-studio/models',
+        price=Price('TEST_ONLY_FICTITIOUS_PRICE', MODEL_SOURCE,
                     1000000, 2000000, NOW + timedelta(minutes=9)),
         key='synthetic-key-no-real-secret-0000', _transport=fake or FakeTransport(response(c)))
     values.update(overrides)

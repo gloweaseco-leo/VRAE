@@ -16,7 +16,8 @@ from .testing import FakeTransport
 if TYPE_CHECKING:
     from .quota import Quota
 
-MODEL = 'qwen3.7-plus-2026-05-26'
+MODEL = 'qwen4-max'
+MODEL_SOURCE = 'https://help.aliyun.com/zh/model-studio/qwen4-max'
 PROVIDER = 'aliyun-bailian-beijing'
 PROMPT = 'qwen-minimized-buyer-1.0.0'
 INPUT_CAP = 65536  # Conservative reservation ceiling, never reported as actual usage.
@@ -102,10 +103,11 @@ class Price:
     output_micros_per_million: int
     valid_until: datetime
     currency: str = 'CNY'
+    model_id: str = MODEL
 
     def check(self, now):
         if (not re.fullmatch(r'[A-Za-z0-9_.-]{3,128}', self.snapshot_id)
-                or self.source != 'https://help.aliyun.com/zh/model-studio/models'
+                or self.source != MODEL_SOURCE or self.model_id != MODEL
                 or self.currency != 'CNY' or type(self.valid_until) is not datetime
                 or self.valid_until.utcoffset() is None or now >= self.valid_until
                 or any(type(v) is not int or not 1 <= v <= 1_000_000_000 for v in (
@@ -164,7 +166,10 @@ class QwenProvider:
         assert self.price is not None and self.permission is not None
         if type(timeout_ms) is not int or not 1 <= timeout_ms <= 120000:
             fail('TIMEOUT_BOUND')
-        if len(encode(body)) > 48000 or body['model'] != MODEL:
+        output_limit = body.get('max_completion_tokens')
+        if (len(encode(body)) > 48000 or body['model'] != MODEL
+                or type(output_limit) is not int or not 1 <= output_limit <= OUTPUT_CAP
+                or body.get('enable_thinking') is not False or body.get('stream') is not False):
             fail('REQUEST_BOUND')
         identity = digest({'scope': scope, 'operation': operation})
         intent = digest({'context': context_ref, 'body': body,
@@ -185,7 +190,8 @@ class QwenProvider:
             counts = [usage.get(k) for k in ('prompt_tokens', 'completion_tokens', 'total_tokens')]
             if (any(type(v) is not int or v < 0 for v in counts)
                     or counts[0] < 1 or counts[1] < 1 or counts[0] > INPUT_CAP
-                    or counts[1] > OUTPUT_RESERVE or counts[2] != counts[0] + counts[1]):
+                    or counts[1] > output_limit + (OUTPUT_RESERVE - OUTPUT_CAP)
+                    or counts[2] != counts[0] + counts[1]):
                 fail('USAGE_UNKNOWN')
             if response.get('object') != 'chat.completion' or response.get('model') != MODEL:
                 fail('MODEL_NOT_CONFIRMED')

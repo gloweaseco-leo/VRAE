@@ -1,9 +1,12 @@
 # Trusted post-COMMIT Qwen Provider
 
-Refs #156; accepted base `7fdeeed0f427ce3b94677ab2a480eae1556e85ca`.
-This increment adds an actual native API implementation, but all shipped tests
-and examples use **PROTOCOL_FAKE_NOT_REAL_API**. Real calls: **0**. Supplier model
-availability and candidate quality are unverified; Gold=0, no invoice evidence.
+Refs #156 / PR161 Owner comment 6995853239. Original engineering base:
+`7fdeeed0f427ce3b94677ab2a480eae1556e85ca`; smoke-fix base:
+`0b2c171b680e39ad8a410d7bc6708a9f82221072`.
+The sole current model is **qwen4-max**. Shipped tests and examples use
+**PROTOCOL_FAKE_NOT_REAL_API**. Qwen4 real calls: **0**. Three historical Qwen3.7
+failed attempts are retained unchanged under `docs/03-engineering/qwen-live-smoke/20261119`.
+Supplier availability and candidate quality are unverified; Gold=0, no invoice evidence.
 Initial review terminal: **REAL_PROVIDER_INTEGRATION_READY_LIVE_CALL_PENDING**.
 It is never `REAL_QWEN_LIVE_CALL_PASS`.
 
@@ -18,7 +21,7 @@ key, URL, model, permission or quota path. C3's HTTP/PG/Worker is not modified.
 
 Server-held `Config(workspace_id)` constructs exactly
 `https://{workspace}.cn-beijing.maas.aliyuncs.com/compatible-mode/v1/chat/completions`.
-The only model is `qwen3.7-plus-2026-05-26`. The response must confirm that exact
+The only model is `qwen4-max`. The response must confirm that exact
 model; no alias/model fallback is automatic. Native body uses top-level
 `enable_thinking=false`, `max_completion_tokens=2048`, `stream=false` and strict
 JSON Schema. No SDK, agent framework, search, tool calls, retries or redirects.
@@ -134,3 +137,22 @@ the reservation. Supplier strict Schema omits its unsupported `uniqueItems`
 keyword only on the wire; the original full local schema still rejects duplicates.
 See `docs/03-engineering/qwen-live-smoke/20261119` for the first authorized attempt
 receipts. None of those failed attempts establishes a successful live integration.
+
+Per PR161 Owner comment 6995853239, no further live HTTP model dispatch is
+currently authorized. Do not reset, clear or recreate the exhausted legacy
+quota. Prior actual spend and account balance remain UNKNOWN; retain the old
+CNY 0.442608 maximum unsettled reservation as occupied, not paid or available.
+The new official Qwen4 public list price is CNY 10 input / 30 output per million
+tokens, sourced from https://help.aliyun.com/zh/model-studio/qwen4-max. Price
+objects are model-bound and require this exact source; they do not prove an
+account-specific effective quote, account balance or invoice.
+
+After separate user GO for at most two additional calls AND trusted price,
+balance and cumulative CNY 6 checks, use `probe.minimal_probe_body()` for only
+the first pure-synthetic call (64 output tokens, thinking disabled, strict JSON).
+Verify exact reported qwen4-max model and supplier usage. If either is missing,
+STOP without a second call. Only a genuine first success with clear fee/error
+checks permits a second same-source Session diagnostic + original Guard review.
+There is no loop, retry or live launcher in the probe-body builder. Protocol-fake
+tests and DNS/TLS preflight are not live model evidence. See the separate
+`qwen4-preflight` evidence directory for current no-fee checks and missing gates.

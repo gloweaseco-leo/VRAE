@@ -15,8 +15,8 @@ import pytest
 from integration.qwen_provider.fixture import candidate, provider, response
 from integration.s3_offline.fixture import NOW, context
 from vrae.intelligence import FixtureProvider, ModelGateway
-from vrae.intelligence.qwen import Config, QwenError, Quota
-from vrae.intelligence.qwen.provider import MODEL
+from vrae.intelligence.qwen import Config, Price, QwenError, Quota
+from vrae.intelligence.qwen.provider import MODEL, MODEL_SOURCE
 from vrae.intelligence.qwen.provider import NativeTransport
 from vrae.intelligence.qwen.session import SCHEMA, WIRE_SCHEMA, VALIDATOR
 from vrae.intelligence.qwen.testing import FakeTransport
@@ -471,3 +471,74 @@ def test_native_wait_is_independent_of_unchanged_worker_lease_and_still_bounded(
     with pytest.raises(S3Error, match='TRUSTED_QWEN_CONFIGURATION_REQUIRED'):
         run(c, p, op='operation-unbounded', timeout_ms=120001)
     assert p._transport.calls == 1
+
+
+@pytest.mark.parametrize('reported', ['qwen3.7-plus-2026-05-26', 'qwen3.7-plus',
+                                     'qwen4-max-latest', 'qwen4-max-2026-11-16'])
+def test_qwen4_response_must_confirm_documented_exact_model_without_alias_guessing(tmp_path, c, reported):
+    raw = response(c)
+    raw['model'] = reported
+    p = provider(tmp_path / 'q.sqlite', c, fake=FakeTransport(raw))
+    assert run(c, p)[1]['code'] == 'MODEL_NOT_CONFIRMED'
+
+
+@pytest.mark.parametrize('model_id,source', [
+    ('qwen3.7-plus-2026-05-26', MODEL_SOURCE),
+    (MODEL, 'https://help.aliyun.com/zh/model-studio/models')])
+def test_legacy_model_or_price_source_cannot_authorize_qwen4(tmp_path, c, model_id, source):
+    p = provider(tmp_path / 'q.sqlite', c)
+    p = replace(p, price=replace(p.price, model_id=model_id, source=source))
+    with pytest.raises(QwenError, match='PRICE_REQUIRED'):
+        p.authorize(NOW)
+    assert p._transport.calls == 0
+
+
+def test_qwen4_minimal_probe_fake_usage_and_official_rate_reservation(tmp_path, c):
+    from vrae.intelligence.qwen.provider import INPUT_CAP, OUTPUT_RESERVE
+    from integration.qwen_provider.probe import minimal_probe_body
+    body = minimal_probe_body()
+    assert MODEL == body['model'] == 'qwen4-max'
+    assert body['enable_thinking'] is False and body['stream'] is False
+    assert body['max_completion_tokens'] == 64 and 'uniqueItems' not in json.dumps(body)
+    raw = response(c)
+    raw['choices'][0]['message']['content'] = '{"ok":true}'
+    raw['usage'] = {'prompt_tokens': 137, 'completion_tokens': 8, 'total_tokens': 145}
+    price = Price('TEST_ONLY_QWEN4_PUBLIC_LIST', MODEL_SOURCE, 10000000, 30000000,
+                  NOW + timedelta(minutes=9))
+    assert price.cost(INPUT_CAP, OUTPUT_RESERVE) == 717100
+    assert price.document['model_id'] == MODEL
+    p = provider(tmp_path / 'q.sqlite', c, price=price, fake=FakeTransport(raw))
+    text, usage = asyncio.run(p.complete(body, operation='operation-minimal-probe',
+        scope={'synthetic': 'protocol-only'}, context_ref='synthetic-probe-not-a-report',
+        now=NOW, timeout_ms=120000))
+    assert json.loads(text) == {'ok': True}
+    assert usage['model_id'] == MODEL and usage['amount_micros'] == 1610
+    assert usage['usage_origin'] == 'PROTOCOL_FAKE_NOT_REAL_API' and usage['real_model_calls'] == 0
+
+
+def test_probe_usage_cannot_exceed_its_own_output_limit(tmp_path, c):
+    from integration.qwen_provider.probe import minimal_probe_body
+    raw = response(c)  # 83 output exceeds the 64+10 probe bound.
+    p = provider(tmp_path / 'q.sqlite', c, fake=FakeTransport(raw))
+    with pytest.raises(QwenError, match='USAGE_UNKNOWN'):
+        asyncio.run(p.complete(minimal_probe_body(), operation='operation-probe-overflow',
+            scope={'synthetic': 'protocol-only'}, context_ref='synthetic-probe-not-a-report',
+            now=NOW, timeout_ms=120000))
+    assert p._transport.calls == 1
+
+
+@pytest.mark.parametrize('field,value', [('enable_thinking', True), ('stream', True),
+    ('max_completion_tokens', 0), ('max_completion_tokens', True),
+    ('max_completion_tokens', 2049), ('model', 'qwen3.7-plus-2026-05-26')])
+def test_minimal_probe_invalid_parameters_refuse_before_reservation(tmp_path, c, field, value):
+    from integration.qwen_provider.probe import minimal_probe_body
+    body = minimal_probe_body()
+    body[field] = value
+    p = provider(tmp_path / 'q.sqlite', c)
+    with pytest.raises(QwenError, match='REQUEST_BOUND'):
+        asyncio.run(p.complete(body, operation='operation-probe-parameters',
+            scope={'synthetic': 'protocol-only'}, context_ref='synthetic-probe-not-a-report',
+            now=NOW, timeout_ms=120000))
+    assert p._transport.calls == 0
+    with sqlite3.connect(tmp_path / 'q.sqlite') as db:
+        assert db.execute('SELECT count(*) FROM calls').fetchone()[0] == 0

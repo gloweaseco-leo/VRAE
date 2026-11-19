@@ -21,7 +21,7 @@ def main():
         return 1
     host = workspace + '.cn-beijing.maas.aliyuncs.com'
     body = json.dumps(envelope['body'], separators=(',', ':')).encode()
-    if len(body) > 48000 or envelope['body']['model'] != 'qwen3.7-plus-2026-05-26':
+    if len(body) > 48000 or envelope['body']['model'] != 'qwen4-max':
         return 1
     addresses = {str(item[4][0]) for item in socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)}
     if not addresses:
