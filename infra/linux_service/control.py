@@ -33,7 +33,7 @@ def names(name):
         raise ValueError("VRAE_DEPLOYMENT_NAME_REQUIRED")
     return {
         k: name + "-" + k
-        for k in ("pg", "runtime", "data", "ledger", "net", "operator", "relay", "ingress")
+        for k in ("pg", "runtime", "data", "ledger", "net", "operator", "relay", "ingress", "ai", "model-net")
     }
 
 
@@ -77,6 +77,15 @@ def start_runtime(owner, n, root, d):
         raise PermissionError("NETWORK_MODE_MISMATCH")
     # Facts supplied by the host operator, not a workload's self-report.
     d.update(network_id=net["Id"], network_internal=bool(net["Internal"]))
+    if owned('container', n['ai'], owner):
+        docker('stop', '-t', '30', n['ai'])
+        docker('rm', n['ai'])
+    if d.get('isolated_model_runtime') is True:
+        # Fixed private PG wire endpoint, never an exposed or dynamic SQL port.
+        pg = owned('container', n['pg'], owner)
+        endpoint = {'host': pg['NetworkSettings']['Networks'][n['net']]['IPAddress'], 'port': 15432}
+        (root / 'ai-pg-endpoint.json').write_text(json.dumps(endpoint))
+        (root / 'ai-pg-endpoint.json').chmod(0o600)
     (root / "manifest.json").write_text(json.dumps(d))
     (root / "manifest.json").chmod(0o600)
     if not owned("volume", n["operator"], owner):
@@ -231,9 +240,31 @@ def up(owner, path):
         docker("start", n["pg"])
     wait_pg(n)
     start_runtime(owner, n, root, d)
+    if d.get('isolated_model_runtime') is True:
+        start_ai(owner, n, d)
     if d.get("publish"):
         start_ingress(owner, n, d)
     return n
+
+
+def start_ai(owner, n, d):
+    # Only the relocated AI loop has a routable namespace. The original PG/
+    # Worker namespace stays on its inspected internal network without change.
+    if not owned('network', n['model-net'], owner):
+        docker('network', 'create', '--label', LABEL + '=' + owner, n['model-net'])
+    docker('create', '--name', n['ai'], '--label', LABEL + '=' + owner,
+        '--restart', 'unless-stopped', '--network', n['model-net'], '--read-only',
+        '--cap-drop', 'ALL', '--cap-add', 'SETUID', '--cap-add', 'SETGID',
+        '--cap-add', 'CHOWN', '--cap-add', 'NET_ADMIN', '--security-opt', 'no-new-privileges',
+        '--pids-limit', '80', '--memory', '512m', '--cpus', '2',
+        '--tmpfs', '/tmp:rw,nosuid,nodev,size=32m',
+        '--tmpfs', '/run/service:rw,nosuid,nodev,size=8m',
+        '--tmpfs', '/run/vrae-targets:rw,nosuid,nodev,size=2m',
+        '--mount', 'type=volume,src=' + n['operator'] + ',dst=/operator,readonly',
+        '--mount', 'type=volume,src=' + n['ledger'] + ',dst=/model-ledger,volume-subpath=qwen',
+        d['image'], 'python', '-m', 'infra.linux_service.ai_bootstrap')
+    docker('network', 'connect', n['net'], n['ai'])
+    docker('start', n['ai'])
 
 
 def start_ingress(owner, n, d):
@@ -288,7 +319,7 @@ def wait_pg(n):
 
 def stop(owner):
     n = names(owner)
-    for key in ("relay", "runtime", "pg"):
+    for key in ("ai", "relay", "runtime", "pg"):
         if owned("container", n[key], owner):
             docker("stop", "-t", "30", n[key])
 

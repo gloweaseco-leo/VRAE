@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import socket
 import subprocess
 import sys
 import time
@@ -228,6 +229,12 @@ def bootstrap():
     for name, (uid, _) in SERVICES.items():
         if name != "worker":
             fence(uid, [5432])
+    if cfg.get('isolated_model_runtime') is True:
+        # Keep this source namespace internal and its original Worker fence.
+        # Relocate, never duplicate, the sole AI loop. PG remains the same server.
+        from infra.linux_service.qwen_runtime import pg_forward
+        pg_forward(socket.gethostbyname(socket.gethostname()), 15432, '127.0.0.1', 5432)
+        SERVICES.pop('ai', None)
     ledger = Path("/ledger")
     if ledger.stat().st_uid == 0:
         ledger.chmod(0o700)
@@ -282,6 +289,7 @@ def main():
                         "deployment_sha256": proof,
                         "children": {n: p.pid for n, p in children.items()},
                         "model_dispatch_enabled": False,
+                        "ai_runtime": "ISOLATED_SIDECAR" if 'ai' not in SERVICES else 'NO_MODEL',
                     }
                 )
             )
