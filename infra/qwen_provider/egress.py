@@ -23,7 +23,13 @@ def main():
     body = json.dumps(envelope['body'], separators=(',', ':')).encode()
     if len(body) > 48000 or envelope['body']['model'] != 'qwen4-max':
         return 1
-    addresses = {str(item[4][0]) for item in socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)}
+    pins = envelope.get('pinned_addresses')
+    if pins is not None:
+        if type(pins) is not list or not 1 <= len(pins) <= 32 or any(type(p) is not str for p in pins):
+            return 1
+        addresses = set(pins)
+    else:
+        addresses = {str(item[4][0]) for item in socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)}
     if not addresses:
         return 1
     for value in addresses:

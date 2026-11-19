@@ -23,6 +23,7 @@ from vrae.intelligence.qwen.provider import MODEL, MODEL_SOURCE, INPUT_CAP, OUTP
 
 PERMIT = Path('/run/service/ai/model-permit.json')
 KEY = Path('/run/service/ai/model-key')
+PEERS = Path('/run/service/ai/model-peers.json')
 LEDGER = Path('/model-ledger/quota.sqlite')
 AI_UID = 10008
 DATA_SCOPE = 'MINIMIZED_TYPED_EVIDENCE_NO_RAW_HTML_PII'
@@ -120,11 +121,13 @@ def provider_for(binding, job, held, now=None):
     expiry = datetime.fromisoformat(d['expires_at'])
     price = Price('runtime-official-qwen4', MODEL_SOURCE, d['input_micros_per_million'],
                   d['output_micros_per_million'], expiry)
+    from infra.qwen_provider.transport import NativeTransport
     return QwenProvider(Config(d['workspace_id']),
         Quota(LEDGER, batch='runtime-' + task, daily_cap_micros=d['daily_cap_micros']),
         permission=Permission('runtime-' + task, expiry, 1, price.cost(INPUT_CAP, OUTPUT_RESERVE),
                               synthetic_only=d['source_class'] == 'CONTROLLED_NON_CUSTOMER',
-                              runtime_approval=pin), price=price, key=key_bytes())
+                              runtime_approval=pin), price=price, key=key_bytes(),
+        _transport=NativeTransport(peer_pins=PEERS))
 
 
 def addresses(document):
@@ -167,10 +170,12 @@ def pg_forward(listen, port, target, target_port):
 
 
 def model_fence(command, document):
-    """AI10008 IP443 only. Root pins official DNS in hosts; AI needs no DNS egress."""
+    """AI10008 IP443 only. Root-private DNS pins; AI needs no DNS egress."""
     peers = addresses(document)
-    with Path('/etc/hosts').open('a') as hosts:
-        hosts.write('\n' + '\n'.join(p + ' ' + Config(document['workspace_id']).host for p in peers) + '\n')
+    from infra.linux_service.supervisor import write
+    from contracts.l2_launch.contract import canonical
+    write(PEERS, canonical({'host': Config(document['workspace_id']).host, 'addresses': peers}), mode=0o440)
+    os.chown(PEERS, 0, AI_UID)
     chain = 'VRAE_SERVICE_' + str(AI_UID)
     for peer in peers:
         command('iptables', '-w', '3', '-I', chain, '1', '-p', 'tcp', '-d', peer,

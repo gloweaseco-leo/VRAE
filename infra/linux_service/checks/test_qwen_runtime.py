@@ -2,6 +2,8 @@
 from copy import deepcopy
 from datetime import timedelta
 import socket
+import io
+import json
 
 import pytest
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
@@ -14,6 +16,34 @@ from vrae.intelligence.qwen import Permission, QwenError
 from vrae.intelligence.qwen.provider import MODEL_SOURCE
 
 SHA = '1' * 40
+
+
+@pytest.mark.parametrize('peers', [[], ['127.0.0.1'], ['169.254.169.254'], ['192.168.1.1'],
+                                  ['::ffff:8.8.8.8'], ['8.8.8.8'] * 33, [True]])
+def test_native_runtime_pin_rejects_invalid_peer_without_dns_or_socket(monkeypatch, peers):
+    from infra.qwen_provider import egress
+    envelope = {'workspace': 'synthetic-workspace', 'key': 'synthetic-key-no-real-secret',
+                'timeout_ms': 100, 'body': {'model': 'qwen4-max'}, 'pinned_addresses': peers}
+    monkeypatch.setattr(egress.sys, 'stdin', io.TextIOWrapper(io.BytesIO(json.dumps(envelope).encode())))
+    monkeypatch.setattr(socket, 'getaddrinfo', lambda *a, **k: pytest.fail('DNS_FORBIDDEN'))
+    monkeypatch.setattr(socket, 'create_connection', lambda *a, **k: pytest.fail('SOCKET_FORBIDDEN'))
+    assert egress.main() == 1
+
+
+def test_root_resolved_runtime_peer_is_used_without_child_dns(monkeypatch):
+    from infra.qwen_provider import egress
+    envelope = {'workspace': 'synthetic-workspace', 'key': 'synthetic-key-no-real-secret',
+                'timeout_ms': 100, 'body': {'model': 'qwen4-max'}, 'pinned_addresses': ['8.8.8.8']}
+    monkeypatch.setattr(egress.sys, 'stdin', io.TextIOWrapper(io.BytesIO(json.dumps(envelope).encode())))
+    monkeypatch.setattr(socket, 'getaddrinfo', lambda *a, **k: pytest.fail('DNS_FORBIDDEN'))
+    class StopBeforeNetwork(Exception):
+        pass
+    def capture(address, **kwargs):
+        assert address == ('8.8.8.8', 443)
+        raise StopBeforeNetwork()
+    monkeypatch.setattr(socket, 'create_connection', capture)
+    with pytest.raises(StopBeforeNetwork):
+        egress.main()
 
 
 @pytest.fixture

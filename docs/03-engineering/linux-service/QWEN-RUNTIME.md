@@ -27,9 +27,12 @@ ceiling, no retries and explicit daily CNY budget. Permission is rechecked befor
 each dispatch. An ordinary legacy synthetic Permission cannot enable customer data.
 
 The AI parent resolves only the fixed official workspace hostname, rejects
-nonpublic answers, and pins its IPv4 answers in root-owned hosts data. Only those
+nonpublic answers, and pins its IPv4 answers in a root-owned0440 runtime file. Only those
 IP443 destinations plus local PG are allowed for AI UID10008. The native adapter
-still checks public DNS/peer/TLS hostname and the exact endpoint/model itself.
+still checks public IP/peer/TLS hostname and the exact endpoint/model itself.
+Its bounded stdin carries these trusted pins to the existing egress child;
+standalone callers retain the original DNS resolution path. This avoids writing
+Docker's read-only `/etc/hosts` and grants the AI child no DNS access.
 AI requires no outbound DNS after the root pin; SSH/LAN/metadata/other HTTPS/DNS
 remain kernel-denied. If DNS rotates, restart to repin; do not open all443 or retry
 an unknown dispatch. AI children have zero capabilities/no-new-privileges and
