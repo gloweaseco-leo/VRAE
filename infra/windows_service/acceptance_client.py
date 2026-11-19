@@ -68,7 +68,7 @@ def execute(cfg,root,events,state):
             subject.update(cookie='__Host-vrae-targets='+cookie['__Host-vrae-targets'].value,csrf=h['X-CSRF-Token'])
         if not subject.get('authorized'):
             app,_=call('application-'+invited['subject_ref'],'POST','/v1/target-applications',{
-                'url':cfg['acceptance_source'],'paths':['/products','/contact'],
+                'url':cfg['acceptance_source'],'paths':cfg.get('acceptance_paths',['/products','/contact']),
                 'consent':{'version':contract['consent_version'],'read_only_authorized':True,'model_data_notice':True}},subject,201)
             assert app['proof']['type']=='OPERATOR_OWNED_PUBLIC_ORIGIN'
             auth,_=call('authorize-'+invited['subject_ref'],'POST','/v1/target-applications/authorize',

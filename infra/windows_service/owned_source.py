@@ -4,8 +4,9 @@ import ssl
 from pathlib import Path
 
 PAGES={
- "/":"""<!doctype html><html lang="en"><title>VRAE public controlled industrial sample</title><h1>Controlled sample pump catalog</h1><p>This operator-owned public integration website is not a customer. Published content is deliberately limited.</p><a href="/products">Catalog</a><a href="/contact">Contact</a></html>""",
+ "/":"""<!doctype html><html lang="en"><title>VRAE public controlled industrial sample</title><h1>Controlled sample pump catalog</h1><p>This operator-owned public integration website is not a customer. Published content is deliberately limited.</p><a href="/products/tx10">TX10 controlled sample detail</a><a href="/contact">Contact</a></html>""",
  "/products":"""<!doctype html><html lang="en"><title>Sample pump TX10</title><h1>TX10 sample catalog</h1><p>Example material: stainless steel. Actual operating pressure, certificates and product test results are not supplied. These unknowns must remain unknown.</p><a href="/contact">Request technical details</a></html>""",
+ "/products/tx10":"""<!doctype html><html lang="en"><head><title>TX10 controlled integration sample</title></head><body><h1>TX10 controlled integration sample</h1><p>This operator-authored public sample is only for real network integration acceptance. It is not a customer website, real supplier qualification or verified product specification.</p><table><tr><th>Model</th><td>TX10 (integration sample)</td></tr><tr><th>Material</th><td>Stainless steel (illustrative source declaration)</td></tr></table><p>Operating pressure, certificates, engineering fit and real supplier identity are not supplied and must remain unknown.</p><a href="/contact">Controlled contact context</a></body></html>""",
  "/contact":"""<!doctype html><html lang="en"><title>Controlled contact page</title><h1>Operator contact example</h1><p>No real customer contacts or commercial submission. No warranty or third-party certification is asserted.</p></html>""",
 }
 
