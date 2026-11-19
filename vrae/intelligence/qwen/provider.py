@@ -150,7 +150,8 @@ class QwenProvider:
         if type(self.price) is not Price:
             fail('PRICE_REQUIRED')
         self.price.check(now)
-        if (type(self.key) is not str or not re.fullmatch(r'[A-Za-z0-9_-]{16,256}', self.key)):
+        if (type(self.key) is not str or not 16 <= len(self.key) <= 256
+                or not re.fullmatch(r'[A-Za-z0-9._~+/-]+=*', self.key)):
             fail('KEY_REQUIRED')
         if type(self._transport) is not NativeTransport and not self.protocol_fake:
             fail('TRANSPORT_DISABLED')

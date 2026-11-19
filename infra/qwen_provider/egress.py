@@ -14,7 +14,8 @@ def main():
     envelope = json.loads(sys.stdin.buffer.read(65537))
     workspace, key = envelope['workspace'], envelope['key']
     if (not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,62}', workspace)
-            or not re.fullmatch(r'[A-Za-z0-9_-]{16,256}', key)
+            or type(key) is not str or not 16 <= len(key) <= 256
+            or not re.fullmatch(r'[A-Za-z0-9._~+/-]+=*', key)
             or type(envelope['timeout_ms']) is not int
             or not 1 <= envelope['timeout_ms'] <= 30000):
         return 1

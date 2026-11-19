@@ -321,9 +321,10 @@ def test_unknown_cards_remain_unknown_while_candidates_are_only_hypotheses(tmp_p
     assert all(item['unknown_is_not_defect'] for item in cards)
 
 
-def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(monkeypatch):
+@pytest.mark.parametrize('key', ['synthetic-key-no-real-secret-0000', 'sk-fake.+/~token_1234=='])
+def test_native_egress_protocol_pins_peer_and_tls_hostname_without_real_socket(monkeypatch, key):
     from infra.qwen_provider import egress
-    envelope = {'workspace': 'synthetic-workspace', 'key': 'synthetic-key-no-real-secret-0000',
+    envelope = {'workspace': 'synthetic-workspace', 'key': key,
                 'body': {'model': MODEL}, 'timeout_ms': 1000}
     class Stdin:
         buffer = io.BytesIO(json.dumps(envelope).encode())
@@ -386,3 +387,26 @@ def test_native_timeout_kills_and_waits_for_egress_child_without_creating_proces
         asyncio.run(NativeTransport().post(Config('synthetic-workspace'),
             'synthetic-key-no-real-secret-0000', {'model': MODEL}, 1))
     assert child.killed and child.waited
+
+
+@pytest.mark.parametrize('key', ['sk-fake-test-token.1234', 'sk-fake-test-token~1234',
+    'sk-fake-test-token+1234', 'sk-fake-test-token/1234', 'sk-fake-test-token1234=='])
+def test_server_held_opaque_bearer_characters_are_valid_without_network(tmp_path, c, key):
+    p = provider(tmp_path / 'q.sqlite', c, key=key)
+    p.authorize(NOW)
+    assert p._transport.calls == 0
+
+
+@pytest.mark.parametrize('key', ['sk-fake-test\r\nInjected: value', 'sk-fake-test-token 123',
+    'sk-fake-test-token\t123', 'sk-fake-test-token:123', 'sk-fake=test-token123',
+    '"sk-fake-test-token123"', 'sk-fake-test-token\x00123'])
+def test_invalid_bearer_or_header_injection_stays_refused_in_parent_and_child(tmp_path, c, key, monkeypatch):
+    p = provider(tmp_path / 'q.sqlite', c, key=key)
+    with pytest.raises(QwenError, match='KEY_REQUIRED'):
+        p.authorize(NOW)
+    from infra.qwen_provider import egress
+    class Stdin:
+        buffer = io.BytesIO(json.dumps({'workspace': 'synthetic-workspace', 'key': key,
+            'body': {'model': MODEL}, 'timeout_ms': 1000}).encode())
+    monkeypatch.setattr(egress.sys, 'stdin', Stdin())
+    assert egress.main() == 1
