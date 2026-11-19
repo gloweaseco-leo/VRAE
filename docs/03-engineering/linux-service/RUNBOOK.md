@@ -188,6 +188,9 @@ controlled deployment and publish only localhost ports, run:
 python -B -m infra.authorized_targets.runner --label unique-local-deploy --keep-local --image vrae-g1:313
 ```
 
+The retained controlled test permissions/certificates default to24 hours, adjustable
+by the operator's --local-validity-hours on this local-only exercise. This does
+not renew any customer license or impose a production validity limit.
 The retained instance uses https://localhost:18769 (tasks/health) and
 https://localhost:18770 (REVIEW). The caller certificate/key, session handoff and
 file-configured mTLS probe are kept under the run's private caller directory;

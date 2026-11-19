@@ -122,7 +122,7 @@ def export(drill, scope, receipts):
         "audience": issuer.audience,
         "jwks": issuer.jwks,
         "mode": "CONTROLLED",
-        "expires": time.time() + 3600,
+        "expires": time.time() + 3600 * drill.state.get("local_validity_hours", 1),
         "people": [
             {
                 "actor_id": n,

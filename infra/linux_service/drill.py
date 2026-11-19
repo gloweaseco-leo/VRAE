@@ -247,7 +247,10 @@ def exercise(docker, seed, image, private, public, state):
         if state.get("keep_local"):
             caller = private / "caller"
             docker("cp", seed["client"] + ":/client", str(caller))
-            docker("cp", seed["client"] + ":/state/session.json", str(caller / "session.json"))
+            (caller / "session.json").write_bytes(
+                docker("exec", "-u", "10004", seed["client"], "cat", "/state/session.json")
+            )
+            (caller / "session.json").chmod(0o600)
             app = json.loads((caller / "config.json").read_bytes())
             report = json.loads((caller / "service-report.json").read_bytes())
             probe = {

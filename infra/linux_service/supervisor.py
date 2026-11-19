@@ -115,8 +115,10 @@ def fence(uid, ports):
         )
 
 
-def provision(name, uid):
+def provision(name, uid, source_sha=None):
     cfg = json.loads(private(INPUT / (name + ".json")))
+    if source_sha is not None:
+        cfg["source_sha"] = source_sha
     if name == "worker":
         if cfg["workload"] != {"kind": "AUTHORIZED_EGRESS_V2"}:
             raise ValueError("BOUNDED_WORKER_REQUIRED")
@@ -194,6 +196,7 @@ def bootstrap():
     document = {k: v for k, v in grant.items() if k not in ("destination_ips",)}
     document.update(
         contract="vrae.bounded-egress-deployment.v2",
+        source_sha=cfg["source_sha"],
         namespace_inode=inode,
         interfaces=sorted(os.listdir("/sys/class/net")),
         parent_network_mode=cfg["network_mode"],
@@ -220,7 +223,7 @@ def bootstrap():
         os.chown(ledger, 10007, 10007)
     elif ledger.stat().st_uid != 10007 or ledger.stat().st_mode & 0o077:
         raise PermissionError("PRIVATE_LEDGER_REQUIRED")
-    configs = {name: provision(name, uid) for name, (uid, _) in SERVICES.items()}
+    configs = {name: provision(name, uid, cfg["source_sha"]) for name, (uid, _) in SERVICES.items()}
     if cfg.get("controlled_fixture"):
         if (
             cfg["source_class"] != "CONTROLLED_NON_CUSTOMER"

@@ -10,7 +10,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.x509.oid import NameOID, ExtendedKeyUsageOID
 
 
-def create(directory):
+def create(directory, validity_hours=2):
     root = Path(directory)
     root.mkdir(mode=0o700, exist_ok=True)
     now = datetime.now(UTC)
@@ -23,7 +23,7 @@ def create(directory):
         .public_key(key.public_key())
         .serial_number(x509.random_serial_number())
         .not_valid_before(now - timedelta(minutes=1))
-        .not_valid_after(now + timedelta(hours=4))
+        .not_valid_after(now + timedelta(hours=validity_hours + 2))
         .add_extension(x509.BasicConstraints(ca=True, path_length=0), True)
         .add_extension(x509.SubjectKeyIdentifier.from_public_key(key.public_key()), False)
         .add_extension(x509.AuthorityKeyIdentifier.from_issuer_public_key(key.public_key()), False)
@@ -44,7 +44,7 @@ def create(directory):
             .public_key(leaf.public_key())
             .serial_number(x509.random_serial_number())
             .not_valid_before(now - timedelta(minutes=1))
-            .not_valid_after(now + timedelta(hours=2))
+            .not_valid_after(now + timedelta(hours=validity_hours))
             .add_extension(x509.BasicConstraints(ca=False, path_length=None), True)
             .add_extension(x509.SubjectKeyIdentifier.from_public_key(leaf.public_key()), False)
             .add_extension(
