@@ -169,9 +169,11 @@ def export(drill, scope, receipts):
         from vrae.l2.verified import PROFILE, CURRENT_REPORTS
 
         admin.execute(Path("/work/infra/authorized_targets/004_verified_reports.sql").read_text())
-        context = admin.execute(
-            "SELECT target_v1.report_context(%s,%s)", ("tenant-beta", job)
-        ).fetchone()[0]
+        from integration.authorized_targets.store import connect
+        with connect(binding) as current, current.transaction():
+            context = current.execute(
+                "SELECT target_v1.report_context(%s,%s)", ("tenant-beta", job)
+            ).fetchone()[0]
         reader_subject = context["recipient_subject"]
         directory["mode"] = "VERIFIED_DIRECTORY"
         for person in directory["people"]:
