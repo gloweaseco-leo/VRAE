@@ -61,6 +61,13 @@ table rows exactly; it never replaces an existing destination or recreates a los
 counter. Seal the former Windows quota read-only **before** starting AI so there
 is only one active counter. Later key/permit renewals do not import another quota.
 
+For an already running C3 deployment, `control activate-model --name <existing>
+--image sha256:<committed-image>` uses the existing Linux-private operator volume,
+updates only image/topology metadata there, and keeps the same PG and Ledger.
+It never exports private operator files back to Windows/NTFS and does not invent
+a fee/source permission. Staging the signed model allowance and retained quota
+is still a separate explicit operator action.
+
 The canonical quota is `/ledger/qwen/quota.sqlite` in the existing persistent
 Ledger volume, mounted by subpath as `/model-ledger`. Only AI can write it; REVIEW
 can read usage metadata for the original cold-backup path (no key/prose is stored

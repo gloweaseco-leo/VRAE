@@ -47,7 +47,7 @@ def exercise(owner, config, client, private, public):
         return original(*args, **kwargs)
     ctl.docker = fake_bootstrap
     try:
-        ctl.restart(owner, config)
+        ctl.activate_model(owner, manifest['image'])
     finally:
         ctl.docker = original
     end = time.monotonic() + 60

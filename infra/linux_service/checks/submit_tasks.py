@@ -30,6 +30,8 @@ def main():
         code, frame, _ = client.call('GET', '/v1/source-plans/' + request['target_id'], session=session)
         assert code == 200, 'CURRENT_SIGNED_SOURCE_CONTEXT_REQUIRED'
         value = deepcopy(subject['submit'])
+        value['subject_ref'] = frame['subject_ref']
+        value['invitation_ref'] = frame['invitation_ref']
         uid = uuid.uuid4().hex
         value['command']['request'].update(request_id='model-request-' + uid,
             audit_id='model-audit-' + uid, idempotency_key='model-idem-' + uid,
