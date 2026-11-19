@@ -410,7 +410,8 @@ def main():
                 except Denied as error:
                     response={"status":error.status,"data":{"contract":"vrae.target-application.v1","state":"DENIED","reason":error.reason}}
                 except Exception as error:
-                    import sys,traceback
+                    import sys
+                    import traceback
                     # Operator-only diagnostics: no submitted values or exception messages.
                     print(json.dumps({"event":"TARGET_ISSUER_REFUSED","error_type":type(error).__name__,
                         "frames":[{"function":f.name,"line":f.lineno} for f in traceback.extract_tb(error.__traceback__)]}),file=sys.stderr,flush=True)

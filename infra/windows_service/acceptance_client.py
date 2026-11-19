@@ -63,7 +63,8 @@ def execute(cfg,root,events,state):
         subject=state.setdefault(invited['subject_ref'],{})
         if not subject.get('cookie'):
             _,h=call('invitation-'+invited['subject_ref'],'POST','/v1/invitation-session',{'invitation_token':invited['invitation_token']})
-            cookie=SimpleCookie();cookie.load(h['Set-Cookie'])
+            cookie=SimpleCookie()
+            cookie.load(h['Set-Cookie'])
             subject.update(cookie='__Host-vrae-targets='+cookie['__Host-vrae-targets'].value,csrf=h['X-CSRF-Token'])
         if not subject.get('authorized'):
             app,_=call('application-'+invited['subject_ref'],'POST','/v1/target-applications',{
@@ -101,14 +102,19 @@ def execute(cfg,root,events,state):
 
 def main():
     cfg=json.loads(os.environ.pop('VRAE_WINDOWS_PUBLIC_MTLS'))
-    events=[];state=cfg.get('acceptance_state',{})
-    root=Path('public-receipts');root.mkdir(exist_ok=True)
+    events=[]
+    state=cfg.get('acceptance_state',{})
+    root=Path('public-receipts')
+    root.mkdir(exist_ok=True)
     result={'contract':'vrae.actual-public-capture.v1','complete':False,'events':events}
     try:
         with tempfile.TemporaryDirectory(prefix='vrae-live-') as temp:
-            private=Path(temp);private.chmod(0o700)
+            private=Path(temp)
+            private.chmod(0o700)
             for field in ('certificate','key'):
-                p=private/(field+'.pem');p.write_text(cfg[field+'_pem']);p.chmod(0o600)
+                p=private/(field+'.pem')
+                p.write_text(cfg[field+'_pem'])
+                p.chmod(0o600)
             result.update(execute(cfg,private,events,state))
     except Exception as error:
         result['failure_type']=type(error).__name__

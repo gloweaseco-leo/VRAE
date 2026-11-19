@@ -23,6 +23,9 @@ jobs:
       - run: python -m pip install -r requirements-ra4b-p1.lock
       - run: python -B -m pytest -q infra/windows_service/checks
   actual-public:
+    concurrency:
+      group: vrae-windows-actual-public
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:

@@ -20,9 +20,13 @@ def dialog(value):
         qrcode.make(uri).save(buffer,format="PNG")
         value={**value,"qr_png":base64.b64encode(buffer.getvalue()).decode(),
                "utc_display":datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC")}
+    startup=subprocess.STARTUPINFO()
+    startup.dwFlags|=subprocess.STARTF_USESHOWWINDOW
+    startup.wShowWindow=1
     result=subprocess.run(["powershell.exe","-NoProfile","-STA","-ExecutionPolicy","Bypass",
         "-File",str(Path(__file__).with_name("otp_dialog.ps1"))],
-        input=json.dumps(value).encode(),capture_output=True,check=True)
+        input=json.dumps(value).encode(),capture_output=True,check=True,
+        startupinfo=startup,creationflags=subprocess.CREATE_NO_WINDOW)
     data=json.loads(result.stdout.decode("utf-8-sig"))
     if data.get("cancelled") or data.get("invalid_code"):
         raise PermissionError("LOCAL_MFA_CANCELLED_OR_INVALID")

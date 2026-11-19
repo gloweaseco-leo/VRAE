@@ -25,7 +25,8 @@ def test_current_recipient_scope_change_is_denied():
 
 
 def test_recipient_session_is_bound_to_exact_grant_and_token():
-    sid="opaque-session";token="secret-directed-token"
+    sid="opaque-session"
+    token="secret-directed-token"
     held=SimpleNamespace(grant_claims={"recipient_bridge":True,"grant_id":"grant-a",
         "grant_token_sha256":hashlib.sha256(token.encode()).hexdigest()})
     app=SimpleNamespace(directory=SimpleNamespace(sessions={hashlib.sha256(sid.encode()).digest():held}))

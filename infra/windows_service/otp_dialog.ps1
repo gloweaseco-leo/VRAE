@@ -9,6 +9,7 @@ $form.Width = 650
 $form.Height = if ($request.mode -eq 'pairing') { 650 } else { 335 }
 $form.StartPosition = 'CenterScreen'
 $form.TopMost = $true
+$form.ShowInTaskbar = $true
 $form.FormBorderStyle = 'FixedDialog'
 $form.MaximizeBox = $false
 $label = New-Object System.Windows.Forms.Label
@@ -87,7 +88,8 @@ if ($request.mode -ne 'pairing') {
     $confirmation.Add_CheckedChanged({ $ok.Enabled = $confirmation.Checked })
     $form.Controls.Add($confirmation)
 }
-$form.Add_Shown({ $form.Activate(); $form.BringToFront() })
+Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public static class VraePairingWindow { [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h,int n); [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h); }'
+$form.Add_Shown({ [void][VraePairingWindow]::ShowWindow($form.Handle,9); [void][VraePairingWindow]::SetForegroundWindow($form.Handle); $form.Activate(); $form.BringToFront() })
 $form.CancelButton = $cancel
 $result = $form.ShowDialog()
 if ($result -ne [System.Windows.Forms.DialogResult]::OK) {
