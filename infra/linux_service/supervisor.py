@@ -201,6 +201,7 @@ def bootstrap():
         parent_network_mode=cfg["network_mode"],
         interfaces=sorted(os.listdir("/sys/class/net")),
         destination_ips=grant["destination_ips"],
+        allow_no_targets=not grant["authorization_hashes"] and not grant["destination_ips"],
         nameservers=grant["nameservers"],
         network_internal=cfg.get("network_internal", False),
     )
