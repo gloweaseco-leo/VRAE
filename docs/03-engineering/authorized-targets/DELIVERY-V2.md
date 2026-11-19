@@ -63,7 +63,7 @@ relabeled L2: diagnostic depth remains a separate field.
 
 `operator.revoke(admin, tenant, target)` closes new admissions, future fetches,
 commits and delivery inputs for that source. Original task history is retained;
-VF-B access becomes WITHDRAWN instead of inventing task completion/cancellation.
+VF-B access becomes ENDED instead of inventing task completion/cancellation.
 One failed target leaves other invited subjects/targets usable. Worker failure
 and actual COMMIT records retain authorization ref, safe reason, artifact hash
 and retention deadline. Access after expiry is refused. The deadline is a

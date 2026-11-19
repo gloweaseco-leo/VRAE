@@ -70,7 +70,7 @@ BEGIN
  WHERE b.tenant_id=t AND b.audit_ref=ref;
  IF p->>'execution_profile'='ADMIN_TARGET_V2' THEN
  SELECT * INTO a FROM target_v1.authorizations WHERE tenant_id=t AND target_id=p->>'target_id';
- IF NOT FOUND OR a.revoked THEN access='WITHDRAWN';
+ IF NOT FOUND OR a.revoked THEN access='ENDED';
  ELSIF a.expires_at<=clock_timestamp() OR a.retention_until<=clock_timestamp() THEN access='EXPIRED'; END IF;
  END IF;
  RETURN d||jsonb_build_object('access_state',access);

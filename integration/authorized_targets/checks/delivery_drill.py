@@ -312,7 +312,7 @@ class Drill:
         )
         check(
             code == 200
-            and withdrawn["access"]["state"] == "WITHDRAWN"
+            and withdrawn["access"]["state"] == "ENDED"
             and withdrawn["display_state"] == "access-ended",
             "BFF current source withdrawal remains separate from persisted task state",
         )
