@@ -176,6 +176,10 @@ def export(drill, scope, receipts):
             ).fetchone()[0]
         reader_subject = context["recipient_subject"]
         directory["mode"] = "VERIFIED_DIRECTORY"
+        # JSON float seconds may exceed their microsecond ISO round-trip.
+        # Shorten this test Directory to the same exact signed second; never
+        # widen the accepted authority comparison or any actual grant lifetime.
+        directory["expires"] = int(directory["expires"])
         for person in directory["people"]:
             person["report_ids"] = [CURRENT_REPORTS]
             person["verification_ref"] = "ISOLATED_PROTOCOL_TEST_NOT_HUMAN-" + person["actor_id"]
