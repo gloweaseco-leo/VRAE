@@ -22,7 +22,9 @@ def install(connection, tenants):
                     sql.Identifier(binding["role"]),
                     sql.Literal(binding["password"]),
                     sql.Identifier(
-                        "target_v1_reviewer"
+                        "target_v1_ai"
+                        if binding.get("port") == "AI"
+                        else "target_v1_reviewer"
                         if binding.get("port") == "REVIEW"
                         else "target_v1_" + binding["kind"].lower()
                     ),

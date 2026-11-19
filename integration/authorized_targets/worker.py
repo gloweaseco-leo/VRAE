@@ -14,6 +14,28 @@ def run(binding, workload, port):
     lease = port.claim()
     if lease is None:
         return {"claimed": False}
+    try:
+        return execute(binding, workload, port, lease)
+    except Exception as error:
+        if workload.get("kind") != "AUTHORIZED_EGRESS_V2":
+            raise
+        job, run, token, seq, until = lease
+        try:
+            port.call("capture_failure", binding["tenant_id"], job, token, seq, "CAPTURE_FAILED")
+        except Exception:
+            pass  # A lost/expired lease cannot write an audit either.
+        return {
+            "claimed": True,
+            "job_id": str(job),
+            "run_id": str(run),
+            "capture_failed": True,
+            "failure_type": type(error).__name__,
+            "safe_code": "CAPTURE_FAILED",
+            "publication": "UNPUBLISHED",
+        }
+
+
+def execute(binding, workload, port, lease):
     job, run, token, seq, until = lease
     args = (binding["tenant_id"], job, token, seq)
     loaded = port.call("load", *args)
@@ -28,15 +50,29 @@ def run(binding, workload, port):
     remaining = (until - datetime.now(UTC)).total_seconds() - 3
     if remaining < 1:
         raise ValueError("ORIGINAL_LEASE_BUDGET_EXHAUSTED")
-    plan = dict(plan)
-    plan["limits"] = dict(plan["limits"])
-    plan["limits"]["task_seconds"] = min(plan["limits"]["task_seconds"], remaining)
-    bounded = {**workload, "deadline": (until - timedelta(seconds=3)).isoformat()}
+    bounded = {
+        **workload,
+        "deadline": (until - timedelta(seconds=3)).isoformat(),
+        "task_seconds": remaining,
+    }
     started = time.monotonic()
-    captured = capture(request, current_policy, plan, task["run_id"], bounded)
+    captured = capture(
+        request,
+        current_policy,
+        plan,
+        task["run_id"],
+        bounded,
+        current=lambda: port.call("load", *args),
+    )
     output = produce_capture(
         captured, task, plan["policy"]["authorization_reference"], loaded["loaded_at"]
     )
+    if plan.get("execution_profile") == "ADMIN_TARGET_V2":
+        output["source_authority"] = {
+            "authorization": loaded["source_authorization"],
+            "plan_sha256": loaded["plan_sha256"],
+            "retention_until": loaded["source_authorization"]["document"]["retention_until"],
+        }
     digest = port.call("commit", *args, canonical(output))
     return {
         "claimed": True,

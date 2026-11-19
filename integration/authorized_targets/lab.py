@@ -111,6 +111,11 @@ def certificates(hosts):
 
 def main():
     state = json.loads(sys.stdin.buffer.read())
+    extension = None
+    if state.get("delivery_bridge"):
+        from integration.authorized_targets.checks.delivery_drill import Drill
+
+        extension = Drill()
     ROOT.mkdir(mode=0o700)
     network()
     admin = psycopg.connect(
@@ -122,6 +127,8 @@ def main():
     )
     admin.execute(Path("/work/db/migrations/0001_ra4a_test_only.sql").read_text())
     admin.execute(Path("/work/infra/authorized_targets/001_authority.sql").read_text())
+    if extension:
+        extension.migrate(admin)
     fixtures = json.loads(Path("/work/tests/fixtures/contracts/valid.json").read_bytes())
 
     def fixture(name):
@@ -232,8 +239,14 @@ def main():
                 "invitations": invitations,
             }
         )
+    if extension:
+        extension.configure(tenants)
     install(admin, tenants)
+    if extension:
+        extension.activate(admin, tenants)
     certificates(hosts)
+    if extension:
+        extension.ready()
     Path("/tmp/lab/site.json").write_text(json.dumps({"hosts": hosts}))
     with (ROOT / "site.log").open("wb") as log:
         site = subprocess.Popen(
@@ -256,6 +269,8 @@ def main():
         "bindings": bindings,
         "source_sha": state["g1_source_sha"],
     }
+    if extension:
+        extension.api_config(cfg, tenants)
     appcfg = process.provision("targets-api", 10001, cfg, tls["facade"])
     app, log = process.spawn("targets-api", 10001, appcfg, "integration.authorized_targets.http")
     process.wait(lambda: b"AUTHORIZED_TARGET_HTTPS_READY" in log.read_bytes())
@@ -367,7 +382,9 @@ def main():
                 "kind": "WORKER",
                 "authority": "AUTHORIZED_TARGET_V1",
                 "bindings": workers,
-                "workload": {"kind": "CONTROLLED_NON_CUSTOMER"},
+                "workload": {
+                    "kind": "AUTHORIZED_EGRESS_V2" if extension else "CONTROLLED_NON_CUSTOMER"
+                },
             },
         )
         worker, wlog = process.spawn(
@@ -576,6 +593,8 @@ def main():
         == ("DEAD_LETTER", 3),
         "original DEAD_LETTER persisted",
     )
+    if extension:
+        extension.exercise(locals())
     # Plan edits cannot widen an already admitted task/source binding.
     admin.execute(
         "UPDATE target_v1.plans SET document=jsonb_set(document,'{terms_reference}','\"changed-terms\"') WHERE tenant_id=%s AND target_id=%s",
