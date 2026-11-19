@@ -33,9 +33,9 @@ def volume(name):
     return vol, root
 
 
-def invoke(image, name, *args, data=None):
+def invoke(image, name, *args, data=None, network="none"):
     vol, root = volume(name)
-    return docker("run", "--rm", "-i", "--user", "0", "--network", "none", "--read-only",
+    return docker("run", "--rm", "-i", "--user", "0", "--network", network, "--read-only",
                   "--cap-drop", "ALL", "--tmpfs", "/tmp:rw,nosuid,nodev,size=8m",
                   "--mount", "type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock",
                   "--mount", "type=volume,src=" + vol + ",dst=" + root,
