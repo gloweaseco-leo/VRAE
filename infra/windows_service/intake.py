@@ -33,6 +33,18 @@ from vrae.collection.resolver import public_addresses
 SOCKET = "/run/service/target-issuer.sock"
 CONSENT = "VRAE-READONLY-DIAGNOSIS-1"
 CONSENT_TEXT = "I am authorized to permit read-only diagnosis of the exact proven domain and paths; I understand evidence may be processed by an explicitly enabled model provider. No write or account access is permitted."
+MODEL_CONSENT = "VRAE-READONLY-AI-DIAGNOSIS-2"
+MODEL_CONSENT_TEXT = "I explicitly authorize this invited task's minimized typed evidence to be processed by Alibaba Bailian qwen4-max in cn-beijing. Raw HTML and PII are excluded. This does not authorize writes, account access or automatic report publication."
+
+
+def processing_consent(version, origin):
+    if version != MODEL_CONSENT:
+        return None
+    return {"provider":"aliyun-bailian-beijing","region":"cn-beijing",
+            "data_scope":"MINIMIZED_TYPED_EVIDENCE_NO_RAW_HTML_PII",
+            "consent":"EXPLICITLY_ACKNOWLEDGED",
+            "consent_reference":"model-ack-"+digest([origin,MODEL_CONSENT,MODEL_CONSENT_TEXT])[:48]}
+
 
 
 class Denied(Exception):
@@ -116,7 +128,7 @@ def scope(body):
         raise Denied("INVALID_TARGET_APPLICATION")
     consent = body["consent"]
     if (set(consent) != {"version", "read_only_authorized", "model_data_notice"}
-        or consent["version"] != CONSENT or consent["read_only_authorized"] is not True
+        or consent["version"] not in (CONSENT, MODEL_CONSENT) or consent["read_only_authorized"] is not True
         or consent["model_data_notice"] is not True):
         raise Denied("EXPLICIT_READONLY_CONSENT_REQUIRED")
     url = canonical_url(body["url"])
@@ -255,6 +267,8 @@ def authorize(binding, actor, body):
                         (tenant,target_id)).fetchone()
         if row:
             plan, revoked = row
+            if bool(plan.get("model_processing")) != (doc["consent"]["version"] == MODEL_CONSENT):
+                raise Denied("MODEL_PROCESSING_CONSENT_SCOPE_MISMATCH",409)
             if revoked or plan["exact_paths"] != doc["paths"] or datetime.fromisoformat(plan["expires_at"]) <= now:
                 raise Denied("SOURCE_SCOPE_REQUIRES_NEW_OPERATOR_AUTHORIZATION",409)
         else:
@@ -268,6 +282,9 @@ def authorize(binding, actor, body):
                 "source_class":delegate["source_class"],"expires_at":end.isoformat(),"revoked":False,
                 "policy":policy,"limits":{"max_pages":4,"max_bytes":500000,"max_total_bytes":2000000,
                 "max_requests":12,"max_redirects":2,"request_seconds":8,"task_seconds":24,"interval_seconds":1}}
+            model_consent=processing_consent(doc["consent"]["version"],doc["origin"])
+            if model_consent is not None:
+                plan["model_processing"]=model_consent
             c.execute("INSERT INTO ra4a.policies VALUES(%s,%s,1,'ALLOWED',%s,'AUTHORIZED_READONLY')",
                       (tenant,policy["policy_id"],end))
             c.execute("INSERT INTO target_v1.plans VALUES(%s,%s,%s,%s,false)",
@@ -286,6 +303,10 @@ def authorize(binding, actor, body):
         if not inv:
             raise Denied("CURRENT_INVITED_SUBJECT_REQUIRED")
         value = inv[0]
+        if doc["consent"]["version"] == MODEL_CONSENT:
+            bound_sha=c.execute("SELECT encode(sha256(convert_to(document::text,'UTF8')),'hex') FROM target_v1.plans WHERE tenant_id=%s AND target_id=%s",(tenant,target_id)).fetchone()[0]
+            value.setdefault("model_processing_targets",{})[target_id]=bound_sha
+            c.execute("UPDATE target_v1.invitations SET document=%s WHERE tenant_id=%s AND reference=%s",(Jsonb(value),tenant,actor["invitation_ref"]))
         if target_id not in value["target_ids"]:
             value["target_ids"].append(target_id)
             c.execute("UPDATE target_v1.invitations SET document=%s WHERE tenant_id=%s AND reference=%s",
@@ -312,6 +333,8 @@ def signed_submission(binding, actor, body, cookie, csrf):
     site = "https://" + parts.hostname + "/"
     resolved = store.invoke(binding,"plan",binding["tenant_id"],cookie,csrf,site)
     plan = resolved["plan"]
+    if (plan.get("model_processing") and actor["invitation"].get("model_processing_targets",{}).get(plan["target_id"]) != resolved["plan_sha256"]):
+        raise Denied("CURRENT_INVITATION_MODEL_CONSENT_REQUIRED")
     if (parts.path or "/") not in plan["exact_paths"]:
         raise Denied("EXACT_PATH_AUTHORIZATION_REQUIRED")
     authorization(resolved["source_authorization"],plan,plan_sha256=resolved["plan_sha256"])
@@ -344,6 +367,7 @@ def signed_submission(binding, actor, body, cookie, csrf):
 def contract():
     return {"contract":"vrae.target-intake.v1","consent_version":CONSENT,
         "consent_text":CONSENT_TEXT,"consent_text_sha256":digest(CONSENT_TEXT),
+        "optional_model_application_consent":{"version":MODEL_CONSENT,"text":MODEL_CONSENT_TEXT,"provider":"aliyun-bailian-beijing","region":"cn-beijing","raw_html_and_pii":False,"binding":"CURRENT_INVITATION_AND_SIGNED_PLAN_SHA256"},
         "identity":"Current original invited subject cookie/CSRF plus certificate-bound service bearer",
         "application":{"method":"POST","path":"/v1/target-applications",
             "body":{"url":"https://owned-domain.example/","paths":["/products","/contact"],

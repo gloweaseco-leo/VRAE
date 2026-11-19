@@ -20,7 +20,7 @@ def main():
     a=p.parse_args()
     if os.name!='nt':raise RuntimeError('ACTUAL_WINDOWS_REQUIRED')
     until=datetime.fromisoformat(a.until).timestamp()
-    if not time.time()<until<=time.time()+86400:
+    if not time.time()<until<=time.time()+14*86400:
         raise ValueError('BOUNDED_FUTURE_WAKE_WINDOW_REQUIRED')
     kernel=ctypes.WinDLL('kernel32',use_last_error=True)
     kernel.SetThreadExecutionState.argtypes=[ctypes.c_uint32]
