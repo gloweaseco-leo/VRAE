@@ -163,7 +163,7 @@ def inventory(body: bytes, base_url: str, access: SourceAccess, *, labelled_cont
 
 
 def _inventory_links(parser, base_url, access, truncated):
-    found = {}
+    found: dict[str, dict] = {}
     for href in parser.links:
         try:
             if len(href) > 2048 or any(ord(c) <= 32 or ord(c) >= 127 for c in href):
