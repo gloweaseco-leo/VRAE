@@ -29,6 +29,8 @@ from vrae.intelligence.qwen.provider import MODEL_SOURCE, PROMPT
 from vrae.intelligence.qwen.testing import FakeTransport
 from vrae.intelligence.qwen.session import RULE_TASK
 from integration.authorized_targets.automatic_result import TASKS
+from integration.authorized_targets.api_contract import openapi
+from jsonschema import Draft202012Validator
 from tests.collection.test_pipeline import FixedDNS, SyntheticTransport
 from vrae.collection.collector import Collector
 from vrae.collection.fetcher import SafeFetcher
@@ -64,7 +66,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     monkeypatch.setattr(intake, 'admin', admin)
     monkeypatch.setattr(intake, 'private', lambda _: b'synthetic-hmac-only')
     monkeypatch.setattr(intake, 'delegation', lambda: {'proof': intake.AUTO_PROOF,
-        'source_class': 'CONTROLLED_NON_CUSTOMER', 'expires_at': end})
+        'source_class': 'CONTROLLED_NON_CUSTOMER', 'expires_at': end, 'max_pages': 6})
     monkeypatch.setattr(intake, 'resolve_public', lambda host: ['93.184.216.20'])
     monkeypatch.setattr(intake, 'apply_policy', lambda *a: None)
     bindings = {kind: {'role': 'automatic_test_' + kind, 'password': secrets.token_hex(16),
@@ -126,6 +128,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         'accepted_at': now.isoformat(), 'language': 'zh'}
     submitted = intake.automatic_submission(app, actor, body, cookie, csrf)
     resolved = store.invoke(app, 'plan', tenant, cookie, csrf, body['url'])
+    assert resolved['plan']['limits']['max_pages'] == 6
     verification = {'permission': {'public': keys['permission'].public_key().public_bytes(
         Encoding.Raw, PublicFormat.Raw).hex(), 'tenant': tenant, 'role': 'PERMISSION_AUTHORITY',
         'subject': 'vrae-operator-permission', 'revoked': False}}
@@ -144,14 +147,20 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         b'User-agent: *\nDisallow: /forbidden\n'),
         body['url']: (200, {'content-type': 'text/html'},
         b'<html><head><title>Industrial supplier</title><link rel="canonical" href="https://supplier.example.com/"/><meta name="description" content="Export equipment"/></head><body><h1>Export equipment</h1>'
-        b'<a href="/products">Products</a><a href="/contact">Contact</a>'
+        b'<a href="/products">Products</a><a href="/contact">Contact</a><a href="/about.html">About</a><a href="/applications">Applications</a>'
         b'<a href="/login">Login</a><a href="/forbidden">Forbidden</a>' + dense_links + b'</body></html>'),
         'https://supplier.example.com/products': (200, {'content-type': 'text/html'},
         b'<html><head><title>Product information</title></head><body><h1>Equipment catalog</h1>' + dense_links + b'</body></html>'),
         'https://supplier.example.com/products/item-000': (200, {'content-type': 'text/html'},
-        Path('tests/fixtures/sites/product-info-valve.html').read_bytes()),
+        b'<html><head><script>window.fixture=true;</script></head><body><main>'
+        b'<h1><span>Grinding wheel W100</span></h1><p>A bounded source description for industrial abrasive buyer review.</p>'
+        b'<a href="/contact">Request information</a></main></body></html>'),
         'https://supplier.example.com/contact': (200, {'content-type': 'text/html'},
-        b'<html><head><title>Contact supplier</title></head><body><h1>Contact</h1></body></html>')}
+        b'<html><head><title>Contact supplier</title></head><body><h1>Contact</h1></body></html>'),
+        'https://supplier.example.com/about.html': (200, {'content-type': 'text/html'},
+        b'<html><body><h1>About this synthetic supplier</h1></body></html>'),
+        'https://supplier.example.com/applications': (200, {'content-type': 'text/html'},
+        b'<html><body><h1>Source applications</h1></body></html>')}
     transport = SyntheticTransport(routes)
     def capture(audit, policy_provider, plan, run_id, workload, current):
         access = CurrentAccess(SourceAccess(audit, policy_provider, terms_reference=plan['terms_reference']),
@@ -164,7 +173,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
             with pytest.raises(Exception):
                 access.check(forbidden)
         return asyncio.run(Collector(SafeFetcher(FixedDNS(), transport)).capture(run_id,
-            access, limits=Limits(**plan['limits']), retain_raw_html=True))
+            access, limits=Limits(**plan['limits']), retain_raw_html=True, representative_pages=True))
     monkeypatch.setattr(worker, 'capture', capture)
     port = store.WorkerPort(bindings['worker'])
     try:
@@ -178,10 +187,19 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     assert all('/login' not in url and '/forbidden' not in url for url, _, _ in transport.calls)
     with current(app, cookie, csrf, ref) as (code, result):
         assert code == 202 and result['state'] == 'AI_PENDING' and result['evidence']
-        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.1'
-        assert result['capture_summary']['fetched_pages'] == 4
-        assert result['capture_summary']['http_requests_including_robots'] == 5
+        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.2'
+        assert result['capture_summary']['fetched_pages'] == 6
+        assert result['capture_summary']['http_requests_including_robots'] == 7
         assert result['capture_summary']['unvisited_candidates'] > 150
+        assert len(result['page_scope']['visited_pages']) == 6
+        assert not result['page_scope']['failed_attempt_records']
+        assert len(result['page_scope']['unvisited_candidates']) > 150
+        assert all(not row['is_defect'] for row in result['page_scope']['unvisited_candidates'])
+        pending_facts = deepcopy(result['deterministic_diagnosis'])
+        assert [t['task'] for t in pending_facts['buyer_tasks']] == list(TASKS)
+        rows = [o for t in pending_facts['buyer_tasks'] for r in t['rules'] for o in r['observations']]
+        assert any(o['observation']['result'] == 'PASS' and o.get('citations') for o in rows)
+        assert any(o['observation']['result'] == 'UNKNOWN' and o['reason'] for o in rows)
     # Wait for the original 30s lease to end; never rewrite completion timestamps.
     time.sleep(31)
     selected = adapter(bindings['ai'], job, {})
@@ -194,6 +212,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert dto['analysis_outcome'] == 'PENDING'
     c = selected._session.context
     assert any(e['fact']['rule_id'] == 'INFO-01' for e in c.catalog['entries'].values())
+    assert any(e['fact']['observation_result'] == 'UNKNOWN' for e in c.catalog['entries'].values())
     anchor, entry = next((ref, entry) for ref, entry in c.catalog['entries'].items()
                          if entry['type'] == 'GUARD_LITERAL')
     content = {'prompt_version': PROMPT, 'context_ref': c.context_ref, 'claims': [{
@@ -220,6 +239,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert dto['state'] == 'AI_UNAVAILABLE' and not dto['diagnosis_complete']
         assert dto['buyer_tasks'] == list(TASKS)
         assert dto['deterministic_diagnosis'] and dto['evidence']
+        assert dto['deterministic_diagnosis'] == pending_facts
         assert 'objects_base64' not in dto and not dto['formal_human_review']
     # Unit-check the supplier-success DTO shape using explicitly synthetic
     # receipt metadata. This is not evidence of a real supplier call.
@@ -227,11 +247,29 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         value = connection.execute('SELECT target_v1.automatic_diagnosis(%s,%s,%s,%s)',
             (tenant, cookie, csrf, ref)).fetchone()[0]
     synthetic = deepcopy(value)
+    schema = openapi()['components']['schemas']['AutomaticDiagnosis']
+    Draft202012Validator.check_schema(schema)
+    for reason, stage, attempts, expected in (
+            ('INSUFFICIENT_GUARDED_EVIDENCE', 'CONTEXT', 0, 'INSUFFICIENT_EVIDENCE'),
+            ('PROVIDER_GO_NOT_GRANTED', 'PREFLIGHT', 0, 'NOT_DISPATCHED'),
+            ('SYNTHETIC_PROVIDER_FAILURE', 'PROVIDER', 1, 'PROVIDER_FAILED'),
+            ('SYNTHETIC_VALIDATION_REJECTION', 'VALIDATION', 1, 'VALIDATION_REJECTED')):
+        failed = deepcopy(value)
+        failed['receipt'].update(state='AI_UNAVAILABLE', reason=reason, failure_stage=stage,
+                                 provider_attempts=attempts, claims=[])
+        code, report = project(failed, ref)
+        assert code == 200 and report['analysis_outcome'] == expected
+        assert report['deterministic_diagnosis'] == pending_facts
+        assert report['capture_summary']['fetched_pages'] == 6
+        assert report['model']['failure_stage'] == stage
+        assert not report['diagnosis_complete'] and not report['claims']
+        Draft202012Validator(schema).validate(report)
     synthetic['receipt'].update(verification_realm='REAL_PROVIDER', real_model_calls=1)
     synthetic['receipt']['usage']['usage_origin'] = 'PROVIDER_REPORTED'
     code, dto = project(synthetic, ref)
     assert code == 200 and dto['diagnosis_complete'] and dto['state'] == 'DIAGNOSED'
     assert dto['analysis_outcome'] == 'COMPLETED'
+    assert dto['deterministic_diagnosis'] == pending_facts
     assert dto['claims'][0]['source_bindings'] and dto['claims'][0]['rebuild']
     synthetic['receipt']['artifact_sha256'] = '0' * 64
     with pytest.raises(ValueError, match='SAME_COMMITTED_AI_BINDING_REQUIRED'):

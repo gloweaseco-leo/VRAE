@@ -28,6 +28,16 @@ def page_role(url: str) -> str:
     return "OTHER"
 
 
+def representative_role(url):
+    """New capture selection only; legacy rule role/replay stays unchanged."""
+    segments = [s.lower().split('.')[0].replace('_', '-') for s in urlsplit(url).path.split('/')]
+    if any(s in ('contact', 'contact-us', 'contactus', 'rfq', 'inquiry') for s in segments):
+        return 'CONTACT'
+    if any(s in ('about', 'about-us', 'aboutus', 'company', 'factory') for s in segments):
+        return 'ABOUT'
+    return page_role(url)
+
+
 class _Links(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -82,7 +92,11 @@ def _inventory_links(parser, base_url, access, truncated):
     return sorted(found.values(), key=lambda x: (ROLES.index(x["role"]), x["url"])), parser.overflow or truncated
 
 
-def select_next(items: list[dict], attempted: set[str], covered: set[str]) -> dict | None:
+def select_next(items: list[dict], attempted: set[str], covered: set[str], *, representative=False) -> dict | None:
     candidates = [x for x in items if x["url"] not in attempted]
-    candidates.sort(key=lambda x: (x["role"] in covered, ROLES.index(x["role"]), x["url"]))
+    roles = ('HOME', 'CATALOG', 'CATEGORY', 'PRODUCT', 'CONTACT', 'ABOUT', 'APPLICATION', 'OTHER') if representative else ROLES
+    def key(item):
+        role = representative_role(item['url']) if representative else item['role']
+        return role in covered, roles.index(role), item['url']
+    candidates.sort(key=key)
     return candidates[0] if candidates else None

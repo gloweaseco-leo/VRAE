@@ -8,6 +8,7 @@ from vrae.collection.manifest import document_hash
 from vrae.evidence import EvidenceError, EvidencePack
 
 VERSION = 'ra2b2-product-facts-1.0.0'
+GENERIC_VERSION = 'ra2b2-product-facts-1.0.1'
 VOID = {'meta', 'link', 'br', 'hr', 'img', 'input', 'wbr', 'area', 'col', 'embed',
         'param', 'source', 'track'}
 
@@ -91,12 +92,28 @@ def _parse(raw):
     return names[0], fields
 
 
-def extract(pack: EvidencePack, *, expected_pack_ref: str) -> dict:
+def extract(pack: EvidencePack, *, expected_pack_ref: str, generic=False) -> dict:
     """Caller must obtain its trusted pin separately; pack content is not authorization."""
     if not isinstance(expected_pack_ref, str) or not re.fullmatch(r'ep-[0-9a-f]{64}', expected_pack_ref):
         raise EvidenceError('PRODUCT_FACTS_INTEGRITY')
     pack.verify(expected_ref=expected_pack_ref)
     doc = pack.document
+    repeated_page_headings: set[str] = set()
+    if generic:
+        from .universal_static import parse, usable
+        for snapshot in doc['snapshots']:
+            if snapshot['status'] != 'OBSERVED' or page_role(snapshot['url']) == 'PRODUCT':
+                continue
+            body = next((e for e in doc['evidence'] if e['snapshot_ref'] == snapshot['snapshot_ref']
+                and e['kind'] == 'HTTP_BODY' and e['status'] == 'OBSERVED' and e['blob_ref']), None)
+            if body is None:
+                continue
+            try:
+                parsed = parse(pack.resolve(body['evidence_ref'], expected_pack_ref=expected_pack_ref)['content'])
+                repeated_page_headings.update(n['text'].strip() for n in parsed.nodes
+                                             if n['tag'] == 'h1' and usable(n))
+            except (ValueError, UnicodeError):
+                continue
     pages = []
     for snap in doc['snapshots']:
         if snap['capture_mode'] != 'HTTP' or page_role(snap['url']) != 'PRODUCT':
@@ -115,14 +132,27 @@ def extract(pack: EvidencePack, *, expected_pack_ref: str) -> dict:
             continue
         raw = pack.resolve(ev['evidence_ref'], expected_pack_ref=expected_pack_ref)['content']
         try:
-            name, fields = _parse(raw)
+            descriptions = []
+            if generic:
+                from .universal_static import product, cite as static_cite
+                parser, name_node, field_nodes, description_nodes = product(raw, excluded_names=repeated_page_headings)
+                def adapted(node):
+                    value = static_cite(parser, node)
+                    return {'text': value['text'], **value['element']}
+                name = adapted(name_node)
+                fields = [(adapted(k), adapted(v)) for k, v in field_nodes]
+                descriptions = [adapted(n) for n in description_nodes]
+            else:
+                name, fields = _parse(raw)
         except (ValueError, UnicodeError):
             row['reason'] = 'HTML_UNSUPPORTED_OR_AMBIGUOUS'
             continue
 
         def cite(node):
-            return {'text': node['text'], 'element': {k: node[k] for k in
-                    ('path', 'line', 'column', 'start_tag')},
+            element = {k: node[k] for k in ('path', 'line', 'column', 'start_tag')}
+            if generic:
+                element['raw_element'] = node['raw_element']
+            return {'text': node['text'], 'element': element,
                     **{k: ev[k] for k in ('evidence_ref', 'source_ref', 'snapshot_ref',
                                          'locator', 'content_sha256')},
                     'url': snap['url'], 'final_url': snap['final_url'],
@@ -140,7 +170,11 @@ def extract(pack: EvidencePack, *, expected_pack_ref: str) -> dict:
         row['status'] = ('EXTRACTED' if fields and all(f['status'] == 'EXTRACTED'
                          for f in row['fields']) else 'UNKNOWN')
         row['reason'] = 'STATIC_TEXT_RETAINED' if row['status'] == 'EXTRACTED' else 'FIELDS_MISSING_OR_AMBIGUOUS'
-    output = {'extractor_version': VERSION, 'expected_pack_ref': expected_pack_ref,
+        if generic:
+            row['descriptions'] = [cite(n) for n in descriptions]
+            if any(f['status'] == 'EXTRACTED' for f in row['fields']):
+                row.update(status='EXTRACTED', reason='BOUNDED_STATIC_PRODUCT_TEXT_RETAINED')
+    output = {'extractor_version': GENERIC_VERSION if generic else VERSION, 'expected_pack_ref': expected_pack_ref,
               'tenant_id': doc['tenant_id'], 'run_id': doc['run_id'], 'pages': pages,
               'coverage': doc['coverage'], 'info01_enabled': False, 'info01_result': 'UNKNOWN',
               'limitations': ['URL_ROLE_HEURISTIC_ONLY', 'SOURCE_TEXT_NOT_RENDERED_VISIBILITY',
@@ -154,8 +188,11 @@ def extract(pack: EvidencePack, *, expected_pack_ref: str) -> dict:
 def verify_facts(output: dict, pack: EvidencePack, *, expected_pack_ref: str) -> None:
     """Replay the complete result, including text and positions, against the trusted pack."""
     try:
+        version = output['extractor_version']
+        if version not in (VERSION, GENERIC_VERSION):
+            raise ValueError('EXTRACTOR_VERSION_MISMATCH')
         if json.dumps(output, sort_keys=True, allow_nan=False) != json.dumps(
-                extract(pack, expected_pack_ref=expected_pack_ref), sort_keys=True):
+                extract(pack, expected_pack_ref=expected_pack_ref, generic=version == GENERIC_VERSION), sort_keys=True):
             raise ValueError('MISMATCH')
     except Exception as exc:
         raise EvidenceError('PRODUCT_FACTS_INTEGRITY') from exc

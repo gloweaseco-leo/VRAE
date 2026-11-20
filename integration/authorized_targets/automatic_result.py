@@ -7,8 +7,28 @@ from integration.authorized_targets.store import connect
 from integration.authorized_targets.source_authority import authorization
 from integration.qwen_provider.postcommit import InputPins, replay_input
 from vrae.l2.native import NativeTask
+from vrae.industry.l2_v1.diagnose import SOURCE_VERSIONS
+from vrae.rules.patch_execution import execute
 
 TASKS = ('DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL')
+
+
+def deterministic_diagnosis(pack, diagnosis):
+    """Deliver original five-task rule rows, independently of model eligibility.
+
+    Industrial assessments and Qwen's narrower Guard catalog are not the whole
+    deterministic diagnosis. Replay the exact committed evaluator version;
+    never promote these rows into model claims or invent a dimension score.
+    """
+    evaluator = SOURCE_VERSIONS[diagnosis['diagnostic_version']][0]
+    execution = execute(pack, expected_pack_ref=pack.ref, evaluator_version=evaluator)
+    if execution['execution_ref'] != diagnosis['native_execution_ref']:
+        raise ValueError('SAME_COMMITTED_RULE_EXECUTION_REQUIRED')
+    result = deepcopy(diagnosis)
+    result['rule_evaluator_version'] = evaluator
+    result['buyer_tasks'] = [{'task': task, 'rules': deepcopy([
+        r for r in execution['executions'] if r['buyer_task'] == task])} for task in TASKS]
+    return result
 
 
 def capture_summary(pack):
@@ -40,6 +60,31 @@ def analysis_outcome(receipt, genuine):
     return 'UNAVAILABLE'
 
 
+def page_scope(pack):
+    """Presentation groups, preserving attempted != fetched != inventory-only."""
+    doc = pack.document
+    snapshots = {s['source_snapshot_id']: s['snapshot_ref'] for s in doc['snapshots']}
+    manifests = [s['document'] for s in doc['sources'] if s['kind'] == 'CaptureManifest']
+    pages = [p for m in manifests for p in m['pages']]
+    visited, failed = [], []
+    for page in pages:
+        s = page['snapshot']
+        row = {'url': s['url'], 'snapshot_ref': snapshots.get(s['snapshot_id']),
+            'observed_at': s['captured_at'], 'http_status': page['http_status'],
+            'request_role': page['role'], 'capture_status': s['status']}
+        if s['status'] == 'FETCHED':
+            visited.append(row)
+        else:
+            failed.append({**row, 'reason': (page['error'] or {}).get('code'),
+                'http_response_observed': page['http_status'] is not None})
+    attempted = {p['snapshot']['url'] for p in pages}
+    unvisited = sorted({i['url'] for m in manifests for i in m['inventory']} - attempted)
+    return {'visited_pages': visited, 'failed_attempt_records': failed,
+        'unvisited_candidates': [{'url': url, 'reason': 'INVENTORY_ONLY', 'is_defect': False}
+                                 for url in unvisited],
+        'unknown_coverage': deepcopy([c for c in doc['coverage'] if c['status'] == 'UNKNOWN'])}
+
+
 def project(value, audit_ref):
     status, artifact, receipt = value['status'], value['artifact'], value['receipt']
     result = {'contract': 'vrae.automatic-diagnosis.v1', 'audit_ref': audit_ref,
@@ -48,7 +93,7 @@ def project(value, audit_ref):
         'formal_human_review': False, 'publication': 'UNPUBLISHED',
         'buyer_tasks': list(TASKS), 'deterministic_diagnosis': None,
         'claims': [], 'model': None, 'evidence': [], 'coverage': [],
-        'capture_summary': None, 'analysis_outcome': 'PENDING'}
+        'capture_summary': None, 'page_scope': None, 'analysis_outcome': 'PENDING'}
     if status['state'] == 'DEAD_LETTER':
         result['state'] = 'CAPTURE_FAILED'
         result['analysis_outcome'] = 'NOT_RUN'
@@ -64,9 +109,10 @@ def project(value, audit_ref):
         artifact['version']['content_hash'], artifact['display_hash']))
     result.update(state='AI_PENDING', pack_ref=pack.ref,
         capture_summary=capture_summary(pack),
+        page_scope=page_scope(pack),
         artifact_sha256=value['artifact_sha256'],
         report_content_hash=artifact['version']['content_hash'],
-        deterministic_diagnosis=deepcopy(artifact['diagnosis']),
+        deterministic_diagnosis=deterministic_diagnosis(pack, artifact['diagnosis']),
         evidence=[{k: s[k] for k in ('snapshot_ref', 'url', 'status', 'observed_at')}
                   for s in pack.document['snapshots']],
         coverage=deepcopy(pack.document['coverage']))

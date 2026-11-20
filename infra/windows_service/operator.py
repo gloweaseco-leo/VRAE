@@ -37,7 +37,7 @@ def enable_intake(p):
     intent=json.loads((p/"deployment-intent.json").read_bytes())["document"]
     doc={"contract":"vrae.dns-target-enrollment.v1","source_class":manifest["source_class"],
          "purpose":"READONLY_DIAGNOSIS","proof":"INVITED_AUTHORIZATION_ATTESTATION_AND_EXPLICIT_CONSENT",
-         "max_pages":4,"not_before":intent["not_before"],"expires_at":intent["expires_at"]}
+         "max_pages":6,"not_before":intent["not_before"],"expires_at":intent["expires_at"]}
     save(p/"enrollment-delegation.json",sign(p,"deployment",doc))
     if not (p/"enrollment-hmac-key").exists():
         fd=os.open(p/"enrollment-hmac-key",os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)

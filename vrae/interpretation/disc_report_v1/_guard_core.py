@@ -50,13 +50,21 @@ def _catalog(pack, package):
     for rule in execution['executions']:
         for row in rule['observations']:
             obs = row['observation']
-            if obs['result'] not in ('PASS', 'FAIL_WITH_EVIDENCE'):
+            partial_product = (execution['evaluator_version'] == 'ra2b6-1.0.2'
+                and rule['rule_id'] == 'INFO-01' and obs['result'] == 'UNKNOWN'
+                and row.get('source_text_presence') == 'OBSERVED')
+            if obs['result'] not in ('PASS', 'FAIL_WITH_EVIDENCE') and not partial_product:
                 continue
             if rule['rule_id'] not in allowed:
                 continue
             if rule['rule_id'] in link_rules and obs['result'] != 'FAIL_WITH_EVIDENCE':
                 continue
             for index, citation in enumerate(row['citations']):
+                # A partial rule remains UNKNOWN. Only independently replayed
+                # literal name/description spans can anchor conditional prose;
+                # no missing/ambiguous specification becomes an objective fact.
+                if partial_product and citation.get('fact_role') not in ('NAME', 'DESCRIPTION'):
+                    continue
                 raw = citation.get('raw_element') or citation.get('element', {}).get('raw_element')
                 resolved = pack.resolve(citation['evidence_ref'], expected_pack_ref=pack.ref)
                 body = resolved['content']

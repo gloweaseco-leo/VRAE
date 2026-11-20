@@ -10,7 +10,7 @@ from integration.l2_ops.native_report import produce
 from contracts.l2_launch.contract import canonical
 
 
-def produce_capture(captured, task, authorization_ref, created_at):
+def produce_capture(captured, task, authorization_ref, created_at, *, diagnostic_version="l2-industrial-1.0.1"):
     pack = build_pack([captured])
     if pack.document["tenant_id"] != task["tenant_id"] or pack.document["run_id"] != task["run_id"]:
         raise ValueError("ORIGINAL_TASK_CAPTURE_BINDING")
@@ -44,7 +44,7 @@ def produce_capture(captured, task, authorization_ref, created_at):
         pack.ref,
         {"port": "AUTHORIZED_TARGET_V1_CURRENT_PG_LEASE"},
     )
-    diagnosis = analyze(evidence, diagnostic_version="l2-industrial-1.0.1")
+    diagnosis = analyze(evidence, diagnostic_version=diagnostic_version)
     native = produce(diagnosis, source, created_at=created_at)
     view = native.read()
     assert view.version["status"] == "REVIEW_REQUIRED" and view.version["run_id"] == task["run_id"]
