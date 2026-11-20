@@ -1,5 +1,6 @@
 """Synthetic static sources; no real websites, providers or approval authority."""
 import asyncio
+from types import SimpleNamespace
 
 import pytest
 
@@ -14,6 +15,7 @@ from vrae.industry.l2_v1.diagnose import source_chain
 from vrae.rules.patch_execution import execute
 from vrae.rules.universal_static import product
 from vrae.rules.product_facts import extract, verify_facts
+from vrae.intelligence.qwen.session import catalog as qwen_catalog
 
 WHEEL = b'''<html><head><script>window.untrusted = true;</script></head>
 <body><main><h1><span>Grinding wheel W100</span></h1>
@@ -21,6 +23,17 @@ WHEEL = b'''<html><head><script>window.untrusted = true;</script></head>
 <table><tr><td>Diameter</td><td><strong>100 mm</strong></td></tr>
 <tr><td>Abrasive</td><td>Aluminium oxide</td></tr></table>
 <a href="/contact.html">Request information</a></main></body></html>'''
+
+
+def test_guarded_broken_discovery_links_are_valid_qwen_discover_anchors():
+    pack = fixture(statuses={'/products': 404})
+    _, _, facts, _ = source_chain(pack, pack.ref, diagnostic_version='l2-industrial-1.0.2')
+    broken = [f for f in facts if f['rule_id'] == 'DISC-01']
+    assert broken and all(f['source']['target_response']['http_status'] == 404 for f in broken)
+    context = SimpleNamespace(catalog={'entries': {f['fact_ref']: {'type': 'GUARD_LITERAL', 'fact': f}
+                              for f in broken}},
+                              gateway_pins=SimpleNamespace(expected_evaluator_version='ra2b6-1.0.2'))
+    assert all(row['task'] == 'DISCOVER' for row in qwen_catalog(context))
 
 
 def test_generic_wheel_sources_become_exact_guard_anchors_without_pump_fields():

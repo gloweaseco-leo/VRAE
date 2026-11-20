@@ -29,7 +29,8 @@ from vrae.reporting.s2_candidate import BuyerCandidatePins, build_candidate
 VERSION = 's3-offline-1.0.0'
 PROMPT = 's3-closed-procurement-1.0.0'
 TASKS = ('DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL')
-RULE_TASK = {'INFO-01': 'UNDERSTAND', 'TRUST-01': 'TRUST',
+RULE_TASK = {'DISC-01': 'DISCOVER', 'DISC-02': 'DISCOVER',
+             'INFO-01': 'UNDERSTAND', 'TRUST-01': 'TRUST',
              'SEO-01': 'SEARCH_TECHNICAL', 'CTA-02': 'INQUIRE'}
 INJECTION = re.compile(r'ignore\s+(?:all\s+)?(?:rules|instructions)|exfiltrat|'
                        r'忽略.{0,12}(?:规则|指令)|外传|泄露|改.{0,3}(?:状态|权限)', re.I)

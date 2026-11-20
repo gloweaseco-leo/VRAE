@@ -16,7 +16,8 @@ from .provider import (MODEL, PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvi
                        digest, fail, strict_json)
 
 TASKS = ['DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL']
-RULE_TASK = {'INFO-01': 'UNDERSTAND', 'TRUST-01': 'TRUST',
+RULE_TASK = {'DISC-01': 'DISCOVER', 'DISC-02': 'DISCOVER',
+             'INFO-01': 'UNDERSTAND', 'TRUST-01': 'TRUST',
              'SEO-01': 'SEARCH_TECHNICAL', 'CTA-02': 'INQUIRE'}
 TEXT = {'type': 'string', 'minLength': 1, 'maxLength': 600}
 REFS = {'type': 'array', 'maxItems': 12, 'uniqueItems': True,
