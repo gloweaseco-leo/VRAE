@@ -176,7 +176,7 @@ def resolve_public(host):
 
 def caller(role, cookie, csrf):
     cfg = json.loads(private(INPUT / "api.json"))
-    entries = [b for b in cfg["bindings"] if b["role"] == role and not b.get("port")]
+    entries = [b for b in cfg["bindings"] if b["role"] == role and not b.get("port") and b.get("health_probe") is None]
     if len(entries) != 1:
         raise Denied("CURRENT_INVITED_SUBJECT_REQUIRED")
     b = entries[0]
