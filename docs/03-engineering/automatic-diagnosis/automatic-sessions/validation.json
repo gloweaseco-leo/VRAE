@@ -1,0 +1,44 @@
+{
+  "scope": "AUTOMATIC_DIAGNOSIS_SESSION_BOOTSTRAP",
+  "base_commit": "2d2ccdeb5af1c6df8ac3041a1fc13c29d8d7b808",
+  "real_website_access": false,
+  "real_model_calls": 0,
+  "shared_model_ledger_access": false,
+  "runtime_deployed": false,
+  "vf_source_modified": false,
+  "checks": [
+    {
+      "name": "HTTP-session-contract-and-actual-PG-vertical",
+      "passed": 16,
+      "failed": 0,
+      "concurrent_subjects": 2,
+      "expired_old_session_rebuilt": true,
+      "expired_session_not_revived": true,
+      "cross_subject_task_access_denied": true,
+      "no_invitation_required": true,
+      "delegation_ai_tenant_actor_denials": true,
+      "active_session_capacity_limit_denied": true,
+      "source_model": "SYNTHETIC_SITE_AND_PROTOCOL_FAKE"
+    },
+    {
+      "name": "existing-api-authority-automatic-and-http-contracts-Windows",
+      "passed": 47,
+      "failed": 0
+    },
+    {
+      "name": "mypy",
+      "files": 144,
+      "exit_code": 0
+    },
+    {
+      "name": "ruff-new-and-existing-integration-files",
+      "exit_code": 0
+    }
+  ],
+  "isolated_test_archive_sha256": "d963aeafd14f91677ad0e5e83ec6e3c4f844843dc34744db68f27fa14c6c3c4c",
+  "owned_pg_removed": true,
+  "red_preserved": {
+    "initial_run_http_passed": 12,
+    "initial_pg_failure": "test expected DB exception; existing store.connect correctly denied revoked actor earlier with Refused; expectation corrected without changing authority implementation"
+  }
+}

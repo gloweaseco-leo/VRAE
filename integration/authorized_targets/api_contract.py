@@ -52,6 +52,13 @@ def openapi():
             },
         },
         "paths": {
+            "/v1/diagnosis-sessions": {
+                "post": {"summary": "Trusted mTLS BFF creates an isolated diagnosis session; no invitation",
+                    "requestBody": {"required": True, "description": "Empty JSON object; no subject/tenant/invitation input"},
+                    "responses": {"200": {"description": "Secure HttpOnly cookie and X-CSRF-Token"},
+                        "403": {"description": "Service identity/delegation denied"},
+                        "429": {"description": "Bounded session capacity"}}}
+            },
             "/v1/diagnoses": {
                 "post": {"summary": "URL and one combined authorization -> original PG queue",
                     "responses": {"202": {"description": "Admitted"},

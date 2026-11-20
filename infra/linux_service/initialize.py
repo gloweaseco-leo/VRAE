@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import psycopg
 from infra.linux_service.supervisor import private, INPUT, write
-from integration.authorized_targets.provision import install
+from integration.authorized_targets.provision import install, grant_automatic_sessions
 from integration.authorized_targets.operator import activate
 from integration.authorized_targets.source_authority import TRUST
 
@@ -50,6 +50,10 @@ def main():
             "SELECT to_regprocedure('target_v1.automatic_diagnosis(text,text,text,text)') IS NOT NULL",
             "infra/authorized_targets/006_automatic_diagnosis.sql",
         ))
+        checks.append((
+            "SELECT to_regprocedure('target_v1.automatic_session(text,text,text)') IS NOT NULL",
+            "infra/authorized_targets/007_automatic_sessions.sql",
+        ))
         for query, file in checks:
             if not c.execute(query).fetchone()[0]:
                 c.execute((Path("/work") / file).read_text())
@@ -67,6 +71,13 @@ def main():
                 for envelope in json.loads(private(INPUT / "authorizations.json")):
                     if envelope["document"]["tenant_id"] in {t["tenant_id"] for t in new}:
                         activate(c, envelope)
+        api = json.loads(private(INPUT / 'api.json'))
+        if api.get('target_intake_enabled') is True:
+            with c.transaction():
+                for binding in api['bindings']:
+                    if (binding.get('kind') == 'APP' and binding.get('port') is None
+                            and binding.get('health_probe') is None):
+                        grant_automatic_sessions(c, binding)
     print('{"phase":"SCHEMA_READY","existing_authority_not_reactivated":true}')
 
 

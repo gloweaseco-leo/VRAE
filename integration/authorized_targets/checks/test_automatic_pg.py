@@ -3,6 +3,7 @@
 Run only in a fresh network-none PG namespace with VRAE_AUTOMATIC_PG_TEST=1.
 """
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 from datetime import datetime, UTC, timedelta
 import os
@@ -15,12 +16,12 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 import pytest
 
-from contracts.l2_launch.contract import canonical
+from contracts.l2_launch.contract import canonical, Refused
 from infra.windows_service import intake
 from integration.authorized_targets import store, worker, source_authority
 from integration.authorized_targets.authority import token_hash, check_submission
 from integration.authorized_targets.automatic_result import current, project
-from integration.authorized_targets.provision import install
+from integration.authorized_targets.provision import install, grant_automatic_sessions
 from infra.linux_service.ai_loop import adapter
 from integration.qwen_provider.committed import execute
 from vrae.intelligence.qwen import Config, Permission, Price, QwenProvider, Quota
@@ -48,7 +49,8 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         for path in ('db/migrations/0001_ra4a_test_only.sql',
             'infra/authorized_targets/001_authority.sql', 'infra/authorized_targets/002_delivery.sql',
             'infra/authorized_targets/003_api.sql', 'infra/linux_service/004_ai_pending.sql',
-            'infra/authorized_targets/006_automatic_diagnosis.sql'):
+            'infra/authorized_targets/006_automatic_diagnosis.sql',
+            'infra/authorized_targets/007_automatic_sessions.sql'):
             c.execute(Path(path).read_text())
     now = datetime.now(UTC)
     end = (now + timedelta(minutes=15)).isoformat()
@@ -80,6 +82,43 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         cookie, csrf = token_hash(inv['token'] + '-cookie'), token_hash(inv['token'] + '-csrf')
         store.invoke(app, 'exchange', tenant, token_hash(inv['token']), cookie, csrf)
         sessions.append((cookie, csrf))
+    # Legacy invitation remains one-use; it is no longer a new-diagnosis gate.
+    with pytest.raises(psycopg.Error):
+        store.invoke(app, 'exchange', tenant, token_hash(invitations[0]['token']),
+                     token_hash('duplicate-cookie'), token_hash('duplicate-csrf'))
+    with pytest.raises(psycopg.Error):
+        store.invoke(app, 'automatic_session', tenant, token_hash('no-grant-cookie'), token_hash('no-grant-csrf'))
+    with admin() as c, c.transaction():
+        grant_automatic_sessions(c, app)
+        for restricted in (bindings['worker'], bindings['ai'], {**app, 'port': 'REVIEW'},
+                           {**app, 'health_probe': {'expires_at': end}}):
+            with pytest.raises(ValueError):
+                grant_automatic_sessions(c, restricted)
+        # Preserve the expired session instead of reviving it.
+        c.execute('UPDATE target_v1.sessions SET expires_at=clock_timestamp()-interval \'1 second\' WHERE cookie_sha256=%s',
+                  (sessions[0][0],))
+    with pytest.raises(psycopg.Error):
+        store.invoke(app, 'session', tenant, *sessions[0])
+    def create_session(n):
+        cookie, csrf = token_hash('automatic-cookie-' + str(n)), token_hash('automatic-csrf-' + str(n))
+        created = store.invoke(app, 'automatic_session', tenant, cookie, csrf)
+        assert datetime.fromisoformat(created['expires_at']) <= datetime.fromisoformat(end)
+        return (cookie, csrf), store.invoke(app, 'session', tenant, cookie, csrf)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        established = list(pool.map(create_session, range(2)))
+    sessions = [s[0] for s in established]
+    principals = [s[1] for s in established]
+    assert principals[0]['subject_ref'] != principals[1]['subject_ref']
+    assert principals[0]['invitation_ref'] != principals[1]['invitation_ref']
+    assert all(p['invitation']['target_ids'] == [] for p in principals)
+    with pytest.raises(psycopg.Error):
+        store.invoke(app, 'automatic_session', 'other-tenant', token_hash('foreign-cookie'), token_hash('foreign-csrf'))
+    with pytest.raises(psycopg.Error):
+        store.invoke(bindings['ai'], 'automatic_session', tenant, token_hash('ai-cookie'), token_hash('ai-csrf'))
+    for invalid_cookie, invalid_csrf in (('invalid', token_hash('valid')), (None, token_hash('valid')),
+                                       (token_hash('same'), token_hash('same'))):
+        with pytest.raises(psycopg.Error):
+            store.invoke(app, 'automatic_session', tenant, invalid_cookie, invalid_csrf)
     cookie, csrf = sessions[0]
     actor = store.invoke(app, 'session', tenant, cookie, csrf)
     body = {'url': 'https://supplier.example.com/', 'authorized': True,
@@ -202,3 +241,26 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     with pytest.raises(psycopg.Error):
         with current(app, cookie, csrf, ref):
             pytest.fail('WITHDRAWN_SOURCE_READ')
+    # Fresh sessions can be created after an old one expires, but never reopen
+    # another session's existing task or bypass actor revocation.
+    with admin() as c:
+        c.execute('UPDATE target_v1.sessions SET expires_at=clock_timestamp()-interval \'1 second\' WHERE cookie_sha256=%s', (cookie,))
+    fresh_cookie, fresh_csrf = token_hash('later-cookie'), token_hash('later-csrf')
+    store.invoke(app, 'automatic_session', tenant, fresh_cookie, fresh_csrf)
+    with pytest.raises(psycopg.Error):
+        with current(app, fresh_cookie, fresh_csrf, ref):
+            pytest.fail('NEW_SESSION_CANNOT_REOPEN_OLD_TASK')
+    fresh = store.invoke(app, 'session', tenant, fresh_cookie, fresh_csrf)
+    with admin() as c:
+        c.execute("""INSERT INTO target_v1.sessions
+          SELECT %s,encode(sha256(('capacity-cookie-'||n::text)::bytea),'hex'),
+           encode(sha256(('capacity-csrf-'||n::text)::bytea),'hex'),%s,%s,
+           clock_timestamp()+interval '5 minutes',false FROM generate_series(1,1000) n""",
+          (tenant, fresh['subject_ref'], fresh['invitation_ref']))
+    with pytest.raises(psycopg.Error) as limited:
+        store.invoke(app, 'automatic_session', tenant, token_hash('limited-cookie'), token_hash('limited-csrf'))
+    assert limited.value.sqlstate == '53000'
+    with admin() as c:
+        c.execute('UPDATE target_v1.actors SET active=false WHERE db_role=%s', (app['role'],))
+    with pytest.raises((psycopg.Error, Refused)):
+        store.invoke(app, 'automatic_session', tenant, token_hash('revoked-cookie'), token_hash('revoked-csrf'))

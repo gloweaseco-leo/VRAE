@@ -61,7 +61,7 @@ def main():
                 time.sleep(1)
         suites = [
             ('pg', ['--network', 'container:' + pg, '-e', 'VRAE_AUTOMATIC_PG_TEST=1'],
-             'python -B -m pytest -q -p no:cacheprovider integration/authorized_targets/checks/test_automatic_pg.py'),
+             'python -B -m pytest -q -p no:cacheprovider integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_automatic_pg.py'),
             ('regression', ['--network', 'none'],
              'python -B -m pytest -q -p no:cacheprovider infra/windows_service/checks '
              'infra/linux_service/checks/test_qwen_runtime.py integration/authorized_targets/checks/test_source_authority.py '
@@ -76,6 +76,9 @@ def main():
              'python -m mypy --explicit-package-bases vrae infra/qwen_provider'),
             ('lint', ['--network', 'none'],
              'python -m ruff check vrae integration/authorized_targets/automatic_result.py '
+             'integration/authorized_targets/http.py integration/authorized_targets/store.py '
+             'integration/authorized_targets/provision.py infra/linux_service/initialize.py '
+             'integration/authorized_targets/checks/test_automatic_session_http.py '
              'integration/authorized_targets/egress.py integration/authorized_targets/capture.py '
              'integration/authorized_targets/producer.py integration/authorized_targets/worker.py '
              'integration/authorized_targets/checks/test_inventory_budget.py '
