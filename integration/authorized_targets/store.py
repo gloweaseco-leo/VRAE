@@ -48,6 +48,7 @@ def connect(binding):
 
 def invoke(binding, name, *values):
     signatures = {
+        "automatic_session": 3,
         "automatic_retry": 4,
         "submission_plan": 5,
         "source_context": 4,

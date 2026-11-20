@@ -22,6 +22,12 @@ COOKIE = "__Host-vrae-targets"
 REF = r"aref-[0-9a-f]{32}"
 
 
+def automatic_session_allowed(cfg, binding, transport):
+    return (cfg.get('target_intake_enabled') is True and transport.get('mtls') is True
+        and binding.get('kind') == 'APP' and binding.get('port') is None
+        and binding.get('health_probe') is None)
+
+
 class Handler(StrictHandler):
     def dispatch(self, method):
         try:
@@ -164,20 +170,20 @@ class Handler(StrictHandler):
             job = str(UUID(body["job_id"]))
             with committed_input(binding, job, purpose="HUMAN_REVIEW_INPUT") as current:
                 return self.send(200, current)
-        if method == "POST" and self.path in ("/v1/invitation-session", "/v1/return-sessions"):
+        if method == "POST" and self.path in ("/v1/invitation-session", "/v1/return-sessions", "/v1/diagnosis-sessions"):
             body = self.body()
-            key = "invitation_token" if self.path == "/v1/invitation-session" else "return_token"
-            if set(body) != {key} or type(body[key]) is not str:
-                raise Refused("FORBIDDEN_ROLE")
             cookie, csrf = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
-            result = store.invoke(
-                binding,
-                "exchange" if key == "invitation_token" else "exchange_return",
-                tenant,
-                token_hash(body[key]),
-                token_hash(cookie),
-                token_hash(csrf),
-            )
+            automatic = self.path == '/v1/diagnosis-sessions'
+            if automatic:
+                if not automatic_session_allowed(cfg, binding, transport) or body != {}:
+                    raise Refused('FORBIDDEN_ROLE')
+                result = store.invoke(binding, 'automatic_session', tenant, token_hash(cookie), token_hash(csrf))
+            else:
+                key = "invitation_token" if self.path == "/v1/invitation-session" else "return_token"
+                if set(body) != {key} or type(body[key]) is not str:
+                    raise Refused("FORBIDDEN_ROLE")
+                result = store.invoke(binding, "exchange" if key == "invitation_token" else "exchange_return",
+                    tenant, token_hash(body[key]), token_hash(cookie), token_hash(csrf))
             age = max(
                 1,
                 int(
@@ -188,7 +194,7 @@ class Handler(StrictHandler):
             )
             return self.send(
                 200,
-                {"restored": True},
+                {"created": True} if automatic else {"restored": True},
                 [
                     (
                         "Set-Cookie",

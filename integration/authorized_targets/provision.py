@@ -5,6 +5,18 @@ from psycopg.types.json import Jsonb
 from integration.authorized_targets.authority import token_hash
 
 
+def grant_automatic_sessions(connection, binding):
+    """Root-only delegation to normal APP bindings, never AI/REVIEW/probes."""
+    if (binding.get('kind') != 'APP' or binding.get('port') is not None
+            or binding.get('health_probe') is not None):
+        raise ValueError('AUTOMATIC_SESSION_APP_REQUIRED')
+    actor = connection.execute('SELECT tenant_id,kind FROM target_v1.actors WHERE db_role=%s',
+                               (binding['role'],)).fetchone()
+    if actor != (binding['tenant_id'], 'APP'):
+        raise ValueError('AUTOMATIC_SESSION_ACTOR_REQUIRED')
+    connection.execute(sql.SQL('GRANT target_v1_session_issuer TO {}').format(sql.Identifier(binding['role'])))
+
+
 def install(connection, tenants):
     # Caller is a separate migration administrator. Runtime roles receive no
     # provisioning privilege; invite counts are deliberately not a constraint.
