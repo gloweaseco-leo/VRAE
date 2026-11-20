@@ -69,7 +69,8 @@ def capture(audit, policy_provider, plan, run_id, workload, current=None):
     result = asyncio.run(
         Collector(fetcher, observer=lambda event: print(json.dumps(event), flush=True)).capture(
             run_id, access, limits=limits, retain_raw_html=plan["retain_raw_html"],
-            representative_pages=plan.get('path_scope') == 'PUBLIC_SAME_ORIGIN'
+            representative_pages=plan.get('path_scope') == 'PUBLIC_SAME_ORIGIN',
+            labelled_contacts=bool(plan.get('automatic_result'))
         )
     )
     result.verify()

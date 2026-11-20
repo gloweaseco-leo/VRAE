@@ -1,6 +1,7 @@
 """Bounded HTML link inventory; observed links are hypotheses, not a site audit."""
 from html.parser import HTMLParser
 import codecs
+import re
 from urllib.parse import urljoin, urlsplit
 
 from .errors import CollectionError
@@ -38,6 +39,89 @@ def representative_role(url):
     return page_role(url)
 
 
+def contact_label(text):
+    label = ' '.join(text.split()).casefold()
+    return label in ('contact', 'contacts', 'contact us', 'contactus', 'contact us now', 'inquiry', 'inquire',
+                     'send inquiry', 'send an inquiry', 'rfq', 'request a quote',
+                     'request quotation', 'get in touch')
+
+
+class _ContactLinks(HTMLParser):
+    """Closed labeled anchors only; bounded, no hidden/script/form text."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.stack: list[tuple[str, bool]] = []
+        self.anchor: dict | None = None
+        self.hrefs: list[str] = []
+        self.count = 0
+
+    def handle_starttag(self, tag, attrs):
+        self.count += 1
+        if self.count > 8192 or len(self.stack) >= 64:
+            raise ValueError('CONTACT_HTML_BOUND')
+        values = dict(attrs)
+        excluded = (len(values) != len(attrs) or tag in
+            ('script', 'style', 'template', 'noscript', 'iframe', 'form', 'svg')
+            or any(k in values for k in ('hidden', 'inert'))
+            or values.get('aria-hidden') == 'true'
+            or bool(re.search(r'display\s*:\s*none|visibility\s*:\s*hidden',
+                              values.get('style') or '', re.I))
+            or bool(self.stack and self.stack[-1][1]))
+        if tag == 'a':
+            if self.anchor is not None:
+                raise ValueError('NESTED_CONTACT_ANCHOR')
+            self.anchor = {'href': values.get('href'), 'text': '', 'excluded': excluded}
+        elif self.anchor is not None and excluded:
+            self.anchor['excluded'] = True
+        if tag not in ('meta', 'link', 'br', 'hr', 'img', 'input', 'wbr', 'area',
+                       'col', 'embed', 'param', 'source', 'track'):
+            self.stack.append((tag, excluded))
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if self.stack and self.stack[-1][0] == tag:
+            self.handle_endtag(tag)
+
+    def handle_data(self, data):
+        if self.anchor is not None:
+            self.anchor['text'] += data
+            if len(self.anchor['text']) > 256:
+                self.anchor['excluded'] = True
+
+    def handle_endtag(self, tag):
+        index = next((i for i in range(len(self.stack)-1, -1, -1)
+                      if self.stack[i][0] == tag), None)
+        if tag == 'a' and self.anchor is not None:
+            a = self.anchor
+            if (index is not None and not a['excluded'] and contact_label(a['text'])
+                    and a['href'] and len(self.hrefs) < 256):
+                self.hrefs.append(a['href'])
+            self.anchor = None
+        if index is not None:
+            del self.stack[index:]
+
+
+def labelled_contact_targets(raw, base_url):
+    """Hints only: the Collector must intersect with its policy-checked inventory."""
+    if len(raw) > 131072:
+        return set()
+    parser = _ContactLinks()
+    try:
+        parser.feed(raw.decode('utf-8-sig', errors='strict'))
+        parser.close()
+    except (ValueError, UnicodeError):
+        return set()
+    targets = set()
+    for href in parser.hrefs:
+        if len(href) > 2048 or any(ord(c) <= 32 or ord(c) >= 127 for c in href) or '\\' in href or '%' in href:
+            continue
+        target = urlsplit(urljoin(base_url, href))
+        if (target.scheme == 'https' and target.netloc == urlsplit(base_url).netloc
+                and not target.username and not target.password and not target.query and not target.fragment):
+            targets.add(target.geturl())
+    return targets
+
+
 class _Links(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -57,7 +141,7 @@ class _Links(HTMLParser):
                     self.overflow = True
 
 
-def inventory(body: bytes, base_url: str, access: SourceAccess) -> tuple[list[dict], bool]:
+def inventory(body: bytes, base_url: str, access: SourceAccess, *, labelled_contacts=False) -> tuple[list[dict], bool]:
     parser = _Links()
     truncated = len(body) > 131_072
     try:
@@ -70,6 +154,10 @@ def inventory(body: bytes, base_url: str, access: SourceAccess) -> tuple[list[di
     parser.feed(text)
     if not parser.has_html:
         raise CollectionError("EVIDENCE_INSUFFICIENT")
+    if labelled_contacts:
+        # Normalize standard relative Contact links first, then run the SAME
+        # current policy/DNS scope checks below on the resulting absolute URL.
+        parser.links = sorted(labelled_contact_targets(body, base_url)) + parser.links
     with access.inventory_scope() as discovery_access:
         return _inventory_links(parser, base_url, discovery_access, truncated)
 
@@ -88,15 +176,20 @@ def _inventory_links(parser, base_url, access, truncated):
             continue
         if urlsplit(url).path.lower().endswith((".pdf", ".zip", ".jpg", ".png", ".exe")):
             continue
+        if url not in found and len(found) >= 256:
+            truncated = True
+            continue
         found[url] = {"url": url, "role": page_role(url), "discovered_from": base_url}
     return sorted(found.values(), key=lambda x: (ROLES.index(x["role"]), x["url"])), parser.overflow or truncated
 
 
-def select_next(items: list[dict], attempted: set[str], covered: set[str], *, representative=False) -> dict | None:
+def select_next(items: list[dict], attempted: set[str], covered: set[str], *, representative=False,
+                contact_targets=frozenset()) -> dict | None:
     candidates = [x for x in items if x["url"] not in attempted]
     roles = ('HOME', 'CATALOG', 'CATEGORY', 'PRODUCT', 'CONTACT', 'ABOUT', 'APPLICATION', 'OTHER') if representative else ROLES
     def key(item):
-        role = representative_role(item['url']) if representative else item['role']
+        role = ('CONTACT' if representative and item['url'] in contact_targets else
+                representative_role(item['url']) if representative else item['role'])
         return role in covered, roles.index(role), item['url']
     candidates.sort(key=key)
     return candidates[0] if candidates else None

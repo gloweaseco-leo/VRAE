@@ -5,6 +5,8 @@ from datetime import datetime, UTC
 import re
 import secrets
 import ssl
+import json
+from time import monotonic
 from http.cookies import SimpleCookie
 import psycopg
 from contracts.l2_launch.contract import canonical, Refused, validate
@@ -30,6 +32,10 @@ def automatic_session_allowed(cfg, binding, transport):
 
 class Handler(StrictHandler):
     def dispatch(self, method):
+        started = monotonic()
+        self.request_ref = secrets.token_hex(8)
+        self.response_status = None
+        self.response_code = None
         try:
             self.route_target(method)
         except TransportError as e:
@@ -63,11 +69,27 @@ class Handler(StrictHandler):
         except OSError:
             self.close_connection = True
             self.send(503, safe_error(Refused("R0_STORAGE_UNAVAILABLE", 503, True)))
+        finally:
+            # No raw path, cookie, URL, task/customer identity or exception text.
+            print(json.dumps({'phase': 'API_REQUEST', 'request_ref': self.request_ref,
+                'method': method if method in ('GET', 'POST') else 'OTHER',
+                'route': 'AUTOMATIC_RESULT' if re.fullmatch(
+                    '/v1/audits/(' + REF + ')/diagnosis', self.path) else 'OTHER',
+                'http_status': self.response_status, 'code': self.response_code,
+                'duration_ms': round((monotonic() - started) * 1000),
+                'recorded_at': datetime.now(UTC).isoformat()}), flush=True)
 
     def send(self, status, body, extra=()):
-        return super().send(status, body, [*extra, ("X-VRAE-API-Version", "vrae.diagnosis-api.v1")])
+        self.response_status = status
+        code = body.get('code') if isinstance(body, dict) else None
+        self.response_code = code if code in ('ACCESS_DENIED', 'CONFLICT', 'RATE_LIMITED', 'UNAVAILABLE') else None
+        headers = [*extra, ("X-VRAE-API-Version", "vrae.diagnosis-api.v1")]
+        if getattr(self, 'request_ref', None):
+            headers.append(('X-VRAE-Request-Ref', self.request_ref))
+        return super().send(status, body, headers)
 
     def send_api(self, status, body):
+        self.response_status = status
         raw = canonical(body)
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
@@ -76,6 +98,8 @@ class Handler(StrictHandler):
         self.send_header("X-VRAE-API-Version", "vrae.diagnosis-api.v1")
         self.send_header("X-VRAE-Source-SHA", self.server.source_sha)
         self.send_header("X-Content-Type-Options", "nosniff")
+        if getattr(self, 'request_ref', None):
+            self.send_header('X-VRAE-Request-Ref', self.request_ref)
         self.end_headers()
         self.wfile.write(raw)
 

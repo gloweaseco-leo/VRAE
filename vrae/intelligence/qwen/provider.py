@@ -20,6 +20,7 @@ MODEL = 'qwen4-max'
 MODEL_SOURCE = 'https://help.aliyun.com/zh/model-studio/qwen4-max'
 PROVIDER = 'aliyun-bailian-beijing'
 PROMPT = 'qwen-minimized-buyer-1.1.0'
+CONTENT_PROMPT = 'qwen-evidence-buyer-1.2.0'
 INPUT_CAP = 65536  # Conservative reservation ceiling, never reported as actual usage.
 OUTPUT_CAP = 2048
 OUTPUT_RESERVE = OUTPUT_CAP + 10  # Documented supplier cap rounding tolerance.
@@ -177,6 +178,10 @@ class QwenProvider:
                 or type(output_limit) is not int or not 1 <= output_limit <= OUTPUT_CAP
                 or body.get('enable_thinking') is not False or body.get('stream') is not False):
             fail('REQUEST_BOUND')
+        prompt = body.get('response_format', {}).get('json_schema', {}).get('schema', {}).get(
+            'properties', {}).get('prompt_version', {}).get('const', PROMPT)
+        if prompt not in (PROMPT, CONTENT_PROMPT):
+            fail('PROMPT_VERSION_INVALID')
         identity = digest({'scope': scope, 'operation': operation})
         intent = digest({'context': context_ref, 'body': body,
                          'protocol_fake': self.protocol_fake})
@@ -207,7 +212,7 @@ class QwenProvider:
             receipt = {'provider': PROVIDER, 'model_id': response['model'],
                 'context_ref': context_ref, 'operation_ref': identity,
                 'request_id_hash': hashlib.sha256(request_id.encode()).hexdigest(),
-                'prompt_version': PROMPT, 'input_tokens': counts[0], 'output_tokens': counts[1],
+                'prompt_version': prompt, 'input_tokens': counts[0], 'output_tokens': counts[1],
                 'total_tokens': counts[2], 'amount_micros': self.price.cost(*counts[:2]),
                 'currency': 'CNY', 'cost_status': 'ESTIMATED', 'price_snapshot': self.price.document,
                 'usage_origin': 'PROTOCOL_FAKE_NOT_REAL_API' if self.protocol_fake else 'PROVIDER_REPORTED',

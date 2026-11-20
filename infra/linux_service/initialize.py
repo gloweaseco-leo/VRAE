@@ -54,6 +54,10 @@ def main():
             "SELECT to_regprocedure('target_v1.automatic_session(text,text,text)') IS NOT NULL",
             "infra/authorized_targets/007_automatic_sessions.sql",
         ))
+        checks.append((
+            "SELECT position('request_language' in pg_get_functiondef('target_v1.committed_input(text,uuid,text)'::regprocedure))>0",
+            "infra/authorized_targets/008_committed_language.sql",
+        ))
         for query, file in checks:
             if not c.execute(query).fetchone()[0]:
                 c.execute((Path("/work") / file).read_text())

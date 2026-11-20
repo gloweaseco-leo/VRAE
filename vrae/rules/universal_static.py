@@ -99,7 +99,7 @@ def landmark(node):
         or node['attrs'].get('id') in ('main', 'content', 'main-content', 'main_content'))
 
 
-def product(raw, *, excluded_names=()):
+def product(raw, *, excluded_names=(), multi_column=False):
     parser = parse(raw)
     nodes = [n for n in parser.nodes if usable(n)
              and not any(a['tag'] in ('nav', 'header', 'footer', 'aside') for a in ancestors(n))]
@@ -112,6 +112,8 @@ def product(raw, *, excluded_names=()):
     if region is not None:
         nodes = [n for n in nodes if n is region or any(a is region for a in ancestors(n))]
     fields = []
+    if multi_column:
+        fields.extend(column_fields(nodes))
     for node in nodes:
         cells = [n for n in node['children'] if n['tag'] in ('td', 'th')]
         if node['tag'] == 'tr' and len(cells) == 2 and all(usable(n) for n in cells) and len(cells[0]['text'].strip()) <= 120:
@@ -132,6 +134,57 @@ def product(raw, *, excluded_names=()):
         and ('description' in (n['attrs'].get('itemprop') or '')
              or any(landmark(a) and not a['excluded'] for a in ancestors(n)))]
     return parser, names[0], fields, descriptions[:2]
+
+
+def column_fields(nodes):
+    """A header/value grid, with optional single-cell notes; never guess SKU rows."""
+    fields: list[tuple[dict, dict]] = []
+    for table in (n for n in nodes if n['tag'] == 'table'):
+        rows = [n for n in nodes if n['tag'] == 'tr'
+                and next((a for a in ancestors(n) if a['tag'] == 'table'), None) is table]
+        if len(rows) < 2:
+            continue
+        cells = [[n for n in row['children'] if n['tag'] in ('td', 'th')] for row in rows]
+        headers, values = cells[:2]
+        if any(len(row) != 1 for row in cells[2:]):
+            continue
+        if not 3 <= len(headers) <= 16 or len(headers) != len(values):
+            continue
+        if any(not usable(n) or any(c['tag'] == 'table' for c in descendants(n))
+               for n in headers + values):
+            continue
+        if (any(any(n['attrs'].get(k, '1') != '1' for k in ('rowspan', 'colspan')) for n in headers)
+                or any(n['attrs'].get('colspan', '1') != '1' for n in values)
+                or any(not re.fullmatch(r'[1-9]\d?', n['attrs'].get('rowspan', '1') or '') for n in values)):
+            continue
+        labels = [' '.join(n['text'].split()).casefold() for n in headers]
+        if (len(set(labels)) != len(labels) or any(len(x) > 120 for x in labels)
+                or not any(re.search(r'[^\W\d_]', label, re.UNICODE) for label in labels)):
+            continue
+        # Legacy TD-only specification grids require table-level semantic scope.
+        # TH headers themselves declare it; a random layout table does not.
+        typed_labels = sum(bool(re.search(
+            r'\b(size|dimensions?|diameter|thickness|bore|grit|model|type|material|specifications?|units?)\b',
+            label, re.I)) for label in labels)
+        # Legacy word-processor TD grids: at least two explicit product labels,
+        # a numeric value and no numeric header; never arbitrary text layouts.
+        typed_grid = (typed_labels >= 2 and not any(re.search(r'\d', x) for x in labels)
+                      and any(re.search(r'\d', n['text']) for n in values))
+        explicit = (all(n['tag'] == 'th' for n in headers) or typed_grid
+                    or table['attrs'].get('aria-label', '').casefold() in
+                    ('specifications', 'technical specifications', 'product specifications')
+                    or any(c['tag'] == 'caption' and re.search(
+                        r'\b(specifications?|parameters?|dimensions?)\b', c['text'], re.I)
+                           for c in table['children']))
+        if explicit:
+            fields.extend(zip(headers, values))
+    return fields
+
+
+def descendants(node):
+    for child in node['children']:
+        yield child
+        yield from descendants(child)
 
 
 def ancestors(node):
