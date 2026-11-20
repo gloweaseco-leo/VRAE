@@ -103,7 +103,9 @@ def product(raw, *, excluded_names=()):
     parser = parse(raw)
     nodes = [n for n in parser.nodes if usable(n)
              and not any(a['tag'] in ('nav', 'header', 'footer', 'aside') for a in ancestors(n))]
-    names = [n for n in nodes if n['tag'] == 'h1' and n['text'].strip() not in excluded_names]
+    names = [n for n in nodes if n['tag'] == 'h1']
+    if len(names) > 1:
+        names = [n for n in names if n['text'].strip() not in excluded_names]
     if len(names) != 1:
         raise ValueError('STATIC_PRODUCT_NAME_AMBIGUOUS')
     region = next((a for a in ancestors(names[0]) if landmark(a)), None)

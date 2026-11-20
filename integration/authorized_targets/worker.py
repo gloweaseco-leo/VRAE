@@ -84,7 +84,8 @@ def execute(binding, workload, port, lease):
         flush=True,
     )
     output = produce_capture(
-        captured, task, plan["policy"]["authorization_reference"], loaded["loaded_at"]
+        captured, task, plan["policy"]["authorization_reference"], loaded["loaded_at"],
+        diagnostic_version="l2-industrial-1.0.2" if plan.get('automatic_result') else "l2-industrial-1.0.1"
     )
     if plan.get("execution_profile") == "ADMIN_TARGET_V2":
         output["source_authority"] = {

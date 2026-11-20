@@ -64,6 +64,11 @@ def test_definition_lists_and_description_only_have_distinct_evidence():
     assert fields[0][1]['text'] == '60' and descriptions
     _, _, fields, descriptions = product(b'<main><h1>Wheel</h1><p>A source description without any verified specifications.</p></main>')
     assert not fields and descriptions
+    # A unique display heading remains evidence even if the layout repeats it
+    # elsewhere; boilerplate exclusion only resolves multiple-heading ambiguity.
+    _, name, _, _ = product(b'<main><h1>Shared heading</h1><dl><dt>Grit</dt><dd>60</dd></dl></main>',
+                            excluded_names={'Shared heading'})
+    assert name['text'] == 'Shared heading'
 
 
 def test_repeated_side_headings_are_excluded_only_by_same_pack_source_context():
