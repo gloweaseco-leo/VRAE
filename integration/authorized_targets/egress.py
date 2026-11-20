@@ -1,6 +1,7 @@
 """Actual bounded transport for signed exact targets; no self-asserted live flag."""
 
 from datetime import datetime
+from urllib.parse import urlsplit
 from integration.l2_launch.security.adapter import (
     FencedAccess,
     RecheckingResolver,
@@ -48,6 +49,28 @@ class CurrentAccess(FencedAccess):
         if self.envelope is not None and self.envelope != envelope:
             raise AuthorityDenied()
         self.envelope = envelope
+        if self.plan.get("path_scope") == "PUBLIC_SAME_ORIGIN":
+            result = SourceAccess.check(self, url)
+            held, permit = self.held, self.permit
+            if (fingerprint(self.audit) != self._audit_fingerprint
+                    or self.audit['tenant_id'] != held.tenant_id
+                    or self.audit['request_id'] != held.request_id
+                    or self.audit['source_policy_ref'] != held.policy_id
+                    or self.audit['source_policy_version'] != held.policy_version
+                    or fingerprint(self.provider()) != held.policy_sha256
+                    or not permit.not_before <= self.now() < permit.expires_at):
+                raise AuthorityDenied()
+            parts = urlsplit(result)
+            if parts.scheme + '://' + parts.netloc != permit.origin:
+                raise CollectionError("SOURCE_NOT_ALLOWED")
+            # Public information pages only. Never enter authenticated, account,
+            # checkout, write or action paths, including through redirects.
+            segments = {p.lower().split('.')[0] for p in parts.path.split('/')}
+            if segments & {'admin', 'login', 'logout', 'signin', 'signup', 'account',
+                           'cart', 'checkout', 'wp-admin', 'wp-login', 'api', 'delete',
+                           'remove', 'unsubscribe', 'subscribe', 'submit', 'cgi-bin'}:
+                raise CollectionError("SOURCE_NOT_ALLOWED")
+            return result
         return super().check(url)
 
 

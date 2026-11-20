@@ -48,6 +48,8 @@ def connect(binding):
 
 def invoke(binding, name, *values):
     signatures = {
+        "automatic_retry": 4,
+        "submission_plan": 5,
         "source_context": 4,
         "readiness": 1,
         "make_return": 6,
@@ -63,6 +65,11 @@ def invoke(binding, name, *values):
     if name not in signatures or len(values) != signatures[name]:
         raise ValueError("NARROW_TARGET_PORT")
     with connect(binding) as c, c.transaction():
+        if name == 'submission_plan' and not c.execute(
+            "SELECT to_regprocedure('target_v1.submission_plan(text,text,text,text,text)') IS NOT NULL"
+        ).fetchone()[0]:
+            # Older controlled drills keep their accepted single-origin schema.
+            name, values = 'plan', values[:4]
         return c.execute(
             "SELECT target_v1." + name + "(" + ",".join("%s" for _ in values) + ")", values
         ).fetchone()[0]

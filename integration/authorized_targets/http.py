@@ -258,13 +258,15 @@ class Handler(StrictHandler):
                 if cfg.get("target_intake_enabled") is not True:
                     raise Refused("SOURCE_NOT_ALLOWED")
                 from infra.windows_service.intake import rpc
-                result = rpc("submission", binding["role"], cookie, csrf, body)
+                result = rpc("automatic_submission" if "authorized" in body else "submission",
+                             binding["role"], cookie, csrf, body)
                 if result["status"] != 200:
                     return self.send(result["status"], result["data"])
                 body = result["data"]
             validate("VFSubmit", body)
             resolved = store.invoke(
-                binding, "plan", tenant, cookie, csrf, body["command"]["request"]["site_url"]
+                binding, "submission_plan", tenant, cookie, csrf, body["command"]["request"]["site_url"],
+                body["command"]["request"]["source_policy_ref"]
             )
             if resolved["plan"].get("execution_profile") == "ADMIN_TARGET_V2":
                 from integration.authorized_targets.source_authority import authorization
@@ -291,6 +293,11 @@ class Handler(StrictHandler):
             }
             validate("VFAccepted", accepted)
             return self.send(202, accepted)
+        diagnosis = re.fullmatch('/v1/audits/(' + REF + ')/diagnosis', self.path)
+        if method == 'GET' and diagnosis:
+            from integration.authorized_targets.automatic_result import current
+            with current(binding, cookie, csrf, diagnosis[1]) as (code, document):
+                return self.send(code, document)
         match = re.fullmatch(
             "/v1/audits/(" + REF + ")(?:/(report|review-decisions|sales-handoffs))?", self.path
         )

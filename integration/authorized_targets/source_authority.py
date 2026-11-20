@@ -86,6 +86,10 @@ def authorization(envelope, plan, *, plan_sha256, now=None):
             "destination_ips",
             "limits",
         }
+        if plan.get("path_scope") is not None:
+            required.add("path_scope")
+            if plan["path_scope"] != "PUBLIC_SAME_ORIGIN" or d.get("path_scope") != plan["path_scope"]:
+                raise AuthorityDenied()
         if set(d) != required or d["contract"] != "vrae.target-authorization.v2":
             raise AuthorityDenied()
         if any(

@@ -119,7 +119,7 @@ class Context:
         return json.loads(self.candidate_bytes)
 
 
-def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins,
+def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins | None,
                     completion: CompletionPins, now: datetime) -> Context:
     """Replay C1/S2/Guard; no model call, lease mutation or native artifact edit."""
     try:
@@ -136,7 +136,12 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins,
         rebuilt = NativeSource(pack, data, held=task)
         if rebuilt.read().document != source.read().document:
             deny()
-        candidate = build_candidate(pack, projection, held=buyer_pins)
+        if buyer_pins is None:
+            # Website diagnosis has no product/model prerequisite. The original
+            # NativeSource and Guard replay below remain its evidence authority.
+            candidate: dict = {'candidate_ref': 'site-' + document_hash({'pack_ref': pack.ref}), 'cards': []}
+        else:
+            candidate = build_candidate(pack, projection, held=buyer_pins)
         execution, package, _, _ = source_chain(pack, task.native_pack_ref)
         producer = source.read().document['producer']
         if (execution['execution_ref'] != producer['native_execution_ref']
@@ -150,13 +155,13 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins,
         gp.update(expected_scope=asdict(scope), expected_guard_version=guard.VERSION)
         known = guard.catalog(pack, package, **gp)
         pages = {p['url'] for card in candidate['cards'] for p in card['source_pages']}
-        conflicts = [row for row in data['assessments'] if row['model'] == buyer_pins.subject_model
+        conflicts = [row for row in data['assessments'] if (buyer_pins is None or row['model'] == buyer_pins.subject_model)
                      and row['observation']['rule_id'] == 'IND-DUTY'
                      and row['observation']['result'] == 'FAIL_WITH_EVIDENCE']
         needed = {r for row in conflicts for r in row['source_fact_refs']}
         entries = {}
         for fact in known['facts']:
-            if fact['source']['citation']['url'] in pages or fact['fact_ref'] in needed:
+            if buyer_pins is None or fact['source']['citation']['url'] in pages or fact['fact_ref'] in needed:
                 entries[fact['fact_ref']] = {'type': 'GUARD_LITERAL', 'fact': fact}
         for card in candidate['cards']:
             if any(guard._contains_instruction(c['quote']) or INJECTION.search(c['quote'])

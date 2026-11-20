@@ -46,6 +46,10 @@ def main():
                 "infra/linux_service/004_ai_pending.sql",
             ),
         ]
+        checks.append((
+            "SELECT to_regprocedure('target_v1.automatic_diagnosis(text,text,text,text)') IS NOT NULL",
+            "infra/authorized_targets/006_automatic_diagnosis.sql",
+        ))
         for query, file in checks:
             if not c.execute(query).fetchone()[0]:
                 c.execute((Path("/work") / file).read_text())

@@ -36,7 +36,7 @@ def enable_intake(p):
     manifest=json.loads((p/"manifest.json").read_bytes())
     intent=json.loads((p/"deployment-intent.json").read_bytes())["document"]
     doc={"contract":"vrae.dns-target-enrollment.v1","source_class":manifest["source_class"],
-         "purpose":"READONLY_DIAGNOSIS","proof":"DNS_TXT_OR_OPERATOR_OWNED_SOURCE_AND_EXPLICIT_CONSENT",
+         "purpose":"READONLY_DIAGNOSIS","proof":"INVITED_AUTHORIZATION_ATTESTATION_AND_EXPLICIT_CONSENT",
          "max_pages":4,"not_before":intent["not_before"],"expires_at":intent["expires_at"]}
     save(p/"enrollment-delegation.json",sign(p,"deployment",doc))
     if not (p/"enrollment-hmac-key").exists():
@@ -48,7 +48,7 @@ def enable_intake(p):
     save(p/"api.json",api)
     manifest["intake_enabled"]=True
     save(p/"manifest.json",manifest)
-    return {"target_enrollment":"DNS_PROOF_AND_CURRENT_INVITATION_REQUIRED","customer_permission_issued":False}
+    return {"target_enrollment":"ONE_AUTHORIZATION_AND_CURRENT_INVITATION_REQUIRED","customer_permission_issued":False}
 
 
 def invite(p,subject):

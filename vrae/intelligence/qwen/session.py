@@ -115,8 +115,13 @@ def compact_input(context, minimized):
             anchored.add(row['task'])
         selected.append(row)
     facts = minimized['data']
+    anchors = {row['task']: row['ref'] for row in selected if row['type'] == 'GUARD_LITERAL'}
+    if not anchors:
+        fail('GUARD_ANCHOR_REQUIRED')
     return {'context_ref': context.context_ref, 'prompt_version': PROMPT,
             'references': selected,
+            'required_anchor_by_task': anchors,
+            'selectable_tasks': sorted(anchors),
             'confirmed': facts['confirmed'],
             'unknown_or_blocked_rules': sorted({r['rule_id'] for r in facts['unknown_or_blocked']}),
             'unknown_is_not_defect': True, 'source_text': 'WITHHELD_BY_DEFAULT',
@@ -136,10 +141,18 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
     if preflight['code'] != 'NO_MODEL':
         fail('ORIGINAL_GATEWAY_REFUSED')
     data = compact_input(context, preflight['request']['provider_request'])
+    # Enforce an actual supplied Guard fact on the provider wire as well as
+    # locally. A review-card-only citation caused real GUARD_ANCHOR_REQUIRED
+    # refusals; the original validator must still reject any unbound output.
+    schema = deepcopy(WIRE_SCHEMA)
+    fields = schema['properties']['claims']['items']['properties']
+    fields['task']['enum'] = data['selectable_tasks']
+    fields['refs']['items'] = {'type': 'string', 'enum': [
+        row['ref'] for row in data['references'] if row['type'] == 'GUARD_LITERAL']}
     body = {'model': MODEL, 'messages': [{'role': 'system', 'content': SYSTEM},
         {'role': 'user', 'content': encode(data).decode()}],
         'response_format': {'type': 'json_schema', 'json_schema': {
-            'name': 'buyer_candidates', 'strict': True, 'schema': WIRE_SCHEMA}},
+            'name': 'buyer_candidates', 'strict': True, 'schema': schema}},
         'enable_thinking': False, 'max_completion_tokens': OUTPUT_CAP, 'stream': False}
     dispatch_at = clock()
     context.completion.check(context.source, dispatch_at)

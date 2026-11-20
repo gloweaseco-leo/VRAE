@@ -30,6 +30,17 @@ def openapi():
             "schemas": {"ApiError": {"type": "object", "required": ["api_version", "error"]}},
         },
         "paths": {
+            "/v1/diagnoses": {
+                "post": {"summary": "URL and one combined authorization -> original PG queue",
+                    "responses": {"202": {"description": "Admitted"},
+                        "403": {"description": "Authorization denied"}}}
+            },
+            "/v1/audits/{audit_ref}/diagnosis": {
+                "get": {"summary": "Same-subject automated diagnosis, citations and suggestions",
+                    "responses": {"200": {"description": "Diagnosis or explicit unavailable"},
+                        "202": {"description": "Capture or model pending"},
+                        "403": {"description": "Current subject/source denied"}}}
+            },
             "/health/live": {
                 "get": {
                     "summary": "Process liveness; no task data",
