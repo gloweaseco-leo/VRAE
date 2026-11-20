@@ -84,3 +84,38 @@ def test_pending_failure_and_fake_cannot_be_real_diagnosis():
     code, result = automatic_result.project(value, 'audit-test')
     assert code == 200 and result['state'] == 'CAPTURE_FAILED'
     assert not result['formal_human_review']
+    assert result['analysis_outcome'] == 'NOT_RUN'
+
+
+@pytest.mark.parametrize('receipt,expected', [
+    ({'reason': 'INSUFFICIENT_GUARDED_EVIDENCE', 'provider_attempts': 0}, 'INSUFFICIENT_EVIDENCE'),
+    ({'reason': 'LOCAL_CATALOG_BOUND', 'provider_attempts': None}, 'UNAVAILABLE'),
+    ({'reason': 'PROVIDER_GO_NOT_GRANTED', 'provider_attempts': 0}, 'NOT_DISPATCHED'),
+    ({'failure_stage': 'PROVIDER', 'provider_attempts': 1}, 'PROVIDER_FAILED'),
+    ({'failure_stage': 'VALIDATION', 'provider_attempts': 1}, 'VALIDATION_REJECTED'),
+    ({'failure_stage': 'ACCOUNTING', 'provider_attempts': None}, 'UNAVAILABLE'),
+])
+def test_model_failure_classification_preserves_legacy_uncertainty(receipt, expected):
+    assert automatic_result.analysis_outcome(receipt, False) == expected
+
+
+def test_capture_counts_never_treat_candidates_as_visited_or_failed():
+    from tests.collection.test_pipeline import FixedDNS, SyntheticTransport
+    from tests.collection.test_security import access
+    from vrae.collection.collector import Collector
+    from vrae.collection.fetcher import SafeFetcher
+    from vrae.collection.limits import Limits
+    from vrae.evidence import build_pack
+    routes = {'https://example.org/': (200, {'content-type': 'text/html'},
+        b'<html><body><a href="/unvisited">More</a></body></html>'),
+        'https://example.org/robots.txt': (200, {'content-type': 'text/plain'}, b'User-agent: *\nDisallow:\n')}
+    bundle = asyncio.run(Collector(SafeFetcher(FixedDNS(), SyntheticTransport(routes))).capture(
+        'run-summary-test', access(), limits=Limits(max_pages=1, interval_seconds=0.01), retain_raw_html=True))
+    pack = build_pack([bundle])
+    summary = automatic_result.capture_summary(pack)
+    assert summary['candidate_urls'] == 2
+    assert summary['page_records'] == 1
+    assert summary['fetched_pages'] == 1
+    assert summary['unvisited_candidates'] == 1
+    assert summary['http_requests_including_robots'] == 2
+    assert summary['unvisited_is_defect'] is False

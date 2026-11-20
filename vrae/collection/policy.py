@@ -1,5 +1,6 @@
 """Authoritative policy provider is injected by trusted adapters, never remote HTML."""
 from copy import deepcopy
+from contextlib import contextmanager
 from datetime import datetime, timezone
 import json
 import re
@@ -35,6 +36,11 @@ def canonical_url(url: str) -> str:
 
 
 class SourceAccess:
+    @contextmanager
+    def inventory_scope(self):
+        """Local discovery only; subclasses may batch checks, never fetch authority."""
+        yield self
+
     def __init__(self, audit: dict, provider: Callable[[], dict], *, terms_reference: str,
                  now: Callable[[], datetime] | None = None):
         try:

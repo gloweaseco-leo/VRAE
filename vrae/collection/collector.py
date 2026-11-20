@@ -1,5 +1,7 @@
 """Bounded collection entry point; never emits Observation/Finding or diagnostic success."""
 import re
+from contextlib import contextmanager
+from time import monotonic
 from urllib.parse import urlsplit, urlunsplit
 
 from .discovery import inventory, page_role, select_next
@@ -12,8 +14,22 @@ from .robots import RobotsRules
 
 
 class Collector:
-    def __init__(self, fetcher: SafeFetcher):
+    def __init__(self, fetcher: SafeFetcher, *, observer=None):
         self.fetcher = fetcher
+        self.observer = observer
+
+    @contextmanager
+    def phase(self, name):
+        started = monotonic()
+        try:
+            yield
+        finally:
+            if self.observer is not None:
+                self.observer({'capture_phase': name, 'seconds': monotonic() - started})
+
+    async def fetch(self, *args, **kwargs):
+        with self.phase('FETCH_WITH_FENCES'):
+            return await self.fetcher.fetch(*args, **kwargs)
 
     async def capture(self, run_id: str, access: SourceAccess, *, limits: Limits | None = None,
                       budget: Budget | None = None, retain_raw_html: bool = False):
@@ -37,7 +53,7 @@ class Collector:
                 robots_url = urlunsplit((parts.scheme, parts.netloc, "/robots.txt", "", ""))
                 # Scope must explicitly permit /robots.txt; never broaden SourcePolicy here.
                 robots["url"] = robots_url
-                robots_response, trace = await self.fetcher.fetch(robots_url, "GET", budget, max_bytes=65_536)
+                robots_response, trace = await self.fetch(robots_url, "GET", budget, max_bytes=65_536)
                 robots.update(status=robots_response.status, sha256=sha256(robots_response.body), trace=trace)
                 rules = RobotsRules(robots_response)
                 budget.interval = max(budget.interval, rules.delay)
@@ -62,7 +78,7 @@ class Collector:
                             if urlsplit(target).scheme != parts.scheme:
                                 raise CollectionError("REDIRECT_BLOCKED")
                             rules.check(target)
-                        response, trace = await self.fetcher.fetch(url, "GET", budget, allow_url=allowed)
+                        response, trace = await self.fetch(url, "GET", budget, allow_url=allowed)
                         if response.status in (401, 403, 429, 503):
                             raise CollectionError("ACCESS_BLOCKED")
                         if response.status != 200:
@@ -74,7 +90,8 @@ class Collector:
                         if any(mark in lowered for mark in (
                                 b"cf-chl-", b"verify you are human", b"captcha", b"access denied")):
                             raise CollectionError("ACCESS_BLOCKED")
-                        discovered, overflow = inventory(response.body, response.url, access)
+                        with self.phase('LOCAL_INVENTORY'):
+                            discovered, overflow = inventory(response.body, response.url, access)
                         budget.check()
                         truncated |= overflow
                         known = {x["url"] for x in items}

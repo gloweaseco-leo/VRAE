@@ -27,7 +27,29 @@ def openapi():
         "security": [{"serviceBearer": []}],
         "components": {
             "securitySchemes": {"serviceBearer": {"type": "http", "scheme": "bearer"}},
-            "schemas": {"ApiError": {"type": "object", "required": ["api_version", "error"]}},
+            "schemas": {
+                "ApiError": {"type": "object", "required": ["api_version", "error"]},
+                "AutomaticDiagnosis": {
+                    "type": "object", "properties": {
+                        "analysis_outcome": {"enum": ["PENDING", "NOT_RUN", "COMPLETED",
+                            "INSUFFICIENT_EVIDENCE", "NOT_DISPATCHED", "PROVIDER_FAILED",
+                            "VALIDATION_REJECTED", "UNAVAILABLE"]},
+                        "capture_summary": {"type": ["object", "null"], "properties": {
+                            **{k: {"type": "integer", "minimum": 0} for k in (
+                                "candidate_urls", "page_records", "fetched_pages",
+                                "unvisited_candidates", "http_requests_including_robots",
+                                "timeout_page_records")},
+                            "inventory_truncated": {"type": "boolean"},
+                            "unvisited_is_defect": {"const": False}}},
+                        "model": {"type": ["object", "null"], "properties": {
+                            "provider_attempts": {"type": ["integer", "null"], "minimum": 0},
+                            "real_model_calls": {"type": ["integer", "null"], "minimum": 0},
+                            "cost_status": {"type": ["string", "null"]},
+                            "failure_stage": {"type": ["string", "null"]}}},
+                    },
+                    "description": "Additive result fields. Candidates include unvisited URLs; page records can precede dispatch. Legacy unknown usage remains unknown. UNKNOWN is not a site defect.",
+                },
+            },
         },
         "paths": {
             "/v1/diagnoses": {
@@ -37,6 +59,8 @@ def openapi():
             },
             "/v1/audits/{audit_ref}/diagnosis": {
                 "get": {"summary": "Same-subject automated diagnosis, citations and suggestions",
+                    "description": "AutomaticDiagnosis includes capture counts and analysis_outcome; the existing outer state and diagnosis_complete gate are retained.",
+                    "x-vrae-response-schema": {"$ref": "#/components/schemas/AutomaticDiagnosis"},
                     "responses": {"200": {"description": "Diagnosis or explicit unavailable"},
                         "202": {"description": "Capture or model pending"},
                         "403": {"description": "Current subject/source denied"}}}

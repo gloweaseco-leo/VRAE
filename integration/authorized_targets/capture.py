@@ -1,6 +1,7 @@
 """Actual bounded read-only transport. No recording or implicit live fallback."""
 
 import asyncio
+import json
 from datetime import datetime
 
 from integration.l2_launch.security.adapter import (
@@ -66,7 +67,7 @@ def capture(audit, policy_provider, plan, run_id, workload, current=None):
     )
     limits = Limits(**configured)
     result = asyncio.run(
-        Collector(fetcher).capture(
+        Collector(fetcher, observer=lambda event: print(json.dumps(event), flush=True)).capture(
             run_id, access, limits=limits, retain_raw_html=plan["retain_raw_html"]
         )
     )

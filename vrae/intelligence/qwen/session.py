@@ -254,7 +254,7 @@ async def run_session(session, operation, *, provider, timeout_ms, cancel):
     out = {'version': 's3-qwen-1.0.0', 'context_ref': c.context_ref, 'operation_id': operation,
         'mode': 'REAL_QWEN', 'prompt_version': PROMPT, 'status': 'AI_UNAVAILABLE', 'code': 'NOT_DISPATCHED',
         'claims': [], 'usage': None, 'usage_status': 'UNKNOWN', 'provider': PROVIDER,
-        'real_model_calls': 0, 'provider_attempts': 0,
+        'real_model_calls': 0, 'provider_attempts': 0, 'failure_stage': 'PREFLIGHT',
         'private': True, 'approval_status': 'NOT_APPROVED', 'shareable': False,
         'is_report': False, 'native_fact_admission': 'NONE', 'external_actions': [],
         'deterministic_report_hash': c.completion.report_content_hash,
@@ -265,13 +265,18 @@ async def run_session(session, operation, *, provider, timeout_ms, cancel):
             fail('CANCELLED_BEFORE_DISPATCH')
         provider.authorize(session.clock())
         c.completion.check(c.source, session.clock())
+        out['failure_stage'] = 'PROVIDER'
         text, receipt = await dispatch(c, provider=provider, operation=operation,
                                        now=session.clock(), timeout_ms=timeout_ms, clock=session.clock)
         out['usage'] = receipt
+        out['failure_stage'] = 'CURRENT_AUTHORITY'
         c.completion.check(c.source, session.clock())
+        out['failure_stage'] = 'VALIDATION'
         out['claims'] = validate_candidates(text, c, receipt)
+        out['failure_stage'] = 'CURRENT_AUTHORITY'
         c.completion.check(c.source, session.clock())
-        out.update(status='AI_CANDIDATES_FOR_HUMAN_REVIEW', code='CANDIDATES_BOUND_NOT_APPROVED')
+        out.update(status='AI_CANDIDATES_FOR_HUMAN_REVIEW', code='CANDIDATES_BOUND_NOT_APPROVED',
+                   failure_stage=None)
     except asyncio.CancelledError:
         out['code'] = 'CANCELLED'
     except (QwenError, S3Error) as exc:
@@ -294,7 +299,7 @@ async def run_session(session, operation, *, provider, timeout_ms, cancel):
     except Exception as exc:
         # A durable usage failure must never publish candidates as success.
         out.update(status='AI_UNAVAILABLE', code=str(exc) if type(exc) is QwenError else
-                   'QUOTA_UNAVAILABLE', claims=[], usage=None)
+                   'QUOTA_UNAVAILABLE', claims=[], usage=None, failure_stage='ACCOUNTING')
         if not provider.protocol_fake:
             out['real_model_calls'] = None
             out['provider_attempts'] = None

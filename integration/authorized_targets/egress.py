@@ -1,6 +1,8 @@
 """Actual bounded transport for signed exact targets; no self-asserted live flag."""
 
 from datetime import datetime
+from contextlib import contextmanager
+from copy import deepcopy
 from urllib.parse import urlsplit
 from integration.l2_launch.security.adapter import (
     FencedAccess,
@@ -37,6 +39,28 @@ class ScopedResolver:
 
 
 class CurrentAccess(FencedAccess):
+    @contextmanager
+    def inventory_scope(self):
+        if self.plan.get('path_scope') != 'PUBLIC_SAME_ORIGIN':
+            yield self
+            return
+        # No network or await in this scope. Recheck current PG/signatures on
+        # both sides, rather than per href; every actual fetch stays fenced.
+        self.check(self.start_url)
+        policy = deepcopy(self.provider())
+        local = SourceAccess(self.audit, lambda: policy,
+            terms_reference=self.terms_reference, now=self.now)
+        owner = self
+
+        class DiscoveryAccess:
+            def check(self, url):
+                return owner.public_path(local.check(url))
+
+        try:
+            yield DiscoveryAccess()
+        finally:
+            self.check(self.start_url)
+
     def __init__(self, original, held, permit, current, plan):
         self.current, self.plan = current, plan
         self.envelope = None
@@ -60,18 +84,19 @@ class CurrentAccess(FencedAccess):
                     or fingerprint(self.provider()) != held.policy_sha256
                     or not permit.not_before <= self.now() < permit.expires_at):
                 raise AuthorityDenied()
-            parts = urlsplit(result)
-            if parts.scheme + '://' + parts.netloc != permit.origin:
-                raise CollectionError("SOURCE_NOT_ALLOWED")
-            # Public information pages only. Never enter authenticated, account,
-            # checkout, write or action paths, including through redirects.
-            segments = {p.lower().split('.')[0] for p in parts.path.split('/')}
-            if segments & {'admin', 'login', 'logout', 'signin', 'signup', 'account',
-                           'cart', 'checkout', 'wp-admin', 'wp-login', 'api', 'delete',
-                           'remove', 'unsubscribe', 'subscribe', 'submit', 'cgi-bin'}:
-                raise CollectionError("SOURCE_NOT_ALLOWED")
-            return result
+            return self.public_path(result)
         return super().check(url)
+
+    def public_path(self, result):
+        parts = urlsplit(result)
+        if parts.scheme + '://' + parts.netloc != self.permit.origin:
+            raise CollectionError('SOURCE_NOT_ALLOWED')
+        segments = {p.lower().split('.')[0] for p in parts.path.split('/')}
+        if segments & {'admin', 'login', 'logout', 'signin', 'signup', 'account',
+                       'cart', 'checkout', 'wp-admin', 'wp-login', 'api', 'delete',
+                       'remove', 'unsubscribe', 'subscribe', 'submit', 'cgi-bin'}:
+            raise CollectionError('SOURCE_NOT_ALLOWED')
+        return result
 
 
 class ConnectionFence:

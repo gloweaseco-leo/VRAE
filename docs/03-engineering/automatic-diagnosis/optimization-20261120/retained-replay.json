@@ -1,0 +1,180 @@
+{
+  "mode": "RETAINED_BYTES_OFFLINE_REPLAY",
+  "new_capture": false,
+  "new_model_calls": 0,
+  "shared_ledger_opened": false,
+  "operational_writes": false,
+  "legacy_artifacts_replayed": 21,
+  "all_legacy_artifacts_valid": true,
+  "incident_artifact_sha256": "56806020a2f1eca18f315129bdfeb70ccaee4d9722a867b650aa8bb866a3bf02",
+  "capture_summary": {
+    "candidate_urls": 57,
+    "page_records": 3,
+    "fetched_pages": 2,
+    "unvisited_candidates": 54,
+    "http_requests_including_robots": 3,
+    "timeout_page_records": 1,
+    "inventory_truncated": false,
+    "unvisited_is_defect": false
+  },
+  "legacy": {
+    "evaluator_version": "ra2b6-1.0.0",
+    "guard_eligible_facts": 0,
+    "rules": [
+      {
+        "rule": "DISC-01",
+        "outcomes": {
+          "PASS": 2
+        },
+        "reasons": [
+          "CAPTURED_REACHABLE_NAV_HREF"
+        ]
+      },
+      {
+        "rule": "DISC-02",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "HTML_UNSUPPORTED_OR_AMBIGUOUS"
+        ]
+      },
+      {
+        "rule": "INFO-01",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "RAW_HTML_REQUIRED"
+        ]
+      },
+      {
+        "rule": "TRUST-01",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "TRUST_PREREQUISITES_OR_CAPTURE_SCOPE_UNRESOLVED"
+        ]
+      },
+      {
+        "rule": "CTA-02",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "SOURCE_RETAINED_HTML_REQUIRED"
+        ]
+      },
+      {
+        "rule": "SEO-01",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS"
+        ]
+      }
+    ]
+  },
+  "patch": {
+    "evaluator_version": "ra2b6-1.0.1",
+    "guard_eligible_facts": 0,
+    "rules": [
+      {
+        "rule": "DISC-01",
+        "outcomes": {
+          "PASS": 2
+        },
+        "reasons": [
+          "CAPTURED_REACHABLE_NAV_HREF"
+        ]
+      },
+      {
+        "rule": "DISC-02",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "HTML_UNSUPPORTED_OR_AMBIGUOUS"
+        ]
+      },
+      {
+        "rule": "INFO-01",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "RAW_HTML_REQUIRED"
+        ]
+      },
+      {
+        "rule": "TRUST-01",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "TRUST_PREREQUISITES_OR_CAPTURE_SCOPE_UNRESOLVED"
+        ]
+      },
+      {
+        "rule": "CTA-02",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "SOURCE_RETAINED_HTML_REQUIRED"
+        ]
+      },
+      {
+        "rule": "SEO-01",
+        "outcomes": {
+          "UNKNOWN": 1
+        },
+        "reasons": [
+          "PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS"
+        ]
+      }
+    ]
+  },
+  "home_head_syntax": [
+    {
+      "compatible": false,
+      "parse_issues": [
+        "UNSUPPORTED_HEAD_END"
+      ],
+      "signals": {
+        "title": {
+          "status": "UNKNOWN",
+          "candidates": 1
+        },
+        "canonical": {
+          "status": "UNKNOWN",
+          "candidates": 0
+        },
+        "description": {
+          "status": "UNKNOWN",
+          "candidates": 1
+        }
+      }
+    },
+    {
+      "compatible": true,
+      "parse_issues": [],
+      "signals": {
+        "title": {
+          "status": "OBSERVED",
+          "candidates": 1
+        },
+        "canonical": {
+          "status": "UNKNOWN",
+          "candidates": 0
+        },
+        "description": {
+          "status": "OBSERVED",
+          "candidates": 1
+        }
+      }
+    }
+  ]
+}

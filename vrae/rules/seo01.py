@@ -146,8 +146,18 @@ def _unknown(reason):
     return {'status': 'UNKNOWN', 'reason': reason, 'value': None, 'candidates': []}
 
 
-def _signals(text, final_url):
-    parser = HeadSignals(text)
+class CompatibleHeadSignals(HeadSignals):
+    """Patch parser; legacy evaluators retain HeadSignals byte-for-byte replay."""
+    def handle_startendtag(self, tag, attrs):
+        if tag in ('meta', 'link'):
+            self.handle_starttag(tag, attrs)
+        else:
+            # Do not turn unsupported self-closing non-void markup into facts.
+            super().handle_startendtag(tag, attrs)
+
+
+def _signals(text, final_url, *, compatible=False):
+    parser = (CompatibleHeadSignals if compatible else HeadSignals)(text)
     parser.feed(text)
     parser.close()
     parser.finish()
@@ -190,7 +200,7 @@ def _signals(text, final_url):
             'sitemap': _unknown('NO_CAPTURED_RESOLVABLE_SITEMAP_EVIDENCE')}
 
 
-def evaluate_seo01(pack, doc, rule, *, expected_pack_ref):
+def evaluate_seo01(pack, doc, rule, *, expected_pack_ref, compatible=False):
     rows = []
 
     def emit(result, reason, source=None, signals=None, citations=None):
@@ -225,7 +235,8 @@ def evaluate_seo01(pack, doc, rule, *, expected_pack_ref):
         try:
             if raw is None or len(raw) > 131072:
                 raise ValueError('HTML_BOUND')
-            signals = _signals(raw.decode('utf-8-sig', errors='strict'), snapshot['final_url'])
+            signals = _signals(raw.decode('utf-8-sig', errors='strict'), snapshot['final_url'],
+                               compatible=compatible)
         except (ValueError, UnicodeError, AssertionError):
             emit('UNKNOWN', 'UNSUPPORTED_OR_OVERSIZE_HEAD_SOURCE', source)
             continue

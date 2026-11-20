@@ -1,0 +1,342 @@
+{
+  "scope": "READ_ONLY_ORIGINAL_TASK_NO_MODEL_DISPATCH",
+  "checked_at": "2026-11-20T06:02:57.790651+00:00",
+  "pdf_matched": true,
+  "new_model_dispatches": 0,
+  "operational_mutations": false,
+  "running_source_sha": "7a097486e36892484034e1ee69be7d6dff2c4dbe",
+  "ai_runtime": {
+    "source_sha": "7a097486e36892484034e1ee69be7d6dff2c4dbe",
+    "phase": "AI_SUPERVISED",
+    "model_configuration_valid": true
+  },
+  "task": {
+    "state": "DRAFT_READY",
+    "worker_attempts": 1,
+    "committed_at": "2026-11-20T05:38:59.353337+00:00",
+    "artifact_sha256": "56806020a2f1eca18f315129bdfeb70ccaee4d9722a867b650aa8bb866a3bf02",
+    "artifact_hash_valid": true
+  },
+  "ai": {
+    "state": "AI_UNAVAILABLE",
+    "reason": "LOCAL_CATALOG_BOUND",
+    "provider_attempts": null,
+    "real_model_calls": null,
+    "cost_status": "UNKNOWN",
+    "recorded_at": "2026-11-20T05:39:09.982313+00:00",
+    "verification_realm": null,
+    "usage_present": false,
+    "claims_count": 0,
+    "model_runtime": {
+      "mode": "REAL_QWEN",
+      "configured": true
+    },
+    "recorded_budget": {
+      "day_utc": "2026-11-20",
+      "currency": "CNY",
+      "cap_micros": 5000000,
+      "actual_invoice": "UNKNOWN",
+      "occupied_micros": 493818,
+      "remaining_micros": 4506182
+    },
+    "usage_fields": null
+  },
+  "binding": {
+    "receipt_task_matches_artifact": true,
+    "receipt_artifact_sha256_matches": true,
+    "receipt_report_hash_matches": true,
+    "receipt_display_hash_matches": true,
+    "original_native_replay_valid": true
+  },
+  "native_assessment_results": {
+    "UNKNOWN": 1
+  },
+  "native_assessment_reasons": {
+    "NO_SUPPORTED_PRODUCT_RECORD": 1
+  },
+  "capture": [
+    {
+      "recorded_attempts": 3,
+      "successful_pages": 2,
+      "inventory_count": 57,
+      "inventory_not_attempted": 54,
+      "requests": 3,
+      "received_body_bytes": 90711,
+      "pages": [
+        {
+          "role": "HOME",
+          "state": "FETCHED",
+          "http_status": 200,
+          "error_code": null,
+          "bytes": 53778,
+          "redirect_hops": 1
+        },
+        {
+          "role": "CATALOG",
+          "state": "FETCHED",
+          "http_status": 200,
+          "error_code": null,
+          "bytes": 36540,
+          "redirect_hops": 1
+        },
+        {
+          "role": "PRODUCT",
+          "state": "UNKNOWN",
+          "http_status": null,
+          "error_code": "TIMEOUT",
+          "bytes": 0,
+          "redirect_hops": 0
+        }
+      ],
+      "capture_errors": [],
+      "robots_http_status": 200,
+      "robots_enforced": true,
+      "coverage_roles": [
+        "CATALOG",
+        "HOME"
+      ],
+      "limits": {
+        "max_bytes": 500000,
+        "max_pages": 4,
+        "max_requests": 12,
+        "task_seconds": 24,
+        "max_redirects": 2,
+        "max_total_bytes": 2000000,
+        "request_seconds": 8,
+        "interval_seconds": 1
+      }
+    }
+  ],
+  "coverage_classes": {
+    "UNKNOWN/ROLE_NOT_VERIFIED": 6,
+    "NOT_VISITED/INVENTORY_ONLY": 54,
+    "OBSERVED/BOUNDED_CAPTURE_ONLY": 2,
+    "UNKNOWN/TIMEOUT": 1
+  },
+  "guard": {
+    "source_fact_count": 0,
+    "facts_by_rule": {},
+    "execution_envelope_keys": [
+      "catalog_sha256",
+      "catalog_version",
+      "coverage",
+      "evaluator_version",
+      "execution_ref",
+      "executions",
+      "expected_pack_ref",
+      "journey_composition",
+      "journeys",
+      "limitations",
+      "private",
+      "recorded_capture_scope",
+      "run_id",
+      "schema_version",
+      "tenant_id"
+    ]
+  },
+  "permission": {
+    "code": "CURRENT_SIGNED_PERMISSION_VALID",
+    "daily_cap_micros": 5000000,
+    "allow_signed_model_consent": true,
+    "key_present": true
+  },
+  "quota": {
+    "total_call_count": 9,
+    "task_reservation_present": false,
+    "task_state": null,
+    "task_error": null,
+    "task_receipt_present": false,
+    "occupied_micros": 493818
+  },
+  "same_subject_result": {
+    "method": "ORIGINAL_PG_READ_PORT_AND_DTO_REPLAY",
+    "status": 200,
+    "state": "AI_UNAVAILABLE",
+    "diagnosis_complete": false,
+    "claims_count": 0,
+    "actual_http_replayed": false
+  },
+  "rule_evidence_detail": [
+    {
+      "rule_id": "DISC-01",
+      "buyer_task": "DISCOVER",
+      "enabled": true,
+      "observations": [
+        {
+          "result": "PASS",
+          "reason": "CAPTURED_REACHABLE_NAV_HREF",
+          "citation_count": 1,
+          "evidence_count": 2
+        },
+        {
+          "result": "PASS",
+          "reason": "CAPTURED_REACHABLE_NAV_HREF",
+          "citation_count": 1,
+          "evidence_count": 2
+        }
+      ]
+    },
+    {
+      "rule_id": "DISC-02",
+      "buyer_task": "DISCOVER",
+      "enabled": true,
+      "observations": [
+        {
+          "result": "UNKNOWN",
+          "reason": "HTML_UNSUPPORTED_OR_AMBIGUOUS",
+          "citation_count": 0,
+          "evidence_count": 0
+        }
+      ]
+    },
+    {
+      "rule_id": "INFO-01",
+      "buyer_task": "UNDERSTAND",
+      "enabled": true,
+      "observations": [
+        {
+          "result": "UNKNOWN",
+          "reason": "RAW_HTML_REQUIRED",
+          "citation_count": 0,
+          "evidence_count": 0
+        }
+      ]
+    },
+    {
+      "rule_id": "TRUST-01",
+      "buyer_task": "TRUST",
+      "enabled": true,
+      "observations": [
+        {
+          "result": "UNKNOWN",
+          "reason": "TRUST_PREREQUISITES_OR_CAPTURE_SCOPE_UNRESOLVED",
+          "citation_count": 0,
+          "evidence_count": 0
+        }
+      ]
+    },
+    {
+      "rule_id": "CTA-02",
+      "buyer_task": "INQUIRE",
+      "enabled": true,
+      "observations": [
+        {
+          "result": "UNKNOWN",
+          "reason": "SOURCE_RETAINED_HTML_REQUIRED",
+          "citation_count": 0,
+          "evidence_count": 0
+        }
+      ]
+    },
+    {
+      "rule_id": "SEO-01",
+      "buyer_task": "SEARCH_TECHNICAL",
+      "enabled": true,
+      "observations": [
+        {
+          "result": "UNKNOWN",
+          "reason": "PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS",
+          "citation_count": 2,
+          "evidence_count": 0,
+          "head_signals": {
+            "title": {
+              "status": "UNKNOWN",
+              "reason": "HEAD_PARSE_AMBIGUOUS_OR_UNSUPPORTED",
+              "candidate_count": 1
+            },
+            "canonical": {
+              "status": "UNKNOWN",
+              "reason": "HEAD_PARSE_AMBIGUOUS_OR_UNSUPPORTED",
+              "candidate_count": 0
+            },
+            "description": {
+              "status": "UNKNOWN",
+              "reason": "HEAD_PARSE_AMBIGUOUS_OR_UNSUPPORTED",
+              "candidate_count": 1
+            },
+            "robots": {
+              "status": "UNKNOWN",
+              "reason": "NO_RESOLVABLE_ROBOTS_BODY_EVIDENCE",
+              "candidate_count": 0
+            },
+            "sitemap": {
+              "status": "UNKNOWN",
+              "reason": "NO_CAPTURED_RESOLVABLE_SITEMAP_EVIDENCE",
+              "candidate_count": 0
+            }
+          },
+          "parse_issues": [
+            "UNSUPPORTED_HEAD_END"
+          ]
+        }
+      ]
+    }
+  ],
+  "saved_html_syntax": [
+    {
+      "role": "HOME",
+      "self_closing_head_end_issues": {
+        "meta": 1,
+        "link": 3
+      },
+      "explicit_head_end_issues": {},
+      "canonical_tag_count": 0,
+      "anchor_element_count": 111,
+      "base_element_count": 0,
+      "invalid_href_attribute_count": 0,
+      "bounded_link_parser_anchor_count": 111,
+      "bounded_link_parser_ambiguous": false
+    },
+    {
+      "role": "CATALOG",
+      "self_closing_head_end_issues": {
+        "meta": 1,
+        "link": 3
+      },
+      "explicit_head_end_issues": {},
+      "canonical_tag_count": 0,
+      "anchor_element_count": 154,
+      "base_element_count": 0,
+      "invalid_href_attribute_count": 1,
+      "bounded_link_parser_anchor_count": 128,
+      "bounded_link_parser_ambiguous": true
+    }
+  ],
+  "worker_timing": [
+    {
+      "worker_phase": "LEASE_HELD",
+      "lease_seq": 1
+    },
+    {
+      "worker_phase": "CAPTURE_RETURNED",
+      "seconds": 24.711954763999984
+    },
+    {
+      "worker_phase": "DRAFT_PRODUCED",
+      "seconds": 26.209796444999938
+    }
+  ],
+  "later_session_check": {
+    "checked_at": "2026-11-20T06:09:00.918897+00:00",
+    "current": false,
+    "result": {
+      "method": "ORIGINAL_PG_READ_PORT_AND_DTO_REPLAY",
+      "error_type": "InsufficientPrivilege",
+      "sqlstate": "42501",
+      "actual_http_replayed": false
+    },
+    "new_session_issued": false
+  },
+  "derived_dispatch_state": "NOT_DISPATCHED_BEFORE_PROVIDER",
+  "derived_timeout_class": "TOTAL_CAPTURE_BUDGET_EXHAUSTED_BEFORE_PRODUCT_HTTP_DISPATCH",
+  "http_replay_limitation": "Original PG read port and DTO replay only. No raw task cookie obtained and no real HTTP session replay claimed.",
+  "privacy": {
+    "source_url_included": false,
+    "customer_identity_included": false,
+    "audit_ref_included": false,
+    "job_id_included": false,
+    "task_cookie_included": false,
+    "keys_included": false,
+    "source_html_included": false
+  }
+}

@@ -8,7 +8,7 @@ from vrae.collection.manifest import document_hash
 from vrae.domain.contracts import validate_contract
 from vrae.domain.evidence import validate_evidence_graph
 from vrae.evidence import EvidencePack
-from vrae.rules import verify_execution
+from vrae.rules.patch_execution import verify_execution
 
 VERSION = 'ra2c0-1.0.0'
 EVALUATOR = 'ra2b1-1.0.0'
@@ -18,6 +18,9 @@ SEO_VERSION = 'ra2c2-1.0.0'
 SEO_EVALUATOR = 'ra2b4-1.0.0'
 TRUST_VERSION = 'ra2c3-1.0.0'
 TRUST_EVALUATOR = 'ra2b6-1.0.0'
+PATCH_VERSION = 'ra2c3-1.0.1'
+PATCH_EVALUATOR = 'ra2b6-1.0.1'
+SOURCE_VERSION_PAIRS = {(TRUST_EVALUATOR, TRUST_VERSION), (PATCH_EVALUATOR, PATCH_VERSION)}
 MAX_BYTES = 8_000_000
 
 
@@ -82,7 +85,7 @@ def _bridge(pack, observation, finding):
 def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expected_evaluator_version,
              expected_builder_version=VERSION):
     evaluator = {VERSION: EVALUATOR, INFO_VERSION: INFO_EVALUATOR,
-                 SEO_VERSION: SEO_EVALUATOR, TRUST_VERSION: TRUST_EVALUATOR}.get(expected_builder_version)
+                 SEO_VERSION: SEO_EVALUATOR, TRUST_VERSION: TRUST_EVALUATOR, PATCH_VERSION: PATCH_EVALUATOR}.get(expected_builder_version)
     if (evaluator is None or expected_evaluator_version != evaluator or not isinstance(expected_execution_ref, str)
             or not re.fullmatch(r'rx-[0-9a-f]{64}', expected_execution_ref)):
         _fail()
@@ -111,11 +114,11 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
                 positive = {'observation_id': oid, 'rule_id': rule['rule_id'],
                     'buyer_task': rule['buyer_task'], 'execution_locator': locator,
                     'provenance': row}
-                if expected_builder_version == TRUST_VERSION and rule['rule_id'] == 'TRUST-01':
+                if expected_builder_version in (TRUST_VERSION, PATCH_VERSION) and rule['rule_id'] == 'TRUST-01':
                     trust_facts.append(positive)
-                elif expected_builder_version in (SEO_VERSION, TRUST_VERSION) and rule['rule_id'] == 'SEO-01':
+                elif expected_builder_version in (SEO_VERSION, TRUST_VERSION, PATCH_VERSION) and rule['rule_id'] == 'SEO-01':
                     seo_signals.append(positive)
-                elif expected_builder_version in (INFO_VERSION, SEO_VERSION, TRUST_VERSION) and rule['rule_id'] == 'INFO-01':
+                elif expected_builder_version in (INFO_VERSION, SEO_VERSION, TRUST_VERSION, PATCH_VERSION) and rule['rule_id'] == 'INFO-01':
                     product_facts.append(positive)
                 else:
                     positives.append(positive)
@@ -161,17 +164,17 @@ def _project(pack, execution, *, expected_pack_ref, expected_execution_ref, expe
         'limitations': ['OFFLINE_CONSISTENCY_NOT_AUTHENTICITY_OR_CURRENT_AUTHORIZATION',
             'NO_VISIBILITY_SEMANTIC_IDENTITY_REVENUE_OR_WHOLE_SITE_CLAIM',
             'NAKED_FINDING_IS_NOT_TARGET_RESPONSE_PROOF', 'PRIVATE_UNAPPROVED_NOT_A_REPORT_OR_SHARE_GRANT']}
-    if expected_builder_version in (INFO_VERSION, SEO_VERSION, TRUST_VERSION):
+    if expected_builder_version in (INFO_VERSION, SEO_VERSION, TRUST_VERSION, PATCH_VERSION):
         result['checked_product_facts'] = sorted(product_facts, key=lambda item: item['observation_id'])
         result['limitations'].append(
             'PRODUCT_SOURCE_TEXT_ONLY_NOT_ACCURACY_COMPLETENESS_AUTHENTICITY_COMPREHENSION_OR_FIT')
-    if expected_builder_version in (SEO_VERSION, TRUST_VERSION):
+    if expected_builder_version in (SEO_VERSION, TRUST_VERSION, PATCH_VERSION):
         result['checked_seo_signals'] = sorted(seo_signals, key=lambda item: item['observation_id'])
         result['limitations'].extend([
             'SEO01_ORIGINAL_HOME_TITLE_CANONICAL_TAG_PRESENCE_ONLY_NOT_A_DEFECT',
             'NO_CANONICAL_TARGET_FETCH_INDEXING_RANKING_CRAWLABILITY_OR_SEO_HEALTH_CLAIM',
             'ROBOTS_SITEMAP_UNKNOWN_WITHOUT_SEPARATELY_RESOLVABLE_CAPTURE'])
-    if expected_builder_version == TRUST_VERSION:
+    if expected_builder_version in (TRUST_VERSION, PATCH_VERSION):
         result['checked_trust_source_facts'] = sorted(trust_facts, key=lambda item: item['observation_id'])
         result['limitations'].extend([
             'TRUST01_SELF_DECLARED_ORGANIZATION_INTRO_AND_STATIC_CONTACT_SOURCE_PRESENCE_ONLY',
