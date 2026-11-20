@@ -34,7 +34,8 @@ PG 串联用例增加两页154链接目录，在原生产24秒/四页/1秒间隔
 Guard 的事实类别、引用核对、模型输入限制和候选审核标准不变；只增加严格匹配的补丁版本对。
 
 原历史金样及 `preserved-history.json` 的哈希不改。
-三个新增补丁分支的源码，其原始 Git 字节保存在 `tests/interpretation/fixtures/accepted-source/<原SHA256>.py`，
+原 `execution.py` 保持已验收 Git 字节，补丁执行入口单独放在 `patch_execution.py`。
+另两个新增补丁分支的源码，其原始 Git 字节保存在 `tests/interpretation/fixtures/accepted-source/<原SHA256>.py`，
 历史验证明确校验这些原源码快照，并继续重放当前旧版本路径的原工件、FindingPackage 与 Guard 金样。
 新增差分用例直接加载原源码，对照旧执行结果、head信号及 FindingPackage；不是宣称当前源码文件字节没有变化。
 
