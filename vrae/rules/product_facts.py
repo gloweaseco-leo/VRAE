@@ -9,6 +9,7 @@ from vrae.evidence import EvidenceError, EvidencePack
 
 VERSION = 'ra2b2-product-facts-1.0.0'
 GENERIC_VERSION = 'ra2b2-product-facts-1.0.1'
+CONTENT_VERSION = 'ra2b2-product-facts-1.0.2'
 VOID = {'meta', 'link', 'br', 'hr', 'img', 'input', 'wbr', 'area', 'col', 'embed',
         'param', 'source', 'track'}
 
@@ -92,9 +93,11 @@ def _parse(raw):
     return names[0], fields
 
 
-def extract(pack: EvidencePack, *, expected_pack_ref: str, generic=False) -> dict:
+def extract(pack: EvidencePack, *, expected_pack_ref: str, generic=False, content=False) -> dict:
     """Caller must obtain its trusted pin separately; pack content is not authorization."""
     if not isinstance(expected_pack_ref, str) or not re.fullmatch(r'ep-[0-9a-f]{64}', expected_pack_ref):
+        raise EvidenceError('PRODUCT_FACTS_INTEGRITY')
+    if content and not generic:
         raise EvidenceError('PRODUCT_FACTS_INTEGRITY')
     pack.verify(expected_ref=expected_pack_ref)
     doc = pack.document
@@ -135,7 +138,7 @@ def extract(pack: EvidencePack, *, expected_pack_ref: str, generic=False) -> dic
             descriptions = []
             if generic:
                 from .universal_static import product, cite as static_cite
-                parser, name_node, field_nodes, description_nodes = product(raw, excluded_names=repeated_page_headings)
+                parser, name_node, field_nodes, description_nodes = product(raw, excluded_names=repeated_page_headings, multi_column=content)
                 def adapted(node):
                     value = static_cite(parser, node)
                     return {'text': value['text'], **value['element']}
@@ -144,8 +147,11 @@ def extract(pack: EvidencePack, *, expected_pack_ref: str, generic=False) -> dic
                 descriptions = [adapted(n) for n in description_nodes]
             else:
                 name, fields = _parse(raw)
-        except (ValueError, UnicodeError):
-            row['reason'] = 'HTML_UNSUPPORTED_OR_AMBIGUOUS'
+        except (ValueError, UnicodeError) as exc:
+            safe = {'STATIC_PRODUCT_NAME_AMBIGUOUS', 'STATIC_HTML_AMBIGUOUS',
+                    'STATIC_HTML_BOUND', 'STATIC_FIELD_BOUND'}
+            row['reason'] = (str(exc) if content and str(exc) in safe
+                             else 'HTML_UNSUPPORTED_OR_AMBIGUOUS')
             continue
 
         def cite(node):
@@ -174,7 +180,7 @@ def extract(pack: EvidencePack, *, expected_pack_ref: str, generic=False) -> dic
             row['descriptions'] = [cite(n) for n in descriptions]
             if any(f['status'] == 'EXTRACTED' for f in row['fields']):
                 row.update(status='EXTRACTED', reason='BOUNDED_STATIC_PRODUCT_TEXT_RETAINED')
-    output = {'extractor_version': GENERIC_VERSION if generic else VERSION, 'expected_pack_ref': expected_pack_ref,
+    output = {'extractor_version': CONTENT_VERSION if content else GENERIC_VERSION if generic else VERSION, 'expected_pack_ref': expected_pack_ref,
               'tenant_id': doc['tenant_id'], 'run_id': doc['run_id'], 'pages': pages,
               'coverage': doc['coverage'], 'info01_enabled': False, 'info01_result': 'UNKNOWN',
               'limitations': ['URL_ROLE_HEURISTIC_ONLY', 'SOURCE_TEXT_NOT_RENDERED_VISIBILITY',
@@ -189,10 +195,10 @@ def verify_facts(output: dict, pack: EvidencePack, *, expected_pack_ref: str) ->
     """Replay the complete result, including text and positions, against the trusted pack."""
     try:
         version = output['extractor_version']
-        if version not in (VERSION, GENERIC_VERSION):
+        if version not in (VERSION, GENERIC_VERSION, CONTENT_VERSION):
             raise ValueError('EXTRACTOR_VERSION_MISMATCH')
         if json.dumps(output, sort_keys=True, allow_nan=False) != json.dumps(
-                extract(pack, expected_pack_ref=expected_pack_ref, generic=version == GENERIC_VERSION), sort_keys=True):
+                extract(pack, expected_pack_ref=expected_pack_ref, generic=version != VERSION, content=version == CONTENT_VERSION), sort_keys=True):
             raise ValueError('MISMATCH')
     except Exception as exc:
         raise EvidenceError('PRODUCT_FACTS_INTEGRITY') from exc

@@ -20,10 +20,13 @@ class CommittedCompletionPins(CompletionPins):
     current_input_ref: str
     recheck: Callable[[NativeSource, datetime], None] = field(repr=False, compare=False)
 
+    response_language: str = 'en'
+
     def check(self, source, now):
         times = (now, self.lease_started_at, self.lease_expires_at,
                  self.worker_completed_at, self.authority_expires_at)
-        if (type(source) is not NativeSource or type(self.task) is not NativeTask
+        if (self.response_language not in ('zh', 'en')
+                or type(source) is not NativeSource or type(self.task) is not NativeTask
                 or source.held != self.task
                 or self.task.source_access_mode != 'PUBLIC_READONLY_CAPTURE'
                 or any(type(t) is not datetime or t.utcoffset() is None for t in times)

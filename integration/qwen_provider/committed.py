@@ -154,12 +154,15 @@ class Adapter:
                 deadlines += [auth['expires_at'], auth['retention_until']]
             if extra_deadline is not None:
                 deadlines.append(extra_deadline)
+            language = held.get('request_language', 'en')
+            if d['diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.3' and 'request_language' not in held:
+                raise S3Error('COMMITTED_REQUEST_LANGUAGE_REQUIRED')
             completion = CommittedCompletionPins(task, pins.report_content_hash,
                 datetime.fromisoformat(commit['lease_started_at']),
                 datetime.fromisoformat(commit['lease_expires_at']),
                 datetime.fromisoformat(commit['committed_at']),
                 min(datetime.fromisoformat(t) for t in deadlines),
-                commit['transaction_id'], pins.artifact_sha256, hashlib.sha256(frozen).hexdigest(), recheck)
+                commit['transaction_id'], pins.artifact_sha256, hashlib.sha256(frozen).hexdigest(), recheck, response_language=language)
             phase = 'CONTEXT'
             context = prepare_context(pack, source, self._projection, buyer_pins=self._buyer_pins,
                                       completion=completion, now=self._clock())

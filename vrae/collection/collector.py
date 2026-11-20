@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from time import monotonic
 from urllib.parse import urlsplit, urlunsplit
 
-from .discovery import inventory, page_role, representative_role, select_next
+from .discovery import inventory, page_role, representative_role, select_next, labelled_contact_targets
 from .errors import CollectionError
 from .fetcher import SafeFetcher
 from .limits import Budget, HostLeases, Limits
@@ -33,7 +33,7 @@ class Collector:
 
     async def capture(self, run_id: str, access: SourceAccess, *, limits: Limits | None = None,
                       budget: Budget | None = None, retain_raw_html: bool = False,
-                      representative_pages: bool = False):
+                      representative_pages: bool = False, labelled_contacts: bool = False):
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{2,127}", run_id):
             raise CollectionError("INPUT_INVALID")
         budget = budget or Budget(limits or Limits(), access)
@@ -61,11 +61,13 @@ class Collector:
                 budget.next_request = max(budget.next_request, budget.clock() + rules.delay)
                 attempted: set[str] = set()
                 covered: set[str] = set()
+                contact_targets: set[str] = set()
                 items = [{"url": access.start_url, "role": page_role(access.start_url),
                           "discovered_from": access.start_url}]
                 cap = min(budget.limits.max_pages, 5 if access.audit["audit_mode"] == "L0" else 8)
                 while budget.pages < cap:
-                    candidate = select_next(items, attempted, covered, representative=representative_pages)
+                    candidate = select_next(items, attempted, covered, representative=representative_pages,
+                                            contact_targets=contact_targets)
                     if candidate is None:
                         break
                     url, role = candidate["url"], candidate["role"]
@@ -92,7 +94,15 @@ class Collector:
                                 b"cf-chl-", b"verify you are human", b"captcha", b"access denied")):
                             raise CollectionError("ACCESS_BLOCKED")
                         with self.phase('LOCAL_INVENTORY'):
-                            discovered, overflow = inventory(response.body, response.url, access)
+                            if labelled_contacts and representative_pages:
+                                discovered, overflow = inventory(response.body, response.url, access,
+                                                                  labelled_contacts=True)
+                            else:
+                                discovered, overflow = inventory(response.body, response.url, access)
+                            if labelled_contacts and representative_pages:
+                                # Never persist inferred roles in the immutable manifest.
+                                contact_targets.update(labelled_contact_targets(response.body, response.url)
+                                    & {i['url'] for i in discovered})
                         budget.check()
                         truncated |= overflow
                         known = {x["url"] for x in items}
@@ -104,7 +114,8 @@ class Collector:
                                 items.append(item)
                                 known.add(item["url"])
                         attempted.add(response.url)
-                        covered.add(representative_role(response.url) if representative_pages else role)
+                        covered.add('CONTACT' if representative_pages and url in contact_targets else
+                                    representative_role(response.url) if representative_pages else role)
                     except CollectionError as exc:
                         error = exc
                         trace = exc.trace or trace

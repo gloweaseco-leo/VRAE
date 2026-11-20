@@ -25,7 +25,8 @@ VERSION = "l2-industrial-1.0.0"
 PATCH_VERSION = "l2-industrial-1.0.1"
 SOURCE_VERSIONS = {VERSION: ("ra2b6-1.0.0", "ra2c3-1.0.0"),
                    PATCH_VERSION: ("ra2b6-1.0.1", "ra2c3-1.0.1"),
-                   "l2-industrial-1.0.2": ("ra2b6-1.0.2", "ra2c3-1.0.2")}
+                   "l2-industrial-1.0.2": ("ra2b6-1.0.2", "ra2c3-1.0.2"),
+                   "l2-industrial-1.0.3": ("ra2b6-1.0.3", "ra2c3-1.0.3")}
 IMPACTS = {
     "IND-SELECTION": "The recorded route and model labels may help a buyer shortlist this item; actual navigation usability and SKU identity have not been independently verified.",
     "IND-SPEC": "Unresolved model-specific specification fields may require clarification before a technical comparison; unobserved alternative datasheets may supply them.",

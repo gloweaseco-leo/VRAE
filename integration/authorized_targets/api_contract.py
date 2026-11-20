@@ -53,6 +53,12 @@ def openapi():
                 "AutomaticDiagnosis": {
                     "type": "object", "properties": {
                         "deterministic_diagnosis": deterministic_schema(),
+                        "customer_presentation": {"type": "object", "required": [
+                            "contract", "is_report", "formal_human_review", "rules_available", "tasks"],
+                            "properties": {"contract": {"const": "vrae.diagnosis-presentation.v1"},
+                                "is_report": {"const": False}, "formal_human_review": {"const": False},
+                                "rules_available": {"type": "boolean"}, "tasks": {"type": "array"}},
+                            "description": "Bilingual copy with pointers to original observations; not new facts, scores or human approval. Available independently of AI claims."},
                         "page_scope": {"type": ["object", "null"], "properties": {
                             name: {"type": "array", "items": {"type": "object"}} for name in (
                                 "visited_pages", "failed_attempt_records", "unvisited_candidates", "unknown_coverage")},

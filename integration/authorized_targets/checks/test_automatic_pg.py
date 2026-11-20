@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 from datetime import datetime, UTC, timedelta
 import os
+import json
 from pathlib import Path
 import secrets
 import time
@@ -25,7 +26,7 @@ from integration.authorized_targets.provision import install, grant_automatic_se
 from infra.linux_service.ai_loop import adapter
 from integration.qwen_provider.committed import execute
 from vrae.intelligence.qwen import Config, Permission, Price, QwenProvider, Quota
-from vrae.intelligence.qwen.provider import MODEL_SOURCE, PROMPT
+from vrae.intelligence.qwen.provider import MODEL_SOURCE, CONTENT_PROMPT
 from vrae.intelligence.qwen.testing import FakeTransport
 from vrae.intelligence.qwen.session import RULE_TASK
 from integration.authorized_targets.automatic_result import TASKS
@@ -52,7 +53,8 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
             'infra/authorized_targets/001_authority.sql', 'infra/authorized_targets/002_delivery.sql',
             'infra/authorized_targets/003_api.sql', 'infra/linux_service/004_ai_pending.sql',
             'infra/authorized_targets/006_automatic_diagnosis.sql',
-            'infra/authorized_targets/007_automatic_sessions.sql'):
+            'infra/authorized_targets/007_automatic_sessions.sql',
+            'infra/authorized_targets/008_committed_language.sql'):
             c.execute(Path(path).read_text())
     now = datetime.now(UTC)
     end = (now + timedelta(minutes=15)).isoformat()
@@ -187,7 +189,10 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     assert all('/login' not in url and '/forbidden' not in url for url, _, _ in transport.calls)
     with current(app, cookie, csrf, ref) as (code, result):
         assert code == 202 and result['state'] == 'AI_PENDING' and result['evidence']
-        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.2'
+        assert result['customer_presentation']['rules_available']
+        assert len(result['customer_presentation']['tasks']) == 5
+        assert result['customer_presentation']['artifact_sha256'] == result['artifact_sha256']
+        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.3'
         assert result['capture_summary']['fetched_pages'] == 6
         assert result['capture_summary']['http_requests_including_robots'] == 7
         assert result['capture_summary']['unvisited_candidates'] > 150
@@ -211,16 +216,18 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         # this separate preflight does not replace that immutable receipt.
         assert dto['analysis_outcome'] == 'PENDING'
     c = selected._session.context
+    assert c.completion.response_language == 'zh'
     assert any(e['fact']['rule_id'] == 'INFO-01' for e in c.catalog['entries'].values())
     assert any(e['fact']['observation_result'] == 'UNKNOWN' for e in c.catalog['entries'].values())
     anchor, entry = next((ref, entry) for ref, entry in c.catalog['entries'].items()
                          if entry['type'] == 'GUARD_LITERAL')
-    content = {'prompt_version': PROMPT, 'context_ref': c.context_ref, 'claims': [{
+    content = {'prompt_version': CONTENT_PROMPT, 'context_ref': c.context_ref, 'claims': [{
         'task': RULE_TASK[entry['fact']['rule_id']], 'refs': [anchor], 'counter_refs': [],
         'explanation': 'A buyer may need clearer navigation based on the saved page.',
         'uncertainties': ['Only bounded static pages were checked.'],
         'questions': ['Which page should a buyer read first?'],
         'rebuild': ['Group the saved page information by buyer task.']}]}
+    content['claims'][0]['verification'] = 'Check the revised page organization against the same cited source.'
     fake = FakeTransport({'id': 'synthetic-only', 'object': 'chat.completion', 'model': 'qwen4-max', 'choices': [{
         'finish_reason': 'stop', 'message': {'role': 'assistant', 'content': canonical(content).decode()}}],
         'usage': {'prompt_tokens': 137, 'completion_tokens': 83, 'total_tokens': 220}})
@@ -234,6 +241,11 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     result = execute(bindings['ai'], job, selected, operation_id='service-ai-' + job)
     assert result['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW', result
     assert result['pg_receipt_status'] == 'RECORDED' and result['real_model_calls'] == 0
+    assert result['usage']['prompt_version'] == CONTENT_PROMPT
+    assert result['claims'][0]['verification_status'] == 'PROPOSED_NOT_EXECUTED'
+    sent = fake.bodies[0]
+    assert 'Use concise Simplified Chinese:' in sent['messages'][0]['content']
+    assert json.loads(sent['messages'][1]['content'])['response_language'] == 'zh'
     with current(app, cookie, csrf, ref) as (code, dto):
         assert code == 200 and not dto['claims']
         assert dto['state'] == 'AI_UNAVAILABLE' and not dto['diagnosis_complete']

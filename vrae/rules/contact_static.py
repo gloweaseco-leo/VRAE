@@ -1,12 +1,12 @@
 """Positive static contact href presence; never rendered visibility or delivery."""
 from urllib.parse import urljoin, urlsplit
-from vrae.collection.discovery import representative_role
+from vrae.collection.discovery import representative_role, labelled_contact_targets
 
 from .execution import _records, _metadata, _row
 from .universal_static import parse, usable, cite
 
 
-def evaluate(pack, doc, rule):
+def evaluate(pack, doc, rule, *, labelled=False):
     rows = []
     for record in _records(doc):
         snapshot = record[2]
@@ -21,7 +21,10 @@ def evaluate(pack, doc, rule):
             parser = parse(raw)
         except (ValueError, UnicodeError):
             continue
+        if labelled and any(n['tag'] == 'base' and 'href' in n['attrs'] for n in parser.nodes):
+            continue
         citations = []
+        labelled_targets = labelled_contact_targets(raw, snapshot['final_url']) if labelled else set()
         for node in parser.nodes:
             if node['tag'] != 'a' or not usable(node):
                 continue
@@ -31,7 +34,8 @@ def evaluate(pack, doc, rule):
             target = urlsplit(urljoin(snapshot['final_url'], href))
             if (target.scheme != 'https' or target.netloc != urlsplit(snapshot['final_url']).netloc
                     or target.query or target.fragment
-                    or representative_role(target.geturl()) != 'CONTACT'):
+                    or (representative_role(target.geturl()) != 'CONTACT'
+                        and target.geturl() not in labelled_targets)):
                 continue
             citations.append({**cite(parser, node), **{k: evidence[k] for k in (
                 'evidence_ref', 'source_ref', 'snapshot_ref', 'locator', 'content_sha256')},

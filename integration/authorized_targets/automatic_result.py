@@ -9,8 +9,14 @@ from integration.qwen_provider.postcommit import InputPins, replay_input
 from vrae.l2.native import NativeTask
 from vrae.industry.l2_v1.diagnose import SOURCE_VERSIONS
 from vrae.rules.patch_execution import execute
+from integration.authorized_targets.presentation import build as presentation
 
 TASKS = ('DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL')
+
+
+def delivery(status, result):
+    result['customer_presentation'] = presentation(result)
+    return status, result
 
 
 def deterministic_diagnosis(pack, diagnosis):
@@ -97,9 +103,9 @@ def project(value, audit_ref):
     if status['state'] == 'DEAD_LETTER':
         result['state'] = 'CAPTURE_FAILED'
         result['analysis_outcome'] = 'NOT_RUN'
-        return 200, result
+        return delivery(200, result)
     if status['state'] != 'DRAFT_READY':
-        return 202, result
+        return delivery(202, result)
     if artifact is None:
         raise ValueError('COMMITTED_ARTIFACT_REQUIRED')
     auth = artifact['source_authority']
@@ -117,7 +123,7 @@ def project(value, audit_ref):
                   for s in pack.document['snapshots']],
         coverage=deepcopy(pack.document['coverage']))
     if receipt is None:
-        return 202, result
+        return delivery(202, result)
     if (receipt['task'] != artifact['task']
             or receipt['artifact_sha256'] != value['artifact_sha256']
             or receipt['report_content_hash'] != artifact['version']['content_hash']
@@ -137,7 +143,7 @@ def project(value, audit_ref):
     result['analysis_outcome'] = analysis_outcome(receipt, genuine)
     if not genuine:
         result['claims'] = []
-    return 200, result
+    return delivery(200, result)
 
 
 @contextmanager

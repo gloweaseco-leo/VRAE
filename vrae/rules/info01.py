@@ -10,8 +10,8 @@ COVERAGE = (
 )
 
 
-def evaluate_product_info(pack, doc, rule, *, expected_pack_ref, generic=False):
-    facts = extract(pack, expected_pack_ref=expected_pack_ref, generic=generic)
+def evaluate_product_info(pack, doc, rule, *, expected_pack_ref, generic=False, content=False):
+    facts = extract(pack, expected_pack_ref=expected_pack_ref, generic=generic, content=content)
     records = {r[2]['snapshot_ref']: r for r in _records(doc)}
     rows = []
     for page in facts['pages']:
@@ -37,10 +37,14 @@ def evaluate_product_info(pack, doc, rule, *, expected_pack_ref, generic=False):
         }[result]
         if generic and result == 'PASS':
             statement = 'A display name and at least one label-value field were retained on this captured product-path page; descriptive text is source context only.'
+        coverage = ('Bounded static source text only; no rendered visibility, product identity, specification accuracy, completeness or engineering suitability verified.'
+                    if generic else COVERAGE)
+        if content:
+            coverage += (
+                ' Multi-column tables cover the first listed data row only; subsequent '
+                'row-spanned variants and notes are not assessed or merged into one SKU.')
         row = _row(doc, rule, result, page['reason'], source=source,
-                         citations=citations, statement=statement, coverage_note=(
-                             'Bounded static source text only; no rendered visibility, product identity, specification accuracy, completeness or engineering suitability verified.'
-                             if generic else COVERAGE))
+                   citations=citations, statement=statement, coverage_note=coverage)
         if generic and page['name'] is not None:
             row['source_text_presence'] = 'OBSERVED'
         rows.append(row)
