@@ -8,7 +8,7 @@
 Owner 本次业务交付授权已成立，每个新网站仍需合法来源授权，每份新报告仍需实际审核。
 历史样例的 Reviewer 意见仅批准自控验收，不能改写成对新客户报告的审核。
 
-真实 Qwen4-Max 已接通：两位受邀主体各调用一次；一份产生待人审候选，另一份被
+历史真实 Qwen4-Max 已接通（当前按最新诊断联调指令暂停本实例供应商出网）：两位受邀主体各调用一次；一份产生待人审候选，另一份被
 引用锚点校验拒绝（AI_UNAVAILABLE），不重试、不降低 Guard。费用估算合计 ¥0.05121，
 正式账单 UNKNOWN；继续使用原有每日 ¥5 的同一共享账本。
 [授权与续期](evidence/nov30-authority-renewal.json)、
@@ -32,8 +32,8 @@ Bearer 均必需；错 Bearer/错证书 403，无证书 TLS 拒绝。调用方�
 
 ## 精确版本及运行状态
 
-- 最终运行源码：`adb37f28d1686771331d762478c674fbc23f4fbe`。
-- 最终镜像：`sha256:eb717a1af90b4736afb22635638224fafae93a0918836a57b9199547795210c6`。
+- 最终运行源码：`c456312aec1f54a2a6c89e42f3bce990a0081109`。
+- 最终镜像：`sha256:be2711e41bfbdf00708dc9555c5391919645f52866494a155a0595f1cd1a242b`。
 - 完整公网流程使用镜像对应源码 `589eb1d8cc4f08829e716bcb331108f1d87d6005`；
   后续最终版本将 TCP DNS 选择移入服务适配器，恢复原 resolver 字节，另做实际 DNS、
   完整回归、持久数据核对和外部健康验证。没有声称最终健康测试重做了人审。
@@ -216,3 +216,56 @@ PG/runtime/隔离AI/relay/source均持续运行。当前镜像70项相关回归�
 Bearer和邀请凭证写入GitHub临时Secret，要求明确目的地授权；已停止此上传并删除旧临时Secret。
 因此最终镜像的新外部复验待该授权；不能用74c1def的外部回执声称已验证adb37f2外部全流程。
 正式模型密钥、身份签名密钥、手机种子始终未上传。
+
+
+## 最新 Owner 执行：Preview 专用身份已私有交付，部署由 VF 团队执行
+
+已执行 [Owner #7026419809](https://github.com/gloweaseco-leo/VRAE/pull/172#issuecomment-7026419809)
+及随后聊天中对 V5 切换和私有目的地的明确授权。**VF_PREVIEW_CREDENTIALS_DELIVERED**，
+尚未声称 VF_PREVIEW_E2E_PASS。[实际执行回执](evidence/vf-preview-final-backend-receipt.json)。
+
+实际运行源码 `c456312aec1f54a2a6c89e42f3bce990a0081109`；镜像
+`sha256:be2711e41bfbdf00708dc9555c5391919645f52866494a155a0595f1cd1a242b`。
+新增独立 `vf_preview_20261120a` APP actor/LOGIN role，仅继承原 `target_v1_app`；
+不对已有 tenant 重跑全量 install。原四角色、epoch=1、Nov30期限均保持不变。
+审查PR174 `bd2c217` 暂存脚本后在原ext4卷执行，输出展平为root私有文件以兼容原控制器，
+没有把秘密落到NTFS或仓库。CA链为真实服务器的ISRG Root X1，非客户端签发CA。
+
+专用证书SHA256为 `911c4e26ececdb0c5171cd1ed474e8ba79ab54aef7664217cf6661bf28157a96`。
+**该Preview证书/角色/新邀请仅至 2026-11-20 01:39:55 UTC（北京时间09:39:55）**，
+不等于全局Nov30授权窗口。邀请未消费、target_ids为空，不替测试者同意或授权网站。
+原业务身份和新身份ready均200，新身份OpenAPI200；新证+旧Bearer、旧证+新Bearer、
+错证及错Bearer均403，无证TLS拒绝。
+[本机实际mTLS正反检查](evidence/vf-preview-identity-checks.json)，不是Vercel出站证明。
+
+接收账号 `gloweaseco-1757`、团队 `gloweaseco-1757s-projects`、项目 `veyfront`
+已实际核对。五项 `VRAE_DIAGNOSIS_*` 配置及 `VRAE_PREVIEW_INVITATION` 已由该账号
+直接写入 `Preview / feature/vf-b-offline-g1-adapter`，六项均核对为Sensitive。
+仅经内存/标准输入到获准目的地，没有GitHub/聊天/公开文件/Production中转。
+[私有接收回执](evidence/vf-preview-vercel-private-delivery.json) 是认证写入和精确分支元数据确认，
+不冒称VF人员另行人工确认。邀请码在实际消费后须从该Preview变量删除；当前尚未消费。
+
+用户明确批准旧V4来源授权失效后，锁定并确认无活动采集，切换为无模型处理的V5。
+为匹配VF真实 `paths:[]`，在V5尚无任务时仅收窄至 `/robots.txt`、`/`；没有加入其他站点。
+来源原到期仍为 **2026-11-20 01:42:19.648899 UTC（北京时间09:42:19）**，不自动延期。
+[V5切换](evidence/vf-preview-authorized-v5-scope.json)、
+[V1精确路径兼容](evidence/vf-preview-v5-exact-paths.json)。
+全局Nov30权限、旧四角色和历史PG/账本均保留；本实例模型许可在私有卷内暂停，
+实际AI_UID出网策略为REJECT、provider_ip_count=0、dns_count=0。共享canonical账本仍9笔，
+原调用ID哈希一致，无新增付费调用，无复制/重置；另一个实例没有重启或改权限。
+
+健康临时身份新增了严格GET路由/到期/原mTLS绑定限制，避免上传正式业务身份。
+随后按最新VF优先级撤下未使用的GH临时绑定，实际旧配对403；没有上传或dispatch GH复验，
+临时Secret确认不存在。该GH身份没有用于VF。93项相关回归、原B5A源码冻结检查通过；
+`c456312`自然CI 51项SUCCESS、1项SKIPPED。
+[检查范围和边界](evidence/vf-preview-backend-handoff-checks.json)。
+
+当前已部署VF源码仍为 `2f75721c5900f2a6d7c933b72ca82053d6746df3`，
+`dpl_HC5ZuK9m7GhJyDfhv2NfHs3EUrSd`，早于本次凭据写入。指定分支缺少既有
+`VF_VRAE_PREVIEW_ENABLED`、独立 `VF_VRAE_PREVIEW_SESSION_KEY`、
+`VF_VRAE_PREVIEW_TARGET_URL`。**用户已明确选择由VF团队自行配置并重部署**；
+Codex3未更改启用开关、部署保护、VF源码、Preview部署或生产。
+VF团队需在该短期窗口内配置三项并重建原分支Preview，随后完成真实UI确认、Vercel Node BFF
+health/OpenAPI200、application/authorize201、diagnoses202、原Worker DRAFT_READY、
+同主体状态200及关键拒绝。GitHub Runner/本机mTLS/凭据写入均不替代这些实际出站证据。
+未报E2E_PASS，不因临时密钥已删除或CI通过而自动发布报告。

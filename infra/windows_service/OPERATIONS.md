@@ -184,3 +184,31 @@ window. Stop the wake request by creating the configured
 `windows-power-guard-nov30.stop` file or ending its recorded PID; exiting releases it.
 No power plan, global proxy, DNS or route was changed. Manual sleep, logout,
 network/VPN outages and Windows shutdown can interrupt availability.
+
+
+## Dedicated VF Preview identity (Owner 7026419809)
+
+Current runtime c456312 adds root-configured `health_probe` expiry/exact GET-route
+restrictions before application routes; normal mTLS certificate binding still applies.
+Intake role selection excludes these temporary probes so they cannot disrupt the
+original business binding. The unused GH probe identity was removed before export.
+
+The separately issued VF Preview identity is a distinct APP actor/LOGIN role in the
+same tenant, registered additively in the original principal/assignment/actor tables.
+Do not rerun tenant install or reuse an old actor. Its certificate and PG login expire
+at 2026-11-20T01:39:55Z; the invitation is unused and has the same short expiry.
+Five DIAGNOSIS values and the new invitation were delivered as Sensitive variables
+only to gloweaseco-1757s-projects/veyfront, Preview branch feature/vf-b-offline-g1-adapter.
+No keys or invitation values are in this repository. Delete the invitation variable
+after real consumption. Receipt metadata is not a claim of human acceptance or E2E.
+
+Owner explicitly approved V4 invalidation and a no-model V5 for this self-owned site.
+Its scope is now only /robots.txt and /, matching VF paths:[], with the original
+2026-11-20T01:42:19.648899Z expiry. No new customer domain or automatic extension.
+Windows AI allowance is withdrawn in both private and staged inputs; its observed
+provider egress count is zero. Keep the canonical quota untouched (nine calls).
+
+Owner chose the VF team to set the existing enable/session/target settings and
+redeploy Preview. Do not enable/redeploy or change Production on their behalf.
+Continue real Vercel BFF acceptance after their deployment and actual UI consent;
+do not infer BFF success from credentials, local mTLS or GitHub receipts.
