@@ -21,6 +21,8 @@ def evaluate(pack, doc, rule, *, labelled=False):
             parser = parse(raw)
         except (ValueError, UnicodeError):
             continue
+        if labelled and any(n['tag'] == 'base' and 'href' in n['attrs'] for n in parser.nodes):
+            continue
         citations = []
         labelled_targets = labelled_contact_targets(raw, snapshot['final_url']) if labelled else set()
         for node in parser.nodes:

@@ -189,6 +189,9 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     assert all('/login' not in url and '/forbidden' not in url for url, _, _ in transport.calls)
     with current(app, cookie, csrf, ref) as (code, result):
         assert code == 202 and result['state'] == 'AI_PENDING' and result['evidence']
+        assert result['customer_presentation']['rules_available']
+        assert len(result['customer_presentation']['tasks']) == 5
+        assert result['customer_presentation']['artifact_sha256'] == result['artifact_sha256']
         assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.3'
         assert result['capture_summary']['fetched_pages'] == 6
         assert result['capture_summary']['http_requests_including_robots'] == 7
@@ -224,6 +227,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         'uncertainties': ['Only bounded static pages were checked.'],
         'questions': ['Which page should a buyer read first?'],
         'rebuild': ['Group the saved page information by buyer task.']}]}
+    content['claims'][0]['verification'] = 'Check the revised page organization against the same cited source.'
     fake = FakeTransport({'id': 'synthetic-only', 'object': 'chat.completion', 'model': 'qwen4-max', 'choices': [{
         'finish_reason': 'stop', 'message': {'role': 'assistant', 'content': canonical(content).decode()}}],
         'usage': {'prompt_tokens': 137, 'completion_tokens': 83, 'total_tokens': 220}})
@@ -238,6 +242,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     assert result['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW', result
     assert result['pg_receipt_status'] == 'RECORDED' and result['real_model_calls'] == 0
     assert result['usage']['prompt_version'] == CONTENT_PROMPT
+    assert result['claims'][0]['verification_status'] == 'PROPOSED_NOT_EXECUTED'
     sent = fake.bodies[0]
     assert 'Use concise Simplified Chinese:' in sent['messages'][0]['content']
     assert json.loads(sent['messages'][1]['content'])['response_language'] == 'zh'

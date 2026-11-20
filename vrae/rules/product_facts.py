@@ -147,8 +147,11 @@ def extract(pack: EvidencePack, *, expected_pack_ref: str, generic=False, conten
                 descriptions = [adapted(n) for n in description_nodes]
             else:
                 name, fields = _parse(raw)
-        except (ValueError, UnicodeError):
-            row['reason'] = 'HTML_UNSUPPORTED_OR_AMBIGUOUS'
+        except (ValueError, UnicodeError) as exc:
+            safe = {'STATIC_PRODUCT_NAME_AMBIGUOUS', 'STATIC_HTML_AMBIGUOUS',
+                    'STATIC_HTML_BOUND', 'STATIC_FIELD_BOUND'}
+            row['reason'] = (str(exc) if content and str(exc) in safe
+                             else 'HTML_UNSUPPORTED_OR_AMBIGUOUS')
             continue
 
         def cite(node):

@@ -2,6 +2,7 @@
 
 Stage Git-visible source on container tmpfs so Windows bind-mount latency does
 not consume the original Guard's unchanged five-second validation deadline.
+The optional consumer check runs native Node against pure, no-I/O contract fixtures.
 """
 import hashlib
 import argparse
@@ -22,7 +23,7 @@ def run(*args, **kwargs):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--checks', nargs='+', choices=['pg', 'regression', 'history', 'types', 'lint'],
+    parser.add_argument('--checks', nargs='+', choices=['pg', 'regression', 'history', 'types', 'lint', 'consumer'],
                         default=['pg', 'regression', 'history', 'types', 'lint'])
     selected = parser.parse_args().checks
     identity = 'vrae-auto-' + uuid.uuid4().hex[:12]
@@ -60,8 +61,9 @@ def main():
                     break
                 time.sleep(1)
         suites = [
+            ('consumer', [], 'node --test integration/authorized_targets/consumer/reference.test.mjs'),
             ('pg', ['--network', 'container:' + pg, '-e', 'VRAE_AUTOMATIC_PG_TEST=1'],
-             'python -B -m pytest -q -p no:cacheprovider integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_deterministic_result.py integration/authorized_targets/checks/test_universal_sources.py integration/authorized_targets/checks/test_partial_context.py integration/authorized_targets/checks/test_content_sources.py integration/authorized_targets/checks/test_automatic_pg.py'),
+             'python -B -m pytest -q -p no:cacheprovider integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_deterministic_result.py integration/authorized_targets/checks/test_universal_sources.py integration/authorized_targets/checks/test_partial_context.py integration/authorized_targets/checks/test_content_sources.py integration/authorized_targets/checks/test_delivery_details.py integration/authorized_targets/checks/test_automatic_pg.py'),
             ('regression', ['--network', 'none'],
              'python -B -m pytest -q -p no:cacheprovider infra/windows_service/checks '
              'infra/linux_service/checks/test_qwen_runtime.py integration/authorized_targets/checks/test_source_authority.py '
@@ -81,6 +83,8 @@ def main():
              'integration/authorized_targets/checks/test_universal_sources.py '
              'integration/authorized_targets/checks/test_partial_context.py '
              'integration/authorized_targets/checks/test_content_sources.py '
+             'integration/authorized_targets/checks/test_delivery_details.py '
+             'integration/authorized_targets/presentation.py '
              'integration/authorized_targets/checks/test_automatic_pg.py '
              'integration/authorized_targets/http.py integration/authorized_targets/store.py '
              'integration/authorized_targets/provision.py infra/linux_service/initialize.py '
@@ -95,11 +99,12 @@ def main():
             if name not in selected:
                 continue
             print('RUN ' + name, flush=True)
-            process = subprocess.run(['docker', 'run', '--rm', *network,
+            argv = (['node', '--test', 'integration/authorized_targets/consumer/reference.test.mjs']
+                    if name == 'consumer' else ['docker', 'run', '--rm', *network,
                 '--label', LABEL + '=' + identity, '--tmpfs', '/work', '--tmpfs', '/tmp', '--tmpfs', '/run',
                 '-v', str(archive) + ':/source.tar:ro', '--entrypoint', 'sh', 'vrae-g1:313', '-c',
-                'tar -xf /source.tar -C /work && cd /work && ' + command],
-                cwd=ROOT, capture_output=True)
+                'tar -xf /source.tar -C /work && cd /work && ' + command])
+            process = subprocess.run(argv, cwd=ROOT, capture_output=True)
             (output / (name + '.log')).write_bytes(process.stdout + process.stderr)
             results['checks'].append({'name': name, 'exit_code': process.returncode})
             print(name + ': ' + str(process.returncode), flush=True)

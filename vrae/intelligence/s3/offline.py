@@ -198,6 +198,7 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins 
         if execution['evaluator_version'] == 'ra2b6-1.0.3':
             descriptor['response_language'] = getattr(completion, 'response_language', 'en')
             descriptor['qwen_source_projection'] = 'qwen-product-values-1.0.0'
+            descriptor['qwen_output_policy'] = 'qwen-buyer-output-1.0.0'
         result = object.__new__(Context)
         values = (pack, source, completion, encode(execution), package, pins, encode(gp),
                   encode({'context': known['context'], 'entries': entries}), encode(candidate),

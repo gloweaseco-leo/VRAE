@@ -175,6 +175,7 @@ def test_qwen_input_contains_values_pairs_and_no_raw_source(tmp_path):
     fake_response = response(c)
     claim = json.loads(fake_response['choices'][0]['message']['content'])
     claim['prompt_version'] = CONTENT_PROMPT
+    claim['claims'][0]['verification'] = 'Compare the displayed diameter with its cited source after the content change.'
     claim['claims'][0]['refs'] = [next(r['ref'] for r in rows if r.get('source_value') == '100 mm')]
     claim['claims'][0]['counter_refs'] = []
     fake_response['choices'][0]['message']['content'] = json.dumps(claim)
@@ -183,7 +184,10 @@ def test_qwen_input_contains_values_pairs_and_no_raw_source(tmp_path):
     text, receipt = asyncio.run(dispatch(c, provider=p, operation='bounded-source-values',
         now=NOW, timeout_ms=1000, clock=lambda: NOW))
     assert receipt['prompt_version'] == CONTENT_PROMPT and receipt['real_model_calls'] == 0
-    assert validate_candidates(text, c, receipt)
+    candidates = validate_candidates(text, c, receipt)
+    assert candidates[0]['verification_status'] == 'PROPOSED_NOT_EXECUTED'
+    assert any(p['pointer'] == '/recommendations/1' and p['status'] == 'HUMAN_REVIEW_REQUIRED'
+               for p in candidates[0]['guard']['claims'])
     # Language is the held original request language; no free-form prompt is accepted.
     chinese = SimpleNamespace(**{k: getattr(c, k) for k in c.__dataclass_fields__})
     chinese.completion = SimpleNamespace(response_language='zh')

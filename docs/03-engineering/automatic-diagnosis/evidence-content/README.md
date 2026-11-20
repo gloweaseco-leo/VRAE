@@ -13,7 +13,7 @@ VF 仍需按 [消费验收清单](vf-consumption.md) 完成页面与轮询接入
 - 明确的 Contact/RFQ 标签参与同源代表页选择及静态入口证据。`ContactUs` 与规范相对 href 可识别；
   先规范化再执行原授权、DNS、robots、访问范围与费用限制。原 PageInventory/CaptureManifest URL 角色和哈希契约不变。
   不点击、不提交表单；入口存在仍不等于可见、目标已到达或消息可送达。
-- Qwen 新提示版本 `qwen-evidence-buyer-1.2.0`，输入投影 `qwen-product-values-1.0.0`。
+- Qwen 新提示版本 `qwen-evidence-buyer-1.2.1`，输入投影 `qwen-product-values-1.0.0`。
   仅从已重放、经过原 Guard 绑定的 INFO-01 引用提取 NAME、DESCRIPTION、SPEC_LABEL、SPEC_VALUE。
   最多两个产品页面，每页一个名称、两段描述及四对完整字段；同一字段对附带不透明页面分组和字段序号。
   联系方式、URL、明显凭据、控制字符及指令型内容整字段排除，不截断成另一事实；一端被排除的规格对不发送。
@@ -47,6 +47,9 @@ VF 仍需按 [消费验收清单](vf-consumption.md) 完成页面与轮询接入
 
 发布须先执行现有管理员初始化中的 additive 008，再以同一版本更新 API/Worker/AI；不得由 API 身份自行迁移。
 本轮不部署或修改 VF。Owner 合并/部署后，VF 团队按字段清单验证原任务查询与新授权任务的展示。
+
+????????????/????????????????? [???????](details/README.md)?
+????????????????????? details?
 
 ## ????????
 

@@ -60,6 +60,8 @@ class _ContactLinks(HTMLParser):
         if self.count > 8192 or len(self.stack) >= 64:
             raise ValueError('CONTACT_HTML_BOUND')
         values = dict(attrs)
+        if tag == 'base' and 'href' in values:
+            raise ValueError('CONTACT_BASE_SCOPE_UNSUPPORTED')
         excluded = (len(values) != len(attrs) or tag in
             ('script', 'style', 'template', 'noscript', 'iframe', 'form', 'svg')
             or any(k in values for k in ('hidden', 'inert'))

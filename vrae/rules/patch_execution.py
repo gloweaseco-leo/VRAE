@@ -33,6 +33,12 @@ def execute(pack, *, expected_pack_ref, evaluator_version=TRUST_VERSION):
                     expected_pack_ref=expected_pack_ref, generic=True, content=evaluator_version == CONTENT_VERSION)
             elif entry['rule_id'] == 'CTA-01':
                 entry['observations'] = contact(pack, pack.document, rule, labelled=evaluator_version == CONTENT_VERSION)
+            elif evaluator_version == CONTENT_VERSION and entry['rule_id'] in ('DISC-02', 'CTA-02'):
+                from .static_journey import evaluate as static_links
+                entry['observations'] = static_links(pack, pack.document, rule)
+        if evaluator_version == CONTENT_VERSION:
+            from .journey import compose_paths
+            result['journeys'], result['journey_composition'] = compose_paths(result['executions'])
     result['evaluator_version'] = evaluator_version
     del result['execution_ref']
     result['execution_ref'] = 'rx-' + document_hash(result)
