@@ -9,6 +9,17 @@ git diff --check
 No model access, live credentials, actual PG, or real Vercel invocation is used.
 Synthetic key material never leaves the container private tmpfs.
 
+Current (Owner 7026432530) validation: run the same Docker command with
+both files at the end (add -s to preserve the non-secret synthetic TLS receipt):
+integration/vf_preview_handoff/test_stage_identity.py integration/vf_preview_handoff/test_identity_readback.py
+Expected: 14 Python tests, 5 Node tests. Synthetic TLS HTTP is a local substitute,
+not the original PG or any Vercel deployment. Original 7+5 output remains history.
+
+Standalone private operator entrypoint help was also checked in a network-none,
+read-only container with only this worktree's script directory mounted:
+python -B /reviewed/check_identity.py --help
+No PR172 module/image change is required to execute these two reviewed scripts.
+
 Public upstream check metadata observed on 2026-11-19:
 PR172 reviewed SHA 7fcf0e45cc6cce69aaac8ef3747a3e214b9d98a0:
 51 checks reported; first page of 30 returned completed/success.

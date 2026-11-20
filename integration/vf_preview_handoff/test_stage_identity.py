@@ -32,6 +32,10 @@ def private():
         ca = (x509.CertificateBuilder().subject_name(name).issuer_name(name).public_key(key.public_key())
               .serial_number(x509.random_serial_number()).not_valid_before(now - timedelta(minutes=1))
               .not_valid_after(now + timedelta(hours=2)).add_extension(x509.BasicConstraints(ca=True, path_length=0), True)
+              .add_extension(x509.KeyUsage(digital_signature=True, content_commitment=False, key_encipherment=False,
+                  data_encipherment=False, key_agreement=False, key_cert_sign=True, crl_sign=True,
+                  encipher_only=None, decipher_only=None), True)
+              .add_extension(x509.SubjectKeyIdentifier.from_public_key(key.public_key()), False)
               .sign(key, hashes.SHA256()))
         save("client-ca.pem", ca.public_bytes(ser.Encoding.PEM))
         save("client-ca-key.pem", key.private_bytes(ser.Encoding.PEM, ser.PrivateFormat.PKCS8, ser.NoEncryption()))
@@ -59,6 +63,7 @@ def test_unique_bound_pair_and_no_registration(private):
     binding = json.loads((output / "binding.private.json").read_bytes())
     assert binding["service_sha256"] == hashlib.sha256((output / "VRAE_DIAGNOSIS_BEARER").read_bytes()).hexdigest()
     assert binding["client_certificate_sha256"] == receipt["client_certificate_sha256"]
+    assert receipt["expires_at"] == cert.not_valid_after_utc.isoformat()
     assert cert.not_valid_after_utc <= datetime.now(UTC) + timedelta(minutes=45)
     assert (private / "api.json").read_bytes() == before
     assert receipt["state"] == "STAGED_NOT_REGISTERED"
@@ -106,3 +111,35 @@ def test_no_nonroot_issuance(private, monkeypatch):
     monkeypatch.setattr(os, "geteuid", lambda: 10001)
     with pytest.raises(PermissionError):
         issue(private)
+
+
+def add_binding(root, binding):
+    p = root / "api.json"
+    cfg = json.loads(p.read_bytes())
+    cfg["bindings"].append(binding)
+    p.write_text(json.dumps(cfg))
+
+
+def test_health_only_binding_is_never_selected_or_copied(private):
+    add_binding(private, {"kind": "APP", "role": "temporary_probe", "tenant_id": "synthetic",
+                         "health_probe": {"expires_at": "2099-01-01T00:00:00+00:00"}})
+    receipt = issue(private)
+    assert receipt["source_role"] == "existing_api"
+    b = json.loads((private / "vf_preview_173test/binding.private.json").read_bytes())
+    assert "health_probe" not in b
+
+
+def test_explicit_business_source_role_allows_safe_rotation(private):
+    add_binding(private, {"kind": "APP", "role": "prior_preview", "tenant_id": "synthetic",
+                         "verification_keys": {}})
+    with pytest.raises(ValueError):
+        issue(private)
+    receipt = stage(private, private / "server-ca.pem", SHA, "vf_preview_rotate", source_role="existing_api")
+    assert receipt["source_role"] == "existing_api"
+
+
+def test_health_source_role_explicitly_requested_still_denied(private):
+    add_binding(private, {"kind": "APP", "role": "temporary_probe", "tenant_id": "synthetic",
+                         "health_probe": {"expires_at": "2099-01-01T00:00:00+00:00"}})
+    with pytest.raises(ValueError):
+        stage(private, private / "server-ca.pem", SHA, "vf_preview_denied", source_role="temporary_probe")

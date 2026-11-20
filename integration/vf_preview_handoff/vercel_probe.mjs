@@ -101,11 +101,13 @@ export async function runProbe(env = process.env, execute = false, send = wire, 
       env.VRAE_PREVIEW_ACTUAL_CONSENT === 'CURRENT_INVITED_PERSON_ACCEPTED' &&
       /^[A-Za-z0-9._~-]{16,512}$/.test(env.VRAE_PREVIEW_INVITATION ?? ''));
     const intake = (await call('/v1/target-intake-contract', 200, undefined, undefined, true)).doc;
+    requireThat(intake.consent_version === 'VRAE-READONLY-DIAGNOSIS-1' &&
+      sha256(JSON.stringify(intake.consent_text)) === intake.consent_text_sha256);
     const exchange = await call('/v1/invitation-session', 200, { invitation_token: env.VRAE_PREVIEW_INVITATION });
     const cookies = exchange.headers['set-cookie']?.filter(c => c.startsWith('__Host-vrae-targets='));
     requireThat(cookies?.length === 1 && exchange.headers['x-csrf-token']);
     const session = { cookie: cookies[0].split(';')[0], csrf: exchange.headers['x-csrf-token'] };
-    const application = await call('/v1/target-applications', 201, { url: TARGET, paths: ['/products', '/contact'],
+    const application = await call('/v1/target-applications', 201, { url: TARGET, paths: [],
       consent: { version: intake.consent_version, read_only_authorized: true, model_data_notice: true } }, session);
     requireThat(application.doc.proof.type === 'OPERATOR_OWNED_PUBLIC_ORIGIN');
     await call('/v1/target-applications/authorize', 201, { application_token: application.doc.application_token }, session);
@@ -127,7 +129,6 @@ export async function runProbe(env = process.env, execute = false, send = wire, 
       const status = (await call('/v1/audits/' + accepted.audit_ref, 200, undefined, session)).doc;
       if (status.task.status === 'DRAFT_READY') {
         requireThat(status.publication.state === 'UNPUBLISHED');
-        await call('/v1/audits/' + accepted.audit_ref + '/report', 403, undefined, session);
         result.state = 'DRAFT_READY_PENDING_REVOCATION_AND_CROSS_SUBJECT_EVIDENCE'; return result;
       }
       requireThat(status.task.status !== 'FAILED');

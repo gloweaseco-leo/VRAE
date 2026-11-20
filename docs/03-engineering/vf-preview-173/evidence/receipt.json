@@ -1,10 +1,11 @@
 {
   "contract": "vrae.vf-preview-handoff.v1",
   "issue": 173,
-  "state": "BLOCKED:DEDICATED_IDENTITY_REGISTRATION_AND_VF_PROTOCOL_ADAPTATION_AND_VERCEL_EGRESS_EVIDENCE",
+  "state": "BLOCKED:DEDICATED_IDENTITY_REGISTRATION_AND_PRIVATE_DELIVERY",
+  "owner_instruction": "https://github.com/gloweaseco-leo/VRAE/issues/173#issuecomment-7026432530",
   "source_review": {
-    "vrae_pr172": "7fcf0e45cc6cce69aaac8ef3747a3e214b9d98a0",
-    "veyfront_pr37": "ce1de7b8d57f1c49e8a62de49ee401ca8e9a6607",
+    "vrae_pr172": "c456312aec1f54a2a6c89e42f3bce990a0081109",
+    "veyfront_pr37": "2f75721c5900f2a6d7c933b72ca82053d6746df3",
     "own_base": "1e3cd9cd409e695dad8b4e0a8357130ae35f6d7e"
   },
   "actual_running_source_sha": null,
@@ -13,6 +14,8 @@
   "current_owned_source_authority_verified": false,
   "dedicated_identity_registered": false,
   "private_handoff_acknowledged": false,
+  "vf_dynamic_protocol_adaptation_complete": true,
+  "vf_preview_deployment_id_from_github_status": "HC5ZuK9m7GhJyDfhv2NfHs3EUrSd",
   "vercel_egress_observed": false,
   "vercel_ready_200": null,
   "vercel_openapi_200": null,
@@ -25,7 +28,8 @@
   "real_customer_sources": false,
   "report_release": false,
   "local_validation": {
-    "synthetic_root_tmpfs_identity_tests": {"passed": 7, "failed": 0},
+    "synthetic_root_tmpfs_identity_tests": {"passed": 10, "failed": 0},
+    "actual_loopback_tls_with_synthetic_http_tests": {"passed": 4, "failed": 0},
     "node_consumer_protocol_tests": {"passed": 5, "failed": 0},
     "first_attempt": "HARNESS_RED_TMPDIR_UNSET_BEFORE_COLLECTION",
     "no_live_credentials_accessed": true,
@@ -34,7 +38,6 @@
   },
   "dependencies": [
     {"id": "D1", "owner": "single authorized local operator", "action": "One serialized original-runtime Preview identity registration and current-source invitation handoff window; see HANDOFF.md"},
-    {"id": "D2", "owner": "VEYFRONT PR37 team", "action": "Implement dynamic flow or prove same-current-invitation legally signed static VFSubmit admission; account for JSON-route VF error media"},
     {"id": "D3", "owner": "authorized VEYFRONT Preview deployment operator", "action": "Private branch-scoped injection, actual Node BFF execution and deployment-correlated 200/202/status/403/expiry/revocation receipts"}
   ]
 }

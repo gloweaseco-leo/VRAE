@@ -32,7 +32,7 @@ def guarded(path, directory=False):
     return path
 
 
-def stage(root, server_ca, expected_sha, role, hours=1):
+def stage(root, server_ca, expected_sha, role, hours=1, source_role=None):
     if os.name != "posix" or os.geteuid() != 0:
         raise PermissionError("AUTHORIZED_ROOT_EXT4_OPERATOR_REQUIRED")
     if not re.fullmatch(r"[a-f0-9]{40}", expected_sha) or not re.fullmatch(r"vf_preview_[a-z0-9_]{4,40}", role):
@@ -49,7 +49,11 @@ def stage(root, server_ca, expected_sha, role, hours=1):
         raise ValueError("OPERATOR_MUST_VERIFY_RUNNING_SHA_FIRST")
     if not api.get("target_intake_enabled") or any(b["role"] == role for b in api["bindings"]):
         raise ValueError("NEW_ROLE_AND_CURRENT_INTAKE_REQUIRED")
-    originals = [b for b in api["bindings"] if b["kind"] == "APP" and not b.get("port")]
+    # PR172 health_probe bindings cannot consume invitations/OpenAPI. Never
+    # select one as the Preview principal, even when it shares the APP role.
+    originals = [b for b in api["bindings"] if b["kind"] == "APP" and not b.get("port")
+                 and b.get("health_probe") is None
+                 and (source_role is None or b["role"] == source_role)]
     if len(originals) != 1:
         raise ValueError("SELECT_EXISTING_TENANT_EXPLICITLY_BEFORE_STAGING")
     original = originals[0]
@@ -81,7 +85,8 @@ def stage(root, server_ca, expected_sha, role, hours=1):
                "client_certificate_sha256": fingerprint}
     receipt = {"state": "STAGED_NOT_REGISTERED", "role": role, "source_sha": expected_sha,
                "client_certificate_sha256": fingerprint, "not_before": cert.not_valid_before_utc.isoformat(),
-               "expires_at": end.isoformat(), "branch": "feature/vf-b-offline-g1-adapter"}
+               "expires_at": cert.not_valid_after_utc.isoformat(), "branch": "feature/vf-b-offline-g1-adapter",
+               "source_role": original["role"], "purpose": "PREVIEW_DIAGNOSIS_NOT_GITHUB_HEALTH"}
     output = root / role
     output.mkdir(mode=0o700)  # exclusive, never overwrite an earlier issuance
     def write(name, value):
@@ -107,9 +112,10 @@ def main():
     p.add_argument("--server-ca", required=True)
     p.add_argument("--expected-source-sha", required=True)
     p.add_argument("--role", required=True)
+    p.add_argument("--source-role", help="Explicit existing non-health APP role when multiple business bindings exist")
     a = p.parse_args()
     try:
-        print(json.dumps(stage(a.root, a.server_ca, a.expected_source_sha, a.role)))
+        print(json.dumps(stage(a.root, a.server_ca, a.expected_source_sha, a.role, source_role=a.source_role)))
     except Exception:
         # Paths, config, exceptions and credential values are never printed.
         print('{"state":"STAGING_REFUSED","details":"operator_private_review_required"}')
