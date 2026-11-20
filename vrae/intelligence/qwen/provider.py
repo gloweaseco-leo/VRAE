@@ -21,6 +21,7 @@ MODEL_SOURCE = 'https://help.aliyun.com/zh/model-studio/qwen4-max'
 PROVIDER = 'aliyun-bailian-beijing'
 PROMPT = 'qwen-minimized-buyer-1.1.0'
 CONTENT_PROMPT = 'qwen-evidence-buyer-1.2.1'
+SCOPED_PROMPT = 'qwen-evidence-buyer-1.3.0'
 INPUT_CAP = 65536  # Conservative reservation ceiling, never reported as actual usage.
 OUTPUT_CAP = 2048
 OUTPUT_RESERVE = OUTPUT_CAP + 10  # Documented supplier cap rounding tolerance.
@@ -180,7 +181,7 @@ class QwenProvider:
             fail('REQUEST_BOUND')
         prompt = body.get('response_format', {}).get('json_schema', {}).get('schema', {}).get(
             'properties', {}).get('prompt_version', {}).get('const', PROMPT)
-        if prompt not in (PROMPT, CONTENT_PROMPT):
+        if prompt not in (PROMPT, CONTENT_PROMPT, SCOPED_PROMPT):
             fail('PROMPT_VERSION_INVALID')
         identity = digest({'scope': scope, 'operation': operation})
         intent = digest({'context': context_ref, 'body': body,

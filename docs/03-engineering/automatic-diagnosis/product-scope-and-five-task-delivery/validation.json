@@ -1,0 +1,43 @@
+{
+  "scope": "PRODUCT_ATTRIBUTION_AND_FIVE_TASK_DELIVERY_ONLY",
+  "python_regressions": {
+    "command": ".venv/Scripts/python.exe -m pytest integration/authorized_targets/checks/test_product_scope.py integration/authorized_targets/checks/test_deterministic_result.py integration/authorized_targets/checks/test_content_sources.py integration/authorized_targets/checks/test_universal_sources.py integration/authorized_targets/checks/test_delivery_details.py -q",
+    "passed": 56,
+    "failed": 0,
+    "seconds": 193.34
+  },
+  "session_and_final_scope_regressions": {
+    "command": ".venv/Scripts/python.exe -m pytest integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_product_scope.py -q",
+    "passed": 25,
+    "failed": 0,
+    "seconds": 40.58
+  },
+  "consumer": {
+    "command": "node --test integration/authorized_targets/consumer/reference.test.mjs",
+    "passed": 8,
+    "failed": 0
+  },
+  "isolated_pg": {
+    "passed": 1,
+    "failed": 0,
+    "seconds": 89.66,
+    "network_none": true,
+    "production_credentials_or_data_mounted": false,
+    "protocol_fake_not_real_model": true,
+    "new_language_migration_and_role_reset_verified": true
+  },
+  "mypy": {
+    "command": "mypy --platform linux vrae",
+    "source_files": 148,
+    "passed": true
+  },
+  "ruff": { "passed": true },
+  "diff_check": { "passed": true },
+  "typescript_declarations": { "provided": true, "vf_application_typecheck_required_on_integration": true },
+  "frozen_real_source": { "receipt": "frozen-replay.json", "historical_artifacts_replayed": 25 },
+  "customer_website_submitted": false,
+  "new_real_model_calls": 0,
+  "production_deployed": false,
+  "vf_repository_modified": false,
+  "vf_ui_end_to_end_accepted": false
+}
