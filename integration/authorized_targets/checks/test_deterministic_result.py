@@ -11,7 +11,7 @@ from vrae.industry.l2_v1.diagnose import SOURCE_VERSIONS
 from vrae.rules.patch_execution import execute
 
 
-@pytest.mark.parametrize('version', ['l2-industrial-1.0.0', 'l2-industrial-1.0.1'])
+@pytest.mark.parametrize('version', ['l2-industrial-1.0.0', 'l2-industrial-1.0.1', 'l2-industrial-1.0.2'])
 def test_all_five_tasks_preserve_exact_rule_rows_and_committed_version(version, monkeypatch):
     # The synthetic fixture's event loop uses a local socketpair. Block all
     # sockets after fixture construction to test the actual projection boundary.

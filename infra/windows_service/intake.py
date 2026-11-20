@@ -190,7 +190,7 @@ def delegation():
     source_class = json.loads(private(INPUT / "manifest.json"))["source_class"]
     doc = verify(json.loads(private(INPUT / "enrollment-delegation.json")), "DEPLOYMENT_OWNER", source_class)
     if (doc["contract"] != "vrae.dns-target-enrollment.v1" or doc["proof"] not in ("DNS_TXT_OR_OPERATOR_OWNED_SOURCE_AND_EXPLICIT_CONSENT", AUTO_PROOF)
-        or doc["purpose"] != "READONLY_DIAGNOSIS" or doc["max_pages"] != 4):
+        or doc["purpose"] != "READONLY_DIAGNOSIS" or doc["max_pages"] not in (4, 6)):
         raise Denied("OPERATOR_DELEGATION_REQUIRED")
     return doc
 
@@ -276,8 +276,9 @@ def authorize(binding, actor, body):
                 WHERE tenant_id=%s AND origin=%s AND NOT revoked
                 AND document->>'path_scope'='PUBLIC_SAME_ORIGIN'
                 AND (document->>'expires_at')::timestamptz>clock_timestamp()
+                AND (document->'limits'->>'max_pages')::integer=%s
                 ORDER BY document->'policy'->>'created_at' DESC LIMIT 1""",
-                (tenant, doc["origin"])).fetchone()
+                (tenant, doc["origin"], min(delegate.get('max_pages', 4), 6))).fetchone()
             target_id = active[0] if active else "auto-" + digest([doc["origin"], doc["accepted_at"]])[:32]
         row = c.execute("SELECT document,revoked FROM target_v1.plans WHERE tenant_id=%s AND target_id=%s FOR UPDATE",
                         (tenant,target_id)).fetchone()
@@ -298,7 +299,7 @@ def authorize(binding, actor, body):
                 "terms_reference":"customer-readonly-consent-v1","retain_raw_html":True,
                 "authorization_kind":"ADMIN_AUTHORIZED_READONLY","execution_profile":"ADMIN_TARGET_V2",
                 "source_class":delegate["source_class"],"expires_at":end.isoformat(),"revoked":False,
-                "policy":policy,"limits":{"max_pages":4,"max_bytes":500000,"max_total_bytes":2000000,
+                "policy":policy,"limits":{"max_pages":min(delegate.get('max_pages', 4), 6 if automatic else 4),"max_bytes":500000,"max_total_bytes":2000000,
                 "max_requests":12,"max_redirects":2,"request_seconds":8,"task_seconds":24,"interval_seconds":1}}
             model_consent=processing_consent(doc["consent"]["version"],doc["origin"])
             if automatic:
@@ -421,6 +422,10 @@ def contract():
                 "consent_version": AUTO_CONSENT, "idempotency_key": "<stable request key>",
                 "accepted_at": "<UTC ISO timestamp retained for retries>", "language": "zh"},
             "result_path": "/v1/audits/{audit_ref}/diagnosis",
+            "capture_limits": {"preferred_max_pages": 6, "absolute_l1_ceiling": 8,
+                "signed_operator_delegation_required": True, "legacy_signed_4_page_plans_not_expanded": True,
+                "representative_priority": ["HOME", "CATALOG", "CATEGORY", "PRODUCT", "CONTACT", "ABOUT", "APPLICATION"],
+                "request_seconds": 8, "capture_seconds": 24},
             "customer_actions": "URL_AND_ONE_AUTHORIZATION_CHECKBOX"}}
 
 

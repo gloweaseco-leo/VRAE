@@ -61,7 +61,7 @@ def main():
                 time.sleep(1)
         suites = [
             ('pg', ['--network', 'container:' + pg, '-e', 'VRAE_AUTOMATIC_PG_TEST=1'],
-             'python -B -m pytest -q -p no:cacheprovider integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_deterministic_result.py integration/authorized_targets/checks/test_automatic_pg.py'),
+             'python -B -m pytest -q -p no:cacheprovider integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_deterministic_result.py integration/authorized_targets/checks/test_universal_sources.py integration/authorized_targets/checks/test_partial_context.py integration/authorized_targets/checks/test_automatic_pg.py'),
             ('regression', ['--network', 'none'],
              'python -B -m pytest -q -p no:cacheprovider infra/windows_service/checks '
              'infra/linux_service/checks/test_qwen_runtime.py integration/authorized_targets/checks/test_source_authority.py '
@@ -78,6 +78,8 @@ def main():
              'python -m ruff check vrae integration/authorized_targets/automatic_result.py '
              'integration/authorized_targets/api_contract.py '
              'integration/authorized_targets/checks/test_deterministic_result.py '
+             'integration/authorized_targets/checks/test_universal_sources.py '
+             'integration/authorized_targets/checks/test_partial_context.py '
              'integration/authorized_targets/checks/test_automatic_pg.py '
              'integration/authorized_targets/http.py integration/authorized_targets/store.py '
              'integration/authorized_targets/provision.py infra/linux_service/initialize.py '

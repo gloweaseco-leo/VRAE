@@ -22,6 +22,7 @@ from vrae.industry.l2_v1.diagnose import source_chain
 from vrae.intelligence import FixtureProvider, InputPins, Ledger, ModelGateway, Scope, prepare_request
 from vrae.intelligence.common import encode, integer
 from vrae.interpretation import guard
+from vrae.intelligence.source_guard import for_evaluator
 from vrae.l2.native import NativeSource, NativeTask
 from vrae.reporting.s2_candidate import BuyerCandidatePins, build_candidate
 
@@ -154,8 +155,9 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins 
                          execution['evaluator_version'], package.document['builder_version'], scope)
         prepare_request(pack, execution, package, pins=pins)
         gp = {k: v for k, v in asdict(pins).items() if k != 'scope'}
-        gp.update(expected_scope=asdict(scope), expected_guard_version=guard.VERSION)
-        known = guard.catalog(pack, package, **gp)
+        active_guard = for_evaluator(execution['evaluator_version'])
+        gp.update(expected_scope=asdict(scope), expected_guard_version=active_guard.VERSION)
+        known = active_guard.catalog(pack, package, **gp)
         pages = {p['url'] for card in candidate['cards'] for p in card['source_pages']}
         conflicts = [row for row in data['assessments'] if (buyer_pins is None or row['model'] == buyer_pins.subject_model)
                      and row['observation']['rule_id'] == 'IND-DUTY'
@@ -267,9 +269,10 @@ async def _claims(text, context, usage, deadline):
                     evidence_ids=[fact['source']['citation']['evidence_ref']], hypotheses=[text_out],
                     recommendations=[], missing_information=[], model_id='fixture-bytes-v1',
                     input_tokens=usage['input_tokens'], output_tokens=usage['output_tokens'], status='VALIDATED')
-                binding = guard.binding(pointer='/hypotheses/0', text=text_out,
+                active_guard = for_evaluator(context.gateway_pins.expected_evaluator_version)
+                binding = active_guard.binding(pointer='/hypotheses/0', text=text_out,
                     claim_type='OBJECTIVE_SOURCE_FACT', fact=fact, context=catalog['context'])
-                checked = guard.validate(interpretation, [binding], context.pack, context.package,
+                checked = active_guard.validate(interpretation, [binding], context.pack, context.package,
                                          **json.loads(context.guard_pins_bytes)).document
                 if checked['claims'][0]['status'] != 'SOURCE_FACT_BINDING_VERIFIED':
                     deny('ORIGINAL_GUARD_REFUSED')

@@ -53,6 +53,10 @@ def openapi():
                 "AutomaticDiagnosis": {
                     "type": "object", "properties": {
                         "deterministic_diagnosis": deterministic_schema(),
+                        "page_scope": {"type": ["object", "null"], "properties": {
+                            name: {"type": "array", "items": {"type": "object"}} for name in (
+                                "visited_pages", "failed_attempt_records", "unvisited_candidates", "unknown_coverage")},
+                            "description": "Display actual visited pages as evidence; collapse inventory-only candidates separately. A record without HTTP status does not prove dispatch or a website failure."},
                         "analysis_outcome": {"enum": ["PENDING", "NOT_RUN", "COMPLETED",
                             "INSUFFICIENT_EVIDENCE", "NOT_DISPATCHED", "PROVIDER_FAILED",
                             "VALIDATION_REJECTED", "UNAVAILABLE"]},

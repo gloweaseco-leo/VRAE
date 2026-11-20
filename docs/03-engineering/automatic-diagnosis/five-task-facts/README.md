@@ -1,6 +1,8 @@
 # P0：AI 不可用时，报告仍交付五维事实
 
-本修复仅补齐原结果接口的事实投影与消费契约，不改变五维体系、规则判断、Guard、模型许可或发布状态。
+本修复补齐原结果接口的事实投影与消费契约。Owner 追加的六页采集、通用静态产品/联系证据、
+Qwen 锚点与正式报告通道复用见 [剩余范围与 V1.1 对齐](remaining-scope.md)。
+五维/16 条规则、旧版本判断、原模型许可和发布门槛保持；新来源提取使用独立的 1.0.2 版本。
 不修改 VF 仓库、前端和发布配置。VF 需要按本契约修改自己的适配器及页面；VRAE 补丁尚未合并部署。
 
 ## 这轮真实报告的问题
@@ -132,7 +134,7 @@ reason/failure_stage/provider_attempts/real_model_calls/cost_status，原 AI 成
 撤权、跨主体隔离、真实模型完成门槛等原反测试保留。
 测试模型是明确的隔离替身，不能拿其结果冒充真实 Qwen。
 
-最终结果：18 项隔离 PG 检查通过；与线上一致的 Linux 容器中 82 项服务边界检查通过；最终 lint 通过。
+最初 P0 阶段：18 项隔离 PG 检查通过；与线上一致的 Linux 容器中 82 项服务边界检查通过；当时 lint 通过。
 `pg.log`、`service-boundaries.log`、`lint.log` 和 `validation.json` 保留证据。
 原生 Windows 补充检查 77 通过、5 失败，失败均为原有 POSIX 私有目录 mode 校验在 NTFS 上不适用；
 没有放宽相关检查，同一套检查在实际部署使用的 Linux 平台全部通过。新投影测试在原生 Windows 亦通过。
@@ -140,3 +142,9 @@ reason/failure_stage/provider_attempts/real_model_calls/cost_status，原 AI 成
 `replay.json` 是本地补丁对原真实工件的只读投影验证，不是新线上接口响应；
 本轮没有新增真实模型调用，也没有完成 VF 页面修改/部署或客户业务验收。
 VRAE 合并部署后，VF 团队按本契约完成自己的适配器及展示更新，再由 Owner 独立验收。
+
+扩展后的最终验证见 `extended-validation.json`：六页 PG 全链 27 项通过，历史回放 11 项通过，
+147 个源码文件类型检查通过，最终 lint 通过。先前的旧规则回归 1,526 项通过，测试输入归档摘要另行保留，
+后续来源 profile 接线由最终聚焦测试覆盖。原人审/版本/定向分享通道协议验证已通过，详见 `extended-report-protocol.json`。
+同一真实工件新版本只读回放得到 3 个已通过原字节绑定校验的 INFO-01 文本锚点；原规则仍 UNKNOWN，
+详见 `extended-real-source-replay.json`。没有新增实际模型调用、正式客户批准或上线动作。

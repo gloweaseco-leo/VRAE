@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from time import monotonic
 from urllib.parse import urlsplit, urlunsplit
 
-from .discovery import inventory, page_role, select_next
+from .discovery import inventory, page_role, representative_role, select_next
 from .errors import CollectionError
 from .fetcher import SafeFetcher
 from .limits import Budget, HostLeases, Limits
@@ -32,7 +32,8 @@ class Collector:
             return await self.fetcher.fetch(*args, **kwargs)
 
     async def capture(self, run_id: str, access: SourceAccess, *, limits: Limits | None = None,
-                      budget: Budget | None = None, retain_raw_html: bool = False):
+                      budget: Budget | None = None, retain_raw_html: bool = False,
+                      representative_pages: bool = False):
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{2,127}", run_id):
             raise CollectionError("INPUT_INVALID")
         budget = budget or Budget(limits or Limits(), access)
@@ -64,7 +65,7 @@ class Collector:
                           "discovered_from": access.start_url}]
                 cap = min(budget.limits.max_pages, 5 if access.audit["audit_mode"] == "L0" else 8)
                 while budget.pages < cap:
-                    candidate = select_next(items, attempted, covered)
+                    candidate = select_next(items, attempted, covered, representative=representative_pages)
                     if candidate is None:
                         break
                     url, role = candidate["url"], candidate["role"]
@@ -103,7 +104,7 @@ class Collector:
                                 items.append(item)
                                 known.add(item["url"])
                         attempted.add(response.url)
-                        covered.add(role)
+                        covered.add(representative_role(response.url) if representative_pages else role)
                     except CollectionError as exc:
                         error = exc
                         trace = exc.trace or trace

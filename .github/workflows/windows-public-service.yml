@@ -40,7 +40,7 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: python -m pip install -r requirements-ra4b-p1.lock
       - run: python -B -m pytest -q infra/windows_service/checks
-      - run: python -B -m pytest -q integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_deterministic_result.py
+      - run: python -B -m pytest -q integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_deterministic_result.py integration/authorized_targets/checks/test_universal_sources.py integration/authorized_targets/checks/test_partial_context.py
       - run: python -B -m pytest -q integration/authorized_targets/checks/test_inventory_budget.py tests/rules/seo01_patch_cases.py
       - run: python -B -m pytest -q integration/authorized_targets/checks/test_automatic_pg.py
         env:

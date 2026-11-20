@@ -11,6 +11,7 @@ from jsonschema import Draft202012Validator
 
 from vrae.intelligence.common import encode
 from vrae.interpretation import guard
+from vrae.intelligence.source_guard import for_evaluator
 from .provider import (MODEL, PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvider,
                        digest, fail, strict_json)
 
@@ -83,8 +84,13 @@ def catalog(context):
         kind = entry['type']
         if kind == 'GUARD_LITERAL':
             fact = entry['fact']
-            output.append({'ref': ref, 'type': kind, 'task': RULE_TASK[fact['rule_id']],
-                           'rule_id': fact['rule_id'], 'source_text': 'WITHHELD_BY_DEFAULT'})
+            item = {'ref': ref, 'type': kind, 'task': RULE_TASK[fact['rule_id']],
+                    'rule_id': fact['rule_id'], 'source_text': 'WITHHELD_BY_DEFAULT'}
+            if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.2':
+                item.update(rule_result=fact['observation_result'],
+                    source_fact_role=fact['source']['citation'].get('fact_role'),
+                    literal_source_is_not_rule_pass=True)
+            output.append(item)
         elif kind == 'S2_REVIEW_CARD':
             card = entry['card']
             output.append({'ref': ref, 'type': kind, 'task': card['buyer_task'],
@@ -149,7 +155,11 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
     fields['task']['enum'] = data['selectable_tasks']
     fields['refs']['items'] = {'type': 'string', 'enum': [
         row['ref'] for row in data['references'] if row['type'] == 'GUARD_LITERAL']}
-    body = {'model': MODEL, 'messages': [{'role': 'system', 'content': SYSTEM},
+    system = SYSTEM
+    if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.2':
+        system += (' A literal name or description with rule_result UNKNOWN proves source text only, '
+                   'not rule PASS and not absent specifications. Keep all reasoning conditional.')
+    body = {'model': MODEL, 'messages': [{'role': 'system', 'content': system},
         {'role': 'user', 'content': encode(data).decode()}],
         'response_format': {'type': 'json_schema', 'json_schema': {
             'name': 'buyer_candidates', 'strict': True, 'schema': schema}},
@@ -164,6 +174,7 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
 
 def validate_candidates(text, context, receipt):
     deadline = monotonic() + 5
+    active_guard = for_evaluator(context.gateway_pins.expected_evaluator_version)
     raw = strict_json(text)
     if not VALIDATOR.is_valid(raw):
         fail('CANDIDATE_SCHEMA')
@@ -213,9 +224,9 @@ def validate_candidates(text, context, receipt):
             for n, value in enumerate(interpretation[field]):
                 if UNSAFE.search(value) or guard._contains_instruction(value):
                     fail('UNSAFE_CANDIDATE')
-                bindings.append(guard.binding(pointer=f'/{field}/{n}', text=value,
+                bindings.append(active_guard.binding(pointer=f'/{field}/{n}', text=value,
                     claim_type=claim_type, fact=fact, context=context.catalog['context']))
-        proof = guard.validate(interpretation, bindings, context.pack, context.package,
+        proof = active_guard.validate(interpretation, bindings, context.pack, context.package,
                                **json.loads(context.guard_pins_bytes)).document
         if not proof['claims'] or any(c['status'] != 'HUMAN_REVIEW_REQUIRED' for c in proof['claims']):
             fail('ORIGINAL_GUARD_REFUSED')
