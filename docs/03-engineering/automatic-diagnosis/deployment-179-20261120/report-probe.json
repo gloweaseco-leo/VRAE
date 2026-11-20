@@ -1,0 +1,72 @@
+{
+  "contract": "vrae.windows-public-mtls-probe.v1",
+  "host": "dong.tail27555e.ts.net",
+  "source_sha": "935d5dbb2fb58e1a8f0dbb12809be2feda7ada33",
+  "passed": true,
+  "events": [
+    {
+      "service": "diagnosis",
+      "case": "authorized",
+      "status": 200,
+      "response_sha256": "a6017d71bf4559a607d31436cf766004e3a3477fbd47c9262931b869cc449bc2",
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8",
+      "passed": true
+    },
+    {
+      "service": "diagnosis",
+      "case": "wrong_bearer",
+      "status": 403,
+      "response_sha256": "45594b9d6fc76df85efad52bdbd9a5544f918671fed85d9ad086da21363161a3",
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8",
+      "passed": true
+    },
+    {
+      "service": "diagnosis",
+      "case": "wrong_certificate",
+      "status": 403,
+      "response_sha256": "45594b9d6fc76df85efad52bdbd9a5544f918671fed85d9ad086da21363161a3",
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8",
+      "passed": true
+    },
+    {
+      "service": "diagnosis",
+      "case": "no_certificate",
+      "tls_rejected": true,
+      "exception_type": "SSLError",
+      "passed": true
+    },
+    {
+      "service": "review",
+      "case": "authorized",
+      "status": 200,
+      "response_sha256": "94d5d4f239fa83b2ba7d8c3e4fb8341e1d996c5e9ba22da1bc898330797b814a",
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8",
+      "passed": true
+    },
+    {
+      "service": "review",
+      "case": "wrong_bearer",
+      "status": 403,
+      "response_sha256": "45594b9d6fc76df85efad52bdbd9a5544f918671fed85d9ad086da21363161a3",
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8",
+      "passed": true
+    },
+    {
+      "service": "review",
+      "case": "wrong_certificate",
+      "status": 403,
+      "response_sha256": "45594b9d6fc76df85efad52bdbd9a5544f918671fed85d9ad086da21363161a3",
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8",
+      "passed": true
+    },
+    {
+      "service": "review",
+      "case": "no_certificate",
+      "tls_rejected": true,
+      "exception_type": "SSLError",
+      "passed": true
+    }
+  ],
+  "external_network": false,
+  "customer_diagnosis_complete": false
+}
