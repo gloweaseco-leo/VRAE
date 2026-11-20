@@ -43,7 +43,7 @@ Bearer 均必需；错 Bearer/错证书 403，无证书 TLS 拒绝。调用方�
   [最终运行/DNS/PG/AI回执](evidence/final-runtime-dns-pg-ai.json)、
   [冷备份与升级](evidence/final-deployment-and-cold-backup.json)、
   [持久Ledger文件哈希](evidence/persistent-approved-and-revoked-ledgers.json)。
-- 当前镜像 70 项 Windows/运维/模型许可回归通过，`mypy vrae` 的140个源文件通过。
+- 当前镜像 93 项 Windows/运维/模型许可/服务身份回归通过；核心140文件类型检查此前通过，本次未修改核心。
   原封不动的 B5A 源码冻结检查通过；没有修改其黄金基线。
 
 ## 接口契约
