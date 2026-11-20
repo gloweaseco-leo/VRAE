@@ -19,6 +19,27 @@ def error(code):
     }
 
 
+def deterministic_schema():
+    observation = {"type": "object", "required": ["result", "statement", "evidence_ids"],
+        "properties": {
+            "result": {"enum": ["PASS", "FAIL_WITH_EVIDENCE", "UNKNOWN", "NOT_APPLICABLE", "ACCESS_BLOCKED"]},
+            "statement": {"type": "string"}, "evidence_ids": {"type": "array"}}}
+    row = {"type": "object", "required": ["observation", "reason"], "properties": {
+        "observation": observation, "reason": {"type": ["string", "null"]},
+        "citations": {"type": "array", "items": {"type": "object"}}}}
+    rule = {"type": "object", "required": ["rule_id", "buyer_task", "observations"], "properties": {
+        "rule_id": {"type": "string"}, "buyer_task": {"type": "string"},
+        "observations": {"type": "array", "items": row}}}
+    task = {"type": "object", "required": ["task", "rules"], "properties": {
+        "task": {"enum": ["DISCOVER", "UNDERSTAND", "TRUST", "INQUIRE", "SEARCH_TECHNICAL"]},
+        "rules": {"type": "array", "items": rule}}}
+    return {"type": ["object", "null"],
+        "description": "Committed rule rows remain available in AI_PENDING and AI_UNAVAILABLE. Original industrial fields retained. Not AI claims or dimension scores.",
+        "properties": {"native_execution_ref": {"type": "string"},
+            "rule_evaluator_version": {"type": "string"},
+            "buyer_tasks": {"type": "array", "minItems": 5, "maxItems": 5, "items": task}}}
+
+
 def openapi():
     return {
         "openapi": "3.1.0",
@@ -31,6 +52,7 @@ def openapi():
                 "ApiError": {"type": "object", "required": ["api_version", "error"]},
                 "AutomaticDiagnosis": {
                     "type": "object", "properties": {
+                        "deterministic_diagnosis": deterministic_schema(),
                         "analysis_outcome": {"enum": ["PENDING", "NOT_RUN", "COMPLETED",
                             "INSUFFICIENT_EVIDENCE", "NOT_DISPATCHED", "PROVIDER_FAILED",
                             "VALIDATION_REJECTED", "UNAVAILABLE"]},
@@ -42,6 +64,7 @@ def openapi():
                             "inventory_truncated": {"type": "boolean"},
                             "unvisited_is_defect": {"const": False}}},
                         "model": {"type": ["object", "null"], "properties": {
+                            "reason": {"type": ["string", "null"]},
                             "provider_attempts": {"type": ["integer", "null"], "minimum": 0},
                             "real_model_calls": {"type": ["integer", "null"], "minimum": 0},
                             "cost_status": {"type": ["string", "null"]},
@@ -66,7 +89,7 @@ def openapi():
             },
             "/v1/audits/{audit_ref}/diagnosis": {
                 "get": {"summary": "Same-subject automated diagnosis, citations and suggestions",
-                    "description": "AutomaticDiagnosis includes capture counts and analysis_outcome; the existing outer state and diagnosis_complete gate are retained.",
+                    "description": "Render deterministic_diagnosis.buyer_tasks independently of AI state/claims/diagnosis_complete. Render analysis_outcome, capture_summary, and model.failure_stage separately; unvisited is not a defect. Existing outer state and diagnosis_complete gate are retained.",
                     "x-vrae-response-schema": {"$ref": "#/components/schemas/AutomaticDiagnosis"},
                     "responses": {"200": {"description": "Diagnosis or explicit unavailable"},
                         "202": {"description": "Capture or model pending"},

@@ -1,0 +1,92 @@
+{
+  "scope": "READ_ONLY_EXISTING_TASK_NO_CAPTURE_OR_MODEL",
+  "checked_at": "2026-11-20T10:28:01.575604+00:00",
+  "pdf_sha256": "1b5565c79b5d2f19736c33b193762c666f2220b7d8474fdede8e426650fa4480",
+  "artifact_sha256": "7a84a909bc28fbcbe619752dfdfbcfb9de4c2976c7a51573db09237ec3f9c001",
+  "dto": {
+    "state": "AI_UNAVAILABLE",
+    "diagnosis_complete": false,
+    "analysis_outcome": "INSUFFICIENT_EVIDENCE",
+    "capture_summary": {
+      "candidate_urls": 57,
+      "page_records": 4,
+      "fetched_pages": 4,
+      "unvisited_candidates": 53,
+      "http_requests_including_robots": 5,
+      "timeout_page_records": 0,
+      "inventory_truncated": false,
+      "unvisited_is_defect": false
+    },
+    "evidence_count": 4,
+    "evidence_statuses": {
+      "OBSERVED": 4
+    },
+    "coverage_classes": {
+      "UNKNOWN/ROLE_NOT_VERIFIED": 4,
+      "NOT_VISITED/INVENTORY_ONLY": 53,
+      "OBSERVED/BOUNDED_CAPTURE_ONLY": 4
+    },
+    "deterministic_diagnosis_present": true
+  },
+  "snapshot_without_ids": {
+    "artifact_count": 22,
+    "artifact_rows_sha256": "44855c8802d1e5470be5fa078d4ff5ed278874089d6f8c50bdb46d4e8b3798ce",
+    "ai_receipt_count": 22,
+    "ai_receipts_sha256": "b6a544e3fff136eeb5d57d1a643b62b9f0e377a34f2a52fa2383e5cdda58d08c",
+    "pending_or_leased": 0,
+    "unrecorded_ai_jobs": 0
+  },
+  "projection_replay": {
+    "deployed_endpoint_changed": false,
+    "source": "LOCAL_PATCH_ON_ORIGINAL_RETAINED_ARTIFACT",
+    "buyer_tasks": [
+      {
+        "task": "DISCOVER",
+        "rule_count": 3,
+        "results": {
+          "PASS": 2,
+          "UNKNOWN": 2
+        },
+        "citation_count": 2
+      },
+      {
+        "task": "UNDERSTAND",
+        "rule_count": 3,
+        "results": {
+          "UNKNOWN": 3
+        },
+        "citation_count": 0
+      },
+      {
+        "task": "TRUST",
+        "rule_count": 3,
+        "results": {
+          "UNKNOWN": 3
+        },
+        "citation_count": 0
+      },
+      {
+        "task": "INQUIRE",
+        "rule_count": 3,
+        "results": {
+          "UNKNOWN": 3
+        },
+        "citation_count": 0
+      },
+      {
+        "task": "SEARCH_TECHNICAL",
+        "rule_count": 4,
+        "results": {
+          "UNKNOWN": 4
+        },
+        "citation_count": 2
+      }
+    ]
+  },
+  "quota": {
+    "call_count": 9,
+    "logical_sha256": "9a59d0b8664613f6c1d1e237a98d8ccd5cb01a7dba042be1fb682d8b626a2886"
+  },
+  "new_real_model_calls": 0,
+  "selected_same_artifact_as_incident": true
+}

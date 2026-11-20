@@ -29,6 +29,8 @@ from vrae.intelligence.qwen.provider import MODEL_SOURCE, PROMPT
 from vrae.intelligence.qwen.testing import FakeTransport
 from vrae.intelligence.qwen.session import RULE_TASK
 from integration.authorized_targets.automatic_result import TASKS
+from integration.authorized_targets.api_contract import openapi
+from jsonschema import Draft202012Validator
 from tests.collection.test_pipeline import FixedDNS, SyntheticTransport
 from vrae.collection.collector import Collector
 from vrae.collection.fetcher import SafeFetcher
@@ -182,6 +184,11 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert result['capture_summary']['fetched_pages'] == 4
         assert result['capture_summary']['http_requests_including_robots'] == 5
         assert result['capture_summary']['unvisited_candidates'] > 150
+        pending_facts = deepcopy(result['deterministic_diagnosis'])
+        assert [t['task'] for t in pending_facts['buyer_tasks']] == list(TASKS)
+        rows = [o for t in pending_facts['buyer_tasks'] for r in t['rules'] for o in r['observations']]
+        assert any(o['observation']['result'] == 'PASS' and o.get('citations') for o in rows)
+        assert any(o['observation']['result'] == 'UNKNOWN' and o['reason'] for o in rows)
     # Wait for the original 30s lease to end; never rewrite completion timestamps.
     time.sleep(31)
     selected = adapter(bindings['ai'], job, {})
@@ -220,6 +227,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert dto['state'] == 'AI_UNAVAILABLE' and not dto['diagnosis_complete']
         assert dto['buyer_tasks'] == list(TASKS)
         assert dto['deterministic_diagnosis'] and dto['evidence']
+        assert dto['deterministic_diagnosis'] == pending_facts
         assert 'objects_base64' not in dto and not dto['formal_human_review']
     # Unit-check the supplier-success DTO shape using explicitly synthetic
     # receipt metadata. This is not evidence of a real supplier call.
@@ -227,11 +235,29 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         value = connection.execute('SELECT target_v1.automatic_diagnosis(%s,%s,%s,%s)',
             (tenant, cookie, csrf, ref)).fetchone()[0]
     synthetic = deepcopy(value)
+    schema = openapi()['components']['schemas']['AutomaticDiagnosis']
+    Draft202012Validator.check_schema(schema)
+    for reason, stage, attempts, expected in (
+            ('INSUFFICIENT_GUARDED_EVIDENCE', 'CONTEXT', 0, 'INSUFFICIENT_EVIDENCE'),
+            ('PROVIDER_GO_NOT_GRANTED', 'PREFLIGHT', 0, 'NOT_DISPATCHED'),
+            ('SYNTHETIC_PROVIDER_FAILURE', 'PROVIDER', 1, 'PROVIDER_FAILED'),
+            ('SYNTHETIC_VALIDATION_REJECTION', 'VALIDATION', 1, 'VALIDATION_REJECTED')):
+        failed = deepcopy(value)
+        failed['receipt'].update(state='AI_UNAVAILABLE', reason=reason, failure_stage=stage,
+                                 provider_attempts=attempts, claims=[])
+        code, report = project(failed, ref)
+        assert code == 200 and report['analysis_outcome'] == expected
+        assert report['deterministic_diagnosis'] == pending_facts
+        assert report['capture_summary']['fetched_pages'] == 4
+        assert report['model']['failure_stage'] == stage
+        assert not report['diagnosis_complete'] and not report['claims']
+        Draft202012Validator(schema).validate(report)
     synthetic['receipt'].update(verification_realm='REAL_PROVIDER', real_model_calls=1)
     synthetic['receipt']['usage']['usage_origin'] = 'PROVIDER_REPORTED'
     code, dto = project(synthetic, ref)
     assert code == 200 and dto['diagnosis_complete'] and dto['state'] == 'DIAGNOSED'
     assert dto['analysis_outcome'] == 'COMPLETED'
+    assert dto['deterministic_diagnosis'] == pending_facts
     assert dto['claims'][0]['source_bindings'] and dto['claims'][0]['rebuild']
     synthetic['receipt']['artifact_sha256'] = '0' * 64
     with pytest.raises(ValueError, match='SAME_COMMITTED_AI_BINDING_REQUIRED'):

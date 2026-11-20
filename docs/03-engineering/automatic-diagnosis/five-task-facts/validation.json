@@ -1,0 +1,33 @@
+{
+  "disposable_pg": {
+    "passed": 18,
+    "failed": 0,
+    "network": "NONE",
+    "shared_model_ledger_access": false
+  },
+  "final_lint": [
+    {
+      "name": "lint",
+      "exit_code": 0
+    }
+  ],
+  "first_pg_run": {
+    "passed": 16,
+    "failed": 2,
+    "cause": "test setup blocked event-loop local socketpair; fixed to block sockets after synthetic fixture construction"
+  },
+  "linux_service_boundaries": {
+    "exit_code": 0,
+    "runtime_platform": "Linux (same as deployed Docker service)",
+    "network": "NONE",
+    "shared_ledger_access": false
+  },
+  "windows_host": {
+    "passed": 77,
+    "failed": 5,
+    "limitation": "Original POSIX private-directory mode checks cannot pass on native NTFS; unchanged. Initial default pytest temp ACL issue avoided with a workspace temp directory. New projection tests passed on native Windows."
+  },
+  "real_task_replayed_without_new_capture_or_model": true,
+  "deployed": false,
+  "vf_code_modified": false
+}

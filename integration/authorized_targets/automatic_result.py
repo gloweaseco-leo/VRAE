@@ -7,8 +7,28 @@ from integration.authorized_targets.store import connect
 from integration.authorized_targets.source_authority import authorization
 from integration.qwen_provider.postcommit import InputPins, replay_input
 from vrae.l2.native import NativeTask
+from vrae.industry.l2_v1.diagnose import SOURCE_VERSIONS
+from vrae.rules.patch_execution import execute
 
 TASKS = ('DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL')
+
+
+def deterministic_diagnosis(pack, diagnosis):
+    """Deliver original five-task rule rows, independently of model eligibility.
+
+    Industrial assessments and Qwen's narrower Guard catalog are not the whole
+    deterministic diagnosis. Replay the exact committed evaluator version;
+    never promote these rows into model claims or invent a dimension score.
+    """
+    evaluator = SOURCE_VERSIONS[diagnosis['diagnostic_version']][0]
+    execution = execute(pack, expected_pack_ref=pack.ref, evaluator_version=evaluator)
+    if execution['execution_ref'] != diagnosis['native_execution_ref']:
+        raise ValueError('SAME_COMMITTED_RULE_EXECUTION_REQUIRED')
+    result = deepcopy(diagnosis)
+    result['rule_evaluator_version'] = evaluator
+    result['buyer_tasks'] = [{'task': task, 'rules': deepcopy([
+        r for r in execution['executions'] if r['buyer_task'] == task])} for task in TASKS]
+    return result
 
 
 def capture_summary(pack):
@@ -66,7 +86,7 @@ def project(value, audit_ref):
         capture_summary=capture_summary(pack),
         artifact_sha256=value['artifact_sha256'],
         report_content_hash=artifact['version']['content_hash'],
-        deterministic_diagnosis=deepcopy(artifact['diagnosis']),
+        deterministic_diagnosis=deterministic_diagnosis(pack, artifact['diagnosis']),
         evidence=[{k: s[k] for k in ('snapshot_ref', 'url', 'status', 'observed_at')}
                   for s in pack.document['snapshots']],
         coverage=deepcopy(pack.document['coverage']))
