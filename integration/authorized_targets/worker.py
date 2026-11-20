@@ -47,8 +47,18 @@ def execute(binding, workload, port, lease):
     request = dict(loaded["submission"]["command"]["request"])
     request.update(request_id=task["request_id"], audit_id=task["request_id"])
 
+    checks = {'calls': 0, 'seconds': 0.0}
+
+    def current():
+        started_check = time.monotonic()
+        try:
+            return port.call('load', *args)
+        finally:
+            checks['calls'] += 1
+            checks['seconds'] += time.monotonic() - started_check
+
     def current_policy():
-        return port.call("load", *args)["plan"]["policy"]
+        return current()["plan"]["policy"]
 
     remaining = (until - datetime.now(UTC)).total_seconds() - 3
     if remaining < 1:
@@ -59,14 +69,10 @@ def execute(binding, workload, port, lease):
         "task_seconds": remaining,
     }
     started = time.monotonic()
-    captured = capture(
-        request,
-        current_policy,
-        plan,
-        task["run_id"],
-        bounded,
-        current=lambda: port.call("load", *args),
-    )
+    try:
+        captured = capture(request, current_policy, plan, task['run_id'], bounded, current=current)
+    finally:
+        print(json.dumps({'worker_phase': 'CAPTURE_AUTHORITY_CHECKS', **checks}), flush=True)
     print(
         json.dumps(
             {

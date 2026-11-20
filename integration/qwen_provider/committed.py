@@ -13,6 +13,7 @@ import threading
 from vrae.intelligence.common import encode as canonical
 from integration.qwen_provider.postcommit import InputPins, replay_input
 from vrae.intelligence.qwen import QwenError
+from vrae.intelligence.qwen.provider import digest
 from vrae.intelligence.s3 import Session, S3Error, prepare_context
 from vrae.intelligence.s3.committed import CommittedCompletionPins
 from vrae.l2.native import NativeTask
@@ -87,6 +88,7 @@ class Adapter:
                   'approval_status': 'NOT_APPROVED'}
         if self._provider is not None:
             output.update(real_model_calls=None, provider_attempts=None, cost_status='UNKNOWN')
+        phase = 'INPUT'
         try:
             if type(operation) is not str or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{7,127}', operation):
                 raise S3Error('COMMITTED_OPERATION_INVALID')
@@ -120,6 +122,19 @@ class Adapter:
             task = NativeTask(**d['native_document']['native_context'])
             pins = InputPins(task, commit['artifact_sha256'], d['version']['content_hash'], d['display_hash'])
             pack, source = replay_input(canonical(d), pins=pins)
+            if self._provider is not None:
+                # Read the SAME durable ledger before calling a preflight zero.
+                # A restarted/cached operation may already have incurred usage.
+                identity = digest({'scope': {k: pack.document[k] for k in
+                    ('tenant_id', 'run_id', 'policy_id', 'policy_version')}, 'operation': operation})
+                previous = self._provider.quota.receipt(identity)
+                reserved = self._provider.quota.dispatched(identity)
+                output.update(usage=previous,
+                    provider_attempts=1 if reserved else 0,
+                    real_model_calls=(previous['real_model_calls'] if previous else
+                        None if reserved and not self._provider.protocol_fake else 0),
+                    cost_status=(previous['cost_status'] if previous else
+                        'UNKNOWN' if reserved else 'NOT_INCURRED_BY_THIS_OPERATION'))
 
             def recheck(checked_source, now):
                 try:
@@ -145,6 +160,7 @@ class Adapter:
                 datetime.fromisoformat(commit['committed_at']),
                 min(datetime.fromisoformat(t) for t in deadlines),
                 commit['transaction_id'], pins.artifact_sha256, hashlib.sha256(frozen).hexdigest(), recheck)
+            phase = 'CONTEXT'
             context = prepare_context(pack, source, self._projection, buyer_pins=self._buyer_pins,
                                       completion=completion, now=self._clock())
             if self._session is None:
@@ -153,7 +169,12 @@ class Adapter:
                 raise S3Error('COMMITTED_INPUT_MISMATCH')
             if self._provider is None:
                 output['reason'] = 'PROVIDER_GO_NOT_GRANTED'
+                output['failure_stage'] = 'PREFLIGHT'
                 return output
+            # From this point Session may dispatch or return a cached operation.
+            # Keep uncertainty if it raises without a result; preflight is zero.
+            output.update(real_model_calls=None, provider_attempts=None, cost_status='UNKNOWN')
+            phase = 'SESSION_UNKNOWN'
             result = asyncio.run(self._session.run(operation, mode='REAL_QWEN', provider=self._provider,
                                                   timeout_ms=self._timeout))
             output.update(state=result['status'], reason=result['code'], claims=result['claims'],
@@ -161,13 +182,15 @@ class Adapter:
                 provider_attempts=result['provider_attempts'], context_ref=result['context_ref'],
                 deterministic_report_hash=result['deterministic_report_hash'],
                 verification_realm=result['verification_realm'])
+            output['failure_stage'] = result.get('failure_stage')
             output['cost_status'] = (result['usage']['cost_status'] if result['usage'] is not None else
                 'NOT_INCURRED_BY_THIS_OPERATION' if result['provider_attempts'] == 0 else 'UNKNOWN')
             # Covers cached results as well as fresh dispatch. Preserve durable
             # usage on refusal; candidates cannot survive lost source authority.
+            phase = 'CURRENT_AUTHORITY'
             completion.check(source, self._clock())
         except (S3Error, QwenError) as error:
-            output.update(state='AI_UNAVAILABLE', reason=str(error), claims=[])
+            output.update(state='AI_UNAVAILABLE', reason=str(error), claims=[], failure_stage=phase)
         except Exception:
-            output.update(state='AI_UNAVAILABLE', reason='COMMITTED_INPUT_UNAVAILABLE', claims=[])
+            output.update(state='AI_UNAVAILABLE', reason='COMMITTED_INPUT_UNAVAILABLE', claims=[], failure_stage=phase)
         return output

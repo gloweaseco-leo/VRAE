@@ -130,7 +130,9 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins 
         task = completion.task
         if task.native_pack_ref != pack.ref:
             deny()
-        data = diagnose(pack, expected_pack_ref=task.native_pack_ref, expected_industry_ref=task.industry_ref)
+        diagnostic_version = source.read().document['producer']['native_diagnostic_version']
+        data = diagnose(pack, expected_pack_ref=task.native_pack_ref, expected_industry_ref=task.industry_ref,
+                        diagnostic_version=diagnostic_version)
         if data['diagnosis_ref'] != task.diagnosis_ref:
             deny()
         rebuilt = NativeSource(pack, data, held=task)
@@ -142,14 +144,14 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins 
             candidate: dict = {'candidate_ref': 'site-' + document_hash({'pack_ref': pack.ref}), 'cards': []}
         else:
             candidate = build_candidate(pack, projection, held=buyer_pins)
-        execution, package, _, _ = source_chain(pack, task.native_pack_ref)
+        execution, package, _, _ = source_chain(pack, task.native_pack_ref, diagnostic_version=diagnostic_version)
         producer = source.read().document['producer']
         if (execution['execution_ref'] != producer['native_execution_ref']
                 or package.ref != producer['native_package_ref']):
             deny()
         scope = Scope(**{k: pack.document[k] for k in ('tenant_id', 'run_id', 'policy_id', 'policy_version')})
         pins = InputPins(pack.ref, execution['execution_ref'], package.ref,
-                         'ra2b6-1.0.0', 'ra2c3-1.0.0', scope)
+                         execution['evaluator_version'], package.document['builder_version'], scope)
         prepare_request(pack, execution, package, pins=pins)
         gp = {k: v for k, v in asdict(pins).items() if k != 'scope'}
         gp.update(expected_scope=asdict(scope), expected_guard_version=guard.VERSION)
@@ -173,7 +175,9 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins 
                 deny()
             entries[conflict['observation']['observation_id']] = {'type': 'CONFIGURATION_CONFLICT',
                 'assessment': conflict}
-        if not 1 <= len(entries) <= 128 or len(encode(entries)) > 512_000:
+        if not entries:
+            deny('INSUFFICIENT_GUARDED_EVIDENCE')
+        if len(entries) > 128 or len(encode(entries)) > 512_000:
             deny('LOCAL_CATALOG_BOUND')
         descriptor = {'version': VERSION, 'prompt': PROMPT, 'claim_schema_ref': document_hash(CLAIM_SCHEMA),
             'task': asdict(task),

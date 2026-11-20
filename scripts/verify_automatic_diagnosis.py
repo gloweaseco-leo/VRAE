@@ -4,6 +4,7 @@ Stage Git-visible source on container tmpfs so Windows bind-mount latency does
 not consume the original Guard's unchanged five-second validation deadline.
 """
 import hashlib
+import argparse
 import json
 from pathlib import Path
 import subprocess
@@ -20,15 +21,25 @@ def run(*args, **kwargs):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--checks', nargs='+', choices=['pg', 'regression', 'history', 'types', 'lint'],
+                        default=['pg', 'regression', 'history', 'types', 'lint'])
+    selected = parser.parse_args().checks
     identity = 'vrae-auto-' + uuid.uuid4().hex[:12]
     output = ROOT / 'infra/authorized_targets/.private' / identity
     output.mkdir(parents=True)
     archive = output / 'source.tar'
     paths = run('git', 'ls-files', '--cached', '--others', '--exclude-standard', '-z').decode().split('\0')
     included = []
+    # Only the seven small documents pinned by the existing history replay;
+    # keep the remaining large documentation archive out of the test image.
+    history_docs = set()
+    for fixture, key in (('fixed-replay.json', 'historical_sha256'), ('preserved-history.json', 'sha256')):
+        history_docs.update(json.loads((ROOT / 'tests/interpretation/fixtures' / fixture).read_text())[key])
     with tarfile.open(archive, 'w') as tar:
         for path in sorted(set(paths)):
-            if not path or path.startswith(('docs/', '.git/')) or not (ROOT / path).is_file():
+            if (not path or path.startswith('.git/') or path.startswith('docs/') and path not in history_docs
+                    or not (ROOT / path).is_file()):
                 continue
             tar.add(ROOT / path, arcname=path, recursive=False)
             included.append(path)
@@ -38,27 +49,42 @@ def main():
     pg = identity + '-pg'
     created = False
     try:
-        run('docker', 'run', '-d', '--network', 'none', '--name', pg, '--label', LABEL + '=' + identity,
-            '-e', 'POSTGRES_PASSWORD=synthetic-automatic-pg-only', '-e', 'POSTGRES_DB=vrae_ra4a_p1',
-            'postgres:16-alpine')
-        created = True
-        for _ in range(30):
-            if subprocess.run(['docker', 'exec', pg, 'pg_isready', '-U', 'postgres'],
-                              capture_output=True).returncode == 0:
-                break
-            time.sleep(1)
+        if 'pg' in selected:
+            run('docker', 'run', '-d', '--network', 'none', '--name', pg, '--label', LABEL + '=' + identity,
+                '-e', 'POSTGRES_PASSWORD=synthetic-automatic-pg-only', '-e', 'POSTGRES_DB=vrae_ra4a_p1',
+                'postgres:16-alpine')
+            created = True
+            for _ in range(30):
+                if subprocess.run(['docker', 'exec', pg, 'pg_isready', '-U', 'postgres'],
+                                  capture_output=True).returncode == 0:
+                    break
+                time.sleep(1)
         suites = [
             ('pg', ['--network', 'container:' + pg, '-e', 'VRAE_AUTOMATIC_PG_TEST=1'],
              'python -B -m pytest -q -p no:cacheprovider integration/authorized_targets/checks/test_automatic_pg.py'),
             ('regression', ['--network', 'none'],
              'python -B -m pytest -q -p no:cacheprovider infra/windows_service/checks '
              'infra/linux_service/checks/test_qwen_runtime.py integration/authorized_targets/checks/test_source_authority.py '
+             'integration/authorized_targets/checks/test_inventory_budget.py '
+             'tests/rules tests/findings tests/interpretation tests/industry/l2_cases.py '
+             '--ignore=tests/interpretation/test_fixed_replay.py '
              'tests/intelligence/qwen_provider_cases.py tests/intelligence/qwen_committed_cases.py '
              'tests/intelligence/qwen_postcommit_cases.py'),
+            ('history', ['--network', 'none'],
+             'python -B -m pytest -q -p no:cacheprovider tests/interpretation/test_fixed_replay.py tests/rules/seo01_patch_cases.py'),
             ('types', ['--network', 'none'],
-             'python -m mypy vrae/intelligence/s3/offline.py vrae/intelligence/qwen/session.py'),
+             'python -m mypy --explicit-package-bases vrae infra/qwen_provider'),
+            ('lint', ['--network', 'none'],
+             'python -m ruff check vrae integration/authorized_targets/automatic_result.py '
+             'integration/authorized_targets/egress.py integration/authorized_targets/capture.py '
+             'integration/authorized_targets/producer.py integration/authorized_targets/worker.py '
+             'integration/authorized_targets/checks/test_inventory_budget.py '
+             'tests/rules/seo01_patch_cases.py integration/qwen_provider/committed.py '
+             'tests/intelligence/qwen_committed_cases.py --select E4,E7,E9,F'),
         ]
         for name, network, command in suites:
+            if name not in selected:
+                continue
             print('RUN ' + name, flush=True)
             process = subprocess.run(['docker', 'run', '--rm', *network,
                 '--label', LABEL + '=' + identity, '--tmpfs', '/work', '--tmpfs', '/tmp', '--tmpfs', '/run',

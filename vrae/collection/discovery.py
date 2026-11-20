@@ -60,6 +60,11 @@ def inventory(body: bytes, base_url: str, access: SourceAccess) -> tuple[list[di
     parser.feed(text)
     if not parser.has_html:
         raise CollectionError("EVIDENCE_INSUFFICIENT")
+    with access.inventory_scope() as discovery_access:
+        return _inventory_links(parser, base_url, discovery_access, truncated)
+
+
+def _inventory_links(parser, base_url, access, truncated):
     found = {}
     for href in parser.links:
         try:

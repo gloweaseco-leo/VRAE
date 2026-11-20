@@ -6,6 +6,7 @@ import re
 from vrae.collection.manifest import document_hash
 from vrae.evidence import EvidencePack
 from vrae.findings import FindingPackage
+from vrae.findings.builder import SOURCE_VERSION_PAIRS
 from .common import GatewayError, encode, integer
 
 VERSION = 'ra3a-request-1.0.0'
@@ -66,8 +67,8 @@ def prepare_request(pack, execution, package, *, pins: InputPins):
     try:
         if (type(pack) is not EvidencePack or type(package) is not FindingPackage
                 or type(pins) is not InputPins or type(pins.scope) is not Scope
-                or pins.expected_builder_version != 'ra2c3-1.0.0'
-                or pins.expected_evaluator_version != 'ra2b6-1.0.0'):
+                or (pins.expected_evaluator_version, pins.expected_builder_version)
+                    not in SOURCE_VERSION_PAIRS):
             raise GatewayError('INPUT_INTEGRITY')
         expected = {k: v for k, v in asdict(pins).items() if k != 'scope'}
         checked = FindingPackage.load(package.document, pack, **expected).document

@@ -22,6 +22,9 @@ from .pack import load
 from .contracts import validate_export
 
 VERSION = "l2-industrial-1.0.0"
+PATCH_VERSION = "l2-industrial-1.0.1"
+SOURCE_VERSIONS = {VERSION: ("ra2b6-1.0.0", "ra2c3-1.0.0"),
+                   PATCH_VERSION: ("ra2b6-1.0.1", "ra2c3-1.0.1")}
 IMPACTS = {
     "IND-SELECTION": "The recorded route and model labels may help a buyer shortlist this item; actual navigation usability and SKU identity have not been independently verified.",
     "IND-SPEC": "Unresolved model-specific specification fields may require clarification before a technical comparison; unobserved alternative datasheets may supply them.",
@@ -40,10 +43,13 @@ def normalized(text):
     return " ".join(text.split()).casefold()
 
 
-def source_chain(pack, expected_pack_ref):
-    execution = execute(pack, expected_pack_ref=expected_pack_ref, evaluator_version="ra2b6-1.0.0")
+def source_chain(pack, expected_pack_ref, *, diagnostic_version=VERSION):
+    if diagnostic_version not in SOURCE_VERSIONS:
+        denied()
+    evaluator, builder = SOURCE_VERSIONS[diagnostic_version]
+    execution = execute(pack, expected_pack_ref=expected_pack_ref, evaluator_version=evaluator)
     pins = dict(expected_pack_ref=expected_pack_ref, expected_execution_ref=execution["execution_ref"],
-                expected_evaluator_version="ra2b6-1.0.0", expected_builder_version="ra2c3-1.0.0")
+                expected_evaluator_version=evaluator, expected_builder_version=builder)
     package = build_findings(pack, execution, **pins)
     pins.update(expected_package_ref=package.ref, expected_guard_version="ra3b-disc-1.0.0",
                 expected_scope={k: pack.document[k] for k in ("tenant_id", "run_id", "policy_id", "policy_version")})
@@ -317,14 +323,15 @@ def procurement_projection(assessments, profile):
     return chains, coverage
 
 
-def diagnose(pack, *, expected_pack_ref, expected_industry_ref):
+def diagnose(pack, *, expected_pack_ref, expected_industry_ref, diagnostic_version=VERSION):
     config = load(tenant_id=pack.document["tenant_id"])
     if config["industry_ref"] != expected_industry_ref or config["industry_pack"]["tenant_id"] != pack.document["tenant_id"]:
         denied()
-    execution, package, facts, bundles = source_chain(pack, expected_pack_ref)
+    execution, package, facts, bundles = source_chain(
+        pack, expected_pack_ref, diagnostic_version=diagnostic_version)
     assessments, rfq_packets = analyze(pack, execution, facts, config["profile"])
     chains, rule_coverage = procurement_projection(assessments, config["profile"])
-    result = dict(schema_version="1.0", diagnostic_version=VERSION, diagnostic_depth="L2",
+    result = dict(schema_version="1.0", diagnostic_version=diagnostic_version, diagnostic_depth="L2",
                   **{k: pack.document[k] for k in ("tenant_id", "run_id")}, industry_ref=expected_industry_ref,
                   industry_pack=config["industry_pack"], profile=config["profile"], expected_pack_ref=pack.ref,
                   native_execution_ref=execution["execution_ref"], native_package_ref=package.ref,
@@ -348,7 +355,8 @@ def verify(result, pack, *, expected_result_ref, expected_pack_ref, expected_ind
     try:
         if result["diagnosis_ref"] != expected_result_ref:
             denied()
-        rebuilt = diagnose(pack, expected_pack_ref=expected_pack_ref, expected_industry_ref=expected_industry_ref)
+        rebuilt = diagnose(pack, expected_pack_ref=expected_pack_ref, expected_industry_ref=expected_industry_ref,
+                           diagnostic_version=result["diagnostic_version"])
         if encode(deepcopy(result)) != encode(rebuilt):
             denied()
     except Exception:

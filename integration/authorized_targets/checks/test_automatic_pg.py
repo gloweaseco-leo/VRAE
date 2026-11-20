@@ -100,14 +100,17 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         with current(app, *sessions[1], ref):
             pytest.fail('CROSS_SUBJECT_READ')
 
+    dense_links = b''.join(f'<a href="/products/item-{i:03d}">Item</a>'.encode() for i in range(154))
     routes = {'https://supplier.example.com/robots.txt': (200, {'content-type': 'text/plain'},
         b'User-agent: *\nDisallow: /forbidden\n'),
         body['url']: (200, {'content-type': 'text/html'},
-        b'<html><head><title>Industrial supplier</title><link rel="canonical" href="https://supplier.example.com/"></head><body><h1>Export equipment</h1>'
+        b'<html><head><title>Industrial supplier</title><link rel="canonical" href="https://supplier.example.com/"/><meta name="description" content="Export equipment"/></head><body><h1>Export equipment</h1>'
         b'<a href="/products">Products</a><a href="/contact">Contact</a>'
-        b'<a href="/login">Login</a><a href="/forbidden">Forbidden</a></body></html>'),
+        b'<a href="/login">Login</a><a href="/forbidden">Forbidden</a>' + dense_links + b'</body></html>'),
         'https://supplier.example.com/products': (200, {'content-type': 'text/html'},
-        b'<html><head><title>Product information</title></head><body><h1>Equipment catalog</h1></body></html>'),
+        b'<html><head><title>Product information</title></head><body><h1>Equipment catalog</h1>' + dense_links + b'</body></html>'),
+        'https://supplier.example.com/products/item-000': (200, {'content-type': 'text/html'},
+        Path('tests/fixtures/sites/product-info-valve.html').read_bytes()),
         'https://supplier.example.com/contact': (200, {'content-type': 'text/html'},
         b'<html><head><title>Contact supplier</title></head><body><h1>Contact</h1></body></html>')}
     transport = SyntheticTransport(routes)
@@ -122,7 +125,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
             with pytest.raises(Exception):
                 access.check(forbidden)
         return asyncio.run(Collector(SafeFetcher(FixedDNS(), transport)).capture(run_id,
-            access, limits=Limits(max_pages=4, interval_seconds=0.01), retain_raw_html=True))
+            access, limits=Limits(**plan['limits']), retain_raw_html=True))
     monkeypatch.setattr(worker, 'capture', capture)
     port = store.WorkerPort(bindings['worker'])
     try:
@@ -136,12 +139,22 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     assert all('/login' not in url and '/forbidden' not in url for url, _, _ in transport.calls)
     with current(app, cookie, csrf, ref) as (code, result):
         assert code == 202 and result['state'] == 'AI_PENDING' and result['evidence']
+        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.1'
+        assert result['capture_summary']['fetched_pages'] == 4
+        assert result['capture_summary']['http_requests_including_robots'] == 5
+        assert result['capture_summary']['unvisited_candidates'] > 150
     # Wait for the original 30s lease to end; never rewrite completion timestamps.
     time.sleep(31)
     selected = adapter(bindings['ai'], job, {})
     request_result = execute(bindings['ai'], job, selected, operation_id='preflight-' + job)
     assert request_result['reason'] == 'PROVIDER_GO_NOT_GRANTED', request_result
+    assert request_result['provider_attempts'] == request_result['real_model_calls'] == 0
+    with current(app, cookie, csrf, ref) as (code, dto):
+        # The existing read port selects the canonical service-ai operation;
+        # this separate preflight does not replace that immutable receipt.
+        assert dto['analysis_outcome'] == 'PENDING'
     c = selected._session.context
+    assert any(e['fact']['rule_id'] == 'INFO-01' for e in c.catalog['entries'].values())
     anchor, entry = next((ref, entry) for ref, entry in c.catalog['entries'].items()
                          if entry['type'] == 'GUARD_LITERAL')
     content = {'prompt_version': PROMPT, 'context_ref': c.context_ref, 'claims': [{
@@ -179,6 +192,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     synthetic['receipt']['usage']['usage_origin'] = 'PROVIDER_REPORTED'
     code, dto = project(synthetic, ref)
     assert code == 200 and dto['diagnosis_complete'] and dto['state'] == 'DIAGNOSED'
+    assert dto['analysis_outcome'] == 'COMPLETED'
     assert dto['claims'][0]['source_bindings'] and dto['claims'][0]['rebuild']
     synthetic['receipt']['artifact_sha256'] = '0' * 64
     with pytest.raises(ValueError, match='SAME_COMMITTED_AI_BINDING_REQUIRED'):

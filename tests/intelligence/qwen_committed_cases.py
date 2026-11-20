@@ -78,6 +78,33 @@ def test_default_go_missing_prepares_original_public_source_without_dispatch(bri
     assert state['reads'] >= 2
 
 
+@pytest.mark.parametrize('code', ['INSUFFICIENT_GUARDED_EVIDENCE', 'LOCAL_CATALOG_BOUND'])
+def test_configured_provider_preflight_failure_is_zero_dispatch(bridge, tmp_path, monkeypatch, code):
+    adapter, request, _, _ = bridge
+    enable(adapter, request, tmp_path)
+    def refuse(*args, **kwargs):
+        raise S3Error(code)
+    monkeypatch.setattr(committed, 'prepare_context', refuse)
+    out = adapter(request)
+    assert out['reason'] == code and out['failure_stage'] == 'CONTEXT'
+    assert out['provider_attempts'] == out['real_model_calls'] == 0
+    assert out['usage'] is None and out['cost_status'] == 'NOT_INCURRED_BY_THIS_OPERATION'
+    assert adapter._provider._transport.calls == 0
+
+
+def test_preflight_failure_after_prior_dispatch_does_not_erase_accounting(bridge, tmp_path, monkeypatch):
+    adapter, request, _, _ = bridge
+    enable(adapter, request, tmp_path)
+    original = adapter(request)
+    def refuse(*args, **kwargs):
+        raise S3Error('INSUFFICIENT_GUARDED_EVIDENCE')
+    monkeypatch.setattr(committed, 'prepare_context', refuse)
+    out = adapter(request)
+    assert out['provider_attempts'] == 1 and out['usage'] == original['usage']
+    assert out['cost_status'] == original['cost_status']
+    assert adapter._provider._transport.calls == 1
+
+
 def enable(adapter, request, tmp_path, fake=None):
     assert adapter(request)['reason'] == 'PROVIDER_GO_NOT_GRANTED'
     c = adapter._session.context
@@ -119,6 +146,7 @@ def test_usage_and_guard_failure_keep_deterministic_report(bridge, tmp_path, kin
         adapter._timeout = 5
     out = adapter(request)
     assert out['state'] == 'AI_UNAVAILABLE' and out['claims'] == []
+    assert out['failure_stage'] == ('VALIDATION' if kind in ('schema', 'guard') else 'PROVIDER')
     assert out['deterministic_report_hash'] == current['artifact']['version']['content_hash']
     assert (out['usage'] is not None) == (kind in ('schema', 'guard'))
     if kind in ('usage', 'timeout'):
@@ -139,6 +167,7 @@ def test_revocation_after_dispatch_preserves_usage_and_refuses_cached_read(bridg
     out = adapter(request)
     assert out['state'] == 'AI_UNAVAILABLE' and out['claims'] == []
     assert out['usage'] is not None and out['cost_status'] == 'ESTIMATED'
+    assert out['failure_stage'] == 'CURRENT_AUTHORITY'
     with pytest.raises(S3Error, match='CURRENT_COMMITTED_AUTHORITY_DENIED'):
         adapter._session.context.completion.check(adapter._session.context.source, NOW)
     assert adapter._provider._transport.calls == 1

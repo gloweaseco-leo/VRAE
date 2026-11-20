@@ -42,7 +42,7 @@ class NativeDiagnosis:
                 "review_authority": False, "semantic_approval": False}
 
 
-def analyze(evidence):
+def analyze(evidence, *, diagnostic_version="l2-industrial-1.0.0"):
     from .accounting import ActivityTimer
 
     if type(evidence) is not WorkerEvidence:
@@ -54,7 +54,8 @@ def analyze(evidence):
     # No browser-provided industry, diagnosis or tenant participates.
     config = load(tenant_id=task.tenant_id)
     timer = ActivityTimer(task.job_id + "-native-l2", "DIAGNOSIS_RUNTIME", "SYSTEM")
-    data = diagnose(pack, expected_pack_ref=pack.ref, expected_industry_ref=config["industry_ref"])
+    data = diagnose(pack, expected_pack_ref=pack.ref, expected_industry_ref=config["industry_ref"],
+                    diagnostic_version=diagnostic_version)
     result = NativeDiagnosis(evidence, config["industry_ref"], data["diagnosis_ref"], encode(data), ())
     result.verify()  # full original source/Guard/industry replay, not schema/hash only
     activity = timer.finish().priced()

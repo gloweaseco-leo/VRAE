@@ -17,6 +17,10 @@ from vrae.interpretation import GuardError, GuardResult, catalog, validate  # no
 
 ARCHIVE = ROOT / 'tests/interpretation/fixtures/fixed-replay.json'
 EVIDENCE = ROOT / 'docs/03-engineering/ra3b-offline'
+# These three producer modules gained an explicitly selected 1.0.1 parser
+# path. Preserve the accepted 1.0.0 Git blobs at their ORIGINAL digest, while
+# the fixture/package/Guard replay above still exercises live 1.0.0 behavior.
+VERSIONED_SOURCE = {'vrae/rules/execution.py', 'vrae/rules/seo01.py', 'vrae/findings/builder.py'}
 
 
 def case(status):
@@ -67,6 +71,10 @@ def replay(data, *, minimal_isolated_layout=False):
         encoding='utf-8'))
     unavailable = []
     for path, digest in preserved['sha256'].items():
+        if path in VERSIONED_SOURCE:
+            original = ROOT / 'tests/interpretation/fixtures/accepted-source' / (digest + '.py')
+            assert hashlib.sha256(original.read_bytes().replace(b'\r\n', b'\n')).hexdigest() == digest
+            continue
         if (minimal_isolated_layout and os.environ.get('VRAE_ISOLATED_LAB') == '1'
                 and path.startswith('docs/') and not (ROOT / path).exists()):
             unavailable.append(path)
@@ -85,6 +93,7 @@ def replay(data, *, minimal_isolated_layout=False):
         raise AssertionError('INVALID_JSON_ACCEPTED')
     return {'status': 'OFFLINE_PRIVATE_REPLAY_PASS', 'cases': output, 'negative_red_green': rejected,
             'historical_files_verified': len(preserved['sha256']) - len(unavailable),
+            'historical_source_archives_verified': len(VERSIONED_SOURCE),
             'history_unavailable_in_minimal_isolated_layout': unavailable,
             'human_gold': '0/26_UNEVALUATED',
             'no_provider_calls': True, 'no_customer_report': True, 'shareable': False,

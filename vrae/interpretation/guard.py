@@ -12,6 +12,7 @@ from typing import NoReturn
 from vrae.collection.manifest import document_hash
 from vrae.domain.contracts import validate_contract
 from vrae.findings import FindingPackage
+from vrae.findings.builder import SOURCE_VERSION_PAIRS
 
 VERSION = 'ra3b-1.0.0'
 MAX_BYTES = 1_000_000
@@ -63,8 +64,8 @@ def _context(pack, package, pins):
                      'expected_scope', 'expected_guard_version'}:
         _fail('PIN_MISMATCH')
     if (pins['expected_guard_version'] != VERSION
-            or pins['expected_builder_version'] != 'ra2c3-1.0.0'
-            or pins['expected_evaluator_version'] != 'ra2b6-1.0.0'):
+            or (pins['expected_evaluator_version'], pins['expected_builder_version'])
+                not in SOURCE_VERSION_PAIRS):
         _fail('VERSION_MISMATCH')
     scope = {k: pack.document[k] for k in ('tenant_id', 'run_id', 'policy_id', 'policy_version')}
     if _encode(scope) != _encode(pins['expected_scope']):
