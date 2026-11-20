@@ -35,15 +35,18 @@ CONSENT = "VRAE-READONLY-DIAGNOSIS-1"
 CONSENT_TEXT = "I am authorized to permit read-only diagnosis of the exact proven domain and paths; I understand evidence may be processed by an explicitly enabled model provider. No write or account access is permitted."
 MODEL_CONSENT = "VRAE-READONLY-AI-DIAGNOSIS-2"
 MODEL_CONSENT_TEXT = "I explicitly authorize this invited task's minimized typed evidence to be processed by Alibaba Bailian qwen4-max in cn-beijing. Raw HTML and PII are excluded. This does not authorize writes, account access or automatic report publication."
+AUTO_CONSENT = "VRAE-AUTO-DIAGNOSIS-1"
+AUTO_TEXT = "I am authorized to permit bounded read-only diagnosis of this HTTPS website and its public same-origin pages, including processing minimized typed evidence by Alibaba Bailian qwen4-max in cn-beijing. Raw HTML and PII are excluded from model input. Automated conclusions and suggestions may be returned to me; they are not human-certified findings. No login, write or form submission is authorized."
+AUTO_PROOF = "INVITED_AUTHORIZATION_ATTESTATION_AND_EXPLICIT_CONSENT"
 
 
 def processing_consent(version, origin):
-    if version != MODEL_CONSENT:
+    if version not in (MODEL_CONSENT, AUTO_CONSENT):
         return None
     return {"provider":"aliyun-bailian-beijing","region":"cn-beijing",
             "data_scope":"MINIMIZED_TYPED_EVIDENCE_NO_RAW_HTML_PII",
             "consent":"EXPLICITLY_ACKNOWLEDGED",
-            "consent_reference":"model-ack-"+digest([origin,MODEL_CONSENT,MODEL_CONSENT_TEXT])[:48]}
+            "consent_reference":"model-ack-"+digest([origin,version,AUTO_TEXT if version == AUTO_CONSENT else MODEL_CONSENT_TEXT])[:48]}
 
 
 
@@ -128,7 +131,7 @@ def scope(body):
         raise Denied("INVALID_TARGET_APPLICATION")
     consent = body["consent"]
     if (set(consent) != {"version", "read_only_authorized", "model_data_notice"}
-        or consent["version"] not in (CONSENT, MODEL_CONSENT) or consent["read_only_authorized"] is not True
+        or consent["version"] not in (CONSENT, MODEL_CONSENT, AUTO_CONSENT) or consent["read_only_authorized"] is not True
         or consent["model_data_notice"] is not True):
         raise Denied("EXPLICIT_READONLY_CONSENT_REQUIRED")
     url = canonical_url(body["url"])
@@ -186,7 +189,7 @@ def caller(role, cookie, csrf):
 def delegation():
     source_class = json.loads(private(INPUT / "manifest.json"))["source_class"]
     doc = verify(json.loads(private(INPUT / "enrollment-delegation.json")), "DEPLOYMENT_OWNER", source_class)
-    if (doc["contract"] != "vrae.dns-target-enrollment.v1" or doc["proof"] != "DNS_TXT_OR_OPERATOR_OWNED_SOURCE_AND_EXPLICIT_CONSENT"
+    if (doc["contract"] != "vrae.dns-target-enrollment.v1" or doc["proof"] not in ("DNS_TXT_OR_OPERATOR_OWNED_SOURCE_AND_EXPLICIT_CONSENT", AUTO_PROOF)
         or doc["purpose"] != "READONLY_DIAGNOSIS" or doc["max_pages"] != 4):
         raise Denied("OPERATOR_DELEGATION_REQUIRED")
     return doc
@@ -246,8 +249,11 @@ def authorize(binding, actor, body):
     delegate = delegation()
     target = {k: doc[k] for k in ("origin", "host", "paths", "consent")}
     expected = "vrae-" + doc["nonce"] + "-" + digest(target)
-    owned=operator_owned(doc["origin"])
-    if owned is None:
+    automatic = doc["consent"]["version"] == AUTO_CONSENT
+    if automatic and delegate["proof"] != AUTO_PROOF:
+        raise Denied("AUTOMATIC_DIAGNOSIS_DELEGATION_REQUIRED")
+    owned = None if automatic else operator_owned(doc["origin"])
+    if not automatic and owned is None:
         answers = resolver().resolve("_vrae-authorization." + doc["host"] + ".", "TXT", search=False,
                                      tcp=root_document(DEPLOYMENT)["document"].get("dns_transport","UDP")=="TCP")
         if expected not in [b"".join(record.strings).decode() for record in answers]:
@@ -263,11 +269,23 @@ def authorize(binding, actor, body):
         c.execute("LOCK TABLE ra4a.jobs IN SHARE ROW EXCLUSIVE MODE")
         if c.execute("SELECT 1 FROM ra4a.jobs WHERE state='LEASED' AND lease_until>clock_timestamp() LIMIT 1").fetchone():
             raise Denied("DIAGNOSIS_BUSY_RETRY_TARGET_AUTHORIZATION", 429)
+        if automatic:
+            # Reuse a current bounded origin plan, but never overwrite an old
+            # plan/authorization or its historical task pins when it expires.
+            active = c.execute("""SELECT target_id FROM target_v1.plans
+                WHERE tenant_id=%s AND origin=%s AND NOT revoked
+                AND document->>'path_scope'='PUBLIC_SAME_ORIGIN'
+                AND (document->>'expires_at')::timestamptz>clock_timestamp()
+                ORDER BY document->'policy'->>'created_at' DESC LIMIT 1""",
+                (tenant, doc["origin"])).fetchone()
+            target_id = active[0] if active else "auto-" + digest([doc["origin"], doc["accepted_at"]])[:32]
         row = c.execute("SELECT document,revoked FROM target_v1.plans WHERE tenant_id=%s AND target_id=%s FOR UPDATE",
                         (tenant,target_id)).fetchone()
         if row:
             plan, revoked = row
-            if bool(plan.get("model_processing")) != (doc["consent"]["version"] == MODEL_CONSENT):
+            if automatic and plan.get("path_scope") != "PUBLIC_SAME_ORIGIN":
+                raise Denied("SOURCE_SCOPE_REQUIRES_NEW_OPERATOR_AUTHORIZATION",409)
+            if bool(plan.get("model_processing")) != (doc["consent"]["version"] in (MODEL_CONSENT, AUTO_CONSENT)):
                 raise Denied("MODEL_PROCESSING_CONSENT_SCOPE_MISMATCH",409)
             if revoked or plan["exact_paths"] != doc["paths"] or datetime.fromisoformat(plan["expires_at"]) <= now:
                 raise Denied("SOURCE_SCOPE_REQUIRES_NEW_OPERATOR_AUTHORIZATION",409)
@@ -283,6 +301,12 @@ def authorize(binding, actor, body):
                 "policy":policy,"limits":{"max_pages":4,"max_bytes":500000,"max_total_bytes":2000000,
                 "max_requests":12,"max_redirects":2,"request_seconds":8,"task_seconds":24,"interval_seconds":1}}
             model_consent=processing_consent(doc["consent"]["version"],doc["origin"])
+            if automatic:
+                plan["path_scope"] = "PUBLIC_SAME_ORIGIN"
+                plan["policy"]["scope_paths"] = ["/"]
+                plan["automatic_result"] = {"consent_version": AUTO_CONSENT,
+                    "text_sha256": digest(AUTO_TEXT)}
+                plan["policy"]["created_at"] = doc["accepted_at"]
             if model_consent is not None:
                 plan["model_processing"]=model_consent
             c.execute("INSERT INTO ra4a.policies VALUES(%s,%s,1,'ALLOWED',%s,'AUTHORIZED_READONLY')",
@@ -292,9 +316,11 @@ def authorize(binding, actor, body):
             sha = c.execute("SELECT encode(sha256(convert_to(document::text,'UTF8')),'hex') FROM target_v1.plans WHERE tenant_id=%s AND target_id=%s",
                             (tenant,target_id)).fetchone()[0]
             grant = {k:plan[k] for k in ("tenant_id","target_id","source_class","origin","exact_paths","limits")}
+            if automatic:
+                grant["path_scope"] = plan["path_scope"]
             grant.update(contract="vrae.target-authorization.v2",reference=policy["authorization_reference"],
                 plan_sha256=sha,purpose="READONLY_DIAGNOSIS",methods=["GET","HEAD"],
-                legal_reference=("OPERATOR_OWNED_PUBLIC_SOURCE-" if owned else "INVITED_ATTESTATION_AND_DNS_CONTROL-")+digest(doc),
+                legal_reference=("INVITED_AUTHORIZATION_ATTESTATION-" if automatic else "OPERATOR_OWNED_PUBLIC_SOURCE-" if owned else "INVITED_ATTESTATION_AND_DNS_CONTROL-")+digest(doc),
                 terms_reference=plan["terms_reference"],robots="ENFORCE",not_before=now.isoformat(),
                 expires_at=end.isoformat(),retention_until=(end+timedelta(hours=1)).isoformat(),destination_ips=ips)
             activate(c,envelope("source",grant))
@@ -303,7 +329,7 @@ def authorize(binding, actor, body):
         if not inv:
             raise Denied("CURRENT_INVITED_SUBJECT_REQUIRED")
         value = inv[0]
-        if doc["consent"]["version"] == MODEL_CONSENT:
+        if doc["consent"]["version"] in (MODEL_CONSENT, AUTO_CONSENT):
             bound_sha=c.execute("SELECT encode(sha256(convert_to(document::text,'UTF8')),'hex') FROM target_v1.plans WHERE tenant_id=%s AND target_id=%s",(tenant,target_id)).fetchone()[0]
             value.setdefault("model_processing_targets",{})[target_id]=bound_sha
             c.execute("UPDATE target_v1.invitations SET document=%s WHERE tenant_id=%s AND reference=%s",(Jsonb(value),tenant,actor["invitation_ref"]))
@@ -319,7 +345,7 @@ def authorize(binding, actor, body):
 def signed_submission(binding, actor, body, cookie, csrf):
     if set(body) != {"url","idempotency_key","accepted_at","consent_version","language"}:
         raise Denied("INVALID_DIAGNOSIS_REQUEST")
-    if body["consent_version"] != CONSENT or body["language"] not in ("zh","en"):
+    if body["consent_version"] not in (CONSENT, AUTO_CONSENT) or body["language"] not in ("zh","en"):
         raise Denied("EXPLICIT_READONLY_CONSENT_REQUIRED")
     accepted = datetime.fromisoformat(body["accepted_at"])
     if not datetime.now(UTC)-timedelta(minutes=30) <= accepted <= datetime.now(UTC):
@@ -338,7 +364,7 @@ def signed_submission(binding, actor, body, cookie, csrf):
     if (parts.path or "/") not in plan["exact_paths"]:
         raise Denied("EXACT_PATH_AUTHORIZATION_REQUIRED")
     authorization(resolved["source_authorization"],plan,plan_sha256=resolved["plan_sha256"])
-    if accepted < datetime.fromisoformat(plan["policy"]["created_at"]):
+    if (body["consent_version"] != AUTO_CONSENT and accepted < datetime.fromisoformat(plan["policy"]["created_at"])):
         raise Denied("CURRENT_DIAGNOSIS_CONSENT_REQUIRED")
     uid = digest({"tenant":binding["tenant_id"],"subject":actor["subject_ref"],"key":body["idempotency_key"]})[:32]
     request = {"schema_version":"1.0","tenant_id":binding["tenant_id"],"request_id":"url-request-"+uid,
@@ -347,7 +373,8 @@ def signed_submission(binding, actor, body, cookie, csrf):
         "source_system":"vrae","source_reference":actor["invitation_ref"],
         "idempotency_key":body["idempotency_key"],"requested_at":body["accepted_at"]}
     command = {"contract_version":"vf-vrae-r0.1","request":request,"permission_reference":{
-        "reference":plan["policy"]["authorization_reference"],"consent_version":CONSENT,"consent_sha256":digest(CONSENT_TEXT)}}
+        "reference":plan["policy"]["authorization_reference"],"consent_version":body["consent_version"],
+        "consent_sha256":digest(AUTO_TEXT if body["consent_version"] == AUTO_CONSENT else CONSENT_TEXT)}}
 
     def proof(document):
         value = {"alg":"Ed25519","key_id":"permission","claim":{
@@ -358,7 +385,7 @@ def signed_submission(binding, actor, body, cookie, csrf):
     command["permission_reference"]["proof"] = proof(permission_document(command,plan["policy"]))
     value = {"contract_version":VERSION,"command":command,"normalized_host":parts.hostname,
         "language":body["language"],"subject_ref":actor["subject_ref"],"invitation_ref":actor["invitation_ref"],
-        "diagnosis_consent":{"consent_version":CONSENT,"accepted_at":body["accepted_at"],"text_sha256":digest(CONSENT_TEXT)}}
+        "diagnosis_consent":{"consent_version":body["consent_version"],"accepted_at":body["accepted_at"],"text_sha256":digest(AUTO_TEXT if body["consent_version"] == AUTO_CONSENT else CONSENT_TEXT)}}
     value["submission_proof"] = proof(submission_document(value))
     validate("VFSubmit",value)
     return value
@@ -384,7 +411,58 @@ def contract():
                   "capture_seconds":24,"original_worker_lease_seconds":30},
         "ownership":"DNS TXT control and explicit permission, or separately operator-signed owned source",
         "rejection":"Private or mixed DNS, wrong subject, missing permission, expiry and revoked sources are denied",
-        "report_release":"Actual verified Reviewer decision and current directed ShareGrant required"}
+        "report_release":"Actual verified Reviewer decision and current directed ShareGrant required",
+        "automatic_diagnosis": {"method": "POST", "path": "/v1/diagnoses",
+            "consent_version": AUTO_CONSENT, "consent_text": AUTO_TEXT,
+            "body": {"url": "https://supplier.example/", "authorized": True,
+                "consent_version": AUTO_CONSENT, "idempotency_key": "<stable request key>",
+                "accepted_at": "<UTC ISO timestamp retained for retries>", "language": "zh"},
+            "result_path": "/v1/audits/{audit_ref}/diagnosis",
+            "customer_actions": "URL_AND_ONE_AUTHORIZATION_CHECKBOX"}}
+
+
+def automatic_submission(binding, actor, body, cookie, csrf):
+    """One attestation -> original signed plan/consent -> original VFSubmit.
+
+    The server's signed delegation, public DNS, egress and current invitation
+    remain mandatory. A checkbox does not claim DNS ownership or human approval.
+    """
+    if (type(body) is not dict or set(body) != {"url", "authorized", "consent_version",
+            "idempotency_key", "accepted_at", "language"}
+            or body["authorized"] is not True or body["consent_version"] != AUTO_CONSENT):
+        raise Denied("EXPLICIT_DIAGNOSIS_AUTHORIZATION_REQUIRED")
+    accepted = datetime.fromisoformat(body["accepted_at"])
+    now = datetime.now(UTC)
+    if (accepted.utcoffset() is None or not now - timedelta(minutes=30) <= accepted <= now
+            or not re.fullmatch(r"[A-Za-z0-9_.-]{8,128}", body["idempotency_key"])
+            or body["language"] not in ("zh", "en")):
+        raise Denied("INVALID_DIAGNOSIS_REQUEST")
+    target = scope({"url": body["url"], "paths": [], "consent": {
+        "version": AUTO_CONSENT, "read_only_authorized": True, "model_data_notice": True}})
+    # The consent covers public same-origin discovery. Keep exact seeds stable
+    # across request retries and pages of the same site.
+    target["paths"] = ["/robots.txt", "/"]
+    previous = store.invoke(binding, "automatic_retry", binding["tenant_id"], cookie, csrf,
+                            body["idempotency_key"])
+    if previous is not None:
+        if (previous["command"]["request"]["site_url"] != target["origin"] + "/"
+                or previous["diagnosis_consent"] != {"consent_version": AUTO_CONSENT,
+                    "accepted_at": body["accepted_at"], "text_sha256": digest(AUTO_TEXT)}
+                or previous["language"] != body["language"]):
+            raise Denied("IDEMPOTENCY_CONFLICT", 409)
+        return previous
+    if delegation()["proof"] != AUTO_PROOF:
+        raise Denied("AUTOMATIC_DIAGNOSIS_DELEGATION_REQUIRED")
+    doc = {**target, "tenant": binding["tenant_id"], "subject": actor["subject_ref"],
+        "invitation": actor["invitation_ref"], "expires": int(now.timestamp()) + 600,
+        "accepted_at": body["accepted_at"], "nonce": secrets.token_hex(16)}
+    raw = canonical(doc)
+    mac = hmac.new(private(INPUT / "enrollment-hmac-key"), raw, hashlib.sha256).digest()
+    authorize(binding, actor, {"application_token": base64.urlsafe_b64encode(raw + mac).decode()})
+    actor = store.invoke(binding, "session", binding["tenant_id"], cookie, csrf)
+    request = {k: v for k, v in body.items() if k != "authorized"}
+    request["url"] = target["origin"] + "/"
+    return signed_submission(binding, actor, request, cookie, csrf)
 
 
 def rpc(action, role, cookie, csrf, body):
@@ -430,9 +508,11 @@ def main():
                         data=authorize(b,actor,request["body"])
                     elif request["action"]=="submission":
                         data=signed_submission(b,actor,request["body"],request["cookie"],request["csrf"])
+                    elif request["action"]=="automatic_submission":
+                        data=automatic_submission(b,actor,request["body"],request["cookie"],request["csrf"])
                     else:
                         raise Denied("UNKNOWN_ISSUER_OPERATION")
-                    response={"status":200 if request["action"]=="submission" else 201,"data":data}
+                    response={"status":200 if request["action"] in ("submission", "automatic_submission") else 201,"data":data}
                 except Denied as error:
                     response={"status":error.status,"data":{"contract":"vrae.target-application.v1","state":"DENIED","reason":error.reason}}
                 except Exception as error:

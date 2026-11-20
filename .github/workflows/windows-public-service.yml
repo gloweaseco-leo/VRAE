@@ -16,6 +16,16 @@ permissions:
 jobs:
   boundaries:
     runs-on: ubuntu-latest
+    services:
+      pg:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: vrae_ra4a_p1
+          POSTGRES_PASSWORD: synthetic-automatic-pg-only
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 3s --health-retries 15
     strategy:
       matrix:
         python: ['3.11', '3.13']
@@ -28,6 +38,9 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: python -m pip install -r requirements-ra4b-p1.lock
       - run: python -B -m pytest -q infra/windows_service/checks
+      - run: python -B -m pytest -q integration/authorized_targets/checks/test_automatic_pg.py
+        env:
+          VRAE_AUTOMATIC_PG_TEST: '1'
   actual-public:
     # Real clients, source consent and human MFA expire independently of Git.
     # Retain offline PR boundaries; explicitly dispatch real live operations.

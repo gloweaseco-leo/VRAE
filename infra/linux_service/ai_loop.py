@@ -42,7 +42,16 @@ def adapter(binding, job, selections, *, real_qwen=False):
         first = next((r for r in rows if type(r.get('model')) is str
                       and r['model'] not in ('UNKNOWN', 'UNSPECIFIED') and r.get('source_pages')), None)
         if first is None:
-            return None
+            # Website evidence remains analyzable without a declared product.
+            result = Adapter(binding, job, projection=projection, buyer_pins=None)
+            if real_qwen:
+                from infra.linux_service.qwen_runtime import provider_for
+                from vrae.intelligence.qwen import QwenError
+                try:
+                    result._provider = provider_for(binding, job, held)
+                except QwenError as error:
+                    result._model_setup_code = str(error)
+            return result
         snapshot = first['source_pages'][0]['snapshot_ref']
         selected = {'model': first['model'], 'rules': sorted({
             r['observation']['rule_id'] for r in rows if r['model'] == first['model']

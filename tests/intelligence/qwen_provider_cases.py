@@ -70,7 +70,13 @@ def test_native_fields_usage_real_tokens_not_utf8_and_original_guard(tmp_path, c
     body = p._transport.bodies[0]
     assert body['max_completion_tokens'] == 2048 and body['enable_thinking'] is False
     assert 'max_tokens' not in body and not body['stream']
-    assert body['response_format']['json_schema']['schema'] == WIRE_SCHEMA
+    wire = body['response_format']['json_schema']['schema']
+    sent_context = json.loads(body['messages'][1]['content'])
+    fields = wire['properties']['claims']['items']['properties']
+    assert fields['task']['enum'] == sent_context['selectable_tasks']
+    assert fields['refs']['items']['enum'] == [r['ref'] for r in sent_context['references']
+                                               if r['type'] == 'GUARD_LITERAL']
+    assert wire['properties']['claims']['maxItems'] == WIRE_SCHEMA['properties']['claims']['maxItems']
     assert 'tools' not in body and 'extra_body' not in body
     sent = json.dumps(body)
     assert 'synthetic-key' not in sent and 'example.com' not in sent and '12 m3/h' not in sent
