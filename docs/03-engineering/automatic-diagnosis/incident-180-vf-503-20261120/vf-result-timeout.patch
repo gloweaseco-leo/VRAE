@@ -1,0 +1,14 @@
+diff --git a/lib/vrae-preview-client.ts b/lib/vrae-preview-client.ts
+--- a/lib/vrae-preview-client.ts
++++ b/lib/vrae-preview-client.ts
+@@ -78,7 +78,9 @@ function transport(config: ServiceConfig, profile: 'diagnosis' | 'report') {
+         path, headers, method: raw === undefined ? 'GET' : 'POST',
+         ca: config.ca, cert: config.cert, key: config.key,
+         rejectUnauthorized: true, minVersion: 'TLSv1.2', agent: false,
+-        signal: AbortSignal.timeout(8000),
++        signal: AbortSignal.timeout(profile === 'diagnosis' && raw === undefined &&
++          /^\/v1\/audits\/aref-[0-9a-f]{32}\/diagnosis$/.test(path)
++          ? 20_000 : 8_000),
+       }, response => {
+         const meta = response.headers
+         const scope = profile === 'diagnosis' ? meta['x-vrae-api-version'] === diagnosisVersion
