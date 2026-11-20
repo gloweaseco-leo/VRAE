@@ -38,6 +38,10 @@ def main():
                 "infra/authorized_targets/004_verified_reports.sql",
             ),
             (
+                "SELECT to_regprocedure('target_v1.recipient_context(text,text,text,text)') IS NOT NULL",
+                "infra/windows_service/005_recipient.sql",
+            ),
+            (
                 "SELECT to_regprocedure('target_v1.ai_pending(text)') IS NOT NULL",
                 "infra/linux_service/004_ai_pending.sql",
             ),

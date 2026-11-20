@@ -1,0 +1,76 @@
+{
+  "contract": "vrae.vf-preview-private-identity-checks.v1",
+  "checked_at": "2026-11-20T00:46:40.158360+00:00",
+  "source_sha": "c456312aec1f54a2a6c89e42f3bce990a0081109",
+  "client_certificate_sha256": "911c4e26ececdb0c5171cd1ed474e8ba79ab54aef7664217cf6661bf28157a96",
+  "expires_at": "2026-11-20T01:39:55.596293+00:00",
+  "verification_network": "LOCAL_LOOPBACK_MTLS",
+  "events": [
+    {
+      "case": "original-ready",
+      "status": 200,
+      "passed": true,
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8"
+    },
+    {
+      "case": "preview-ready",
+      "status": 200,
+      "passed": true,
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8"
+    },
+    {
+      "case": "preview-openapi",
+      "status": 200,
+      "passed": true,
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8"
+    },
+    {
+      "case": "new-cert-old-bearer",
+      "status": 403,
+      "passed": true,
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8"
+    },
+    {
+      "case": "old-cert-new-bearer",
+      "status": 403,
+      "passed": true,
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8"
+    },
+    {
+      "case": "wrong-cert",
+      "status": 403,
+      "passed": true,
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8"
+    },
+    {
+      "case": "wrong-bearer",
+      "status": 403,
+      "passed": true,
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8"
+    },
+    {
+      "case": "retired-gh-pair",
+      "status": 403,
+      "passed": true,
+      "server_certificate_sha256": "91d179a5b229b59374f03fc38816692a2c7181b304b21ec1c13f18cc2bb0cfd8"
+    },
+    {
+      "case": "no-cert",
+      "tls_rejected": true,
+      "exception_type": "SSLError",
+      "passed": true
+    }
+  ],
+  "customer_site_accessed": false,
+  "invitation_consumed": false,
+  "vercel_egress_verified": false,
+  "ai_fee_dispatch": {
+    "model_configuration_valid": false,
+    "policy": {
+      "default": "REJECT",
+      "dns_count": 0,
+      "provider_ip_count": 0,
+      "uid": 10008
+    }
+  }
+}

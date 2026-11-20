@@ -1,0 +1,71 @@
+name: Windows actual public Funnel mTLS
+on:
+  pull_request:
+    paths:
+      - 'infra/windows_service/**'
+      - '.github/workflows/windows-public-service.yml'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'health verifies current public mTLS; full requires current invited source and actual human grants'
+        type: choice
+        options: [health, full, ai]
+        default: health
+permissions:
+  contents: read
+jobs:
+  boundaries:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -r requirements-ra4b-p1.lock
+      - run: python -B -m pytest -q infra/windows_service/checks
+  actual-public:
+    # Real clients, source consent and human MFA expire independently of Git.
+    # Retain offline PR boundaries; explicitly dispatch real live operations.
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    concurrency:
+      group: vrae-windows-actual-public
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -r requirements-ra4b-p1.lock
+      - name: Actual public mTLS and forbidden client cases
+        env:
+          VRAE_WINDOWS_PUBLIC_MTLS: ${{ secrets.VRAE_WINDOWS_PUBLIC_MTLS }}
+        run: |
+          umask 077
+          mkdir -p public-receipts
+          python -B -m infra.windows_service.probe_from_environment > public-receipts/public-mtls.json
+      - name: Actual sequential invited URL captures
+        if: ${{ inputs.mode != 'health' }}
+        env:
+          VRAE_WINDOWS_PUBLIC_MTLS: ${{ secrets.VRAE_WINDOWS_PUBLIC_MTLS }}
+        run: python -B -m infra.windows_service.acceptance_client
+      - name: Actual directed formal report and isolation
+        if: ${{ inputs.mode == 'full' }}
+        env:
+          VRAE_WINDOWS_PUBLIC_MTLS: ${{ secrets.VRAE_WINDOWS_PUBLIC_MTLS }}
+        run: python -B -m infra.windows_service.report_acceptance
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: actual-windows-public-mtls
+          path: public-receipts/*.json
+          if-no-files-found: error
+          retention-days: 3

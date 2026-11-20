@@ -293,6 +293,17 @@ def start_ai(owner, n, d):
     # Worker namespace stays on its inspected internal network without change.
     if not owned('network', n['model-net'], owner):
         docker('network', 'create', '--label', LABEL + '=' + owner, n['model-net'])
+    quota_owner = d.get('model_quota_owner', owner)
+    quota_names = names(quota_owner)
+    quota_volume = quota_names['ledger']
+    if not owned('volume', quota_volume, quota_owner):
+        raise PermissionError('EXISTING_QUOTA_VOLUME_REQUIRED')
+    if quota_owner != owner and d.get('model_quota_shared') is not True:
+        raise PermissionError('EXPLICIT_SHARED_QUOTA_REQUIRED')
+    # All service quota volumes store the canonical ledger under qwen.
+    # Sharing the volume must share that same ledger, never its parent.
+    quota_mount = ('type=volume,src=' + quota_volume
+                   + ',dst=/model-ledger,volume-subpath=qwen')
     docker('create', '--name', n['ai'], '--label', LABEL + '=' + owner,
         '--restart', 'unless-stopped', '--network', n['model-net'], '--read-only',
         '--cap-drop', 'ALL', '--cap-add', 'SETUID', '--cap-add', 'SETGID',
@@ -302,7 +313,7 @@ def start_ai(owner, n, d):
         '--tmpfs', '/run/service:rw,nosuid,nodev,size=8m',
         '--tmpfs', '/run/vrae-targets:rw,nosuid,nodev,size=2m',
         '--mount', 'type=volume,src=' + n['operator'] + ',dst=/operator,readonly',
-        '--mount', 'type=volume,src=' + n['ledger'] + ',dst=/model-ledger,volume-subpath=qwen',
+        '--mount', quota_mount,
         d['image'], 'python', '-m', 'infra.linux_service.ai_bootstrap')
     docker('network', 'connect', n['net'], n['ai'])
     docker('start', n['ai'])

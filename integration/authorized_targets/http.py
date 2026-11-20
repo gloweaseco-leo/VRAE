@@ -98,7 +98,7 @@ class Handler(StrictHandler):
                     "source_sha": self.server.source_sha,
                 },
             )
-        api_json = self.path in ("/health/ready", "/v1/errors", "/v1/openapi.json")
+        api_json = self.path in ("/health/ready", "/v1/errors", "/v1/openapi.json", "/v1/target-intake-contract")
         if self.headers.get("Accept") != ("application/json" if api_json else MEDIA):
             raise TransportError(406)
         if method == "POST" and self.headers.get("Content-Type") != MEDIA:
@@ -131,7 +131,25 @@ class Handler(StrictHandler):
                 return self.send_api(
                     200, {"api_version": API, "errors": [error(code)["error"] for code in ERRORS]}
                 )
-            return self.send_api(200, openapi())
+            if self.path == "/v1/target-intake-contract":
+                if cfg.get("target_intake_enabled") is not True:
+                    raise Refused("SOURCE_NOT_ALLOWED")
+                from infra.windows_service.intake import contract
+                return self.send_api(200, contract())
+            document = openapi()
+            if cfg.get("target_intake_enabled"):
+                from infra.windows_service.intake import contract
+                intake = contract()
+                document["servers"] = [{"url":"https://" + cfg["transport"]["hosts"][0]}]
+                document["x-vrae-target-intake"] = intake
+                for item in ("application", "authorization", "diagnosis"):
+                    operation = intake[item]
+                    document["paths"][operation["path"]] = {"post":{
+                        "summary":item,"requestBody":{"required":True,"description":str(operation["body"])},
+                        "responses":{"201":{"description":"Scoped target context"},"202":{"description":"Original queue committed"},
+                                     "403":{"description":"Denied"},"409":{"description":"Changed intent"},
+                                     "429":{"description":"Bounded capacity or active capture"},"503":{"description":"Unavailable"}}}}
+            return self.send_api(200, document)
         if "?" in self.path or "%" in self.path or len(self.path) > 256:
             raise Refused("FORBIDDEN_ROLE")
         if method == "POST" and self.path == "/v1/internal/committed-input":
@@ -188,6 +206,13 @@ class Handler(StrictHandler):
         if COOKIE not in cookies or not self.headers.get("X-CSRF-Token"):
             raise Refused("FORBIDDEN_ROLE")
         cookie, csrf = token_hash(cookies[COOKIE].value), token_hash(self.headers["X-CSRF-Token"])
+        if method == "POST" and self.path in ("/v1/target-applications", "/v1/target-applications/authorize"):
+            if cfg.get("target_intake_enabled") is not True:
+                raise Refused("SOURCE_NOT_ALLOWED")
+            from infra.windows_service.intake import rpc
+            result = rpc("authorize" if self.path.endswith("/authorize") else "challenge",
+                         binding["role"], cookie, csrf, self.body())
+            return self.send(result["status"], result["data"])
         source = re.fullmatch("/v1/source-plans/([A-Za-z0-9][A-Za-z0-9_.-]{2,127})", self.path)
         if method == "GET" and source:
             resolved = store.invoke(binding, "source_context", tenant, cookie, csrf, source[1])
@@ -227,8 +252,16 @@ class Handler(StrictHandler):
             return self.send(
                 201, {"contract": "vrae.task-return-token.v1", **result, "return_token": token}
             )
-        if method == "POST" and self.path == "/v1/audit-requests":
+        if method == "POST" and self.path in ("/v1/audit-requests", "/v1/diagnoses"):
             body = self.body()
+            if self.path == "/v1/diagnoses":
+                if cfg.get("target_intake_enabled") is not True:
+                    raise Refused("SOURCE_NOT_ALLOWED")
+                from infra.windows_service.intake import rpc
+                result = rpc("submission", binding["role"], cookie, csrf, body)
+                if result["status"] != 200:
+                    return self.send(result["status"], result["data"])
+                body = result["data"]
             validate("VFSubmit", body)
             resolved = store.invoke(
                 binding, "plan", tenant, cookie, csrf, body["command"]["request"]["site_url"]

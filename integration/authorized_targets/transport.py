@@ -2,6 +2,7 @@
 
 import hashlib
 import hmac
+from datetime import datetime, UTC
 from ipaddress import ip_address
 from urllib.parse import urlsplit
 from contracts.l2_launch.contract import Refused
@@ -50,6 +51,22 @@ def check_headers(handler, cfg):
 
 
 def bind_peer(handler, binding, transport):
+    # This is a separate, root-configured service credential, never a role or
+    # scope accepted from request headers. Restrict before any application route.
+    probe = binding.get("health_probe")
+    if probe is not None:
+        try:
+            end = datetime.fromisoformat(probe["expires_at"])
+            allowed = (type(probe) is dict and end.utcoffset() is not None
+                       and datetime.now(UTC) < end
+                       and binding.get("port") in (None, "REVIEW")
+                       and handler.command == "GET"
+                       and handler.path == ("/v1/report-authority/health"
+                           if binding.get("port") == "REVIEW" else "/health/ready"))
+        except (KeyError, TypeError, ValueError, AttributeError):
+            allowed = False
+        if not allowed:
+            raise Refused("FORBIDDEN_ROLE")
     if transport["mtls"]:
         cert = handler.connection.getpeercert(binary_form=True)
         if not cert or not hmac.compare_digest(

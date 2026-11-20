@@ -1,0 +1,131 @@
+"""Interactive actual enrollment. No password, TOTP or seed enters a shell arg/log."""
+import argparse
+import json
+import os
+from pathlib import Path
+import subprocess
+from infra.windows_service.private_host import invoke, put_private
+from infra.windows_service.windows_credentials import current_sid, current_account_name, verify
+
+
+def dialog(value):
+    if value.get("mode")=="pairing":
+        import base64
+        import io
+        from datetime import datetime,UTC
+        from urllib.parse import quote
+        import qrcode
+        uri="otpauth://totp/"+quote("VRAE:"+value.get("account_label","Windows Reviewer"),safe="")+"?secret="+value["seed"]+"&issuer=VRAE&algorithm=SHA1&digits=6&period=30"
+        buffer=io.BytesIO()
+        qrcode.make(uri).save(buffer,format="PNG")
+        value={**value,"qr_png":base64.b64encode(buffer.getvalue()).decode(),
+               "utc_display":datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC")}
+    startup=subprocess.STARTUPINFO()
+    startup.dwFlags|=subprocess.STARTF_USESHOWWINDOW
+    startup.wShowWindow=1
+    result=subprocess.run(["powershell.exe","-NoProfile","-STA","-ExecutionPolicy","Bypass",
+        "-File",str(Path(__file__).with_name("otp_dialog.ps1"))],
+        input=json.dumps(value).encode(),capture_output=True,check=True,
+        startupinfo=startup,creationflags=subprocess.CREATE_NO_WINDOW)
+    data=json.loads(result.stdout.decode("utf-8-sig"))
+    if data.get("cancelled") or data.get("invalid_code"):
+        raise PermissionError("LOCAL_MFA_CANCELLED_OR_INVALID")
+    return data
+
+
+def action(image,name,operation,data):
+    try:
+        raw=invoke(image,name,"python","-B","-m","infra.windows_service.mfa",operation,
+                   data=json.dumps(data).encode())
+    except subprocess.CalledProcessError as error:
+        import re
+        match=re.search(rb"PermissionError: ([A-Z0-9_]+)\r?\n?$",error.stderr or b"")
+        if match:
+            raise PermissionError(match[1].decode()) from None
+        raise
+    return json.loads(raw)
+
+
+def main():
+    p=argparse.ArgumentParser()
+    p.add_argument("--operator-image",required=True)
+    p.add_argument("--name",default="vrae-windows")
+    p.add_argument("--receipt",required=True)
+    mode=p.add_mutually_exclusive_group()
+    mode.add_argument("--pairing-only",action="store_true")
+    mode.add_argument("--verify-existing",action="store_true")
+    a=p.parse_args()
+    target=Path(a.receipt)
+    target.parent.mkdir(parents=True,exist_ok=True)
+    def progress(state,**extra):
+        target.write_text(json.dumps({"state":state,**extra}),encoding="utf8")
+    try:
+        if os.name!="nt":
+            raise PermissionError("ACTUAL_WINDOWS_OPERATOR_REQUIRED")
+        sid=current_sid()
+        pair=action(a.operator_image,a.name,"begin-pair",{"sid":sid})
+        import hashlib
+        fingerprint=hashlib.sha256(pair["seed"].encode()).hexdigest()
+        if a.verify_existing:
+            program="import os,json,pathlib;print((pathlib.Path(os.environ['VRAE_PRIVATE_ROOT'])/'pairing-label.json').read_text())"
+            label=json.loads(invoke(a.operator_image,a.name,"python","-B","-c",program))
+            if label["sid"]!=sid or label["seed_sha256"]!=fingerprint:
+                raise PermissionError("CURRENT_PHONE_PAIRING_REQUIRED")
+            account_label=label["account_label"]
+        else:
+            account_label="VRAE Reviewer "+pair["nonce"][-6:]
+            progress("WAITING_PHONE_PAIRING",account_label=account_label)
+            dialog({"mode":"pairing","seed":pair["seed"],"account_label":account_label})
+            put_private(a.operator_image,a.name,"pairing-label.json",json.dumps({
+                "sid":sid,"seed_sha256":fingerprint,"account_label":account_label}).encode())
+        del pair["seed"]
+        if a.pairing_only:
+            progress("PHONE_KEY_ADDED_REQUIRES_WINDOWS_AND_TOTP",account_label=account_label)
+            return
+        progress("WAITING_ACTUAL_WINDOWS_PASSWORD")
+        # A visible owner window and a user click establish the foreground
+        # window for the native credential provider, even with a hidden launcher.
+        import tkinter as tk
+        window=tk.Tk()
+        window.title("VRAE - Windows identity verification")
+        window.geometry("620x210")
+        window.attributes("-topmost",True)
+        result={}
+        tk.Label(window,text="Account: "+current_account_name()+"\nVerify this account using its PASSWORD.\n"
+            "The native Windows dialog opens when you click below.\n"
+            "Use the account password, not a Windows Hello PIN.\n"
+            "Do not send the password or phone code in chat.",pady=20).pack()
+        def authenticate():
+            button.configure(state="disabled")
+            window.update()
+            try:
+                result["primary"]=verify(pair["nonce"],sid,window.winfo_id())
+            except Exception as error:
+                from tkinter import messagebox
+                messagebox.showerror("VRAE Windows verification",str(error)+"\nNo identity has been issued. Check the account password, not a PIN.",parent=window)
+                button.configure(state="normal")
+                return
+            window.destroy()
+        button=tk.Button(window,text="Open Windows password verification",command=authenticate)
+        button.pack()
+        window.lift()
+        window.focus_force()
+        window.mainloop()
+        if "error" in result:
+            raise result["error"]
+        if "primary" not in result:
+            raise PermissionError("WINDOWS_VERIFICATION_WINDOW_CLOSED")
+        primary=result["primary"]
+        progress("WAITING_ACTUAL_PHONE_CODE")
+        code=dialog({"mode":"otp","account_label":account_label})["code"]
+        result=action(a.operator_image,a.name,"finish-pair",{"primary":primary,"code":code})
+        del code,primary
+        progress("ACTUAL_WINDOWS_PASSWORD_AND_TOTP_ENROLLED",**result)
+    except Exception as error:
+        progress("NOT_ENROLLED",error_type=type(error).__name__,
+                 reason=str(error)[:400] if isinstance(error,PermissionError) else "PRIVATE_OPERATION_FAILED")
+        raise
+
+
+if __name__=="__main__":
+    main()

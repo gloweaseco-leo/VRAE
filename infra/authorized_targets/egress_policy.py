@@ -20,6 +20,7 @@ def install(
     destination_ips,
     nameservers,
     network_internal=False,
+    allow_no_targets=False,
 ):
     if (
         os.geteuid() != 0
@@ -31,7 +32,8 @@ def install(
         raise PermissionError("ISOLATED_PARENT_REQUIRED")
     if parent_network_mode == "internal" and network_internal is not True:
         raise PermissionError("INSPECTED_INTERNAL_NETWORK_REQUIRED")
-    public_addresses(destination_ips)
+    if destination_ips or not allow_no_targets:
+        public_addresses(destination_ips)
     public_addresses(nameservers)
     rules = [{"ip": "127.0.0.1", "protocol": "tcp", "port": 5432}]
     rules += [{"ip": ip, "protocol": "tcp", "port": 443} for ip in sorted(set(destination_ips))]

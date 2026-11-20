@@ -17,14 +17,15 @@ from integration.authorized_targets.source_authority import (
 )
 from vrae.collection.errors import CollectionError
 from vrae.collection.policy import SourceAccess
-from vrae.collection.resolver import DNSResolver, public_addresses
+from vrae.collection.resolver import public_addresses
+from integration.authorized_targets.dns_transport import DNSResolver
 from vrae.collection.http_transport import PinnedTransport
 from vrae.collection.fetcher import SafeFetcher
 
 
 class ScopedResolver:
-    def __init__(self, nameservers, allowed):
-        self.resolver = DNSResolver(nameservers)
+    def __init__(self, nameservers, allowed, *, tcp=False):
+        self.resolver = DNSResolver(nameservers,tcp=tcp)
         self.allowed = set(public_addresses(allowed))
 
     async def resolve(self, host):
@@ -100,6 +101,6 @@ def components(audit, policy_provider, plan, run_id, workload, current):
         plan["retain_raw_html"],
     )
     access = CurrentAccess(source, held, permit, current, plan)
-    resolver = RecheckingResolver(ScopedResolver(deploy["nameservers"], grant["destination_ips"]))
+    resolver = RecheckingResolver(ScopedResolver(deploy["nameservers"], grant["destination_ips"],tcp=deploy.get("dns_transport","UDP")=="TCP"))
     transport = PinnedTransport(cafile=deploy["cafile"])
     return access, SafeFetcher(resolver, ConnectionFence(resolver, transport, access, deploy))

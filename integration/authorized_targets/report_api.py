@@ -97,7 +97,11 @@ class Application:
 
         @contextmanager
         def held():
-            with self.directory.lock:
+            from contextlib import ExitStack
+            from infra.windows_service.recipient import guard_scope, check_grant
+            with self.directory.lock, ExitStack() as locks:
+                guard_scope(locks, self, binding, sid, job)
+                check_grant(self, sid, headers)
                 self.person(sid, binding)
                 path = self.root / (binding["tenant_id"] + "-" + job + ".sqlite")
                 current = self.authority.current if self.verified else current_committed_review
@@ -135,6 +139,10 @@ class Application:
                             "external_release": released,
                             "scope": self.profile,
                         }
+                        from infra.windows_service.recipient import for_current_owner_view
+                        recipient = for_current_owner_view(self, person)
+                        if recipient is not None:
+                            result["current_recipient"] = recipient
                         if released:
                             result["review_decision"] = review
                     elif operation == "history":
@@ -326,6 +334,9 @@ class Handler(StrictHandler):
             return self.send(
                 200, {"contract": PROFILE, "ready": True, "customer_release": self.app.verified}
             )
+        if method == "POST" and self.path == BASE + "/recipient-session":
+            from infra.windows_service.recipient import exchange
+            return self.send(200, exchange(self.app, binding, self.body()))
         if method == "POST" and self.path == BASE + "/challenge":
             if self.body() != {}:
                 raise Refused("FORBIDDEN_ROLE")
