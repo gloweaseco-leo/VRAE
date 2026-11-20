@@ -1,0 +1,165 @@
+{
+  "contract": "vrae.windows-approved-real-model-receipt.v1",
+  "observed_at": "2026-11-20T00:03:46.091137+00:00",
+  "source_sha": "adb37f28d1686771331d762478c674fbc23f4fbe",
+  "model": "qwen4-max",
+  "region": "cn-beijing",
+  "customer_delivery_approval": {
+    "ai_fee_permission": "GRANTED",
+    "customer_delivery": "APPROVED",
+    "expires_at": "2026-11-30T15:59:59+00:00",
+    "fresh_report_review_required": true,
+    "per_site_legal_consent_required": true,
+    "reference": "OWNER_CHAT_20261119_CUSTOMER_DELIVERY_AI_THROUGH_20261130"
+  },
+  "tasks": [
+    {
+      "job_id": "9322ab70-99cd-4d2b-95f1-bdc7b426fc7a",
+      "recorded_at": "2026-11-20T00:01:55.010016+00:00",
+      "state": "AI_UNAVAILABLE",
+      "artifact_sha256": "8915f11807f580f0a3a2a692d4aa1a6fa93ac3c5f09308f6d07edd70ee97053b",
+      "display_hash": "88efeb2bc3901d96ed1f35233174cbfa64f101026cd1b9fb92a41b3dda2b91cb",
+      "report_content_hash": "d12345ad204e2581e9f81e052c1479cf139e657923a58ec84ab952073de464e0",
+      "reason": "GUARD_ANCHOR_REQUIRED",
+      "provider_attempts": 1,
+      "real_model_calls": 1,
+      "verification_realm": "REAL_PROVIDER",
+      "usage": {
+        "currency": "CNY",
+        "model_id": "qwen4-max",
+        "provider": "aliyun-bailian-beijing",
+        "context_ref": "s3ctx-45c401e8b959c80b12fe3649993bdcac3b6fb826167ac475a86c55578d507c93",
+        "cost_status": "ESTIMATED",
+        "duration_ms": 12863,
+        "recorded_at": "2026-11-20T00:01:39.153138+00:00",
+        "input_tokens": 1264,
+        "total_tokens": 1819,
+        "usage_origin": "PROVIDER_REPORTED",
+        "amount_micros": 29290,
+        "operation_ref": "258b04854042c9c585e7ca8f5646874ad95f91cb349ce966e0396e8f2f347c52",
+        "output_tokens": 555,
+        "billing_origin": "TOKEN_BASED_ESTIMATE_NOT_INVOICE",
+        "price_snapshot": {
+          "basis": "ESTIMATE_NOT_PROVIDER_INVOICE",
+          "source": "https://help.aliyun.com/zh/model-studio/qwen4-max",
+          "currency": "CNY",
+          "model_id": "qwen4-max",
+          "snapshot_id": "runtime-official-qwen4",
+          "valid_until": "2026-11-30T15:59:59+00:00",
+          "input_micros_per_million": 10000000,
+          "output_micros_per_million": 30000000
+        },
+        "prompt_version": "qwen-minimized-buyer-1.1.0",
+        "request_id_hash": "514dbe3b3281abd494450aaa91203914f059536408254f0a977a0892c68e33bb",
+        "real_model_calls": 1,
+        "provider_attempts": 1
+      },
+      "cost_status": "ESTIMATED",
+      "approval_status": "NOT_APPROVED",
+      "model_runtime": {
+        "mode": "REAL_QWEN",
+        "budget": {
+          "day_utc": "2026-11-20",
+          "currency": "CNY",
+          "cap_micros": 5000000,
+          "actual_invoice": "UNKNOWN",
+          "occupied_micros": 471898,
+          "remaining_micros": 4528102
+        },
+        "configured": true,
+        "actual_invoice": "UNKNOWN"
+      },
+      "candidate_count": 0,
+      "receipt_sha256": "4d434f8176acf4aea776e68e3e1481af34817e544094dbd40b301787b5f40a8c"
+    },
+    {
+      "job_id": "54741a19-b65a-4204-b2c7-45ca1339cd70",
+      "recorded_at": "2026-11-20T00:02:14.633474+00:00",
+      "state": "AI_CANDIDATES_FOR_HUMAN_REVIEW",
+      "artifact_sha256": "a9f153d2ddf2979d3082382552b9bb6d13a0f4f9a4d080fd1312df87194d63f6",
+      "display_hash": "37bbbdaa38c90b9761defa60def2d7402538899bb99173b7184d454fd800875d",
+      "report_content_hash": "dd1257d15ef14673150b533b91b650c7e1bf238d8833cf09142a1a81c9019481",
+      "reason": "CANDIDATES_BOUND_NOT_APPROVED",
+      "provider_attempts": 1,
+      "real_model_calls": 1,
+      "verification_realm": "REAL_PROVIDER",
+      "usage": {
+        "currency": "CNY",
+        "model_id": "qwen4-max",
+        "provider": "aliyun-bailian-beijing",
+        "context_ref": "s3ctx-de992b2ce5463e3e491a1311becae321fda4439299e8ec45881dca8ef7a3c363",
+        "cost_status": "ESTIMATED",
+        "duration_ms": 9346,
+        "recorded_at": "2026-11-20T00:02:02.241110+00:00",
+        "input_tokens": 1205,
+        "total_tokens": 1534,
+        "usage_origin": "PROVIDER_REPORTED",
+        "amount_micros": 21920,
+        "operation_ref": "72831e8ad272baa0b44847cbad844f1124d67bcf34fd0141f44f8716dc0d2680",
+        "output_tokens": 329,
+        "billing_origin": "TOKEN_BASED_ESTIMATE_NOT_INVOICE",
+        "price_snapshot": {
+          "basis": "ESTIMATE_NOT_PROVIDER_INVOICE",
+          "source": "https://help.aliyun.com/zh/model-studio/qwen4-max",
+          "currency": "CNY",
+          "model_id": "qwen4-max",
+          "snapshot_id": "runtime-official-qwen4",
+          "valid_until": "2026-11-30T15:59:59+00:00",
+          "input_micros_per_million": 10000000,
+          "output_micros_per_million": 30000000
+        },
+        "prompt_version": "qwen-minimized-buyer-1.1.0",
+        "request_id_hash": "7de220f7feca1fe82284d128c31d76dad02aa2b69b6d145fbd79b31416d27ce6",
+        "real_model_calls": 1,
+        "provider_attempts": 1
+      },
+      "cost_status": "ESTIMATED",
+      "approval_status": "NOT_APPROVED",
+      "model_runtime": {
+        "mode": "REAL_QWEN",
+        "budget": {
+          "day_utc": "2026-11-20",
+          "currency": "CNY",
+          "cap_micros": 5000000,
+          "actual_invoice": "UNKNOWN",
+          "occupied_micros": 493818,
+          "remaining_micros": 4506182
+        },
+        "configured": true,
+        "actual_invoice": "UNKNOWN"
+      },
+      "candidate_count": 1,
+      "receipt_sha256": "cd004e2cb0f9313bbd47b66b793df80c56de48b55141221ab4949b67f5434eb7"
+    }
+  ],
+  "retries_performed": false,
+  "formal_report_approval_inferred": false,
+  "actual_invoice": "UNKNOWN",
+  "shared_quota": {
+    "canonical_volume": "vrae-local-ledger",
+    "volume_subpath": "qwen",
+    "ledger_copied_or_reset": false,
+    "budget": {
+      "day_utc": "2026-11-20",
+      "cap_micros": 5000000,
+      "occupied_micros": 493818,
+      "remaining_micros": 4506182,
+      "currency": "CNY",
+      "actual_invoice": "UNKNOWN"
+    },
+    "call_count": 9,
+    "grouped_calls": [
+      [
+        "DISPATCHED_USAGE_UNKNOWN",
+        3,
+        442608
+      ],
+      [
+        "USAGE_RECORDED",
+        6,
+        200470
+      ]
+    ],
+    "call_ids_sha256": "900f046158ac21df881ab960cb41438064e946e85669401a92ab4c82b8817845"
+  }
+}

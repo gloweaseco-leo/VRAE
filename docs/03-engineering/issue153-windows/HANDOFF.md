@@ -1,12 +1,18 @@
 # VRAE Issue153 本地 Windows 单份交接回执
 
-**自控公网技术流程已验证；正式客户业务交付尚未批准。**
+**Owner 已批准正式客户交付、AI 费用及凭证/委托至北京时间 2026-11-30 23:59:59。**
 
-本轮完成真实公网 mTLS、两位受邀主体顺序采集、原 PG COMMIT、真实 Windows
-账户密码 + 手机 TOTP、本人审核、定向报告读取、跨主体拒绝和 Owner 撤销。
-没有采集真实客户网站。Reviewer 明确仅同意自控样例流程验收，保留 UNKNOWN；
-客户报告业务价值与呈现质量仍需专项验收，并在实际获授权网站诊断后重新审核。
-不能把本回执当作客户报告内容已获认可、Qwen 已可用或长期可用性的证明。
+已实际续期客户端 CA/叶证书、部署/网址签发委托、原身份目录及四个原角色的期限；
+保留原密钥、手机配对、角色 epoch 和历史撤销。没有恢复过期的旧来源许可或邀请。
+本轮真实公网全流程、人审和定向读取的历史证据仍保留；没有采集真实客户网站。
+Owner 本次业务交付授权已成立，每个新网站仍需合法来源授权，每份新报告仍需实际审核。
+历史样例的 Reviewer 意见仅批准自控验收，不能改写成对新客户报告的审核。
+
+真实 Qwen4-Max 已接通：两位受邀主体各调用一次；一份产生待人审候选，另一份被
+引用锚点校验拒绝（AI_UNAVAILABLE），不重试、不降低 Guard。费用估算合计 ¥0.05121，
+正式账单 UNKNOWN；继续使用原有每日 ¥5 的同一共享账本。
+[授权与续期](evidence/nov30-authority-renewal.json)、
+[两次真实调用及共享额度](evidence/approved-real-qwen-receipts.json)。
 
 ## 实际运行地址
 
@@ -19,15 +25,15 @@ TLS 在 VRAE 终止；没有使用 HTTPS 终止隧道代替 mTLS。正确证书�
 Bearer 均必需；错 Bearer/错证书 403，无证书 TLS 拒绝。调用方须在自己的服务器
 保存凭据，不得将私钥/Bearer 放在浏览器包、日志、Issue 或聊天。
 
-当前临时客户端证书、部署/网址签发委托及身份目录的运行窗口截至
-**2026-11-20 10:30 UTC（纽约 05:30，北京 18:30）**，之后必须先续配权限/凭据，
-不能因服务进程仍在或公网服务器证书尚有效而继续宣称可用。
-公开服务器证书有效至 2027-02-17；它不延长上述权限。
+当前客户端证书、部署/网址签发委托、身份目录及独立模型费用许可均截至
+**2026-11-30 15:59:59 UTC（纽约 10:59:59，北京 23:59:59）**。
+到期后须重新授权并续期；公网服务器证书有效至 2027-02-17，不延长上述权限。
+[当前部署契约与证书期限](evidence/nov30-deployed-openapi-and-intake-contract.json)。
 
 ## 精确版本及运行状态
 
-- 最终运行源码：`be4ca8ef85706417d8c7d496d25609bc0a08fac1`。
-- 最终镜像：`sha256:85d9ca064d9d297af8f02d4f05e346f0341ede168b064ce661bdc6fe0b8a070f`。
+- 最终运行源码：`adb37f28d1686771331d762478c674fbc23f4fbe`。
+- 最终镜像：`sha256:eb717a1af90b4736afb22635638224fafae93a0918836a57b9199547795210c6`。
 - 完整公网流程使用镜像对应源码 `589eb1d8cc4f08829e716bcb331108f1d87d6005`；
   后续最终版本将 TCP DNS 选择移入服务适配器，恢复原 resolver 字节，另做实际 DNS、
   完整回归、持久数据核对和外部健康验证。没有声称最终健康测试重做了人审。
@@ -37,7 +43,7 @@ Bearer 均必需；错 Bearer/错证书 403，无证书 TLS 拒绝。调用方�
   [最终运行/DNS/PG/AI回执](evidence/final-runtime-dns-pg-ai.json)、
   [冷备份与升级](evidence/final-deployment-and-cold-backup.json)、
   [持久Ledger文件哈希](evidence/persistent-approved-and-revoked-ledgers.json)。
-- 最终镜像 67 项相关回归通过，`mypy vrae` 的 140 个源文件通过。
+- 当前镜像 70 项 Windows/运维/模型许可回归通过，`mypy vrae` 的140个源文件通过。
   原封不动的 B5A 源码冻结检查通过；没有修改其黄金基线。
 
 ## 接口契约
@@ -116,15 +122,33 @@ Docker socket、内部API、元数据IP及未授权公网目的地。只有原 W
 自控来源443，所有服务 CapEff=0/NoNewPrivs=1。最终版本实际TCP DNS完整验证A+AAAA，
 过期来源已从允许出网目的地移除；不是关闭隔离后才让采集成功。
 
-两任务 PG AI 回执均为 `AI_UNAVAILABLE`，`model_fee_go=NOT_GRANTED`、Provider=None、
-实际 provider_attempts=0、invoice=UNKNOWN。C1 Adapter代码存在不等于真实Qwen4调用获准；
-本轮不声称真实模型成功或账单为零，后续费用/密钥/Provider须单独实际联调。
+历史两份已人审样例的 AI 回执保持 AI_UNAVAILABLE/0 次调用，不改写历史。
+本次新来源 V4、两份新任务的真实调用见上方独立回执：
+
+| 主体 | job_id | 真实模型结果 |
+| --- | --- | --- |
+| acceptance-a | 9322ab70-99cd-4d2b-95f1-bdc7b426fc7a | 1次，GUARD_ANCHOR_REQUIRED，0候选 |
+| acceptance-b | 54741a19-b65a-4204-b2c7-45ca1339cd70 | 1次，AI_CANDIDATES_FOR_HUMAN_REVIEW，1候选 |
+
+新来源明确为自控公网站，产品表补充了实际 `Record type: Product`，没有增加未知参数、
+资质或供应商真实性声明。[公开站部署](evidence/owned-public-product-record-type.json)。
+来源许可到期时间是独立短窗口，见[本次新来源许可](evidence/fresh-owned-ai-source-scope.json)，
+不随全局 Nov30 授权自动延长。Beta 联系页超时保留 UNKNOWN。
+旧 V1 模型数据告知不产生真实模型同意；网址申请 V2 `VRAE-READONLY-AI-DIAGNOSIS-2`
+须明确同意北京区域、最小化类型证据、不含原始HTML/PII，并绑定当前邀请与签名计划哈希。
+原 SourceIntent 的 `model_fee_go=NOT_GRANTED` 保持不变；独立签名费用许可才授权隔离
+AI10008 的供应商出网，不扩展 Worker 网络权限。
+
+共享额度卷是 `vrae-local-ledger` 的 `qwen` 子目录。修复了错误挂载父目录导致的权限失败；
+没有 chmod、复制或重置其他实例的账本，没有重启其他实例。原7笔记录保留，新增2笔；
+3笔历史用量未知的预留仍占额，当前UTC日可用额度见实际回执。无供应商自动重试。
+[本次冷备份与升级](evidence/approved-ai-deployment-and-backup.json)。
 
 从实际 Windows 用户、该API工作树操作。受信本机操作器含Docker CLI：
-`sha256:c279621ceb9977c58524f830a0a67692f0f75c7b582efb0276e2975cc9f025f4`。
+`sha256:eb717a1af90b4736afb22635638224fafae93a0918836a57b9199547795210c6`。
 
 ```powershell
-$op = 'sha256:c279621ceb9977c58524f830a0a67692f0f75c7b582efb0276e2975cc9f025f4'
+$op = 'sha256:eb717a1af90b4736afb22635638224fafae93a0918836a57b9199547795210c6'
 python -B -m infra.windows_service.private_host status --image $op --name vrae-windows
 python -B -m infra.windows_service.private_host up --image $op --name vrae-windows
 python -B -m infra.windows_service.private_host stop --image $op --name vrae-windows
@@ -155,7 +179,7 @@ VPS以后迁移：先冷备份PG和Ledger，经私有渠道迁移root私有材�
 本轮没有等待VPS，也没有修改VEYFRONT仓库、Vercel配置、域名或上线安排。
 
 
-## 交接前最终读回
+## 历史交接读回（业务批准之前）
 
 2026-11-19 23:12 UTC 的当前用户网络读回确认 Tailscale在线、原始443/8443转发、
 v2rayN/xray及原代理仍正常。之后的
@@ -165,3 +189,30 @@ v2rayN/xray及原代理仍正常。之后的
 服务没有在验收后停止。仅供本轮外部验收的 GitHub Actions secret
 `VRAE_WINDOWS_PUBLIC_MTLS` 已删除；服务自己的凭据仍在原受保护私有卷。
 后续显式实测须重新通过安全运营渠道提供当前有效客户端配置。
+
+
+## Nov30 授权后的真实公网与运行读回
+
+[外部运行44641002837](https://github.com/gloweaseco-leo/VRAE/actions/runs/44641002837)
+使用续期后的真实客户端证书，通过两个公网端口及所有无证/错证/错Bearer拒绝检查，
+随后两位受邀主体顺序完成新来源采集、幂等、跨主体403及历史报告403。
+[外部mTLS](evidence/14585963762-renewed-public-mtls.json)、
+[新来源采集](evidence/14585963762-ai-source-capture.json)。该运行部署源码是74c1def，
+之后的共享账本修复部署是adb37f2；不把前者写成后者的外部测试。
+`mode=ai` 的工作流只验证真实采集，模型成功判据来自独立PG回执和供应商用量。
+新候选尚未人审，不宣称它已成为正式报告；历史实际人审/读取/撤销证据保持原版本。
+
+当前用户进程唤醒请求和登录快捷方式已延长到Nov30同一截止时间；停止它使用
+`windows-power-guard-nov30.stop` 或结束回执中的PID。没有更改电源计划。
+[唤醒回执](evidence/nov30-process-wake-guard.json)。
+
+
+2026-11-20 00:06 UTC [当前网络读回](evidence/nov30-windows-network-readback.json)
+确认 VPN v2rayN/xray、原127.0.0.1:10809代理、Tailscale在线及443/8443原始TCP转发均正常；
+PG/runtime/隔离AI/relay/source均持续运行。当前镜像70项相关回归和140个核心源文件类型检查通过，
+原B5A源码冻结检查通过。[检查回执](evidence/nov30-runtime-checks.json)。
+
+最终adb37f2镜像的本地mTLS/契约与真实模型PG回执均已核对。自动审批拒绝重新将客户端私钥、
+Bearer和邀请凭证写入GitHub临时Secret，要求明确目的地授权；已停止此上传并删除旧临时Secret。
+因此最终镜像的新外部复验待该授权；不能用74c1def的外部回执声称已验证adb37f2外部全流程。
+正式模型密钥、身份签名密钥、手机种子始终未上传。

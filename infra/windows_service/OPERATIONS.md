@@ -2,9 +2,10 @@
 
 Actual controlled-source technical flow completed on 2026-11-19: external
 sequential captures, actual Windows/password + phone MFA, human review,
-directed recipient reads and Owner revocations. This is NOT approval of customer
-report business value or presentation quality. The human review expressly limits
-approval to controlled-sample workflow acceptance and retains every UNKNOWN.
+directed recipient reads and Owner revocations. Owner subsequently approved formal customer
+delivery, AI fees and credentials/delegations through 2026-11-30T15:59:59Z.
+Each new site still requires actual legal consent and each report a fresh actual review.
+The historical sample review remains limited to controlled acceptance and retains UNKNOWN.
 See the single Issue153 handoff receipt for immutable artifact/version pins. The controlled public source is
 operator-owned acceptance infrastructure, not a customer website. Health alone is insufficient.
 
@@ -34,6 +35,10 @@ All following diagnosis requests use the original frozen media type for Accept a
    Invitations are single-use; use the original return-token protocol for recovery.
 2. POST `/v1/target-applications` with the exact HTTPS URL, up to two additional exact paths,
    and consent: `{"version":"VRAE-READONLY-DIAGNOSIS-1","read_only_authorized":true,"model_data_notice":true}`.
+   To explicitly enable model processing use version `VRAE-READONLY-AI-DIAGNOSIS-2`
+   after presenting the deployed optional model consent text. It names Alibaba Bailian
+   qwen4-max/cn-beijing, minimized typed evidence and no raw HTML/PII. Authorization
+   binds the current invited subject to the signed plan hash; legacy notice does not enable AI.
    Send the task cookie and `X-CSRF-Token`. The server returns HTTP201 and an opaque application
    token plus DNS TXT proof instructions. Normal customer domains require actual domain control
    and explicit permission. The separately signed operator-owned acceptance origin is identified
@@ -153,22 +158,29 @@ PRs run offline service boundaries. Real public tests require explicit dispatch 
 `windows-public-service.yml`: `mode=health` checks current mTLS (and forbidden
 clients), while `mode=full` additionally requires current source consent, task
 sessions and actual human grants. A health artifact never proves a capture,
-human review or customer release. All historical failures and full-flow receipts
+human review or customer release. `mode=ai` performs sequential capture only;
+model invocation and success require separate current PG/usage receipts. All historical failures and full-flow receipts
 remain evidence; they are not overwritten to make a later health run look complete.
 
-The current temporary client certificate, deployment/issuer delegation and review
-directory expire at **2026-11-20 10:30 UTC**. Operations must rotate/reprovision
-these authorities before that deadline for continued service; the public server
-certificate alone (valid until 2027-02-17) does not extend them. Existing two sample
-grants were explicitly revoked. Their source authorization expired at
-2026-11-19 15:35 UTC; it is not renewed by replaying an old invitation or report.
-Future actual website diagnoses require fresh valid domain proof/consent and their
-own actual Reviewer decision. Customer business quality remains separately pending.
+The client CA/leaves, deployment/issuer delegation, verified directory and independent
+model allowance now expire at **2026-11-30T15:59:59Z** (Beijing Nov30 23:59:59).
+Client leaf serials/fingerprints rotated; existing keys, phone enrollment and role epochs remain.
+The server certificate (valid until 2027-02-17) does not extend these authorities.
+Historical invitations, revoked grants and expired source permissions were not revived.
+The new self-owned AI scope has its own shorter expiry, recorded in the handoff evidence.
+
+The isolated model runtime uses the canonical `vrae-local-ledger` volume subpath `qwen`.
+Explicit shared-quota approval and its existing ownership label are required; a missing
+ledger fails closed. Never copy/reset a ledger or chmod another deployment to fix access.
+The existing global limit remains CNY5 per UTC day, including unknown historical reservations.
+Both real calls retain provider-reported usage; their CNY0.05121 estimate is not an invoice.
+One result was refused for GUARD_ANCHOR_REQUIRED and is not retried; one is an unapproved
+human-review candidate. Model availability never creates report-release authority.
 
 Docker Desktop already starts at this Windows user's login; owned containers use
 `unless-stopped`. A bounded process wake request and this user's
 `VRAE-TemporaryWake.lnk` remain effective only until the current temporary authority
 window. Stop the wake request by creating the configured
-`windows-power-guard.stop` file or ending its recorded PID; exiting releases it.
+`windows-power-guard-nov30.stop` file or ending its recorded PID; exiting releases it.
 No power plan, global proxy, DNS or route was changed. Manual sleep, logout,
 network/VPN outages and Windows shutdown can interrupt availability.
