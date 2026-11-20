@@ -8,7 +8,7 @@ from vrae.collection.manifest import document_hash
 from vrae.domain.contracts import validate_contract
 from vrae.domain.evidence import validate_evidence_graph
 from vrae.evidence import EvidencePack
-from vrae.rules import verify_execution
+from vrae.rules.patch_execution import verify_execution
 
 VERSION = 'ra2c0-1.0.0'
 EVALUATOR = 'ra2b1-1.0.0'

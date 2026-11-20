@@ -17,10 +17,10 @@ from vrae.interpretation import GuardError, GuardResult, catalog, validate  # no
 
 ARCHIVE = ROOT / 'tests/interpretation/fixtures/fixed-replay.json'
 EVIDENCE = ROOT / 'docs/03-engineering/ra3b-offline'
-# These three producer modules gained an explicitly selected 1.0.1 parser
+# These two producer modules gained an explicitly selected 1.0.1 parser
 # path. Preserve the accepted 1.0.0 Git blobs at their ORIGINAL digest, while
 # the fixture/package/Guard replay above still exercises live 1.0.0 behavior.
-VERSIONED_SOURCE = {'vrae/rules/execution.py', 'vrae/rules/seo01.py', 'vrae/findings/builder.py'}
+VERSIONED_SOURCE = {'vrae/rules/seo01.py', 'vrae/findings/builder.py'}
 
 
 def case(status):

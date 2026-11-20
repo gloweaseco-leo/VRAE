@@ -17,7 +17,7 @@ from vrae.findings import build_findings
 from vrae.findings.builder import _bridge
 from vrae.interpretation.disc_report_v1 import binding, catalog, validate
 from vrae.reporting.common import encode
-from vrae.rules import execute
+from vrae.rules.patch_execution import execute
 from .pack import load
 from .contracts import validate_export
 

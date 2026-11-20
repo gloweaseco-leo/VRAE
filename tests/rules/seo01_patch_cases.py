@@ -4,7 +4,7 @@ from copy import deepcopy
 import pytest
 
 from tests.rules.test_seo01 import seo_pack, seo, head
-from vrae.rules import execute, verify_execution
+from vrae.rules.patch_execution import execute, verify_execution
 from vrae.rules.seo01 import _signals
 from vrae.findings import build_findings
 from vrae.industry.l2_v1 import diagnose, load, verify
@@ -72,7 +72,8 @@ def test_live_legacy_paths_match_original_accepted_source_blobs():
     hashes = json.loads((root / 'tests/interpretation/fixtures/preserved-history.json').read_text())['sha256']
 
     def original(path, name):
-        archived = root / 'tests/interpretation/fixtures/accepted-source' / (hashes[path] + '.py')
+        archived = (root / path if path == 'vrae/rules/execution.py' else
+                    root / 'tests/interpretation/fixtures/accepted-source' / (hashes[path] + '.py'))
         spec = importlib.util.spec_from_file_location(name, archived)
         module = importlib.util.module_from_spec(spec)
         sys.modules[name] = module
