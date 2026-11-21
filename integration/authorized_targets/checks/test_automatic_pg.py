@@ -26,9 +26,8 @@ from integration.authorized_targets.provision import install, grant_automatic_se
 from infra.linux_service.ai_loop import adapter
 from integration.qwen_provider.committed import execute
 from vrae.intelligence.qwen import Config, Permission, Price, QwenProvider, Quota
-from vrae.intelligence.qwen.provider import MODEL_SOURCE, CONTEXT_PROMPT
+from vrae.intelligence.qwen.provider import MODEL_SOURCE, PURCHASE_PROMPT
 from vrae.intelligence.qwen.testing import FakeTransport
-from vrae.intelligence.qwen.session import RULE_TASK
 from integration.authorized_targets.automatic_result import TASKS
 from integration.authorized_targets.api_contract import openapi
 from jsonschema import Draft202012Validator
@@ -57,7 +56,8 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
             'infra/authorized_targets/008_committed_language.sql',
             'infra/authorized_targets/009_committed_scoped_language.sql',
             'infra/authorized_targets/010_committed_context_language.sql',
-            'infra/authorized_targets/011_committed_procurement_language.sql'):
+            'infra/authorized_targets/011_committed_procurement_language.sql',
+            'infra/authorized_targets/012_committed_purchase_tasks.sql'):
             c.execute(Path(path).read_text())
         assert c.execute('SELECT current_user').fetchone()[0] == 'postgres'
     now = datetime.now(UTC)
@@ -160,6 +160,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         'https://supplier.example.com/products/item-000': (200, {'content-type': 'text/html'},
         b'<html><head><script>window.fixture=true;</script></head><body><main>'
         b'<h1><span>Grinding wheel W100</span></h1><p>A bounded source description for industrial abrasive buyer review.</p>'
+        b'<table><tr><th>Size(MM)</th><td>D140*M10*T26*W12*X5</td></tr></table>'
         b'<a href="/contact">Request information</a></main></body></html>'),
         'https://supplier.example.com/contact': (200, {'content-type': 'text/html'},
         b'<html><head><title>Contact supplier</title></head><body><h1>Contact</h1></body></html>'),
@@ -207,7 +208,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert result['customer_presentation']['rules_available']
         assert len(result['customer_presentation']['tasks']) == 5
         assert result['customer_presentation']['artifact_sha256'] == result['artifact_sha256']
-        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.6'
+        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.7'
         assert result['customer_presentation']['procurement_review']['products']
         assert result['buyer_review']['state'] == 'AVAILABLE'
         assert result['customer_presentation']['buyer_review'] == result['buyer_review']
@@ -242,16 +243,12 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     c = selected._session.context
     assert c.completion.response_language == 'zh'
     assert any(e['fact']['rule_id'] == 'INFO-01' for e in c.catalog['entries'].values())
-    assert any(e['fact']['observation_result'] == 'UNKNOWN' for e in c.catalog['entries'].values())
-    anchor, entry = next((ref, entry) for ref, entry in c.catalog['entries'].items()
-                         if entry['type'] == 'GUARD_LITERAL')
-    content = {'prompt_version': CONTEXT_PROMPT, 'context_ref': c.context_ref, 'claims': [{
-        'task': RULE_TASK[entry['fact']['rule_id']], 'refs': [anchor], 'counter_refs': [],
-        'explanation': 'A buyer may need clearer navigation based on the saved page.',
-        'uncertainties': ['Only bounded static pages were checked.'],
-        'questions': ['Which page should a buyer read first?'],
-        'rebuild': ['Group the saved page information by buyer task.']}]}
-    content['claims'][0]['verification'] = 'Check the revised page organization against the same cited source.'
+    assert any(e['type']=='GUARD_LITERAL' and
+        e['fact']['source']['citation'].get('fact_role')=='SPEC_LABEL' and
+        e['fact']['source']['citation'].get('text')=='Size(MM)'
+        for e in c.catalog['entries'].values())
+    from integration.authorized_targets.checks.test_purchase_tasks import candidate
+    content = {'prompt_version': PURCHASE_PROMPT, 'context_ref': c.context_ref, 'claims': [candidate(c)]}
     fake = FakeTransport({'id': 'synthetic-only', 'object': 'chat.completion', 'model': 'qwen4-max', 'choices': [{
         'finish_reason': 'stop', 'message': {'role': 'assistant', 'content': canonical(content).decode()}}],
         'usage': {'prompt_tokens': 137, 'completion_tokens': 83, 'total_tokens': 220}})
@@ -265,7 +262,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     result = execute(bindings['ai'], job, selected, operation_id='service-ai-' + job)
     assert result['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW', result
     assert result['pg_receipt_status'] == 'RECORDED' and result['real_model_calls'] == 0
-    assert result['usage']['prompt_version'] == CONTEXT_PROMPT
+    assert result['usage']['prompt_version'] == PURCHASE_PROMPT
     assert result['claims'][0]['verification_status'] == 'PROPOSED_NOT_EXECUTED'
     sent = fake.bodies[0]
     assert 'Use concise Simplified Chinese:' in sent['messages'][0]['content']
@@ -307,6 +304,13 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     assert dto['analysis_outcome'] == 'COMPLETED'
     assert dto['deterministic_diagnosis'] == pending_facts
     assert dto['claims'][0]['source_bindings'] and dto['claims'][0]['rebuild']
+    empty = deepcopy(synthetic)
+    empty['receipt'].update(claims=[], reason='NO_SUPPORTED_OPPORTUNITIES', failure_stage=None)
+    code, zero = project(empty, ref)
+    assert code == 200 and zero['state']=='DIAGNOSED' and zero['diagnosis_complete']
+    assert zero['analysis_outcome']=='COMPLETED_NO_RECOMMENDATIONS' and not zero['claims']
+    assert zero['deterministic_diagnosis']==pending_facts
+    Draft202012Validator(schema).validate(zero)
     synthetic['receipt']['artifact_sha256'] = '0' * 64
     with pytest.raises(ValueError, match='SAME_COMMITTED_AI_BINDING_REQUIRED'):
         project(synthetic, ref)

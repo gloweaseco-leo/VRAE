@@ -12,7 +12,7 @@ export function buyerReview(body, pages, pointer, language) {
   if (review === undefined && body.customer_presentation.buyer_review === undefined) return null
   const d = body.deterministic_diagnosis
   if (!review || JSON.stringify(review) !== JSON.stringify(body.customer_presentation.buyer_review) ||
-      d?.diagnostic_version !== 'l2-industrial-1.0.6' || review.contract !== 'vrae.buyer-review.v1' ||
+      !['l2-industrial-1.0.6','l2-industrial-1.0.7'].includes(d?.diagnostic_version) || review.contract !== 'vrae.buyer-review.v1' ||
       review.artifact_sha256 !== body.artifact_sha256 || review.pack_ref !== d.expected_pack_ref ||
       review.native_execution_ref !== d.native_execution_ref || !/^brv-[0-9a-f]{64}$/.test(review.review_ref) ||
       review.native_fact_admission !== 'NONE' || review.formal_human_review !== false ||

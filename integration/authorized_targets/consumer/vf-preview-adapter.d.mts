@@ -14,7 +14,16 @@ export type Observation = {
 export type Insight = {
   task: BuyerTask; explanation: string; rebuild: string[]; checks: string[]
   verification: string | null; verificationIsPlan: true; sources: string[]
+  purchaseTask: string | null; opportunityKind: 'CLARIFICATION' | null
 }
+export type PurchaseTask = {
+  task: 'APPLICATION_SCREEN' | 'SPECIFICATION_COMPARISON' | 'OPTION_SELECTION'; title: string
+  state: 'SOURCE_INFORMATION_AVAILABLE' | 'UNKNOWN'; decisionReadiness: 'SUPPLIER_CONFIRMATION_REQUIRED' | 'UNKNOWN'
+  fieldIndexes: number[]; citationIndexes: number[]; nextStep: string; question: string; verification: string
+  engineeringFit: 'UNKNOWN'; relationshipsVerified: false; isDefect: false
+}
+export type InquiryPreparation = { state: 'STATIC_ROUTE_RECORDED' | 'UNKNOWN'; pathObservationIds: string[];
+  availableInputFieldIndexes: number[]; productContextTransfer: 'UNKNOWN'; inquirySubmitted: false }
 export type ProcurementCard = {
   reviewRef: string; configurationRef: string; sourcePointer: string; productScopeRef: string
   name: string; declaredModel: string | null; profile: { id: string | null; state: string; title: string | null }
@@ -23,6 +32,7 @@ export type ProcurementCard = {
     sourcePointer: string; sources: VisitedPage[]; normalization: { dimension: string; value: string; unit: string } | null }[]
   groups: { key: string; title: string; state: string; fieldIndexes: number[]; nextStep: string }[]
   sources: VisitedPage[]
+  purchaseTasks: PurchaseTask[]; inquiryPreparation: InquiryPreparation | null
 }
 export type ReviewPage = VisitedPage | { snapshot_ref: string; url: string; observed_at: string;
   capture_status: string; http_status: number | null; reason: string | null }
@@ -48,7 +58,9 @@ export type PreviewResult = {
   pages: { id: string; url: string; observed: true; checkedAt: string }[]
   insights: Insight[]
   buyerReview: BuyerReview | null
-  buyerTasks: { task: BuyerTask; title: string; observations: Observation[]; insights: Insight[]; procurementCards: ProcurementCard[]; procurementCoverage: { eligible_products: number; reviewed_products: number; truncated: boolean } | null; reviewCandidates: ReviewCandidate[]; reviewCoverage: ReviewCoverage[] }[]
+  buyerTasks: { task: BuyerTask; title: string; observations: Observation[]; insights: Insight[]; procurementCards: ProcurementCard[]; procurementCoverage: { eligible_products: number; reviewed_products: number; truncated: boolean } | null; reviewCandidates: ReviewCandidate[]; reviewCoverage: ReviewCoverage[];
+    recordedFacts: Observation['contextFacts']; purchaseTasks: (PurchaseTask & { productScopeRef: string; sourcePointer: string })[];
+    inquiryPreparation: (InquiryPreparation & { productScopeRef: string; sourcePointer: string })[] }[]
   analysisOutcome: string; analysisText: string; modelFailureStage: string | null; aiWarning: string | null
   captureSummary: {
     candidate_urls: number; page_records: number; fetched_pages: number; unvisited_candidates: number
@@ -63,7 +75,9 @@ export type PreviewResult = {
   formalHumanReview: false
   reportView: {
     buyerReview: BuyerReview | null
-    tasks: { task: BuyerTask; title: string; observations: (Observation & { observationIds: string[]; sourcePointers: string[] })[]; insights: Insight[]; contextFacts: Observation['contextFacts']; procurementCards: ProcurementCard[]; procurementCoverage: PreviewResult['buyerTasks'][number]['procurementCoverage']; reviewCandidates: ReviewCandidate[]; reviewCoverage: ReviewCoverage[] }[]
+    tasks: { task: BuyerTask; title: string; observations: (Observation & { observationIds: string[]; sourcePointers: string[] })[]; insights: Insight[]; contextFacts: Observation['contextFacts']; procurementCards: ProcurementCard[]; procurementCoverage: PreviewResult['buyerTasks'][number]['procurementCoverage']; reviewCandidates: ReviewCandidate[]; reviewCoverage: ReviewCoverage[];
+      recordedFacts: Observation['contextFacts']; purchaseTasks: PreviewResult['buyerTasks'][number]['purchaseTasks'];
+      inquiryPreparation: PreviewResult['buyerTasks'][number]['inquiryPreparation'] }[]
     visitedPageCount: number; failedPageCount: number; candidatePageCount: number
     originalObservationCount: number; displayObservationCount: number; unknownCount: number
     countsAreNotScoreOrDefectCount: true; printCandidateUrls: false

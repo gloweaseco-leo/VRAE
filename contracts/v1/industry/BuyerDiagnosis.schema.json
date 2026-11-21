@@ -16,7 +16,8 @@
         "l2-industrial-1.0.3",
         "l2-industrial-1.0.4",
         "l2-industrial-1.0.5",
-        "l2-industrial-1.0.6"
+        "l2-industrial-1.0.6",
+        "l2-industrial-1.0.7"
       ]
     },
     "diagnostic_depth": {
@@ -339,7 +340,10 @@
           "const": "vrae.l2-procurement-review.v1"
         },
         "config_version": {
-          "const": "1.0.0"
+          "enum": [
+            "1.0.0",
+            "1.1.0"
+          ]
         },
         "configuration_ref": {
           "type": "string",
@@ -439,7 +443,10 @@
       "if": {
         "properties": {
           "diagnostic_version": {
-            "const": "l2-industrial-1.0.6"
+            "enum": [
+              "l2-industrial-1.0.6",
+              "l2-industrial-1.0.7"
+            ]
           }
         }
       },
@@ -453,6 +460,44 @@
           "required": [
             "procurement_review"
           ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "diagnostic_version": {
+            "const": "l2-industrial-1.0.7"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "procurement_review": {
+            "properties": {
+              "config_version": {
+                "const": "1.1.0"
+              },
+              "products": {
+                "items": {
+                  "required": [
+                    "purchase_tasks",
+                    "inquiry_preparation"
+                  ],
+                  "properties": {
+                    "purchase_tasks": {
+                      "type": "array",
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "inquiry_preparation": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

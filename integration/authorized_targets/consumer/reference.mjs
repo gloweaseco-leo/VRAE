@@ -110,6 +110,10 @@ export function projectResult(body, status, auditRef, language = 'zh') {
     const reviewTask = review?.tasks.find(t=>t.task === group.task)
     group.reviewCandidates = reviewTask?.candidates ?? []
     group.reviewCoverage = reviewTask?.coverage ?? []
+    group.recordedFacts=group.observations.flatMap(o=>o.contextFacts)
+    group.purchaseTasks=group.task==='UNDERSTAND'?procurement.flatMap(c=>c.purchaseTasks.map(t=>({...t,productScopeRef:c.productScopeRef,sourcePointer:c.sourcePointer}))):[]
+    group.inquiryPreparation=group.task==='INQUIRE'?procurement.filter(c=>c.inquiryPreparation).map(c=>({
+      ...c.inquiryPreparation,productScopeRef:c.productScopeRef,sourcePointer:c.sourcePointer})):[]
   }
   const claims = []
   let aiWarning = null
@@ -130,12 +134,29 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       return binding?.type === 'GUARD_LITERAL' && pages.has(c?.snapshot_ref) &&
         pages.get(c.snapshot_ref).url === c.url
     }).map(binding => pages.get(binding.fact.source.citation.snapshot_ref))
-    const modern = ['qwen-evidence-buyer-1.2.1', 'qwen-evidence-buyer-1.3.0', 'qwen-evidence-buyer-1.4.0'].includes(model.usage.prompt_version)
+    const modern = ['qwen-evidence-buyer-1.2.1', 'qwen-evidence-buyer-1.3.0', 'qwen-evidence-buyer-1.4.0', 'qwen-purchase-clarification-1.5.0'].includes(model.usage.prompt_version)
     const productRefs = refs.map(ref => bindings?.[ref]).filter(b => b?.type === 'GUARD_LITERAL' && b.fact?.rule_id === 'INFO-01')
     const productScopes = productRefs.map(b => b.fact.source?.citation?.product_scope_ref)
-    const badProductScope = ['qwen-evidence-buyer-1.3.0', 'qwen-evidence-buyer-1.4.0'].includes(model.usage.prompt_version) &&
+    const badProductScope = ['qwen-evidence-buyer-1.3.0', 'qwen-evidence-buyer-1.4.0', 'qwen-purchase-clarification-1.5.0'].includes(model.usage.prompt_version) &&
       (productScopes.some(scope => typeof scope !== 'string' || !/^ps-[0-9a-f]{64}$/.test(scope)) ||
        new Set(productScopes).size > 1)
+    let purchase = null
+    if (model.usage.prompt_version === 'qwen-purchase-clarification-1.5.0') {
+      const card=procurement.find(c=>c.productScopeRef===productScopes[0])
+      purchase=card?.purchaseTasks.find(t=>t.task===claim.purchase_task)
+      if (!purchase || purchase.state!=='SOURCE_INFORMATION_AVAILABLE' || claim.opportunity_kind!=='CLARIFICATION' ||
+          JSON.stringify(claim.rebuild)!==JSON.stringify([purchase.nextStep]) ||
+          JSON.stringify(claim.questions)!==JSON.stringify([purchase.question]) || claim.verification!==purchase.verification) {
+        aiWarning='AI_OUTPUT_NOT_DISPLAYABLE';continue
+      }
+      const row=pointer(body,card.sourcePointer)
+      const signature=c=>JSON.stringify([c.snapshot_ref,c.evidence_ref,c.field_index,c.fact_role,c.product_scope_ref,
+        c.text?.normalize('NFKC').trim().replace(/\s+/g,' ')])
+      const cited=new Set(productRefs.map(b=>signature(b.fact.source.citation)))
+      const supported=new Set(purchase.fieldIndexes.filter(i=>card.fields[i].citationIndexes.every(j=>cited.has(signature(row.citations[j]))))
+        .map(i=>card.fields[i].key))
+      if (supported.size < (purchase.task==='OPTION_SELECTION'?2:1)) { aiWarning='AI_OUTPUT_NOT_DISPLAYABLE';continue }
+    }
     if (!tasks.includes(claim.task) || claim.status !== 'HUMAN_REVIEW_REQUIRED' ||
         claim.guard_semantic_approval !== false || !text(claim.explanation) || !sources.length || badProductScope ||
         !list(claim.rebuild).length || !claim.rebuild.every(text) ||
@@ -145,11 +166,18 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       continue // AI failure never erases established rule facts.
     }
     claims.push({ task: claim.task, explanation: claim.explanation, rebuild: [...claim.rebuild],
+      purchaseTask:claim.purchase_task??null, opportunityKind:claim.opportunity_kind??null,
       uncertainties: list(claim.uncertainties).filter(text), questions: list(claim.questions).filter(text),
       verification: text(claim.verification) ? claim.verification : null, verificationIsPlan: true,
       sources: [...new Map(sources.map(p => [p.snapshot_ref, p])).values()], humanReviewRequired: true })
   }
-  if (genuine && !claims.length) aiWarning = 'AI_OUTPUT_NOT_DISPLAYABLE'
+  if (model?.usage?.prompt_version === 'qwen-purchase-clarification-1.5.0') {
+    const rank={SPECIFICATION_COMPARISON:0,OPTION_SELECTION:1,APPLICATION_SCREEN:2}
+    claims.sort((a,b)=>rank[a.purchaseTask]-rank[b.purchaseTask])
+  }
+  if (genuine && !claims.length && !(model.usage.prompt_version === 'qwen-purchase-clarification-1.5.0' &&
+      body.deterministic_diagnosis?.diagnostic_version==='l2-industrial-1.0.7' && model.reason==='NO_SUPPORTED_OPPORTUNITIES' &&
+      !list(body.claims).length && body.analysis_outcome === 'COMPLETED_NO_RECOMMENDATIONS')) aiWarning = 'AI_OUTPUT_NOT_DISPLAYABLE'
   const summary = body.capture_summary
   if (summary && (summary.fetched_pages !== visited.length || summary.unvisited_is_defect !== false)) fail()
   return { auditRef, state: body.state, analysisOutcome: body.analysis_outcome,

@@ -392,3 +392,75 @@ test('only a connected captured product route links its procurement card', () =>
   rows[1][0].source_page=home;original.steps[1].source_page=home
   assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
 })
+
+function purchaseTaskFixture() {
+  const d=procurementFixture(), card=d.deterministic_diagnosis.procurement_review.products[0]
+  d.deterministic_diagnosis.diagnostic_version='l2-industrial-1.0.7'
+  d.deterministic_diagnosis.procurement_review.config_version='1.1.0'
+  card.purchase_tasks=['APPLICATION_SCREEN','SPECIFICATION_COMPARISON','OPTION_SELECTION'].map((task,i)=>({
+    task,title:{zh:'采购任务',en:'Purchase task'},field_indexes:i===1?[0]:[],citation_indexes:i===1?[1,2]:[],
+    state:i===1?'SOURCE_INFORMATION_AVAILABLE':'UNKNOWN',decision_readiness:i===1?'SUPPLIER_CONFIRMATION_REQUIRED':'UNKNOWN',
+    buyer_requirements_known:false,engineering_fit:'UNKNOWN',relationships_verified:false,is_defect:false,
+    next_step:{zh:'先核对已有资料，再请供方澄清。',en:'Check documents, then ask the supplier.'},
+    question:{zh:'哪份资料支持该编码解释？',en:'Which document explains this code?'},
+    verification:{zh:'核对原字段及供方确认资料。',en:'Compare original fields and supplier confirmation.'}}))
+  card.inquiry_preparation={state:'UNKNOWN',path_observation_ids:[],available_input_field_indexes:[0],
+    product_context_transfer:'UNKNOWN',inquiry_submitted:false}
+  return d
+}
+
+test('purchase tasks use existing product fields without asserting fit or relationships',()=>{
+  const d=purchaseTaskFixture(), out=projectPreviewResult(d,200,ref)
+  assert.equal(out.buyerTasks[1].purchaseTasks[1].state,'SOURCE_INFORMATION_AVAILABLE')
+  assert.equal(out.buyerTasks[1].purchaseTasks[1].relationshipsVerified,false)
+  assert.equal(out.buyerTasks[3].inquiryPreparation[0].inquirySubmitted,false)
+  for(const change of [c=>c.purchase_tasks[0].state='SOURCE_INFORMATION_AVAILABLE',
+    c=>c.purchase_tasks[1].field_indexes=[],c=>c.inquiry_preparation.product_context_transfer='CONFIRMED']) {
+    const forged=purchaseTaskFixture();change(forged.deterministic_diagnosis.procurement_review.products[0])
+    assert.throws(()=>projectPreviewResult(forged,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+  }
+})
+
+test('successful zero-recommendation analysis retains facts without a false AI failure',()=>{
+  const d=purchaseTaskFixture()
+  d.state='DIAGNOSED';d.diagnosis_complete=true;d.analysis_outcome='COMPLETED_NO_RECOMMENDATIONS'
+  d.model={state:'AI_CANDIDATES_FOR_HUMAN_REVIEW',reason:'NO_SUPPORTED_OPPORTUNITIES',verification_realm:'REAL_PROVIDER',real_model_calls:1,
+    usage:{usage_origin:'PROVIDER_REPORTED',prompt_version:'qwen-purchase-clarification-1.5.0'}}
+  const out=projectPreviewResult(d,200,ref)
+  assert.equal(out.state,'diagnosed');assert.equal(out.aiWarning,null)
+  assert.equal(out.insights.length,0);assert.equal(out.buyerTasks[1].purchaseTasks.length,3)
+  d.model.verification_realm='PROTOCOL_FAKE_NOT_REAL_API';d.model.real_model_calls=0
+  assert.equal(projectPreviewResult(d,200,ref).aiWarning,'AI_OUTPUT_NOT_DISPLAYABLE')
+})
+
+test('purchase AI cannot publish a free-form mapping action despite valid product references',()=>{
+  const d=purchaseTaskFixture(), t=d.deterministic_diagnosis.procurement_review.products[0].purchase_tasks[1]
+  d.state='DIAGNOSED';d.diagnosis_complete=true;d.analysis_outcome='COMPLETED'
+  d.model={state:'AI_CANDIDATES_FOR_HUMAN_REVIEW',verification_realm:'REAL_PROVIDER',real_model_calls:1,
+    usage:{usage_origin:'PROVIDER_REPORTED',prompt_version:'qwen-purchase-clarification-1.5.0'}}
+  const c={task:'UNDERSTAND',purchase_task:'SPECIFICATION_COMPARISON',opportunity_kind:'CLARIFICATION',
+    refs:['cf-label','cf-spec'],counter_refs:[],status:'HUMAN_REVIEW_REQUIRED',guard_semantic_approval:false,
+    explanation:'100 mm may need comparison with supplier-confirmed drawings.',rebuild:[t.next_step.zh],
+    questions:[t.question.zh],uncertainties:['其他资料尚未核对。'],verification:t.verification.zh,
+    verification_status:'PROPOSED_NOT_EXECUTED',source_bindings:{'cf-label':{type:'GUARD_LITERAL',fact:{rule_id:'INFO-01',
+      source:{citation:{...d.deterministic_diagnosis.buyer_tasks[1].rules[0].observations[0].citations[1]}}}},'cf-spec':{type:'GUARD_LITERAL',fact:{rule_id:'INFO-01',
+      source:{citation:{...d.deterministic_diagnosis.buyer_tasks[1].rules[0].observations[0].citations[2]}}}}}}
+  d.claims=[c]
+  assert.equal(projectPreviewResult(d,200,ref).insights[0].opportunityKind,'CLARIFICATION')
+  c.rebuild=['Publish all combinations of the separately listed options.']
+  const out=projectPreviewResult(d,200,ref)
+  assert.equal(out.insights.length,0);assert.equal(out.buyerTasks[1].procurementCards.length,1)
+})
+
+test('placeholder text remains visible without becoming actionable purchasing information',()=>{
+  const d=purchaseTaskFixture(), card=d.deterministic_diagnosis.procurement_review.products[0]
+  card.fields[0].value='N/A';card.fields[0].normalization=null
+  d.deterministic_diagnosis.buyer_tasks[1].rules[0].observations[0].citations[2].text='N/A'
+  const t=card.purchase_tasks[1]
+  t.field_indexes=[];t.citation_indexes=[];t.state='UNKNOWN';t.decision_readiness='UNKNOWN'
+  card.inquiry_preparation.available_input_field_indexes=[]
+  const out=projectPreviewResult(d,200,ref)
+  assert.equal(out.buyerTasks[1].procurementCards[0].fields[0].value,'N/A')
+  assert.equal(out.buyerTasks[1].purchaseTasks[1].state,'UNKNOWN')
+  assert.deepEqual(out.buyerTasks[3].inquiryPreparation[0].availableInputFieldIndexes,[])
+})

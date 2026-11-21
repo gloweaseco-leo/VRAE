@@ -75,6 +75,8 @@ RULE_LIMITS = {
     'TECH-02': ('本次未完成图片和基础可访问性的观察。', 'Image and basic accessibility checks were not completed.'),
 }
 OUTCOMES = {
+    'COMPLETED_NO_RECOMMENDATIONS': ('自动分析已完成，本次未形成有充分依据的改善建议；已记录事实仍可查看。',
+        'Analysis completed without a sufficiently supported improvement recommendation; recorded facts remain available.'),
     'PENDING': ('正在整理分析；已形成的规则事实可先查看。', 'Analysis is pending; existing rule facts can be viewed now.'),
     'NOT_RUN': ('本次页面检查未完成，AI 分析未运行。', 'Capture did not complete; AI analysis did not run.'),
     'COMPLETED': ('自动分析已完成，尚未经过正式人工审核。', 'Automated analysis completed; formal human review is still pending.'),
@@ -126,7 +128,7 @@ def build(result):
                     'result': observation['result'], 'status_text': bilingual(RESULT_LABELS[observation['result']]),
                     'text': bilingual(observation_copy(rule['rule_id'], row)),
                     'source_pointer': f'/deterministic_diagnosis/buyer_tasks/{ti}/rules/{ri}/observations/{oi}'})
-                if diagnosis.get('diagnostic_version') in ('l2-industrial-1.0.5', 'l2-industrial-1.0.6'):
+                if diagnosis.get('diagnostic_version') in ('l2-industrial-1.0.5', 'l2-industrial-1.0.6', 'l2-industrial-1.0.7'):
                     from .presentation_context import build as context_copy, limit
                     items[-1]['context_facts'] = context_copy(rule['rule_id'], row)
                     items[-1]['limit'] = limit(rule['rule_id'], row)
@@ -140,7 +142,7 @@ def build(result):
         'analysis_text': bilingual(analysis),
         'tasks': groups, 'scope_pointer': '/page_scope', 'counts_pointer': '/capture_summary',
         'unknown_is_defect': False, 'missing_ai_claim_is_defect': False}
-    if diagnosis.get('diagnostic_version') == 'l2-industrial-1.0.6':
+    if diagnosis.get('diagnostic_version') in ('l2-industrial-1.0.6', 'l2-industrial-1.0.7'):
         output['procurement_review'] = diagnosis['procurement_review']
     if 'buyer_review' in result:
         output['buyer_review'] = result['buyer_review']

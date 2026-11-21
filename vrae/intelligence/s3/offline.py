@@ -108,6 +108,7 @@ class Context:
     catalog_bytes: bytes
     candidate_bytes: bytes
     context_ref: str
+    purchase_tasks_bytes: bytes
 
     def __init__(self):
         deny('USE_REPLAYED_CONTEXT_FACTORY')
@@ -205,10 +206,17 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins 
             if execution['evaluator_version'] == 'ra2b6-1.0.5':
                 descriptor['qwen_source_projection'] = 'qwen-product-values-1.2.0'
                 descriptor['qwen_output_policy'] = 'qwen-buyer-output-1.2.0'
+        purchasing = None
+        if diagnostic_version == 'l2-industrial-1.0.7':
+            purchasing = [{'source_group': c['product_scope_ref'], 'tasks': [
+                {'task': t['task'], 'state': t['state'], 'decision_readiness': t['decision_readiness']}
+                for t in c['purchase_tasks']]} for c in data['procurement_review']['products']]
+            descriptor.update(qwen_output_policy='qwen-purchase-clarification-1.0.0',
+                              purchase_tasks_sha256=document_hash({'products':purchasing}))
         result = object.__new__(Context)
         values = (pack, source, completion, encode(execution), package, pins, encode(gp),
                   encode({'context': known['context'], 'entries': entries}), encode(candidate),
-                  's3ctx-' + document_hash(descriptor))
+                  's3ctx-' + document_hash(descriptor), encode(purchasing))
         for name, value in zip(Context.__dataclass_fields__, values):
             object.__setattr__(result, name, value)
         return result

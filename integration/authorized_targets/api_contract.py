@@ -56,7 +56,7 @@ def openapi():
                         "buyer_review": {"type": "object", "required": [
                             "contract", "review_ref", "artifact_sha256", "pack_ref", "native_execution_ref",
                             "state", "tasks", "paths", "path_coverage", "native_fact_admission"],
-                            "description": "Optional vrae.buyer-review.v1 read projection for 1.0.6 artifacts. Five-task S2 review candidates and original static journeys; not part of the immutable diagnosis hash, not native rule promotion, inquiry delivery or formal approval."},
+                            "description": "Optional vrae.buyer-review.v1 read projection for 1.0.6/1.0.7 artifacts. Five-task S2 review candidates and original static journeys; not part of the immutable diagnosis hash, not native rule promotion, inquiry delivery or formal approval."},
                         "customer_presentation": {"type": "object", "required": [
                             "contract", "is_report", "formal_human_review", "rules_available", "tasks"],
                             "properties": {"contract": {"const": "vrae.diagnosis-presentation.v1"},
@@ -65,13 +65,13 @@ def openapi():
                                 "buyer_review": {"type": "object", "description": "Exact copy of the outer buyer_review projection; render separately from native observations and AI hypotheses."},
                                 "procurement_review": {"type": "object", "required": [
                                     "contract", "review_ref", "configuration_ref", "products"],
-                                    "description": "Versioned source-bound procurement review for new 1.0.6 tasks; no rule PASS, verified SKU or engineering approval."}},
+                                    "description": "Versioned source-bound procurement review: 1.0.6 keeps config 1.0.0; 1.0.7 uses config 1.1.0 and adds source-bound purchase_tasks and inquiry_preparation. No rule PASS, verified SKU or engineering approval."}},
                             "description": "Bilingual copy with pointers to original observations; not new facts, scores or human approval. Available independently of AI claims."},
                         "page_scope": {"type": ["object", "null"], "properties": {
                             name: {"type": "array", "items": {"type": "object"}} for name in (
                                 "visited_pages", "failed_attempt_records", "unvisited_candidates", "unknown_coverage")},
                             "description": "Display actual visited pages as evidence; collapse inventory-only candidates separately. A record without HTTP status does not prove dispatch or a website failure."},
-                        "analysis_outcome": {"enum": ["PENDING", "NOT_RUN", "COMPLETED",
+                        "analysis_outcome": {"enum": ["PENDING", "NOT_RUN", "COMPLETED", "COMPLETED_NO_RECOMMENDATIONS",
                             "INSUFFICIENT_EVIDENCE", "NOT_DISPATCHED", "PROVIDER_FAILED",
                             "VALIDATION_REJECTED", "UNAVAILABLE"]},
                         "capture_summary": {"type": ["object", "null"], "properties": {
