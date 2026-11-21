@@ -6,7 +6,9 @@ from .execution import _records, _metadata, _row
 from .universal_static import parse, usable, cite
 
 
-def evaluate(pack, doc, rule, *, labelled=False):
+def evaluate(pack, doc, rule, *, labelled=False, contextual=False):
+    from .retained_context import role, contact_targets, closed_anchor
+    classify = role if contextual else representative_role
     rows = []
     for record in _records(doc):
         snapshot = record[2]
@@ -24,9 +26,9 @@ def evaluate(pack, doc, rule, *, labelled=False):
         if labelled and any(n['tag'] == 'base' and 'href' in n['attrs'] for n in parser.nodes):
             continue
         citations = []
-        labelled_targets = labelled_contact_targets(raw, snapshot['final_url']) if labelled else set()
+        labelled_targets = (contact_targets if contextual else labelled_contact_targets)(raw, snapshot['final_url']) if labelled else set()
         for node in parser.nodes:
-            if node['tag'] != 'a' or not usable(node):
+            if not (closed_anchor(node) if contextual else node['tag'] == 'a' and usable(node)):
                 continue
             href = node['attrs'].get('href') or ''
             if not href or len(href) > 2048 or any(ord(c) <= 32 for c in href) or '\\' in href:
@@ -34,7 +36,7 @@ def evaluate(pack, doc, rule, *, labelled=False):
             target = urlsplit(urljoin(snapshot['final_url'], href))
             if (target.scheme != 'https' or target.netloc != urlsplit(snapshot['final_url']).netloc
                     or target.query or target.fragment
-                    or (representative_role(target.geturl()) != 'CONTACT'
+                    or (classify(target.geturl()) != 'CONTACT'
                         and target.geturl() not in labelled_targets)):
                 continue
             citations.append({**cite(parser, node), **{k: evidence[k] for k in (

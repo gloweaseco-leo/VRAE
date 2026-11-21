@@ -1,0 +1,9 @@
+/* VF integration: load with the existing report component; no export service. */
+@media print {
+  [data-vrae-print="omit"] { display: none !important; }
+  /* Keep the candidate count and boundary text, never print the long URL list. */
+  [data-testid="vrae-unvisited"] > ul { display: none !important; }
+  [data-testid="vrae-automatic-result"] { color: #111; background: #fff; }
+  [data-testid="vrae-automatic-result"] p,
+  [data-testid="vrae-automatic-result"] li { break-inside: avoid; }
+}

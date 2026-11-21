@@ -6,6 +6,7 @@ from vrae.interpretation import guard
 
 VERSION = 'qwen-product-values-1.0.0'
 SCOPED_VERSION = 'qwen-product-values-1.1.0'
+CONTEXT_VERSION = 'qwen-product-values-1.2.0'
 ROLES = {'NAME', 'DESCRIPTION', 'SPEC_LABEL', 'SPEC_VALUE'}
 PRIVATE = re.compile(
     r'https?\s*:|www\s*\.|@|(?:[a-z0-9-]+\.)+(?:com|net|org|cn|io)\b|'
@@ -36,7 +37,7 @@ def value(fact):
     return text if 1 <= len(text) <= cap else None
 
 
-def choose(rows, entries, *, scoped=False):
+def choose(rows, entries, *, scoped=False, efficient=False):
     """Keep name/description and complete label-value pairs for at most two pages."""
     selected: list[dict] = []
     pages: list[str] = []
@@ -55,6 +56,7 @@ def choose(rows, entries, *, scoped=False):
                         'product_scope_ref' if scoped else 'snapshot_ref') == page]
         if scoped and not any(r['source_fact_role'] == 'NAME' for r in relevant):
             continue
+        group_start = len(selected)
         for role, limit in (('NAME', 1), ('DESCRIPTION', 2)):
             selected.extend([r for r in relevant if r['source_fact_role'] == role][:limit])
         pairs: dict[int, dict] = {}
@@ -62,7 +64,16 @@ def choose(rows, entries, *, scoped=False):
             c = entries[row['ref']]['fact']['source']['citation']
             if c['fact_role'] in ('SPEC_LABEL', 'SPEC_VALUE'):
                 pairs.setdefault(c['field_index'], {})[c['fact_role']] = row
-        for _, pair in sorted(pairs.items())[:4]:
-            if set(pair) == {'SPEC_LABEL', 'SPEC_VALUE'}:
-                selected.extend([pair['SPEC_LABEL'], pair['SPEC_VALUE']])
+        names = {r['source_value'] for r in selected[group_start:] if r['source_fact_role'] == 'NAME'}
+        eligible = sorted(pairs.items()) if efficient else sorted(pairs.items())[:4]
+        for _, pair in eligible:
+            if set(pair) != {'SPEC_LABEL', 'SPEC_VALUE'}:
+                continue
+            if efficient:
+                label = pair['SPEC_LABEL']['source_value'].strip().casefold()
+                if label in ('item', 'product', 'product name', 'productname') and pair['SPEC_VALUE']['source_value'] in names:
+                    continue
+                if len(selected) - group_start + 2 > 11:
+                    break
+            selected.extend([pair['SPEC_LABEL'], pair['SPEC_VALUE']])
     return selected

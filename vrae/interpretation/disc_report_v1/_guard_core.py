@@ -50,7 +50,7 @@ def _catalog(pack, package):
     for rule in execution['executions']:
         for row in rule['observations']:
             obs = row['observation']
-            partial_product = (execution['evaluator_version'] in ('ra2b6-1.0.2', 'ra2b6-1.0.3', 'ra2b6-1.0.4')
+            partial_product = (execution['evaluator_version'] in ('ra2b6-1.0.2', 'ra2b6-1.0.3', 'ra2b6-1.0.4', 'ra2b6-1.0.5')
                 and rule['rule_id'] == 'INFO-01' and obs['result'] == 'UNKNOWN'
                 and row.get('source_text_presence') == 'OBSERVED')
             if obs['result'] not in ('PASS', 'FAIL_WITH_EVIDENCE') and not partial_product:

@@ -26,7 +26,7 @@ from integration.authorized_targets.provision import install, grant_automatic_se
 from infra.linux_service.ai_loop import adapter
 from integration.qwen_provider.committed import execute
 from vrae.intelligence.qwen import Config, Permission, Price, QwenProvider, Quota
-from vrae.intelligence.qwen.provider import MODEL_SOURCE, SCOPED_PROMPT
+from vrae.intelligence.qwen.provider import MODEL_SOURCE, CONTEXT_PROMPT
 from vrae.intelligence.qwen.testing import FakeTransport
 from vrae.intelligence.qwen.session import RULE_TASK
 from integration.authorized_targets.automatic_result import TASKS
@@ -55,7 +55,8 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
             'infra/authorized_targets/006_automatic_diagnosis.sql',
             'infra/authorized_targets/007_automatic_sessions.sql',
             'infra/authorized_targets/008_committed_language.sql',
-            'infra/authorized_targets/009_committed_scoped_language.sql'):
+            'infra/authorized_targets/009_committed_scoped_language.sql',
+            'infra/authorized_targets/010_committed_context_language.sql'):
             c.execute(Path(path).read_text())
         assert c.execute('SELECT current_user').fetchone()[0] == 'postgres'
     now = datetime.now(UTC)
@@ -194,7 +195,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert result['customer_presentation']['rules_available']
         assert len(result['customer_presentation']['tasks']) == 5
         assert result['customer_presentation']['artifact_sha256'] == result['artifact_sha256']
-        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.4'
+        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.5'
         assert result['capture_summary']['fetched_pages'] == 6
         assert result['capture_summary']['http_requests_including_robots'] == 7
         assert result['capture_summary']['unvisited_candidates'] > 150
@@ -223,7 +224,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     assert any(e['fact']['observation_result'] == 'UNKNOWN' for e in c.catalog['entries'].values())
     anchor, entry = next((ref, entry) for ref, entry in c.catalog['entries'].items()
                          if entry['type'] == 'GUARD_LITERAL')
-    content = {'prompt_version': SCOPED_PROMPT, 'context_ref': c.context_ref, 'claims': [{
+    content = {'prompt_version': CONTEXT_PROMPT, 'context_ref': c.context_ref, 'claims': [{
         'task': RULE_TASK[entry['fact']['rule_id']], 'refs': [anchor], 'counter_refs': [],
         'explanation': 'A buyer may need clearer navigation based on the saved page.',
         'uncertainties': ['Only bounded static pages were checked.'],
@@ -243,7 +244,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
     result = execute(bindings['ai'], job, selected, operation_id='service-ai-' + job)
     assert result['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW', result
     assert result['pg_receipt_status'] == 'RECORDED' and result['real_model_calls'] == 0
-    assert result['usage']['prompt_version'] == SCOPED_PROMPT
+    assert result['usage']['prompt_version'] == CONTEXT_PROMPT
     assert result['claims'][0]['verification_status'] == 'PROPOSED_NOT_EXECUTED'
     sent = fake.bodies[0]
     assert 'Use concise Simplified Chinese:' in sent['messages'][0]['content']

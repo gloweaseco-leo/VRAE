@@ -150,3 +150,51 @@ test('temporary read errors retain same-session facts; denial or expiry clears t
   assert.equal(retainView(previous, { ...options, sessionExpiresAt: 999 }), null)
   assert.equal(retainView(previous, { ...options, auditRef: 'different' }), null)
 })
+
+test('bound partial source facts survive UNKNOWN and cannot invent a rule PASS', () => {
+  const dto = fixture('AI_UNAVAILABLE')
+  const row = dto.deterministic_diagnosis.buyer_tasks[4].rules[0].observations[0]
+  row.citations = [{ snapshot_ref: page.snapshot_ref, url: page.url, fact_role: 'TITLE' }]
+  row.seo_signals = { title: { status: 'OBSERVED' } }
+  const item = dto.customer_presentation.tasks[4].observations[0]
+  item.context_facts = [{ kind: 'TITLE', citation_indexes: [0], is_rule_pass: false,
+    text: { zh: '已记录首页标题。', en: 'A home title was retained.' } }]
+  item.limit = { kind: 'PARTIAL_EVIDENCE', text: { zh: '已有部分来源观察。', en: 'Partial source observations exist.' } }
+  const result = projectPreviewResult(dto, 200, ref)
+  assert.equal(result.buyerTasks[4].observations[0].result, 'UNKNOWN')
+  assert.equal(result.reportView.tasks[4].contextFacts[0].isRulePass, false)
+  assert.equal(result.reportView.tasks[4].contextFacts[0].sources[0].url, page.url)
+  assert.equal(result.buyerTasks[4].observations[0].limit.kind, 'PARTIAL_EVIDENCE')
+  item.context_facts[0].citation_indexes = [99]
+  assert.throws(() => projectPreviewResult(dto, 200, ref), /INVALID_DIAGNOSIS_DELIVERY/)
+  item.context_facts[0].citation_indexes = [0]
+  item.context_facts[0].kind = 'DESCRIPTION'
+  assert.throws(() => projectPreviewResult(dto, 200, ref), /INVALID_DIAGNOSIS_DELIVERY/)
+})
+
+test('report groups repeated nav observations while retaining both proof pointers', () => {
+  const dto = fixture('AI_UNAVAILABLE')
+  const target = { ...page, snapshot_ref: 'page-'+'d'.repeat(64), url: 'https://example.org/products/' }
+  dto.page_scope.visited_pages.push(target)
+  dto.capture_summary.fetched_pages = 2
+  const rows = dto.deterministic_diagnosis.buyer_tasks[0].rules[0].observations
+  rows[0].observation.result = 'PASS'
+  rows[0].citations = [{ snapshot_ref: page.snapshot_ref }]
+  rows[0].homepage = page
+  rows[0].target_response = target
+  rows.push(structuredClone(rows[0]))
+  rows[1].observation.observation_id = 'obs-'+'e'.repeat(64)
+  const items = dto.customer_presentation.tasks[0].observations
+  items[0].result = 'PASS'
+  items.push({ ...items[0], observation_id: rows[1].observation.observation_id,
+    source_pointer: '/deterministic_diagnosis/buyer_tasks/0/rules/0/observations/1' })
+  const result = projectPreviewResult(dto, 200, ref)
+  assert.equal(result.buyerTasks[0].observations.length, 2)
+  assert.equal(result.reportView.tasks[0].observations.length, 1)
+  assert.equal(result.reportView.tasks[0].observations[0].sourcePointers.length, 2)
+  assert.equal(result.reportView.originalObservationCount, 6)
+  assert.equal(result.reportView.displayObservationCount, 5)
+  assert.equal(result.reportView.candidatePageCount, 60)
+  assert.equal(result.reportView.printCandidateUrls, false)
+  assert.equal(result.reportView.countsAreNotScoreOrDefectCount, true)
+})

@@ -126,6 +126,10 @@ def build(result):
                     'result': observation['result'], 'status_text': bilingual(RESULT_LABELS[observation['result']]),
                     'text': bilingual(observation_copy(rule['rule_id'], row)),
                     'source_pointer': f'/deterministic_diagnosis/buyer_tasks/{ti}/rules/{ri}/observations/{oi}'})
+                if diagnosis.get('diagnostic_version') == 'l2-industrial-1.0.5':
+                    from .presentation_context import build as context_copy, limit
+                    items[-1]['context_facts'] = context_copy(rule['rule_id'], row)
+                    items[-1]['limit'] = limit(rule['rule_id'], row)
         groups.append({'task': task['task'], 'title': bilingual(TASK_LABELS[task['task']]), 'observations': items,
             'ai_claim_indexes': [i for i, claim in enumerate(result['claims']) if claim['task'] == task['task']]})
     analysis = OUTCOMES[result['analysis_outcome']]
