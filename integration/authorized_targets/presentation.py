@@ -30,6 +30,8 @@ PASS_COPY = {
                  'Supplier-stated identity, introduction and contact context were recorded; authenticity is unverified.'),
 }
 REASONS = {
+    'STATIC_PRODUCT_SCOPE_AMBIGUOUS': ('本次无法可靠归属产品正文区域，未将其他分类或产品的文字作为该产品资料。',
+        'The product content region is unresolved; category or other-product text was not assigned to this product.'),
     'STATIC_PRODUCT_NAME_AMBIGUOUS': ('本次无法唯一识别产品名称或页面角色；不代表网站没有产品。',
         'The product name or page role could not be uniquely identified; website-wide product absence is unproven.'),
     'STATIC_HTML_AMBIGUOUS': ('本次静态结构存在解析歧义，相关内容仍需核对。',

@@ -2,6 +2,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { projectResult, readDecision, retainView } from './reference.mjs'
+import { projectPreviewResult } from './vf-preview-adapter.mjs'
 
 const ref = 'aref-' + 'a'.repeat(32)
 const page = { snapshot_ref: 'page-' + 'b'.repeat(64), url: 'https://example.org/products/wheel',
@@ -30,6 +31,23 @@ function fixture(state = 'AI_PENDING') {
         source_pointer: `/deterministic_diagnosis/buyer_tasks/${i}/rules/0/observations/0`,
       }] })) } }
 }
+
+test('VF adapter delivers five fact groups without AI and separates candidate links', () => {
+  const dto = fixture('AI_UNAVAILABLE')
+  dto.model = { failure_stage: 'PROVIDER' }
+  const out = projectPreviewResult(dto, 200, ref)
+  assert.equal(out.state, 'ai-unavailable')
+  assert.deepEqual(out.buyerTasks.map(t => t.task), taskIds)
+  assert.equal(out.buyerTasks[1].observations[0].result, 'PASS')
+  assert.equal(out.buyerTasks[0].observations[0].result, 'UNKNOWN')
+  assert.equal(out.buyerTasks[0].observations[0].text, '测试规则事实')
+  assert.equal(out.buyerTasks[0].observations[0].reason, 'HTML_UNSUPPORTED_OR_AMBIGUOUS')
+  assert.equal(out.insights.length, 0)
+  assert.equal(out.pages.length, 1)
+  assert.equal(out.pageScope.candidates.length, 60)
+  assert.equal(out.analysisOutcome, 'PROVIDER_FAILED')
+  assert.equal(out.modelFailureStage, 'PROVIDER')
+})
 
 test('pending and failed AI retain all five fact groups and real capture counts', () => {
   for (const state of ['AI_PENDING', 'AI_UNAVAILABLE']) {
@@ -79,6 +97,25 @@ test('protocol fakes and unbound AI never erase deterministic facts', () => {
   dto.claims = [null, 'invalid', {}]
   assert.equal(projectResult(dto, 200, ref).facts.length, 5)
   assert.equal(projectResult(dto, 200, ref).claims.length, 0)
+})
+
+test('scoped AI from two product regions is withheld without removing five-task facts', () => {
+  const dto = fixture('DIAGNOSED')
+  dto.model = { state: 'AI_CANDIDATES_FOR_HUMAN_REVIEW', verification_realm: 'REAL_PROVIDER', real_model_calls: 1,
+    usage: { usage_origin: 'PROVIDER_REPORTED', prompt_version: 'qwen-evidence-buyer-1.3.0' } }
+  const binding = scope => ({ type: 'GUARD_LITERAL', fact: { rule_id: 'INFO-01', source: {
+    citation: { snapshot_ref: page.snapshot_ref, url: page.url, product_scope_ref: 'ps-' + scope.repeat(64) } } } })
+  dto.claims = [{ task: 'UNDERSTAND', explanation: 'Synthetic conditional product explanation.',
+    rebuild: ['Keep the model and specification together.'], uncertainties: ['Identity unverified.'], questions: ['Which model?'],
+    verification: 'Compare with the retained model source.', verification_status: 'PROPOSED_NOT_EXECUTED',
+    refs: ['a', 'b'], counter_refs: [], source_bindings: { a: binding('a'), b: binding('b') },
+    status: 'HUMAN_REVIEW_REQUIRED', guard_semantic_approval: false }]
+  const invalid = projectResult(dto, 200, ref)
+  assert.equal(invalid.claims.length, 0)
+  assert.equal(invalid.facts.length, 5)
+  assert.equal(invalid.aiWarning, 'AI_OUTPUT_NOT_DISPLAYABLE')
+  dto.claims[0].refs = ['a']
+  assert.equal(projectResult(dto, 200, ref).claims.length, 1)
 })
 
 test('stale pointers, cross-task facts and inflated visited counts are rejected', () => {

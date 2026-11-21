@@ -5,6 +5,7 @@ import unicodedata
 from vrae.interpretation import guard
 
 VERSION = 'qwen-product-values-1.0.0'
+SCOPED_VERSION = 'qwen-product-values-1.1.0'
 ROLES = {'NAME', 'DESCRIPTION', 'SPEC_LABEL', 'SPEC_VALUE'}
 PRIVATE = re.compile(
     r'https?\s*:|www\s*\.|@|(?:[a-z0-9-]+\.)+(?:com|net|org|cn|io)\b|'
@@ -35,7 +36,7 @@ def value(fact):
     return text if 1 <= len(text) <= cap else None
 
 
-def choose(rows, entries):
+def choose(rows, entries, *, scoped=False):
     """Keep name/description and complete label-value pairs for at most two pages."""
     selected: list[dict] = []
     pages: list[str] = []
@@ -43,12 +44,17 @@ def choose(rows, entries):
         if row['type'] != 'GUARD_LITERAL' or 'source_value' not in row:
             continue
         citation = entries[row['ref']]['fact']['source']['citation']
-        page = citation['snapshot_ref']
+        page = citation.get('product_scope_ref') if scoped else citation['snapshot_ref']
+        if scoped and (type(page) is not str or not re.fullmatch('ps-[0-9a-f]{64}', page)):
+            continue
         if page not in pages and len(pages) < 2:
             pages.append(page)
     for page in pages:
         relevant = [r for r in rows if r['type'] == 'GUARD_LITERAL' and 'source_value' in r
-                    and entries[r['ref']]['fact']['source']['citation']['snapshot_ref'] == page]
+                    and entries[r['ref']]['fact']['source']['citation'].get(
+                        'product_scope_ref' if scoped else 'snapshot_ref') == page]
+        if scoped and not any(r['source_fact_role'] == 'NAME' for r in relevant):
+            continue
         for role, limit in (('NAME', 1), ('DESCRIPTION', 2)):
             selected.extend([r for r in relevant if r['source_fact_role'] == role][:limit])
         pairs: dict[int, dict] = {}

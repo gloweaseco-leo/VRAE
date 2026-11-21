@@ -53,6 +53,7 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       if (['PASS', 'FAIL_WITH_EVIDENCE'].includes(item.result) && !sources.length) fail()
       return { rule: item.rule_id, observationId: item.observation_id, result: item.result,
         text: item.text[language], statusText: item.status_text[language], sources,
+        reason: typeof row.reason === 'string' ? row.reason : null,
         sourcePointer: item.source_pointer }
     }),
   }))
@@ -75,9 +76,14 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       return binding?.type === 'GUARD_LITERAL' && pages.has(c?.snapshot_ref) &&
         pages.get(c.snapshot_ref).url === c.url
     }).map(binding => pages.get(binding.fact.source.citation.snapshot_ref))
-    const modern = model.usage.prompt_version === 'qwen-evidence-buyer-1.2.1'
+    const modern = ['qwen-evidence-buyer-1.2.1', 'qwen-evidence-buyer-1.3.0'].includes(model.usage.prompt_version)
+    const productRefs = refs.map(ref => bindings?.[ref]).filter(b => b?.type === 'GUARD_LITERAL' && b.fact?.rule_id === 'INFO-01')
+    const productScopes = productRefs.map(b => b.fact.source?.citation?.product_scope_ref)
+    const badProductScope = model.usage.prompt_version === 'qwen-evidence-buyer-1.3.0' &&
+      (productScopes.some(scope => typeof scope !== 'string' || !/^ps-[0-9a-f]{64}$/.test(scope)) ||
+       new Set(productScopes).size > 1)
     if (!tasks.includes(claim.task) || claim.status !== 'HUMAN_REVIEW_REQUIRED' ||
-        claim.guard_semantic_approval !== false || !text(claim.explanation) || !sources.length ||
+        claim.guard_semantic_approval !== false || !text(claim.explanation) || !sources.length || badProductScope ||
         !list(claim.rebuild).length || !claim.rebuild.every(text) ||
         refs.some(ref => !object(bindings) || !Object.hasOwn(bindings, ref)) ||
         modern && (!text(claim.verification) || claim.verification_status !== 'PROPOSED_NOT_EXECUTED')) {
@@ -94,6 +100,7 @@ export function projectResult(body, status, auditRef, language = 'zh') {
   if (summary && (summary.fetched_pages !== visited.length || summary.unvisited_is_defect !== false)) fail()
   return { auditRef, state: body.state, analysisOutcome: body.analysis_outcome,
     analysisText: p.analysis_text[language], facts, claims, aiWarning,
+    modelFailureStage: typeof model?.failure_stage === 'string' ? model.failure_stage : null,
     captureSummary: summary ?? null,
     pageScope: { visited, failed: list(body.page_scope?.failed_attempt_records),
       candidates: list(body.page_scope?.unvisited_candidates),

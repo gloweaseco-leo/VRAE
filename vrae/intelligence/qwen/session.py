@@ -12,7 +12,7 @@ from jsonschema import Draft202012Validator
 from vrae.intelligence.common import encode
 from vrae.interpretation import guard
 from vrae.intelligence.source_guard import for_evaluator
-from .provider import (MODEL, PROMPT, CONTENT_PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvider,
+from .provider import (MODEL, PROMPT, CONTENT_PROMPT, SCOPED_PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvider,
                        digest, fail, strict_json)
 
 TASKS = ['DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL']
@@ -79,13 +79,14 @@ SYSTEM = ('Return JSON only using the schema. Produce conditional buyer reasonin
 
 
 def prompt_version(context):
-    return CONTENT_PROMPT if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.3' else PROMPT
+    version = context.gateway_pins.expected_evaluator_version
+    return SCOPED_PROMPT if version == 'ra2b6-1.0.4' else CONTENT_PROMPT if version == 'ra2b6-1.0.3' else PROMPT
 
 
 def candidate_schema(context, *, compact=False):
     schema: dict = deepcopy(COMPACT_SCHEMA if compact else SCHEMA)
     schema['properties']['prompt_version']['const'] = prompt_version(context)
-    if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.3':
+    if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.3', 'ra2b6-1.0.4'):
         claim = schema['properties']['claims']['items']
         claim['required'].append('verification')
         claim['properties']['verification'] = {'type': 'string', 'minLength': 1, 'maxLength': 220}
@@ -101,19 +102,21 @@ def catalog(context):
             fact = entry['fact']
             item = {'ref': ref, 'type': kind, 'task': RULE_TASK[fact['rule_id']],
                     'rule_id': fact['rule_id'], 'source_text': 'WITHHELD_BY_DEFAULT'}
-            if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.2', 'ra2b6-1.0.3'):
+            if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.2', 'ra2b6-1.0.3', 'ra2b6-1.0.4'):
                 item.update(rule_result=fact['observation_result'],
                     source_fact_role=fact['source']['citation'].get('fact_role'),
                     literal_source_is_not_rule_pass=True)
-            if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.3':
+            if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.3', 'ra2b6-1.0.4'):
                 from .source_values import value
                 text = value(fact)
                 if text is not None:
                     item.pop('source_text')
                     item['source_value'] = text
-                    item['source_group'] = fact['source']['citation']['snapshot_ref']
+                    scoped = context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.4'
+                    item['source_group'] = fact['source']['citation'].get('product_scope_ref') if scoped else fact['source']['citation']['snapshot_ref']
                     item['field_index'] = fact['source']['citation'].get('field_index')
-                    item['source_scope'] = 'BOUNDED_SOURCE_FIRST_LISTED_ROW_NOT_ALL_VARIANTS'
+                    item['source_scope'] = ('BOUNDED_STATIC_PRODUCT_REGION_IDENTITY_UNVERIFIED' if scoped
+                        else 'BOUNDED_SOURCE_FIRST_LISTED_ROW_NOT_ALL_VARIANTS')
                 target = fact['source'].get('target_response') or {}
                 if target.get('http_status') in (404, 410):
                     item['observed_http_status'] = target['http_status']
@@ -141,11 +144,12 @@ def compact_input(context, minimized):
     rows = catalog(context)
     required = {ref for row in rows for ref in row.get('counter_refs', [])}
     selected, anchored = [], set()
-    content = context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.3'
+    content = context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.3', 'ra2b6-1.0.4')
     value_refs = set()
     if content:
         from .source_values import choose
-        value_refs = {r['ref'] for r in choose(rows, context.catalog['entries'])}
+        value_refs = {r['ref'] for r in choose(rows, context.catalog['entries'],
+            scoped=context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.4')}
     for row in rows:
         if row['type'] == 'GUARD_LITERAL':
             if (content and row['rule_id'] != 'INFO-01' and row['ref'] not in required
@@ -205,10 +209,10 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
     fields['refs']['items'] = {'type': 'string', 'enum': [
         row['ref'] for row in data['references'] if row['type'] == 'GUARD_LITERAL']}
     system = SYSTEM
-    if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.2', 'ra2b6-1.0.3'):
+    if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.2', 'ra2b6-1.0.3', 'ra2b6-1.0.4'):
         system += (' A literal name or description with rule_result UNKNOWN proves source text only, '
                    'not rule PASS and not absent specifications. Keep all reasoning conditional.')
-    if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.3':
+    if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.3', 'ra2b6-1.0.4'):
         language = 'Simplified Chinese' if data['response_language'] == 'zh' else 'English'
         system = system.replace('Use concise English:', f'Use concise {language}:')
         system += (' Ground the explanation in supplied source_value fields. Never describe withheld '
@@ -219,6 +223,12 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
             'Each claim also needs a distinct verification sentence: say how a reviewer can check '
             'the proposed change against the same source or a future authorized observation. '
             'Do not claim that this future verification has already happened.')
+    if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.4':
+        system += (' Each source_group is one bounded static product region, not verified SKU identity. '
+            'Within each claim use INFO-01 references from exactly one source_group. '
+            'Do not combine menu, related-product or other-product labels with this product. '
+            'Different words or fields alone do not establish contradictory specifications or suitability. '
+            'When product attribution is unresolved, retain the uncertainty and do not allege a conflict.')
     body = {'model': MODEL, 'messages': [{'role': 'system', 'content': system},
         {'role': 'user', 'content': encode(data).decode()}],
         'response_format': {'type': 'json_schema', 'json_schema': {
@@ -269,8 +279,11 @@ def validate_candidates(text, context, receipt):
                    if entries[ref]['type'] == 'GUARD_LITERAL']
         if not anchors:
             fail('GUARD_ANCHOR_REQUIRED')
+        if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.4':
+            from .output_quality import check_product_scopes
+            check_product_scopes(claim, entries)
         verification = []
-        if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.3':
+        if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.3', 'ra2b6-1.0.4'):
             from .output_quality import check
             check(claim)
             verification = [claim['verification']]

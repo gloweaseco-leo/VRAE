@@ -10,8 +10,8 @@ COVERAGE = (
 )
 
 
-def evaluate_product_info(pack, doc, rule, *, expected_pack_ref, generic=False, content=False):
-    facts = extract(pack, expected_pack_ref=expected_pack_ref, generic=generic, content=content)
+def evaluate_product_info(pack, doc, rule, *, expected_pack_ref, generic=False, content=False, scoped=False):
+    facts = extract(pack, expected_pack_ref=expected_pack_ref, generic=generic, content=content, scoped=scoped)
     records = {r[2]['snapshot_ref']: r for r in _records(doc)}
     rows = []
     for page in facts['pages']:
@@ -43,6 +43,8 @@ def evaluate_product_info(pack, doc, rule, *, expected_pack_ref, generic=False, 
             coverage += (
                 ' Multi-column tables cover the first listed data row only; subsequent '
                 'row-spanned variants and notes are not assessed or merged into one SKU.')
+        if scoped:
+            coverage += ' Name, retained fields and descriptions share a bounded static region; product/SKU identity remains unverified.'
         row = _row(doc, rule, result, page['reason'], source=source,
                    citations=citations, statement=statement, coverage_note=coverage)
         if generic and page['name'] is not None:
