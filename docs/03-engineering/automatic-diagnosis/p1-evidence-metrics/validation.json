@@ -1,0 +1,38 @@
+{
+  "scope": "P1_FACT_REVIEW_AND_HTTP_MEASUREMENT",
+  "python_regression": {
+    "passed": 151,
+    "command": "pytest integration/authorized_targets/checks/test_fact_review.py integration/authorized_targets/checks/test_buyer_review.py integration/authorized_targets/checks/test_purchase_tasks.py tests/collection/test_contracts.py tests/collection/test_pipeline.py tests/collection/test_security.py tests/collection/test_a5.py",
+    "note": "Before final redirect counter regression; final P1 suite recorded separately."
+  },
+  "node_consumer": {
+    "passed": 26
+  },
+  "network_none_dns_tcp_tls_firewall_lab": {
+    "passed": 24,
+    "timing_recorded_by_pinned_transport": true,
+    "external_network": false,
+    "production_mounts": false
+  },
+  "isolated_pg_automatic_flow": {
+    "passed": 1,
+    "seconds": 87.85,
+    "production_mounts": false,
+    "real_model_calls": 0
+  },
+  "mypy": {
+    "source_files": 155,
+    "passed": true
+  },
+  "ruff": true,
+  "historical_artifacts_replayed": 28,
+  "production_deployed": false,
+  "real_model_calls": 0,
+  "vf_repository_changed": false,
+  "final_p1_suite": {
+    "passed": 10,
+    "seconds": 2.12,
+    "includes_redirect_follow_rejection": true,
+    "overlaps_python_regression": true
+  }
+}

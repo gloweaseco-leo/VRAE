@@ -9,6 +9,62 @@ const page = { snapshot_ref: 'page-' + 'b'.repeat(64), url: 'https://example.org
   observed_at: '2026-11-20T00:00:00Z', capture_status: 'FETCHED', http_status: 200 }
 const taskIds = ['DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL']
 const ruleIds = ['DISC-01', 'INFO-01', 'TRUST-01', 'CTA-01', 'SEO-01']
+
+function factReviewFixture(measured=false) {
+  const d=fixture('AI_UNAVAILABLE')
+  Object.assign(d.deterministic_diagnosis,{expected_pack_ref:'ep-'+'d'.repeat(64),native_execution_ref:'ne-'+'e'.repeat(64)})
+  d.fact_review={contract:'vrae.fact-review.v1',artifact_sha256:d.artifact_sha256,
+    pack_ref:d.deterministic_diagnosis.expected_pack_ref,native_execution_ref:d.deterministic_diagnosis.native_execution_ref,
+    review_ref:'frv-'+'f'.repeat(64),native_fact_admission:'NONE',unknown_is_defect:false,inquiry_submitted:false,
+    browser_performance:'UNKNOWN',whole_site_coverage_known:false,
+    trust:[{source_pointer:'/deterministic_diagnosis/buyer_tasks/2/rules/0/observations/0',context_facts:[],missing_prerequisites:[],identity_verified:false,materials_authenticated:false}],
+    inquiry:[{snapshot_ref:page.snapshot_ref,state:'STATIC_DECLARATIONS_RECORDED',static_forms:{forms:[],coverage:{total:0,returned:0,truncated:false},nested_forms_excluded:0,unclosed_forms_excluded:0},absence_proven:false,delivery:'UNKNOWN'}],
+    technical:[{snapshot_ref:page.snapshot_ref,source_ref:'src-'+'1'.repeat(64),source_locator:'/pages/0',capture_status:'FETCHED',http_status:200,response_body_bytes:1000,redirect_count:0,
+      measurement:measured?{method:'PINNED_HTTP_MONOTONIC_V1',scope:'FINAL_HOP_INCLUDES_GUARD_AND_SCHEDULING_NO_DNS',samples:1,connect_ms:10,stream_setup_ms:20,first_byte_after_send_ms:30,headers_after_send_ms:35,body_after_headers_ms:5,exchange_ms:80}:null,
+      timing_state:measured?'MEASURED':'UNKNOWN',samples:measured?1:0,is_defect:false}]}
+  d.customer_presentation.fact_review=structuredClone(d.fact_review)
+  return d
+}
+
+test('P1 declarations and actual HTTP metrics survive AI failure without native promotion',()=>{
+  for(const measured of [true,false]){
+    const d=factReviewFixture(measured),out=projectPreviewResult(d,200,ref)
+    assert.equal(out.buyerTasks[2].sourceFactReview[0].nativeResult,'UNKNOWN')
+    assert.equal(out.buyerTasks[3].sourceFactReview[0].delivery,'UNKNOWN')
+    assert.equal(out.reportView.tasks[4].sourceFactReview[0].timing_state,measured?'MEASURED':'UNKNOWN')
+    assert.equal(out.insights.length,0)
+  }
+})
+
+test('P1 rejects false delivery, copied trust facts, changed HTTP status and invented timing',()=>{
+  for(const mutate of [r=>r.inquiry[0].delivery='DELIVERED',r=>r.trust[0].context_facts=[{kind:'INVENTED'}],
+    r=>r.technical[0].http_status=404,r=>r.technical[0].measurement.exchange_ms=1,
+    r=>r.technical[0].measurement.connect_ms=true,r=>r.technical.push(r.technical[0]),
+    r=>r.technical[0].snapshot_ref='page-'+'0'.repeat(64)]){
+    const d=factReviewFixture(true);mutate(d.fact_review);d.customer_presentation.fact_review=structuredClone(d.fact_review)
+    assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+  }
+  const d=factReviewFixture();d.customer_presentation.fact_review.trust=[]
+  assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+})
+
+test('P1 static forms preserve source bounds and reject false inquiry capability',()=>{
+  const make=()=>{
+    const d=factReviewFixture(),binding={evidence_ref:'ev-'+'2'.repeat(64),snapshot_ref:page.snapshot_ref,locator:'/pages/0/evidence',content_sha256:'3'.repeat(64),byte_start:0,byte_end:900}
+    const form={form_ref:'form-'+'4'.repeat(64),binding,purpose:'SEARCH_CANDIDATE',method:'GET',action_scope:'SAME_ORIGIN',hidden_control_count:0,submit_control_observed:false,
+      fields:[{field_ref:'field-'+'5'.repeat(64),kind:'SEARCH',input_type:'search',label_basis:'INPUT_TYPE',required_attribute:false,disabled_attribute:false,readonly_attribute:false,binding:{...binding,byte_start:10,byte_end:40},label_binding:null}],
+      field_coverage:{total:1,returned:1,truncated:false},visibility:'UNKNOWN',product_context_transfer:'UNKNOWN',submission_tested:false,delivery:'UNKNOWN',native_fact_admission:'NONE'}
+    d.fact_review.inquiry[0].static_forms={forms:[form],coverage:{total:1,returned:1,truncated:false},nested_forms_excluded:0,unclosed_forms_excluded:0}
+    d.customer_presentation.fact_review=structuredClone(d.fact_review);return d
+  }
+  assert.equal(projectPreviewResult(make(),200,ref).buyerTasks[3].sourceFactReview[0].static_forms.forms[0].purpose,'SEARCH_CANDIDATE')
+  for(const mutate of [f=>f.purpose='INQUIRY_CANDIDATE',f=>f.delivery='DELIVERED',f=>f.fields[0].binding.byte_end=950,
+    f=>f.fields[0].required_attribute='true',f=>f.fields[0].binding.snapshot_ref='page-'+'0'.repeat(64),
+    f=>f.fields[0].label_basis='SOURCE_LABEL']){
+    const d=make();mutate(d.fact_review.inquiry[0].static_forms.forms[0]);d.customer_presentation.fact_review=structuredClone(d.fact_review)
+    assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+  }
+})
 function fixture(state = 'AI_PENDING') {
   const groups = taskIds.map((task, i) => ({ task, rules: [{ rule_id: ruleIds[i], buyer_task: task,
     observations: [{ observation: { rule_id: ruleIds[i], observation_id: 'obs-' + String(i).repeat(64),

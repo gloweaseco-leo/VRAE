@@ -132,6 +132,10 @@ def test_real_dns_tls_peer_host_and_evidence(monkeypatch):
             bundle.verify()
             assert len(bundle.manifest["pages"]) == 3
             assert all(p["snapshot"]["status"] == "FETCHED" for p in bundle.manifest["pages"])
+            from vrae.collection.http_measurement import validate
+            for page in bundle.manifest['pages']:
+                validate(page['http_measurement'])
+                assert page['http_measurement']['samples'] == 1
             assert set(sni) == {"factory.test"}
             assert all(b"Host: factory.test" in r for r in requests)
             assert all(b"Authorization:" not in r and b"Cookie:" not in r for r in requests)

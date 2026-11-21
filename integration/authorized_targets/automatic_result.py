@@ -141,6 +141,9 @@ def project(value, audit_ref):
         from integration.authorized_targets.buyer_review import build as buyer_review
         result['buyer_review'] = buyer_review(pack, result['deterministic_diagnosis'],
                                              value['artifact_sha256'])
+        from integration.authorized_targets.fact_review import build as fact_review
+        result['fact_review'] = fact_review(pack, result['deterministic_diagnosis'],
+                                           value['artifact_sha256'])
     if receipt is None:
         return delivery(202, result)
     if (receipt['task'] != artifact['task']
