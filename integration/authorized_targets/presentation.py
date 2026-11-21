@@ -88,17 +88,52 @@ OUTCOMES = {
 }
 UNKNOWN = ('本次尚未核实此项，不能据此判断网站存在缺陷。',
            'This item remains unverified; no website defect is established.')
+JUDGMENT_VERSION = 'vrae.diagnosis-judgment.v1'
+BUYER_VERSION = 'l2-industrial-1.0.7'
+BUYER_PASS = {
+    'DISC-01': ('采购商可以从首页进入这次已打开的产品分类。',
+                'A buyer can go from the home page to the product category opened in this check.'),
+    'DISC-02': ('可以从该分类打开这一条产品页；还不能确认它是不是唯一对应的型号。',
+                'The category opens this product page; that it is the only matching model is unverified.'),
+    'CTA-02': ('可以从这款产品页走到联系页面，目标页面这次有响应；没有提交表单，也不能确认消息能送达。',
+               'The product page reaches a contact page that responded in this check; no form was submitted and delivery is unverified.'),
+    'INFO-01': ('产品页上能看到名称和至少一组供方标注的参数；型号是否对应、规格是否准确、是否适用，都还没核实。',
+                'The product page shows a name and at least one supplier-stated specification; model identity, accuracy and suitability are unverified.'),
+    'SEO-01': ('已看到页面标题和规范链接；这不代表已经被搜索引擎收录或有排名。',
+               'A page title and canonical link were recorded; indexing and ranking are unverified.'),
+    'TRUST-01': ('已看到供方自己写的企业介绍和公开联系资料；没有核验营业主体或材料真伪。',
+                 'Supplier-written introduction and public contact details were recorded; legal identity and authenticity are unverified.'),
+}
+ROLE_LABELS = {
+    'HOME': ('网站首页', 'Home'),
+    'CATALOG': ('产品列表', 'Product list'),
+    'CATEGORY': ('产品分类', 'Product category'),
+    'PRODUCT': ('产品页', 'Product page'),
+    'CONTACT': ('联系页面', 'Contact page'),
+    'ABOUT': ('企业介绍', 'About'),
+    'APPLICATION': ('应用页面', 'Application page'),
+    'PAGE': ('已打开的页面', 'Opened page'),
+}
+STEP_TARGET_ROLE = {'DISC-01': 'CATEGORY', 'DISC-02': 'PRODUCT', 'CTA-02': 'CONTACT'}
+PRIMARY_RULES = {
+    'DISCOVER': ('DISC-01', 'DISC-02'),
+    'UNDERSTAND': ('INFO-01',),
+    'TRUST': ('TRUST-01',),
+    'INQUIRE': ('CTA-02',),
+    'SEARCH_TECHNICAL': ('SEO-01',),
+}
 
 
 def bilingual(pair):
     return dict(zip(('zh', 'en'), pair))
 
 
-def observation_copy(rule_id, row):
+def observation_copy(rule_id, row, *, buyer=False):
     result = row['observation']['result']
     reason = row.get('reason')
     if result == 'PASS':
-        return PASS_COPY.get(rule_id, ('本次记录了支持此有限检查的证据。', 'Evidence supports this bounded check.'))
+        copy = BUYER_PASS if buyer else PASS_COPY
+        return copy.get(rule_id, ('本次记录了支持此有限检查的证据。', 'Evidence supports this bounded check.'))
     if result == 'FAIL_WITH_EVIDENCE':
         if rule_id in ('DISC-01', 'DISC-02', 'CTA-02'):
             return ('来源链接在采集时返回 HTTP 404 或 410；不代表全站或当前可用性。',
@@ -110,14 +145,152 @@ def observation_copy(rule_id, row):
     if result == 'NOT_APPLICABLE':
         return ('按本次规则适用范围，此项不适用。', 'This check is not applicable under the recorded rule scope.')
     if rule_id == 'INFO-01' and row.get('source_text_presence') == 'OBSERVED':
+        if buyer:
+            return ('已看到供方写的名称或描述；它对应哪一款型号、参数是否成套，还没核实。',
+                    'A supplier-stated name or description was recorded; model identity and how the values fit together remain unverified.')
         return ('已记录显示名称或描述；其产品身份及参数对应关系尚未核实。',
                 'A display name or description was recorded; product identity and specification relationships remain unverified.')
     return REASONS.get(reason, RULE_LIMITS.get(rule_id, UNKNOWN))
 
 
+def _plain_name(text):
+    if type(text) is not str:
+        return None
+    text = ' '.join(text.split())
+    if not text or len(text) > 160 or '<' in text or '>' in text:
+        return None
+    return text
+
+
+def _product_names(diagnosis):
+    names = {}
+    for task in diagnosis.get('buyer_tasks', []):
+        for rule in task['rules']:
+            if rule['rule_id'] != 'INFO-01':
+                continue
+            for row in rule['observations']:
+                for citation in row.get('citations') or []:
+                    if citation.get('fact_role') != 'NAME':
+                        continue
+                    name = _plain_name(citation.get('text'))
+                    if name and citation.get('url'):
+                        names[citation['url']] = name
+    return names
+
+
+def _path_node(page, role, names):
+    name = names.get(page.get('url')) if role == 'PRODUCT' else None
+    label = (name, name) if name else ROLE_LABELS.get(role, ROLE_LABELS['PAGE'])
+    return {'role': role, 'url': page['url'], 'snapshot_ref': page.get('snapshot_ref'),
+            'label': bilingual(label)}
+
+
+def _walked_nodes(diagnosis, names):
+    journeys = diagnosis.get('buyer_journey') or []
+    complete = [item for item in journeys if item.get('complete')]
+    if complete:
+        journey = complete[0]
+    else:
+        ranked = sorted(journeys, key=lambda item: sum(
+            step.get('result') == 'PASS' for step in item.get('steps') or []), reverse=True)
+        journey = ranked[0] if ranked and any(
+            step.get('result') == 'PASS' for step in ranked[0].get('steps') or []) else None
+    if journey is None:
+        return []
+    nodes = []
+    for index, step in enumerate(journey.get('steps') or []):
+        if step.get('result') != 'PASS':
+            break
+        source = step.get('source_page') or step.get('homepage')
+        if index == 0 and source and source.get('url'):
+            nodes.append(_path_node(source, 'HOME' if step.get('rule_id') == 'DISC-01' else 'PAGE', names))
+        target = step.get('target_response')
+        if target and target.get('url'):
+            nodes.append(_path_node(target, STEP_TARGET_ROLE.get(step.get('rule_id'), 'PAGE'), names))
+    return nodes
+
+
+def _judgment(result, groups):
+    diagnosis = result.get('deterministic_diagnosis') or {}
+    names = _product_names(diagnosis)
+    nodes = _walked_nodes(diagnosis, names)
+    obstacles = [{'task': group['task'], 'rule_id': item['rule_id'],
+        'observation_id': item['observation_id'], 'text': item['text'],
+        'source_pointer': item['source_pointer'], 'is_defect_score': False}
+        for group in groups for item in group['observations'] if item['result'] == 'FAIL_WITH_EVIDENCE']
+    questions = []
+    for index, claim in enumerate(result.get('claims') or []):
+        if not isinstance(claim, dict) or not isinstance(claim.get('explanation'), str):
+            continue
+        questions.append({'claim_index': index, 'task': claim.get('task'), 'text': claim['explanation'],
+            'questions': [q for q in claim.get('questions') or [] if isinstance(q, str)],
+            'presented_as_priority_fix': False, 'is_confirmed_defect': False})
+    unjudged = []
+    for group in groups:
+        primary = [item for item in group['observations'] if item['rule_id'] in PRIMARY_RULES.get(group['task'], ())]
+        if any(item['result'] in ('PASS', 'FAIL_WITH_EVIDENCE') for item in primary):
+            continue
+        chosen = next((item for item in primary if item['result'] == 'UNKNOWN'), None)
+        if chosen is None and primary:
+            chosen = primary[0]
+        if chosen is None:
+            text = bilingual(('本次没有打开这个环节需要的代表页面。',
+                              'This visit did not open a representative page for this task.'))
+            pointer = None
+        else:
+            text, pointer = chosen['text'], chosen['source_pointer']
+        unjudged.append({'task': group['task'], 'title': group['title'], 'text': text,
+                         'source_pointer': pointer, 'is_defect': False})
+    if nodes:
+        joined = ' → '.join(node['label']['zh'] for node in nodes)
+        path_text = (f'本次只走通了：{joined}。结论只覆盖这条路径。',
+                     'This check only walked: ' + ' → '.join(node['label']['en'] for node in nodes) +
+                     '. The conclusion covers that path only.')
+    else:
+        path_text = ('这次没有拼成一条已验证的采购路径。',
+                     'This check did not assemble a verified procurement path.')
+    product_seen = any(node['role'] == 'PRODUCT' for node in nodes)
+    if obstacles:
+        scope = ('REPAIR_RECORDED_ISSUE',
+                 ('先处理已有证据的障碍所在页面。没有据此扩大到全站的依据。',
+                  'Start with the pages that have a confirmed obstacle. This check gives no basis to widen the change to the whole site.'))
+        lead = ('本次确认了有证据的障碍。需要供方确认的问题另行列出，不计入缺陷。',
+                'This check confirmed evidence-backed obstacles. Questions for the supplier are listed separately and are not defects.')
+    elif product_seen:
+        scope = ('CHECK_RECORDED_PRODUCT_PAGE',
+                 ('先核对这一条已打开的产品页上的选型资料。这次没有结构失败的证据，不能把改版范围扩大到全站。',
+                  'Check the selection details on the product page opened in this visit. No structural failure was confirmed, so the change is not widened to the whole site.'))
+        lead = ('本次没有已证实的网站缺陷。已走通的路径和需要供方确认的问题分开列出。',
+                'No website defect was confirmed. The path that worked and questions for the supplier are listed separately.')
+    else:
+        scope = ('NO_BROADER_SCOPE',
+                 ('这次没有足够的页面证据提出改版范围。没打开的页面不是缺陷。',
+                  'This visit does not have enough page evidence to propose a change in scope. Unopened pages are not defects.'))
+        lead = ('本次没有已证实的网站缺陷。已走通的路径和需要供方确认的问题分开列出。',
+                'No website defect was confirmed. The path that worked and questions for the supplier are listed separately.')
+    page_scope = result.get('page_scope') or {}
+    summary = result.get('capture_summary') or {}
+    fetched = summary.get('fetched_pages', len(page_scope.get('visited_pages') or []))
+    unvisited = summary.get('unvisited_candidates', len(page_scope.get('unvisited_candidates') or []))
+    failed = len(page_scope.get('failed_attempt_records') or [])
+    return {'contract': JUDGMENT_VERSION, 'is_report': False, 'formal_human_review': False,
+        'lead': bilingual(lead),
+        'confirmed_obstacles': obstacles, 'confirmed_obstacle_count_is_score': False,
+        'supplier_questions': questions,
+        'walked_path': {'steps': nodes, 'summary': bilingual(path_text)},
+        'unjudged': unjudged,
+        'sample_boundary': {'fetched_pages': fetched, 'unvisited_candidates': unvisited,
+            'failed_attempts': failed, 'unvisited_is_defect': False,
+            'text': bilingual((
+                f'本次打开了 {fetched} 个公开页面，另有 {unvisited} 个候选页面没有访问，{failed} 个访问没有取得内容。没访问的页面不是缺陷。',
+                f'This visit opened {fetched} public pages, left {unvisited} candidates unvisited, and recorded {failed} attempts without content. Unvisited pages are not defects.'))},
+        'scope_hypothesis': {'kind': scope[0], 'text': bilingual(scope[1]), 'whole_site_rebuild': False}}
+
+
 def build(result):
     """Caller already checked current authority and original artifact/receipt bindings."""
     diagnosis = result.get('deterministic_diagnosis') or {}
+    buyer = diagnosis.get('diagnostic_version') == BUYER_VERSION
     groups = []
     for ti, task in enumerate(diagnosis.get('buyer_tasks', [])):
         items = []
@@ -126,7 +299,7 @@ def build(result):
                 observation = row['observation']
                 items.append({'rule_id': rule['rule_id'], 'observation_id': observation['observation_id'],
                     'result': observation['result'], 'status_text': bilingual(RESULT_LABELS[observation['result']]),
-                    'text': bilingual(observation_copy(rule['rule_id'], row)),
+                    'text': bilingual(observation_copy(rule['rule_id'], row, buyer=buyer)),
                     'source_pointer': f'/deterministic_diagnosis/buyer_tasks/{ti}/rules/{ri}/observations/{oi}'})
                 if diagnosis.get('diagnostic_version') in ('l2-industrial-1.0.5', 'l2-industrial-1.0.6', 'l2-industrial-1.0.7'):
                     from .presentation_context import build as context_copy, limit
@@ -148,4 +321,6 @@ def build(result):
         output['buyer_review'] = result['buyer_review']
     if 'fact_review' in result:
         output['fact_review'] = result['fact_review']
+    if buyer and groups:
+        output['judgment'] = _judgment(result, groups)
     return output

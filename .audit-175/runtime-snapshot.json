@@ -1,0 +1,568 @@
+{
+  "observed_at": "2026-11-20T01:43:33.944461+00:00",
+  "windows": {
+    "services": [
+      {
+        "start_mode": "Auto",
+        "name": "Tailscale",
+        "roots": [],
+        "state": "Running"
+      }
+    ],
+    "tasks": [],
+    "errors": [],
+    "registry_run": [],
+    "processes": [
+      {
+        "command_available": true,
+        "pid": 30636,
+        "name": "python.exe",
+        "project_executable": "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b2a-identity-local\\docs\\03-engineering\\ra4a-p2b2a\\.runtime\\py313\\Scripts\\python.exe",
+        "roots": [
+          "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b2a-identity-local"
+        ]
+      },
+      {
+        "command_available": true,
+        "pid": 22068,
+        "name": "python.exe",
+        "project_executable": null,
+        "roots": [
+          "D:\\Projects\\VRAE\\.worktrees\\ra4a-p2b2a-identity-local"
+        ]
+      },
+      {
+        "command_available": true,
+        "pid": 30976,
+        "name": "WindowsTerminal.exe",
+        "project_executable": null,
+        "roots": [
+          "D:\\Projects\\VRAE-codex3-B7P1",
+          "D:\\Projects\\VRAE"
+        ]
+      },
+      {
+        "command_available": false,
+        "pid": 25472,
+        "name": "tailscaled.exe",
+        "project_executable": null,
+        "roots": []
+      },
+      {
+        "command_available": false,
+        "pid": 30324,
+        "name": "tailscaled.exe",
+        "project_executable": null,
+        "roots": []
+      },
+      {
+        "command_available": true,
+        "pid": 12960,
+        "name": "tailscale-ipn.exe",
+        "project_executable": null,
+        "roots": []
+      },
+      {
+        "command_available": true,
+        "pid": 36620,
+        "name": "pythonw.exe",
+        "project_executable": null,
+        "roots": [
+          "D:\\Projects\\VRAE-codex3-B7P1",
+          "D:\\Projects\\VRAE"
+        ]
+      },
+      {
+        "command_available": true,
+        "pid": 9196,
+        "name": "python.exe",
+        "project_executable": null,
+        "roots": [
+          "D:\\Projects\\VRAE-codex3-B7P1",
+          "D:\\Projects\\VRAE"
+        ]
+      },
+      {
+        "command_available": true,
+        "pid": 21868,
+        "name": "pythonw.exe",
+        "project_executable": null,
+        "roots": [
+          "D:\\Projects\\VRAE-codex3-B7P1",
+          "D:\\Projects\\VRAE"
+        ]
+      },
+      {
+        "command_available": true,
+        "pid": 4756,
+        "name": "python.exe",
+        "project_executable": null,
+        "roots": [
+          "D:\\Projects\\VRAE-codex3-B7P1",
+          "D:\\Projects\\VRAE"
+        ]
+      }
+    ],
+    "startup": [
+      {
+        "scope": "USER",
+        "name": "VRAE-TemporaryWake.lnk",
+        "command_redacted": true,
+        "roots": [
+          "D:\\Projects\\VRAE-codex3-API-20261119",
+          "D:\\Projects\\VRAE-codex3-B7P1",
+          "D:\\Projects\\VRAE"
+        ]
+      },
+      {
+        "scope": "ALL_USERS",
+        "name": "Tailscale.lnk",
+        "command_redacted": true,
+        "roots": []
+      }
+    ]
+  },
+  "docker": {
+    "containers": [
+      {
+        "name": "vrae-windows-relay",
+        "image_id": "sha256:be2711e41bfbdf00708dc9555c5391919645f52866494a155a0595f1cd1a242b",
+        "status": "running",
+        "running": true,
+        "mounts": [],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-windows-ai",
+        "image_id": "sha256:be2711e41bfbdf00708dc9555c5391919645f52866494a155a0595f1cd1a242b",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "volume",
+            "volume": "vrae-local-ledger",
+            "project_roots": [],
+            "destination": "/model-ledger",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-windows-operator",
+            "project_roots": [],
+            "destination": "/operator",
+            "read_write": false,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-windows-runtime",
+        "image_id": "sha256:be2711e41bfbdf00708dc9555c5391919645f52866494a155a0595f1cd1a242b",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "volume",
+            "volume": "vrae-windows-ledger",
+            "project_roots": [],
+            "destination": "/ledger",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-windows-operator",
+            "project_roots": [],
+            "destination": "/operator",
+            "read_write": false,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-windows-source-web",
+        "image_id": "sha256:f2e6430ae52413d045befb47d9c21eddbecee608078caabb3620f4bfcee0e7cc",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "volume",
+            "volume": "vrae-windows-source-state",
+            "project_roots": [],
+            "destination": "/tls",
+            "read_write": false,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-local-ai",
+        "image_id": "sha256:0b2e084bf7d48ad8c6e095fa084c7b2d5d614fcc057269a6c0bf5ccf88300721",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "volume",
+            "volume": "vrae-local-ledger",
+            "project_roots": [],
+            "destination": "/model-ledger",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-local-operator",
+            "project_roots": [],
+            "destination": "/operator",
+            "read_write": false,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-local-runtime",
+        "image_id": "sha256:0b2e084bf7d48ad8c6e095fa084c7b2d5d614fcc057269a6c0bf5ccf88300721",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "volume",
+            "volume": "vrae-local-ledger",
+            "project_roots": [],
+            "destination": "/ledger",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-local-operator",
+            "project_roots": [],
+            "destination": "/operator",
+            "read_write": false,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-local-c1-model-caller",
+        "image_id": "sha256:97be470ef8191ffde4b996e74655a39d2a0ac43300ba789d63ab47d10ad14902",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "volume",
+            "volume": "vrae-local-c1-model-caller-material",
+            "project_roots": [],
+            "destination": "/client",
+            "read_write": false,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-local-c1-model-caller-material",
+            "project_roots": [],
+            "destination": "/state",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "no",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-windows-source",
+        "image_id": "sha256:72c1e19e0aedca96b8533bbb0b4368564410ff20b17e53b804eb6c1f04a31be4",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "volume",
+            "volume": "vrae-windows-source-state",
+            "project_roots": [],
+            "destination": "/var/lib/tailscale",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-windows-pg",
+        "image_id": "sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "bind",
+            "volume": null,
+            "project_roots": [],
+            "destination": "[PRIVATE_INPUT_DESTINATION_REDACTED]",
+            "read_write": false,
+            "source_redacted": "[OTHER_BIND_NOT_SCANNED]",
+            "backing_named_volume_if_observed": "vrae-windows-private"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-windows-data",
+            "project_roots": [],
+            "destination": "/var/lib/postgresql/data",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-local-relay",
+        "image_id": "sha256:96953abea3167f93f57d8f6f05695e3aacf00ddd718c692d1dee6d7f26cec174",
+        "status": "running",
+        "running": true,
+        "mounts": [],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-local-pg",
+        "image_id": "sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "bind",
+            "volume": null,
+            "project_roots": [
+              "D:\\Projects\\VRAE-codex3-API-20261119"
+            ],
+            "destination": "[PRIVATE_INPUT_DESTINATION_REDACTED]",
+            "read_write": false,
+            "source_redacted": "[VRAE_PROJECT_BIND]",
+            "backing_named_volume_if_observed": "UNKNOWN_PROTECT"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-local-data",
+            "project_roots": [],
+            "destination": "/var/lib/postgresql/data",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "unless-stopped",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-g1-eb9ece101767-runtime",
+        "image_id": "sha256:2788ce8c1596df05e8e65e3ff836254c9423df78c8dca9e102877be587199a31",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "volume",
+            "volume": "vrae-g1-eb9ece101767-evidence",
+            "project_roots": [],
+            "destination": "/evidence",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-g1-eb9ece101767-source",
+            "project_roots": [],
+            "destination": "/work",
+            "read_write": false,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "no",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-g1-eb9ece101767-pg",
+        "image_id": "sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea",
+        "status": "running",
+        "running": true,
+        "mounts": [
+          {
+            "type": "bind",
+            "volume": null,
+            "project_roots": [
+              "D:\\Projects\\VRAE-codex3-G1-20261118"
+            ],
+            "destination": "[PRIVATE_INPUT_DESTINATION_REDACTED]",
+            "read_write": false,
+            "source_redacted": "[VRAE_PROJECT_BIND]",
+            "backing_named_volume_if_observed": "UNKNOWN_PROTECT"
+          },
+          {
+            "type": "volume",
+            "volume": "vrae-g1-eb9ece101767-data",
+            "project_roots": [],
+            "destination": "/var/lib/postgresql/data",
+            "read_write": true,
+            "source_redacted": "[NAMED_VOLUME_CONTENTS_NOT_READ]"
+          }
+        ],
+        "restart_policy": "no",
+        "end_running": true,
+        "end_image_matches_start": true
+      },
+      {
+        "name": "vrae-ra1a-acceptance",
+        "image_id": "sha256:5521a256c40ae19b1646b3a333945b728332e5442d2be6969b282819200989d6",
+        "status": "exited",
+        "running": false,
+        "mounts": [],
+        "restart_policy": "no",
+        "end_running": false,
+        "end_image_matches_start": true
+      }
+    ],
+    "volumes": [
+      {
+        "name": "vrae-g1-eb9ece101767-data",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-g1-eb9ece101767-evidence",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-g1-eb9ece101767-source",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-local-c1-model-caller-material",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-local-data",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-local-ledger",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-local-operator",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-windows-backups",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-windows-data",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-windows-ledger",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-windows-operator",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-windows-private",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      },
+      {
+        "name": "vrae-windows-source-state",
+        "contents_read": false,
+        "classification": "UNKNOWN_PROTECT"
+      }
+    ],
+    "images": [
+      {
+        "id": "sha256:0b2e084bf7d48ad8c6e095fa084c7b2d5d614fcc057269a6c0bf5ccf88300721",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 448349503
+      },
+      {
+        "id": "sha256:2788ce8c1596df05e8e65e3ff836254c9423df78c8dca9e102877be587199a31",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 417712003
+      },
+      {
+        "id": "sha256:5521a256c40ae19b1646b3a333945b728332e5442d2be6969b282819200989d6",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 401073118
+      },
+      {
+        "id": "sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 419072015
+      },
+      {
+        "id": "sha256:72c1e19e0aedca96b8533bbb0b4368564410ff20b17e53b804eb6c1f04a31be4",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 184191432
+      },
+      {
+        "id": "sha256:96953abea3167f93f57d8f6f05695e3aacf00ddd718c692d1dee6d7f26cec174",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 448138249
+      },
+      {
+        "id": "sha256:97be470ef8191ffde4b996e74655a39d2a0ac43300ba789d63ab47d10ad14902",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 448340486
+      },
+      {
+        "id": "sha256:be2711e41bfbdf00708dc9555c5391919645f52866494a155a0595f1cd1a242b",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 508144618
+      },
+      {
+        "id": "sha256:f2e6430ae52413d045befb47d9c21eddbecee608078caabb3620f4bfcee0e7cc",
+        "source_sha_labels": {},
+        "size_bytes_shared_not_reclaimable": 448601435
+      }
+    ],
+    "errors": []
+  },
+  "limitations": [
+    "No container exec or volume file reads",
+    "No Tailscale configuration read",
+    "No raw commands, environment variables or sensitive configuration published"
+  ],
+  "end_observed_at": "2026-11-20T01:54:22.644015+00:00"
+}

@@ -71,7 +71,7 @@ def openapi():
                                 "procurement_review": {"type": "object", "required": [
                                     "contract", "review_ref", "configuration_ref", "products"],
                                     "description": "Versioned source-bound procurement review: 1.0.6 keeps config 1.0.0; 1.0.7 uses config 1.1.0 and adds source-bound purchase_tasks and inquiry_preparation. No rule PASS, verified SKU or engineering approval."}},
-                            "description": "Bilingual copy with pointers to original observations; not new facts, scores or human approval. Available independently of AI claims."},
+                            "description": "Bilingual copy with pointers to original observations; not new facts, scores or human approval. Available independently of AI claims. l2-industrial-1.0.7 may add judgment (vrae.diagnosis-judgment.v1): walked path, evidence-backed obstacles, supplier questions that are not priority fixes, unjudged tasks, sample boundary and one scope hypothesis. It is not a formal report."},
                         "page_scope": {"type": ["object", "null"], "properties": {
                             name: {"type": "array", "items": {"type": "object"}} for name in (
                                 "visited_pages", "failed_attempt_records", "unvisited_candidates", "unknown_coverage")},

@@ -17,6 +17,24 @@ const sourceUrl = value => {
   } catch { return false }
 }
 
+function projectJudgment(presentation) {
+  const judgment = presentation.judgment
+  if (judgment == null) return null
+  const authored = [judgment.lead, judgment.scope_hypothesis?.text, judgment.walked_path?.summary,
+    ...list(judgment.unjudged).map(item => item.text)]
+  const banned = /建议优先关注|可以先这样改/
+  if (!object(judgment) || judgment.contract !== 'vrae.diagnosis-judgment.v1' ||
+      judgment.is_report !== false || judgment.formal_human_review !== false ||
+      judgment.confirmed_obstacle_count_is_score !== false ||
+      !list(judgment.confirmed_obstacles).every(item => item.is_defect_score === false) ||
+      !list(judgment.supplier_questions).every(item => item.presented_as_priority_fix === false && item.is_confirmed_defect === false) ||
+      judgment.sample_boundary?.unvisited_is_defect !== false ||
+      judgment.scope_hypothesis?.whole_site_rebuild !== false ||
+      !text(judgment.lead?.zh) || !text(judgment.lead?.en) ||
+      authored.some(item => banned.test(item?.zh || '') || banned.test(item?.en || ''))) fail()
+  return judgment
+}
+
 function pointer(body, path) {
   if (typeof path !== 'string' || !/^\/deterministic_diagnosis\/buyer_tasks\/\d+\/rules\/\d+\/observations\/\d+$/.test(path)) fail()
   return path.slice(1).split('/').reduce((value, key) => {
@@ -188,7 +206,9 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       !list(body.claims).length && body.analysis_outcome === 'COMPLETED_NO_RECOMMENDATIONS')) aiWarning = 'AI_OUTPUT_NOT_DISPLAYABLE'
   const summary = body.capture_summary
   if (summary && (summary.fetched_pages !== visited.length || summary.unvisited_is_defect !== false)) fail()
+  const judgment = projectJudgment(p)
   return { auditRef, state: body.state, analysisOutcome: body.analysis_outcome,
+    ...(judgment ? { judgment } : {}),
     buyerReview: review,
     analysisText: p.analysis_text[language], facts, claims, aiWarning,
     modelFailureStage: typeof model?.failure_stage === 'string' ? model.failure_stage : null,

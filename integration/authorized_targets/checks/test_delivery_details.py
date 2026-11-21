@@ -37,6 +37,63 @@ def test_bilingual_copy_keeps_unknown_and_exact_source_pointers_without_mutation
     assert '保留' in out['analysis_text']['zh']
 
 
+def test_current_buyer_judgment_keeps_supplier_questions_out_of_the_lead():
+    home = {'url': 'https://example.org/', 'snapshot_ref': 's-home'}
+    catalog = {'url': 'https://example.org/products', 'snapshot_ref': 's-cat'}
+    product = {'url': 'https://example.org/Back%20Grinding%20Wheel.html', 'snapshot_ref': 's-prod'}
+    contact = {'url': 'https://example.org/contacts', 'snapshot_ref': 's-con'}
+
+    def row(rule, result, reason, **extra):
+        return {'observation': {'rule_id': rule, 'observation_id': 'obs-'+rule, 'result': result},
+                'reason': reason, **extra}
+    tasks = [
+        ('DISCOVER', [('DISC-01', 'PASS', 'CAPTURED_REACHABLE_HREF'), ('DISC-02', 'PASS', 'CAPTURED_REACHABLE_HREF')]),
+        ('UNDERSTAND', [('INFO-01', 'PASS', 'BOUNDED_STATIC_PRODUCT_TEXT_RETAINED')]),
+        ('TRUST', [('TRUST-01', 'UNKNOWN', 'TRUST_PREREQUISITES_OR_CAPTURE_SCOPE_UNRESOLVED')]),
+        ('INQUIRE', [('CTA-02', 'PASS', 'CAPTURED_REACHABLE_HREF')]),
+        ('SEARCH_TECHNICAL', [('SEO-01', 'UNKNOWN', 'PARTIAL_MISSING_AMBIGUOUS_OR_UNSUPPORTED_HEAD_SIGNALS')]),
+    ]
+    diagnosis = {'diagnostic_version': 'l2-industrial-1.0.7', 'buyer_tasks': [
+        {'task': task, 'rules': [{'rule_id': rule, 'observations': [row(rule, result, reason)]}
+            for rule, result, reason in rules]} for task, rules in tasks],
+        'buyer_journey': [{'complete': True, 'steps': [
+            {'rule_id': 'DISC-01', 'result': 'PASS', 'source_page': home, 'target_response': catalog},
+            {'rule_id': 'DISC-02', 'result': 'PASS', 'source_page': catalog, 'target_response': product},
+            {'rule_id': 'CTA-02', 'result': 'PASS', 'source_page': product, 'target_response': contact}]}]}
+    diagnosis['buyer_tasks'][1]['rules'][0]['observations'][0]['citations'] = [
+        {'fact_role': 'NAME', 'url': product['url'], 'text': 'Back Grinding Wheel for Thinning Sapphire'}]
+    result = {'state': 'DIAGNOSED', 'analysis_outcome': 'COMPLETED', 'artifact_sha256': 'a'*64,
+        'claims': [{'task': 'UNDERSTAND', 'explanation': '结合剂与粒度的对应关系需要供方说明。',
+                    'questions': ['这些并列项如何对应尺寸编码？']}],
+        'page_scope': {'visited_pages': [home, catalog, product, contact], 'failed_attempt_records': [],
+                       'unvisited_candidates': [{}] * 71},
+        'capture_summary': {'fetched_pages': 6, 'unvisited_candidates': 71, 'unvisited_is_defect': False},
+        'deterministic_diagnosis': diagnosis}
+    out = build(result)
+    judgment = out['judgment']
+    rendered = str(out)
+    assert '建议优先关注' not in rendered and '可以先这样改' not in rendered
+    assert judgment['confirmed_obstacles'] == []
+    assert judgment['confirmed_obstacle_count_is_score'] is False
+    assert judgment['supplier_questions'][0]['presented_as_priority_fix'] is False
+    assert judgment['supplier_questions'][0]['is_confirmed_defect'] is False
+    assert '没有已证实的网站缺陷' in judgment['lead']['zh']
+    labels = [step['label']['zh'] for step in judgment['walked_path']['steps']]
+    assert labels == ['网站首页', '产品分类', 'Back Grinding Wheel for Thinning Sapphire', '联系页面']
+    assert 'Wheel.html' not in judgment['walked_path']['summary']['zh']
+    assert judgment['scope_hypothesis']['kind'] == 'CHECK_RECORDED_PRODUCT_PAGE'
+    assert judgment['scope_hypothesis']['whole_site_rebuild'] is False
+    assert {item['task'] for item in judgment['unjudged']} == {'TRUST', 'SEARCH_TECHNICAL'}
+    assert judgment['sample_boundary']['unvisited_is_defect'] is False
+    assert judgment['sample_boundary']['unvisited_candidates'] == 71
+    assert '采购商可以从首页进入' in out['tasks'][0]['observations'][0]['text']['zh']
+    assert out['is_report'] is False and judgment['formal_human_review'] is False
+    diagnosis.pop('diagnostic_version')
+    legacy = build(result)
+    assert 'judgment' not in legacy
+    assert legacy['tasks'][0]['observations'][0]['text']['zh'].startswith('已记录首页导航')
+
+
 def test_other_rule_failures_do_not_invent_http_status_or_new_facts():
     assert '404' not in observation_copy('INFO-01', {'observation': {'result': 'FAIL_WITH_EVIDENCE'}})[0]
     for reason in ('STATIC_PRODUCT_NAME_AMBIGUOUS', 'HTML_UNSUPPORTED_OR_AMBIGUOUS'):
