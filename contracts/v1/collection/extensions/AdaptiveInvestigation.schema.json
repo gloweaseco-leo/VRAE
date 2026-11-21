@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vrae.invalid/contracts/v1/collection/extensions/AdaptiveInvestigation.schema.json",
+  "title": "AdaptiveInvestigation",
+  "type": "object",
+  "properties": {
+    "policy": {
+      "const": "SOURCE_LINK_GAPS_V1"
+    },
+    "max_supplemental_pages": {
+      "const": 2
+    },
+    "decisions": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_page_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 7
+          },
+          "target_page_index": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "target_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "purpose": {
+            "enum": [
+              "TECHNICAL_MATERIAL",
+              "APPLICATION_CONTEXT",
+              "PROOF_CONTEXT"
+            ]
+          },
+          "trigger": {
+            "enum": [
+              "NO_STRUCTURED_PRODUCT_FIELDS_RECORDED",
+              "NO_APPLICATION_FIELD_RECORDED",
+              "PROOF_CONTEXT_NOT_YET_FETCHED"
+            ]
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "byte_start": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 131071
+          },
+          "byte_end": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 131072
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "source_page_index",
+          "target_page_index",
+          "target_url",
+          "purpose",
+          "trigger",
+          "source_sha256",
+          "byte_start",
+          "byte_end"
+        ]
+      }
+    },
+    "stop_reason": {
+      "enum": [
+        "SAFETY_OR_BUDGET_STOP",
+        "PAGE_LIMIT_REACHED",
+        "NO_ELIGIBLE_SOURCE_LINK",
+        "ADAPTIVE_LIMIT_REACHED",
+        "BASELINE_COVERAGE_FIRST",
+        "TIME_BUDGET_RESERVED",
+        "SOURCE_LINK_SELECTED"
+      ]
+    },
+    "whole_site_coverage_known": {
+      "const": false
+    },
+    "unknown_is_defect": {
+      "const": false
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "policy",
+    "max_supplemental_pages",
+    "decisions",
+    "stop_reason",
+    "whole_site_coverage_known",
+    "unknown_is_defect"
+  ]
+}

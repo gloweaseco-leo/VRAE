@@ -41,62 +41,6 @@
           "type": "null"
         }
       ]
-    },
-    "measurement": {
-      "type": "object",
-      "properties": {
-        "connect_ms": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 600000
-        },
-        "stream_setup_ms": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 600000
-        },
-        "first_byte_after_send_ms": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 600000
-        },
-        "headers_after_send_ms": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 600000
-        },
-        "body_after_headers_ms": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 600000
-        },
-        "exchange_ms": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 600000
-        },
-        "method": {
-          "const": "PINNED_HTTP_MONOTONIC_V1"
-        },
-        "scope": {
-          "const": "FINAL_HOP_INCLUDES_GUARD_AND_SCHEDULING_NO_DNS"
-        },
-        "samples": {
-          "const": 1
-        }
-      },
-      "required": [
-        "connect_ms",
-        "stream_setup_ms",
-        "first_byte_after_send_ms",
-        "headers_after_send_ms",
-        "body_after_headers_ms",
-        "exchange_ms",
-        "method",
-        "scope",
-        "samples"
-      ],
-      "additionalProperties": false
     }
   },
   "required": [

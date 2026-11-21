@@ -121,3 +121,23 @@ def test_redirect_response_is_counted_even_when_following_is_rejected():
     failed = [p for p in result['technical'] if p['capture_status'] != 'FETCHED']
     assert failed and any(p['redirect_count'] == 1 for p in failed)
     assert all(p['measurement'] is None and not p['is_defect'] for p in failed)
+
+
+def test_adaptive_capture_is_projected_with_original_link_evidence_and_no_product_fit():
+    from tests.collection.test_adaptive import collect
+    from vrae.evidence import build_pack
+    bundle, _ = collect()
+    pack = build_pack([bundle])
+    diagnosis = deterministic_diagnosis(pack, diagnose(pack, expected_pack_ref=pack.ref,
+        expected_industry_ref=load(tenant_id=pack.document['tenant_id'])['industry_ref'],
+        diagnostic_version='l2-industrial-1.0.7'))
+    result = build(pack, diagnosis, 'a'*64)
+    investigation = result['supplemental'][0]
+    decision = investigation['decisions'][0]
+    assert investigation['policy'] == 'SOURCE_LINK_GAPS_V1'
+    assert decision['product_applicability'] == decision['gap_resolved'] == 'UNKNOWN'
+    assert decision['native_fact_admission'] == 'NONE'
+    ev = next(e for e in pack.document['evidence'] if e['evidence_ref'] == decision['source_binding']['evidence_ref'])
+    raw = pack.resolve(ev['evidence_ref'],expected_pack_ref=pack.ref)['content']
+    b = decision['source_binding']
+    assert raw[b['byte_start']:b['byte_end']] == b'<a href="/help/specs">Technical data</a>'

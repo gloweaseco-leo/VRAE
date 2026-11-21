@@ -25,6 +25,28 @@ def build(pack, diagnosis, artifact_sha256):
     for source in doc['sources']:
         if source['kind'] != 'CaptureManifest':
             continue
+        if 'adaptive_investigation' in source['document']:
+            def snapshot_at(index):
+                return next(s for s in doc['snapshots'] if s['source_ref'] == source['source_ref']
+                            and s['locator'] == f'/pages/{index}/snapshot')
+            investigation = source['document']['adaptive_investigation']
+            decisions = []
+            for decision in investigation['decisions']:
+                origin = snapshot_at(decision['source_page_index'])
+                target = snapshot_at(decision['target_page_index'])
+                ev = next(e for e in doc['evidence'] if e['snapshot_ref'] == origin['snapshot_ref']
+                          and e['kind'] == 'HTTP_BODY')
+                decisions.append({'source_snapshot_ref': origin['snapshot_ref'],
+                    'target_snapshot_ref': target['snapshot_ref'],
+                    'purpose': decision['purpose'], 'trigger': decision['trigger'],
+                    'source_binding': {k:ev[k] for k in ('evidence_ref','snapshot_ref','locator','content_sha256')}
+                        | {k:decision[k] for k in ('byte_start','byte_end')},
+                    'product_applicability': 'UNKNOWN', 'gap_resolved': 'UNKNOWN',
+                    'is_defect': False, 'native_fact_admission': 'NONE'})
+            result.setdefault('supplemental', []).append({'source_ref': source['source_ref'],
+                'policy': investigation['policy'], 'stop_reason': investigation['stop_reason'],
+                'max_supplemental_pages': 2, 'decisions': decisions,
+                'whole_site_coverage_known': False})
         for index, page in enumerate(source['document']['pages']):
             snapshots = [s for s in doc['snapshots'] if s['source_ref'] == source['source_ref']
                          and s['locator'] == f'/pages/{index}/snapshot']

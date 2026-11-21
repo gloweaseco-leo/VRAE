@@ -133,6 +133,9 @@ class CaptureBundle:
                 raise CollectionError("EVIDENCE_INTEGRITY")
         if referenced != set(self.objects):
             raise CollectionError("EVIDENCE_INTEGRITY")
+        if 'adaptive_investigation' in self.manifest:
+            from .adaptive import verify
+            verify(self.manifest, self.objects)
 
 
 def page_record(access: SourceAccess, run_id: str, url: str, role: str, *,
@@ -170,7 +173,8 @@ def page_record(access: SourceAccess, run_id: str, url: str, role: str, *,
 
 
 def seal(access: SourceAccess, run_id: str, pages: list[dict], objects: dict[str, bytes],
-         items: list[dict], budget, robots: dict, errors: list[dict], truncated: bool) -> CaptureBundle:
+         items: list[dict], budget, robots: dict, errors: list[dict], truncated: bool,
+         *, adaptive_investigation=None) -> CaptureBundle:
     from .discovery import ROLES
     from .contracts import validate_document
     validate_document("PageInventory", {"schema_version": "1.0", "items": items, "truncated": truncated})
@@ -184,6 +188,8 @@ def seal(access: SourceAccess, run_id: str, pages: list[dict], objects: dict[str
         "coverage": {"observed_roles": covered, "unverified_roles": sorted(set(ROLES) - set(covered)),
                      "inventory_truncated": truncated,
                      "note": "Unvisited or blocked pages do not prove absence or website defects."}}
+    if adaptive_investigation is not None:
+        result['adaptive_investigation'] = adaptive_investigation
     result["manifest_sha256"] = document_hash(result)
     bundle = CaptureBundle(result, objects)
     bundle.verify()

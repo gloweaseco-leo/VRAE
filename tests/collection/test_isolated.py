@@ -128,8 +128,10 @@ def test_real_dns_tls_peer_host_and_evidence(monkeypatch):
     async def run():
         async with lab() as (requests, sni, bait, dns_server):
             bundle = await Collector(fetcher()).capture("run-isolated", lab_access(),
-                limits=Limits(interval_seconds=0.01), retain_raw_html=True)
+                limits=Limits(interval_seconds=0.01), retain_raw_html=True,
+                representative_pages=True, adaptive_investigation=True)
             bundle.verify()
+            assert bundle.manifest['adaptive_investigation']['policy'] == 'SOURCE_LINK_GAPS_V1'
             assert len(bundle.manifest["pages"]) == 3
             assert all(p["snapshot"]["status"] == "FETCHED" for p in bundle.manifest["pages"])
             from vrae.collection.http_measurement import validate

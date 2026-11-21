@@ -191,7 +191,8 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
                 access.check(forbidden)
         limits = {**plan['limits'], 'task_seconds': min(plan['limits']['task_seconds'], workload['task_seconds'])}
         return asyncio.run(Collector(SafeFetcher(FixedDNS(), transport)).capture(run_id,
-            access, limits=Limits(**limits), retain_raw_html=True, representative_pages=True))
+            access, limits=Limits(**limits), retain_raw_html=True, representative_pages=True,
+            adaptive_investigation=True))
     monkeypatch.setattr(worker, 'capture', capture)
     port = store.WorkerPort(bindings['worker'])
     try:
@@ -217,6 +218,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert len(result['fact_review']['technical']) == result['capture_summary']['page_records']
         assert len(result['fact_review']['inquiry']) == result['capture_summary']['fetched_pages']
         assert result['fact_review']['native_fact_admission'] == 'NONE'
+        assert result['fact_review']['supplemental'][0]['policy'] == 'SOURCE_LINK_GAPS_V1'
         if delay:
             assert 3 <= result['capture_summary']['fetched_pages'] <= 6
             assert all(row['reason'] == 'TIMEOUT' for row in result['page_scope']['failed_attempt_records'])

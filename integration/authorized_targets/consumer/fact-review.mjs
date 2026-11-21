@@ -1,4 +1,5 @@
 // Static declarations are neither a rule PASS nor a tested inquiry.
+import { supplementalReview } from './supplemental-review.mjs'
 const fail=()=>{throw new Error('INVALID_DIAGNOSIS_DELIVERY')}
 const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b)
 const integer=n=>Number.isInteger(n)&&n>=0
@@ -88,5 +89,6 @@ export function factReview(body,pages,pointer) {
     }
   }
   if(inquiries.size!==pages.size)fail()
-  return {trust,inquiry:r.inquiry,technical:r.technical,browserPerformance:'UNKNOWN',reviewRef:r.review_ref}
+  const supplemental=supplementalReview(r,all,pages,r.technical,binding)
+  return {trust,inquiry:r.inquiry,technical:r.technical,supplemental,browserPerformance:'UNKNOWN',reviewRef:r.review_ref}
 }

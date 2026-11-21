@@ -33,7 +33,13 @@ class Collector:
 
     async def capture(self, run_id: str, access: SourceAccess, *, limits: Limits | None = None,
                       budget: Budget | None = None, retain_raw_html: bool = False,
-                      representative_pages: bool = False, labelled_contacts: bool = False):
+                      representative_pages: bool = False, labelled_contacts: bool = False,
+                      adaptive_investigation: bool = False):
+        if adaptive_investigation and (not representative_pages or not retain_raw_html):
+            raise CollectionError('INPUT_INVALID')
+        from .adaptive import Investigation
+        investigation = Investigation() if adaptive_investigation else None
+        stopped = False
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{2,127}", run_id):
             raise CollectionError("INPUT_INVALID")
         budget = budget or Budget(limits or Limits(), access)
@@ -64,14 +70,21 @@ class Collector:
                 contact_targets: set[str] = set()
                 items = [{"url": access.start_url, "role": page_role(access.start_url),
                           "discovered_from": access.start_url}]
+                baseline_urls = {access.start_url}
                 cap = min(budget.limits.max_pages, 5 if access.audit["audit_mode"] == "L0" else 8)
                 while budget.pages < cap:
-                    candidate = select_next(items, attempted, covered, representative=representative_pages,
+                    baseline_items = [i for i in items if i['url'] in baseline_urls] if investigation else items
+                    candidate = select_next(baseline_items, attempted, covered, representative=representative_pages,
                                             contact_targets=contact_targets)
                     if candidate is None:
                         break
+                    supplement = investigation.choose(items, candidate, attempted, covered, budget,
+                        len(pages), contact_targets) if investigation else None
+                    candidate = supplement or candidate
                     url, role = candidate["url"], candidate["role"]
                     budget.page()
+                    if supplement is not None and investigation is not None:
+                        investigation.record()
                     attempted.add(url)
                     response, trace = None, []
                     error = None
@@ -104,6 +117,10 @@ class Collector:
                                 contact_targets.update(labelled_contact_targets(response.body, response.url)
                                     & {i['url'] for i in discovered})
                         budget.check()
+                        if investigation and supplement is None:
+                            investigation.observe(response.body, response.url, len(pages),
+                                {i['url'] for i in discovered})
+                            baseline_urls.update(i['url'] for i in discovered)
                         truncated |= overflow
                         known = {x["url"] for x in items}
                         for item in discovered:
@@ -125,11 +142,16 @@ class Collector:
                     objects.update(saved)
                     if error and error.code in ("CANCELLED", "TIMEOUT", "POLICY_REVOKED",
                             "POLICY_EXPIRED", "SOURCE_NOT_ALLOWED", "LIMIT_EXCEEDED", "ACCESS_BLOCKED"):
+                        stopped = True
                         break
             except CollectionError as exc:
+                stopped = True
                 errors.append(exc.document())
                 if not pages:
                     page, _ = page_record(access, run_id, access.start_url,
                                          page_role(access.start_url), error=exc)
                     pages.append(page)
-            return seal(access, run_id, pages, objects, items, budget, robots, errors, truncated)
+            extra = investigation.document(full=budget.pages >= min(budget.limits.max_pages,
+                5 if access.audit['audit_mode'] == 'L0' else 8), stopped=stopped) if investigation else None
+            return seal(access, run_id, pages, objects, items, budget, robots, errors, truncated,
+                        adaptive_investigation=extra)

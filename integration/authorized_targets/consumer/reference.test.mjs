@@ -65,6 +65,41 @@ test('P1 static forms preserve source bounds and reject false inquiry capability
     assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
   }
 })
+
+function supplementalFixture(blocked=false){
+  const d=factReviewFixture(),r=d.fact_review,target={...page,snapshot_ref:'page-'+'7'.repeat(64),url:'https://example.org/help/specs',
+    capture_status:blocked?'ACCESS_BLOCKED':'FETCHED',http_status:blocked?null:200}
+  if(blocked)d.page_scope.failed_attempt_records.push({...target,reason:'ROBOTS_DISALLOWED',http_response_observed:false})
+  else {d.page_scope.visited_pages.push(target);d.capture_summary.fetched_pages=2
+    r.inquiry.push({...structuredClone(r.inquiry[0]),snapshot_ref:target.snapshot_ref})}
+  r.technical.push({...structuredClone(r.technical[0]),snapshot_ref:target.snapshot_ref,source_locator:'/pages/1',capture_status:target.capture_status,http_status:target.http_status,response_body_bytes:blocked?0:1000})
+  r.supplemental=[{source_ref:r.technical[0].source_ref,policy:'SOURCE_LINK_GAPS_V1',max_supplemental_pages:2,
+    stop_reason:'PAGE_LIMIT_REACHED',whole_site_coverage_known:false,decisions:[{source_snapshot_ref:page.snapshot_ref,target_snapshot_ref:target.snapshot_ref,
+      purpose:'TECHNICAL_MATERIAL',trigger:'NO_STRUCTURED_PRODUCT_FIELDS_RECORDED',product_applicability:'UNKNOWN',gap_resolved:'UNKNOWN',is_defect:false,native_fact_admission:'NONE',
+      source_binding:{evidence_ref:'ev-'+'2'.repeat(64),snapshot_ref:page.snapshot_ref,locator:'/pages/0/evidence',content_sha256:'3'.repeat(64),byte_start:10,byte_end:40}}]}]
+  d.customer_presentation.fact_review=structuredClone(r);return d
+}
+
+test('P2 delivers actual captured or denied investigations without resolving procurement gaps',()=>{
+  for(const blocked of [true,false]){
+    const d=supplementalFixture(blocked),out=projectPreviewResult(d,200,ref),held=out.reportView.tasks[1].supplementalInvestigations[0]
+    assert.equal(held.result,blocked?'NOT_CAPTURED':'CAPTURED')
+    assert.equal(held.target.capture_status,blocked?'ACCESS_BLOCKED':'FETCHED')
+    assert.equal(held.product_applicability,'UNKNOWN');assert.equal(held.gap_resolved,'UNKNOWN')
+    assert.equal(out.insights.length,0)
+  }
+})
+
+test('P2 rejects changed purpose, unvisited target, false applicability and broken source ordering',()=>{
+  for(const mutate of [r=>r.supplemental[0].decisions[0].purpose='PROOF_CONTEXT',
+    r=>r.supplemental[0].decisions[0].target_snapshot_ref='page-'+'8'.repeat(64),
+    r=>r.supplemental[0].decisions[0].gap_resolved=true,
+    r=>r.supplemental[0].decisions[0].source_binding.byte_end=1001,
+    r=>r.technical[0].source_locator='/pages/2',r=>r.supplemental[0].decisions.push(r.supplemental[0].decisions[0])]){
+    const d=supplementalFixture();mutate(d.fact_review);d.customer_presentation.fact_review=structuredClone(d.fact_review)
+    assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+  }
+})
 function fixture(state = 'AI_PENDING') {
   const groups = taskIds.map((task, i) => ({ task, rules: [{ rule_id: ruleIds[i], buyer_task: task,
     observations: [{ observation: { rule_id: ruleIds[i], observation_id: 'obs-' + String(i).repeat(64),
