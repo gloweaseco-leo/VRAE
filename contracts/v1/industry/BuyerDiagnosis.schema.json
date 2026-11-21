@@ -9,7 +9,15 @@
       "const": "1.0"
     },
     "diagnostic_version": {
-      "enum": ["l2-industrial-1.0.0", "l2-industrial-1.0.1", "l2-industrial-1.0.2", "l2-industrial-1.0.3", "l2-industrial-1.0.4", "l2-industrial-1.0.5"]
+      "enum": [
+        "l2-industrial-1.0.0",
+        "l2-industrial-1.0.1",
+        "l2-industrial-1.0.2",
+        "l2-industrial-1.0.3",
+        "l2-industrial-1.0.4",
+        "l2-industrial-1.0.5",
+        "l2-industrial-1.0.6"
+      ]
     },
     "diagnostic_depth": {
       "const": "L2"
@@ -309,6 +317,90 @@
           }
         }
       }
+    },
+    "procurement_review": {
+      "type": "object",
+      "required": [
+        "contract",
+        "config_version",
+        "configuration_ref",
+        "review_ref",
+        "pack_ref",
+        "execution_ref",
+        "products",
+        "unknown_is_defect",
+        "formal_human_review",
+        "native_fact_admission",
+        "semantic_approval",
+        "coverage"
+      ],
+      "properties": {
+        "contract": {
+          "const": "vrae.l2-procurement-review.v1"
+        },
+        "config_version": {
+          "const": "1.0.0"
+        },
+        "configuration_ref": {
+          "type": "string",
+          "pattern": "^pcfg-[0-9a-f]{64}$"
+        },
+        "review_ref": {
+          "type": "string",
+          "pattern": "^prv-[0-9a-f]{64}$"
+        },
+        "pack_ref": {
+          "type": "string",
+          "pattern": "^ep-[0-9a-f]{64}$"
+        },
+        "execution_ref": {
+          "type": "string",
+          "pattern": "^rx-[0-9a-f]{64}$"
+        },
+        "products": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object"
+          }
+        },
+        "unknown_is_defect": {
+          "const": false
+        },
+        "formal_human_review": {
+          "const": false
+        },
+        "native_fact_admission": {
+          "const": "NONE"
+        },
+        "semantic_approval": {
+          "const": false
+        },
+        "coverage": {
+          "type": "object",
+          "required": [
+            "eligible_products",
+            "reviewed_products",
+            "truncated"
+          ],
+          "properties": {
+            "eligible_products": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "reviewed_products": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 8
+            },
+            "truncated": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
   "required": [
@@ -341,5 +433,28 @@
     "limitations",
     "procurement_chains",
     "industry_rule_coverage"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "diagnostic_version": {
+            "const": "l2-industrial-1.0.6"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "procurement_review"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "procurement_review"
+          ]
+        }
+      }
+    }
   ]
 }

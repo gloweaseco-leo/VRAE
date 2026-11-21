@@ -198,3 +198,74 @@ test('report groups repeated nav observations while retaining both proof pointer
   assert.equal(result.reportView.printCandidateUrls, false)
   assert.equal(result.reportView.countsAreNotScoreOrDefectCount, true)
 })
+
+function procurementFixture() {
+  const d = fixture('AI_UNAVAILABLE')
+  const scope = 'ps-'+'d'.repeat(64)
+  const row = d.deterministic_diagnosis.buyer_tasks[1].rules[0].observations[0]
+  const cite = (fact_role, text, field_index = null) => ({ snapshot_ref: page.snapshot_ref, url: page.url,
+    product_scope_ref: scope, fact_role, text, field_index })
+  row.citations = [cite('NAME','Grinding wheel W100'), cite('SPEC_LABEL','Size',0), cite('SPEC_VALUE','100 mm',0)]
+  const field = { key: 'dimensions', label: 'Size', value: '100 mm', citation_indexes: [1,2],
+    normalization: {dimension:'length',value:'100',unit:'mm'} }
+  const card = { observation_id: row.observation.observation_id, product_scope_ref: scope,
+    name: {text:'Grinding wheel W100',citation_indexes:[0]}, declared_model:null,
+    profile:{id:'abrasive_wheel',state:'SOURCE_LABEL_CANDIDATE',title:{zh:'磨轮采购资料候选',en:'Wheel information candidate'},citation_indexes:[0]},
+    fields:[field],groups:[{key:'dimensions',title:{zh:'尺寸',en:'Dimensions'},state:'OBSERVED',field_indexes:[0],next_step:{zh:'核对资料',en:'Confirm the document'}},
+      {key:'grit',title:{zh:'粒度',en:'Grit'},state:'NOT_OBSERVED_IN_CAPTURE',field_indexes:[],next_step:{zh:'核对其他资料，不判缺失',en:'Check other documents; absence is unproven'}}],
+    state:'PARTIAL_SOURCE_INFORMATION',verified_sku:false,engineering_fit:'UNKNOWN',is_rule_pass:false }
+  const review = {contract:'vrae.l2-procurement-review.v1',config_version:'1.0.0',configuration_ref:'pcfg-'+'e'.repeat(64),
+    review_ref:'prv-'+'f'.repeat(64),pack_ref:'ep-'+'1'.repeat(64),execution_ref:'rx-'+'2'.repeat(64),products:[card],
+    coverage:{eligible_products:1,reviewed_products:1,truncated:false},unknown_is_defect:false,formal_human_review:false,native_fact_admission:'NONE',semantic_approval:false}
+  Object.assign(d.deterministic_diagnosis,{diagnostic_version:'l2-industrial-1.0.6',expected_pack_ref:review.pack_ref,
+    native_execution_ref:review.execution_ref,procurement_review:review})
+  d.customer_presentation.procurement_review = review
+  return d
+}
+
+test('committed procurement cards survive AI failure and preserve source and UNKNOWN work', () => {
+  const out = projectPreviewResult(procurementFixture(),200,ref)
+  const card = out.reportView.tasks.find(t=>t.task==='UNDERSTAND').procurementCards[0]
+  assert.equal(card.name,'Grinding wheel W100')
+  assert.equal(card.declaredModel,null)
+  assert.equal(card.fields[0].value,'100 mm')
+  assert.equal(card.groups[1].state,'NOT_OBSERVED_IN_CAPTURE')
+  assert.equal(card.isRulePass,false)
+  assert.equal(card.unknownIsDefect,false)
+  assert.equal(card.sources[0].url,page.url)
+  assert.equal(out.insights.length,0)
+})
+
+test('procurement rejects forged values, conversions, groups and product bindings', () => {
+  for (const mutate of [
+    c=>c.fields[0].value='999 mm', c=>c.fields[0].normalization.value='999',
+    c=>c.fields[0].citation_indexes=[0,2], c=>c.product_scope_ref='ps-'+'0'.repeat(64),
+    c=>c.is_rule_pass=true, c=>c.groups[1].state='OBSERVED',
+    c=>c.fields[0].normalization.unit='m', c=>c.declared_model=c.fields[0]
+  ]) {
+    const d = procurementFixture()
+    mutate(d.deterministic_diagnosis.procurement_review.products[0])
+    assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+  }
+})
+
+test('new procurement profile requires the exact committed extension', () => {
+  const d = procurementFixture()
+  d.customer_presentation.procurement_review=structuredClone(d.customer_presentation.procurement_review)
+  d.customer_presentation.procurement_review.products[0].fields[0].value='Forged'
+  assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+  delete d.customer_presentation.procurement_review
+  assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+})
+
+test('a product with all configured information groups does not erase the report', () => {
+  const d = procurementFixture()
+  const card = d.deterministic_diagnosis.procurement_review.products[0]
+  for (const key of ['model','abrasive','bond','usage','revision','conditions','flow','head','power',
+    'voltage','frequency','pressure','temperature','medium','bore','material','connection']) {
+    card.groups.push({ ...structuredClone(card.groups[1]), key })
+  }
+  const out = projectPreviewResult(d,200,ref)
+  assert.equal(out.reportView.tasks.find(t=>t.task==='UNDERSTAND').procurementCards[0].groups.length,19)
+  assert.equal(out.buyerTasks.length,5)
+})

@@ -56,7 +56,8 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
             'infra/authorized_targets/007_automatic_sessions.sql',
             'infra/authorized_targets/008_committed_language.sql',
             'infra/authorized_targets/009_committed_scoped_language.sql',
-            'infra/authorized_targets/010_committed_context_language.sql'):
+            'infra/authorized_targets/010_committed_context_language.sql',
+            'infra/authorized_targets/011_committed_procurement_language.sql'):
             c.execute(Path(path).read_text())
         assert c.execute('SELECT current_user').fetchone()[0] == 'postgres'
     now = datetime.now(UTC)
@@ -206,7 +207,8 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert result['customer_presentation']['rules_available']
         assert len(result['customer_presentation']['tasks']) == 5
         assert result['customer_presentation']['artifact_sha256'] == result['artifact_sha256']
-        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.5'
+        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.6'
+        assert result['customer_presentation']['procurement_review']['products']
         if delay:
             assert 3 <= result['capture_summary']['fetched_pages'] <= 6
             assert all(row['reason'] == 'TIMEOUT' for row in result['page_scope']['failed_attempt_records'])
