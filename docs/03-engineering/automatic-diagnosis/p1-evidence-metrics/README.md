@@ -26,6 +26,8 @@ PinnedTransport 在成功完成一个受控 HTTP 交换时，以 monotonic 时�
 
 发布兼容修复保留原 CaptureManifest/FetchResponse 基础契约的历史冻结字节。`contracts.py` 使用独立的 `collection/extensions/HttpMeasurement.schema.json` 校验新元数据，不修改冻结测试、旧期望或历史报告。
 
+扩展契约按部署进程固定为不可变字节，仅在出现扩展字段时使用；更换契约随新部署进程生效，不在现有 EvidencePack 校验证明下热换文件。原基础契约的内容校验与缓存失效行为保持不变。
+
 | 字段（毫秒） | 起止 |
 | --- | --- |
 | connect_ms | TCP 连接开始至连接建立 |
