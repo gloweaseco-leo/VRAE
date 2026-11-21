@@ -24,6 +24,8 @@ VF 团队同步本仓库 `consumer/reference.mjs`、新 `fact-review.mjs` 和类
 
 PinnedTransport 在成功完成一个受控 HTTP 交换时，以 monotonic 时钟记录阶段。可选 `FetchResponse.measurement` 被保存在 `CaptureManifest.pages[].http_measurement`，随原清单哈希与 EvidencePack 完整性校验进入现有证据链。旧清单未增加字段，原字节/引用不重写。
 
+发布兼容修复保留原 CaptureManifest/FetchResponse 基础契约的历史冻结字节。`contracts.py` 使用独立的 `collection/extensions/HttpMeasurement.schema.json` 校验新元数据，不修改冻结测试、旧期望或历史报告。
+
 | 字段（毫秒） | 起止 |
 | --- | --- |
 | connect_ms | TCP 连接开始至连接建立 |

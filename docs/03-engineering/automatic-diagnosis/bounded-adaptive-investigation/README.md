@@ -22,6 +22,8 @@
 
 可选 `CaptureManifest.adaptive_investigation` 随原清单哈希保存。每条决策记录原来源页面、原始链接 UTF-8 字节范围/正文哈希、触发条件和目标尝试记录。重放检查来源先于目标、原文确有符合条件的链接、目标来自清单、不同目的且不重复；不回写历史清单。选中地址后再次检查权限与预算，通过并开始尝试后才记入决策，避免撤权留下不存在的页面引用。
 
+新字段使用独立 `collection/extensions/AdaptiveInvestigation.schema.json` 封闭契约校验，基础契约文件保留历史冻结字节；历史固定重放期望保持原样。
+
 既有 `fact_review.supplemental` 交付来源和目标 snapshot、原证据绑定及停止原因；AI 失败或仍在运行时也可消费。VF 参考适配器在 `buyerTasks[].supplementalInvestigations` 和 `reportView.tasks[].supplementalInvestigations` 分组输出：技术/应用补查进入 UNDERSTAND，证明材料进入 TRUST。
 
 每条结果明确为 CAPTURED 或 NOT_CAPTURED；目标的 HTTP 状态/失败原因来自既有 pageScope。`product_applicability` 与 `gap_resolved` 保持 UNKNOWN，`native_fact_admission=NONE`。发现链接、取得正文均不等于解决采购问题，不认证材料真假，也不将补查材料自动关联到其他产品。采集内容进入现有规则与 Qwen 证据流程，能否形成结论仍由既有证据标准、版本和 Guard 决定。
