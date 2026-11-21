@@ -37,9 +37,10 @@ def test_wheel_review_preserves_grit_text_and_normalizes_only_supported_unit():
     assert fields['grit']['value'] == '240#/280# or customer request'
     assert fields['grit']['normalization'] is None
     assert {g['state'] for g in card['groups']} == {'OBSERVED'}
+    rows = next(r for r in deterministic_diagnosis(pack, data)['buyer_tasks'][1]['rules']
+                if r['rule_id'] == 'INFO-01')['observations']
+    row = next(r for r in rows if r['observation']['observation_id'] == card['observation_id'])
     for f in card['fields']:
-        row = next(r for r in deterministic_diagnosis(pack, data)['buyer_tasks'][1]['rules']
-                   if r['rule_id'] == 'INFO-01')['observations'][0]
         assert all(row['citations'][i]['product_scope_ref'] == card['product_scope_ref'] for i in f['citation_indexes'])
 
 
