@@ -3,6 +3,8 @@ const list = v => Array.isArray(v) ? v : []
 const literal = v => typeof v === 'string' ? v.normalize('NFKC').trim().replace(/\s+/g, ' ') : null
 const text = v => typeof v === 'string' && v.length > 0 && v.length <= 600
 const fail = () => { throw new Error('INVALID_DIAGNOSIS_DELIVERY') }
+const placeholders = new Set(['n/a','na','unknown','not specified','tbd','-','—','on request'])
+const informative = value => !placeholders.has(value.trim().replace(/\s+/g,' ').toLowerCase())
 
 // Exact decimal check for the fixed v1 source-unit contract; no float rounding.
 function scalar(raw, result, key) {
@@ -26,12 +28,13 @@ export function procurementCards(body, pages, pointer, language) {
   const review = body.customer_presentation.procurement_review
   const diagnosis = body.deterministic_diagnosis
   if (!review) {
-    if (diagnosis?.diagnostic_version === 'l2-industrial-1.0.6') fail()
+    if (['l2-industrial-1.0.6','l2-industrial-1.0.7'].includes(diagnosis?.diagnostic_version)) fail()
     return []
   }
-  if (diagnosis?.diagnostic_version !== 'l2-industrial-1.0.6' ||
+  const modern = diagnosis?.diagnostic_version === 'l2-industrial-1.0.7'
+  if (!['l2-industrial-1.0.6','l2-industrial-1.0.7'].includes(diagnosis?.diagnostic_version) ||
       JSON.stringify(review) !== JSON.stringify(diagnosis.procurement_review) ||
-      review.contract !== 'vrae.l2-procurement-review.v1' || review.config_version !== '1.0.0' ||
+      review.contract !== 'vrae.l2-procurement-review.v1' || review.config_version !== (modern?'1.1.0':'1.0.0') ||
       !/^pcfg-[0-9a-f]{64}$/.test(review.configuration_ref) || !/^prv-[0-9a-f]{64}$/.test(review.review_ref) ||
       review.pack_ref !== diagnosis.expected_pack_ref || review.execution_ref !== diagnosis.native_execution_ref ||
       review.native_fact_admission !== 'NONE' || review.unknown_is_defect !== false ||
@@ -100,12 +103,46 @@ export function procurementCards(body, pages, pointer, language) {
         (!['model', 'model number', 'part number'].includes(card.declared_model.label?.toLowerCase()) ||
          new Set(card.fields.filter(f => f.key === 'model').map(f => f.value)).size !== 1 ||
          !card.fields.some(f => f.key === 'model' && JSON.stringify(f) === JSON.stringify(card.declared_model))))) fail()
+    const definitions = {
+      APPLICATION_SCREEN:['usage'],
+      SPECIFICATION_COMPARISON:['dimensions','model','bore','flow','head','power','voltage','frequency','pressure','temperature'],
+      OPTION_SELECTION:['bond','grit','abrasive','medium','material','connection'] }
+    const purchaseTasks = modern ? list(card.purchase_tasks).map((t,i)=>{
+      const task=Object.keys(definitions)[i]
+      if (t.task!==task || !text(t.title?.[language]) || !text(t.next_step?.[language]) ||
+          !text(t.question?.[language]) || !text(t.verification?.[language])) fail()
+      const indexes=card.fields.flatMap((f,j)=>definitions[task].includes(f.key)&&informative(f.value)?[j]:[])
+      const citations=[...new Set(indexes.flatMap(j=>card.fields[j].citation_indexes))].sort((a,b)=>a-b)
+      if (JSON.stringify(t.field_indexes)!==JSON.stringify(indexes) || JSON.stringify(t.citation_indexes)!==JSON.stringify(citations) ||
+          t.state!==(indexes.length?'SOURCE_INFORMATION_AVAILABLE':'UNKNOWN') ||
+          t.decision_readiness!==(indexes.length?'SUPPLIER_CONFIRMATION_REQUIRED':'UNKNOWN') ||
+          t.engineering_fit!=='UNKNOWN' || t.relationships_verified!==false ||
+          t.buyer_requirements_known!==false || t.is_defect!==false) fail()
+      return {task,title:t.title[language],state:t.state,decisionReadiness:t.decision_readiness,
+        fieldIndexes:indexes,citationIndexes:citations,nextStep:t.next_step[language],question:t.question[language],
+        verification:t.verification[language],engineeringFit:'UNKNOWN',relationshipsVerified:false,isDefect:false}
+    }) : []
+    if (modern && purchaseTasks.length!==3) fail()
+    let inquiryPreparation=null
+    if (modern) {
+      const routes=items.filter(i=>i.rule_id==='CTA-02').filter(i=>{
+        const r=pointer(body,i.source_pointer)
+        return r.observation.result==='PASS' && r.source_page?.snapshot_ref===name[0].snapshot_ref
+      }).map(i=>i.observation_id)
+      const q=card.inquiry_preparation
+      if (!q || q.state!==(routes.length?'STATIC_ROUTE_RECORDED':'UNKNOWN') ||
+          JSON.stringify(q.path_observation_ids)!==JSON.stringify(routes) ||
+          JSON.stringify(q.available_input_field_indexes)!==JSON.stringify(fields.flatMap((f,i)=>informative(f.value)?[i]:[])) ||
+          q.product_context_transfer!=='UNKNOWN' || q.inquiry_submitted!==false) fail()
+      inquiryPreparation={state:q.state,pathObservationIds:routes,availableInputFieldIndexes:q.available_input_field_indexes,
+        productContextTransfer:'UNKNOWN',inquirySubmitted:false}
+    }
     return { reviewRef: review.review_ref, configurationRef: review.configuration_ref,
       sourcePointer: item.source_pointer, productScopeRef: card.product_scope_ref, name: card.name.text,
       declaredModel: card.declared_model?.value ?? null, profile: { id: profile.id, state: profile.state,
         title: profile.title?.[language] ?? null }, state, fields, groups,
       isRulePass: false, verifiedSku: false, engineeringFit: 'UNKNOWN',
-      unknownIsDefect: false, sources: [...new Map([...name, ...fields.flatMap(f => f.citationIndexes.map(i => citations[i]))]
+      unknownIsDefect: false, purchaseTasks, inquiryPreparation, sources: [...new Map([...name, ...fields.flatMap(f => f.citationIndexes.map(i => citations[i]))]
         .map(c => [c.snapshot_ref, pages.get(c.snapshot_ref)])).values()] }
   })
 }

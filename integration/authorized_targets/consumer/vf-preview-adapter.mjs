@@ -10,6 +10,7 @@ export function projectPreviewResult(body, status, auditRef, language = 'zh') {
   const pages = value.pageScope.visited.map(page => ({ id: page.snapshot_ref,
     url: page.url, observed: true, checkedAt: page.observed_at }))
   const insights = value.claims.map(claim => ({ task: claim.task, explanation: claim.explanation,
+    purchaseTask:claim.purchaseTask,opportunityKind:claim.opportunityKind,
     rebuild: claim.rebuild, checks: [...claim.uncertainties, ...claim.questions],
     verification: claim.verification, verificationIsPlan: true,
     sources: claim.sources.map(page => page.snapshot_ref) }))

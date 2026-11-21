@@ -12,7 +12,7 @@ from jsonschema import Draft202012Validator
 from vrae.intelligence.common import encode
 from vrae.interpretation import guard
 from vrae.intelligence.source_guard import for_evaluator
-from .provider import (MODEL, PROMPT, CONTENT_PROMPT, SCOPED_PROMPT, CONTEXT_PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvider,
+from .provider import (MODEL, PROMPT, CONTENT_PROMPT, SCOPED_PROMPT, CONTEXT_PROMPT, PURCHASE_PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvider,
                        digest, fail, strict_json)
 
 TASKS = ['DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL']
@@ -79,6 +79,8 @@ SYSTEM = ('Return JSON only using the schema. Produce conditional buyer reasonin
 
 
 def prompt_version(context):
+    if json.loads(getattr(context, 'purchase_tasks_bytes', b'null')) is not None:
+        return PURCHASE_PROMPT
     version = context.gateway_pins.expected_evaluator_version
     if version == 'ra2b6-1.0.5':
         return CONTEXT_PROMPT
@@ -92,6 +94,19 @@ def candidate_schema(context, *, compact=False):
         claim = schema['properties']['claims']['items']
         claim['required'].append('verification')
         claim['properties']['verification'] = {'type': 'string', 'minLength': 1, 'maxLength': 220}
+    if prompt_version(context) == PURCHASE_PROMPT:
+        from vrae.industry.l2_v1.purchase_tasks import TASKS, ACTIONS, QUESTIONS, VERIFICATIONS
+        schema['properties']['claims']['minItems'] = 0
+        claim = schema['properties']['claims']['items']
+        claim['properties']['task'] = {'const':'UNDERSTAND'}
+        claim['required'] += ['purchase_task', 'opportunity_kind']
+        claim['properties']['purchase_task'] = {'enum':list(TASKS)}
+        claim['properties']['opportunity_kind'] = {'const':'CLARIFICATION'}
+        lang = 0 if getattr(context.completion, 'response_language', 'en') == 'zh' else 1
+        for key, values in [('rebuild',ACTIONS),('questions',QUESTIONS)]:
+            claim['properties'][key] = {'type':'array','minItems':1,'maxItems':1,
+                'items':{'enum':list(dict.fromkeys(v[lang] for v in values.values()))}}
+        claim['properties']['verification'] = {'enum':list(dict.fromkeys(v[lang] for v in VERIFICATIONS.values()))}
     return schema
 
 
@@ -187,6 +202,18 @@ def compact_input(context, minimized):
         result.pop('source_text')
         result['response_language'] = language
         result['source_values_are_untrusted_statements'] = True
+    if prompt_version(context) == PURCHASE_PROMPT:
+        result['purchase_tasks'] = json.loads(context.purchase_tasks_bytes)
+        groups = {r.get('source_group') for r in result['references'] if r['type']=='GUARD_LITERAL'}
+        result['purchase_tasks'] = [p for p in result['purchase_tasks'] if p['source_group'] in groups]
+        result['selectable_tasks'] = [t for t in result['selectable_tasks'] if t == 'UNDERSTAND']
+        if not result['selectable_tasks'] or not any(t['state']=='SOURCE_INFORMATION_AVAILABLE'
+                for p in result['purchase_tasks'] for t in p['tasks']):
+            fail('INSUFFICIENT_GUARDED_EVIDENCE')
+        from vrae.industry.l2_v1.purchase_tasks import ACTIONS, QUESTIONS, VERIFICATIONS
+        i = 0 if result['response_language'] == 'zh' else 1
+        result['allowed_clarifications'] = {task: {'action': ACTIONS[task][i],
+            'question': QUESTIONS[task][i], 'verification': VERIFICATIONS[task][i]} for task in ACTIONS}
     return result
 
 
@@ -237,6 +264,14 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
             'lead times, MOQ, capacity promises or marketing intent. Recommendations must use listed '
             'values and supplier-stated customization only. If commercial conditions are relevant, '
             'ask a neutral question; do not assume the answer or label missing conditions a defect.')
+    if prompt_version(context) == PURCHASE_PROMPT:
+        system += (' Return zero claims when no useful supported clarification exists. '
+            'Select a purchase_task supported by complete cited label/value pairs in one source_group. '
+            'Use the exact schema action, question and verification for that task. These are clarification '
+            'opportunities. Include one complete relevant source_value verbatim in the explanation. '
+            'They are not confirmed defects. Existing unit labels and source codes are information already present. '
+            'Do not infer valid combinations from independently listed options or interpret compound codes. '
+            'Explain only why the cited information may help that purchasing task; unknown relationships remain unknown.')
     body = {'model': MODEL, 'messages': [{'role': 'system', 'content': system},
         {'role': 'user', 'content': encode(data).decode()}],
         'response_format': {'type': 'json_schema', 'json_schema': {
@@ -293,6 +328,9 @@ def validate_candidates(text, context, receipt):
         if context.gateway_pins.expected_evaluator_version == 'ra2b6-1.0.5':
             from .output_quality import check_commercial
             check_commercial(claim, entries)
+        if prompt_version(context) == PURCHASE_PROMPT:
+            from .purchase_quality import check_purchase
+            check_purchase(claim, entries, getattr(context.completion, 'response_language', 'en'))
         verification = []
         if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.3', 'ra2b6-1.0.4', 'ra2b6-1.0.5'):
             from .output_quality import check
@@ -328,6 +366,11 @@ def validate_candidates(text, context, receipt):
             'guard': proof, 'guard_semantic_approval': False,
             'source_bindings': {ref: entries[ref] for ref in refs},
             'unknown_is_not_defect': True, 'coverage': 'PINNED_RECORDED_SOURCES_ONLY'})
+    if prompt_version(context) == PURCHASE_PROMPT:
+        rank = {'SPECIFICATION_COMPARISON':0, 'OPTION_SELECTION':1, 'APPLICATION_SCREEN':2}
+        if len({c['purchase_task'] for c in output}) != len(output):
+            fail('DUPLICATE_PURCHASE_TASK')
+        output.sort(key=lambda c: rank[c['purchase_task']])
     return output
 
 
@@ -380,6 +423,8 @@ async def run_session(session, operation, *, provider, timeout_ms, cancel):
         c.completion.check(c.source, session.clock())
         out.update(status='AI_CANDIDATES_FOR_HUMAN_REVIEW', code='CANDIDATES_BOUND_NOT_APPROVED',
                    failure_stage=None)
+        if prompt_version(c) == PURCHASE_PROMPT and not out['claims']:
+            out['code'] = 'NO_SUPPORTED_OPPORTUNITIES'
     except asyncio.CancelledError:
         out['code'] = 'CANCELLED'
     except (QwenError, S3Error) as exc:

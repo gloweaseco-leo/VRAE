@@ -53,7 +53,9 @@ def capture_summary(pack):
 
 def analysis_outcome(receipt, genuine):
     if genuine:
-        return 'COMPLETED'
+        return ('COMPLETED_NO_RECOMMENDATIONS' if not receipt.get('claims') and
+            (receipt.get('usage') or {}).get('prompt_version') == 'qwen-purchase-clarification-1.5.0'
+            else 'COMPLETED')
     if receipt.get('reason') == 'INSUFFICIENT_GUARDED_EVIDENCE':
         return 'INSUFFICIENT_EVIDENCE'
     if receipt.get('provider_attempts') == 0:
@@ -64,6 +66,19 @@ def analysis_outcome(receipt, genuine):
         return 'PROVIDER_FAILED'
     # Legacy null counts, quota errors and protocol fakes stay uncertain.
     return 'UNAVAILABLE'
+
+
+def completed_model_result(receipt, diagnostic_version):
+    """Metadata gate; caller independently binds the immutable receipt/artifact."""
+    usage = receipt.get('usage') or {}
+    zero = (not receipt.get('claims') and diagnostic_version == 'l2-industrial-1.0.7'
+        and receipt.get('reason') == 'NO_SUPPORTED_OPPORTUNITIES'
+        and receipt.get('failure_stage') is None
+        and usage.get('prompt_version') == 'qwen-purchase-clarification-1.5.0')
+    return (receipt['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW'
+        and receipt.get('verification_realm') == 'REAL_PROVIDER'
+        and receipt.get('real_model_calls') == 1 and (bool(receipt.get('claims')) or zero)
+        and usage.get('usage_origin') == 'PROVIDER_REPORTED')
 
 
 def page_scope(pack):
@@ -122,7 +137,7 @@ def project(value, audit_ref):
         evidence=[{k: s[k] for k in ('snapshot_ref', 'url', 'status', 'observed_at')}
                   for s in pack.document['snapshots']],
         coverage=deepcopy(pack.document['coverage']))
-    if artifact['diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.6':
+    if artifact['diagnosis']['diagnostic_version'] in ('l2-industrial-1.0.6', 'l2-industrial-1.0.7'):
         from integration.authorized_targets.buyer_review import build as buyer_review
         result['buyer_review'] = buyer_review(pack, result['deterministic_diagnosis'],
                                              value['artifact_sha256'])
@@ -138,10 +153,7 @@ def project(value, audit_ref):
     result['model'] = {k: deepcopy(receipt.get(k)) for k in (
         'model_constraint', 'state', 'reason', 'usage', 'real_model_calls', 'verification_realm',
         'provider_attempts', 'cost_status', 'failure_stage')}
-    genuine = (receipt['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW'
-        and receipt.get('verification_realm') == 'REAL_PROVIDER'
-        and receipt.get('real_model_calls') == 1 and bool(result['claims'])
-        and (receipt.get('usage') or {}).get('usage_origin') == 'PROVIDER_REPORTED')
+    genuine = completed_model_result(receipt, artifact['diagnosis']['diagnostic_version'])
     result['state'] = 'DIAGNOSED' if genuine else 'AI_UNAVAILABLE'
     result['diagnosis_complete'] = genuine
     result['analysis_outcome'] = analysis_outcome(receipt, genuine)

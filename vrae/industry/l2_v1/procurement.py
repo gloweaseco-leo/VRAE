@@ -20,9 +20,10 @@ def bilingual(pair):
     return dict(zip(('zh', 'en'), pair))
 
 
-def configuration(parent):
-    config = json.loads(CONFIG.read_text(encoding='utf-8'))
-    if config['version'] != '1.0.0' or config['parent_profile_version'] != parent['version']:
+def configuration(parent, version='1.0.0'):
+    path = CONFIG if version == '1.0.0' else CONFIG.with_name('procurement-1.1.0.json')
+    config = json.loads(path.read_text(encoding='utf-8'))
+    if version not in ('1.0.0','1.1.0') or config['version'] != version or config['parent_profile_version'] != parent['version']:
         raise EvidenceError('PROCUREMENT_CONFIGURATION')
     labels = {key: parent['labels'][key] for key in config['titles'] if key in parent['labels']}
     labels.update(config['extra_labels'])
@@ -74,10 +75,10 @@ def select_profile(name, fields, config):
             'citation_indexes': indexes}
 
 
-def build(pack, execution, parent, industry_ref):
+def build(pack, execution, parent, industry_ref, *, version='1.0.0'):
     verify_execution(execution, pack, expected_pack_ref=pack.ref,
                      expected_evaluator_version='ra2b6-1.0.5')
-    config, aliases = configuration(parent)
+    config, aliases = configuration(parent, version)
     products = []
     for rule in execution['executions']:
         if rule['rule_id'] != 'INFO-01':
@@ -139,6 +140,21 @@ def build(pack, execution, parent, industry_ref):
                 'state': 'PROFILE_UNRESOLVED' if profile['id'] is None else
                     'CONFIGURED_GROUPS_OBSERVED' if all(g['state']=='OBSERVED' for g in groups) else 'PARTIAL_SOURCE_INFORMATION',
                 'verified_sku': False, 'engineering_fit': 'UNKNOWN', 'is_rule_pass': False})
+    if version == '1.1.0':
+        from .purchase_tasks import evaluate, informative
+        for card in products:
+            card['purchase_tasks'] = evaluate(card)
+            original = next(row for rule in execution['executions'] if rule['rule_id']=='INFO-01'
+                for row in rule['observations'] if row['observation']['observation_id']==card['observation_id'])
+            snapshot = original['citations'][card['name']['citation_indexes'][0]]['snapshot_ref']
+            routes = [row['observation']['observation_id'] for rule in execution['executions']
+                if rule['rule_id']=='CTA-02' for row in rule['observations']
+                if row['observation']['result']=='PASS'
+                and (row.get('source_page') or {}).get('snapshot_ref')==snapshot]
+            card['inquiry_preparation'] = {'state':'STATIC_ROUTE_RECORDED' if routes else 'UNKNOWN',
+                'path_observation_ids':routes,'available_input_field_indexes':[
+                    i for i,f in enumerate(card['fields']) if informative(f['value'])],
+                'product_context_transfer':'UNKNOWN','inquiry_submitted':False}
     result = {'contract': VERSION, 'config_version': config['version'],
         'configuration_ref': 'pcfg-'+document_hash({'config': config, 'parent_industry_ref': industry_ref}),
         'pack_ref': pack.ref, 'execution_ref': execution['execution_ref'],
