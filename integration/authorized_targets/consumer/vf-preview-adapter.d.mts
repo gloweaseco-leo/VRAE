@@ -61,7 +61,8 @@ export type PreviewResult = {
   buyerTasks: { task: BuyerTask; title: string; observations: Observation[]; insights: Insight[]; procurementCards: ProcurementCard[]; procurementCoverage: { eligible_products: number; reviewed_products: number; truncated: boolean } | null; reviewCandidates: ReviewCandidate[]; reviewCoverage: ReviewCoverage[];
     recordedFacts: Observation['contextFacts']; purchaseTasks: (PurchaseTask & { productScopeRef: string; sourcePointer: string })[];
     inquiryPreparation: (InquiryPreparation & { productScopeRef: string; sourcePointer: string })[];
-    sourceFactReview: (TrustSourceReview | InquirySourceReview | TechnicalSourceReview)[] }[]
+    sourceFactReview: (TrustSourceReview | InquirySourceReview | TechnicalSourceReview)[];
+    supplementalInvestigations: SupplementalInvestigation[] }[]
   analysisOutcome: string; analysisText: string; modelFailureStage: string | null; aiWarning: string | null
   captureSummary: {
     candidate_urls: number; page_records: number; fetched_pages: number; unvisited_candidates: number
@@ -79,7 +80,8 @@ export type PreviewResult = {
     tasks: { task: BuyerTask; title: string; observations: (Observation & { observationIds: string[]; sourcePointers: string[] })[]; insights: Insight[]; contextFacts: Observation['contextFacts']; procurementCards: ProcurementCard[]; procurementCoverage: PreviewResult['buyerTasks'][number]['procurementCoverage']; reviewCandidates: ReviewCandidate[]; reviewCoverage: ReviewCoverage[];
       recordedFacts: Observation['contextFacts']; purchaseTasks: PreviewResult['buyerTasks'][number]['purchaseTasks'];
       inquiryPreparation: PreviewResult['buyerTasks'][number]['inquiryPreparation'];
-      sourceFactReview: PreviewResult['buyerTasks'][number]['sourceFactReview'] }[]
+      sourceFactReview: PreviewResult['buyerTasks'][number]['sourceFactReview'];
+      supplementalInvestigations: SupplementalInvestigation[] }[]
     visitedPageCount: number; failedPageCount: number; candidatePageCount: number
     originalObservationCount: number; displayObservationCount: number; unknownCount: number
     countsAreNotScoreOrDefectCount: true; printCandidateUrls: false
@@ -106,6 +108,11 @@ export type HttpMeasurement = {method:'PINNED_HTTP_MONOTONIC_V1';scope:'FINAL_HO
   connect_ms:number;stream_setup_ms:number;first_byte_after_send_ms:number;headers_after_send_ms:number;body_after_headers_ms:number;exchange_ms:number}
 export type TechnicalSourceReview = {snapshot_ref:string;source_ref:string;source_locator:string;capture_status:string;http_status:number|null;
   response_body_bytes:number;redirect_count:number;measurement:HttpMeasurement|null;timing_state:'MEASURED'|'UNKNOWN';samples:0|1;is_defect:false}
+
+export type SupplementalInvestigation = {source_snapshot_ref:string;target_snapshot_ref:string;
+  purpose:'TECHNICAL_MATERIAL'|'APPLICATION_CONTEXT'|'PROOF_CONTEXT';trigger:string;source_binding:SourceBinding;
+  product_applicability:'UNKNOWN';gap_resolved:'UNKNOWN';is_defect:false;native_fact_admission:'NONE';
+  source:VisitedPage;target:ReviewPage;result:'CAPTURED'|'NOT_CAPTURED';policy:'SOURCE_LINK_GAPS_V1';stopReason:string}
 
 /** Call after existing mTLS, source-SHA, media, no-store and same-session checks. */
 export function projectPreviewResult(body: Record<string, unknown>, status: number,

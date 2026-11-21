@@ -56,7 +56,7 @@ def openapi():
                         "fact_review": {"type": "object", "required": [
                             "contract", "review_ref", "artifact_sha256", "pack_ref", "native_execution_ref",
                             "trust", "inquiry", "technical", "native_fact_admission"],
-                            "description": "Optional vrae.fact-review.v1 verified read projection. Native TRUST context pointers, bounded static form declarations and source-manifest HTTP metrics. Historical missing timing remains UNKNOWN; no native verdict promotion, browser performance, form visibility, interaction or delivery assertion."},
+                            "description": "Optional vrae.fact-review.v1 verified read projection. Native TRUST context pointers, static form declarations, HTTP metrics and optional supplemental investigation attempts (SOURCE_LINK_GAPS_V1, at most two within existing limits). Attempts do not prove gap resolution or product applicability. Historical missing timing remains UNKNOWN; no native verdict promotion, browser performance, form visibility, interaction or delivery assertion."},
                         "buyer_review": {"type": "object", "required": [
                             "contract", "review_ref", "artifact_sha256", "pack_ref", "native_execution_ref",
                             "state", "tasks", "paths", "path_coverage", "native_fact_admission"],

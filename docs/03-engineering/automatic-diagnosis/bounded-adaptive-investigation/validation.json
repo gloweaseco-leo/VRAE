@@ -1,0 +1,44 @@
+{
+  "scope": "P2_BOUNDED_ADAPTIVE_SOURCE_INVESTIGATION",
+  "python_broad_regression": {
+    "passed": 173,
+    "note": "Before final selection/attempt revocation fix; related final regression below overlaps this suite."
+  },
+  "final_related_regression": {
+    "passed": 39,
+    "seconds": 24.02,
+    "command": "pytest tests/collection/test_adaptive.py integration/authorized_targets/checks/test_fact_review.py integration/authorized_targets/checks/test_lease_compute_budget.py",
+    "includes_selection_then_revocation": true
+  },
+  "adaptive_specialist_suite": {
+    "passed": 18,
+    "overlaps_final_related_regression": true
+  },
+  "node_consumer": {
+    "passed": 28
+  },
+  "network_none_kernel_firewall_dns_tcp_tls": {
+    "passed": 24,
+    "p2_enabled": true,
+    "external_network": false,
+    "production_mounts": false
+  },
+  "isolated_pg_automatic_chain": {
+    "passed": 1,
+    "test_duration_seconds": 131.42,
+    "not_single_diagnosis_duration": true,
+    "production_mounts": false,
+    "real_model_calls": 0
+  },
+  "mypy": {
+    "source_files": 156,
+    "passed": true
+  },
+  "ruff": true,
+  "historical_artifacts_replayed": 28,
+  "history_and_shared_ledger_unchanged": true,
+  "real_model_calls": 0,
+  "new_customer_website_requests": 0,
+  "production_deployed": false,
+  "vf_repository_changed": false
+}

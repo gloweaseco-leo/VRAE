@@ -107,6 +107,9 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       .map(card=>card.productScopeRef)
   }
   for (const group of facts) {
+    group.supplementalInvestigations=(sourceFacts?.supplemental??[]).flatMap(s=>s.decisions
+      .filter(d=>group.task===(d.purpose==='PROOF_CONTEXT'?'TRUST':'UNDERSTAND'))
+      .map(d=>({...d,policy:s.policy,stopReason:s.stop_reason})))
     group.sourceFactReview = group.task === 'TRUST' ? sourceFacts?.trust ?? []
       : group.task === 'INQUIRE' ? sourceFacts?.inquiry ?? []
       : group.task === 'SEARCH_TECHNICAL' ? sourceFacts?.technical ?? [] : []
