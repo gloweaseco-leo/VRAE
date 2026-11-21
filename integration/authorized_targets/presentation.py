@@ -142,4 +142,6 @@ def build(result):
         'unknown_is_defect': False, 'missing_ai_claim_is_defect': False}
     if diagnosis.get('diagnostic_version') == 'l2-industrial-1.0.6':
         output['procurement_review'] = diagnosis['procurement_review']
+    if 'buyer_review' in result:
+        output['buyer_review'] = result['buyer_review']
     return output

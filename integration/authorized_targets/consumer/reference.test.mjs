@@ -269,3 +269,126 @@ test('a product with all configured information groups does not erase the report
   assert.equal(out.reportView.tasks.find(t=>t.task==='UNDERSTAND').procurementCards[0].groups.length,19)
   assert.equal(out.buyerTasks.length,5)
 })
+
+function buyerReviewFixture() {
+  const d = procurementFixture()
+  const row = d.deterministic_diagnosis.buyer_tasks[0].rules[0].observations[0]
+  row.source_page = page
+  row.target_response = null
+  const step = {rule_id:'DISC-01',observation_id:row.observation.observation_id,result:'UNKNOWN',
+    source_page:page,target_response:null,citations:row.citations}
+  const path = {journey_ref:'journey-'+'1'.repeat(64),steps:[step],complete:false,terminal_result:'UNKNOWN'}
+  d.deterministic_diagnosis.buyer_journey = [path]
+  const candidateRules = [['DISC-03'],['INFO-02'],['TRUST-02','TRUST-03'],[],['SEO-02','TECH-01']]
+  const review = {contract:'vrae.buyer-review.v1',review_ref:'brv-'+'2'.repeat(64),
+    artifact_sha256:d.artifact_sha256,pack_ref:d.deterministic_diagnosis.expected_pack_ref,
+    native_execution_ref:d.deterministic_diagnosis.native_execution_ref,state:'AVAILABLE',
+    s2_projection_ref:'s2p-'+'3'.repeat(64),industry_ref:'ip-'+'4'.repeat(64),
+    native_fact_admission:'NONE',formal_human_review:false,unknown_is_defect:false,
+    inquiry_submitted:false,product_context_transfer:'UNKNOWN',technical_material_route:'UNKNOWN',proof_route:'UNKNOWN',
+    tasks:taskIds.map((task,i)=>({task,candidates:[],coverage:candidateRules[i].map(rule_id=>({rule_id,total:0,returned:0,truncated:false}))})),
+    paths:[{journey_ref:path.journey_ref,steps:[{rule_id:'DISC-01',observation_id:step.observation_id,
+      result:'UNKNOWN',source_pointer:'/deterministic_diagnosis/buyer_tasks/0/rules/0/observations/0'}],
+      static_path_complete:false,terminal_result:'UNKNOWN',product_context_transfer:'UNKNOWN',inquiry_submitted:false}],
+    path_coverage:{total:1,returned:1,truncated:false,whole_site_coverage_known:false}}
+  review.tasks[4].candidates.push({observation_id:'obs-'+'5'.repeat(64),rule_id:'TECH-01',rule_version:'s2-static-1.0.0',
+    source_version:'s2-source-1.0.0',candidate_result:'PASS',reason:'RETAINED_HTTP_200_RESPONSE',
+    title:{zh:'保存的页面响应',en:'Retained response'},text:{zh:'有限证据，仍待复核',en:'Bounded evidence for review'},
+    source_snapshot_refs:[page.snapshot_ref],evidence_bindings:[{evidence_ref:'ev-'+'6'.repeat(64),
+      snapshot_ref:page.snapshot_ref,locator:'/pages/0/evidence/0',content_sha256:'7'.repeat(64),byte_start:0,byte_end:10}],
+    native_fact_admission:'NONE',human_review_required:true})
+  review.tasks[4].coverage[1]={rule_id:'TECH-01',total:1,returned:1,truncated:false}
+  d.buyer_review=review
+  d.customer_presentation.buyer_review=review
+  return d
+}
+
+test('five-task review retains native unknowns and procurement when AI fails or is pending', () => {
+  for (const state of ['AI_UNAVAILABLE','AI_PENDING']) {
+    const d=buyerReviewFixture()
+    d.state=state
+    const out=projectPreviewResult(d,state==='AI_PENDING'?202:200,ref)
+    assert.equal(out.buyerTasks[4].observations[0].result,'UNKNOWN')
+    assert.equal(out.reportView.tasks[4].reviewCandidates[0].candidateResult,'PASS')
+    assert.equal(out.reportView.tasks[4].reviewCandidates[0].isNativeFact,false)
+    assert.equal(out.reportView.tasks[1].procurementCards.length,1)
+    assert.equal(out.buyerReview.paths[0].staticPathComplete,false)
+    assert.equal(out.buyerReview.paths[0].productContextTransfer,'UNKNOWN')
+    assert.equal(out.insights.length,0)
+  }
+})
+
+test('review refuses changed artifact, unvisited candidate evidence and invented completed journeys', () => {
+  for (const mutate of [r=>r.artifact_sha256='0'.repeat(64),r=>r.native_fact_admission='PASS',
+    r=>r.tasks[4].candidates[0].source_snapshot_refs=['page-'+'0'.repeat(64)],
+    r=>r.tasks[4].candidates[0].evidence_bindings=[],r=>r.tasks[4].coverage[1].returned=0,
+    r=>r.tasks[4].candidates[0].evidence_bindings[0].byte_end=-1,
+    r=>r.paths[0].static_path_complete=true,r=>r.paths[0].steps[0].source_pointer='/deterministic_diagnosis/buyer_tasks/1/rules/0/observations/0',
+    r=>r.paths[0].product_context_transfer='CONFIRMED',r=>r.paths[0].inquiry_submitted=true]) {
+    const d=buyerReviewFixture()
+    mutate(d.buyer_review)
+    assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+  }
+})
+
+test('unavailable S2 layer retains native paths and five-task facts', () => {
+  const d=buyerReviewFixture(), r=d.buyer_review
+  r.state='CANDIDATES_UNAVAILABLE'
+  r.s2_projection_ref=null; r.industry_ref=null
+  r.tasks[4].candidates=[];r.tasks[4].coverage[1]={rule_id:'TECH-01',total:0,returned:0,truncated:false}
+  const out=projectPreviewResult(d,200,ref)
+  assert.equal(out.buyerReview.state,'CANDIDATES_UNAVAILABLE')
+  assert.equal(out.buyerTasks.length,5)
+  assert.equal(out.buyerReview.paths.length,1)
+  assert.equal(out.reportView.tasks[1].procurementCards.length,1)
+  d.customer_presentation.buyer_review=structuredClone(r)
+  d.customer_presentation.buyer_review.paths=[]
+  assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+})
+
+test('journey binding accepts canonical key ordering but rejects changed source content', () => {
+  const d=buyerReviewFixture()
+  const step=d.deterministic_diagnosis.buyer_journey[0].steps[0]
+  step.source_page=Object.fromEntries(Object.entries(step.source_page).reverse())
+  assert.equal(projectPreviewResult(d,200,ref).buyerReview.paths.length,1)
+  step.source_page.url='https://example.org/unvisited'
+  assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+})
+
+test('only a connected captured product route links its procurement card', () => {
+  const d=buyerReviewFixture()
+  const makePage=(id,url)=>({...page,snapshot_ref:'page-'+id.repeat(64),url})
+  const home=makePage('8','https://example.org/'), category=makePage('9','https://example.org/products'),
+    contact=makePage('a','https://example.org/contact')
+  d.page_scope.visited_pages.push(home,category,contact)
+  d.capture_summary.fetched_pages=4
+  const add=(ti,ri,rule,id,from,to)=>{
+    const row={observation:{rule_id:rule,observation_id:'obs-'+id.repeat(64),result:'PASS'},
+      source_page:from,target_response:to,citations:[{snapshot_ref:from.snapshot_ref}]}
+    d.deterministic_diagnosis.buyer_tasks[ti].rules[ri]={rule_id:rule,observations:[row]}
+    const copy={...d.customer_presentation.tasks[ti].observations[0],rule_id:rule,
+      observation_id:row.observation.observation_id,result:'PASS',
+      source_pointer:`/deterministic_diagnosis/buyer_tasks/${ti}/rules/${ri}/observations/0`}
+    if(ri===0)d.customer_presentation.tasks[ti].observations[0]=copy
+    else d.customer_presentation.tasks[ti].observations.push(copy)
+    return [row,copy]
+  }
+  const rows=[add(0,0,'DISC-01','a',home,category),add(0,1,'DISC-02','b',category,page),
+    add(3,1,'CTA-02','c',page,contact)]
+  const original=d.deterministic_diagnosis.buyer_journey[0]
+  original.steps=rows.map(([row])=>({rule_id:row.observation.rule_id,rule_version:'1.0.0',
+    observation_id:row.observation.observation_id,result:'PASS',source_page:row.source_page,
+    target_response:row.target_response,citations:row.citations}))
+  original.complete=true;original.terminal_result='PASS'
+  const path=d.buyer_review.paths[0]
+  path.steps=rows.map(([row,copy])=>({rule_id:row.observation.rule_id,observation_id:row.observation.observation_id,
+    result:'PASS',source_pointer:copy.source_pointer}))
+  path.static_path_complete=true;path.terminal_result='PASS'
+  const out=projectPreviewResult(d,200,ref)
+  assert.equal(out.buyerReview.paths[0].staticPathComplete,true)
+  assert.deepEqual(out.buyerReview.paths[0].productScopeRefs,[d.deterministic_diagnosis.procurement_review.products[0].product_scope_ref])
+  assert.equal(out.buyerReview.paths[0].inquirySubmitted,false)
+  // Changing both copies cannot turn disconnected edges into a continuous path.
+  rows[1][0].source_page=home;original.steps[1].source_page=home
+  assert.throws(()=>projectPreviewResult(d,200,ref),/INVALID_DIAGNOSIS_DELIVERY/)
+})
