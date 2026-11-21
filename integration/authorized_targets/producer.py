@@ -8,10 +8,16 @@ from vrae.l2_ops.native_diagnosis import analyze
 from vrae.l2_ops.sources import EvidenceInput, SourceBundle
 from integration.l2_ops.native_report import produce
 from contracts.l2_launch.contract import canonical
+from vrae.rules.replay_scope import execution_scope
 
 
 def produce_capture(captured, task, authorization_ref, created_at, *, diagnostic_version="l2-industrial-1.0.1"):
     pack = build_pack([captured])
+    with execution_scope(pack):
+        return _produce_pack(pack, task, authorization_ref, created_at, diagnostic_version)
+
+
+def _produce_pack(pack, task, authorization_ref, created_at, diagnostic_version):
     if pack.document["tenant_id"] != task["tenant_id"] or pack.document["run_id"] != task["run_id"]:
         raise ValueError("ORIGINAL_TASK_CAPTURE_BINDING")
     archive = canonical(

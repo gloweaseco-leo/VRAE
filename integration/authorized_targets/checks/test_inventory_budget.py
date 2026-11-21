@@ -25,7 +25,7 @@ def scoped(grant):
     def current():
         counts['pg'] += 1
         counts['current'] += 1
-        return {'source_authorization': envelope, 'plan_sha256': '1' * 64}
+        return {'source_authorization': envelope, 'plan_sha256': '1' * 64, 'plan': plan}
 
     def provider():
         counts['pg'] += 1
@@ -53,7 +53,7 @@ def test_hundred_links_use_two_current_authority_checks_and_preserve_scope(scope
     access, counts, _, _ = scoped
     items, overflow = inventory(markup(154), access.start_url, access)
     assert len(items) == 154 and not overflow
-    assert counts == {'pg': 7, 'current': 2}
+    assert counts == {'pg': 3, 'current': 2}
     assert all(i['role'] == 'PRODUCT' for i in items)
     # Discovery is not a fetch permission cache. Every later check reloads PG.
     before = counts['current']
@@ -64,7 +64,7 @@ def test_hundred_links_use_two_current_authority_checks_and_preserve_scope(scope
     monkeypatch.setattr(access, 'inventory_scope', lambda: SourceAccess.inventory_scope(access))
     old_items, old_overflow = inventory(markup(154), access.start_url, access)
     assert (old_items, old_overflow) == (items, overflow)
-    assert counts == {'pg': 470, 'current': 158}
+    assert counts == {'pg': 158, 'current': 158}
 
 
 @pytest.mark.parametrize('change', ['policy', 'signing_key', 'expiry', 'envelope'])

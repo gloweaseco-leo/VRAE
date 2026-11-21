@@ -48,6 +48,14 @@ def normalized(text):
 
 
 def source_chain(pack, expected_pack_ref, *, diagnostic_version=VERSION):
+    if diagnostic_version == 'l2-industrial-1.0.5':
+        from vrae.rules.replay_scope import execution_scope
+        with execution_scope(pack):
+            return _source_chain(pack, expected_pack_ref, diagnostic_version=diagnostic_version)
+    return _source_chain(pack, expected_pack_ref, diagnostic_version=diagnostic_version)
+
+
+def _source_chain(pack, expected_pack_ref, *, diagnostic_version):
     if diagnostic_version not in SOURCE_VERSIONS:
         denied()
     evaluator, builder = SOURCE_VERSIONS[diagnostic_version]
