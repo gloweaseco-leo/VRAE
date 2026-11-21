@@ -15,6 +15,7 @@ export function projectPreviewResult(body, status, auditRef, language = 'zh') {
     verification: claim.verification, verificationIsPlan: true,
     sources: claim.sources.map(page => page.snapshot_ref) }))
   const result = { state: states[value.state], pages, insights, buyerReview:value.buyerReview,
+    ...(value.judgment ? { judgment: value.judgment } : {}),
     buyerTasks: value.facts.map(task => ({ ...task,
       insights: insights.filter(claim => claim.task === task.task) })),
     analysisOutcome: value.analysisOutcome, analysisText: value.analysisText,

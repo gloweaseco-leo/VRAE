@@ -31,7 +31,7 @@ export function buildReportView(preview) {
     return { ...task, observations: [...groups.values()],
       contextFacts: groupContext(task.observations.flatMap(o => o.contextFacts)) }
   })
-  return { tasks, buyerReview:preview.buyerReview, visitedPageCount: preview.pages.length,
+  const view = { tasks, buyerReview:preview.buyerReview, visitedPageCount: preview.pages.length,
     failedPageCount: preview.pageScope.failed.length, candidatePageCount: preview.pageScope.candidates.length,
     originalObservationCount: preview.buyerTasks.reduce((n, t) => n+t.observations.length, 0),
     displayObservationCount: tasks.reduce((n, t) => n+t.observations.length, 0),
@@ -39,4 +39,6 @@ export function buildReportView(preview) {
     countsAreNotScoreOrDefectCount: true, printCandidateUrls: false,
     contextFacts: groupContext(tasks.flatMap(t => t.contextFacts)),
     analysisText: preview.analysisText, insights: preview.insights }
+  if (preview.judgment) view.judgment = preview.judgment
+  return view
 }
