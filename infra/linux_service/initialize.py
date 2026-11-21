@@ -62,6 +62,10 @@ def main():
             "SELECT position('l2-industrial-1.0.4' in pg_get_functiondef('target_v1.committed_input(text,uuid,text)'::regprocedure))>0",
             "infra/authorized_targets/009_committed_scoped_language.sql",
         ))
+        checks.append((
+            "SELECT position('l2-industrial-1.0.5' in pg_get_functiondef('target_v1.committed_input(text,uuid,text)'::regprocedure))>0",
+            "infra/authorized_targets/010_committed_context_language.sql",
+        ))
         for query, file in checks:
             if not c.execute(query).fetchone()[0]:
                 c.execute((Path("/work") / file).read_text())

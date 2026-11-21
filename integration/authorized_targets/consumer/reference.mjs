@@ -22,6 +22,33 @@ function pointer(body, path) {
   }, body)
 }
 
+function contextFacts(item, row, pages, language) {
+  return list(item.context_facts).map(fact => {
+    const indexes = list(fact.citation_indexes)
+    if (fact.is_rule_pass !== false || !text(fact.text?.[language]) || !indexes.length ||
+        new Set(indexes).size !== indexes.length || indexes.some(i => !Number.isInteger(i) || i < 0 || i >= list(row.citations).length)) fail()
+    const citations = indexes.map(i => row.citations[i])
+    let bound = false
+    if (row.observation.rule_id === 'TRUST-01') bound = list(row.context_facts).some(f =>
+      f.kind === fact.kind && JSON.stringify(f.citation_indexes) === JSON.stringify(indexes))
+    if (row.observation.rule_id === 'CTA-01') bound = fact.kind === 'STATIC_CONTACT_LINK' && row.static_href_presence === 'OBSERVED'
+    if (row.observation.rule_id === 'SEO-01') bound = ['TITLE', 'DESCRIPTION', 'CANONICAL'].includes(fact.kind) &&
+      row.seo_signals?.[fact.kind.toLowerCase()]?.status === 'OBSERVED' && citations.every(c => c.fact_role === fact.kind)
+    if (row.observation.rule_id === 'INFO-01') {
+      bound = fact.kind === 'PRODUCT_NAME' && citations.length === 1 && citations[0].fact_role === 'NAME' &&
+        /^ps-[0-9a-f]{64}$/.test(citations[0].product_scope_ref) ||
+        fact.kind === 'PRODUCT_FIELD' && citations.length === 2 && citations[0].fact_role === 'SPEC_LABEL' &&
+        citations[1].fact_role === 'SPEC_VALUE' && citations[0].field_index === citations[1].field_index &&
+        /^ps-[0-9a-f]{64}$/.test(citations[0].product_scope_ref) && citations[0].product_scope_ref === citations[1].product_scope_ref
+    }
+    if (!bound || citations.some(c => !pages.has(c.snapshot_ref) || pages.get(c.snapshot_ref).url !== c.url)) fail()
+    return { kind: fact.kind, text: fact.text[language], isRulePass: false,
+      productScopeRef: citations[0].product_scope_ref ?? null,
+      citationIndexes: indexes, sourcePointer: item.source_pointer,
+      sources: [...new Map(citations.map(c => [c.snapshot_ref, pages.get(c.snapshot_ref)])).values()] }
+  })
+}
+
 export function projectResult(body, status, auditRef, language = 'zh') {
   if (!object(body) || !/^aref-[0-9a-f]{32}$/.test(auditRef) || body.audit_ref !== auditRef ||
       body.contract !== 'vrae.automatic-diagnosis.v1' || !states.has(body.state) ||
@@ -51,9 +78,19 @@ export function projectResult(body, status, auditRef, language = 'zh') {
         .filter(ref => pages.has(ref)).map(ref => pages.get(ref))
       // A factual PASS/FAIL must keep an actually visited source, never an inventory URL.
       if (['PASS', 'FAIL_WITH_EVIDENCE'].includes(item.result) && !sources.length) fail()
+      const from = row.source_page ?? row.homepage
+      const to = row.target_response
+      const endpoint = meta => meta && pages.has(meta.snapshot_ref) && pages.get(meta.snapshot_ref).url === meta.url
+        ? pages.get(meta.snapshot_ref) : null
+      const limit = item.limit
+      if (limit && (item.result !== 'UNKNOWN' || !text(limit.text?.[language]) ||
+          !['NOT_IMPLEMENTED', 'APPLICABILITY_UNRESOLVED', 'HUMAN_REVIEW_REQUIRED', 'PARTIAL_EVIDENCE',
+            'VISIBILITY_OR_DELIVERY_UNVERIFIED', 'SOURCE_UNAVAILABLE', 'PARSER_UNSUPPORTED'].includes(limit.kind))) fail()
       return { rule: item.rule_id, observationId: item.observation_id, result: item.result,
         text: item.text[language], statusText: item.status_text[language], sources,
         reason: typeof row.reason === 'string' ? row.reason : null,
+        contextFacts: contextFacts(item, row, pages, language), path: { from: endpoint(from), to: endpoint(to) },
+        limit: limit ? { kind: limit.kind, text: limit.text[language] } : null,
         sourcePointer: item.source_pointer }
     }),
   }))
@@ -76,10 +113,10 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       return binding?.type === 'GUARD_LITERAL' && pages.has(c?.snapshot_ref) &&
         pages.get(c.snapshot_ref).url === c.url
     }).map(binding => pages.get(binding.fact.source.citation.snapshot_ref))
-    const modern = ['qwen-evidence-buyer-1.2.1', 'qwen-evidence-buyer-1.3.0'].includes(model.usage.prompt_version)
+    const modern = ['qwen-evidence-buyer-1.2.1', 'qwen-evidence-buyer-1.3.0', 'qwen-evidence-buyer-1.4.0'].includes(model.usage.prompt_version)
     const productRefs = refs.map(ref => bindings?.[ref]).filter(b => b?.type === 'GUARD_LITERAL' && b.fact?.rule_id === 'INFO-01')
     const productScopes = productRefs.map(b => b.fact.source?.citation?.product_scope_ref)
-    const badProductScope = model.usage.prompt_version === 'qwen-evidence-buyer-1.3.0' &&
+    const badProductScope = ['qwen-evidence-buyer-1.3.0', 'qwen-evidence-buyer-1.4.0'].includes(model.usage.prompt_version) &&
       (productScopes.some(scope => typeof scope !== 'string' || !/^ps-[0-9a-f]{64}$/.test(scope)) ||
        new Set(productScopes).size > 1)
     if (!tasks.includes(claim.task) || claim.status !== 'HUMAN_REVIEW_REQUIRED' ||

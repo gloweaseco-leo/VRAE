@@ -7,6 +7,9 @@ export type VisitedPage = {
 export type Observation = {
   rule: string; observationId: string; result: RuleResult; text: string; statusText: string
   reason: string | null; sources: VisitedPage[]; sourcePointer: string
+  contextFacts: { kind: string; text: string; isRulePass: false; productScopeRef: string | null; citationIndexes: number[]; sourcePointer: string; sources: VisitedPage[] }[]
+  path: { from: VisitedPage | null; to: VisitedPage | null }
+  limit: { kind: string; text: string } | null
 }
 export type Insight = {
   task: BuyerTask; explanation: string; rebuild: string[]; checks: string[]
@@ -29,6 +32,13 @@ export type PreviewResult = {
     candidatesAreDefects: false; candidatesInitiallyCollapsed: true
   }
   formalHumanReview: false
+  reportView: {
+    tasks: { task: BuyerTask; title: string; observations: (Observation & { observationIds: string[]; sourcePointers: string[] })[]; insights: Insight[]; contextFacts: Observation['contextFacts'] }[]
+    visitedPageCount: number; failedPageCount: number; candidatePageCount: number
+    originalObservationCount: number; displayObservationCount: number; unknownCount: number
+    countsAreNotScoreOrDefectCount: true; printCandidateUrls: false
+    contextFacts: Observation['contextFacts']; analysisText: string; insights: Insight[]
+  }
 }
 
 /** Call after existing mTLS, source-SHA, media, no-store and same-session checks. */

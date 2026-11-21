@@ -195,13 +195,16 @@ def prepare_context(pack, source, projection, *, buyer_pins: BuyerCandidatePins 
                 'transaction_id': completion.transaction_id,
                 'artifact_sha256': completion.artifact_sha256,
                 'current_input_ref': completion.current_input_ref}
-        if execution['evaluator_version'] in ('ra2b6-1.0.3', 'ra2b6-1.0.4'):
+        if execution['evaluator_version'] in ('ra2b6-1.0.3', 'ra2b6-1.0.4', 'ra2b6-1.0.5'):
             descriptor['response_language'] = getattr(completion, 'response_language', 'en')
             descriptor['qwen_source_projection'] = 'qwen-product-values-1.0.0'
             descriptor['qwen_output_policy'] = 'qwen-buyer-output-1.0.0'
             if execution['evaluator_version'] == 'ra2b6-1.0.4':
                 descriptor['qwen_source_projection'] = 'qwen-product-values-1.1.0'
                 descriptor['qwen_output_policy'] = 'qwen-buyer-output-1.1.0'
+            if execution['evaluator_version'] == 'ra2b6-1.0.5':
+                descriptor['qwen_source_projection'] = 'qwen-product-values-1.2.0'
+                descriptor['qwen_output_policy'] = 'qwen-buyer-output-1.2.0'
         result = object.__new__(Context)
         values = (pack, source, completion, encode(execution), package, pins, encode(gp),
                   encode({'context': known['context'], 'entries': entries}), encode(candidate),

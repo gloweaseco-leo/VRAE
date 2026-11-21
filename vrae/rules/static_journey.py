@@ -8,7 +8,9 @@ from .journey import ROLES, _body_evidence
 from .universal_static import parse, usable, cite
 
 
-def evaluate(pack, doc, rule):
+def evaluate(pack, doc, rule, *, contextual=False):
+    from .retained_context import role, contact_targets, closed_anchor
+    classify = role if contextual else page_role
     source_roles, target_roles = ROLES[rule['rule_id']]
     records = _records(doc)
     targets = {r[2]['url']: r for r in records}
@@ -27,7 +29,7 @@ def evaluate(pack, doc, rule):
         rows.append(_row(doc, rule, result, reason, source=source, target=target,
                          citations=citations, statement=statement, coverage_note=coverage))
 
-    for source in (r for r in records if r[1]['role'] in source_roles):
+    for source in (r for r in records if (classify(r[2]['url']) if contextual else r[1]['role']) in source_roles):
         snapshot = source[2]
         meta = _metadata(source)
         if snapshot['status'] == 'ACCESS_BLOCKED':
@@ -37,7 +39,7 @@ def evaluate(pack, doc, rule):
         if evidence is None:
             add('UNKNOWN', 'SOURCE_RETAINED_HTML_REQUIRED', meta)
             continue
-        if page_role(snapshot['final_url']) not in source_roles:
+        if classify(snapshot['final_url']) not in source_roles:
             add('UNKNOWN', 'SOURCE_FINAL_ROLE_UNSUPPORTED', meta)
             continue
         raw = pack.resolve(evidence['evidence_ref'], expected_pack_ref=pack.ref)['content']
@@ -47,13 +49,13 @@ def evaluate(pack, doc, rule):
             parser = parse(raw.removeprefix(b'\xef\xbb\xbf'))
             if any(n['tag'] == 'base' and 'href' in n['attrs'] for n in parser.nodes):
                 raise ValueError('STATIC_BASE_SCOPE_UNSUPPORTED')
-            anchors = [n for n in parser.nodes if n['tag'] == 'a' and usable(n)]
+            anchors = [n for n in parser.nodes if (closed_anchor(n) if contextual else n['tag'] == 'a' and usable(n))]
             if len(anchors) > 128:
                 raise ValueError('STATIC_LINK_BOUND')
         except (ValueError, UnicodeError):
             add('UNKNOWN', 'HTML_UNSUPPORTED_OR_AMBIGUOUS', meta)
             continue
-        contacts = labelled_contact_targets(raw, snapshot['final_url'])
+        contacts = (contact_targets if contextual else labelled_contact_targets)(raw, snapshot['final_url'])
         seen, outside = set(), 0
         matched = False
         for node in anchors:
@@ -68,7 +70,7 @@ def evaluate(pack, doc, rule):
             labelled = rule['rule_id'] == 'CTA-02' and url in contacts
             if (urlsplit(url).netloc != urlsplit(snapshot['url']).netloc
                     or urlsplit(url).scheme != urlsplit(snapshot['url']).scheme
-                    or (page_role(url) not in target_roles and not labelled) or url in seen):
+                    or (classify(url) not in target_roles and not labelled) or url in seen):
                 continue
             seen.add(url)
             target = targets.get(url)
@@ -88,7 +90,7 @@ def evaluate(pack, doc, rule):
                 result, reason = 'FAIL_WITH_EVIDENCE', 'CAPTURED_BROKEN_HREF'
             elif target_snap['status'] == 'OBSERVED' and target[1]['http_status'] == 200:
                 ev = _body_evidence(doc, target_snap)
-                role_verified = (page_role(target_snap['final_url']) in target_roles
+                role_verified = (classify(target_snap['final_url']) in target_roles
                                  or labelled and target_snap['final_url'] == url)
                 if ev is not None and role_verified:
                     pack.resolve(ev['evidence_ref'], expected_pack_ref=pack.ref)

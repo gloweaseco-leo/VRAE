@@ -41,6 +41,8 @@ jobs:
       - run: python -m pip install -r requirements-ra4b-p1.lock
       - run: python -B -m pytest -q infra/windows_service/checks
       - run: python -B -m pytest -q integration/authorized_targets/checks/test_automatic_session_http.py integration/authorized_targets/checks/test_deterministic_result.py integration/authorized_targets/checks/test_universal_sources.py integration/authorized_targets/checks/test_partial_context.py integration/authorized_targets/checks/test_content_sources.py integration/authorized_targets/checks/test_product_scope.py integration/authorized_targets/checks/test_delivery_details.py
+      - name: Retained-context roles, local link failures and commercial claim refusals
+        run: python -B -m pytest -q integration/authorized_targets/checks/test_retained_context.py
       - name: Five-task VF consumer and product-scope refusals
         run: node --test integration/authorized_targets/consumer/reference.test.mjs
       - run: python -B -m pytest -q integration/authorized_targets/checks/test_inventory_budget.py tests/rules/seo01_patch_cases.py
