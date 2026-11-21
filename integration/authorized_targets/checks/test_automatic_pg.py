@@ -209,6 +209,9 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert result['customer_presentation']['artifact_sha256'] == result['artifact_sha256']
         assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.6'
         assert result['customer_presentation']['procurement_review']['products']
+        assert result['buyer_review']['state'] == 'AVAILABLE'
+        assert result['customer_presentation']['buyer_review'] == result['buyer_review']
+        assert len(result['buyer_review']['tasks']) == 5
         if delay:
             assert 3 <= result['capture_summary']['fetched_pages'] <= 6
             assert all(row['reason'] == 'TIMEOUT' for row in result['page_scope']['failed_attempt_records'])

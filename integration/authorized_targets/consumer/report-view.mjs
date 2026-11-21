@@ -31,7 +31,7 @@ export function buildReportView(preview) {
     return { ...task, observations: [...groups.values()],
       contextFacts: groupContext(task.observations.flatMap(o => o.contextFacts)) }
   })
-  return { tasks, visitedPageCount: preview.pages.length,
+  return { tasks, buyerReview:preview.buyerReview, visitedPageCount: preview.pages.length,
     failedPageCount: preview.pageScope.failed.length, candidatePageCount: preview.pageScope.candidates.length,
     originalObservationCount: preview.buyerTasks.reduce((n, t) => n+t.observations.length, 0),
     displayObservationCount: tasks.reduce((n, t) => n+t.observations.length, 0),

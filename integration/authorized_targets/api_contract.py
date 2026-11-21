@@ -53,11 +53,16 @@ def openapi():
                 "AutomaticDiagnosis": {
                     "type": "object", "properties": {
                         "deterministic_diagnosis": deterministic_schema(),
+                        "buyer_review": {"type": "object", "required": [
+                            "contract", "review_ref", "artifact_sha256", "pack_ref", "native_execution_ref",
+                            "state", "tasks", "paths", "path_coverage", "native_fact_admission"],
+                            "description": "Optional vrae.buyer-review.v1 read projection for 1.0.6 artifacts. Five-task S2 review candidates and original static journeys; not part of the immutable diagnosis hash, not native rule promotion, inquiry delivery or formal approval."},
                         "customer_presentation": {"type": "object", "required": [
                             "contract", "is_report", "formal_human_review", "rules_available", "tasks"],
                             "properties": {"contract": {"const": "vrae.diagnosis-presentation.v1"},
                                 "is_report": {"const": False}, "formal_human_review": {"const": False},
                                 "rules_available": {"type": "boolean"}, "tasks": {"type": "array"},
+                                "buyer_review": {"type": "object", "description": "Exact copy of the outer buyer_review projection; render separately from native observations and AI hypotheses."},
                                 "procurement_review": {"type": "object", "required": [
                                     "contract", "review_ref", "configuration_ref", "products"],
                                     "description": "Versioned source-bound procurement review for new 1.0.6 tasks; no rule PASS, verified SKU or engineering approval."}},

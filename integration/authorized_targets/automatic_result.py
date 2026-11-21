@@ -122,6 +122,10 @@ def project(value, audit_ref):
         evidence=[{k: s[k] for k in ('snapshot_ref', 'url', 'status', 'observed_at')}
                   for s in pack.document['snapshots']],
         coverage=deepcopy(pack.document['coverage']))
+    if artifact['diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.6':
+        from integration.authorized_targets.buyer_review import build as buyer_review
+        result['buyer_review'] = buyer_review(pack, result['deterministic_diagnosis'],
+                                             value['artifact_sha256'])
     if receipt is None:
         return delivery(202, result)
     if (receipt['task'] != artifact['task']

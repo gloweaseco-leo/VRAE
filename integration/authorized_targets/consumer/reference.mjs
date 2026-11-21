@@ -1,6 +1,7 @@
 // Pure reference for the trusted VF BFF; no HTTP, credentials, storage or UI.
 // Keep existing mTLS, source-SHA, media, no-store, session and CSRF checks first.
 import { procurementCards } from './procurement.mjs'
+import { buyerReview } from './buyer-review.mjs'
 const tasks = ['DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL']
 const states = new Set(['CAPTURE_PENDING', 'AI_PENDING', 'CAPTURE_FAILED', 'DIAGNOSED', 'AI_UNAVAILABLE'])
 const outcomes = new Set(['PASS', 'FAIL_WITH_EVIDENCE', 'UNKNOWN', 'ACCESS_BLOCKED', 'NOT_APPLICABLE'])
@@ -96,9 +97,19 @@ export function projectResult(body, status, auditRef, language = 'zh') {
     }),
   }))
   const procurement = procurementCards(body, pages, pointer, language)
+  const review = buyerReview(body, pages, pointer, language)
+  if (review) for (const path of review.paths) {
+    const productPages = new Set(path.steps.flatMap(step => step.rule === 'DISC-02'
+      ? [step.to?.snapshot_ref] : step.rule === 'CTA-02' ? [step.from?.snapshot_ref] : []))
+    path.productScopeRefs = procurement.filter(card => card.sources.some(p=>productPages.has(p.snapshot_ref)))
+      .map(card=>card.productScopeRef)
+  }
   for (const group of facts) {
     group.procurementCards = group.task === 'UNDERSTAND' ? procurement : []
     group.procurementCoverage = group.task === 'UNDERSTAND' ? p.procurement_review?.coverage ?? null : null
+    const reviewTask = review?.tasks.find(t=>t.task === group.task)
+    group.reviewCandidates = reviewTask?.candidates ?? []
+    group.reviewCoverage = reviewTask?.coverage ?? []
   }
   const claims = []
   let aiWarning = null
@@ -142,6 +153,7 @@ export function projectResult(body, status, auditRef, language = 'zh') {
   const summary = body.capture_summary
   if (summary && (summary.fetched_pages !== visited.length || summary.unvisited_is_defect !== false)) fail()
   return { auditRef, state: body.state, analysisOutcome: body.analysis_outcome,
+    buyerReview: review,
     analysisText: p.analysis_text[language], facts, claims, aiWarning,
     modelFailureStage: typeof model?.failure_stage === 'string' ? model.failure_stage : null,
     captureSummary: summary ?? null,
