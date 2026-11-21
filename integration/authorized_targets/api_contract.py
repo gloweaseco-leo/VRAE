@@ -70,8 +70,10 @@ def openapi():
                                 "buyer_review": {"type": "object", "description": "Exact copy of the outer buyer_review projection; render separately from native observations and AI hypotheses."},
                                 "procurement_review": {"type": "object", "required": [
                                     "contract", "review_ref", "configuration_ref", "products"],
-                                    "description": "Versioned source-bound procurement review: 1.0.6 keeps config 1.0.0; 1.0.7 uses config 1.1.0 and adds source-bound purchase_tasks and inquiry_preparation. No rule PASS, verified SKU or engineering approval."}},
-                            "description": "Bilingual copy with pointers to original observations; not new facts, scores or human approval. Available independently of AI claims."},
+                                    "description": "Versioned source-bound procurement review: 1.0.6 keeps config 1.0.0; 1.0.7 uses config 1.1.0 and adds source-bound purchase_tasks and inquiry_preparation. No rule PASS, verified SKU or engineering approval."},
+                                "judgment": {"type": "object",
+                                    "description": "Optional vrae.diagnosis-judgment.v1 when diagnostic_version is l2-industrial-1.0.7. Not a formal report."}},
+                            "description": "Bilingual copy with pointers to original observations; not new facts, scores or human approval. Available independently of AI claims. 1.0.7 可带 judgment，不是正式报告。"},
                         "page_scope": {"type": ["object", "null"], "properties": {
                             name: {"type": "array", "items": {"type": "object"}} for name in (
                                 "visited_pages", "failed_attempt_records", "unvisited_candidates", "unknown_coverage")},

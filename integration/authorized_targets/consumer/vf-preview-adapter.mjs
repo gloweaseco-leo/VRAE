@@ -21,5 +21,6 @@ export function projectPreviewResult(body, status, auditRef, language = 'zh') {
     modelFailureStage: value.modelFailureStage, aiWarning: value.aiWarning,
     captureSummary: value.captureSummary, pageScope: value.pageScope,
     formalHumanReview: false }
+  if (Object.hasOwn(value, 'judgment')) result.judgment = value.judgment
   return { ...result, reportView: buildReportView(result) }
 }

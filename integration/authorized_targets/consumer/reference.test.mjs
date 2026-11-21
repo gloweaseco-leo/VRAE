@@ -543,6 +543,46 @@ test('purchase AI cannot publish a free-form mapping action despite valid produc
   assert.equal(out.insights.length,0);assert.equal(out.buyerTasks[1].procurementCards.length,1)
 })
 
+test('a legal customer judgment reaches reportView and a priority fix is rejected', () => {
+  const judgment = {
+    contract: 'vrae.diagnosis-judgment.v1', is_report: false, formal_human_review: false,
+    lead: { zh: '这次没有确认具体缺陷。', en: 'No specific defect is confirmed.' },
+    confirmed_obstacles: { items: [], count: 0, is_defect_score: false, confirmed_obstacle_count_is_score: false },
+    supplier_questions: {
+      items: [{ claim_index: 0, task: 'UNDERSTAND', question: '哪份图纸对应这组尺寸？',
+        presented_as_priority_fix: false, is_confirmed_defect: false }],
+      presented_as_priority_fix: false, is_confirmed_defect: false },
+    walked_path: {
+      steps: [{ rule_id: 'DISC-02', observation_id: 'obs-disc', result: 'PASS',
+        label: { zh: 'Outdoor Wall Panel', en: 'Outdoor Wall Panel' },
+        url: 'https://example.org/products/outdoor-wall.html', snapshot_ref: page.snapshot_ref }],
+      summary: { zh: '已走到已打开的产品页。', en: 'The opened product page was walked.' } },
+    unjudged: {
+      items: [
+        { rule_id: 'TRUST-01', task: 'TRUST', is_defect: false, text: { zh: '企业资料这次没有判断。', en: 'Supplier information was not judged.' } },
+        { rule_id: 'SEO-01', task: 'SEARCH_TECHNICAL', is_defect: false, text: { zh: '页面结构这次没有判断。', en: 'Page structure was not judged.' } }],
+      is_defect: false, text: { zh: '这些环节没有通过或异常判断。', en: 'These steps have no pass or failure judgment.' } },
+    sample_boundary: {
+      fetched_pages: 6, unvisited_candidates: 71, visited_page_count: 6, failed_attempt_count: 0,
+      capture_summary_pointer: '/capture_summary', page_scope_pointer: '/page_scope', unvisited_is_defect: false,
+      text: { zh: '71 个未访问页面不是缺陷。', en: '71 unvisited pages are not defects.' } },
+    scope_hypothesis: { kind: 'CHECK_RECORDED_PRODUCT_PAGE', whole_site_rebuild: false,
+      text: { zh: '只核对已记录的产品页。', en: 'Check only the recorded product page.' } } }
+  const dto = fixture('AI_UNAVAILABLE')
+  dto.customer_presentation.judgment = judgment
+  const out = projectPreviewResult(dto, 200, ref)
+  assert.equal(out.judgment, judgment)
+  assert.equal(out.reportView.judgment, judgment)
+  assert.equal(out.reportView.judgment.walked_path.steps[0].label.zh, 'Outdoor Wall Panel')
+  const plain = projectPreviewResult(fixture('AI_UNAVAILABLE'), 200, ref)
+  assert.equal(Object.hasOwn(plain, 'judgment'), false)
+  assert.equal(Object.hasOwn(plain.reportView, 'judgment'), false)
+  const promoted = fixture('AI_UNAVAILABLE')
+  promoted.customer_presentation.judgment = structuredClone(judgment)
+  promoted.customer_presentation.judgment.supplier_questions.presented_as_priority_fix = true
+  assert.throws(() => projectPreviewResult(promoted, 200, ref), /INVALID_DIAGNOSIS_DELIVERY/)
+})
+
 test('placeholder text remains visible without becoming actionable purchasing information',()=>{
   const d=purchaseTaskFixture(), card=d.deterministic_diagnosis.procurement_review.products[0]
   card.fields[0].value='N/A';card.fields[0].normalization=null
