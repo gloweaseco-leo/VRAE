@@ -146,4 +146,6 @@ def build(result):
         output['procurement_review'] = diagnosis['procurement_review']
     if 'buyer_review' in result:
         output['buyer_review'] = result['buyer_review']
+    if 'fact_review' in result:
+        output['fact_review'] = result['fact_review']
     return output

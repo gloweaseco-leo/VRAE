@@ -213,6 +213,10 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert result['buyer_review']['state'] == 'AVAILABLE'
         assert result['customer_presentation']['buyer_review'] == result['buyer_review']
         assert len(result['buyer_review']['tasks']) == 5
+        assert result['customer_presentation']['fact_review'] == result['fact_review']
+        assert len(result['fact_review']['technical']) == result['capture_summary']['page_records']
+        assert len(result['fact_review']['inquiry']) == result['capture_summary']['fetched_pages']
+        assert result['fact_review']['native_fact_admission'] == 'NONE'
         if delay:
             assert 3 <= result['capture_summary']['fetched_pages'] <= 6
             assert all(row['reason'] == 'TIMEOUT' for row in result['page_scope']['failed_attempt_records'])

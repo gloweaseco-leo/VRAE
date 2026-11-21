@@ -53,6 +53,10 @@ def openapi():
                 "AutomaticDiagnosis": {
                     "type": "object", "properties": {
                         "deterministic_diagnosis": deterministic_schema(),
+                        "fact_review": {"type": "object", "required": [
+                            "contract", "review_ref", "artifact_sha256", "pack_ref", "native_execution_ref",
+                            "trust", "inquiry", "technical", "native_fact_admission"],
+                            "description": "Optional vrae.fact-review.v1 verified read projection. Native TRUST context pointers, bounded static form declarations and source-manifest HTTP metrics. Historical missing timing remains UNKNOWN; no native verdict promotion, browser performance, form visibility, interaction or delivery assertion."},
                         "buyer_review": {"type": "object", "required": [
                             "contract", "review_ref", "artifact_sha256", "pack_ref", "native_execution_ref",
                             "state", "tasks", "paths", "path_coverage", "native_fact_admission"],
@@ -62,6 +66,7 @@ def openapi():
                             "properties": {"contract": {"const": "vrae.diagnosis-presentation.v1"},
                                 "is_report": {"const": False}, "formal_human_review": {"const": False},
                                 "rules_available": {"type": "boolean"}, "tasks": {"type": "array"},
+                                "fact_review": {"type": "object", "description": "Exact copy of the outer fact_review. Independent of AI; not a score or formal approval."},
                                 "buyer_review": {"type": "object", "description": "Exact copy of the outer buyer_review projection; render separately from native observations and AI hypotheses."},
                                 "procurement_review": {"type": "object", "required": [
                                     "contract", "review_ref", "configuration_ref", "products"],

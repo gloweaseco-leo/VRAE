@@ -2,6 +2,7 @@
 // Keep existing mTLS, source-SHA, media, no-store, session and CSRF checks first.
 import { procurementCards } from './procurement.mjs'
 import { buyerReview } from './buyer-review.mjs'
+import { factReview } from './fact-review.mjs'
 const tasks = ['DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL']
 const states = new Set(['CAPTURE_PENDING', 'AI_PENDING', 'CAPTURE_FAILED', 'DIAGNOSED', 'AI_UNAVAILABLE'])
 const outcomes = new Set(['PASS', 'FAIL_WITH_EVIDENCE', 'UNKNOWN', 'ACCESS_BLOCKED', 'NOT_APPLICABLE'])
@@ -98,6 +99,7 @@ export function projectResult(body, status, auditRef, language = 'zh') {
   }))
   const procurement = procurementCards(body, pages, pointer, language)
   const review = buyerReview(body, pages, pointer, language)
+  const sourceFacts = factReview(body, pages, pointer)
   if (review) for (const path of review.paths) {
     const productPages = new Set(path.steps.flatMap(step => step.rule === 'DISC-02'
       ? [step.to?.snapshot_ref] : step.rule === 'CTA-02' ? [step.from?.snapshot_ref] : []))
@@ -105,6 +107,9 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       .map(card=>card.productScopeRef)
   }
   for (const group of facts) {
+    group.sourceFactReview = group.task === 'TRUST' ? sourceFacts?.trust ?? []
+      : group.task === 'INQUIRE' ? sourceFacts?.inquiry ?? []
+      : group.task === 'SEARCH_TECHNICAL' ? sourceFacts?.technical ?? [] : []
     group.procurementCards = group.task === 'UNDERSTAND' ? procurement : []
     group.procurementCoverage = group.task === 'UNDERSTAND' ? p.procurement_review?.coverage ?? null : null
     const reviewTask = review?.tasks.find(t=>t.task === group.task)

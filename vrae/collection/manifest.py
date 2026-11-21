@@ -90,6 +90,11 @@ class CaptureBundle:
             elif items[url]["role"] != page["role"]:
                 raise CollectionError("EVIDENCE_INTEGRITY")
             _verify_trace(page["redirect_trace"], url, snapshot["final_url"], page["http_status"])
+            if 'http_measurement' in page:
+                from .http_measurement import validate
+                validate(page['http_measurement'])
+                if page['http_status'] is None:
+                    raise CollectionError('EVIDENCE_INTEGRITY')
             if snapshot["tenant_id"] != doc["tenant_id"] or snapshot["run_id"] != doc["run_id"]:
                 raise CollectionError("EVIDENCE_INTEGRITY")
             if (snapshot["policy_id"] != doc["policy_id"]
@@ -153,10 +158,15 @@ def page_record(access: SourceAccess, run_id: str, url: str, role: str, *,
             "snapshot_id": snapshot["snapshot_id"], "locator": "http-response-body",
             "excerpt": None, "certainty": "OBSERVED", "checksum": digest, "observed_at": stamp}
     objects = {snapshot["private_object_ref"]: response.body} if digest and retain_raw else {}
-    return {"snapshot": snapshot, "evidence": evidence, "role": role,
+    page = {"snapshot": snapshot, "evidence": evidence, "role": role,
         "http_status": response.status if response is not None else None,
         "redirect_trace": trace or [], "bytes": len(response.body) if response else 0,
-        "raw_retained": bool(objects), "error": error.document() if error else None}, objects
+        "raw_retained": bool(objects), "error": error.document() if error else None}
+    if response is not None and getattr(response,'measurement',None) is not None:
+        from .http_measurement import validate
+        validate(response.measurement)
+        page['http_measurement'] = dict(response.measurement)
+    return page, objects
 
 
 def seal(access: SourceAccess, run_id: str, pages: list[dict], objects: dict[str, bytes],

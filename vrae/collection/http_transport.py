@@ -4,6 +4,7 @@ from dataclasses import dataclass
 import ipaddress
 import socket
 import ssl
+from time import monotonic
 from urllib.parse import urlsplit
 
 import h11
@@ -20,12 +21,18 @@ class FetchResponse:
     headers: dict[str, str]
     body: bytes
     peer_ip: str
+    measurement: dict | None = None
 
     def document(self) -> dict:
         from .manifest import sha256
-        return {"schema_version": "1.0", "url": self.url, "status": self.status,
+        result = {"schema_version": "1.0", "url": self.url, "status": self.status,
                 "peer_ip": self.peer_ip, "body_sha256": sha256(self.body),
                 "body_bytes": len(self.body), "content_type": self.headers.get("content-type")}
+        if self.measurement is not None:
+            from .http_measurement import validate
+            validate(self.measurement)
+            result['measurement'] = dict(self.measurement)
+        return result
 
 
 class PinnedTransport:
@@ -51,7 +58,9 @@ class PinnedTransport:
         writer = None
         try:
             async with asyncio.timeout(budget.limits.request_seconds):
+                started = monotonic()
                 await asyncio.get_running_loop().sock_connect(sock, (ip, port))
+                connected = monotonic()
                 if ipaddress.ip_address(sock.getpeername()[0]) != ipaddress.ip_address(ip):
                     raise CollectionError("SSRF_BLOCKED")
                 if parts.scheme == "https":
@@ -61,6 +70,7 @@ class PinnedTransport:
                         ssl_shutdown_timeout=0.1, limit=16_384)
                 else:
                     reader, writer = await asyncio.open_connection(sock=sock, limit=16_384)
+                secured = monotonic()
                 peer = writer.get_extra_info("peername")[0]
                 if ipaddress.ip_address(peer) != ipaddress.ip_address(ip):
                     raise CollectionError("SSRF_BLOCKED")
@@ -76,6 +86,9 @@ class PinnedTransport:
                 writer.write(connection.send(request) or b"")
                 writer.write(connection.send(h11.EndOfMessage()) or b"")
                 await writer.drain()
+                sent = monotonic()
+                first_byte = None
+                response_headers = None
                 status = 0
                 headers: dict[str, str] = {}
                 body = bytearray()
@@ -86,6 +99,8 @@ class PinnedTransport:
                     event = connection.next_event()
                     if event is h11.NEED_DATA:
                         block = await reader.read(8192)
+                        if block and first_byte is None:
+                            first_byte = monotonic()
                         wire_bytes += len(block)
                         # Bound framing overhead as well as decoded chunk payload.
                         if wire_bytes > max_bytes + 65_536:
@@ -96,6 +111,7 @@ class PinnedTransport:
                         if event.status_code == 101 or informational > 4:
                             raise CollectionError("HTTP_PROTOCOL_ERROR")
                     elif isinstance(event, h11.Response):
+                        response_headers = monotonic()
                         status = event.status_code
                         if not 200 <= status <= 599:
                             raise CollectionError("HTTP_PROTOCOL_ERROR")
@@ -119,7 +135,12 @@ class PinnedTransport:
                     elif isinstance(event, h11.EndOfMessage):
                         if not status:
                             raise CollectionError("HTTP_PROTOCOL_ERROR")
-                        return FetchResponse(url, status, headers, bytes(body), str(peer))
+                        from .http_measurement import measure
+                        finished = monotonic()
+                        measurement = measure(started, connected, secured, sent,
+                            first_byte if first_byte is not None else finished,
+                            response_headers if response_headers is not None else finished, finished)
+                        return FetchResponse(url, status, headers, bytes(body), str(peer), measurement)
                     else:
                         raise CollectionError("HTTP_PROTOCOL_ERROR")
         except ssl.SSLError as exc:
