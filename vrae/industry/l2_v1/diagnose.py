@@ -28,7 +28,8 @@ SOURCE_VERSIONS = {VERSION: ("ra2b6-1.0.0", "ra2c3-1.0.0"),
                    "l2-industrial-1.0.2": ("ra2b6-1.0.2", "ra2c3-1.0.2"),
                    "l2-industrial-1.0.3": ("ra2b6-1.0.3", "ra2c3-1.0.3"),
                    "l2-industrial-1.0.4": ("ra2b6-1.0.4", "ra2c3-1.0.4"),
-                   "l2-industrial-1.0.5": ("ra2b6-1.0.5", "ra2c3-1.0.5")}
+                   "l2-industrial-1.0.5": ("ra2b6-1.0.5", "ra2c3-1.0.5"),
+                   "l2-industrial-1.0.6": ("ra2b6-1.0.5", "ra2c3-1.0.5")}
 IMPACTS = {
     "IND-SELECTION": "The recorded route and model labels may help a buyer shortlist this item; actual navigation usability and SKU identity have not been independently verified.",
     "IND-SPEC": "Unresolved model-specific specification fields may require clarification before a technical comparison; unobserved alternative datasheets may supply them.",
@@ -48,7 +49,7 @@ def normalized(text):
 
 
 def source_chain(pack, expected_pack_ref, *, diagnostic_version=VERSION):
-    if diagnostic_version == 'l2-industrial-1.0.5':
+    if diagnostic_version in ('l2-industrial-1.0.5', 'l2-industrial-1.0.6'):
         from vrae.rules.replay_scope import execution_scope
         with execution_scope(pack):
             return _source_chain(pack, expected_pack_ref, diagnostic_version=diagnostic_version)
@@ -336,6 +337,16 @@ def procurement_projection(assessments, profile):
 
 
 def diagnose(pack, *, expected_pack_ref, expected_industry_ref, diagnostic_version=VERSION):
+    if diagnostic_version == 'l2-industrial-1.0.6':
+        from vrae.rules.replay_scope import execution_scope
+        with execution_scope(pack):
+            return _diagnose(pack, expected_pack_ref=expected_pack_ref,
+                expected_industry_ref=expected_industry_ref, diagnostic_version=diagnostic_version)
+    return _diagnose(pack, expected_pack_ref=expected_pack_ref,
+                    expected_industry_ref=expected_industry_ref, diagnostic_version=diagnostic_version)
+
+
+def _diagnose(pack, *, expected_pack_ref, expected_industry_ref, diagnostic_version):
     config = load(tenant_id=pack.document["tenant_id"])
     if config["industry_ref"] != expected_industry_ref or config["industry_pack"]["tenant_id"] != pack.document["tenant_id"]:
         denied()
@@ -353,6 +364,9 @@ def diagnose(pack, *, expected_pack_ref, expected_industry_ref, diagnostic_versi
                   assessments=assessments, rfq_packets=rfq_packets, procurement_chains=chains, industry_rule_coverage=rule_coverage, recorded_coverage=pack.document["coverage"],
                   buyer_journey=execution.get("journeys", []), private=True, approval_status="NOT_APPROVED", shareable=False,
                   semantic_approval=False, limitations=["OFFLINE_RECORDED_SOURCE_NOT_CURRENT_AUTHORIZATION", "ADAPTER_HAS_NO_NETWORK_CAPABILITY", "SOURCE_DECLARATION_NOT_AUTHENTICITY", "SCALAR_COMPARISON_NOT_ENGINEERING_FIT", "UNKNOWN_NEVER_MEANS_SITE_ABSENCE", "NO_INQUIRY_SUBMISSION_OR_BUSINESS_OUTCOME", "L2_DEPTH_REUSES_EXISTING_BOUNDED_CAPTURE_NO_POLICY_EXPANSION"])
+    if diagnostic_version == 'l2-industrial-1.0.6':
+        from .procurement import build as procurement_review
+        result['procurement_review'] = procurement_review(pack, execution, config['profile'], expected_industry_ref)
     result["diagnosis_ref"] = "l2-" + document_hash(result)
     if len(encode(result)) > 4_000_000:
         denied()

@@ -15,11 +15,20 @@ export type Insight = {
   task: BuyerTask; explanation: string; rebuild: string[]; checks: string[]
   verification: string | null; verificationIsPlan: true; sources: string[]
 }
+export type ProcurementCard = {
+  reviewRef: string; configurationRef: string; sourcePointer: string; productScopeRef: string
+  name: string; declaredModel: string | null; profile: { id: string | null; state: string; title: string | null }
+  state: string; isRulePass: false; verifiedSku: false; engineeringFit: 'UNKNOWN'; unknownIsDefect: false
+  fields: { key: string | null; label: string; value: string; citationIndexes: number[];
+    sourcePointer: string; sources: VisitedPage[]; normalization: { dimension: string; value: string; unit: string } | null }[]
+  groups: { key: string; title: string; state: string; fieldIndexes: number[]; nextStep: string }[]
+  sources: VisitedPage[]
+}
 export type PreviewResult = {
   state: 'running' | 'analyzing' | 'failed' | 'diagnosed' | 'ai-unavailable'
   pages: { id: string; url: string; observed: true; checkedAt: string }[]
   insights: Insight[]
-  buyerTasks: { task: BuyerTask; title: string; observations: Observation[]; insights: Insight[] }[]
+  buyerTasks: { task: BuyerTask; title: string; observations: Observation[]; insights: Insight[]; procurementCards: ProcurementCard[]; procurementCoverage: { eligible_products: number; reviewed_products: number; truncated: boolean } | null }[]
   analysisOutcome: string; analysisText: string; modelFailureStage: string | null; aiWarning: string | null
   captureSummary: {
     candidate_urls: number; page_records: number; fetched_pages: number; unvisited_candidates: number
@@ -33,7 +42,7 @@ export type PreviewResult = {
   }
   formalHumanReview: false
   reportView: {
-    tasks: { task: BuyerTask; title: string; observations: (Observation & { observationIds: string[]; sourcePointers: string[] })[]; insights: Insight[]; contextFacts: Observation['contextFacts'] }[]
+    tasks: { task: BuyerTask; title: string; observations: (Observation & { observationIds: string[]; sourcePointers: string[] })[]; insights: Insight[]; contextFacts: Observation['contextFacts']; procurementCards: ProcurementCard[]; procurementCoverage: PreviewResult['buyerTasks'][number]['procurementCoverage'] }[]
     visitedPageCount: number; failedPageCount: number; candidatePageCount: number
     originalObservationCount: number; displayObservationCount: number; unknownCount: number
     countsAreNotScoreOrDefectCount: true; printCandidateUrls: false

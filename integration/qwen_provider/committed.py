@@ -155,7 +155,7 @@ class Adapter:
             if extra_deadline is not None:
                 deadlines.append(extra_deadline)
             language = held.get('request_language', 'en')
-            if d['diagnosis']['diagnostic_version'] in ('l2-industrial-1.0.3', 'l2-industrial-1.0.4', 'l2-industrial-1.0.5') and 'request_language' not in held:
+            if d['diagnosis']['diagnostic_version'] in ('l2-industrial-1.0.3', 'l2-industrial-1.0.4', 'l2-industrial-1.0.5', 'l2-industrial-1.0.6') and 'request_language' not in held:
                 raise S3Error('COMMITTED_REQUEST_LANGUAGE_REQUIRED')
             completion = CommittedCompletionPins(task, pins.report_content_hash,
                 datetime.fromisoformat(commit['lease_started_at']),

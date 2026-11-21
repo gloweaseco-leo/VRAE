@@ -1,0 +1,38 @@
+{
+  "python_regressions": {
+    "passed": 30,
+    "failed": 0,
+    "seconds": 96.94,
+    "scope": ["procurement_review", "deterministic_result", "lease_compute_budget"]
+  },
+  "node_consumer": {"passed": 14, "failed": 0},
+  "isolated_actual_pg": {
+    "fast_passed": 1,
+    "slow_passed": 1,
+    "network_none": true,
+    "production_data_or_credentials_mounted": false,
+    "real_model_calls": 0
+  },
+  "ruff": true,
+  "mypy_established_domain_scope": {"scope": "vrae", "passed": true, "source_files": 152},
+  "additional_broad_mypy": {
+    "scope": ["vrae", "integration/authorized_targets", "integration/qwen_provider", "infra/linux_service"],
+    "passed": false,
+    "errors": 89,
+    "files_with_errors": 28,
+    "baseline_errors": 89,
+    "baseline_files_with_errors": 28,
+    "baseline_image": "sha256:32143b4d6390ccf6b58ac028db3d81a6750ca33d1bd2383131f2c0a272607f0f",
+    "note": "Additional broad check exceeds the established domain check. The unchanged baseline image also reports 89 errors in 28 files. Integration fixture and service typing issues remain outside this bounded change; this broader check is not claimed as passing."
+  },
+  "diff_check": true,
+  "old_native_rule_rows_unchanged": true,
+  "historical_artifacts_replayed": 27,
+  "history_and_shared_model_ledger_unchanged": true,
+  "new_real_model_calls": 0,
+  "customer_website_submitted": false,
+  "production_deployed": false,
+  "vf_repository_modified": false,
+  "depends_on_unmerged_pr": 183,
+  "complete_l2_delivery": false
+}

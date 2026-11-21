@@ -1,5 +1,6 @@
 // Pure reference for the trusted VF BFF; no HTTP, credentials, storage or UI.
 // Keep existing mTLS, source-SHA, media, no-store, session and CSRF checks first.
+import { procurementCards } from './procurement.mjs'
 const tasks = ['DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL']
 const states = new Set(['CAPTURE_PENDING', 'AI_PENDING', 'CAPTURE_FAILED', 'DIAGNOSED', 'AI_UNAVAILABLE'])
 const outcomes = new Set(['PASS', 'FAIL_WITH_EVIDENCE', 'UNKNOWN', 'ACCESS_BLOCKED', 'NOT_APPLICABLE'])
@@ -94,6 +95,11 @@ export function projectResult(body, status, auditRef, language = 'zh') {
         sourcePointer: item.source_pointer }
     }),
   }))
+  const procurement = procurementCards(body, pages, pointer, language)
+  for (const group of facts) {
+    group.procurementCards = group.task === 'UNDERSTAND' ? procurement : []
+    group.procurementCoverage = group.task === 'UNDERSTAND' ? p.procurement_review?.coverage ?? null : null
+  }
   const claims = []
   let aiWarning = null
   const model = body.model

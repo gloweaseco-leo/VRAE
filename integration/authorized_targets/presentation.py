@@ -126,7 +126,7 @@ def build(result):
                     'result': observation['result'], 'status_text': bilingual(RESULT_LABELS[observation['result']]),
                     'text': bilingual(observation_copy(rule['rule_id'], row)),
                     'source_pointer': f'/deterministic_diagnosis/buyer_tasks/{ti}/rules/{ri}/observations/{oi}'})
-                if diagnosis.get('diagnostic_version') == 'l2-industrial-1.0.5':
+                if diagnosis.get('diagnostic_version') in ('l2-industrial-1.0.5', 'l2-industrial-1.0.6'):
                     from .presentation_context import build as context_copy, limit
                     items[-1]['context_facts'] = context_copy(rule['rule_id'], row)
                     items[-1]['limit'] = limit(rule['rule_id'], row)
@@ -135,8 +135,11 @@ def build(result):
     analysis = OUTCOMES[result['analysis_outcome']]
     if result['state'] == 'CAPTURE_PENDING':
         analysis = ('正在读取获准公开页面，尚未形成诊断结论。', 'Authorized public pages are being captured; no diagnosis is available yet.')
-    return {'contract': VERSION, 'is_report': False, 'formal_human_review': False,
+    output = {'contract': VERSION, 'is_report': False, 'formal_human_review': False,
         'artifact_sha256': result.get('artifact_sha256'), 'rules_available': bool(groups),
         'analysis_text': bilingual(analysis),
         'tasks': groups, 'scope_pointer': '/page_scope', 'counts_pointer': '/capture_summary',
         'unknown_is_defect': False, 'missing_ai_claim_is_defect': False}
+    if diagnosis.get('diagnostic_version') == 'l2-industrial-1.0.6':
+        output['procurement_review'] = diagnosis['procurement_review']
+    return output

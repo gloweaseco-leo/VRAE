@@ -45,6 +45,8 @@ jobs:
         run: python -B -m pytest -q integration/authorized_targets/checks/test_retained_context.py
       - name: Bounded replay computation and original lease budget
         run: python -B -m pytest -q integration/authorized_targets/checks/test_lease_compute_budget.py
+      - name: Scoped procurement source review and preserved unknowns
+        run: python -B -m pytest -q integration/authorized_targets/checks/test_procurement_review.py
       - name: Five-task VF consumer and product-scope refusals
         run: node --test integration/authorized_targets/consumer/reference.test.mjs
       - run: python -B -m pytest -q integration/authorized_targets/checks/test_inventory_budget.py tests/rules/seo01_patch_cases.py
