@@ -52,6 +52,46 @@ function contextFacts(item, row, pages, language) {
   })
 }
 
+const FORBIDDEN_JUDGMENT_COPY = ['建议优先关注', '可以先这样改']
+
+function judgmentTextHasForbidden(value) {
+  const parts = []
+  const walk = node => {
+    if (typeof node === 'string') parts.push(node)
+    else if (Array.isArray(node)) node.forEach(walk)
+    else if (object(node)) Object.values(node).forEach(walk)
+  }
+  walk(value)
+  return parts.some(text => FORBIDDEN_JUDGMENT_COPY.some(phrase => text.includes(phrase)))
+}
+
+export function projectJudgment(presentation) {
+  if (!object(presentation) || !Object.hasOwn(presentation, 'judgment')) return undefined
+  const judgment = presentation.judgment
+  if (!object(judgment) || judgment.contract !== 'vrae.diagnosis-judgment.v1' ||
+      judgment.is_report !== false || judgment.formal_human_review !== false) fail()
+  const obstacles = judgment.confirmed_obstacles
+  if (!object(obstacles) || obstacles.is_defect_score !== false ||
+      obstacles.confirmed_obstacle_count_is_score !== false) fail()
+  if (list(obstacles.items).some(item => !object(item) || item.is_defect_score === true ||
+      item.confirmed_obstacle_count_is_score === true)) fail()
+  const questions = judgment.supplier_questions
+  if (!object(questions) || questions.presented_as_priority_fix !== false ||
+      questions.is_confirmed_defect !== false) fail()
+  if (list(questions.items).some(item => !object(item) || item.presented_as_priority_fix !== false ||
+      item.is_confirmed_defect !== false)) fail()
+  if (!object(judgment.sample_boundary) || judgment.sample_boundary.unvisited_is_defect !== false) fail()
+  const hypothesis = judgment.scope_hypothesis
+  if (!object(hypothesis) || hypothesis.whole_site_rebuild !== false) fail()
+  const unjudged = judgment.unjudged
+  if (!object(unjudged) || unjudged.is_defect !== false) fail()
+  if (list(unjudged.items).some(item => !object(item) || item.is_defect !== false)) fail()
+  if (judgmentTextHasForbidden(judgment.lead) || judgmentTextHasForbidden(hypothesis) ||
+      judgmentTextHasForbidden(object(judgment.walked_path) ? judgment.walked_path.summary : undefined) ||
+      judgmentTextHasForbidden(unjudged)) fail()
+  return judgment
+}
+
 export function projectResult(body, status, auditRef, language = 'zh') {
   if (!object(body) || !/^aref-[0-9a-f]{32}$/.test(auditRef) || body.audit_ref !== auditRef ||
       body.contract !== 'vrae.automatic-diagnosis.v1' || !states.has(body.state) ||
@@ -188,7 +228,8 @@ export function projectResult(body, status, auditRef, language = 'zh') {
       !list(body.claims).length && body.analysis_outcome === 'COMPLETED_NO_RECOMMENDATIONS')) aiWarning = 'AI_OUTPUT_NOT_DISPLAYABLE'
   const summary = body.capture_summary
   if (summary && (summary.fetched_pages !== visited.length || summary.unvisited_is_defect !== false)) fail()
-  return { auditRef, state: body.state, analysisOutcome: body.analysis_outcome,
+  const judgment = projectJudgment(p)
+  const projected = { auditRef, state: body.state, analysisOutcome: body.analysis_outcome,
     buyerReview: review,
     analysisText: p.analysis_text[language], facts, claims, aiWarning,
     modelFailureStage: typeof model?.failure_stage === 'string' ? model.failure_stage : null,
@@ -196,6 +237,8 @@ export function projectResult(body, status, auditRef, language = 'zh') {
     pageScope: { visited, failed: list(body.page_scope?.failed_attempt_records),
       candidates: list(body.page_scope?.unvisited_candidates),
       candidatesAreDefects: false, candidatesInitiallyCollapsed: true }, formalHumanReview: false }
+  if (judgment !== undefined) projected.judgment = judgment
+  return projected
 }
 
 export function readDecision({ status, consecutiveFailures = 0, elapsedMs = 0, retryAfterSeconds }) {

@@ -53,6 +53,47 @@ export type BuyerReview = {
   pathCoverage: { total: number; returned: number; truncated: boolean; whole_site_coverage_known: false }
   technicalMaterialRoute: 'UNKNOWN'; proofRoute: 'UNKNOWN'
 }
+export type BilingualText = { zh: string; en: string }
+export type DiagnosisJudgment = {
+  contract: 'vrae.diagnosis-judgment.v1'
+  is_report: false
+  formal_human_review: false
+  lead: BilingualText
+  confirmed_obstacles: {
+    items: { rule_id: string; task: BuyerTask; observation_id: string | null; result: 'FAIL_WITH_EVIDENCE'
+      text: BilingualText; source_pointer: string }[]
+    count: number
+    is_defect_score: false
+    confirmed_obstacle_count_is_score: false
+  }
+  supplier_questions: {
+    items: { claim_index: number; task: string | null; question: string
+      presented_as_priority_fix: false; is_confirmed_defect: false }[]
+    presented_as_priority_fix: false
+    is_confirmed_defect: false
+  }
+  walked_path: {
+    steps: { rule_id: string; observation_id: string | null; result: 'PASS'; label: BilingualText
+      url: string | null; snapshot_ref: string | null; source_pointer: string | null }[]
+    summary: BilingualText
+  }
+  unjudged: {
+    items: { rule_id: string; task: BuyerTask; is_defect: false; text: BilingualText }[]
+    is_defect: false
+    text: BilingualText
+  }
+  sample_boundary: {
+    fetched_pages: number; unvisited_candidates: number
+    visited_page_count: number; failed_attempt_count: number
+    capture_summary_pointer: '/capture_summary'; page_scope_pointer: '/page_scope'
+    unvisited_is_defect: false; text: BilingualText
+  }
+  scope_hypothesis: {
+    kind: 'REPAIR_RECORDED_ISSUE' | 'CHECK_RECORDED_PRODUCT_PAGE' | 'NO_BROADER_SCOPE'
+    whole_site_rebuild: false
+    text: BilingualText
+  }
+}
 export type PreviewResult = {
   state: 'running' | 'analyzing' | 'failed' | 'diagnosed' | 'ai-unavailable'
   pages: { id: string; url: string; observed: true; checkedAt: string }[]
@@ -75,6 +116,7 @@ export type PreviewResult = {
     candidatesAreDefects: false; candidatesInitiallyCollapsed: true
   }
   formalHumanReview: false
+  judgment?: DiagnosisJudgment
   reportView: {
     buyerReview: BuyerReview | null
     tasks: { task: BuyerTask; title: string; observations: (Observation & { observationIds: string[]; sourcePointers: string[] })[]; insights: Insight[]; contextFacts: Observation['contextFacts']; procurementCards: ProcurementCard[]; procurementCoverage: PreviewResult['buyerTasks'][number]['procurementCoverage']; reviewCandidates: ReviewCandidate[]; reviewCoverage: ReviewCoverage[];
@@ -86,6 +128,7 @@ export type PreviewResult = {
     originalObservationCount: number; displayObservationCount: number; unknownCount: number
     countsAreNotScoreOrDefectCount: true; printCandidateUrls: false
     contextFacts: Observation['contextFacts']; analysisText: string; insights: Insight[]
+    judgment?: DiagnosisJudgment
   }
 }
 
