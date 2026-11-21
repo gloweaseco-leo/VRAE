@@ -1,0 +1,18 @@
+New loopback TLS test attempt (network none container, synthetic identities only):
+..........FF..                                                           [100%]
+FAILED integration/vf_preview_handoff/test_identity_readback.py::test_actual_tls_pairs_cross_pairs_and_missing_cert
+FAILED integration/vf_preview_handoff/test_identity_readback.py::test_health_only_registration_cannot_pass_preview_readback
+2 failed, 12 passed
+
+Public failure excerpts:
+assert result["passed"] is True
+E assert False is True
+assert result["events"][-1]["case"] == "preview_openapi"
+E AssertionError: assert 'preview_ready' == 'preview_openapi'
+
+Initial synthetic server leaf incorrectly reused the CA identity/key. Separating
+server subject/key alone still failed. Adding proper test CA KeyUsage/SKI and
+server AKI made strict Python 3.13 verification pass. No real certificate or
+trust configuration was touched; no verification flag was disabled.
+
+This RED occurred in the synthetic TLS test fixture, not in vrae-windows or Vercel.
