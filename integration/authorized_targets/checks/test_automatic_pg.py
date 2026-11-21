@@ -166,19 +166,30 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         b'<html><body><h1>About this synthetic supplier</h1></body></html>'),
         'https://supplier.example.com/applications': (200, {'content-type': 'text/html'},
         b'<html><body><h1>Source applications</h1></body></html>')}
-    transport = SyntheticTransport(routes)
+    delay = float(os.environ.get('VRAE_AUTOMATIC_CAPTURE_DELAY', '0'))
+    assert delay in (0, 2), 'SYNTHETIC_DELAY_ONLY'
+
+    class SlowTransport(SyntheticTransport):
+        async def exchange(self, url, method, ip, budget, max_bytes):
+            if delay and not url.endswith('/robots.txt'):
+                await asyncio.sleep(delay)
+            return await super().exchange(url, method, ip, budget, max_bytes)
+
+    transport = SlowTransport(routes)
     def capture(audit, policy_provider, plan, run_id, workload, current):
         access = CurrentAccess(SourceAccess(audit, policy_provider, terms_reference=plan['terms_reference']),
             TaskPins(tenant, audit['request_id'], run_id, plan['policy']['policy_id'], 1,
                 fingerprint(plan['policy'])), OfflinePermit(plan['origin'], tuple(plan['exact_paths']),
-                datetime.fromisoformat(plan['policy']['created_at']), datetime.fromisoformat(plan['expires_at']), True),
+                datetime.fromisoformat(plan['policy']['created_at']), min(
+                    datetime.fromisoformat(plan['expires_at']), datetime.fromisoformat(workload['deadline'])), True),
             current, plan)
         for forbidden in ('https://other.example.com/', plan['origin'] + '/login',
                           plan['origin'] + '/api/delete', plan['origin'] + '/?token=private'):
             with pytest.raises(Exception):
                 access.check(forbidden)
+        limits = {**plan['limits'], 'task_seconds': min(plan['limits']['task_seconds'], workload['task_seconds'])}
         return asyncio.run(Collector(SafeFetcher(FixedDNS(), transport)).capture(run_id,
-            access, limits=Limits(**plan['limits']), retain_raw_html=True, representative_pages=True))
+            access, limits=Limits(**limits), retain_raw_html=True, representative_pages=True))
     monkeypatch.setattr(worker, 'capture', capture)
     port = store.WorkerPort(bindings['worker'])
     try:
@@ -196,11 +207,16 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert len(result['customer_presentation']['tasks']) == 5
         assert result['customer_presentation']['artifact_sha256'] == result['artifact_sha256']
         assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.5'
-        assert result['capture_summary']['fetched_pages'] == 6
-        assert result['capture_summary']['http_requests_including_robots'] == 7
+        if delay:
+            assert 3 <= result['capture_summary']['fetched_pages'] <= 6
+            assert all(row['reason'] == 'TIMEOUT' for row in result['page_scope']['failed_attempt_records'])
+        else:
+            assert result['capture_summary']['fetched_pages'] == 6
+            assert result['capture_summary']['http_requests_including_robots'] == 7
         assert result['capture_summary']['unvisited_candidates'] > 150
-        assert len(result['page_scope']['visited_pages']) == 6
-        assert not result['page_scope']['failed_attempt_records']
+        assert len(result['page_scope']['visited_pages']) == result['capture_summary']['fetched_pages']
+        if not delay:
+            assert not result['page_scope']['failed_attempt_records']
         assert len(result['page_scope']['unvisited_candidates']) > 150
         assert all(not row['is_defect'] for row in result['page_scope']['unvisited_candidates'])
         pending_facts = deepcopy(result['deterministic_diagnosis'])
@@ -275,7 +291,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         code, report = project(failed, ref)
         assert code == 200 and report['analysis_outcome'] == expected
         assert report['deterministic_diagnosis'] == pending_facts
-        assert report['capture_summary']['fetched_pages'] == 6
+        assert report['capture_summary']['fetched_pages'] == len(report['page_scope']['visited_pages'])
         assert report['model']['failure_stage'] == stage
         assert not report['diagnosis_complete'] and not report['claims']
         Draft202012Validator(schema).validate(report)

@@ -2,7 +2,7 @@
 
 import asyncio
 import json
-from datetime import datetime
+from datetime import datetime, UTC
 
 from integration.l2_launch.security.adapter import (
     TaskPins,
@@ -65,6 +65,12 @@ def capture(audit, policy_provider, plan, run_id, workload, current=None):
     configured["task_seconds"] = min(
         configured["task_seconds"], workload.get("task_seconds", configured["task_seconds"])
     )
+    # Component/authority setup consumes the same original capture window.
+    if 'deadline' in workload:
+        left = (datetime.fromisoformat(workload['deadline']) - datetime.now(UTC)).total_seconds()
+        if left < 0.01:
+            raise CollectionError('TIMEOUT')
+        configured['task_seconds'] = min(configured['task_seconds'], left)
     limits = Limits(**configured)
     result = asyncio.run(
         Collector(fetcher, observer=lambda event: print(json.dumps(event), flush=True)).capture(

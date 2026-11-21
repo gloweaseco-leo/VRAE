@@ -15,6 +15,12 @@ CONTEXT_VERSION = 'ra2b6-1.0.5'
 
 
 def execute(pack, *, expected_pack_ref, evaluator_version=TRUST_VERSION):
+    from .replay_scope import replay
+    return replay(pack, expected_pack_ref, evaluator_version, lambda: _execute(
+        pack, expected_pack_ref=expected_pack_ref, evaluator_version=evaluator_version))
+
+
+def _execute(pack, *, expected_pack_ref, evaluator_version):
     if evaluator_version not in (PATCH_VERSION, GENERIC_VERSION, CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION):
         return original_execute(pack, expected_pack_ref=expected_pack_ref,
                                 evaluator_version=evaluator_version)

@@ -60,14 +60,19 @@ def execute(binding, workload, port, lease):
     def current_policy():
         return current()["plan"]["policy"]
 
-    remaining = (until - datetime.now(UTC)).total_seconds() - 3
+    # The original 30s lease also covers rule/Guard replay and atomic commit.
+    # Automatic captures must stop early enough to preserve acquired evidence.
+    reserve = 12 if plan.get('automatic_result') else 3
+    remaining = (until - datetime.now(UTC)).total_seconds() - reserve
     if remaining < 1:
         raise ValueError("ORIGINAL_LEASE_BUDGET_EXHAUSTED")
     bounded = {
         **workload,
-        "deadline": (until - timedelta(seconds=3)).isoformat(),
+        "deadline": (until - timedelta(seconds=reserve)).isoformat(),
         "task_seconds": remaining,
     }
+    print(json.dumps({'worker_phase': 'LEASE_BUDGET', 'capture_seconds': remaining,
+                      'finish_reserve_seconds': reserve}), flush=True)
     started = time.monotonic()
     try:
         captured = capture(request, current_policy, plan, task['run_id'], bounded, current=current)

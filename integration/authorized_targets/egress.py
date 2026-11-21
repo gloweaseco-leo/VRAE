@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from contextlib import contextmanager
-from copy import deepcopy
+from copy import copy, deepcopy
 from urllib.parse import urlsplit
 from integration.l2_launch.security.adapter import (
     FencedAccess,
@@ -73,19 +73,33 @@ class CurrentAccess(FencedAccess):
         if self.envelope is not None and self.envelope != envelope:
             raise AuthorityDenied()
         self.envelope = envelope
+        # One fresh PG snapshot per check, not three copies of the same load.
+        # No snapshot survives this synchronous check; every subsequent check
+        # and every network/commit fence still reads current authority again.
+        policy = current['plan']['policy'] if 'plan' in current else self.provider()
+        local = copy(self)
+        local.provider = lambda: policy
         if self.plan.get("path_scope") == "PUBLIC_SAME_ORIGIN":
-            result = SourceAccess.check(self, url)
+            result = SourceAccess.check(local, url)
             held, permit = self.held, self.permit
             if (fingerprint(self.audit) != self._audit_fingerprint
                     or self.audit['tenant_id'] != held.tenant_id
                     or self.audit['request_id'] != held.request_id
                     or self.audit['source_policy_ref'] != held.policy_id
                     or self.audit['source_policy_version'] != held.policy_version
-                    or fingerprint(self.provider()) != held.policy_sha256
-                    or not permit.not_before <= self.now() < permit.expires_at):
+                    or fingerprint(policy) != held.policy_sha256
+                    or self.now() < permit.not_before):
                 raise AuthorityDenied()
-            return self.public_path(result)
-        return super().check(url)
+            # The source grant was freshly verified above. Expiry of the
+            # shorter capture window is a bounded stop, not lost authority:
+            # let Collector seal pages already acquired before that window.
+            if self.now() >= permit.expires_at:
+                raise CollectionError('TIMEOUT')
+            result = self.public_path(result)
+        else:
+            result = FencedAccess.check(local, url)
+        self._frozen_policy = local._frozen_policy
+        return result
 
     def public_path(self, result):
         parts = urlsplit(result)
