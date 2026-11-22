@@ -21,9 +21,10 @@ def bilingual(pair):
 
 
 def configuration(parent, version='1.0.0'):
-    path = CONFIG if version == '1.0.0' else CONFIG.with_name('procurement-1.1.0.json')
+    names = {'1.0.0': 'procurement-1.0.0.json', '1.1.0': 'procurement-1.1.0.json', '1.2.0': 'procurement-1.2.0.json'}
+    path = CONFIG.with_name(names[version])
     config = json.loads(path.read_text(encoding='utf-8'))
-    if version not in ('1.0.0','1.1.0') or config['version'] != version or config['parent_profile_version'] != parent['version']:
+    if version not in ('1.0.0','1.1.0','1.2.0') or config['version'] != version or config['parent_profile_version'] != parent['version']:
         raise EvidenceError('PROCUREMENT_CONFIGURATION')
     labels = {key: parent['labels'][key] for key in config['titles'] if key in parent['labels']}
     labels.update(config['extra_labels'])
@@ -77,7 +78,7 @@ def select_profile(name, fields, config):
 
 def build(pack, execution, parent, industry_ref, *, version='1.0.0'):
     verify_execution(execution, pack, expected_pack_ref=pack.ref,
-                     expected_evaluator_version='ra2b6-1.0.5')
+                     expected_evaluator_version='ra2b6-1.0.6' if version == '1.2.0' else 'ra2b6-1.0.5')
     config, aliases = configuration(parent, version)
     products = []
     for rule in execution['executions']:
@@ -140,7 +141,7 @@ def build(pack, execution, parent, industry_ref, *, version='1.0.0'):
                 'state': 'PROFILE_UNRESOLVED' if profile['id'] is None else
                     'CONFIGURED_GROUPS_OBSERVED' if all(g['state']=='OBSERVED' for g in groups) else 'PARTIAL_SOURCE_INFORMATION',
                 'verified_sku': False, 'engineering_fit': 'UNKNOWN', 'is_rule_pass': False})
-    if version == '1.1.0':
+    if version in ('1.1.0', '1.2.0'):
         from .purchase_tasks import evaluate, informative
         for card in products:
             card['purchase_tasks'] = evaluate(card)

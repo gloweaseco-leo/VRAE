@@ -1,0 +1,90 @@
+{
+  "diagnostic_version": "l2-industrial-1.0.7",
+  "page_cap": 6,
+  "historical_rules": [
+    {
+      "rule_id": "DISC-01",
+      "buyer_task": "DISCOVER",
+      "result": "PASS",
+      "reason": "CAPTURED_REACHABLE_NAV_HREF"
+    },
+    {
+      "rule_id": "INFO-02",
+      "buyer_task": "UNDERSTAND",
+      "result": "UNKNOWN",
+      "reason": "CHECKLIST_UNSIGNED_REVIEW_REQUIRED",
+      "quote": "<html>do-not-export</html>"
+    },
+    {
+      "rule_id": "TRUST-01",
+      "buyer_task": "TRUST",
+      "result": "ACCESS_BLOCKED",
+      "reason": "TARGET_ACCESS_BLOCKED",
+      "email": "buyer@example.org"
+    },
+    {
+      "rule_id": "CTA-02",
+      "buyer_task": "INQUIRE",
+      "result": "NOT_APPLICABLE",
+      "reason": "PROFILE_SCOPE",
+      "phone": "+1-555-0100"
+    },
+    {
+      "rule_id": "SEO-01",
+      "buyer_task": "SEARCH_TECHNICAL",
+      "result": "UNKNOWN",
+      "reason": "PARTIAL_MISSING",
+      "form_value": "secret-form-value",
+      "text": "Listed diameter"
+    }
+  ],
+  "receipt_sha256": "ead9432a3be9fe258231c5fbf7e63214b5f8c728c89654a860358ee8e822dcc6",
+  "coverage": {
+    "candidate_urls": 8,
+    "fetched_pages": 0,
+    "unvisited_candidates": 8,
+    "unvisited_is_defect": false
+  },
+  "inventory": [
+    {
+      "url": "https://example.invalid/contact",
+      "role": "CONTACT",
+      "discovered_from": "https://example.invalid/"
+    },
+    {
+      "url": "https://example.invalid/",
+      "role": "HOME",
+      "discovered_from": "https://example.invalid/"
+    },
+    {
+      "url": "https://example.invalid/products/a",
+      "role": "PRODUCT",
+      "discovered_from": "https://example.invalid/"
+    },
+    {
+      "url": "https://example.invalid/about",
+      "role": "ABOUT",
+      "discovered_from": "https://example.invalid/"
+    },
+    {
+      "url": "https://example.invalid/products",
+      "role": "CATALOG",
+      "discovered_from": "https://example.invalid/"
+    },
+    {
+      "url": "https://example.invalid/category/wheels",
+      "role": "CATEGORY",
+      "discovered_from": "https://example.invalid/"
+    },
+    {
+      "url": "https://example.invalid/applications",
+      "role": "APPLICATION",
+      "discovered_from": "https://example.invalid/"
+    },
+    {
+      "url": "https://example.invalid/other",
+      "role": "OTHER",
+      "discovered_from": "https://example.invalid/"
+    }
+  ]
+}
