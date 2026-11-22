@@ -155,8 +155,7 @@ def observation_copy(rule_id, row, *, buyer=False):
 def build(result):
     """Caller already checked current authority and original artifact/receipt bindings."""
     diagnosis = result.get('deterministic_diagnosis') or {}
-    version = diagnosis.get('diagnostic_version')
-    buyer = version in ('l2-industrial-1.0.7', 'l2-industrial-1.0.8')
+    buyer = diagnosis.get('diagnostic_version') == 'l2-industrial-1.0.7'
     groups = []
     for ti, task in enumerate(diagnosis.get('buyer_tasks', [])):
         items = []
@@ -167,7 +166,7 @@ def build(result):
                     'result': observation['result'], 'status_text': bilingual(RESULT_LABELS[observation['result']]),
                     'text': bilingual(observation_copy(rule['rule_id'], row, buyer=buyer)),
                     'source_pointer': f'/deterministic_diagnosis/buyer_tasks/{ti}/rules/{ri}/observations/{oi}'})
-                if version in ('l2-industrial-1.0.5', 'l2-industrial-1.0.6', 'l2-industrial-1.0.7', 'l2-industrial-1.0.8'):
+                if diagnosis.get('diagnostic_version') in ('l2-industrial-1.0.5', 'l2-industrial-1.0.6', 'l2-industrial-1.0.7'):
                     from .presentation_context import build as context_copy, limit
                     items[-1]['context_facts'] = context_copy(rule['rule_id'], row)
                     items[-1]['limit'] = limit(rule['rule_id'], row)
@@ -181,17 +180,13 @@ def build(result):
         'analysis_text': bilingual(analysis),
         'tasks': groups, 'scope_pointer': '/page_scope', 'counts_pointer': '/capture_summary',
         'unknown_is_defect': False, 'missing_ai_claim_is_defect': False}
-    if version in ('l2-industrial-1.0.6', 'l2-industrial-1.0.7', 'l2-industrial-1.0.8'):
+    if diagnosis.get('diagnostic_version') in ('l2-industrial-1.0.6', 'l2-industrial-1.0.7'):
         output['procurement_review'] = diagnosis['procurement_review']
     if 'buyer_review' in result:
         output['buyer_review'] = result['buyer_review']
     if 'fact_review' in result:
         output['fact_review'] = result['fact_review']
-    if version == 'l2-industrial-1.0.8' and groups:
-        from .judgment_v2 import build as judgment_v2, technical_access
-        output['judgment'] = judgment_v2(result)
-        output['technical_access'] = technical_access(result)
-    elif version == 'l2-industrial-1.0.7' and groups:
+    if buyer and groups:
         output['judgment'] = judgment(result)
     return output
 

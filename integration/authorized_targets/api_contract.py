@@ -72,7 +72,7 @@ def openapi():
                                     "contract", "review_ref", "configuration_ref", "products"],
                                     "description": "Versioned source-bound procurement review: 1.0.6 keeps config 1.0.0; 1.0.7 uses config 1.1.0 and adds source-bound purchase_tasks and inquiry_preparation. No rule PASS, verified SKU or engineering approval."},
                                 "judgment": {"type": "object",
-                                    "description": "vrae.diagnosis-judgment.v1 when diagnostic_version is l2-industrial-1.0.7. vrae.diagnosis-judgment.v2 when diagnostic_version is l2-industrial-1.0.8: L-B failures stay in evidenced_pending_review and confirmed_obstacles stays empty because this round has no L-C. Not a formal report."}},
+                                    "description": "Optional vrae.diagnosis-judgment.v1 when diagnostic_version is l2-industrial-1.0.7. Not a formal report."}},
                             "description": "Bilingual copy with pointers to original observations; not new facts, scores or human approval. Available independently of AI claims. 1.0.7 可带 judgment，不是正式报告。"},
                         "page_scope": {"type": ["object", "null"], "properties": {
                             name: {"type": "array", "items": {"type": "object"}} for name in (

@@ -1,7 +1,7 @@
 // Synthetic contract fixtures only; fabricated REAL_PROVIDER metadata is not a real model receipt.
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { projectResult, readDecision, retainView, projectJudgment, projectContentUnits } from './reference.mjs'
+import { projectResult, readDecision, retainView } from './reference.mjs'
 import { projectPreviewResult } from './vf-preview-adapter.mjs'
 
 const ref = 'aref-' + 'a'.repeat(32)
@@ -581,27 +581,6 @@ test('a legal customer judgment reaches reportView and a priority fix is rejecte
   promoted.customer_presentation.judgment = structuredClone(judgment)
   promoted.customer_presentation.judgment.supplier_questions.presented_as_priority_fix = true
   assert.throws(() => projectPreviewResult(promoted, 200, ref), /INVALID_DIAGNOSIS_DELIVERY/)
-})
-
-test('judgment v2 keeps L-B failures pending and content units can only be reordered', () => {
-  const dto = fixture('AI_UNAVAILABLE')
-  dto.customer_presentation.judgment = {
-    contract: 'vrae.diagnosis-judgment.v2', is_report: false, formal_human_review: false,
-    lead: { zh: '待审', en: 'Pending review' },
-    confirmed_obstacles: { items: [], count: 0, accepts: 'L-C', is_defect_score: false, confirmed_obstacle_count_is_score: false },
-    evidenced_pending_review: { accepts: 'L-B', is_confirmed_defect: false, is_defect_score: false, count: 1,
-      items: [{ result: 'FAIL_WITH_EVIDENCE', is_confirmed_defect: false, counts_as_score: false }] },
-    unjudged: { items: [], is_defect: false, basis: 'ENABLED_RULES' },
-    stages: ['SCREENING', 'COMPARISON', 'TECH_CONFIRMATION', 'INQUIRY', 'TECHNICAL_ACCESS'].map(stage => (
-      { stage, unknown_is_defect: false, unvisited_is_defect: false })),
-    sample_boundary: { unvisited_is_defect: false } }
-  assert.equal(projectJudgment(dto.customer_presentation).contract, 'vrae.diagnosis-judgment.v2')
-  const units = { contract: 'vrae.report-content-units.v1', strength_mutable: false, semantic_mutable: false,
-    units: [{ unit_id: 'u1', strength: 'HYPOTHESIS', group: 'D6', text: { zh: '假设', en: 'Hypothesis' }, presented_as_confirmed: false },
-            { unit_id: 'u2', strength: 'CONFIRMED_BY_REVIEW', group: 'D1', text: { zh: '已审', en: 'Reviewed' }, presented_as_confirmed: true }] }
-  assert.deepEqual(projectContentUnits(units, ['u2', 'u1']).map(unit => unit.unit_id), ['u2', 'u1'])
-  units.units[0].presented_as_confirmed = true
-  assert.throws(() => projectContentUnits(units, ['u1', 'u2']))
 })
 
 test('placeholder text remains visible without becoming actionable purchasing information',()=>{

@@ -157,26 +157,3 @@ def project(data, evidence):
             '企业资质资料责任人；采购方独立核验')
     conflicts=sum(a['reason']=='EXPLICIT_SOURCE_SCALAR_CONFLICT' for a in data['assessments'])
     return rows,journey,packages,models,conflicts
-
-
-def inventory(document):
-    """Read findings and blueprint already on the native document. No second report object."""
-    findings = list(document.get('findings') or [])
-    blueprint = list(document.get('blueprint') or [])
-    extendable = all(isinstance(item, dict) and item.get('id') for item in findings + blueprint)
-    return {'finding_count': len(findings), 'blueprint_count': len(blueprint),
-            'can_extend': extendable, 'second_report': False,
-            'ledger': 'native_document'}
-
-
-def restate(document, judgment):
-    """Attach the R1 judgment beside the same finding and blueprint ids."""
-    base = inventory(document)
-    findings = []
-    for item in document.get('findings') or []:
-        copy = dict(item)
-        copy['judgment_contract'] = (judgment or {}).get('contract')
-        findings.append(copy)
-    return {'ledger': base['ledger'], 'second_report': False, 'finding_ids': [item.get('id') for item in findings],
-            'blueprint_ids': [item.get('id') for item in document.get('blueprint') or []],
-            'findings': findings, 'blueprint': list(document.get('blueprint') or [])}
