@@ -82,7 +82,7 @@ def _segment(stage, finding):
 def project_v2(document):
     """Depth summary for the new diagnostic path. l2-executive-1 stays unchanged."""
     findings = list(document.get('findings') or [])
-    groups = {key: [] for key in GROUPS}
+    groups: dict[str, list] = {key: [] for key in GROUPS}
     for finding in findings:
         rule = finding.get('rule_id') or finding.get('native_rule_id')
         result = finding.get('result') or finding.get('native_result')

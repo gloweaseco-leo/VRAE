@@ -48,7 +48,7 @@ def normalize_phone(value):
 
 def compare_declarations(pages):
     """Exact normalized comparison. Conflict is UNKNOWN, never FAIL."""
-    buckets = {'name': {}, 'email': {}, 'phone': {}}
+    buckets: dict[str, dict[str, set]] = {'name': {}, 'email': {}, 'phone': {}}
     normalizers = {'name': normalize_name, 'email': normalize_email, 'phone': normalize_phone}
     for page in pages:
         identity = page.get('url') or page.get('id')

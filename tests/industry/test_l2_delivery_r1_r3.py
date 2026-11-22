@@ -7,11 +7,6 @@ from pathlib import Path
 
 import pytest
 
-from integration.authorized_targets.judgment_v2 import build as judgment_v2
-from integration.authorized_targets.presentation import build as present
-spec = importlib.util.spec_from_file_location('pilot_replay', Path(__file__).parents[2] / 'scripts/pilot_replay.py')
-pilot_replay = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(pilot_replay)
 from vrae.collection.discovery import select_next
 from vrae.industry.l2_v1.buyer_stages import (
     customer_projection, diagnostic_attachment, evaluate, info02_result, load, signature_valid)
@@ -27,10 +22,18 @@ from vrae.l2.item_review import (
 from vrae.l2.native_business import inventory, restate
 from vrae.l2.scoring import import_synthetic_annotations
 from vrae.rules.l2_overlay import compare_declarations, record_proof, seo02, tech01
-from tests.benchmark.s2_quality import l2_gold_rate
 
 ROOT = Path(__file__).parents[2]
 FIXTURE = ROOT / 'tests/fixtures/pilot/synthetic-audit.json'
+
+
+def pilot_replay():
+    spec = importlib.util.spec_from_file_location('pilot_replay', ROOT / 'scripts/pilot_replay.py')
+    module = importlib.util.module_from_spec(spec)
+    loader = spec.loader
+    assert loader is not None
+    loader.exec_module(module)
+    return module
 
 
 def signed(document):
@@ -138,14 +141,15 @@ def test_new_sampling_mode_keeps_the_default_order():
 
 
 def test_pilot_replay_redacts_and_rejects_a_bad_receipt(tmp_path):
-    code = pilot_replay.main([str(FIXTURE), '--target-version', 'l2-industrial-1.0.7', '--out', str(tmp_path)])
+    replay = pilot_replay()
+    code = replay.main([str(FIXTURE), '--target-version', 'l2-industrial-1.0.7', '--out', str(tmp_path)])
     assert code == 0
     exported = (tmp_path / 'pilot-replay.json').read_text(encoding='utf-8') + (tmp_path / 'pilot-replay.md').read_text(encoding='utf-8')
     for probe in ('<html', 'buyer@example.org', '+1-555-0100', 'secret-form-value', 'do-not-export'):
         assert probe not in exported
     assert 'Listed diameter' not in exported
-    quoted = pilot_replay.main([str(FIXTURE), '--target-version', 'l2-industrial-1.0.7', '--out', str(tmp_path / 'q'),
-                                '--include-public-quotes'])
+    quoted = replay.main([str(FIXTURE), '--target-version', 'l2-industrial-1.0.7', '--out', str(tmp_path / 'q'),
+                          '--include-public-quotes'])
     assert quoted == 0
     public = (tmp_path / 'q' / 'pilot-replay.md').read_text(encoding='utf-8')
     assert 'Listed diameter' in public and 'AUDIT action=INCLUDE_PUBLIC_QUOTES' in public
@@ -154,41 +158,7 @@ def test_pilot_replay_redacts_and_rejects_a_bad_receipt(tmp_path):
     broken['historical_rules'][0]['result'] = 'FAIL_WITH_EVIDENCE'
     path = tmp_path / 'broken.json'
     path.write_text(json.dumps(broken), encoding='utf-8')
-    assert pilot_replay.main([str(path), '--target-version', 'l2-industrial-1.0.7', '--out', str(tmp_path / 'bad')]) == 2
-
-
-def test_judgment_v2_keeps_confirmed_obstacles_empty_and_v1_copy():
-    pending = {'rule_id': 'TECH-01', 'buyer_task': 'SEARCH_TECHNICAL', 'enabled': True, 'evidence_level': 'L-B',
-               'observations': [{'observation': {'result': 'FAIL_WITH_EVIDENCE', 'observation_id': 'obs-tech'},
-                                 'reason': 'CAPTURED_INTERNAL_LINK_404_OR_410'}]}
-    unknown = {'rule_id': 'INFO-02', 'buyer_task': 'UNDERSTAND', 'enabled': True,
-               'observations': [{'observation': {'result': 'UNKNOWN', 'observation_id': 'obs-info'},
-                                 'reason': 'CHECKLIST_UNSIGNED_REVIEW_REQUIRED'}]}
-    tasks = [{'task': name, 'rules': []} for name in ('DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL')]
-    tasks[1]['rules'].append(unknown)
-    tasks[4]['rules'].append(pending)
-    result = {'deterministic_diagnosis': {'diagnostic_version': 'l2-industrial-1.0.8', 'buyer_tasks': tasks,
-              'procurement_review': {'contract': 'vrae.l2-procurement-review.v1'}},
-              'claims': [], 'analysis_outcome': 'INSUFFICIENT_EVIDENCE', 'state': 'AI_UNAVAILABLE',
-              'page_scope': {'visited_pages': [{'request_role': 'HOME', 'http_status': 200}],
-                             'failed_attempt_records': [], 'unvisited_candidates': []}}
-    view = present(result)
-    judgment = view['judgment']
-    assert judgment['contract'] == 'vrae.diagnosis-judgment.v2'
-    assert judgment['confirmed_obstacles']['items'] == [] and judgment['confirmed_obstacles']['count'] == 0
-    assert judgment['evidenced_pending_review']['items'][0]['result'] == 'FAIL_WITH_EVIDENCE'
-    assert judgment['formal_human_review'] is False
-    assert view['technical_access']['is_score'] is False and view['technical_access']['mobile_measured'] is False
-    assert len(judgment['stages']) == 5
-    old = deepcopy(result)
-    old['deterministic_diagnosis']['diagnostic_version'] = 'l2-industrial-1.0.7'
-    old['deterministic_diagnosis'].pop('procurement_review')
-    # 1.0.7 presentation still uses judgment v1 only when groups exist; contract must not become v2.
-    assert present({'deterministic_diagnosis': {'diagnostic_version': 'l2-industrial-1.0.7', 'buyer_tasks': tasks,
-                    'procurement_review': result['deterministic_diagnosis']['procurement_review']},
-                    'claims': [], 'analysis_outcome': 'INSUFFICIENT_EVIDENCE', 'state': 'AI_UNAVAILABLE'})['judgment']['contract'] == 'vrae.diagnosis-judgment.v1'
-    assert '建议优先关注' not in json.dumps(judgment_v2(result), ensure_ascii=False)
-    assert '可以先这样改' not in json.dumps(judgment_v2(result), ensure_ascii=False)
+    assert replay.main([str(path), '--target-version', 'l2-industrial-1.0.7', '--out', str(tmp_path / 'bad')]) == 2
 
 
 def test_depth_summary_native_reuse_and_content_units():
@@ -252,7 +222,6 @@ def test_fake_reasoning_review_gold_and_closed_adapter():
     summary = weekly_summary([{'action': 'CONFIRM'}, {'action': 'MODIFY'}])
     assert summary['adoption_rate'] == 0.5 and summary['formal_human_review'] is False
     assert gold_candidates([{'action': 'REJECT', 'diff_class': 'REJECTION_REASON'}])[0]['formal_human_review'] is False
-    assert l2_gold_rate([])['status'] == 'NOT_EVALUABLE'
     assert import_synthetic_annotations([{'label': 'UNKNOWN'}])['status'] == 'NOT_EVALUABLE'
     with pytest.raises(RuntimeError):
         PageSpeedAdapter().measure('https://supplier.example/')

@@ -92,9 +92,9 @@ def prompt_version(context):
 def candidate_schema(context, *, compact=False):
     if prompt_version(context) == L2_PROMPT:
         from .l2_reasoning import SCHEMA as L2_SCHEMA
-        schema = deepcopy(L2_SCHEMA)
-        schema['properties']['prompt_version']['const'] = L2_PROMPT
-        return schema
+        l2_schema: dict = deepcopy(L2_SCHEMA)
+        l2_schema['properties']['prompt_version']['const'] = L2_PROMPT
+        return l2_schema
     schema: dict = deepcopy(COMPACT_SCHEMA if compact else SCHEMA)
     schema['properties']['prompt_version']['const'] = prompt_version(context)
     if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.3', 'ra2b6-1.0.4', 'ra2b6-1.0.5'):

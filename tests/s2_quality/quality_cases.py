@@ -16,6 +16,7 @@ from tests.benchmark.s2_quality import (
     canonical,
     QualityError,
     selective_metrics,
+    l2_gold_rate,
 )
 from tests.benchmark.s2_review import (
     packet_for,
@@ -312,3 +313,8 @@ def test_complete_multi_sku_capture_keeps_both_paths_and_separate_bindings(bench
     assert len({u["applicable_scope"]["target_url"] for u in rows}) == 2
     assert all(u["native_observation_present"] for u in rows)
     assert len({u["run_id"] for u in benchmark["units"]}) >= 2
+
+
+def test_l2_review_rows_do_not_create_a_quality_score():
+    assert l2_gold_rate([])['status'] == 'NOT_EVALUABLE'
+    assert l2_gold_rate([{'action': 'CONFIRM'}])['formal_human_review'] is False
