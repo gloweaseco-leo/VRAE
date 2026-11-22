@@ -185,52 +185,8 @@ def _inventory_links(parser, base_url, access, truncated):
     return sorted(found.values(), key=lambda x: (ROLES.index(x["role"]), x["url"])), parser.overflow or truncated
 
 
-def _category_key(url):
-    parts = [segment.lower() for segment in urlsplit(url).path.split('/') if segment]
-    if len(parts) < 2 or parts[-1] in ('product', 'products', 'category', 'categories'):
-        return ''
-    return parts[-2]
-
-
-def _select_l2(items, attempted, *, application_required=False):
-    """Opt-in six-role order. Callers keep the page cap; this function does not raise it."""
-    chosen = [item for item in items if item['url'] in attempted and item['role'] == 'PRODUCT']
-    categories = {_category_key(item['url']) for item in chosen}
-    categories.discard('')
-
-    def rank(item):
-        role = item['role']
-        if role == 'HOME':
-            slot = 0
-        elif role in ('CATEGORY', 'CATALOG'):
-            slot = 1
-        elif role == 'PRODUCT':
-            category = _category_key(item['url'])
-            if category and category not in categories and len(categories) == 0:
-                slot = 2
-            elif category and category not in categories and len(categories) == 1:
-                slot = 3
-            else:
-                slot = 8
-        elif role == 'CONTACT':
-            slot = 5 if application_required else 4
-        elif role == 'APPLICATION' and application_required:
-            slot = 4
-        elif role == 'ABOUT':
-            slot = 6 if application_required else 5
-        else:
-            slot = 9
-        return slot, item['url']
-
-    candidates = [item for item in items if item['url'] not in attempted]
-    candidates.sort(key=rank)
-    return candidates[0] if candidates else None
-
-
 def select_next(items: list[dict], attempted: set[str], covered: set[str], *, representative=False,
-                contact_targets=frozenset(), sampling=None, application_required=False) -> dict | None:
-    if sampling == 'l2-stage-v1':
-        return _select_l2(items, attempted, application_required=application_required)
+                contact_targets=frozenset()) -> dict | None:
     candidates = [x for x in items if x["url"] not in attempted]
     roles = ('HOME', 'CATALOG', 'CATEGORY', 'PRODUCT', 'CONTACT', 'ABOUT', 'APPLICATION', 'OTHER') if representative else ROLES
     def key(item):

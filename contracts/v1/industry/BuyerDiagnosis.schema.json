@@ -17,8 +17,7 @@
         "l2-industrial-1.0.4",
         "l2-industrial-1.0.5",
         "l2-industrial-1.0.6",
-        "l2-industrial-1.0.7",
-        "l2-industrial-1.0.8"
+        "l2-industrial-1.0.7"
       ]
     },
     "diagnostic_depth": {
@@ -320,18 +319,6 @@
         }
       }
     },
-    "buyer_stage_checklist": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["version", "config_sha256", "signed", "customer_gap_judgments", "items"],
-      "properties": {
-        "version": {"const": "1.0.0"},
-        "config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-        "signed": {"const": false},
-        "customer_gap_judgments": {"const": false},
-        "items": {"type": "array", "minItems": 4, "maxItems": 4}
-      }
-    },
     "procurement_review": {
       "type": "object",
       "required": [
@@ -355,8 +342,7 @@
         "config_version": {
           "enum": [
             "1.0.0",
-            "1.1.0",
-            "1.2.0"
+            "1.1.0"
           ]
         },
         "configuration_ref": {
@@ -459,8 +445,7 @@
           "diagnostic_version": {
             "enum": [
               "l2-industrial-1.0.6",
-              "l2-industrial-1.0.7",
-              "l2-industrial-1.0.8"
+              "l2-industrial-1.0.7"
             ]
           }
         }
@@ -515,22 +500,6 @@
           }
         }
       }
-    },
-    {
-      "if": {
-        "properties": {
-          "diagnostic_version": {"const": "l2-industrial-1.0.8"}
-        }
-      },
-      "then": {
-        "required": ["buyer_stage_checklist"],
-        "properties": {
-          "procurement_review": {
-            "properties": {"config_version": {"const": "1.2.0"}}
-          }
-        }
-      },
-      "else": {"not": {"required": ["buyer_stage_checklist"]}}
     }
   ]
 }
