@@ -34,9 +34,9 @@ def load(name='buyer-stages-1.0.0.json'):
 
 
 def approved(doc):
-    approval = doc['approval']
-    return bool(approval.get('signer') and approval.get('signed_at')
-                and approval.get('config_sha256') == digest(doc))
+    """A checklist file cannot approve itself. Formal approval stays on the existing review ledger."""
+    del doc
+    return False
 
 
 def _norm(text):
@@ -46,7 +46,7 @@ def _norm(text):
 def match_groups(doc, fields):
     """Map extracted labels to checklist groups. Labels come from the pack, not from code."""
     aliases = {_norm(label): group for group, labels in doc['label_aliases'].items() for label in labels}
-    found = {group: [] for group in doc['label_aliases']}
+    found: dict[str, list[dict]] = {str(group): [] for group in doc['label_aliases']}
     for field in fields:
         group = aliases.get(_norm(field['label']))
         if group:
@@ -54,9 +54,9 @@ def match_groups(doc, fields):
     return found
 
 
-def judge(doc, *, groups, parsed, ambiguous, technical_link, contact_recorded):
-    """Unsigned checklists stay candidates. Clarification is never a website gap."""
-    signed = approved(doc)
+def judge(doc, *, groups, parsed, ambiguous, technical_link, contact_recorded, grant=False):
+    """JSON approval is ignored. grant is only for the decision table, never set from the checklist file."""
+    signed = grant is True
     rows = []
     for item in doc['items']:
         present = all(groups.get(group) for group in item['field_groups'])

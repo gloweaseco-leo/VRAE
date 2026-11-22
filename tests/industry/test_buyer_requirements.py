@@ -18,25 +18,29 @@ WHEEL = b'''<html><body>
 <footer>Grain Size 999</footer></body></html>'''
 
 
-def test_unsigned_checklist_cannot_become_a_defect():
+def test_json_signature_fields_do_not_approve():
     doc = load()
+    doc['approval'] = {'signer': 'industry-reviewer', 'signed_at': '2026-11-22T00:00:00Z',
+                       'config_sha256': digest(doc)}
     assert approved(doc) is False
     groups = {name: [1] for name in doc['label_aliases']}
     rows = judge(doc, groups=groups, parsed=True, ambiguous=False, technical_link=False, contact_recorded=True)
-    assert rows and all(row['decision'] == 'REVIEW_REQUIRED' and row['is_defect'] is False for row in rows)
+    assert all(row['decision'] == 'REVIEW_REQUIRED' and row['is_defect'] is False for row in rows)
 
 
-def test_signed_gap_stops_for_pdf_ambiguity_and_clarification():
+def test_decision_table_needs_an_explicit_grant():
     doc = load()
-    doc['approval'] = {'signer': 'industry-reviewer', 'signed_at': '2026-11-22T00:00:00Z', 'config_sha256': digest(doc)}
     missing_grit = {name: [1] for name in doc['label_aliases']}
     missing_grit['grit'] = []
-    blocked = judge(doc, groups=missing_grit, parsed=True, ambiguous=False, technical_link=True, contact_recorded=False)
+    blocked = judge(doc, groups=missing_grit, parsed=True, ambiguous=False,
+                    technical_link=True, contact_recorded=False, grant=True)
     assert all(row['decision'] != 'GAP_WITH_EVIDENCE' for row in blocked)
-    gap = judge(doc, groups=missing_grit, parsed=True, ambiguous=False, technical_link=False, contact_recorded=False)
+    gap = judge(doc, groups=missing_grit, parsed=True, ambiguous=False,
+                technical_link=False, contact_recorded=False, grant=True)
     assert next(row for row in gap if row['stage'] == 'COMPARISON')['decision'] == 'GAP_WITH_EVIDENCE'
     assert next(row for row in gap if row['stage'] == 'TECH_CONFIRMATION')['is_defect'] is False
-    unclear = judge(doc, groups=missing_grit, parsed=False, ambiguous=True, technical_link=False, contact_recorded=False)
+    unclear = judge(doc, groups=missing_grit, parsed=False, ambiguous=True,
+                    technical_link=False, contact_recorded=False, grant=True)
     assert all(row['decision'] == 'UNKNOWN' for row in unclear)
 
 
@@ -51,10 +55,20 @@ def test_info02_cites_the_product_page_and_leaves_1_0_5_unchanged():
     assert product['observation']['result'] == 'UNKNOWN'
     assert product['checklist_approved'] is False
     assert all(not item['is_defect'] for item in product['buyer_requirements'])
-    assert any(cite['label'] == 'Grain Size' and cite['snapshot_ref'] == product['source_page']['snapshot_ref']
-               and 'byte_start' in cite for cite in product['citations'])
-    assert all(cite['snapshot_ref'] == product['source_page']['snapshot_ref'] for cite in product['citations'])
-    assert all('999' not in cite['label'] for cite in product['citations'])
+    pairs = {}
+    for cite in product['citations']:
+        pairs.setdefault(cite['field_index'], []).append(cite)
+    assert len(pairs) == 5
+    for group in pairs.values():
+        assert {item['fact_role'] for item in group} == {'SPEC_LABEL', 'SPEC_VALUE'}
+        assert len({item['snapshot_ref'] for item in group}) == 1
+        assert len({item['product_scope_ref'] for item in group}) == 1
+        assert group[0]['snapshot_ref'] == product['source_page']['snapshot_ref']
+        assert group[0]['byte_start'] != group[1]['byte_start']
+    other = [row for row in next(item for item in new['executions'] if item['rule_id'] == 'INFO-02')['observations']
+             if row.get('source_page', {}).get('snapshot_ref') != product['source_page']['snapshot_ref']]
+    assert all(cite['snapshot_ref'] != product['source_page']['snapshot_ref']
+               for row in other for cite in row.get('citations') or [])
 
 
 def test_candidate_diagnosis_is_not_selected_for_automatic_tasks():

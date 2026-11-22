@@ -21,15 +21,28 @@ def _span(body, raw):
     return start, start + len(needle)
 
 
-def _citation(field, body):
-    source = field['label']
-    cite = {k: source[k] for k in ('evidence_ref', 'snapshot_ref', 'url') if k in source}
-    cite['fact_role'] = 'SPEC_LABEL'
-    cite['label'] = field['label']['text']
-    span = _span(body, field['label'].get('element', {}).get('raw_element'))
-    if span:
-        cite['byte_start'], cite['byte_end'] = span
-    return cite
+def _locate(node, body, evidence_ref, role):
+    if node.get('evidence_ref') != evidence_ref or not node.get('snapshot_ref'):
+        return None
+    span = _span(body, node.get('element', {}).get('raw_element'))
+    if span is None or not node.get('product_scope_ref'):
+        return None
+    return {'evidence_ref': evidence_ref, 'snapshot_ref': node['snapshot_ref'],
+            'product_scope_ref': node['product_scope_ref'], 'fact_role': role,
+            'byte_start': span[0], 'byte_end': span[1]}
+
+
+def _pair(field, body, evidence_ref):
+    """A field is proven only when its label and value share one product region and one page."""
+    label = _locate(field['label'], body, evidence_ref, 'SPEC_LABEL')
+    value = _locate(field['value'], body, evidence_ref, 'SPEC_VALUE')
+    if label is None or value is None:
+        return None
+    if label['snapshot_ref'] != value['snapshot_ref'] or label['product_scope_ref'] != value['product_scope_ref']:
+        return None
+    if label['byte_start'] == value['byte_start'] or label['byte_end'] == value['byte_end']:
+        return None
+    return label, value
 
 
 def evaluate(pack, doc, rule, *, expected_pack_ref):
@@ -46,15 +59,17 @@ def evaluate(pack, doc, rule, *, expected_pack_ref):
         body = pack.resolve(evidence['evidence_ref'], expected_pack_ref=pack.ref)['content']
         parsed = page['status'] == 'EXTRACTED'
         extracted = [field for field in page['fields'] if field['status'] == 'EXTRACTED']
-        grouped = match_groups(checklist, [{'label': field['label']['text']} for field in extracted])
+        paired = []
         citations = []
         for field in extracted:
-            cite = _citation(field, body)
-            if cite.get('evidence_ref') != evidence['evidence_ref']:
+            pair = _pair(field, body, evidence['evidence_ref'])
+            if pair is None:
                 continue
-            if 'byte_start' not in cite:
-                continue
-            citations.append(cite)
+            paired.append(field)
+            citations.extend(pair)
+            for cite in pair:
+                cite['field_index'] = len(paired)
+        grouped = match_groups(checklist, [{'label': field['label']['text']} for field in paired])
         technical = b'.pdf' in body.lower() or b'datasheet' in body.lower()
         contact = b'contact' in body.lower() or b'inquiry' in body.lower()
         requirements = judge(checklist, groups=grouped, parsed=parsed,
