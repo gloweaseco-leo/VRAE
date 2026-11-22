@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "profile": "abrasive_wheel",
+  "approval": {"signer": null, "signed_at": null, "config_sha256": null},
+  "label_aliases": {
+    "dimensions": ["Size", "Size(MM)", "Size (mm)", "Dimensions", "Diameter"],
+    "abrasive": ["Abrasive", "Abrasive material"],
+    "grit": ["Grain Size", "Grit", "Grit size"],
+    "bond": ["Bond", "Bond type"],
+    "usage": ["Usage", "Application", "Workpiece"],
+    "model": ["Model", "Item"]
+  },
+  "items": [
+    {
+      "item_id": "AW-SCREEN-01",
+      "stage": "SCREENING",
+      "buyer_question": {"zh": "是否有符合我加工对象的产品？", "en": "Is there a product for my workpiece?"},
+      "site_role": "DISCOVERABLE",
+      "field_groups": ["usage"],
+      "gap_condition": null
+    },
+    {
+      "item_id": "AW-COMPARE-01",
+      "stage": "COMPARISON",
+      "buyer_question": {"zh": "能否看到尺寸、磨料、粒度、结合剂以做初步比较？", "en": "Are size, abrasive, grit and bond published for comparison?"},
+      "site_role": "PUBLISH",
+      "field_groups": ["dimensions", "abrasive", "grit", "bond"],
+      "gap_condition": "PRODUCT_FULLY_PARSED_AND_PARAMETER_REGION_PRESENT_AND_GROUP_ABSENT_AND_NO_UNPARSED_TECH_MATERIAL_LINK"
+    },
+    {
+      "item_id": "AW-CONFIRM-01",
+      "stage": "TECH_CONFIRMATION",
+      "buyer_question": {"zh": "哪种组合适合我的具体工况？", "en": "Which combination fits my duty?"},
+      "site_role": "CLARIFY_CHANNEL",
+      "field_groups": ["grit", "bond", "usage"],
+      "gap_condition": null
+    },
+    {
+      "item_id": "AW-INQUIRE-01",
+      "stage": "INQUIRY",
+      "buyer_question": {"zh": "能否顺利找到咨询入口并说明型号与需求？", "en": "Can I reach inquiry and state model and needs?"},
+      "site_role": "CLARIFY_CHANNEL",
+      "field_groups": ["model", "dimensions"],
+      "gap_condition": null
+    }
+  ]
+}

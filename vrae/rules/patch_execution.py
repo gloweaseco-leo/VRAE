@@ -12,6 +12,7 @@ GENERIC_VERSION = 'ra2b6-1.0.2'
 CONTENT_VERSION = 'ra2b6-1.0.3'
 SCOPED_VERSION = 'ra2b6-1.0.4'
 CONTEXT_VERSION = 'ra2b6-1.0.5'
+FACTS_VERSION = 'ra2b6-1.0.6'
 
 
 def execute(pack, *, expected_pack_ref, evaluator_version=TRUST_VERSION):
@@ -21,6 +22,17 @@ def execute(pack, *, expected_pack_ref, evaluator_version=TRUST_VERSION):
 
 
 def _execute(pack, *, expected_pack_ref, evaluator_version):
+    if evaluator_version == FACTS_VERSION:
+        result = _execute(pack, expected_pack_ref=expected_pack_ref, evaluator_version=CONTEXT_VERSION)
+        from .buyer_requirements import evaluate as buyer_requirements
+        rule = next(item for item in catalog()['rules'] if item['rule_id'] == 'INFO-02')
+        target = next(item for item in result['executions'] if item['rule_id'] == 'INFO-02')
+        target['observations'] = buyer_requirements(pack, pack.document, rule, expected_pack_ref=expected_pack_ref)
+        target['enabled'] = True
+        result['evaluator_version'] = FACTS_VERSION
+        del result['execution_ref']
+        result['execution_ref'] = 'rx-' + document_hash(result)
+        return result
     if evaluator_version not in (PATCH_VERSION, GENERIC_VERSION, CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION):
         return original_execute(pack, expected_pack_ref=expected_pack_ref,
                                 evaluator_version=evaluator_version)
