@@ -19,6 +19,12 @@
 | [S1规则、人工Gold与L2预算](S1_RULE_QUALITY_BUDGET_SPEC_V1.1.md) | 16候选规则逐项状态、泵阀行业规则、采样/分母、预算字段/缺失拒绝、Gold双人复核与质量计算 |
 | [S1 VEYFRONT与Rebuild商务交接](S1_VEYFRONT_REBUILD_HANDOFF_SPEC_V1.1.md) | Executive Summary/工作包、业务决策六类、内外Brief、实际VF权威/授权/验收/成本/E2/E3边界 |
 
+## 二之一、实施计划（2026-11-21）
+
+| 文件 | 内容 |
+| --- | --- |
+| [L2 客户交付实施计划 R1–R3](L2_CUSTOMER_DELIVERY_PLAN_R1_R3.md) | 以首份真人审核的真实 L2 报告交付为目标的工作包、版本约定、验收、排期与 Owner 待决事项 |
+
 ## 三、已确认工程事实
 
 **S0 INTERNAL SYNTHETIC INDUSTRIAL L2 BETA FINAL PASS**。2026-11-17 Owner已独立核验并合并原[PR112](https://github.com/gloweaseco-leo/VRAE/pull/112)；当时 accepted main 为：
