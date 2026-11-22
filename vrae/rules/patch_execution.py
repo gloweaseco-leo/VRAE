@@ -12,6 +12,8 @@ GENERIC_VERSION = 'ra2b6-1.0.2'
 CONTENT_VERSION = 'ra2b6-1.0.3'
 SCOPED_VERSION = 'ra2b6-1.0.4'
 CONTEXT_VERSION = 'ra2b6-1.0.5'
+L2_VERSION = 'ra2b6-1.0.6'
+PATCHED = (PATCH_VERSION, GENERIC_VERSION, CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION, L2_VERSION)
 
 
 def execute(pack, *, expected_pack_ref, evaluator_version=TRUST_VERSION):
@@ -21,7 +23,7 @@ def execute(pack, *, expected_pack_ref, evaluator_version=TRUST_VERSION):
 
 
 def _execute(pack, *, expected_pack_ref, evaluator_version):
-    if evaluator_version not in (PATCH_VERSION, GENERIC_VERSION, CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION):
+    if evaluator_version not in PATCHED:
         return original_execute(pack, expected_pack_ref=expected_pack_ref,
                                 evaluator_version=evaluator_version)
     result = original_execute(pack, expected_pack_ref=expected_pack_ref, evaluator_version=TRUST_VERSION)
@@ -31,29 +33,32 @@ def _execute(pack, *, expected_pack_ref, evaluator_version):
         expected_pack_ref=expected_pack_ref, compatible=True)
     # SEO observations do not enter static buyer path composition. All other
     # rows and limitations are the original executor's independently replayed output.
-    if evaluator_version in (GENERIC_VERSION, CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION):
+    if evaluator_version in (GENERIC_VERSION, CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION, L2_VERSION):
         from .info01 import evaluate_product_info
         from .contact_static import evaluate as contact
         for entry in result['executions']:
             rule = next(r for r in catalog()['rules'] if r['rule_id'] == entry['rule_id'])
             if entry['rule_id'] == 'INFO-01':
                 entry['observations'] = evaluate_product_info(pack, pack.document, rule,
-                    expected_pack_ref=expected_pack_ref, generic=True, content=evaluator_version in (CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION),
-                    scoped=evaluator_version in (SCOPED_VERSION, CONTEXT_VERSION))
+                    expected_pack_ref=expected_pack_ref, generic=True, content=evaluator_version in (CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION, L2_VERSION),
+                    scoped=evaluator_version in (SCOPED_VERSION, CONTEXT_VERSION, L2_VERSION))
             elif entry['rule_id'] == 'CTA-01':
-                entry['observations'] = contact(pack, pack.document, rule, labelled=evaluator_version in (CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION),
-                    contextual=evaluator_version == CONTEXT_VERSION)
-            elif evaluator_version in (CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION) and entry['rule_id'] in ('DISC-02', 'CTA-02'):
+                entry['observations'] = contact(pack, pack.document, rule, labelled=evaluator_version in (CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION, L2_VERSION),
+                    contextual=evaluator_version in (CONTEXT_VERSION, L2_VERSION))
+            elif evaluator_version in (CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION, L2_VERSION) and entry['rule_id'] in ('DISC-02', 'CTA-02'):
                 from .static_journey import evaluate as static_links
-                entry['observations'] = static_links(pack, pack.document, rule, contextual=evaluator_version == CONTEXT_VERSION)
-        if evaluator_version == CONTEXT_VERSION:
+                entry['observations'] = static_links(pack, pack.document, rule, contextual=evaluator_version in (CONTEXT_VERSION, L2_VERSION))
+        if evaluator_version in (CONTEXT_VERSION, L2_VERSION):
             from .trust_context import evaluate as trust_context
             target = next(r for r in result['executions'] if r['rule_id'] == 'TRUST-01')
             rule = next(r for r in catalog()['rules'] if r['rule_id'] == 'TRUST-01')
             target['observations'] = trust_context(pack, pack.document, rule)
-        if evaluator_version in (CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION):
+        if evaluator_version in (CONTENT_VERSION, SCOPED_VERSION, CONTEXT_VERSION, L2_VERSION):
             from .journey import compose_paths
             result['journeys'], result['journey_composition'] = compose_paths(result['executions'])
+    if evaluator_version == L2_VERSION:
+        from .l2_overlay import apply
+        apply(pack, result)
     result['evaluator_version'] = evaluator_version
     del result['execution_ref']
     result['execution_ref'] = 'rx-' + document_hash(result)

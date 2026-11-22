@@ -12,7 +12,7 @@ from jsonschema import Draft202012Validator
 from vrae.intelligence.common import encode
 from vrae.interpretation import guard
 from vrae.intelligence.source_guard import for_evaluator
-from .provider import (MODEL, PROMPT, CONTENT_PROMPT, SCOPED_PROMPT, CONTEXT_PROMPT, PURCHASE_PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvider,
+from .provider import (MODEL, PROMPT, CONTENT_PROMPT, SCOPED_PROMPT, CONTEXT_PROMPT, PURCHASE_PROMPT, L2_PROMPT, PROVIDER, OUTPUT_CAP, QwenError, QwenProvider,
                        digest, fail, strict_json)
 
 TASKS = ['DISCOVER', 'UNDERSTAND', 'TRUST', 'INQUIRE', 'SEARCH_TECHNICAL']
@@ -82,12 +82,19 @@ def prompt_version(context):
     if json.loads(getattr(context, 'purchase_tasks_bytes', b'null')) is not None:
         return PURCHASE_PROMPT
     version = context.gateway_pins.expected_evaluator_version
+    if version == 'ra2b6-1.0.6':
+        return L2_PROMPT
     if version == 'ra2b6-1.0.5':
         return CONTEXT_PROMPT
     return SCOPED_PROMPT if version == 'ra2b6-1.0.4' else CONTENT_PROMPT if version == 'ra2b6-1.0.3' else PROMPT
 
 
 def candidate_schema(context, *, compact=False):
+    if prompt_version(context) == L2_PROMPT:
+        from .l2_reasoning import SCHEMA as L2_SCHEMA
+        l2_schema: dict = deepcopy(L2_SCHEMA)
+        l2_schema['properties']['prompt_version']['const'] = L2_PROMPT
+        return l2_schema
     schema: dict = deepcopy(COMPACT_SCHEMA if compact else SCHEMA)
     schema['properties']['prompt_version']['const'] = prompt_version(context)
     if context.gateway_pins.expected_evaluator_version in ('ra2b6-1.0.3', 'ra2b6-1.0.4', 'ra2b6-1.0.5'):
@@ -264,6 +271,9 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
             'lead times, MOQ, capacity promises or marketing intent. Recommendations must use listed '
             'values and supplier-stated customization only. If commercial conditions are relevant, '
             'ask a neutral question; do not assume the answer or label missing conditions a defect.')
+    if prompt_version(context) == L2_PROMPT:
+        from .l2_reasoning import system_text
+        system = system_text()
     if prompt_version(context) == PURCHASE_PROMPT:
         system += (' Return zero claims when no useful supported clarification exists. '
             'Select a purchase_task supported by complete cited label/value pairs in one source_group. '
@@ -286,6 +296,13 @@ async def dispatch(context, *, provider, operation, now, timeout_ms, clock):
 
 
 def validate_candidates(text, context, receipt):
+    if prompt_version(context) == L2_PROMPT:
+        from .l2_reasoning import validate
+        allowed = {'refs': list(context.catalog.get('entries', {})),
+                   'snapshots': {ref: entry.get('snapshot_ref')
+                                 for ref, entry in context.catalog.get('entries', {}).items()}}
+        checked = validate(strict_json(text), allowed)
+        return checked['claims']
     deadline = monotonic() + 5
     active_guard = for_evaluator(context.gateway_pins.expected_evaluator_version)
     raw = strict_json(text)

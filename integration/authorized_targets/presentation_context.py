@@ -26,7 +26,9 @@ def limit(rule_id, row):
     if row['observation']['result'] != 'UNKNOWN':
         return None
     reason = row.get('reason', '')
-    if rule_id in ('TRUST-02', 'TRUST-03', 'CTA-03', 'SEO-02', 'TECH-01', 'TECH-02'):
+    if reason == 'CHECKLIST_UNSIGNED_REVIEW_REQUIRED':
+        kind = 'HUMAN_REVIEW_REQUIRED'
+    elif rule_id in ('TRUST-02', 'TRUST-03', 'CTA-03', 'SEO-02', 'TECH-01', 'TECH-02'):
         kind = 'NOT_IMPLEMENTED'
     elif rule_id in ('DISC-03', 'INFO-02'):
         kind = 'APPLICABILITY_UNRESOLVED'

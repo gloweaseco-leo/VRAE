@@ -209,7 +209,7 @@ def test_actual_pg_automatic_submission_worker_qwen_and_same_subject_result(tmp_
         assert result['customer_presentation']['rules_available']
         assert len(result['customer_presentation']['tasks']) == 5
         assert result['customer_presentation']['artifact_sha256'] == result['artifact_sha256']
-        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.7'
+        assert result['deterministic_diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.8'
         assert result['customer_presentation']['procurement_review']['products']
         assert result['buyer_review']['state'] == 'AVAILABLE'
         assert result['customer_presentation']['buyer_review'] == result['buyer_review']

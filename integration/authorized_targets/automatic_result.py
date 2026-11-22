@@ -71,17 +71,19 @@ def analysis_outcome(receipt, genuine):
 def completed_model_result(receipt, diagnostic_version):
     """Metadata gate; caller independently binds the immutable receipt/artifact."""
     usage = receipt.get('usage') or {}
-    zero = (not receipt.get('claims') and diagnostic_version == 'l2-industrial-1.0.7'
-        and receipt.get('reason') == 'NO_SUPPORTED_OPPORTUNITIES'
+    zero = (not receipt.get('claims') and receipt.get('reason') == 'NO_SUPPORTED_OPPORTUNITIES'
         and receipt.get('failure_stage') is None
-        and usage.get('prompt_version') == 'qwen-purchase-clarification-1.5.0')
+        and ((diagnostic_version == 'l2-industrial-1.0.7'
+              and usage.get('prompt_version') == 'qwen-purchase-clarification-1.5.0')
+             or (diagnostic_version == 'l2-industrial-1.0.8'
+                 and usage.get('prompt_version') == 'qwen-l2-buyer-reasoning-1.0.0')))
     return (receipt['state'] == 'AI_CANDIDATES_FOR_HUMAN_REVIEW'
         and receipt.get('verification_realm') == 'REAL_PROVIDER'
         and receipt.get('real_model_calls') == 1 and (bool(receipt.get('claims')) or zero)
         and usage.get('usage_origin') == 'PROVIDER_REPORTED')
 
 
-def page_scope(pack):
+def page_scope(pack, *, extended=False):
     """Presentation groups, preserving attempted != fetched != inventory-only."""
     doc = pack.document
     snapshots = {s['source_snapshot_id']: s['snapshot_ref'] for s in doc['snapshots']}
@@ -100,10 +102,14 @@ def page_scope(pack):
                 'http_response_observed': page['http_status'] is not None})
     attempted = {p['snapshot']['url'] for p in pages}
     unvisited = sorted({i['url'] for m in manifests for i in m['inventory']} - attempted)
-    return {'visited_pages': visited, 'failed_attempt_records': failed,
+    scope = {'visited_pages': visited, 'failed_attempt_records': failed,
         'unvisited_candidates': [{'url': url, 'reason': 'INVENTORY_ONLY', 'is_defect': False}
                                  for url in unvisited],
         'unknown_coverage': deepcopy([c for c in doc['coverage'] if c['status'] == 'UNKNOWN'])}
+    if extended:
+        from .page_scope_v2 import extend
+        scope.update(extend(pack, scope))
+    return scope
 
 
 def project(value, audit_ref):
@@ -130,14 +136,14 @@ def project(value, audit_ref):
         artifact['version']['content_hash'], artifact['display_hash']))
     result.update(state='AI_PENDING', pack_ref=pack.ref,
         capture_summary=capture_summary(pack),
-        page_scope=page_scope(pack),
+        page_scope=page_scope(pack, extended=artifact['diagnosis']['diagnostic_version'] == 'l2-industrial-1.0.8'),
         artifact_sha256=value['artifact_sha256'],
         report_content_hash=artifact['version']['content_hash'],
         deterministic_diagnosis=deterministic_diagnosis(pack, artifact['diagnosis']),
         evidence=[{k: s[k] for k in ('snapshot_ref', 'url', 'status', 'observed_at')}
                   for s in pack.document['snapshots']],
         coverage=deepcopy(pack.document['coverage']))
-    if artifact['diagnosis']['diagnostic_version'] in ('l2-industrial-1.0.6', 'l2-industrial-1.0.7'):
+    if artifact['diagnosis']['diagnostic_version'] in ('l2-industrial-1.0.6', 'l2-industrial-1.0.7', 'l2-industrial-1.0.8'):
         from integration.authorized_targets.buyer_review import build as buyer_review
         result['buyer_review'] = buyer_review(pack, result['deterministic_diagnosis'],
                                              value['artifact_sha256'])

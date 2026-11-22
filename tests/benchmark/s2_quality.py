@@ -533,3 +533,10 @@ def verify_report(report, root):
     if canonical(report) != canonical(fresh):
         fail("BENCHMARK_INDEPENDENT_REPLAY_MISMATCH")
     return fresh
+
+
+def l2_gold_rate(rows):
+    """Simulated L2 review rows do not create a quality score."""
+    if not rows:
+        return {'status': 'NOT_EVALUABLE', 'denominator': 0, 'formal_human_review': False}
+    return {'status': 'NOT_EVALUABLE', 'denominator': 0, 'imported': len(rows), 'formal_human_review': False}

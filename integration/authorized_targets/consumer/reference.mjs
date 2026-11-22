@@ -65,9 +65,45 @@ function judgmentTextHasForbidden(value) {
   return parts.some(text => FORBIDDEN_JUDGMENT_COPY.some(phrase => text.includes(phrase)))
 }
 
+function projectJudgmentV2(judgment) {
+  if (judgment.contract !== 'vrae.diagnosis-judgment.v2' || judgment.is_report !== false ||
+      judgment.formal_human_review !== false) fail()
+  const obstacles = judgment.confirmed_obstacles
+  if (!object(obstacles) || obstacles.count !== 0 || list(obstacles.items).length !== 0 ||
+      obstacles.is_defect_score !== false || obstacles.confirmed_obstacle_count_is_score !== false) fail()
+  const pending = judgment.evidenced_pending_review
+  if (!object(pending) || pending.accepts !== 'L-B' || pending.is_confirmed_defect !== false ||
+      pending.is_defect_score !== false) fail()
+  if (list(pending.items).some(item => !object(item) || item.result !== 'FAIL_WITH_EVIDENCE' ||
+      item.is_confirmed_defect !== false || item.counts_as_score !== false)) fail()
+  if (!Array.isArray(judgment.stages) || judgment.stages.length !== 5) fail()
+  if (judgment.stages.some(stage => !object(stage) || stage.unknown_is_defect !== false ||
+      stage.unvisited_is_defect !== false)) fail()
+  if (!object(judgment.sample_boundary) || judgment.sample_boundary.unvisited_is_defect !== false) fail()
+  if (!object(judgment.unjudged) || judgment.unjudged.is_defect !== false ||
+      judgment.unjudged.basis !== 'ENABLED_RULES') fail()
+  if (judgmentTextHasForbidden(judgment)) fail()
+  return judgment
+}
+
+export function projectContentUnits(document, order) {
+  if (!object(document) || document.contract !== 'vrae.report-content-units.v1' ||
+      document.strength_mutable !== false || document.semantic_mutable !== false) fail()
+  const units = list(document.units)
+  const byId = new Map(units.map(unit => [unit.unit_id, unit]))
+  if (!Array.isArray(order) || order.length !== byId.size || new Set(order).size !== byId.size) fail()
+  return order.map(id => {
+    const unit = byId.get(id)
+    if (!object(unit)) fail()
+    if (unit.strength !== 'CONFIRMED_BY_REVIEW' && unit.presented_as_confirmed === true) fail()
+    return unit
+  })
+}
+
 export function projectJudgment(presentation) {
   if (!object(presentation) || !Object.hasOwn(presentation, 'judgment')) return undefined
   const judgment = presentation.judgment
+  if (object(judgment) && judgment.contract === 'vrae.diagnosis-judgment.v2') return projectJudgmentV2(judgment)
   if (!object(judgment) || judgment.contract !== 'vrae.diagnosis-judgment.v1' ||
       judgment.is_report !== false || judgment.formal_human_review !== false) fail()
   const obstacles = judgment.confirmed_obstacles
